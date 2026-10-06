@@ -720,7 +720,7 @@ chart(T('Romanian and euro-area data', 'Date pentru România și zona euro'), 'a
 
 interp(('the Romanian data', 'datelor pentru România'), [
     T(r'HICP inflation peaked at @{rd.imax}\% in @{rd.imaxd} and is @{rd.ilast}\% in the last month; ROBOR 3M reached @{rd.rmax}\% in the 2008 liquidity squeeze', r'Inflația IAPC a atins maximul de @{rd.imax}\% în @{rd.imaxd} și este @{rd.ilast}\% în ultima lună; ROBOR 3M a ajuns la @{rd.rmax}\% în criza de lichiditate din 2008'),
-    T(r'EUR/RON rose from @{rd.fx0} to @{rd.fx1}: a trend depreciation with long managed-float plateaus', r'EUR/RON a crescut de la @{rd.fx0} la @{rd.fx1}: o depreciere tendențială cu platouri lungi de flotare administrată'),
+    T(r'EUR/RON rose from @{rd.fx0} to @{rd.fx1}: a trend depreciation with long managed-float plateaus', r'EUR/RON a crescut de la @{rd.fx0} la @{rd.fx1}: o depreciere tendențială cu perioade lungi de stabilitate, sub regimul de flotare controlată'),
     T('Romanian and euro-area IP co-move closely, including the 2020 collapse: a strong case for an external block', 'IP din România și din zona euro evoluează împreună, inclusiv prăbușirea din 2020: un argument puternic pentru un bloc extern'),
     T('Sharp outliers (2008, 2020, 2022) will dominate the estimates of a small VAR: check robustness without them', 'Valorile extreme (2008, 2020, 2022) vor domina estimațiile unui VAR mic: verificați robustețea fără ele')])
 
