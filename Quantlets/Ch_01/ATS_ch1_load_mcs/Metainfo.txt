@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch1_load_mcs'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Day-ahead probabilistic forecasts of Romanian hourly electricity load (Energy-Charts, ENTSO-E data): naive, weekly naive, four-week mean, the expert ARX model of Ziel and Weron (2018) and a combination; quantiles at the 99 percentiles scored by the pinball loss of GEFCom2014, coverage, and the Model Confidence Set of Hansen, Lunde and Nason (2011).'
+
+Keywords: 'electricity load, probabilistic forecasting, pinball loss, quantile forecast, expert ARX, Model Confidence Set, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'S&P 500 daily closes from EODHD (data/market of the ATS repository); EUR/RON BNR reference rate; Romanian HICP inflation and 3-month money-market rates (Eurostat prc_hicp_minr, irt_st_m); US CPI and unemployment (FRED CPIAUCSL, UNRATE); individual forecasts of the Survey of Professional Forecasters and the Real-Time Data Set for Macroeconomists (Federal Reserve Bank of Philadelphia, public files); Romanian hourly electricity load (Energy-Charts, Fraunhofer ISE, ENTSO-E transparency data)'
+
+Output: 'ats_ch1_load_week.pdf, ats_ch1_load_mcs.pdf'

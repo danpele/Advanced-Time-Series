@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch8_qmle'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Gaussian quasi-maximum likelihood for GARCH(1,1): Hessian-based, outer-product and Bollerslev-Wooldridge (1992) sandwich standard errors; a Monte Carlo of the coverage of 95% intervals under Gaussian and Student-t(5) innovations; robust against naive standard errors for the S&P 500, DAX, BET, EUR/RON and Bitcoin, 2010-2026.'
+
+Keywords: 'GARCH, quasi-maximum likelihood, QMLE, sandwich, Bollerslev-Wooldridge, robust standard errors, kurtosis'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute's realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009; archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), six indices; daily realised measures of Bitcoin and Ether computed from Binance public one-minute and one-second prices (data.binance.vision); daily S&P 500, DAX, BET, Bitcoin and 25 US stocks and ETFs from EODHD (data/market); BNR EUR/RON reference rate; FRED (INDPRO, WPSFD49207); Eurostat (sts_inpr_m)'
+
+Output: 'ats_ch8_qmle_sim.pdf, ats_ch8_qmle_markets.pdf'

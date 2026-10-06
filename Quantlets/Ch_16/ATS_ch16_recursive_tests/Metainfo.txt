@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch16_recursive_tests'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Null distributions of the whole-sample right-tailed ADF, SADF (Phillips, Wu and Yu 2011) and GSADF (Phillips, Shi and Yu 2015) under a random walk with a weak drift, and their 95% critical values for T = 100, 200, 400 and 800 with the minimum window r0 = 0.01 + 1.8/sqrt(T).'
+
+Keywords: 'right-tailed unit root test, SADF, GSADF, BSADF, critical values, Monte Carlo'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, Nasdaq 100, Shanghai Composite, BET and Bitcoin and of all price series of data/market (ATS repository); FRED: S&P CoreLogic Case-Shiller US national index, CPI rent of primary residence, CPI; Eurostat: Romanian house price index and HICP (actual rentals, all items); all read without a key'
+
+Output: 'ats_ch16_null.pdf'

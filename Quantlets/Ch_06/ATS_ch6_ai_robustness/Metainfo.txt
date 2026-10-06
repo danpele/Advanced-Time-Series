@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch6_ai_robustness'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'AI mini-case: how much does the US UC-SV trend in 2021-2026 depend on gamma, the fixed variance of the log-volatility shocks (0.05, 0.1, 0.2, 0.4)?'
+
+Keywords: 'robustness, UC-SV, trend inflation, tuning parameter, AI for science'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (GDPDEF, GDPC1, INDPRO, PAYEMS, W875RX1, CMRMTSPL); Eurostat (prc_hicp_minr, namq_10_gdp); daily S&P 500 and BET closes from EODHD (data/market of the ATS repository); BNR EUR/RON reference rate'
+
+Output: 'ats_ch6_ai_case.pdf'

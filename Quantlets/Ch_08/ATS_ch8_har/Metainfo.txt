@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch8_har'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'HAR-RV (Corsi 2009) for the S&P 500 (Oxford-Man 5-minute RV, 2000-2022) with Newey-West standard errors and the implied lag weights against an unrestricted AR(22); out-of-sample HAR, HAR-CJ and log-HAR for six indices; HARQ (Bollerslev, Patton and Quaedvlieg 2016) for Bitcoin and Ether with the insanity filter, QLIKE and Diebold-Mariano tests.'
+
+Keywords: 'HAR, HAR-RV, HARQ, realised quarticity, measurement error, volatility forecasting, QLIKE, Diebold-Mariano'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute's realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009; archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), six indices; daily realised measures of Bitcoin and Ether computed from Binance public one-minute and one-second prices (data.binance.vision); daily S&P 500, DAX, BET, Bitcoin and 25 US stocks and ETFs from EODHD (data/market); BNR EUR/RON reference rate; FRED (INDPRO, WPSFD49207); Eurostat (sts_inpr_m)'
+
+Output: 'ats_ch8_har_weights.pdf, ats_ch8_har_oos.pdf, ats_ch8_harq.pdf'

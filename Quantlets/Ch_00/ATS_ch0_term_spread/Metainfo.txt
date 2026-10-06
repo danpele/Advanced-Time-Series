@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch0_term_spread'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Overlapping observations: annualised US real GDP growth over the next four quarters on the 10-year minus 3-month Treasury spread (design of Estrella and Hardouvelis 1991), with classical, White, Hansen-Hodrick, Newey-West, Andrews and fixed-b standard errors, residual autocorrelation and two subsamples.'
+
+Keywords: 'term spread, overlapping observations, Hansen-Hodrick, Newey-West, predictive regression, FRED'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US real GDP, 10-year and 3-month Treasury yields (FRED GDPC1, GS10, TB3MS)'
+
+Output: 'ats_ch0_term_spread.pdf'

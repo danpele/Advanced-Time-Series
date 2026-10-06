@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch14_granger'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Granger causality and transfer entropy: a Monte Carlo with a common driver (pairwise against conditional tests); lead and lag between the S&P 500, the DAX and the BET (daily returns, Wald tests with HAC covariance, cross-correlations); a nonlinear coupling detected by the k-nearest-neighbour transfer entropy with block permutations and missed by the linear Granger test.'
+
+Keywords: 'Granger causality, transfer entropy, HAC, conditional mutual information, common driver, BET, S&P 500'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Daily market data from EODHD (data/market of the ATS repository) and the BNR reference rate; Eurostat HICP (prc_hicp_minr) and HICP at constant tax rates (prc_hicp_ct) of the 27 EU countries; the replication data of Abadie, Diamond and Hainmueller (2015), Harvard Dataverse doi:10.7910/DVN/24714 (version 2.1, CC0); OECD Quarterly National Accounts (real GDP, PPP, public SDMX API)'
+
+Output: 'ats_ch14_granger_sim.pdf, ats_ch14_granger_markets.pdf, ats_ch14_te.pdf'

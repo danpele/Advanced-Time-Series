@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_forecast_windows'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Forecasting under breaks: the relative MSFE of expanding, rolling, post-break and window-averaged forecasts after a mean shift (Pesaran and Timmermann 2007; Pesaran and Pick 2011) by simulation; one-month-ahead AR(2) forecasts of Romanian inflation with DM-HLN tests.'
+
+Keywords: 'forecasting under breaks, estimation window, rolling window, AveW, forecast combination across windows, inflation'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_forecast_windows.pdf'

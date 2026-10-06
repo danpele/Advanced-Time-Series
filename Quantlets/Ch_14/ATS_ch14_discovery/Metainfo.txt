@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch14_discovery'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Causal discovery: PCMCI with partial correlations (Runge et al. 2019) against pairwise lagged correlations and the full VAR on a known lagged system in low and high dimension; PCMCI on weekly log realised variances of five equity indices and EUR/RON; convergent cross mapping (Sugihara et al. 2012) for coupled logistic maps and for uncoupled maps with a common periodic forcing.'
+
+Keywords: 'PCMCI, causal discovery, time series graph, convergent cross mapping, volatility spillovers, Takens'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Daily market data from EODHD (data/market of the ATS repository) and the BNR reference rate; Eurostat HICP (prc_hicp_minr) and HICP at constant tax rates (prc_hicp_ct) of the 27 EU countries; the replication data of Abadie, Diamond and Hainmueller (2015), Harvard Dataverse doi:10.7910/DVN/24714 (version 2.1, CC0); OECD Quarterly National Accounts (real GDP, PPP, public SDMX API)'
+
+Output: 'ats_ch14_pcmci_sim.pdf, ats_ch14_pcmci_vol.pdf, ats_ch14_ccm.pdf'

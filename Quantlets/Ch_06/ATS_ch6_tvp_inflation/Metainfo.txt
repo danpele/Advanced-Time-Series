@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch6_tvp_inflation'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Time-varying-parameter regression of Romanian on euro-area quarterly HICP inflation since 2005Q4 (Eurostat): random-walk intercept and slope, constant seasonal coefficients as exact diffuse states, numpy against statsmodels; LR test of a constant slope with a parametric bootstrap p-value; rolling OLS for comparison.'
+
+Keywords: 'time-varying parameters, TVP regression, inflation, Romania, euro area, boundary test, bootstrap'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (GDPDEF, GDPC1, INDPRO, PAYEMS, W875RX1, CMRMTSPL); Eurostat (prc_hicp_minr, namq_10_gdp); daily S&P 500 and BET closes from EODHD (data/market of the ATS repository); BNR EUR/RON reference rate'
+
+Output: 'ats_ch6_tvp.pdf'

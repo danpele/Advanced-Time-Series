@@ -1,0 +1,516 @@
+// ============================================================
+// ATS course website (shell shared with the MFM and SFM sites) - rendering + quiz engine
+// Reads window.ATS_DATA (course-data.js), window.ATS_CONFIG (config.js)
+// and quiz banks registered in ATS_DATA.quizzes by chapter id (assets/quizzes/<id>.js).
+// Chapters are referenced by their stable `id`; `num` is only the display order.
+// Language is set by the page shell: window.ATS_LANG = 'en' | 'ro'.
+// ============================================================
+(function () {
+    'use strict';
+
+    const LANG = window.ATS_LANG === 'ro' ? 'ro' : 'en';
+    const D = window.ATS_DATA;
+    const T = D.ui[LANG];
+    const CFG = window.ATS_CONFIG || {};
+    const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+    const isConfigured = v => typeof v === 'string' && v.length > 0 && !v.startsWith('YOUR_');
+    const $ = id => document.getElementById(id);
+
+    // localStorage can throw (private mode, blocked storage) - never let it break the page
+    const store = {
+        get(k) { try { return localStorage.getItem('ats-' + k); } catch (e) { return null; } },
+        set(k, v) { try { localStorage.setItem('ats-' + k, v); } catch (e) { /* ignore */ } },
+        del(k) { try { localStorage.removeItem('ats-' + k); } catch (e) { /* ignore */ } }
+    };
+
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    function typeset(el) {
+        if (window.MathJax && MathJax.typesetPromise) {
+            MathJax.typesetPromise(el ? [el] : undefined).then(() => fitMath()).catch(() => {});
+        }
+    }
+
+    // shrink display formulas that are wider than their box, so no sideways scrolling is needed
+    function fitMath(root) {
+        (root || document).querySelectorAll('.cf-tex, .formula-tex').forEach(box => {
+            const m = box.querySelector('mjx-container');
+            if (!m || !box.clientWidth) return;
+            m.style.fontSize = '';
+            const w = m.scrollWidth, avail = box.clientWidth - 4;
+            if (w > avail) m.style.fontSize = Math.max(55, Math.floor(100 * avail / w)) + '%';
+        });
+    }
+    let fitTimer;
+    window.addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(() => fitMath(), 150); });
+    document.addEventListener('toggle', e => {
+        if (e.target.classList && e.target.classList.contains('chapter-formulas') && e.target.open) fitMath(e.target);
+    }, true);
+
+    // on the narrow chapter cards, put the parts of a two-part formula on separate lines
+    const stackTex = tex => /\\qquad/.test(tex) && !/\\begin\{/.test(tex)
+        ? '$$\\begin{gathered}' + tex.slice(2, -2).replace(/,?\s*\\qquad\s*/g, () => ' \\\\ ') + '\\end{gathered}$$'
+        : tex;
+
+    // ------------------------------------------------------------
+    // STATIC TEXT (header, nav, section titles)
+    // ------------------------------------------------------------
+    function renderStatic() {
+        document.title = T.pageTitle;
+        document.documentElement.lang = LANG;
+        document.querySelectorAll('[data-t]').forEach(el => {
+            const path = el.getAttribute('data-t').split('.');
+            let v = T;
+            for (const p of path) v = v && v[p];
+            if (typeof v === 'string') el.innerHTML = v;
+        });
+    }
+
+    // ------------------------------------------------------------
+    // OVERVIEW, OBJECTIVES, FORMULAS
+    // ------------------------------------------------------------
+    function renderOverview() {
+        $('overview-cards').innerHTML = D.overview[LANG].map(c =>
+            `<div class="info-card"><h3>${c.h}</h3>${c.p.map(p => `<p>${p}</p>`).join('')}</div>`
+        ).join('');
+        $('objectives-list').innerHTML = D.objectives[LANG].map(o => `<li>${o}</li>`).join('');
+    }
+
+    // ------------------------------------------------------------
+    // LIGHTBOX (chapter charts)
+    // ------------------------------------------------------------
+    function openLightbox(src, caption) {
+        $('lightbox-img').src = src;
+        $('lightbox-img').alt = caption;
+        $('lightbox-cap').textContent = caption;
+        $('lightbox').hidden = false;
+        document.body.classList.add('no-scroll');
+        $('lightbox-close').focus();
+    }
+
+    function initLightbox() {
+        const box = $('lightbox');
+        const close = () => { box.hidden = true; document.body.classList.remove('no-scroll'); };
+        $('lightbox-close').setAttribute('aria-label', T.close);
+        $('lightbox-close').onclick = close;
+        box.onclick = e => { if (e.target === box) close(); };
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && !box.hidden) close(); });
+    }
+
+    // ------------------------------------------------------------
+    // CHAPTER CARDS
+    // ------------------------------------------------------------
+    const LINK_CLASS = { slides: 'btn-primary', slidesExtra: 'btn-primary', seminar: 'btn-secondary', seminarExtra: 'btn-secondary', notebook: 'btn-outline', quantlets: 'btn-outline' };
+
+    // A link is { type, href[, colab][, label: {en, ro}] } or { type, soon: true[, label] } for an item still in preparation
+    const linkLabel = l => (l.label && l.label[LANG]) || T.links[l.type];
+
+    function linkButton(l) {
+        if (l.soon) return `<span class="btn disabled" aria-disabled="true" title="${T.comingSoon}">${linkLabel(l)} · ${T.comingSoonShort}</span>`;
+        const external = /^https?:/.test(l.href) ? ' target="_blank" rel="noopener"' : '';
+        const main = `<a href="${l.href}" class="btn ${LINK_CLASS[l.type]}"${external}>${linkLabel(l)}</a>`;
+        if (!l.colab) return main;
+        return `<span class="link-group">${main}<a href="${l.colab}" class="btn btn-colab" target="_blank" rel="noopener" title="${T.links.colab}">Colab</a></span>`;
+    }
+
+    function renderChapters() {
+        $('chapters-grid').innerHTML = D.chapters.map(ch => {
+            const all = (ch.links && ch.links[LANG]) || [];
+            const available = all.some(l => !l.soon);
+            const badge = (available ? '' : `<span class="badge badge-soon">${T.comingSoon}</span>`) +
+                (ch.selfStudy ? `<span class="badge badge-self">${T.selfStudy}</span>` : '');
+            const links = available ? all.map(linkButton).join('') : `<p class="chapter-soon">${T.chapterSoon}</p>`;
+            const qn = (ch.quantinar || []).length
+                ? `<div class="quantinar-box"><h4><img src="logos/qr_logo.png" alt="">${T.quantinar}</h4><ul>` +
+                  ch.quantinar.map(c => `<li><a href="${c.url}" target="_blank" rel="noopener">${esc(c.title)}</a></li>`).join('') +
+                  '</ul></div>'
+                : '';
+            const chart = (D.chapterCharts || {})[ch.id];
+            const fig = chart
+                ? `<button type="button" class="chapter-chart" data-src="${chart.src}" data-cap="${esc(chart[LANG])}" title="${esc(chart[LANG])}">
+                       <img src="${chart.src}" alt="${esc(chart[LANG])}" loading="lazy"></button>`
+                : '';
+            const fs = (D.formulas || []).filter(f => f.ch === ch.id);
+            const formulas = fs.length
+                ? `<details class="chapter-formulas"><summary>${T.formulas} (${fs.length})</summary>` +
+                  fs.map(f => `<div class="cf"><h5>${f[LANG]}</h5><div class="cf-tex">${stackTex(f.tex)}</div></div>`).join('') +
+                  '</details>'
+                : '';
+            return `<div class="chapter-card${available ? '' : ' soon'}${ch.selfStudy ? ' self-study' : ''}" id="chapter-${ch.id}">
+                <div class="chapter-header"><h3>${T.chapter} ${ch.num}: ${ch.title[LANG]}</h3><div class="badges">${badge}</div></div>
+                ${fig}
+                <div class="chapter-body">
+                    <ul>${ch.topics[LANG].map(t => `<li>${t}</li>`).join('')}</ul>
+                    ${formulas}
+                    <div class="chapter-links">${links}</div>
+                    ${qn}
+                </div>
+            </div>`;
+        }).join('');
+        $('chapters-grid').querySelectorAll('.chapter-chart').forEach(b => {
+            b.onclick = () => openLightbox(b.dataset.src, b.dataset.cap);
+        });
+    }
+
+    // ------------------------------------------------------------
+    // TEAM PROJECT AND AI POLICY
+    // ------------------------------------------------------------
+    function renderProject() {
+        $('project-cards').innerHTML = D.project[LANG].map(c =>
+            `<div class="info-card"><h3>${c.h}</h3>${c.p.map(p => `<p>${p}</p>`).join('')}</div>`
+        ).join('');
+        const ai = (D.aiPolicy || {})[LANG] || [];
+        $('ai-policy').innerHTML = ai.map(o => `<li>${o}</li>`).join('');
+        document.querySelectorAll('[data-t="aiTitle"]').forEach(h => { h.hidden = !ai.length; });
+    }
+
+    // ------------------------------------------------------------
+    // RESOURCES, CONTACT, FOOTER
+    // ------------------------------------------------------------
+    function renderResources() {
+        $('resources-list').innerHTML = D.resources.map(r =>
+            `<a href="${r.href}" class="resource-item" target="_blank" rel="noopener">
+                ${r.img ? `<img class="resource-logo" src="${r.img}" alt="">` : `<div class="resource-icon">${r.icon}</div>`}
+                <div><strong>${r[LANG][0]}</strong><p>${r[LANG][1]}</p></div>
+            </a>`
+        ).join('');
+        $('data-sources').innerHTML = D.dataSources.map(s =>
+            `<li><a href="${s.href}" target="_blank" rel="noopener"><strong>${s.name}</strong></a> - ${s[LANG]}</li>`
+        ).join('');
+        $('bibliography').innerHTML = D.bibliography.map(b => `<li>${b}</li>`).join('');
+    }
+
+    function renderContact() {
+        const c = D.contact;
+        $('contact-cards').innerHTML =
+            `<div class="info-card"><h3>${T.instructor}</h3><p><strong>${c.name}</strong></p>` +
+            c[LANG].map(p => `<p>${p}</p>`).join('') +
+            `<p style="margin-top:0.6rem"><a href="mailto:${c.email}">${c.email}</a></p></div>` +
+            (c.seminar && c.seminar.name && !/^TODO/.test(c.seminar.name) ? `<div class="info-card"><h3>${T.seminarCard}</h3><p><strong>${c.seminar.name}</strong></p><p>${T.seminarRole}</p>` + (c.seminar.email ? `<p style="margin-top:0.6rem"><a href="mailto:${c.seminar.email}">${c.seminar.email}</a></p>` : '') + `</div>` : '') +
+            `<div class="info-card"><h3>${T.office}</h3><p>${T.officeText}</p></div>`;
+        $('footer-logos').innerHTML = D.footerLogos.map(([href, src, alt]) =>
+            `<a href="${href}" target="_blank" rel="noopener"><img src="${src}" alt="${alt}"></a>`
+        ).join('');
+        $('footer-text').innerHTML = `&copy; 2026 ${T.footer}`;
+    }
+
+    // ------------------------------------------------------------
+    // GOOGLE SIGN-IN (ASE accounts) - required for the quizzes
+    // The ID token is kept only for this browser tab (sessionStorage) and sent with each score;
+    // the Apps Script backend verifies it with Google and takes name and e-mail from it.
+    // ------------------------------------------------------------
+    const ALLOWED = ['ase.ro', 'stud.ase.ro'];
+    const session = {
+        get(k) { try { return sessionStorage.getItem('ats-' + k); } catch (e) { return null; } },
+        set(k, v) { try { sessionStorage.setItem('ats-' + k, v); } catch (e) { /* ignore */ } },
+        del(k) { try { sessionStorage.removeItem('ats-' + k); } catch (e) { /* ignore */ } }
+    };
+
+    function decodeJwt(t) {
+        try {
+            const b = t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(decodeURIComponent(atob(b).split('').map(c =>
+                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')));
+        } catch (e) { return null; }
+    }
+
+    function getUser() {
+        const cred = session.get('google-credential');
+        const u = cred && decodeJwt(cred);
+        if (!u || u.exp * 1000 < Date.now()) return null;
+        return { name: u.name || u.email, email: u.email, credential: cred };
+    }
+
+    const loginEnabled = () => isConfigured(CFG.GOOGLE_CLIENT_ID);
+
+    function onGoogleCredential(resp) {
+        const u = decodeJwt(resp.credential);
+        const domain = u && String(u.email).split('@')[1];
+        if (!u || !ALLOWED.includes(domain)) {
+            $('login-msg').textContent = T.loginWrongDomain;
+            return;
+        }
+        session.set('google-credential', resp.credential);
+        renderLogin();
+        if (activeChapter) showQuiz(activeChapter);
+    }
+
+    // ------------------------------------------------------------
+    // INSTRUCTOR ACCESS - its own Google sign-in, separate from the quiz login;
+    // the attendance QR links appear only for an account listed in CFG.INSTRUCTORS
+    // ------------------------------------------------------------
+    let gisMode = 'quiz';
+    function gisInit() {
+        if (gisInit.done || !(window.google && google.accounts && google.accounts.id)) return !!gisInit.done;
+        gisInit.done = true;
+        google.accounts.id.initialize({
+            client_id: CFG.GOOGLE_CLIENT_ID, auto_select: true,
+            callback: resp => (gisMode === 'teacher' ? onTeacherCredential : onGoogleCredential)(resp)
+        });
+        return true;
+    }
+
+    const isInstructor = email => (CFG.INSTRUCTORS || []).filter(isConfigured).map(e => e.toLowerCase())
+        .includes(String(email || '').toLowerCase());
+
+    function getTeacher() {
+        const u = decodeJwt(session.get('teacher-credential') || '');
+        return u && u.exp * 1000 > Date.now() && isInstructor(u.email) ? u : null;
+    }
+
+    function onTeacherCredential(resp) {
+        gisMode = 'quiz';
+        const u = decodeJwt(resp.credential);
+        if (!u || !isInstructor(u.email)) {
+            $('teacher-msg').textContent = T.teacherDenied;
+            return;
+        }
+        session.set('teacher-credential', resp.credential);
+        renderTeacher();
+    }
+
+    function renderTeacher() {
+        const ok = isConfigured(CFG.ATTENDANCE_QR_URL) && loginEnabled();
+        const btn = $('teacher-btn'), box = $('teacher-login');
+        const teacher = ok && getTeacher();
+        $('qr-teachers').hidden = !teacher;
+        btn.hidden = !ok;
+        box.hidden = true;
+        if (!ok) return;
+        if (teacher) {
+            btn.textContent = `${T.logout} (${teacher.email})`;
+            btn.onclick = () => { session.del('teacher-credential'); btn.textContent = T.teacherBtn; renderTeacher(); };
+            return;
+        }
+        btn.textContent = T.teacherBtn;
+        btn.onclick = () => {
+            if (!box.hidden) { box.hidden = true; return; }
+            box.innerHTML = `<p>${T.teacherPrompt}</p><div id="teacher-g-button"></div><p class="login-msg" id="teacher-msg" aria-live="polite"></p>`;
+            box.hidden = false;
+            if (gisInit()) {
+                google.accounts.id.renderButton($('teacher-g-button'),
+                    { theme: 'outline', size: 'large', text: 'signin_with', locale: LANG, width: 280,
+                      click_listener: () => { gisMode = 'teacher'; } });
+            }
+        };
+    }
+
+    function renderLogin() {
+        const box = $('quiz-login');
+        if (!loginEnabled()) { box.style.display = 'none'; return; }
+        box.style.display = '';
+        const user = getUser();
+        if (user) {
+            box.innerHTML = `<p>${T.loggedAs} <strong>${esc(user.name)}</strong> (${esc(user.email)})
+                <button class="btn btn-outline" id="g-logout" style="margin-left:0.5rem;padding:0.2rem 0.6rem">${T.logout}</button></p>`;
+            $('g-logout').onclick = () => {
+                session.del('google-credential');
+                if (window.google && google.accounts) google.accounts.id.disableAutoSelect();
+                renderLogin();
+                if (activeChapter) showQuiz(activeChapter);
+            };
+            return;
+        }
+        box.innerHTML = `<p>${T.loginPrompt}</p><div id="g-button"></div><p class="login-msg" id="login-msg" aria-live="polite"></p>`;
+        const draw = () => {
+            const el = $('g-button');
+            if (!el || el.dataset.drawn || !gisInit()) return;
+            el.dataset.drawn = '1';
+            google.accounts.id.renderButton(el, { theme: 'outline', size: 'large', text: 'signin_with', locale: LANG, width: 280,
+                click_listener: () => { gisMode = 'quiz'; } });
+        };
+        draw();
+        window.addEventListener('load', draw, { once: true });
+    }
+
+    function sendResults(ch, score, total) {
+        const user = getUser();
+        const out = $('quiz-save-status');
+        if (!isConfigured(CFG.QUIZ_SCORES_URL) || !user) return;
+        out.textContent = T.saving;
+        // text/plain avoids a CORS preflight; the backend parses the JSON body
+        fetch(CFG.QUIZ_SCORES_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ credential: user.credential, chapter: ch.id, score, total, lang: LANG })
+        }).then(r => r.json()).then(j => {
+            out.textContent = j.ok ? T.saved : (j.error === 'token' ? T.saveExpired : T.saveFailed);
+        }).catch(() => { out.textContent = T.saveFailed; });
+    }
+
+    // ------------------------------------------------------------
+    // QUIZ ENGINE
+    // Bank format (assets/quizzes/<id>.js):
+    //   ATS_DATA.quizzes['<id>'] = { draw: 20, questions: [
+    //     { correct: <index 0-3>, en: {title, text, options:[4], correctExplanation, incorrectExplanation}, ro: {...} } ] }
+    // ------------------------------------------------------------
+    let quiz = null;   // { chapter: <chapter object>, items: [{ q, order, correctPos }], answers: {} }
+    let activeChapter = null;
+
+    function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function renderQuizTabs() {
+        $('quiz-tabs').innerHTML = D.chapters.map(ch => {
+            const has = !!D.quizzes[ch.id];
+            const self = ch.selfStudy ? ` <span class="tab-badge">${T.selfStudy}</span>` : '';
+            return `<button class="btn btn-outline${has ? '' : ' unavailable'}${ch.selfStudy ? ' self-study' : ''}" data-ch="${ch.id}" title="${esc(ch.title[LANG])}">${T.chapterShort} ${ch.num}${self}</button>`;
+        }).join('');
+        $('quiz-tabs').querySelectorAll('button').forEach(b => {
+            b.onclick = () => showQuiz(b.getAttribute('data-ch'));
+        });
+    }
+
+    function showQuiz(id) {
+        activeChapter = id;
+        $('quiz-tabs').querySelectorAll('button').forEach(b =>
+            b.classList.toggle('active', b.getAttribute('data-ch') === id));
+        const ch = D.chapters.find(c => c.id === id);
+        const bank = D.quizzes[id];
+        const box = $('quiz-container');
+        const heading = `<h3>${T.chapter} ${ch.num}: ${ch.title[LANG]}${ch.selfStudy ? ` <span class="badge badge-self">${T.selfStudy}</span>` : ''}</h3>`;
+        if (!bank) {
+            quiz = null;
+            box.innerHTML = `${heading}<p class="quiz-intro">${T.quizSoon}</p>`;
+            return;
+        }
+        if (loginEnabled() && !getUser()) {
+            quiz = null;
+            box.innerHTML = `${heading}<p class="quiz-intro">${T.loginRequired}</p>`;
+            return;
+        }
+        box.innerHTML = `${heading}
+            <p class="quiz-intro">${T.quizIntro}</p>
+            <div id="quiz-questions"></div>
+            <div class="quiz-actions">
+                <button class="btn btn-primary" id="quiz-score">${T.calc}</button>
+                <button class="btn btn-outline" id="quiz-reset">${T.reset}</button>
+            </div>
+            <p class="score-display" id="quiz-score-display" aria-live="polite"></p>
+            <p class="save-status" id="quiz-save-status" aria-live="polite"></p>
+            <div id="quiz-answer-key"></div>`;
+        $('quiz-score').onclick = calculateScore;
+        $('quiz-reset').onclick = () => showQuiz(id);
+        newAttempt(ch, bank);
+    }
+
+    function newAttempt(ch, bank) {
+        const n = Math.min(bank.draw || 20, bank.questions.length);
+        const items = shuffle(bank.questions).slice(0, n).map(q => {
+            const order = shuffle(q[LANG].options.map((_, i) => i));   // order[pos] = original option index
+            return { q, order, correctPos: order.indexOf(q.correct) };
+        });
+        quiz = { chapter: ch, items, answers: {} };
+
+        $('quiz-questions').innerHTML = items.map((it, k) => {
+            const L = it.q[LANG];
+            return `<div class="quiz-question" id="qq${k}">
+                <h4>${T.question} ${k + 1}: ${L.title}</h4>
+                <p>${L.text}</p>
+                <ul class="quiz-options" role="radiogroup">
+                    ${it.order.map((orig, pos) =>
+                        `<li tabindex="0" role="radio" aria-checked="false" data-k="${k}" data-pos="${pos}">
+                            <input type="radio" name="qq${k}" tabindex="-1"> ${LETTERS[pos]}) ${L.options[orig]}</li>`).join('')}
+                </ul>
+                <div class="answer-reveal answer-correct" id="qq${k}-ok"><strong>${T.correct}</strong> ${L.correctExplanation}</div>
+                <div class="answer-reveal answer-incorrect" id="qq${k}-ko"><strong>${T.incorrect}</strong>
+                    ${T.correctIs} ${LETTERS[it.correctPos]}) ${L.options[it.q.correct]}. ${L.incorrectExplanation}</div>
+            </div>`;
+        }).join('');
+
+        $('quiz-questions').querySelectorAll('.quiz-options li').forEach(li => {
+            const pick = () => answer(parseInt(li.dataset.k, 10), parseInt(li.dataset.pos, 10));
+            li.onclick = pick;
+            li.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } };
+        });
+        typeset($('quiz-container'));
+    }
+
+    function answer(k, pos) {
+        if (!quiz || quiz.answers[k] !== undefined) return;   // locked after the first answer
+        quiz.answers[k] = pos;
+        const qDiv = $('qq' + k);
+        qDiv.querySelectorAll('.quiz-options li').forEach(li => {
+            const mine = parseInt(li.dataset.pos, 10) === pos;
+            li.classList.add('locked');
+            li.classList.toggle('chosen', mine);
+            li.setAttribute('aria-checked', mine ? 'true' : 'false');
+            li.querySelector('input').checked = mine;
+        });
+        const ok = pos === quiz.items[k].correctPos;
+        $('qq' + k + '-ok').style.display = ok ? 'block' : 'none';
+        $('qq' + k + '-ko').style.display = ok ? 'none' : 'block';
+    }
+
+    function calculateScore() {
+        if (!quiz) return;
+        const total = quiz.items.length;
+        let score = 0, answered = 0;
+        quiz.items.forEach((it, k) => {
+            if (quiz.answers[k] !== undefined) {
+                answered++;
+                if (quiz.answers[k] === it.correctPos) score++;
+            }
+        });
+        const pct = Math.round((score / total) * 100);
+        let msg = `${T.score}: ${score}/${total} (${pct}%)`;
+        if (answered < total) msg += ` - ${total - answered} ${T.unanswered}`;
+        msg += ' - ' + T.verdicts[pct >= 90 ? 3 : pct >= 70 ? 2 : pct >= 50 ? 1 : 0];
+        $('quiz-score-display').textContent = msg;
+        if (!quiz.sent) { quiz.sent = true; sendResults(quiz.chapter, score, total); }
+
+        const rows = quiz.items.map((it, k) => {
+            const L = it.q[LANG];
+            const a = quiz.answers[k];
+            const cls = a === undefined ? '' : (a === it.correctPos ? 'ok' : 'ko');
+            const res = a === undefined ? '-' : (a === it.correctPos ? '<span class="res-ok">OK</span>' : '<span class="res-ko">X</span>');
+            const yours = a === undefined ? '-' : `${LETTERS[a]}) ${L.options[it.order[a]]}`;
+            return `<tr class="${cls}"><td class="c"><strong>${k + 1}</strong></td><td>${L.text}</td>
+                <td>${LETTERS[it.correctPos]}) ${L.options[it.q.correct]}</td><td>${yours}</td><td class="c">${res}</td></tr>`;
+        }).join('');
+        $('quiz-answer-key').innerHTML = `<div class="answer-key"><h4>${T.detailed}</h4><table>
+            <tr><th class="c">${T.colQ}</th><th>${T.colQuestion}</th><th>${T.colCorrect}</th><th>${T.colYours}</th><th class="c">${T.colResult}</th></tr>
+            ${rows}</table></div>`;
+        typeset($('quiz-answer-key'));
+    }
+
+    // ------------------------------------------------------------
+    // INIT
+    // ------------------------------------------------------------
+    function init() {
+        renderStatic();
+        renderOverview();
+        initLightbox();
+        if (isConfigured(CFG.ATTENDANCE_FORM_URL)) {
+            $('attendance-btn').href = CFG.ATTENDANCE_FORM_URL;
+            $('attendance-btn').hidden = false;
+        }
+        if (isConfigured(CFG.ATTENDANCE_QR_URL)) {
+            $('qr-lecture').href = CFG.ATTENDANCE_QR_URL + '?t=curs';
+            $('qr-seminar').href = CFG.ATTENDANCE_QR_URL + '?t=seminar';
+        }
+        renderChapters();
+        renderProject();
+        renderResources();
+        renderContact();
+        renderLogin();
+        renderTeacher();
+        renderQuizTabs();
+        const first = D.chapters.find(c => D.quizzes[c.id]) || D.chapters[0];
+        showQuiz(first.id);
+        typeset();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();

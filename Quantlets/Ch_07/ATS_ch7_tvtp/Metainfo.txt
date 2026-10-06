@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch7_tvtp'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Time-varying transition probabilities (Diebold, Lee and Weinbach 1994; Filardo 1994): switching-mean AR(4) of US industrial production growth with logistic transition probabilities driven by the leading indicator, numpy maximum likelihood and statsmodels, LR test against constant transitions.'
+
+Keywords: 'time-varying transition probabilities, TVTP, leading indicator, business cycle, Markov switching, Filardo'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Hamilton (1989) real GNP data and Filardo (1994) industrial production data, both distributed with statsmodels; FRED: GDPC1, UNRATE, USRECQ, USREC; Eurostat: Romanian real GDP (namq_10_gdp) and HICP (prc_hicp_minr); EODHD daily closes of the S&P 500 and the BET (data/market); EUR/RON: ECB reference rate to June 2005, BNR reference rate from July 2005'
+
+Output: 'ats_ch7_tvtp.pdf'

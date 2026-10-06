@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch7_msgarch'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Markov-switching GARCH for S&P 500 daily returns 2000-2026: GARCH(1,1) against the MS-GARCH of Haas, Mittnik and Paolella (2004), without path dependence, and of Gray (1996), with collapsing; numerical maximum likelihood.'
+
+Keywords: 'MS-GARCH, GARCH, path dependence, volatility regimes, Haas Mittnik Paolella, Gray, S&P 500'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Hamilton (1989) real GNP data and Filardo (1994) industrial production data, both distributed with statsmodels; FRED: GDPC1, UNRATE, USRECQ, USREC; Eurostat: Romanian real GDP (namq_10_gdp) and HICP (prc_hicp_minr); EODHD daily closes of the S&P 500 and the BET (data/market); EUR/RON: ECB reference rate to June 2005, BNR reference rate from July 2005'
+
+Output: 'ats_ch7_msgarch.pdf'

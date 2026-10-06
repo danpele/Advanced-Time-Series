@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch6_seminar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Seminar 6 of Advanced Time Series Analysis and Forecasting (ATS), student version: setup, data, helper functions and the solved exercises A1, A3, A5, A7, A9, B1, B3 with code and output. The proposed exercises A2, A4, A6, A8, A10, B2, B4, B5, C1, C2 are not solved here (an empty code cell where they need code); their solutions are discussed in the seminar.'
+
+Keywords: 'seminar, state space, Kalman filter, stochastic volatility, particle filter, output gap, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (GDPDEF, GDPC1, INDPRO, PAYEMS, W875RX1, CMRMTSPL); Eurostat (prc_hicp_minr, namq_10_gdp); daily S&P 500 and BET closes from EODHD (data/market of the ATS repository); BNR EUR/RON reference rate'
+
+Output: 'ch6_sem_b1.pdf, ch6_sem_b3.pdf'

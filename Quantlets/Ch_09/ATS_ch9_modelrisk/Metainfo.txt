@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch9_modelrisk'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Model risk: risk ratio of six standard VaR 1% models (HS, Normal, EWMA, GARCH-N, GARCH-t, FHS) for the S&P 500 and the BET (Danielsson et al. 2016); estimation risk: parametric bootstrap intervals of GARCH-t ES 2.5% forecasts.'
+
+Keywords: 'model risk, risk ratio, estimation risk, bootstrap, expected shortfall, GARCH'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, DAX, BET, Bitcoin and VIX (data/market of the ATS repository); EUR/RON: official BNR reference rate'
+
+Output: 'ats_ch9_riskratio.pdf, ats_ch9_es_ci.pdf'

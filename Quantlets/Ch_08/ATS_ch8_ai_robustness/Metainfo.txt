@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch8_ai_robustness'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'AI mini-case: how robust is the HARQ gain over HAR for Bitcoin and Ether across 12 analysis choices (estimation window, treatment of implausible forecasts, realised measure)?'
+
+Keywords: 'robustness, HARQ, HAR, forecast comparison, specification grid, AI for science'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute's realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009; archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), six indices; daily realised measures of Bitcoin and Ether computed from Binance public one-minute and one-second prices (data.binance.vision); daily S&P 500, DAX, BET, Bitcoin and 25 US stocks and ETFs from EODHD (data/market); BNR EUR/RON reference rate; FRED (INDPRO, WPSFD49207); Eurostat (sts_inpr_m)'
+
+Output: 'ats_ch8_ai_case.pdf'

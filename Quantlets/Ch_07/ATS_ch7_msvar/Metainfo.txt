@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch7_msvar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Markov-switching VAR (MSIAH(2)-VAR(1), Krolzig 1997) for US GDP growth and the change of the unemployment rate, 1960-2019, estimated by EM; regime-dependent impulse responses (Ehrmann, Ellison and Valla 2003).'
+
+Keywords: 'Markov-switching VAR, MS-VAR, EM algorithm, regime-dependent impulse responses, Okun law'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Hamilton (1989) real GNP data and Filardo (1994) industrial production data, both distributed with statsmodels; FRED: GDPC1, UNRATE, USRECQ, USREC; Eurostat: Romanian real GDP (namq_10_gdp) and HICP (prc_hicp_minr); EODHD daily closes of the S&P 500 and the BET (data/market); EUR/RON: ECB reference rate to June 2005, BNR reference rate from July 2005'
+
+Output: 'ats_ch7_msvar.pdf'

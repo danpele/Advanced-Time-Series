@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch1_density_forecasts'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The density forecast evaluation of Diebold, Gunther and Tay (1998) re-run on the S&P 500: i.i.d. Normal, MA(1)-GARCH(1,1)-Normal and MA(1)-GARCH(1,1)-t estimated on 2000-2012 with fixed parameters, one-day density forecasts for 2013-2026; PIT histograms and correlograms, Berkowitz test, log score and CRPS with DM tests (Amisano and Giacomini 2007), optimal linear pools (Geweke and Amisano 2011).'
+
+Keywords: 'density forecast, PIT, Berkowitz test, GARCH-t, log score, CRPS, optimal prediction pool, S&P 500'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'S&P 500 daily closes from EODHD (data/market of the ATS repository); EUR/RON BNR reference rate; Romanian HICP inflation and 3-month money-market rates (Eurostat prc_hicp_minr, irt_st_m); US CPI and unemployment (FRED CPIAUCSL, UNRATE); individual forecasts of the Survey of Professional Forecasters and the Real-Time Data Set for Macroeconomists (Federal Reserve Bank of Philadelphia, public files); Romanian hourly electricity load (Energy-Charts, Fraunhofer ISE, ENTSO-E transparency data)'
+
+Output: 'ats_ch1_dgt.pdf, ats_ch1_pool.pdf'

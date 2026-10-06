@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch0_hac'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'HAC standard errors of a mean as a function of the Bartlett bandwidth for five series, with the Andrews (1991) AR(1) plug-in bandwidth; fixed-b critical values (Kiefer and Vogelsang 2005) of the Bartlett and quadratic spectral t-tests by simulation.'
+
+Keywords: 'HAC, Newey-West, Andrews bandwidth, fixed-b, Kiefer-Vogelsang, critical values, bandwidth choice'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Romanian real GDP and HICP inflation (Eurostat namq_10_gdp, prc_hicp_minr); EUR/RON reference rate (BNR); S&P 500 and BET daily closes from EODHD (data/market of the ATS repository); US real GDP and Treasury yields (FRED GDPC1, GS10, TB3MS)'
+
+Output: 'ats_ch0_hac_bandwidth.pdf, ats_ch0_fixed_b.pdf'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch0_ai_discovery'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'AI-for-discovery mini-case: has Romanian HICP inflation averaged the 2.5% BNR target since 2013? Confidence intervals for the mean by six methods and the size of each test in a Monte Carlo calibrated to the AR(1) fitted to the series.'
+
+Keywords: 'inflation target, near unit root, HAR inference, Monte Carlo, size, Romania, HICP'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Romanian real GDP and HICP inflation (Eurostat namq_10_gdp, prc_hicp_minr); EUR/RON reference rate (BNR); S&P 500 and BET daily closes from EODHD (data/market of the ATS repository); US real GDP and Treasury yields (FRED GDPC1, GS10, TB3MS)'
+
+Output: 'ats_ch0_ai_minicase.pdf'

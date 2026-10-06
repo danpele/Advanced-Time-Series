@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch16_date_stamping'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Accuracy of BSADF date-stamping in a bubble-and-collapse process (random walk, explosive phase with rho = 1.005, 1.01, 1.02, collapse, random walk): detection rate, delay of the dated start and of the confirmation, false episodes before the bubble.'
+
+Keywords: 'date-stamping, origination, detection delay, bubble-and-collapse process, BSADF'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, Nasdaq 100, Shanghai Composite, BET and Bitcoin and of all price series of data/market (ATS repository); FRED: S&P CoreLogic Case-Shiller US national index, CPI rent of primary residence, CPI; Eurostat: Romanian house price index and HICP (actual rentals, all items); all read without a key'
+
+Output: 'ats_ch16_dating.pdf'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch15_power'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Power of the Diebold-Mariano test (Harvey-Leybourne-Newbold version, Newey-West variance) by out-of-sample length, mean gain and serial dependence of the loss differential, with the large-sample approximation and the evaluation length needed for 80% power: the power calculation of a pre-registered forecast comparison.'
+
+Keywords: 'Diebold-Mariano test, power, pre-registration, sample size, long-run variance, forecast evaluation'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Daily market data from EODHD (data/market of the ATS repository) and the BNR reference rate; FRED (real GDP, industrial production, CPI, federal funds rate, Treasury yields); simulated data'
+
+Output: 'ats_ch15_power.pdf'

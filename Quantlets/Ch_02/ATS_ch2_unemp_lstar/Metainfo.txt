@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_unemp_lstar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The LSTAR model of van Dijk, Terasvirta and Franses (2002, Section 7) for the unadjusted US unemployment rate of men aged 20 and over: LM linearity tests for s = y(t-d) - y(t-d-12), the Terasvirta (1994) sequence, nonlinear least squares, one-step forecasts for 1990-1999 against the linear model.'
+
+Keywords: 'LSTAR, smooth transition, LM linearity test, Terasvirta, unemployment, nonlinear least squares, forecasting'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_unemp_lstar.pdf'

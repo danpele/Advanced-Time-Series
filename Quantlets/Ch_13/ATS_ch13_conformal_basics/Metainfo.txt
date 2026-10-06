@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch13_conformal_basics'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Split conformal prediction: the Beta law of coverage given the calibration set (n = 50, 500); conformalized quantile regression on the synthetic design of Romano, Patterson and Candes (2019, Figure 1) against split conformal with a mean model.'
+
+Keywords: 'conformal prediction, split conformal, exchangeability, coverage, CQR, quantile regression'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Romanian hourly electricity load (Energy-Charts, ENTSO-E transparency data) and Bucharest temperature (Open-Meteo historical archive), HICP annual inflation of the 27 EU countries (Eurostat), realised variance of Bitcoin (Binance 5-minute returns) and of the S&P 500 (Oxford-Man realized library v0.3, Heber, Lunde, Shephard and Sheppard 2009; archived copy downloaded from the Internet Archive by read_omi), EODHD daily closes of the BET, DAX, WIG20, S&P 500 and NVIDIA (data/market of the ATS repository); all read without a key'
+
+Output: 'ats_ch13_split_coverage.pdf, ats_ch13_cqr.pdf'

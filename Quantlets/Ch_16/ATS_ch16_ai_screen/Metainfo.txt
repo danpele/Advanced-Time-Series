@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch16_ai_screen'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'A GSADF screen of the monthly log prices of all series of the course data: p-values from the wild bootstrap and from the homoskedastic Monte Carlo null, rejections at 5%, after Holm and after Benjamini-Hochberg.'
+
+Keywords: 'GSADF, multiple testing, Holm, Benjamini-Hochberg, wild bootstrap, screening, AI'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, Nasdaq 100, Shanghai Composite, BET and Bitcoin and of all price series of data/market (ATS repository); FRED: S&P CoreLogic Case-Shiller US national index, CPI rent of primary residence, CPI; Eurostat: Romanian house price index and HICP (actual rentals, all items); all read without a key'
+
+Output: 'ats_ch16_ai_case.pdf'

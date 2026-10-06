@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch11_filters'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Trend-cycle filters judged by their gain (ideal band-pass, Baxter-King, Christiano-Fitzgerald, HP, Hamilton 2018); the spurious cycle of the HP filter on a random walk (Cogley and Nason 1995); cycles of Romanian real GDP 1995-2026; real-time against final cycles; synchronisation of Romania and the euro area (rolling correlation, Harding-Pagan concordance).'
+
+Keywords: 'HP filter, Baxter-King, Christiano-Fitzgerald, Hamilton filter, business cycle, end-point problem, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Eurostat (real GDP namq_10_gdp, industrial production sts_inpr_m, HICP prc_hicp_minr) and FRED (Brent crude oil DCOILBRENTEU), read online without a key; EODHD daily closes of the BET, DAX and S&P 500 (data/market of the ATS repository)'
+
+Output: 'ats_ch11_gains.pdf, ats_ch11_cogley_nason.pdf, ats_ch11_ro_cycles.pdf, ats_ch11_endpoint.pdf, ats_ch11_sync.pdf'

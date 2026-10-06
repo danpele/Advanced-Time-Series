@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_great_moderation'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The Great Moderation test of McConnell and Perez-Quiros (2000) on US real GDP growth (FRED GDPC1): AR(1) for the mean, sup-, exp- and ave-Wald tests for a break in the mean of sqrt(pi/2)|e_t|, in their sample 1953Q2-1999Q2, to 2019 and to 2026.'
+
+Keywords: 'Great Moderation, variance break, sup-Wald, Andrews-Ploberger, GDP growth, structural change'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_great_moderation.pdf'

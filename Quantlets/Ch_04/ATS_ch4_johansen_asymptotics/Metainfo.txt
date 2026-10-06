@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch4_johansen_asymptotics'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The Johansen trace statistic in the five deterministic cases: null distributions simulated from random walks (10,000 replications, T = 400) and their 90/95/99% quantiles for n - r = 1..4; the small-sample size of the trace test of H(1) in a three-variable VECM with persistent short-run dynamics: asymptotic critical value, Reinsel-Ahn (1992) correction and the wild bootstrap of Cavaliere, Rahbek and Taylor (2012), with i.i.d. and GARCH errors.'
+
+Keywords: 'cointegration, Johansen, trace test, deterministic terms, Reinsel-Ahn, bootstrap, wild bootstrap, size'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Simulated data'
+
+Output: 'ats_ch4_trace_dists.pdf, ats_ch4_size_mc.pdf'

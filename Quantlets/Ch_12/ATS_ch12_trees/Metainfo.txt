@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch12_trees'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Tree ensembles for Romanian day-ahead electricity load (Energy-Charts, ENTSO-E data): the expert ARX of Ziel and Weron (2018) against a random forest with quantile regression forest bands (Meinshausen 2006), histogram gradient boosting with and without monotone constraints and quantile boosting; MAE, pinball loss, coverage, Diebold-Mariano tests and the Model Confidence Set; partial dependence under the monotone constraint.'
+
+Keywords: 'random forest, quantile regression forest, gradient boosting, LightGBM, monotone constraints, electricity load, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Romanian hourly electricity load from Energy-Charts (ENTSO-E transparency data, public API, 2023-2026); Eurostat HICP annual rates of the 27 EU countries (prc_hicp_minr); Oxford-Man Institute realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009), six equity indices, 2000-2022 (archived copy, downloaded from the Internet Archive by read_omi, not redistributed), and Bitcoin and Ether realised measures from Binance one-minute prices (data/realized of the ATS repository); the M4 hourly series and evaluation file (M4-methods repository, Makridakis, Spiliotis and Assimakopoulos 2020)'
+
+Output: 'ats_ch12_load_trees.pdf, ats_ch12_monotone.pdf'

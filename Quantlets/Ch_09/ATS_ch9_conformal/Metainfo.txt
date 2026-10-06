@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch9_conformal'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Adaptive conformal inference (Gibbs and Candes 2021) on top of a Normal GARCH VaR 1% for Bitcoin and the BET, 2016-2026: rolling hit rates, Kupiec and conditional coverage tests.'
+
+Keywords: 'adaptive conformal inference, value at risk, calibration, GARCH, Bitcoin, BET'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, DAX, BET, Bitcoin and VIX (data/market of the ATS repository); EUR/RON: official BNR reference rate'
+
+Output: 'ats_ch9_conformal.pdf'

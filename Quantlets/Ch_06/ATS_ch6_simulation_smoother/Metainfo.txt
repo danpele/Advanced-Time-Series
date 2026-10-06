@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch6_simulation_smoother'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Three samplers of the state posterior of a local level model (US inflation): Carter-Kohn forward filtering backward sampling, the Durbin-Koopman (2002) mean-correction simulation smoother and the precision sampler (Chan and Jeliazkov 2009); a Gibbs sampler for the two variances with inverse-gamma priors.'
+
+Keywords: 'simulation smoother, FFBS, Carter-Kohn, Durbin-Koopman, precision sampler, Gibbs sampling, Bayesian'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (GDPDEF, GDPC1, INDPRO, PAYEMS, W875RX1, CMRMTSPL); Eurostat (prc_hicp_minr, namq_10_gdp); daily S&P 500 and BET closes from EODHD (data/market of the ATS repository); BNR EUR/RON reference rate'
+
+Output: 'ats_ch6_simsmoother.pdf, ats_ch6_gibbs_ll.pdf'

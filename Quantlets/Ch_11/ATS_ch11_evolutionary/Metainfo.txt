@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch11_evolutionary'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'A time-varying AR(2) whose peak period moves from 20 to 5: the true local spectrum and the short-time multitaper spectrogram (locally stationary processes, Dahlhaus 1997).'
+
+Keywords: 'evolutionary spectrum, local stationarity, spectrogram, time-varying AR'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Eurostat (real GDP namq_10_gdp, industrial production sts_inpr_m, HICP prc_hicp_minr) and FRED (Brent crude oil DCOILBRENTEU), read online without a key; EODHD daily closes of the BET, DAX and S&P 500 (data/market of the ATS repository)'
+
+Output: 'ats_ch11_spectrogram.pdf'

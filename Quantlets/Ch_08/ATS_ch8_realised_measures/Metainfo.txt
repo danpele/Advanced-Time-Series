@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch8_realised_measures'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Realised measures: a calibrated two-factor stochastic volatility model with jumps and microstructure noise on a one-second grid; coverage of the feasible CLT of realised variance (raw and log); RV at several frequencies, subsampled RV, two-scales RV and the Parzen realised kernel against the true quadratic variation; the signature plot and the Epps effect of Bitcoin and Ether (Binance one-second prices, August 2026); realised kernel volatility of the S&P 500, DAX and Nikkei (Oxford-Man library) and of Bitcoin.'
+
+Keywords: 'realised variance, realized volatility, microstructure noise, signature plot, realised kernel, two scales, Epps effect'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute's realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009; archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), six indices; daily realised measures of Bitcoin and Ether computed from Binance public one-minute and one-second prices (data.binance.vision); daily S&P 500, DAX, BET, Bitcoin and 25 US stocks and ETFs from EODHD (data/market); BNR EUR/RON reference rate; FRED (INDPRO, WPSFD49207); Eurostat (sts_inpr_m)'
+
+Output: 'ats_ch8_rv_clt.pdf, ats_ch8_kernels.pdf, ats_ch8_signature.pdf, ats_ch8_rk_overview.pdf'

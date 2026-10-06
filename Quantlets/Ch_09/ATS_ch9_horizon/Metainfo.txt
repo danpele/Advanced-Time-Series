@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch9_horizon'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: '10-day VaR 1% of the S&P 500 by filtered historical simulation from a GJR-GARCH(1,1) against the square-root-of-time rule, 2001-2026, and a non-overlapping backtest.'
+
+Keywords: 'square-root-of-time rule, multi-period VaR, filtered historical simulation, GJR-GARCH, overlapping observations'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, DAX, BET, Bitcoin and VIX (data/market of the ATS repository); EUR/RON: official BNR reference rate'
+
+Output: 'ats_ch9_sqrt.pdf'

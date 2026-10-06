@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch7_forecast'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Forecasting with regime models: recursive one-step density forecasts of US GDP growth 1990-2019 from an AR(1) and an MSIH(2)-AR(1), RMSE, log score, Diebold-Mariano test on the log-score difference, PIT histograms.'
+
+Keywords: 'density forecast, log score, PIT, Diebold-Mariano, Markov switching, GDP'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Hamilton (1989) real GNP data and Filardo (1994) industrial production data, both distributed with statsmodels; FRED: GDPC1, UNRATE, USRECQ, USREC; Eurostat: Romanian real GDP (namq_10_gdp) and HICP (prc_hicp_minr); EODHD daily closes of the S&P 500 and the BET (data/market); EUR/RON: ECB reference rate to June 2005, BNR reference rate from July 2005'
+
+Output: 'ats_ch7_forecast.pdf'

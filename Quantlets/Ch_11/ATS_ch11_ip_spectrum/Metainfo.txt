@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch11_ip_spectrum'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Multitaper spectra (NW = 4, 95% chi-square bands) of monthly industrial production growth in Romania and the euro area, 2000-2026 (Eurostat), and Thomson's harmonic F test for seasonal and trading-day lines in the unadjusted and the seasonally adjusted Romanian series.'
+
+Keywords: 'multitaper, industrial production, harmonic F test, residual seasonality, trading-day effects, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Eurostat (real GDP namq_10_gdp, industrial production sts_inpr_m, HICP prc_hicp_minr) and FRED (Brent crude oil DCOILBRENTEU), read online without a key; EODHD daily closes of the BET, DAX and S&P 500 (data/market of the ATS repository)'
+
+Output: 'ats_ch11_ip_spectrum.pdf, ats_ch11_ftest.pdf'

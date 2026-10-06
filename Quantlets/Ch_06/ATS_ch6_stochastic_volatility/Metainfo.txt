@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch6_stochastic_volatility'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Stochastic volatility of daily S&P 500 and BET returns, 2016-2026: the Kim, Shephard and Chib (1998) seven-component mixture against the log chi-square(1) law; the KSC Gibbs sampler with the precision sampler for the log-volatility path; GARCH(1,1) by ML; the bootstrap particle filter likelihood; particle marginal Metropolis-Hastings (Andrieu, Doucet and Holenstein 2010) against the Gibbs posterior.'
+
+Keywords: 'stochastic volatility, KSC mixture, Gibbs sampler, particle filter, PMMH, GARCH, S&P 500, BET'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (GDPDEF, GDPC1, INDPRO, PAYEMS, W875RX1, CMRMTSPL); Eurostat (prc_hicp_minr, namq_10_gdp); daily S&P 500 and BET closes from EODHD (data/market of the ATS repository); BNR EUR/RON reference rate'
+
+Output: 'ats_ch6_ksc.pdf, ats_ch6_sv.pdf, ats_ch6_pf.pdf, ats_ch6_pmmh.pdf'

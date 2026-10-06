@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch4_common_trends'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'King, Plosser, Stock and Watson (1991): log real per capita consumption of nondurables and services, fixed investment and GDP (FRED), US quarterly 1949:1-1988:4; rank tests, the LR test of the great ratios in cases 3 and 4, the permanent (balanced-growth) shock of the common-trends VECM, its impulse responses and variance shares with residual-bootstrap bands; extended samples to 2019 and 2025.'
+
+Keywords: 'common trends, structural VECM, permanent shock, balanced growth, great ratios, King-Plosser-Stock-Watson'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'IMF International Financial Statistics, interest rates (MFS_IR, public SDMX API; Romanian and Hungarian lending and deposit rates reported by the central banks); Eurostat (irt_st_m, prc_hicp_minr, prc_hicp_aind, nama_10_gdp, nasa_10_nf_tr, nama_10_pe); FRED (PCND, PCESV, FPI, GDP, GDPDEF, B230RC0Q173SBEA, POILBREUSDM); BNR reference rate'
+
+Output: 'ats_ch4_kpsw.pdf'

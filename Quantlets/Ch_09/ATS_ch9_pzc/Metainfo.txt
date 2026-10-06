@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch9_pzc'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Replication of Patton, Ziegel and Chen (2019), Section 5, on our data: ten models for VaR and ES (rolling windows, ARMA-GARCH with Normal, skewed-t and empirical innovations, GAS-2F, GAS-1F, GARCH-FZ, Hybrid by FZ0 minimisation), S&P 500 estimated on 1990-1999 and evaluated on 2000-2016 (Tables 8, 9, S5); the GAS-1F forecasts 2000-2026.'
+
+Keywords: 'expected shortfall, value at risk, FZ0 loss, GAS model, semiparametric, Diebold-Mariano, replication'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, DAX, BET, Bitcoin and VIX (data/market of the ATS repository); EUR/RON: official BNR reference rate'
+
+Output: 'ats_ch9_pzc_table.pdf, ats_ch9_pzc_paths.pdf, ats_ch9_dm.pdf, ats_ch9_overview.pdf'

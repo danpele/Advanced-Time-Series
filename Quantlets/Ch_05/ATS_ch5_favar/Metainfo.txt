@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch5_favar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'FAVAR of Bernanke, Boivin and Eliasz (2005): three factors and the federal funds rate, two-step estimation with slow-moving factors, VAR(13), 1960:1-2001:8 and 1960:1-2007:12, responses of nine series to a 25 bp shock with residual-bootstrap bands.'
+
+Keywords: 'FAVAR, factor-augmented VAR, monetary policy, price puzzle, principal components, bootstrap'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (St. Louis Fed): 117 FRED-MD series distributed by FRED, read one by one as public CSV files, with the FRED-MD transformation codes of McCracken and Ng (2016); USREC, CUMFNS, UNRATE, INDPRO. Eurostat: Romanian industrial production, retail trade, construction, unemployment, business and consumer survey balances, euro-area industrial production, quarterly real GDP; BNR reference rate (seminar)'
+
+Output: 'ats_ch5_favar.pdf'

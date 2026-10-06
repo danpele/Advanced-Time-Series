@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch16_explosive_asymptotics'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Explosive autoregressions: the normalised OLS error rho^n (rho_hat - rho)/(rho^2 - 1) for a mildly explosive root (Phillips and Magdalinos 2007) and a fixed explosive root (White 1958, Anderson 1959) with Gaussian and centred exponential errors, against the standard Cauchy law; Kolmogorov-Smirnov distances and the coverage of the 95% Cauchy confidence interval.'
+
+Keywords: 'explosive autoregression, Cauchy limit, mildly explosive, invariance principle, confidence interval'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, Nasdaq 100, Shanghai Composite, BET and Bitcoin and of all price series of data/market (ATS repository); FRED: S&P CoreLogic Case-Shiller US national index, CPI rent of primary residence, CPI; Eurostat: Romanian house price index and HICP (actual rentals, all items); all read without a key'
+
+Output: 'ats_ch16_asymptotics.pdf'

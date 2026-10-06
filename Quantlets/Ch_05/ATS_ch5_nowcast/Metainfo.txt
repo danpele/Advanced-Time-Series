@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch5_nowcast'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Nowcasting Romanian GDP growth from 11 monthly Eurostat indicators: bridge equations, ADL-MIDAS with exponential Almon weights, a two-factor dynamic factor model with the Mariano-Murasawa aggregation (two-step and EM with statsmodels DynamicFactorMQ), pseudo-real-time evaluation 2013-2026 with stylised release lags, the 2026Q3 nowcast and its news decomposition, robustness of the ranking.'
+
+Keywords: 'nowcasting, mixed frequency, MIDAS, bridge equation, dynamic factor model, Kalman filter, news, Romania, GDP'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (St. Louis Fed): 117 FRED-MD series distributed by FRED, read one by one as public CSV files, with the FRED-MD transformation codes of McCracken and Ng (2016); USREC, CUMFNS, UNRATE, INDPRO. Eurostat: Romanian industrial production, retail trade, construction, unemployment, business and consumer survey balances, euro-area industrial production, quarterly real GDP; BNR reference rate (seminar)'
+
+Output: 'ats_ch5_ro_data.pdf, ats_ch5_midas.pdf, ats_ch5_nowcast.pdf, ats_ch5_news.pdf, ats_ch5_ai_case.pdf'

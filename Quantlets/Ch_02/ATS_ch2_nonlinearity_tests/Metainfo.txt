@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_nonlinearity_tests'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'A battery of nonlinearity tests (BDS, Keenan, Tsay, Terasvirta LM3, Hansen sup-Wald) on five series: lynx, US unemployment changes, Romanian GDP growth, the real dollar-sterling rate and daily EUR/RON returns.'
+
+Keywords: 'nonlinearity test, BDS, Keenan, Tsay, LM test, sup-Wald, threshold'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_nonlinearity_tests.pdf'

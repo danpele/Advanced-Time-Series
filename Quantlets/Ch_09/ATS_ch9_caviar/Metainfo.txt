@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch9_caviar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'CAViaR (Engle and Manganelli 2004): SAV, asymmetric slope, indirect GARCH and adaptive specifications for the S&P 500 VaR 1% with the design of the paper (2,892 in-sample and 500 out-of-sample days, ending 18 September 2026); random-search plus simplex/quasi-Newton estimation, asymptotic standard errors, out-of-sample DQ test, news impact curves.'
+
+Keywords: 'CAViaR, quantile regression, value at risk, DQ test, news impact curve, S&P 500'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, DAX, BET, Bitcoin and VIX (data/market of the ATS repository); EUR/RON: official BNR reference rate'
+
+Output: 'ats_ch9_caviar.pdf, ats_ch9_nic.pdf'

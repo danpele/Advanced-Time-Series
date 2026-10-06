@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch7_estimation'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Estimation and testing of Markov-switching regressions: the EM algorithm of Hamilton (1990) from many starting values (local and degenerate maxima) on Hamilton's GNP data; information criteria and a parametric bootstrap of the likelihood-ratio statistic for one against two regimes on US GDP growth 1947-2019.'
+
+Keywords: 'EM algorithm, maximum likelihood, local maxima, likelihood ratio test, nuisance parameters, bootstrap, Markov switching'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Hamilton (1989) real GNP data and Filardo (1994) industrial production data, both distributed with statsmodels; FRED: GDPC1, UNRATE, USRECQ, USREC; Eurostat: Romanian real GDP (namq_10_gdp) and HICP (prc_hicp_minr); EODHD daily closes of the S&P 500 and the BET (data/market); EUR/RON: ECB reference rate to June 2005, BNR reference rate from July 2005'
+
+Output: 'ats_ch7_em.pdf, ats_ch7_lrtest.pdf'

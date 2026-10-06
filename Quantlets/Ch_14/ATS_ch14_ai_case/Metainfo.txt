@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch14_ai_case'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'AI mini-case: a specification curve for the Romanian estimate: four estimators, three donor pools and four pre-periods.'
+
+Keywords: 'specification curve, robustness, synthetic control, pre-registration, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Daily market data from EODHD (data/market of the ATS repository) and the BNR reference rate; Eurostat HICP (prc_hicp_minr) and HICP at constant tax rates (prc_hicp_ct) of the 27 EU countries; the replication data of Abadie, Diamond and Hainmueller (2015), Harvard Dataverse doi:10.7910/DVN/24714 (version 2.1, CC0); OECD Quarterly National Accounts (real GDP, PPP, public SDMX API)'
+
+Output: 'ats_ch14_ai_case.pdf'

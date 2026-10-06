@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch16_lppls_inference'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'LPPLS for the Shanghai 2015 bubble: the confidence indicator (filter of Shu and Zhu 2020, 29 windows) and the profile likelihood of the critical time for the window ending on 29 May 2015, with its 95% likelihood-ratio interval.'
+
+Keywords: 'LPPLS, confidence indicator, critical time, profile likelihood, Shanghai, Filimonov-Sornette'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, Nasdaq 100, Shanghai Composite, BET and Bitcoin and of all price series of data/market (ATS repository); FRED: S&P CoreLogic Case-Shiller US national index, CPI rent of primary residence, CPI; Eurostat: Romanian house price index and HICP (actual rentals, all items); all read without a key'
+
+Output: 'ats_ch16_lppls.pdf, ch16_ci_ssec.csv'

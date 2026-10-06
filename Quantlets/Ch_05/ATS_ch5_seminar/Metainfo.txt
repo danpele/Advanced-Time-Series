@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch5_seminar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Seminar 5 of Advanced Time Series Analysis and Forecasting (ATS), student version: setup, data, helper functions and the solved exercises A1, A3, A5, A7, B1, B3, B5 with code and output. The proposed exercises A2, A4, A6, A8, B2, B4, B6, C1, C2 are not solved here (an empty code cell where they need code); their solutions are discussed in the seminar.'
+
+Keywords: 'seminar, Bayesian VAR, Minnesota prior, factor model, FAVAR, nowcasting, MIDAS, news, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (St. Louis Fed): 117 FRED-MD series distributed by FRED, read one by one as public CSV files, with the FRED-MD transformation codes of McCracken and Ng (2016); USREC, CUMFNS, UNRATE, INDPRO. Eurostat: Romanian industrial production, retail trade, construction, unemployment, business and consumer survey balances, euro-area industrial production, quarterly real GDP; BNR reference rate (seminar)'
+
+Output: 'ch5_sem_b1.pdf, ch5_sem_b3.pdf, ch5_sem_b5.pdf'

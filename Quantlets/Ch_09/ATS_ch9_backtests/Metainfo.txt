@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch9_backtests'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Backtests of VaR and ES 2.5% for ten models and five assets (S&P 500, DAX, BET, EUR/RON, Bitcoin), parameters fixed on the first ten years: Kupiec, Christoffersen, duration-based (Christoffersen and Pelletier 2004), DQ, PZC goodness-of-fit regressions, McNeil-Frey; size of the Kupiec and DQ tests under estimation risk by Monte Carlo.'
+
+Keywords: 'backtesting, conditional calibration, duration test, DQ test, estimation risk, expected shortfall'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, DAX, BET, Bitcoin and VIX (data/market of the ATS repository); EUR/RON: official BNR reference rate'
+
+Output: 'ats_ch9_backtests.pdf, ats_ch9_durations.pdf, ats_ch9_estrisk_mc.pdf'

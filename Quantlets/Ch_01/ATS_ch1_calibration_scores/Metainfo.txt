@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch1_calibration_scores'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Calibration and proper scoring rules: PIT histograms of ideal, too sharp, too wide and biased Normal forecasts with their CRPS and log scores; expected log score, CRPS and the improper linear score as functions of the forecast spread (Gneiting, Balabdaoui and Raftery 2007; Gneiting and Raftery 2007).'
+
+Keywords: 'calibration, sharpness, PIT, proper scoring rule, logarithmic score, CRPS, linear score'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Simulated data'
+
+Output: 'ats_ch1_pit_shapes.pdf, ats_ch1_proper_scores.pdf'

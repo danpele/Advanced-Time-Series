@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch8_mgarch'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Multivariate GARCH: parameter counts of VEC, BEKK and DCC; DCC against cDCC (Aielli 2013) by simulation; global minimum-variance portfolios of 25 US stocks and ETFs with sample, Ledoit-Wolf linear, analytical nonlinear shrinkage (Ledoit and Wolf 2020), DCC and DCC-NL (Engle, Ledoit and Wolf 2019) covariance matrices; realised (5-minute) and DCC correlations of Bitcoin and Ether.'
+
+Keywords: 'multivariate GARCH, BEKK, DCC, cDCC, DCC-NL, nonlinear shrinkage, minimum variance, realised correlation'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute's realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009; archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), six indices; daily realised measures of Bitcoin and Ether computed from Binance public one-minute and one-second prices (data.binance.vision); daily S&P 500, DAX, BET, Bitcoin and 25 US stocks and ETFs from EODHD (data/market); BNR EUR/RON reference rate; FRED (INDPRO, WPSFD49207); Eurostat (sts_inpr_m)'
+
+Output: 'ats_ch8_dcc_sim.pdf, ats_ch8_gmv.pdf, ats_ch8_corr_crypto.pdf'

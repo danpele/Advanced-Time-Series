@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch4_passthrough_vecm'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Interest-rate pass-through in Romania: lending and deposit rates in lei (IMF IFS, BNR data) and ROBOR 3M (Eurostat), monthly 2005:8-2026:3; Johansen rank tests in case 2 with Reinsel-Ahn and wild-bootstrap p-values; a just-identified rank-2 VECM; LR tests of complete pass-through (restrictions on beta) and of weak exogeneity of ROBOR (restrictions on alpha); the two equilibrium errors.'
+
+Keywords: 'VECM, Johansen, interest-rate pass-through, ROBOR, Romania, weak exogeneity, restricted cointegration'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'IMF International Financial Statistics, interest rates (MFS_IR, public SDMX API; Romanian and Hungarian lending and deposit rates reported by the central banks); Eurostat (irt_st_m, prc_hicp_minr, prc_hicp_aind, nama_10_gdp, nasa_10_nf_tr, nama_10_pe); FRED (PCND, PCESV, FPI, GDP, GDPDEF, B230RC0Q173SBEA, POILBREUSDM); BNR reference rate'
+
+Output: 'ats_ch4_rates.pdf, ats_ch4_pt_ect.pdf'

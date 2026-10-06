@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch6_dfm_ragged_edge'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'A one-factor dynamic factor model of the four US coincident indicators (FRED: INDPRO, PAYEMS, W875RX1, CMRMTSPL), monthly growth since 1990: two-step estimator of Doz, Giannone and Reichlin (2011) and the Kalman smoother with the univariate treatment of the observation vector at the ragged edge.'
+
+Keywords: 'dynamic factor model, state space, ragged edge, missing data, Kalman smoother, nowcasting'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (GDPDEF, GDPC1, INDPRO, PAYEMS, W875RX1, CMRMTSPL); Eurostat (prc_hicp_minr, namq_10_gdp); daily S&P 500 and BET closes from EODHD (data/market of the ATS repository); BNR EUR/RON reference rate'
+
+Output: 'ats_ch6_dfm.pdf'

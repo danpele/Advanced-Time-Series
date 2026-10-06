@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_chow_snooping'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The Chow test at a known date and at the date that maximises it: Monte Carlo size of the 5% test on white noise for T = 50 to 800; the simulated asymptotic null distributions of the sup-, exp- and ave-Wald statistics (Andrews 1993; Andrews and Ploberger 1994) from Brownian bridges, with their critical values.'
+
+Keywords: 'Chow test, structural break, unknown break date, sup-Wald, Andrews test, Davies problem, Brownian bridge'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Simulated data'
+
+Output: 'ats_ch2_chow_snooping.pdf'

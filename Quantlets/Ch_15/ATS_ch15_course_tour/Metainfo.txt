@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch15_course_tour'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The course in one notebook: one short computation per chapter on real data. HAC for squared S&P 500 returns; random walk against AR(1) for EUR/RON with DM-HLN and Clark-West; a variance break in US GDP growth; a recursive monetary VAR; a local level for US inflation; a Markov-switching mean for US GDP growth; a historical-simulation VaR 1% backtest; local Whittle memory of absolute returns; the business-cycle share of the spectrum of industrial production; split conformal and ACI intervals; Granger tests between the S&P 500 and the BET; SADF for the Nasdaq 100.'
+
+Keywords: 'course review, HAC, forecast evaluation, structural break, SVAR, Kalman filter, Markov switching, VaR, long memory, spectrum, conformal prediction, Granger causality, bubbles'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Daily market data from EODHD (data/market of the ATS repository) and the BNR reference rate; FRED (real GDP, industrial production, CPI, federal funds rate, Treasury yields); simulated data'
+
+Output: 'printed tables'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch14_did_dml'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Staggered adoption: two-way fixed effects against the group-time estimator of Callaway and Sant'Anna (2021) on a simulated panel with effects that grow with exposure; double/debiased machine learning with blocked cross-fitting on simulated dependent data.'
+
+Keywords: 'difference in differences, staggered adoption, TWFE, Callaway Sant'Anna, double machine learning, cross-fitting'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Daily market data from EODHD (data/market of the ATS repository) and the BNR reference rate; Eurostat HICP (prc_hicp_minr) and HICP at constant tax rates (prc_hicp_ct) of the 27 EU countries; the replication data of Abadie, Diamond and Hainmueller (2015), Harvard Dataverse doi:10.7910/DVN/24714 (version 2.1, CC0); OECD Quarterly National Accounts (real GDP, PPP, public SDMX API)'
+
+Output: 'ats_ch14_staggered.pdf, ats_ch14_dml.pdf'

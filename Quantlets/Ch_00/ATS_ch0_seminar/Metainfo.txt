@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch0_seminar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Seminar 0 of Advanced Time Series Analysis and Forecasting (ATS), student version: setup, data, helper functions and the solved exercises A1, A2, A5, A7, B1, B3, B5 with code and output. The proposed exercises A3, A4, A6, A8, B2, B4, B6, C1, C2 are not solved here (an empty code cell where they need code); their solutions are discussed in the seminar.'
+
+Keywords: 'seminar, HAC, Newey-West, block bootstrap, Monte Carlo, size, spurious regression, Granger-Newbold, data snooping'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Romanian real GDP and HICP inflation (Eurostat namq_10_gdp, prc_hicp_minr); EUR/RON reference rate (BNR); S&P 500 and BET daily closes from EODHD (data/market of the ATS repository); US real GDP and Treasury yields (FRED GDPC1, GS10, TB3MS)'
+
+Output: 'ch0_sem_b1_tstats.pdf, ch0_sem_b3_size.pdf, ch0_sem_b5_spurious.pdf'

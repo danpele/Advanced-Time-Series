@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch11_spectral_estimation'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Spectral estimation theory: variance shares of an AR(2) by frequency band (Cramer representation); lag and spectral windows (Bartlett, Parzen, Tukey-Hanning, quadratic spectral); Monte Carlo bias, variance and MSE of the Parzen estimator against the bandwidth with the asymptotic formulas; Slepian tapers; leakage on the AR(4) of Percival and Walden (1993) and the multitaper estimator of Thomson (1982) with adaptive weights; a Monte Carlo comparison of five estimators and the coverage of their chi-square bands.'
+
+Keywords: 'spectral density, periodogram, lag window, bandwidth, multitaper, DPSS, leakage, Monte Carlo'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Eurostat (real GDP namq_10_gdp, industrial production sts_inpr_m, HICP prc_hicp_minr) and FRED (Brent crude oil DCOILBRENTEU), read online without a key; EODHD daily closes of the BET, DAX and S&P 500 (data/market of the ATS repository)'
+
+Output: 'ats_ch11_bands.pdf, ats_ch11_kernels.pdf, ats_ch11_bias_variance.pdf, ats_ch11_dpss.pdf, ats_ch11_leakage.pdf, ats_ch11_mt_mc.pdf'

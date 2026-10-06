@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch5_large_bvar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Large Bayesian VARs: Banbura, Giannone and Reichlin (2010) on a FRED-MD-format panel (SMALL, MEDIUM, LARGE systems, p = 13, rolling 10-year windows, lambda by the in-sample fit rule, sum-of-coefficients prior), Giannone, Lenza and Primiceri (2015) hyperparameters by the marginal likelihood, the fit/out-of-sample trade-off, responses to a 100 bp funds-rate shock with posterior bands, a common-volatility proxy.'
+
+Keywords: 'large Bayesian VAR, Minnesota prior, Normal-inverse-Wishart, dummy observations, marginal likelihood, FRED-MD, monetary policy'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (St. Louis Fed): 117 FRED-MD series distributed by FRED, read one by one as public CSV files, with the FRED-MD transformation codes of McCracken and Ng (2016); USREC, CUMFNS, UNRATE, INDPRO. Eurostat: Romanian industrial production, retail trade, construction, unemployment, business and consumer survey balances, euro-area industrial production, quarterly real GDP; BNR reference rate (seminar)'
+
+Output: 'ats_ch5_lambda.pdf, ats_ch5_tradeoff.pdf, ats_ch5_bgr.pdf, ats_ch5_bvar_irf.pdf, ats_ch5_common_vol.pdf'

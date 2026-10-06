@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch14_causalimpact'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'A CausalImpact-type analysis (Brodersen et al. 2015) on a statsmodels unobserved-components model of the US spot Bitcoin ETF approval (10 January 2024): weekly Bitcoin log realised variance with equity, gold and FX controls; pointwise and cumulative effects; Ether as a control; anticipation; placebo approval dates.'
+
+Keywords: 'CausalImpact, Bayesian structural time series, state space, Bitcoin ETF, placebo, volatility'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Daily market data from EODHD (data/market of the ATS repository) and the BNR reference rate; Eurostat HICP (prc_hicp_minr) and HICP at constant tax rates (prc_hicp_ct) of the 27 EU countries; the replication data of Abadie, Diamond and Hainmueller (2015), Harvard Dataverse doi:10.7910/DVN/24714 (version 2.1, CC0); OECD Quarterly National Accounts (real GDP, PPP, public SDMX API)'
+
+Output: 'ats_ch14_btc.pdf, ats_ch14_btc_placebo.pdf'

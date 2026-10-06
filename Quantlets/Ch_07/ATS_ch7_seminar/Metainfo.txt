@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch7_seminar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Seminar 7 of Advanced Time Series Analysis and Forecasting (ATS), student version: setup, data, helper functions and the solved exercises A1, A3, A5, A7, B1, B3, B5 with code and output. The proposed exercises A2, A4, A6, A8, B2, B4, B6, C1, C2 are not solved here (an empty code cell where they need code); their solutions are discussed in the seminar.'
+
+Keywords: 'seminar, Markov switching, Hamilton filter, EM algorithm, bootstrap, MS-GARCH, Romania, BET, EUR/RON'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Hamilton (1989) real GNP data and Filardo (1994) industrial production data, both distributed with statsmodels; FRED: GDPC1, UNRATE, USRECQ, USREC; Eurostat: Romanian real GDP (namq_10_gdp) and HICP (prc_hicp_minr); EODHD daily closes of the S&P 500 and the BET (data/market); EUR/RON: ECB reference rate to June 2005, BNR reference rate from July 2005'
+
+Output: 'ch7_sem_b1.pdf, ch7_sem_b3.pdf, ch7_sem_b5.pdf'

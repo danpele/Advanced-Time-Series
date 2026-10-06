@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_ppp_estar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Nonlinear mean reversion of the real dollar-sterling exchange rate (Taylor, Peel and Sarno 2001): ESTAR by nonlinear least squares on 1973M01-1996M12 and on the extended sample, Monte Carlo p-value under a random walk, half-lives from generalised impulse responses by shock size, the power of the Dickey-Fuller test, the KSS test.'
+
+Keywords: 'ESTAR, purchasing power parity, real exchange rate, half-life, generalised impulse response, KSS test'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_ppp_estar.pdf'

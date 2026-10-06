@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch7_hamilton'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Hamilton (1989): the switching-mean AR(4) of US real GNP on Hamilton's data (1951Q2-1984Q4), estimated by numerical maximum likelihood on the expanded state with a numpy Hamilton filter and Kim smoother and with statsmodels MarkovAutoregression; the same model on today's real GDP (FRED GDPC1) against the NBER dates (QPS, concordance); pseudo-real-time filtered probabilities 1990-2026; robustness of the recession dating across specifications and samples; durations and mixing of a two-regime chain.'
+
+Keywords: 'Markov switching, Hamilton filter, Kim smoother, business cycle, NBER, recession dating, QPS, real time'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Hamilton (1989) real GNP data and Filardo (1994) industrial production data, both distributed with statsmodels; FRED: GDPC1, UNRATE, USRECQ, USREC; Eurostat: Romanian real GDP (namq_10_gdp) and HICP (prc_hicp_minr); EODHD daily closes of the S&P 500 and the BET (data/market); EUR/RON: ECB reference rate to June 2005, BNR reference rate from July 2005'
+
+Output: 'ats_ch7_chain.pdf, ats_ch7_hamilton89.pdf, ats_ch7_realtime.pdf, ats_ch7_ai_case.pdf'

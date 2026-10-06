@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch3_state_dependent_lp'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Ramey and Zubairy (2018): cumulative government spending multipliers by LP-IV with the military news shock, US quarterly data 1889-2015, linear and state-dependent (slack: unemployment at least 6.5% in t-1), 4 lags of news, output and spending, Newey-West standard errors.'
+
+Keywords: 'state-dependent local projections, fiscal multiplier, Ramey-Zubairy, military news, LP-IV, slack'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Replication files of Ramey (2016, Handbook of Macroeconomics) and Ramey and Zubairy (2018, JPE), public on the author's website; EIA international energy statistics (bulk file) and Monthly Energy Review; FRED (IGREA, CPIAUCSL, GNPC96, LNS14000025); Eurostat (sts_inpr_m, prc_hicp_minr, irt_st_m); BNR reference rate; ECB Data Portal (yield curve); euro-area monetary policy shocks of Jarocinski and Karadi (2020), update by the authors (public CSV)'
+
+Output: 'ats_ch3_rz.pdf'

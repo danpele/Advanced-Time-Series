@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch8_components'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Long-run and short-run volatility of the S&P 500 since 1990: the Engle-Lee (1999) component GARCH; GARCH-MIDAS (Engle, Ghysels and Sohn 2013) with monthly realised variance, US industrial production growth and PPI inflation (FRED) as long-run drivers, restricted beta weights, 36 monthly lags; variance ratios and BIC against GARCH(1,1) on the same days.'
+
+Keywords: 'component GARCH, GARCH-MIDAS, mixed frequency, long-run volatility, macroeconomic fundamentals, variance ratio'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute's realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009; archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), six indices; daily realised measures of Bitcoin and Ether computed from Binance public one-minute and one-second prices (data.binance.vision); daily S&P 500, DAX, BET, Bitcoin and 25 US stocks and ETFs from EODHD (data/market); BNR EUR/RON reference rate; FRED (INDPRO, WPSFD49207); Eurostat (sts_inpr_m)'
+
+Output: 'ats_ch8_cgarch.pdf, ats_ch8_garch_midas.pdf'

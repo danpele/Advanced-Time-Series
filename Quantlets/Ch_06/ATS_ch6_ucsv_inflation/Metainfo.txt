@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch6_ucsv_inflation'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Trend inflation with stochastic volatility (UC-SV, Stock and Watson 2007): US GDP-deflator inflation since 1953 and Romanian HICP inflation since 2001 (with quarterly seasonal dummies); Gibbs sampler with the precision sampler and the KSC mixture; the BNR target band.'
+
+Keywords: 'trend inflation, UC-SV, stochastic volatility, Gibbs sampler, Romania, inflation targeting'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (GDPDEF, GDPC1, INDPRO, PAYEMS, W875RX1, CMRMTSPL); Eurostat (prc_hicp_minr, namq_10_gdp); daily S&P 500 and BET closes from EODHD (data/market of the ATS repository); BNR EUR/RON reference rate'
+
+Output: 'ats_ch6_ucsv_us.pdf, ats_ch6_ucsv_ro.pdf'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch16_episodes'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'PSY date-stamping of five episodes on weekly log prices: S&P 500 and Nasdaq 100 (dot-com), Shanghai Composite (2015), Bitcoin (2017, 2021) and BET (2007), with Monte Carlo and wild-bootstrap critical values, pointwise and family-wise over 52 weeks; first confirmed alarms, leads and the falls after the peaks.'
+
+Keywords: 'PSY, GSADF, BSADF, dot-com, Shanghai 2015, Bitcoin, BET, wild bootstrap, early warning'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, Nasdaq 100, Shanghai Composite, BET and Bitcoin and of all price series of data/market (ATS repository); FRED: S&P CoreLogic Case-Shiller US national index, CPI rent of primary residence, CPI; Eurostat: Romanian house price index and HICP (actual rentals, all items); all read without a key'
+
+Output: 'ats_ch16_episodes.pdf'

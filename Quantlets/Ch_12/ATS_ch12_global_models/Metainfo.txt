@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch12_global_models'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Global and local models (Montero-Manso and Hyndman 2021) for the annual HICP inflation of the 27 EU countries across memory lengths at 1 and 12 months; ridge, lasso, adaptive lasso, elastic net and post-lasso OLS on the EU panel for Romanian inflation 12 months ahead, with selection frequencies and Diebold-Mariano tests.'
+
+Keywords: 'global models, local models, lasso, adaptive lasso, elastic net, inflation, Eurostat HICP, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Romanian hourly electricity load from Energy-Charts (ENTSO-E transparency data, public API, 2023-2026); Eurostat HICP annual rates of the 27 EU countries (prc_hicp_minr); Oxford-Man Institute realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009), six equity indices, 2000-2022 (archived copy, downloaded from the Internet Archive by read_omi, not redistributed), and Bitcoin and Ether realised measures from Binance one-minute prices (data/realized of the ATS repository); the M4 hourly series and evaluation file (M4-methods repository, Makridakis, Spiliotis and Assimakopoulos 2020)'
+
+Output: 'ats_ch12_global_local.pdf, ats_ch12_ro_lasso.pdf'

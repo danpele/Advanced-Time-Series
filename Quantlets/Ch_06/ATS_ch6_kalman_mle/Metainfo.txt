@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch6_kalman_mle'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'A transparent numpy Kalman filter and state smoother for the linear Gaussian state space model with exact diffuse initialisation (Koopman 1997; Durbin and Koopman 2012), checked against statsmodels; the diffuse log-likelihood against big-kappa initialisation (US GDP-deflator inflation, Romanian real GDP); exact diffuse ML of the local level model; the pile-up of the signal-to-noise ratio at zero by simulation.'
+
+Keywords: 'state space, Kalman filter, smoother, exact diffuse initialisation, maximum likelihood, pile-up, local level'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (GDPDEF, GDPC1, INDPRO, PAYEMS, W875RX1, CMRMTSPL); Eurostat (prc_hicp_minr, namq_10_gdp); daily S&P 500 and BET closes from EODHD (data/market of the ATS repository); BNR EUR/RON reference rate'
+
+Output: 'ats_ch6_local_level.pdf, ats_ch6_diffuse.pdf, ats_ch6_pileup.pdf'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch0_block_bootstrap'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Block bootstraps of a mean: i.i.d. (Efron), moving-block (Kunsch 1989), circular and stationary (Politis and Romano 1994) bootstrap of the mean of squared S&P 500 returns, with the automatic block length of Politis and White (2004, corrected 2009); bootstrap standard error against the block length; standard errors of the means of six series by method.'
+
+Keywords: 'block bootstrap, moving-block bootstrap, circular bootstrap, stationary bootstrap, block length, Politis-White'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Romanian real GDP and HICP inflation (Eurostat namq_10_gdp, prc_hicp_minr); EUR/RON reference rate (BNR); S&P 500 and BET daily closes from EODHD (data/market of the ATS repository); US real GDP and Treasury yields (FRED GDPC1, GS10, TB3MS)'
+
+Output: 'ats_ch0_bootstrap.pdf, ats_ch0_block_length.pdf'

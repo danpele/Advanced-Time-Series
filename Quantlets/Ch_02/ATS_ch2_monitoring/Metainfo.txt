@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_monitoring'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Real-time monitoring with the CUSUM boundary of Chu, Stinchcombe and White (1996): false-alarm rates of repeated one-shot tests and of the boundary by simulation; monitoring the mean of Romanian monthly HICP inflation from a 2015-2019 historical sample.'
+
+Keywords: 'monitoring, CUSUM, recursive residuals, boundary crossing, false alarm, inflation, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_monitoring.pdf'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch14_brexit'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The Brexit doppelganger of Born, Mueller, Schularick and Sedlacek (2019) on today's OECD quarterly real GDP: 23 donors, 1995Q1-2016Q2, outcome-only synthetic control, time placebos 2010Q1-2016Q1 and country placebos.'
+
+Keywords: 'synthetic control, Brexit, doppelganger, data revisions, placebo test, OECD'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Daily market data from EODHD (data/market of the ATS repository) and the BNR reference rate; Eurostat HICP (prc_hicp_minr) and HICP at constant tax rates (prc_hicp_ct) of the 27 EU countries; the replication data of Abadie, Diamond and Hainmueller (2015), Harvard Dataverse doi:10.7910/DVN/24714 (version 2.1, CC0); OECD Quarterly National Accounts (real GDP, PPP, public SDMX API)'
+
+Output: 'ats_ch14_brexit.pdf'

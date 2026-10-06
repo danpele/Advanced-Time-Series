@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch16_size_wild_bootstrap'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Size of GSADF and of BSADF date-stamping under the null with constant volatility, a rise or fall of volatility and GARCH(1,1) shocks: Monte Carlo against wild-bootstrap (Phillips and Shi 2020) critical values, pointwise against family-wise thresholds; share of paths with at least one false dated episode.'
+
+Keywords: 'wild bootstrap, non-stationary volatility, size, family-wise error rate, date-stamping'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, Nasdaq 100, Shanghai Composite, BET and Bitcoin and of all price series of data/market (ATS repository); FRED: S&P CoreLogic Case-Shiller US national index, CPI rent of primary residence, CPI; Eurostat: Romanian house price index and HICP (actual rentals, all items); all read without a key'
+
+Output: 'ats_ch16_size.pdf'

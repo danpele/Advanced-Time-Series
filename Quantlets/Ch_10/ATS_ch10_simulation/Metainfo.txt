@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch10_simulation'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Simulating fractional processes: fractional Brownian motion by circulant embedding (Davies and Harte 1987) for H = 0.1, 0.3, 0.5, 0.7; the Riemann-Liouville process by the forward Riemann sum and by the hybrid scheme of Bennedsen, Lunde and Pakkanen (2017).'
+
+Keywords: 'fractional Brownian motion, circulant embedding, Davies-Harte, hybrid scheme, Riemann-Liouville, rough volatility'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009), six equity indices, 2000-2022 (archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), and Bitcoin realised measures from Binance one-minute prices, 2018-2026 (data/realized of the ATS repository); EODHD daily data of the S&P 500, DAX, BET, Bitcoin and VIX (data/market); EUR/RON: official BNR reference rate; FRED CPIAUCSL; Eurostat prc_hicp_minr'
+
+Output: 'ats_ch10_fbm_paths.pdf, ats_ch10_hybrid.pdf'

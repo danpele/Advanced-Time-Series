@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch8_realized_garch'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Realized GARCH (Hansen, Huang and Shek 2012), log-linear form with the leverage function, and the HEAVY variance equation (Shephard and Sheppard 2010) for S&P 500 open-to-close returns with the Parzen realised kernel (Oxford-Man, 2000-2022); comparison with GARCH(1,1) and GJR on the partial likelihood of returns.'
+
+Keywords: 'Realized GARCH, HEAVY, realised kernel, measurement equation, leverage, partial likelihood'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute's realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009; archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), six indices; daily realised measures of Bitcoin and Ether computed from Binance public one-minute and one-second prices (data.binance.vision); daily S&P 500, DAX, BET, Bitcoin and 25 US stocks and ETFs from EODHD (data/market); BNR EUR/RON reference rate; FRED (INDPRO, WPSFD49207); Eurostat (sts_inpr_m)'
+
+Output: 'ats_ch8_rgarch.pdf'

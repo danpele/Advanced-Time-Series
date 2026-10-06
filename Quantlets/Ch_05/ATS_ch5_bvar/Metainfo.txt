@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch5_bvar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The curse of dimensionality: one-step forecasts from a stationary VAR(1) with common dynamics, T = 120, estimated as a VAR(4) by OLS, as a Minnesota BVAR with the tightness chosen by the marginal likelihood (natural conjugate Normal-inverse-Wishart prior) and as a univariate AR(4), for 2 to 24 variables.'
+
+Keywords: 'Bayesian VAR, Minnesota prior, curse of dimensionality, shrinkage, marginal likelihood, simulation'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (St. Louis Fed): 117 FRED-MD series distributed by FRED, read one by one as public CSV files, with the FRED-MD transformation codes of McCracken and Ng (2016); USREC, CUMFNS, UNRATE, INDPRO. Eurostat: Romanian industrial production, retail trade, construction, unemployment, business and consumer survey balances, euro-area industrial production, quarterly real GDP; BNR reference rate (seminar)'
+
+Output: 'ats_ch5_curse.pdf'

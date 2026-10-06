@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch16_early_warning'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Early-warning evaluation for falls of 20% within 182 days of the S&P 500 (1993-2026) and Bitcoin (2014-2026): ROC curves and AUC with moving-block bootstrap intervals of the LPPLS confidence indicator, of BSADF minus its pointwise critical value and of the trailing one-year return; hit rates, false-alarm rates and precision.'
+
+Keywords: 'early warning, ROC, AUC, base rate, false alarms, block bootstrap, LPPLS, BSADF'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, Nasdaq 100, Shanghai Composite, BET and Bitcoin and of all price series of data/market (ATS repository); FRED: S&P CoreLogic Case-Shiller US national index, CPI rent of primary residence, CPI; Eurostat: Romanian house price index and HICP (actual rentals, all items); all read without a key'
+
+Output: 'ats_ch16_evaluation.pdf, ch16_ci_sp500.csv, ch16_ci_btc.csv'

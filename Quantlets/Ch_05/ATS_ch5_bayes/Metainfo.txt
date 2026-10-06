@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch5_bayes'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Bayesian inference refresher: precision-weighted updating of the AR(1) coefficient of the US unemployment rate under a N(1, 0.2^2) prior for 24 and 240 months; a one-at-a-time Gibbs sampler for a regression of IP growth on capacity utilisation with raw and centred regressor, four chains, traces, autocorrelation, effective sample size, R-hat and the Geweke statistic.'
+
+Keywords: 'Bayesian inference, conjugate prior, Gibbs sampling, MCMC diagnostics, effective sample size, R-hat, Geweke'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (St. Louis Fed): 117 FRED-MD series distributed by FRED, read one by one as public CSV files, with the FRED-MD transformation codes of McCracken and Ng (2016); USREC, CUMFNS, UNRATE, INDPRO. Eurostat: Romanian industrial production, retail trade, construction, unemployment, business and consumer survey balances, euro-area industrial production, quarterly real GDP; BNR reference rate (seminar)'
+
+Output: 'ats_ch5_conjugate.pdf, ats_ch5_gibbs.pdf'

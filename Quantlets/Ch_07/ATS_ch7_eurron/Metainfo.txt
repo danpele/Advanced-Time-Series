@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch7_eurron'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'EUR/RON weekly log changes 1999-2026 (ECB reference rate to June 2005, BNR reference rate afterwards): three regimes in mean and variance, the 2005 redenomination and float, 2008 and May 2025.'
+
+Keywords: 'exchange-rate regimes, EUR/RON, volatility regimes, Markov switching, BNR'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Hamilton (1989) real GNP data and Filardo (1994) industrial production data, both distributed with statsmodels; FRED: GDPC1, UNRATE, USRECQ, USREC; Eurostat: Romanian real GDP (namq_10_gdp) and HICP (prc_hicp_minr); EODHD daily closes of the S&P 500 and the BET (data/market); EUR/RON: ECB reference rate to June 2005, BNR reference rate from July 2005'
+
+Output: 'ats_ch7_eurron.pdf'

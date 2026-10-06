@@ -1,0 +1,27 @@
+# Acronime specifice Capitolului 7 ATS (Modele cu schimbare de regim)
+# format: acronim -> (forma de origine, limba de origine, traducere RO, traducere EN)
+EXTRA = {
+    'MS': ('Markov Switching', 'en', 'schimbare de regim de tip Markov', None),
+    'MS-AR': ('Markov-Switching AutoRegression', 'en', 'model autoregresiv cu schimbare de regim de tip Markov', None),
+    'MS-VAR': ('Markov-Switching Vector AutoRegression', 'en', 'model VAR cu schimbare de regim de tip Markov', None),
+    'MS-GARCH': ('Markov-Switching GARCH', 'en', 'model GARCH cu schimbare de regim de tip Markov', None),
+    'MSM': ('Markov-Switching Mean (Krolzig notation)', 'en', 'medie cu schimbare de regim (notația Krolzig)', None),
+    'MSI': ('Markov-Switching Intercept', 'en', 'termen liber cu schimbare de regim', None),
+    'MSIH': ('Markov-Switching Intercept and Heteroskedasticity', 'en', 'termen liber și varianță cu schimbare de regim', None),
+    'MSIAH': ('Markov-Switching Intercept, Autoregressive parameters and Heteroskedasticity', 'en', 'termen liber, coeficienți autoregresivi și varianță cu schimbare de regim', None),
+    'TVTP': ('Time-Varying Transition Probabilities', 'en', 'probabilități de tranziție variabile în timp', None),
+    'HMM': ('Hidden Markov Model', 'en', 'model Markov ascuns', None),
+    'HMP': ('Haas–Mittnik–Paolella (MS-GARCH, 2004)', 'en', 'modelul MS-GARCH Haas–Mittnik–Paolella (2004)', None),
+    'QPS': ('Quadratic Probability Score', 'en', 'scorul pătratic al probabilităților', None),
+    'SWARCH': ('Switching ARCH (Hamilton–Susmel)', 'en', 'model ARCH cu schimbare de regim (Hamilton–Susmel)', None),
+    'USRECQ': ('NBER recession indicator, quarterly (FRED series code)', 'en', 'indicatorul trimestrial al recesiunilor NBER (codul seriei în FRED)', None),
+    'RON': ('Romanian leu (ISO code)', 'en', 'leul românesc (cod ISO)', None),
+    'MSM-AR': ('Markov-Switching Mean AutoRegression', 'en', 'model autoregresiv cu medie care comută', None),
+    'MSI-AR': ('Markov-Switching Intercept AutoRegression', 'en', 'model autoregresiv cu termen liber care comută', None),
+    'MSIH-AR': ('Markov-Switching Intercept and Heteroskedasticity AutoRegression', 'en', 'model autoregresiv cu termen liber și varianță care comută', None),
+    'MSIAH-AR': ('Markov-Switching Intercept, AR parameters and Heteroskedasticity AutoRegression', 'en', 'model autoregresiv cu termen liber, coeficienți și varianță care comută', None),
+    'BFGS': ('Broyden–Fletcher–Goldfarb–Shanno (quasi-Newton optimiser)', 'en', 'algoritmul de optimizare cvasi-Newton Broyden–Fletcher–Goldfarb–Shanno', None),
+    'DLW': ('Diebold–Lee–Weinbach (TVTP model, 1994)', 'en', 'modelul TVTP Diebold–Lee–Weinbach (1994)', None),
+    'KS': ('Kolmogorov–Smirnov (test)', 'en', 'testul Kolmogorov–Smirnov', None),
+    'CHP': ('Carrasco–Hu–Ploberger (test, 2014)', 'en', 'testul Carrasco–Hu–Ploberger (2014)', None),
+}

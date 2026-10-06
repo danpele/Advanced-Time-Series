@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch5_factors'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Approximate factor models on a FRED-MD-format panel 1960-2026: principal components with EM imputation, McCracken-Ng outlier rule, Bai-Ng (2002) criteria, marginal R2 by group, diffusion-index forecasts of IP, employment and CPI inflation (Stock and Watson 2002, JBES) against an AR benchmark.'
+
+Keywords: 'factor model, principal components, FRED-MD, Bai-Ng, diffusion index, forecasting, EM algorithm'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (St. Louis Fed): 117 FRED-MD series distributed by FRED, read one by one as public CSV files, with the FRED-MD transformation codes of McCracken and Ng (2016); USREC, CUMFNS, UNRATE, INDPRO. Eurostat: Romanian industrial production, retail trade, construction, unemployment, business and consumer survey balances, euro-area industrial production, quarterly real GDP; BNR reference rate (seminar)'
+
+Output: 'ats_ch5_factors.pdf, ats_ch5_mr2.pdf, ats_ch5_di.pdf'

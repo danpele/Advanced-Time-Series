@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch10_figarch'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Long memory in volatility: GARCH(1,1), FIGARCH(1,d,1) and HYGARCH with Student t innovations for the S&P 500, BET and Bitcoin; local Whittle d of |r|, log r^2 and log RV with the noise-robust estimator of Hurvich, Moulines and Soulier (2005) and the Qu test; HAR as an approximation of long memory (Corsi 2009).'
+
+Keywords: 'FIGARCH, HYGARCH, long-memory stochastic volatility, local Whittle with noise, HAR, BET, EUR/RON'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009), six equity indices, 2000-2022 (archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), and Bitcoin realised measures from Binance one-minute prices, 2018-2026 (data/realized of the ATS repository); EODHD daily data of the S&P 500, DAX, BET, Bitcoin and VIX (data/market); EUR/RON: official BNR reference rate; FRED CPIAUCSL; Eurostat prc_hicp_minr'
+
+Output: 'ats_ch10_figarch.pdf, ats_ch10_assets_d.pdf, ats_ch10_har_approx.pdf'

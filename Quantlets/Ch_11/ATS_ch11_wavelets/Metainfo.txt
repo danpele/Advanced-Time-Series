@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch11_wavelets'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'MODWT (LA(8)) squared gains and the Morlet wavelet; multiresolution analysis of daily BET returns; wavelet variance by scale of the BET, DAX and S&P 500 with 95% intervals; wavelet correlation and beta by scale (Whitcher, Guttorp and Percival 2000; Gencay, Selcuk and Whitcher 2005), 2000-2026.'
+
+Keywords: 'MODWT, multiresolution analysis, wavelet variance, wavelet correlation, wavelet beta, BET, DAX'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Eurostat (real GDP namq_10_gdp, industrial production sts_inpr_m, HICP prc_hicp_minr) and FRED (Brent crude oil DCOILBRENTEU), read online without a key; EODHD daily closes of the BET, DAX and S&P 500 (data/market of the ATS repository)'
+
+Output: 'ats_ch11_wavelets.pdf, ats_ch11_mra.pdf, ats_ch11_wvar.pdf, ats_ch11_wcorr.pdf'

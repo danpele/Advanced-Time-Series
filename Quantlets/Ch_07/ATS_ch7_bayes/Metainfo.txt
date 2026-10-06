@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch7_bayes'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Bayesian estimation of a two-regime model of Romanian quarterly GDP growth: Gibbs sampling with data augmentation and forward filtering-backward sampling (Albert and Chib 1993; Chib 1996), random permutation sampler and label switching (Fruhwirth-Schnatter 2001), comparison with EM.'
+
+Keywords: 'Gibbs sampling, data augmentation, FFBS, label switching, Bayesian Markov switching, Romania, GDP'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Hamilton (1989) real GNP data and Filardo (1994) industrial production data, both distributed with statsmodels; FRED: GDPC1, UNRATE, USRECQ, USREC; Eurostat: Romanian real GDP (namq_10_gdp) and HICP (prc_hicp_minr); EODHD daily closes of the S&P 500 and the BET (data/market); EUR/RON: ECB reference rate to June 2005, BNR reference rate from July 2005'
+
+Output: 'ats_ch7_gibbs.pdf'

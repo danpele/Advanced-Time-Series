@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch3_seminar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Seminar 3 of Advanced Time Series Analysis and Forecasting (ATS), student version: setup, data, helper functions and the solved exercises A1, A3, A5, A7, B1, B3 with code and output. The proposed exercises A2, A4, A6, A8, B2, B4, B5, C1, C2 are not solved here (an empty code cell where they need code); their solutions are discussed in the seminar.'
+
+Keywords: 'seminar, structural VAR, identification, sign restrictions, proxy SVAR, local projections, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Replication files of Ramey (2016, Handbook of Macroeconomics) and Ramey and Zubairy (2018, JPE), public on the author's website; EIA international energy statistics (bulk file) and Monthly Energy Review; FRED (IGREA, CPIAUCSL, GNPC96, LNS14000025); Eurostat (sts_inpr_m, prc_hicp_minr, irt_st_m); BNR reference rate; ECB Data Portal (yield curve); euro-area monetary policy shocks of Jarocinski and Karadi (2020), update by the authors (public CSV)'
+
+Output: 'ch3_sem_b1.pdf, ch3_sem_b3.pdf'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_unemp_tar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The threshold autoregression of Hansen (1997) for the US unemployment rate of men aged 20 and over (BLS via FRED), 1959.1-1996.7: heteroskedasticity-robust sup-Wald tests with the fixed-regressor bootstrap (Hansen 1996) for q = y(t-1) - y(t-d), d = 2..12, the threshold and its LR confidence interval (Hansen 2000), and 1959-2019.'
+
+Keywords: 'TAR, threshold, Hansen bootstrap, sup-Wald, LR confidence interval, unemployment, asymmetry'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_unemp_tar.pdf'

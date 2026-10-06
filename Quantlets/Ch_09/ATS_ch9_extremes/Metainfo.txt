@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch9_extremes'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Extremal index (Ferro and Segers 2003 intervals estimator) of daily losses above their 95% quantile, raw and GARCH-filtered, for the S&P 500, DAX, BET, EUR/RON and Bitcoin.'
+
+Keywords: 'extremal index, clusters of extremes, extreme value theory, GARCH filtering, McNeil-Frey'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, DAX, BET, Bitcoin and VIX (data/market of the ATS repository); EUR/RON: official BNR reference rate'
+
+Output: 'ats_ch9_extremal.pdf'

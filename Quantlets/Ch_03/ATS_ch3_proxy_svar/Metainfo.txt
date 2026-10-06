@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch3_proxy_svar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Gertler and Karadi (2015): a proxy SVAR with high-frequency FF4 surprises as external instrument for a monetary policy shock in a VAR(12) of the 1-year Treasury yield, log IP, log CPI and the excess bond premium, 1979:7-2012:6 (instrument 1991:1-2012:6); first-stage F and moving-block bootstrap bands (Jentsch and Lunsford 2019).'
+
+Keywords: 'proxy SVAR, external instrument, high-frequency identification, Gertler-Karadi, FF4, moving-block bootstrap'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Replication files of Ramey (2016, Handbook of Macroeconomics) and Ramey and Zubairy (2018, JPE), public on the author's website; EIA international energy statistics (bulk file) and Monthly Energy Review; FRED (IGREA, CPIAUCSL, GNPC96, LNS14000025); Eurostat (sts_inpr_m, prc_hicp_minr, irt_st_m); BNR reference rate; ECB Data Portal (yield curve); euro-area monetary policy shocks of Jarocinski and Karadi (2020), update by the authors (public CSV)'
+
+Output: 'ats_ch3_gk.pdf'

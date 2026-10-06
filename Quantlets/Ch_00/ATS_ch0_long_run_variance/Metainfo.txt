@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch0_long_run_variance'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The long-run variance of a sample mean under AR(1) dependence: theory (1+phi)/(1-phi) against simulation, and the asymptotic size of the naive 5% t-test; the kernels of Newey and West (1987), Parzen and Andrews (1991, quadratic spectral) against the truncated kernel; a sample where the truncated estimate is negative.'
+
+Keywords: 'long-run variance, AR(1), size distortion, Bartlett kernel, Parzen kernel, quadratic spectral kernel, truncated kernel'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Simulated data (seed 2026)'
+
+Output: 'ats_ch0_lrv_ar1.pdf, ats_ch0_kernels.pdf'

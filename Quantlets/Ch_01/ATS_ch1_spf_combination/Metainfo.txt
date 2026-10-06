@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch1_spf_combination'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Combination schemes on the individual CPI forecasts of the US Survey of Professional Forecasters (four quarters ahead, surveys 1990-2025): mean, median, trimmed mean, inverse-MSE performance weights, shrinkage and the previous best forecaster, as compared by Genre et al. (2013); DM-HLN, Mincer-Zarnowitz and a sub-period robustness check of the shrinkage factor.'
+
+Keywords: 'forecast combination, Survey of Professional Forecasters, equal weights, median, shrinkage, Mincer-Zarnowitz'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'S&P 500 daily closes from EODHD (data/market of the ATS repository); EUR/RON BNR reference rate; Romanian HICP inflation and 3-month money-market rates (Eurostat prc_hicp_minr, irt_st_m); US CPI and unemployment (FRED CPIAUCSL, UNRATE); individual forecasts of the Survey of Professional Forecasters and the Real-Time Data Set for Macroeconomists (Federal Reserve Bank of Philadelphia, public files); Romanian hourly electricity load (Energy-Charts, Fraunhofer ISE, ENTSO-E transparency data)'
+
+Output: 'ats_ch1_spf.pdf, ats_ch1_spf_schemes.pdf, ats_ch1_ai_case.pdf'

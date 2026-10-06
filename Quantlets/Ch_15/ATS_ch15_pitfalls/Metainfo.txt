@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch15_pitfalls'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Two failure modes of empirical time series projects, by Monte Carlo: a specification search over K persistent candidate predictors of a series with no predictability (naive, Bonferroni and max-t family-wise false-positive rates with HAC t-tests), and predictor selection with look-ahead (out-of-sample R2 after selection on the whole sample against the training sample).'
+
+Keywords: 'data snooping, p-hacking, Reality Check, multiple testing, leakage, look-ahead bias, out-of-sample R2'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Daily market data from EODHD (data/market of the ATS repository) and the BNR reference rate; FRED (real GDP, industrial production, CPI, federal funds rate, Treasury yields); simulated data'
+
+Output: 'ats_ch15_snooping.pdf, ats_ch15_leakage.pdf'

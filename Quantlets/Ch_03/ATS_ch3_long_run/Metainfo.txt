@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch3_long_run'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Blanchard and Quah (1989): supply and demand shocks identified by a long-run restriction in a VAR(8) of US real GNP growth and the unemployment rate of men aged 20 and over, 1950:2-1987:4, with separate means of output growth before and after 1973:4 and a linear trend in unemployment; responses with bootstrap bands and the variance decomposition of the output level.'
+
+Keywords: 'long-run restriction, Blanchard-Quah, supply shock, demand shock, structural VAR, GNP, unemployment'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Replication files of Ramey (2016, Handbook of Macroeconomics) and Ramey and Zubairy (2018, JPE), public on the author's website; EIA international energy statistics (bulk file) and Monthly Energy Review; FRED (IGREA, CPIAUCSL, GNPC96, LNS14000025); Eurostat (sts_inpr_m, prc_hicp_minr, irt_st_m); BNR reference rate; ECB Data Portal (yield curve); euro-area monetary policy shocks of Jarocinski and Karadi (2020), update by the authors (public CSV)'
+
+Output: 'ats_ch3_bq.pdf'

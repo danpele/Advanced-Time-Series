@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch13_calibration'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Calibrating foundation-model intervals: raw 10-90% bands of Chronos-Bolt, Chronos-2, TimesFM 2.5 and TiRex and online CQR (ACI) at 80% and 95% on Romanian load, Bitcoin log RV, EU inflation and BET returns; VaR 1% and 5% of the BET and the S&P 500 from Chronos-2 and from conformalised deciles against GARCH-t, with Kupiec and Christoffersen backtests.'
+
+Keywords: 'calibration, conformal prediction, foundation models, VaR, backtesting, Kupiec, Christoffersen'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Romanian hourly electricity load (Energy-Charts, ENTSO-E transparency data) and Bucharest temperature (Open-Meteo historical archive), HICP annual inflation of the 27 EU countries (Eurostat), realised variance of Bitcoin (Binance 5-minute returns) and of the S&P 500 (Oxford-Man realized library v0.3, Heber, Lunde, Shephard and Sheppard 2009; archived copy downloaded from the Internet Archive by read_omi), EODHD daily closes of the BET, DAX, WIG20, S&P 500 and NVIDIA (data/market of the ATS repository); all read without a key'
+
+Output: 'ats_ch13_fm_calib.pdf, ats_ch13_fm_var.pdf'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch13_conformal_time'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Conformal prediction for dependent data: weighted conformal under changepoints (Barber et al. 2023); the volatility design of Gibbs and Candes (2021) with ACI on the S&P 500, BET and NVIDIA; the step size gamma; conditional coverage by volatility regime; quantile tracking, conformal PID (Angelopoulos, Candes and Tibshirani 2023) and EnbPI (Xu and Xie 2021) on Romanian day-ahead load.'
+
+Keywords: 'adaptive conformal inference, conformal PID, quantile tracking, EnbPI, weighted conformal, GARCH, coverage'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Romanian hourly electricity load (Energy-Charts, ENTSO-E transparency data) and Bucharest temperature (Open-Meteo historical archive), HICP annual inflation of the 27 EU countries (Eurostat), realised variance of Bitcoin (Binance 5-minute returns) and of the S&P 500 (Oxford-Man realized library v0.3, Heber, Lunde, Shephard and Sheppard 2009; archived copy downloaded from the Internet Archive by read_omi), EODHD daily closes of the BET, DAX, WIG20, S&P 500 and NVIDIA (data/market of the ATS repository); all read without a key'
+
+Output: 'ats_ch13_weighted.pdf, ats_ch13_aci.pdf, ats_ch13_aci_gamma.pdf, ats_ch13_condcov.pdf, ats_ch13_pid.pdf'

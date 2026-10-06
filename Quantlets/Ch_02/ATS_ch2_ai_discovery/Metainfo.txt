@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_ai_discovery'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'AI for scientific discovery, mini-case: is the ESTAR evidence for the real dollar-sterling rate (KSS test) robust to Bai-Perron mean regimes? Null distributions by simulating random walks through the same break search.'
+
+Keywords: 'nonlinearity, structural breaks, KSS test, Bai-Perron, real exchange rate, simulation'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_ai_case.pdf'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch13_benchmark'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Benchmark methodology: EU HICP inflation (27 countries, rolling origins, h = 1-12) with the random walk, AR(p), damped ETS, DLinear, N-BEATS and four foundation models (geometric means of relative MAE, bootstrap over countries, CRPS); Romanian forecasts from three origins; 27 DM tests with Holm and Benjamini-Hochberg; realised variance of Bitcoin and the S&P 500 against HAR; windows before and after the model releases; how much a random benchmark subset changes the verdict.'
+
+Keywords: 'benchmark, contamination, multiple testing, Holm, Benjamini-Hochberg, inflation, realised variance, HAR'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Romanian hourly electricity load (Energy-Charts, ENTSO-E transparency data) and Bucharest temperature (Open-Meteo historical archive), HICP annual inflation of the 27 EU countries (Eurostat), realised variance of Bitcoin (Binance 5-minute returns) and of the S&P 500 (Oxford-Man realized library v0.3, Heber, Lunde, Shephard and Sheppard 2009; archived copy downloaded from the Internet Archive by read_omi), EODHD daily closes of the BET, DAX, WIG20, S&P 500 and NVIDIA (data/market of the ATS repository); all read without a key'
+
+Output: 'ats_ch13_inflation.pdf, ats_ch13_ro_inflation.pdf, ats_ch13_multiple.pdf, ats_ch13_rv.pdf, ats_ch13_contamination.pdf, ats_ch13_ai_case.pdf'

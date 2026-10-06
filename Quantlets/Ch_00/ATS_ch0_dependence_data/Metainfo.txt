@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch0_dependence_data'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The series of Chapter 0 and their dependence: Romanian HICP inflation (annual rate) and real GDP growth (Eurostat), EUR/RON daily changes (BNR reference rate), S&P 500 daily log returns; sample ACF of six series with the i.i.d. band and the ratio of the long-run variance to the variance (Newey-West rule of thumb and Andrews 1991 bandwidth).'
+
+Keywords: 'autocorrelation, ACF, long-run variance, HICP, GDP, EUR/RON, S&P 500, squared returns, volatility clustering'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Romanian real GDP and HICP inflation (Eurostat namq_10_gdp, prc_hicp_minr); EUR/RON reference rate (BNR); S&P 500 and BET daily closes from EODHD (data/market of the ATS repository); US real GDP and Treasury yields (FRED GDPC1, GS10, TB3MS)'
+
+Output: 'ats_ch0_data_dashboard.pdf, ats_ch0_acf_panel.pdf'

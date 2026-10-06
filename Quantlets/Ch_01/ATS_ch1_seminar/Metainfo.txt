@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch1_seminar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Seminar 1 of Advanced Time Series Analysis and Forecasting (ATS), student version: setup, data, helper functions and the solved exercises A1, A3, A5, A7, B1, B3 with code and output. The proposed exercises A2, A4, A6, A8, B2, B4, B5, C1, C2 are not solved here (an empty code cell where they need code); their solutions are discussed in the seminar.'
+
+Keywords: 'seminar, forecast evaluation, Diebold-Mariano, Clark-West, CRPS, PIT, forecast combination, real-time data, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'S&P 500 daily closes from EODHD (data/market of the ATS repository); EUR/RON BNR reference rate; Romanian HICP inflation and 3-month money-market rates (Eurostat prc_hicp_minr, irt_st_m); US CPI and unemployment (FRED CPIAUCSL, UNRATE); individual forecasts of the Survey of Professional Forecasters and the Real-Time Data Set for Macroeconomists (Federal Reserve Bank of Philadelphia, public files); Romanian hourly electricity load (Energy-Charts, Fraunhofer ISE, ENTSO-E transparency data)'
+
+Output: 'ch1_sem_b1.pdf, ch1_sem_b3.pdf'

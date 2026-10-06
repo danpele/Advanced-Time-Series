@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch1_real_time'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Real-time data: first release against the latest vintage of US real GDP growth (Philadelphia Fed RTDSM), the size of revisions, and the SPF current-quarter nowcast evaluated against each vintage.'
+
+Keywords: 'real-time data, data vintages, revisions, RTDSM, ALFRED, GDP, nowcast, Survey of Professional Forecasters'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'S&P 500 daily closes from EODHD (data/market of the ATS repository); EUR/RON BNR reference rate; Romanian HICP inflation and 3-month money-market rates (Eurostat prc_hicp_minr, irt_st_m); US CPI and unemployment (FRED CPIAUCSL, UNRATE); individual forecasts of the Survey of Professional Forecasters and the Real-Time Data Set for Macroeconomists (Federal Reserve Bank of Philadelphia, public files); Romanian hourly electricity load (Energy-Charts, Fraunhofer ISE, ENTSO-E transparency data)'
+
+Output: 'ats_ch1_realtime.pdf'

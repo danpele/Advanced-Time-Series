@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch3_romania'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Romania and euro-area spillovers: monthly data 2005-2026 (Eurostat IP, HICP, 3-month rates; BNR EUR/RON); a recursive VAR(2) with the euro-area block first, responses to ROBOR and Euribor shocks with bootstrap bands and the variance decomposition; lag-augmented local projections on the euro-area monetary policy shocks of Jarocinski and Karadi (2020); robustness of the 12-month HICP response across lags, samples and estimators.'
+
+Keywords: 'Romania, ROBOR, euro area, spillovers, structural VAR, local projections, Jarocinski-Karadi, weak instrument'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Replication files of Ramey (2016, Handbook of Macroeconomics) and Ramey and Zubairy (2018, JPE), public on the author's website; EIA international energy statistics (bulk file) and Monthly Energy Review; FRED (IGREA, CPIAUCSL, GNPC96, LNS14000025); Eurostat (sts_inpr_m, prc_hicp_minr, irt_st_m); BNR reference rate; ECB Data Portal (yield curve); euro-area monetary policy shocks of Jarocinski and Karadi (2020), update by the authors (public CSV)'
+
+Output: 'ats_ch3_ro_data.pdf, ats_ch3_ro_var.pdf, ats_ch3_ro_lp.pdf, ats_ch3_ai_case.pdf'

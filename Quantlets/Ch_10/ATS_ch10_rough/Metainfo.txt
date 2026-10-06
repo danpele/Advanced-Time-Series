@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch10_rough'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Rough volatility: the scaling of S&P 500 log volatility (Gatheral, Jaisson and Rosenbaum 2018) on Oxford-Man 5-minute RV; H for six indices and Bitcoin, with a measurement-error intercept and from Parkinson ranges; a simulation of measurement error; roughness and persistence (Bennedsen, Lunde and Pakkanen 2022); robustness of H across assets, measures, estimators and subsamples.'
+
+Keywords: 'rough volatility, Hurst exponent, fractional Brownian motion, realised variance, measurement error, Oxford-Man'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009), six equity indices, 2000-2022 (archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), and Bitcoin realised measures from Binance one-minute prices, 2018-2026 (data/realized of the ATS repository); EODHD daily data of the S&P 500, DAX, BET, Bitcoin and VIX (data/market); EUR/RON: official BNR reference rate; FRED CPIAUCSL; Eurostat prc_hicp_minr'
+
+Output: 'ats_ch10_gjr.pdf, ats_ch10_gjr_assets.pdf, ats_ch10_noise_sim.pdf, ats_ch10_decouple.pdf, ats_ch10_ai_case.pdf'

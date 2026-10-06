@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch16_rational_bubbles'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Rational bubbles: a Blanchard-Watson bubble that can burst (and turn negative, the case excluded by Diba and Grossman), an Evans (1991) periodically collapsing bubble added to the present-value fundamental of random-walk dividends; whole-sample ADF against SADF, GSADF and BSADF date-stamping with Monte Carlo critical values.'
+
+Keywords: 'rational bubble, Blanchard-Watson, Evans, periodically collapsing bubble, present value, SADF, GSADF, BSADF'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, Nasdaq 100, Shanghai Composite, BET and Bitcoin and of all price series of data/market (ATS repository); FRED: S&P CoreLogic Case-Shiller US national index, CPI rent of primary residence, CPI; Eurostat: Romanian house price index and HICP (actual rentals, all items); all read without a key'
+
+Output: 'ats_ch16_rational.pdf'

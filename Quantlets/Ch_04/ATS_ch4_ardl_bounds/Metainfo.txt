@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch4_ardl_bounds'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'ARDL and the bounds test of Pesaran, Shin and Smith (2001): asymptotic critical-value bounds simulated for cases II and III and k = 1..3, small-sample bounds for T = 30..250 (as in Narayan 2005); the conditional ECM of the Romanian lending and deposit rates on ROBOR, the long-run pass-through with delta-method standard errors and the cumulative dynamic multipliers.'
+
+Keywords: 'ARDL, bounds test, conditional ECM, critical values, small samples, interest-rate pass-through, multipliers'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'IMF International Financial Statistics, interest rates (MFS_IR, public SDMX API; Romanian and Hungarian lending and deposit rates reported by the central banks); Eurostat (irt_st_m, prc_hicp_minr, prc_hicp_aind, nama_10_gdp, nasa_10_nf_tr, nama_10_pe); FRED (PCND, PCESV, FPI, GDP, GDPDEF, B230RC0Q173SBEA, POILBREUSDM); BNR reference rate'
+
+Output: 'ats_ch4_bounds.pdf'

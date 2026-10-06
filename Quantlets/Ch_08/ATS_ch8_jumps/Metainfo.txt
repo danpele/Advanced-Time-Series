@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch8_jumps'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Bipower variation, tripower quarticity and the ratio jump test of Huang and Tauchen (2005): size and power by simulation with 5-minute and 1-minute returns; jump days of Bitcoin and Ether from 5-minute returns, 2018-2026, against the number of false rejections expected under the null.'
+
+Keywords: 'jumps, bipower variation, tripower quarticity, Huang-Tauchen test, Bitcoin, Ether, multiple testing'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute's realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009; archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), six indices; daily realised measures of Bitcoin and Ether computed from Binance public one-minute and one-second prices (data.binance.vision); daily S&P 500, DAX, BET, Bitcoin and 25 US stocks and ETFs from EODHD (data/market); BNR EUR/RON reference rate; FRED (INDPRO, WPSFD49207); Eurostat (sts_inpr_m)'
+
+Output: 'ats_ch8_jump_power.pdf, ats_ch8_jumps_crypto.pdf'

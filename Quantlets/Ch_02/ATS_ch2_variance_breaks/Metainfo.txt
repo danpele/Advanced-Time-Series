@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_variance_breaks'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Breaks in the unconditional variance of daily EUR/RON returns (BNR reference rate): the ICSS algorithm with the Inclan-Tiao statistic and with the kappa-2 statistic of Sanso, Arago and Carrion (2004), robust to fat tails and conditional heteroskedasticity.'
+
+Keywords: 'variance break, ICSS, Inclan-Tiao, kappa-2, cumulative sum of squares, EUR/RON, volatility regimes'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_variance_breaks.pdf'

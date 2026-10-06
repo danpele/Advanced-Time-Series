@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch4_panel'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'EU-27 annual panel (Eurostat), 2001-2022: real per capita household consumption, disposable income and inflation; Pesaran CD test; LLC, IPS and CIPS panel unit-root tests with simulated null distributions; Pedroni group ADF and Westerlund Gt panel cointegration tests; mean group, pooled mean group (Pesaran, Shin and Smith 1999), dynamic fixed effects, group-mean DOLS and CCEMG long-run estimates; Hausman test.'
+
+Keywords: 'panel unit root, CIPS, cross-section dependence, panel cointegration, pooled mean group, CCE, EU'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'IMF International Financial Statistics, interest rates (MFS_IR, public SDMX API; Romanian and Hungarian lending and deposit rates reported by the central banks); Eurostat (irt_st_m, prc_hicp_minr, prc_hicp_aind, nama_10_gdp, nasa_10_nf_tr, nama_10_pe); FRED (PCND, PCESV, FPI, GDP, GDPDEF, B230RC0Q173SBEA, POILBREUSDM); BNR reference rate'
+
+Output: 'ats_ch4_panel.pdf'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_nonlinear_forecasts'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Forecasting with a threshold model: TAR of Hansen (1997) and a linear AR(12), fixed 1959-1996 parameters, simulated 1- and 12-month forecasts of the US unemployment rate of men 20+, 1996-2019, overall and in the rising regime; 12-month forecast densities at one origin.'
+
+Keywords: 'nonlinear forecasting, TAR, simulation, forecast density, Diebold-Mariano, unemployment'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_nonlinear_forecasts.pdf'

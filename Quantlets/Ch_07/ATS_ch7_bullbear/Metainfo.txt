@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch7_bullbear'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Bull and bear regimes of weekly S&P 500 and BET returns 2000-2026: two regimes in mean and variance by EM and numerical ML, comparison with statsmodels MarkovRegression, regime-dependent mean-variance weights (Ang and Bekaert 2002).'
+
+Keywords: 'bull and bear markets, Markov switching, volatility regimes, asset allocation, S&P 500, BET'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Hamilton (1989) real GNP data and Filardo (1994) industrial production data, both distributed with statsmodels; FRED: GDPC1, UNRATE, USRECQ, USREC; Eurostat: Romanian real GDP (namq_10_gdp) and HICP (prc_hicp_minr); EODHD daily closes of the S&P 500 and the BET (data/market); EUR/RON: ECB reference rate to June 2005, BNR reference rate from July 2005'
+
+Output: 'ats_ch7_bullbear.pdf'

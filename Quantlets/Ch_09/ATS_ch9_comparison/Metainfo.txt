@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch9_comparison'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Comparison of ten VaR/ES models by FZ0 loss in the stress periods 2008, 2020, 2022 and 2025 and over the whole out-of-sample period, 90% model confidence sets (Hansen, Lunde and Nason 2011), and the robustness of the winner across assets, levels and periods.'
+
+Keywords: 'model confidence set, FZ0 loss, stress periods, forecast comparison, expected shortfall'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, DAX, BET, Bitcoin and VIX (data/market of the ATS repository); EUR/RON: official BNR reference rate'
+
+Output: 'ats_ch9_stress.pdf, ats_ch9_mcs.pdf, ats_ch9_ai_case.pdf'

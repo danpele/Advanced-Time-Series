@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch7_longmem'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Regime switching and long memory (Diebold and Inoue 2001): GPH estimates of d for a switching-mean process with rare switches against fixed transition probabilities, by simulation.'
+
+Keywords: 'long memory, regime switching, GPH estimator, spurious long memory, simulation'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Hamilton (1989) real GNP data and Filardo (1994) industrial production data, both distributed with statsmodels; FRED: GDPC1, UNRATE, USRECQ, USREC; Eurostat: Romanian real GDP (namq_10_gdp) and HICP (prc_hicp_minr); EODHD daily closes of the S&P 500 and the BET (data/market); EUR/RON: ECB reference rate to June 2005, BNR reference rate from July 2005'
+
+Output: 'ats_ch7_longmem.pdf'

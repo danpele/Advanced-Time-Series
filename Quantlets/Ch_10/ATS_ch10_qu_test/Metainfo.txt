@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch10_qu_test'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The Qu (2011) test against spurious long memory: simulated critical values, size and power against random level shifts and a break in mean, local Whittle d across bandwidths (Perron and Qu 2010); US and Romanian inflation persistence before and after the disinflation (exact local Whittle with unknown mean).'
+
+Keywords: 'spurious long memory, level shifts, Qu test, inflation persistence, exact local Whittle'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009), six equity indices, 2000-2022 (archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), and Bitcoin realised measures from Binance one-minute prices, 2018-2026 (data/realized of the ATS repository); EODHD daily data of the S&P 500, DAX, BET, Bitcoin and VIX (data/market); EUR/RON: official BNR reference rate; FRED CPIAUCSL; Eurostat prc_hicp_minr'
+
+Output: 'ats_ch10_qu.pdf, ats_ch10_inflation.pdf'

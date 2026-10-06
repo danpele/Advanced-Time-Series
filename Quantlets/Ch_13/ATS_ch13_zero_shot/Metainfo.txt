@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch13_zero_shot'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Zero-shot forecasts of open foundation models on a CPU: Chronos-2 on four data sets; Romanian day-ahead load with Chronos-Bolt, Chronos-2, TimesFM 2.5 and TiRex against the weekly naive, the expert ARX of Ziel and Weron (2018), DLinear and N-BEATS (MAE, CRPS, coverage, DM tests, Model Confidence Set); Chronos-2 with in-context calendar and temperature covariates.'
+
+Keywords: 'zero-shot forecasting, Chronos-2, covariates, electricity load, Romania, expert ARX, Model Confidence Set'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Romanian hourly electricity load (Energy-Charts, ENTSO-E transparency data) and Bucharest temperature (Open-Meteo historical archive), HICP annual inflation of the 27 EU countries (Eurostat), realised variance of Bitcoin (Binance 5-minute returns) and of the S&P 500 (Oxford-Man realized library v0.3, Heber, Lunde, Shephard and Sheppard 2009; archived copy downloaded from the Internet Archive by read_omi), EODHD daily closes of the BET, DAX, WIG20, S&P 500 and NVIDIA (data/market of the ATS repository); all read without a key'
+
+Output: 'ats_ch13_zeroshot.pdf, ats_ch13_load.pdf, ats_ch13_covariates.pdf'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch16_housing'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Explosive prices against explosive fundamentals: BSADF with BIC-selected lags and wild-bootstrap critical values for the log price-to-rent ratio, the log real rent and the log real house price of the United States (FRED, monthly) and Romania (Eurostat, quarterly).'
+
+Keywords: 'housing bubble, price-to-rent ratio, fundamentals, GSADF, wild bootstrap, Romania, Case-Shiller'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, Nasdaq 100, Shanghai Composite, BET and Bitcoin and of all price series of data/market (ATS repository); FRED: S&P CoreLogic Case-Shiller US national index, CPI rent of primary residence, CPI; Eurostat: Romanian house price index and HICP (actual rentals, all items); all read without a key'
+
+Output: 'ats_ch16_housing.pdf'

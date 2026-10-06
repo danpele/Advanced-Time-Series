@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch12_global_deep'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Global deep models on the M4 hourly subset (414 series, horizon 48): Naive, seasonal naive and Naive 2 (which reproduce the official M4 evaluation), global DLinear, N-BEATS and N-HiTS (sMAPE, MASE, OWA, compared with the official results of the M4 entries); a DeepAR-type Gaussian LSTM with ancestral sampling, weighted quantile loss and coverage at several training budgets.'
+
+Keywords: 'N-BEATS, N-HiTS, DeepAR, global models, M4 competition, probabilistic forecasting, quantile loss'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Romanian hourly electricity load from Energy-Charts (ENTSO-E transparency data, public API, 2023-2026); Eurostat HICP annual rates of the 27 EU countries (prc_hicp_minr); Oxford-Man Institute realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009), six equity indices, 2000-2022 (archived copy, downloaded from the Internet Archive by read_omi, not redistributed), and Bitcoin and Ether realised measures from Binance one-minute prices (data/realized of the ATS repository); the M4 hourly series and evaluation file (M4-methods repository, Makridakis, Spiliotis and Assimakopoulos 2020)'
+
+Output: 'ats_ch12_m4.pdf, ats_ch12_deepar.pdf'

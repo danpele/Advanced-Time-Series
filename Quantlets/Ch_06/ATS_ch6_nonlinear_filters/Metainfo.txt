@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch6_nonlinear_filters'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Nonlinear filtering: the unscented transform (Julier and Uhlmann 2004) against first-order linearisation (EKF) for the volatility exp(h/2); bootstrap and auxiliary (Pitt and Shephard 1999) particle filters against the exact Kalman likelihood of a local level model for US inflation.'
+
+Keywords: 'extended Kalman filter, unscented Kalman filter, particle filter, auxiliary particle filter, likelihood'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Simulated data and FRED GDPDEF'
+
+Output: 'ats_ch6_ukf.pdf, ats_ch6_pf_check.pdf'

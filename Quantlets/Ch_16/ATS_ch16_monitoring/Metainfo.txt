@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch16_monitoring'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Real-time monitoring of weekly returns of the Nasdaq 100 and Bitcoin with a CUSUM and the boundary of Chu, Stinchcombe and White (1996), as discussed by Homm and Breitung (2012), against the first confirmed BSADF alarm; simulated size of the monitor under i.i.d. and GARCH returns.'
+
+Keywords: 'monitoring, CUSUM, boundary crossing, real time, Homm-Breitung, Nasdaq 100, Bitcoin'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, Nasdaq 100, Shanghai Composite, BET and Bitcoin and of all price series of data/market (ATS repository); FRED: S&P CoreLogic Case-Shiller US national index, CPI rent of primary residence, CPI; Eurostat: Romanian house price index and HICP (actual rentals, all items); all read without a key'
+
+Output: 'ats_ch16_monitor.pdf'

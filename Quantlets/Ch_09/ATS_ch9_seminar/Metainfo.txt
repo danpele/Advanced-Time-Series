@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch9_seminar'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Seminar 9 of Advanced Time Series Analysis and Forecasting (ATS), student version: setup, data, helper functions and the solved exercises A1, A3, A5, A7, B1, B3, B5 with code and output. The proposed exercises A2, A4, A6, A8, B2, B4, B6, C1, C2 are not solved here (an empty code cell where they need code); their solutions are discussed in the seminar.'
+
+Keywords: 'seminar, VaR, expected shortfall, CAViaR, FZ0 loss, backtesting, model confidence set, conformal'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, DAX, BET, Bitcoin and VIX (data/market of the ATS repository); EUR/RON: official BNR reference rate'
+
+Output: 'ch9_sem_b1.pdf, ch9_sem_b3.pdf, ch9_sem_b5.pdf'

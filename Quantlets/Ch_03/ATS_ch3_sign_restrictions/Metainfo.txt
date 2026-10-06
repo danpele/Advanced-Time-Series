@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch3_sign_restrictions'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Sign restrictions and set identification: the set of rotations satisfying demand and supply signs in a two-variable example; Uhlig (2005): six-variable monthly VAR(12) without constant, 1965:1-2003:12, restrictions on prices, commodity prices, nonborrowed reserves and the funds rate for months 0-5, Normal-inverse-Wishart draws with Haar rotations (Rubio-Ramirez, Waggoner and Zha 2010) and the identified set at the OLS estimate.'
+
+Keywords: 'sign restrictions, set identification, Haar measure, Uhlig, monetary policy, Bayesian VAR, identified set'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Replication files of Ramey (2016, Handbook of Macroeconomics) and Ramey and Zubairy (2018, JPE), public on the author's website; EIA international energy statistics (bulk file) and Monthly Energy Review; FRED (IGREA, CPIAUCSL, GNPC96, LNS14000025); Eurostat (sts_inpr_m, prc_hicp_minr, irt_st_m); BNR reference rate; ECB Data Portal (yield curve); euro-area monetary policy shocks of Jarocinski and Karadi (2020), update by the authors (public CSV)'
+
+Output: 'ats_ch3_rotation.pdf, ats_ch3_uhlig.pdf'

@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch12_interpretation'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Interpretation and honest benchmarks: exact Shapley values of three lag groups for boosting on S&P 500 log realised variance against the HAR coefficients; attention received by the input patches of the patch Transformer against occlusion importance; seed dispersion of an MLP against HAR and a simulation of data snooping (the best of K equally good models).'
+
+Keywords: 'Shapley values, SHAP, attention, interpretability, data snooping, random seeds, benchmark'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Romanian hourly electricity load from Energy-Charts (ENTSO-E transparency data, public API, 2023-2026); Eurostat HICP annual rates of the 27 EU countries (prc_hicp_minr); Oxford-Man Institute realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009), six equity indices, 2000-2022 (archived copy, downloaded from the Internet Archive by read_omi, not redistributed), and Bitcoin and Ether realised measures from Binance one-minute prices (data/realized of the ATS repository); the M4 hourly series and evaluation file (M4-methods repository, Makridakis, Spiliotis and Assimakopoulos 2020)'
+
+Output: 'ats_ch12_shap.pdf, ats_ch12_attention.pdf, ats_ch12_snooping.pdf'

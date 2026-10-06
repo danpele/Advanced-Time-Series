@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_lynx'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The SETAR(2; 7, 2) model of Tong and Lim (1980) for the log10 Canadian lynx trappings 1821-1934: threshold by least squares, the coefficients at the published threshold 3.116, and the limit cycle of the skeleton.'
+
+Keywords: 'SETAR, threshold autoregression, Tong-Lim, lynx, limit cycle, skeleton, nonlinear dynamics'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_lynx.pdf'

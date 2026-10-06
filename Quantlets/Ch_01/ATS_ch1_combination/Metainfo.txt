@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch1_combination'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'The forecast combination puzzle by simulation (Smith and Wallis 2009): the MSE of Bates-Granger weights estimated from n past errors relative to equal weights, for similar and dissimilar forecasts.'
+
+Keywords: 'forecast combination, combination puzzle, Bates-Granger, equal weights, estimation error, simulation'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Simulated data'
+
+Output: 'ats_ch1_puzzle.pdf'

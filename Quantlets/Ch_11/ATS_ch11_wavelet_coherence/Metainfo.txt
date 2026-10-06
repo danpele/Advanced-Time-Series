@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch11_wavelet_coherence'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Morlet wavelet power of weekly BET returns with the red-noise test (Torrence and Compo 1998); wavelet coherence and phase with Monte Carlo significance (Grinsted et al. 2004) for BET-DAX, BET-S&P 500, Brent-S&P 500 and annual HICP inflation of Romania and Poland against the euro area; the areawise check of how many significant islands independent AR(1) pairs produce.'
+
+Keywords: 'continuous wavelet transform, wavelet coherence, Monte Carlo, cone of influence, co-movement, oil, inflation'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Eurostat (real GDP namq_10_gdp, industrial production sts_inpr_m, HICP prc_hicp_minr) and FRED (Brent crude oil DCOILBRENTEU), read online without a key; EODHD daily closes of the BET, DAX and S&P 500 (data/market of the ATS repository)'
+
+Output: 'ats_ch11_cwt_bet.pdf, ats_ch11_wtc_bet_dax.pdf, ats_ch11_wtc_bet_spx.pdf, ats_ch11_wtc_oil.pdf, ats_ch11_wtc_infl_ro.pdf, ats_ch11_wtc_infl_pl.pdf, ats_ch11_ai_case.pdf'

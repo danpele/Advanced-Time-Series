@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch13_pretraining'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Pretraining of time series foundation models: the Chronos tokeniser (mean scaling and 4093 uniform bins on [-15, 15]) on the BET index and the clipping of a series that leaves the range; accuracy against the number of parameters for the Chronos-Bolt family (tiny, mini, small, base), Chronos-2, TimesFM 2.5 and TiRex on Romanian load, EU inflation and Bitcoin realised variance.'
+
+Keywords: 'foundation models, tokenisation, mean scaling, quantisation, scaling laws, Chronos, TimesFM, TiRex'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Romanian hourly electricity load (Energy-Charts, ENTSO-E transparency data) and Bucharest temperature (Open-Meteo historical archive), HICP annual inflation of the 27 EU countries (Eurostat), realised variance of Bitcoin (Binance 5-minute returns) and of the S&P 500 (Oxford-Man realized library v0.3, Heber, Lunde, Shephard and Sheppard 2009; archived copy downloaded from the Internet Archive by read_omi), EODHD daily closes of the BET, DAX, WIG20, S&P 500 and NVIDIA (data/market of the ATS repository); all read without a key'
+
+Output: 'ats_ch13_tokens.pdf, ats_ch13_scaling.pdf'

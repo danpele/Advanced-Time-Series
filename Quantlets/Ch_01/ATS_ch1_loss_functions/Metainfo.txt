@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch1_loss_functions'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Loss functions and optimal point forecasts: the expected squared, absolute and pinball (tau = 0.9) loss of a log-normal variable as functions of the point forecast, minimised by the mean, the median and the 0.9-quantile (Gneiting 2011).'
+
+Keywords: 'loss function, consistency, elicitability, mean, median, quantile, pinball loss, Bregman loss'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Simulated data'
+
+Output: 'ats_ch1_loss_minimizers.pdf'

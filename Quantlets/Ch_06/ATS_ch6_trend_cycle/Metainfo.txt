@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch6_trend_cycle'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Trend-cycle decompositions: replication of Morley, Nelson and Zivot (2003) on US real GDP 1947Q1-1998Q2 (UC0 against UC-UR, the Beveridge-Nelson cycle of an ARIMA(2,1,2), the Hamilton 2018 cycle); the Romanian output gap since 2000 with random-walk and smooth trends, filtered against smoothed gaps.'
+
+Keywords: 'Beveridge-Nelson, unobserved components, output gap, Morley-Nelson-Zivot, Hamilton filter, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'FRED (GDPDEF, GDPC1, INDPRO, PAYEMS, W875RX1, CMRMTSPL); Eurostat (prc_hicp_minr, namq_10_gdp); daily S&P 500 and BET closes from EODHD (data/market of the ATS repository); BNR EUR/RON reference rate'
+
+Output: 'ats_ch6_mnz.pdf, ats_ch6_ro_gap.pdf'

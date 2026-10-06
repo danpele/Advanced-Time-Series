@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch3_oil_shocks'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Kilian (2009): oil supply, aggregate demand and oil-specific demand shocks in a recursive VAR(24) of world crude oil production (EIA), global real activity (FRED IGREA) and the real refiner acquisition cost of imported crude (EIA, deflated by CPI); responses with recursive-design wild-bootstrap bands, the extended sample to 2026, the historical decomposition of the real price of oil and the Kilian (1998) bias correction.'
+
+Keywords: 'oil price, supply shock, demand shock, Kilian, recursive VAR, wild bootstrap, historical decomposition, bias correction'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Replication files of Ramey (2016, Handbook of Macroeconomics) and Ramey and Zubairy (2018, JPE), public on the author's website; EIA international energy statistics (bulk file) and Monthly Energy Review; FRED (IGREA, CPIAUCSL, GNPC96, LNS14000025); Eurostat (sts_inpr_m, prc_hicp_minr, irt_st_m); BNR reference rate; ECB Data Portal (yield curve); euro-area monetary policy shocks of Jarocinski and Karadi (2020), update by the authors (public CSV)'
+
+Output: 'ats_ch3_kilian_irf.pdf, ats_ch3_kilian_hd.pdf'

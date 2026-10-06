@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch14_its_event'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Interrupted time series for Romanian monthly HICP inflation around the end of the electricity price cap (July 2025) and the VAT increase (August 2025), with i.i.d. and HAC standard errors of the cumulative effect; an event study of the BET against the Euro Stoxx 50 around four Romanian political and fiscal events of 2024-2025.'
+
+Keywords: 'interrupted time series, event study, HAC, cumulative abnormal return, Romania, VAT, inflation'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Tuesday, 6 October 2026'
+
+Datafile: 'Daily market data from EODHD (data/market of the ATS repository) and the BNR reference rate; Eurostat HICP (prc_hicp_minr) and HICP at constant tax rates (prc_hicp_ct) of the 27 EU countries; the replication data of Abadie, Diamond and Hainmueller (2015), Harvard Dataverse doi:10.7910/DVN/24714 (version 2.1, CC0); OECD Quarterly National Accounts (real GDP, PPP, public SDMX API)'
+
+Output: 'ats_ch14_its.pdf, ats_ch14_event.pdf'

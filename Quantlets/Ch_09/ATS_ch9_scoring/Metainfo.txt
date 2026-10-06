@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch9_scoring'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Scoring functions for VaR and ES: expected pinball and FZ0 losses of a Student t(5) with their minimisers, the level sets of the quantile and of ES under mixing (why ES alone is not elicitable), and a Murphy diagram (Ehm et al. 2016) of three VaR 2.5% forecasts of the S&P 500, 2000-2016.'
+
+Keywords: 'elicitability, consistent scoring function, pinball loss, FZ0 loss, Fissler-Ziegel, Murphy diagram, expected shortfall'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'EODHD daily closes of the S&P 500, DAX, BET, Bitcoin and VIX (data/market of the ATS repository); EUR/RON: official BNR reference rate'
+
+Output: 'ats_ch9_fz0_contour.pdf, ats_ch9_level_sets.pdf, ats_ch9_murphy.pdf'

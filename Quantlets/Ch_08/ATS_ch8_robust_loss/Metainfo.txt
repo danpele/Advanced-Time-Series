@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch8_robust_loss'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Robust loss functions for volatility forecasts (Patton 2011): expected MSE, QLIKE, MAE and MSE-log losses of the true variance and of a biased forecast against proxies of increasing precision; an out-of-sample comparison of GARCH, GJR, GARCH-t, Realized GARCH, HEAVY, HAR and log-HAR for the S&P 500, 2016-2022, against the realised kernel, with Diebold-Mariano tests.'
+
+Keywords: 'robust loss, QLIKE, MSE, volatility proxy, forecast evaluation, Diebold-Mariano, Realized GARCH, HAR'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'Oxford-Man Institute's realized library v0.3 (Heber, Lunde, Shephard and Sheppard 2009; archived copy of 28 February 2022, downloaded from the Internet Archive by read_omi, not redistributed), six indices; daily realised measures of Bitcoin and Ether computed from Binance public one-minute and one-second prices (data.binance.vision); daily S&P 500, DAX, BET, Bitcoin and 25 US stocks and ETFs from EODHD (data/market); BNR EUR/RON reference rate; FRED (INDPRO, WPSFD49207); Eurostat (sts_inpr_m)'
+
+Output: 'ats_ch8_patton.pdf, ats_ch8_vol_oos.pdf'

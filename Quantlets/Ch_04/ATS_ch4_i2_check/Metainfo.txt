@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch4_i2_check'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Is the Romanian price level I(2)? Monthly HICP (Eurostat), 1997-2026: log level, monthly inflation and ADF tests of inflation over the full sample and since the start of inflation targeting (August 2005).'
+
+Keywords: 'I(2), unit root, inflation, HICP, Romania, ADF'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'IMF International Financial Statistics, interest rates (MFS_IR, public SDMX API; Romanian and Hungarian lending and deposit rates reported by the central banks); Eurostat (irt_st_m, prc_hicp_minr, prc_hicp_aind, nama_10_gdp, nasa_10_nf_tr, nama_10_pe); FRED (PCND, PCESV, FPI, GDP, GDPDEF, B230RC0Q173SBEA, POILBREUSDM); BNR reference rate'
+
+Output: 'ats_ch4_i2.pdf'

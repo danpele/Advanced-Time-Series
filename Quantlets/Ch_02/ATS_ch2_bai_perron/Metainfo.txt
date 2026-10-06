@@ -1,0 +1,15 @@
+Name of QuantLet: 'ATS_ch2_bai_perron'
+
+Published in: 'Advanced Time Series Analysis and Forecasting (ATS)'
+
+Description: 'Multiple structural breaks (Bai and Perron 1998, 2003): dynamic programming, sup F(k), UDmax, sequential tests, BIC and LWZ, confidence intervals for the break dates (Bai 1997); replication of the US ex-post real interest rate example (JAE data archive), the series rebuilt from FRED to 2026, and mean shifts in Romanian HICP inflation (Eurostat).'
+
+Keywords: 'Bai-Perron, multiple breaks, dynamic programming, sequential test, BIC, LWZ, real interest rate, inflation, Romania'
+
+Author: 'Daniel Traian Pele'
+
+Submitted: 'Monday, 5 October 2026'
+
+Datafile: 'US ex-post real interest rate of Bai and Perron (2003), JAE data archive; FRED: TB3MS, CPIAUCNS, CPIAUCSL, GDPC1, DEXUSUK, GBRCPIALLMINMEI, BLS unemployment and labour force of men aged 20 and over (LNS13000025, LNS11000025, LNU03000025, LNU01000025); UK CPI (ONS D7BT); Eurostat: Romanian HICP (prc_hicp_minr) and real GDP (namq_10_gdp); EUR/RON BNR reference rate; Canadian lynx (R data set via statsmodels)'
+
+Output: 'ats_ch2_bai_perron.pdf, ats_ch2_ro_inflation_breaks.pdf'
