@@ -336,7 +336,7 @@ TB = '>{\\raggedright\\arraybackslash}'
 # =============================================================================
 D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items(
     (T(r'\textbf{Question}: when the data-generating process itself changes (recession and expansion, calm and panic, a peg and a float), how do we infer the regime, estimate the model, test it and forecast with it?',
-       r'\textbf{Întrebarea}: cînd procesul generator al datelor se schimbă el însuși (recesiune și expansiune, calm și panică, curs fixat și curs flotant), cum deducem regimul, estimăm modelul, îl testăm și prognozăm cu el?'),
+       r'\textbf{Întrebarea}: cînd procesul generator al datelor se schimbă el însuși (recesiune și expansiune, calm și panică, curs fix și curs floating), cum deducem regimul, estimăm modelul, îl testăm și prognozăm cu el?'),
      [T('the regime is never observed: everything rests on its probability given the data', 'regimul nu este observat niciodată: totul se sprijină pe probabilitatea lui condiționată de date')]),
     (T(r'\textbf{Route} of the chapter', r'\textbf{Traseul} capitolului'),
      [T('the Hamilton filter and the Kim smoother derived; EM and numerical maximum likelihood; identification and label switching',
@@ -849,7 +849,7 @@ D.section('EUR/RON: exchange-rate regimes', 'EUR/RON: regimuri ale cursului de s
 D.frame(T('Romania\'s exchange-rate regimes', 'Regimurile cursului de schimb din România'), two(
     ph('bnr', T('National Bank of Romania, Bucharest, 2014', 'Banca Națională a României, București, 2014'), h='0.34\\textheight'),
     items(T('1999--2005: crawling depreciation of the old leu under a managed float', '1999--2005: depreciere graduală a leului vechi într-un regim de flotare controlată'),
-          T('July 2005: redenomination (10\\,000 ROL = 1 RON); August 2005: inflation targeting with a managed float; capital account fully liberalised in 2006', 'Iulie 2005: denominarea (10\\,000 ROL = 1 RON); august 2005: țintirea inflației cu flotare controlată; contul de capital complet liberalizat în 2006'),
+          T('July 2005: redenomination (10\\,000 ROL = 1 RON); August 2005: inflation targeting with a managed float; capital account fully liberalised in 2006', 'Iulie 2005: denominarea (10\\,000 ROL = 1 RON); august 2005: țintirea inflației, cu un regim de managed float; contul de capital complet liberalizat în 2006'),
           T('Episodes: October 2008, 2011--2012, March 2020, May 2025 (presidential election and fiscal stress)', 'Episoade: octombrie 2008, 2011--2012, martie 2020, mai 2025 (alegerile prezidențiale și tensiunile fiscale)'),
           T(r'Model: weekly log changes, MSIH(3) ordered by volatility; regimes are policy outcomes, not the announced regime', r'Modelul: variații logaritmice săptămînale, MSIH(3) ordonat după volatilitate; regimurile sînt rezultate ale politicii, nu regimul anunțat')), '0.36', '0.62'), 'footnotesize')
 

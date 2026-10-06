@@ -616,7 +616,7 @@ interp(('the EUR/RON variance breaks', 'rupturilor în varianța EUR/RON'), [
     (T('Excess kurtosis @{va.kurt}: the Inclán--Tiao statistic is @{va.it} and ICSS finds @{va.nit} breaks; $\\kappa_2 = @{va.k2}$ and @{va.nk2} breaks', 'Excesul de boltire @{va.kurt}: statistica Inclán--Tiao este @{va.it}, iar numărul rupturilor găsite de ICSS este @{va.nit}; $\\kappa_2 = @{va.k2}$, cu @{va.nk2} rupturi'),
      [T('most Inclán--Tiao ``breaks\'\' are volatility clusters, not changes of the unconditional variance', 'majoritatea „rupturilor” Inclán--Tiao sînt volatility clustering, nu schimbări ale varianței necondiționate')]),
     (T('$\\kappa_2$ dates: @{va.dates}', 'Datele $\\kappa_2$: @{va.dates}'),
-     [T('the global financial crisis, the end of its turbulence, the calmer managed float after 2018; daily s.d.\\ between @{va.sdmin}\\% and @{va.sdmax}\\%', 'criza financiară globală, sfîrșitul turbulențelor ei, flotarea controlată mai calmă de după 2018; abaterea standard zilnică între @{va.sdmin}\\% și @{va.sdmax}\\%')]),
+     [T('the global financial crisis, the end of its turbulence, the calmer managed float after 2018; daily s.d.\\ between @{va.sdmin}\\% and @{va.sdmax}\\%', 'criza financiară globală, sfîrșitul turbulențelor ei, regimul de managed float, mai calm după 2018; abaterea standard zilnică între @{va.sdmin}\\% și @{va.sdmax}\\%')]),
     T('For risk models (MFM, Chapter 5): a GARCH fitted across a variance break overstates persistence ($\\alpha + \\beta \\to 1$) \\refDI', 'Pentru modelele de risc (MFM, Capitolul 5): un GARCH estimat peste o ruptură în varianță supraestimează persistența ($\\alpha + \\beta \\to 1$) \\refDI')])
 
 # =============================================================================
