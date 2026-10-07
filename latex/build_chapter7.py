@@ -75,11 +75,6 @@ def two(left, right, wl='0.4', wr='0.58'):
 # =============================================================================
 # CIFRE
 # =============================================================================
-def de(k):
-    """RO: the numeral with 'de' when it is >= 20 (29 de trimestre); 'trimestre' is not in ats_build.RO_NOUNS."""
-    k = int(k)
-    return f'{k} de' if k >= 20 and (k % 100 >= 20 or k % 100 == 0) else str(k)
-
 
 def put(key, x, d=2):
     P(key, x, d)
@@ -134,7 +129,6 @@ put('ht.p2001', ht['p2001max'], 2)
 put('ht.p2020', ht['p2020'], 2)
 V.raw('ht.T', str(ht['T']))
 V.raw('ht.nrec', str(ht['nrec']))
-V.raw('ht.nrec.ro', de(ht['nrec']))
 put('ht.last', ht['last'], 3)
 V.raw('ht.lastq', quarter(ht['lastq']))
 rt = N['realtime']
@@ -149,7 +143,6 @@ V.raw('em.groups', '; '.join(f'{n(g_, 2)} ({c_})'.replace('⁅-', '⁅\\ensurema
 V.raw('em.ng', str(len(em['groups'])))
 put('em.top', max(em['groups']), 2)
 V.raw('em.n', str(em['n']))
-V.raw('em.n.ro', de(em['n']))
 V.raw('em.itmed', str(int(em['iters_med'])))
 V.raw('em.itmax', str(em['iters_max']))
 put('em.sm', em['sm_llf'], 2)
@@ -159,7 +152,6 @@ put('em.dg.s2', dg['sig2'][1], 2)
 V.raw('em.dg.p', '$<10^{-9}$')
 put('em.dg.mu', dg['beta'][0], 2)
 V.raw('em.dg.n', str(dg['n_hi']))
-V.raw('em.dg.n.ro', de(dg['n_hi']))
 lr = N['lrtest']
 put('lr.LR', lr['LR'], 1)
 put('lr.p', lr['p'], 3)
@@ -219,7 +211,6 @@ put('mv.ll', mv['loglik'], 1)
 put('mv.lll', mv['ll_lin'], 1)
 V.raw('mv.T', str(mv['T']))
 V.raw('mv.k', str(mv['npar']))
-V.raw('mv.k.ro', de(mv['npar']))
 mg = N['msgarch']
 lo_, hi_ = mg['lo'], mg['hi']
 put('mg.gp', mg['garch']['pers'][0], 3)
@@ -325,7 +316,6 @@ fc = N['forecast']
 for k in ('rmse_ar', 'rmse_ms', 'ls_ar', 'ls_ms', 'dm', 'p_dm', 'qps_lowmean', 'qps_const', 'cum_pre08', 'cum_post08', 'ks_ar', 'ks_ms'):
     put(f'fc.{k}', fc[k], 3 if k in ('rmse_ar', 'rmse_ms', 'ls_ar', 'ls_ms', 'qps_lowmean', 'qps_const') else 2)
 V.raw('fc.n', str(fc['n']))
-V.raw('fc.n.ro', de(fc['n']))
 for k_ in ('ks_ar', 'ks_ms'):   # '$p < 0.001$' or '$p = 0.01$'
     V.raw(f'fc.{k_}', '$p < ⁅0.001⁆$' if fc[k_] < 0.001 else '$p = ' + n(fc[k_], 2) + '$')
 ai = N['ai']
@@ -526,14 +516,14 @@ D.frame(T('EM and numerical ML in practice', 'EM și verosimilitatea maximă num
      [T(r'remedies: a lower bound on $\sigma_j/\sigma_k$ \refHath, priors (Section 7), or reject regimes that last one period', r'remedii: o limită inferioară pentru $\sigma_j/\sigma_k$ \refHath, distribuții a priori (secțiunea 7) sau respingerea regimurilor care durează o singură perioadă')]),
     T('Standard errors near the boundary ($p_{ii} \\approx 1$) are unreliable: report profile likelihoods or bootstrap intervals', 'Erorile standard lîngă frontieră ($p_{ii} \\approx 1$) nu sînt de încredere: raportați verosimilitatea de profil sau intervale bootstrap')), 'small')
 
-chart(T('EM from @{em.n} starting values', 'EM din @{em.n.ro} puncte de pornire'), 'ats_ch7_em', 'ATS_ch7_estimation', [
+chart(T('EM from @{em.n} starting values', 'EM din @{em.n} puncte de pornire'), 'ats_ch7_em', 'ATS_ch7_estimation', [
     T(r'MSIH(2)-AR(1) on Hamilton\'s GNP data: switching intercept and variance, common AR(1) coefficient; random starting values; log scale for iterations',
       r'MSIH(2)-AR(1) pe datele PNB ale lui Hamilton: termen liber și varianță care comută, coeficient AR(1) comun; puncte de pornire aleatoare; scară logaritmică pentru iterații')],
     h='0.5\\textheight')
 
 interp(('the EM paths', 'traiectoriilor EM'), [
     T(r'@{em.ng} limits (log-likelihood, number of starts): @{em.groups}; median @{em.itmed} iterations, at most @{em.itmax}', r'@{em.ng} limite (log-verosimilitatea, numărul de puncte de pornire): @{em.groups}; în mediană @{em.itmed} de iterații, cel mult @{em.itmax}'),
-    T(r'The highest (@{em.top}) is \textbf{degenerate}: a regime with $\sigma^2 = @{em.dg.s}$, $p_{11}$ @{em.dg.p} and mean @{em.dg.mu}, used by @{em.dg.n} isolated quarters', r'Cea mai înaltă (@{em.top}) este \textbf{degenerată}: un regim cu $\sigma^2 = @{em.dg.s}$, $p_{11}$ @{em.dg.p} și media @{em.dg.mu}, folosit de @{em.dg.n.ro} trimestre izolate'),
+    T(r'The highest (@{em.top}) is \textbf{degenerate}: a regime with $\sigma^2 = @{em.dg.s}$, $p_{11}$ @{em.dg.p} and mean @{em.dg.mu}, used by @{em.dg.n} isolated quarters', r'Cea mai înaltă (@{em.top}) este \textbf{degenerată}: un regim cu $\sigma^2 = @{em.dg.s}$, $p_{11}$ @{em.dg.p} și media @{em.dg.mu}, folosit de @{em.dg.n} trimestre izolate'),
     T(r'\texttt{statsmodels} (20 random searches) reports @{em.sm}, a third local maximum that none of our starts reached', r'\texttt{statsmodels} (20 de căutări aleatoare) raportează @{em.sm}, un al treilea maxim local, pe care niciunul dintre punctele noastre de pornire nu l-a atins'),
     T('Lesson: report the starting-value design, all local maxima, and why the chosen one is economically meaningful', 'Lecția: raportați schema punctelor de pornire, toate maximele locale și motivul pentru care cel ales are sens economic')])
 
@@ -621,7 +611,7 @@ chart(T('Hamilton\'s regimes then and now', 'Regimurile lui Hamilton atunci și 
 interp(('the replication', 'replicării'), [
     T(r'On his data, the regime tracks the NBER: QPS @{hq.qps} and @{hq.conc}\% concordance (probability above 0.5 against the NBER quarters) \refDR, \refHP', r'Pe datele lui, regimul urmărește datările NBER: QPS @{hq.qps} și concordanță de @{hq.conc}\% (probabilitate peste 0,5 comparată cu trimestrele NBER) \refDR, \refHP'),
     T(r'On today\'s data the low regime changes nature: mean @{ht.mu0}\%, $p_{00} = @{ht.p00}$ (duration @{ht.d0} quarters): single sharp falls, not recessions', r'Pe datele de azi, regimul scăzut își schimbă natura: media @{ht.mu0}\%, $p_{00} = @{ht.p00}$ (durata @{ht.d0} trimestre): căderi bruște izolate, nu recesiuni'),
-    T(r'It catches 2008Q4 (@{ht.p2008}) and 2020Q2 (@{ht.p2020}) but not 2001 (at most @{ht.p2001}); QPS @{ht.qps} on @{ht.nrec} NBER quarters', r'Prinde T4 2008 (@{ht.p2008}) și T2 2020 (@{ht.p2020}), dar nu 2001 (cel mult @{ht.p2001}); QPS @{ht.qps} pe @{ht.nrec.ro} trimestre NBER'),
+    T(r'It catches 2008Q4 (@{ht.p2008}) and 2020Q2 (@{ht.p2020}) but not 2001 (at most @{ht.p2001}); QPS @{ht.qps} on @{ht.nrec} NBER quarters', r'Prinde T4 2008 (@{ht.p2008}) și T2 2020 (@{ht.p2020}), dar nu 2001 (cel mult @{ht.p2001}); QPS @{ht.qps} pe @{ht.nrec} trimestre NBER'),
     T('After 1984 recessions are rarer and milder (the Great Moderation): a fixed two-mean model loses its grip; this motivates TVTP, MSIH and three regimes', 'După 1984 recesiunile sînt mai rare și mai blînde (Marea Moderație): un model fix cu două medii își pierde puterea; de aici TVTP, MSIH și trei regimuri')])
 
 chart(T('Dating in pseudo real time', 'Datarea în pseudo timp real'), 'ats_ch7_realtime', 'ATS_ch7_hamilton', [
@@ -690,7 +680,7 @@ D.frame(T('MS-VAR and regime-dependent responses', 'MS-VAR și răspunsuri depen
 
 chart(T('A two-regime VAR for output and unemployment', 'Un VAR cu două regimuri pentru producție și șomaj'), 'ats_ch7_msvar', 'ATS_ch7_msvar', [
     T(r'MSIAH(2)-VAR(1) for US GDP growth and the change of the unemployment rate, 1960Q1--2019Q4 ($T = @{mv.T}$, @{mv.k} parameters), EM from 12 starts; Cholesky order: output first; responses scaled to a 1 pp output shock',
-      r'MSIAH(2)-VAR(1) pentru creșterea PIB-ului SUA și variația ratei șomajului, T1 1960--T4 2019 ($T = @{mv.T}$, @{mv.k.ro} parametri), EM din 12 puncte de pornire; ordinea Cholesky: producția prima; răspunsuri scalate la un șoc de producție de 1 pp')],
+      r'MSIAH(2)-VAR(1) pentru creșterea PIB-ului SUA și variația ratei șomajului, T1 1960--T4 2019 ($T = @{mv.T}$, @{mv.k} parametri), EM din 12 puncte de pornire; ordinea Cholesky: producția prima; răspunsuri scalate la un șoc de producție de 1 pp')],
     h='0.5\\textheight')
 
 interp(('the MS-VAR', 'modelului MS-VAR'), [
@@ -911,7 +901,7 @@ D.frame(T('Forecasts from a switching model', 'Prognozele unui model cu schimbar
 
 chart(T('US GDP: one-step density forecasts, 1990--2019', 'PIB-ul SUA: prognoze de densitate la un pas, 1990--2019'), 'ats_ch7_forecast', 'ATS_ch7_forecast', [
     T(r'Expanding window from 1947Q2, @{fc.n} quarters, AR(1) re-estimated each quarter, MSIH(2)-AR(1) every 4 quarters (EM, warm start); left: cumulative log-score difference; right: PIT histograms (dashed: uniform)',
-      r'Fereastră extinsă din T2 1947, @{fc.n.ro} trimestre, AR(1) reestimat în fiecare trimestru, MSIH(2)-AR(1) la fiecare 4 trimestre (EM, pornind de la soluția anterioară); stînga: diferența cumulată a scorurilor logaritmice; dreapta: histogramele PIT (linia întreruptă: uniformă)')],
+      r'Fereastră extinsă din T2 1947, @{fc.n} trimestre, AR(1) reestimat în fiecare trimestru, MSIH(2)-AR(1) la fiecare 4 trimestre (EM, pornind de la soluția anterioară); stînga: diferența cumulată a scorurilor logaritmice; dreapta: histogramele PIT (linia întreruptă: uniformă)')],
     h='0.5\\textheight')
 
 interp(('the forecast comparison', 'comparației prognozelor'), [

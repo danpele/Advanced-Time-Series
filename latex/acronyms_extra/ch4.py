@@ -3,7 +3,6 @@
 # OVERRIDE_CH (optional): acronim -> tuplu, sens diferit doar in acest capitol.
 EXTRA = {
     'BUBOR': ('Budapest Interbank Offered Rate', 'en', 'rata dobînzii interbancare de pe piața din Budapesta', None),
-    'CP0722': ('HICP class: fuels and lubricants for personal transport equipment (Eurostat code)', 'en', 'clasa IAPC: carburanți și lubrifianți pentru vehicule personale (codul Eurostat)', None),
     'VAT': ('Value Added Tax', 'en', 'taxa pe valoarea adăugată', None),
     'TVA': ('Taxa pe valoarea adăugată', 'ro', None, 'value added tax'),
     'ECM': ('Error Correction Model', 'en', 'model cu corecția erorii', None),
@@ -17,22 +16,17 @@ EXTRA = {
     'CIPS': ('Cross-sectionally augmented IPS (test)', 'en', 'testul IPS augmentat cu medii pe secțiune', None),
     'CADF': ('Cross-sectionally augmented Dickey–Fuller (regression)', 'en', 'regresia Dickey–Fuller augmentată cu medii pe secțiune', None),
     'FMOLS': ('Fully Modified Ordinary Least Squares', 'en', 'metoda celor mai mici pătrate complet modificată', None),
-    'DOLS': ('Dynamic Ordinary Least Squares', 'en', 'metoda celor mai mici pătrate dinamică (cu avansuri și decalaje)', None),
+    'DOLS': ('Dynamic Ordinary Least Squares', 'en', 'metoda celor mai mici pătrate dinamică (cu avansuri și laguri)', None),
     'FE': ('Fixed Effects', 'en', 'efecte fixe', None),
     'RA': ('Reinsel–Ahn (small-sample correction)', 'en', 'corecția Reinsel–Ahn pentru eșantioane mici', None),
     'KPSW': ('King–Plosser–Stock–Watson (common-trends model, 1991)', 'en', 'modelul cu trenduri comune King–Plosser–Stock–Watson (1991)', None),
     'PSS': ('Pesaran–Shin–Smith', 'en', 'Pesaran–Shin–Smith', None),
-    'NARDL': ('Nonlinear AutoRegressive Distributed Lag (model)', 'en', 'model autoregresiv neliniar cu decalaje distribuite', None),
+    'NARDL': ('Nonlinear AutoRegressive Distributed Lag (model)', 'en', 'model autoregresiv neliniar cu laguri distribuite', None),
     'NPISH': ('Non-Profit Institutions Serving Households', 'en', 'instituții fără scop lucrativ în serviciul gospodăriilor', None),
     'EU-27': ('the 27 member states of the European Union', 'en', 'cele 27 de state membre ale Uniunii Europene', None),
     'UE-27': ('cele 27 de state membre ale Uniunii Europene', 'ro', None, 'the 27 member states of the European Union'),
     'ECE': ('Europa Centrală și de Est', 'ro', None, 'Central and Eastern Europe'),
     'OCDE': ('Organizația pentru Cooperare și Dezvoltare Economică', 'ro', None, 'Organisation for Economic Co-operation and Development'),
-    'PCND': ('Personal Consumption expenditures: NonDurable goods (FRED series code)', 'en', 'cheltuielile de consum pentru bunuri nedurabile (codul seriei în FRED)', None),
-    'PCESV': ('Personal Consumption Expenditures: SerVices (FRED series code)', 'en', 'cheltuielile de consum pentru servicii (codul seriei în FRED)', None),
-    'FPI': ('Fixed Private Investment (FRED series code)', 'en', 'investițiile private fixe (codul seriei în FRED)', None),
-    'GDPDEF': ('GDP implicit price deflator (FRED series code)', 'en', 'deflatorul implicit al PIB (codul seriei în FRED)', None),
-    'B230RC0Q173SBEA': ('US resident population, quarterly (FRED series code)', 'en', 'populația rezidentă a SUA, trimestrial (codul seriei în FRED)', None),
 }
 OVERRIDE_CH = {
     'CD': ('Cross-section Dependence (test of Pesaran)', 'en', 'testul Pesaran de dependență între unități', None),

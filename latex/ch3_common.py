@@ -113,6 +113,8 @@ R = {
              r'Galí, J. (1999). Technology, employment, and the business cycle: Do technology shocks explain aggregate fluctuations? \textit{American Economic Review}, 89(1), 249--271.'),
     'GK': ('10.1257/mac.20130329', 'Gertler and Karadi (2015)', 'Gertler și Karadi (2015)',
            r'Gertler, M., \& Karadi, P. (2015). Monetary policy surprises, credit costs, and economic activity. \textit{American Economic Journal: Macroeconomics}, 7(1), 44--76.'),
+    'GZ': ('10.1257/aer.102.4.1692', 'Gilchrist and Zakrajšek (2012)', 'Gilchrist și Zakrajšek (2012)',
+           r'Gilchrist, S., \& Zakrajšek, E. (2012). Credit spreads and business cycle fluctuations. \textit{American Economic Review}, 102(4), 1692--1720.'),
     'GKi': ('10.3982/ecta16773', 'Giacomini and Kitagawa (2021)', 'Giacomini și Kitagawa (2021)',
             r'Giacomini, R., \& Kitagawa, T. (2021). Robust Bayesian inference for set-identified models. \textit{Econometrica}, 89(4), 1519--1556.'),
     'GoK': ('10.1016/j.jeconom.2003.10.030', 'Gonçalves and Kilian (2004)', 'Gonçalves și Kilian (2004)',

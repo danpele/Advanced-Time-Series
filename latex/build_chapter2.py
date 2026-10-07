@@ -885,7 +885,7 @@ interp(('the LSTAR', 'modelului LSTAR'), [
 D.frame(T('Real exchange rates and purchasing power parity', 'Cursurile reale și paritatea puterii de cumpărare'), two(
     ph('cassel', T('Gustav Cassel (1866--1945)', 'Gustav Cassel (1866--1945)'), h='0.24\\textheight') + '\\\\[1mm]'
     + ph('bretton', T('Bretton Woods, July 1944', 'Bretton Woods, iulie 1944'), h='0.15\\textheight'),
-    items((T('Purchasing power parity, PPP (Cassel, 1918): the real exchange rate $q_t = s_t - p_t + p_t^*$ should be stationary', 'Paritatea puterii de cumpărare, PPC (Cassel, 1918): cursul real $q_t = s_t - p_t + p_t^*$ ar trebui să fie staționar'),
+    items((T('Purchasing power parity, PPP (\\refCas): the real exchange rate $q_t = s_t - p_t + p_t^*$ should be stationary', 'Paritatea puterii de cumpărare, PPC (\\refCas): cursul real $q_t = s_t - p_t + p_t^*$ ar trebui să fie staționar'),
            [T('$s_t$: the log nominal rate (domestic per foreign currency); $p_t$, $p_t^*$: log domestic and foreign price levels', '$s_t$: logaritmul cursului nominal (moneda națională pentru o unitate de monedă străină); $p_t$, $p_t^*$: logaritmii nivelurilor prețurilor interne și externe'),
             T('after Bretton Woods ended (1973) unit-root tests rarely reject', 'după sfîrșitul sistemului Bretton Woods (1973), testele de rădăcină unitară resping rar'),
             T('first PPP puzzle: no mean reversion; second: half-lives of 3--5 years, too slow for nominal shocks', 'primul paradox PPC: nicio revenire la medie; al doilea: timpi de înjumătățire de 3--5 ani, prea lenți pentru șocuri nominale')]),
@@ -1018,7 +1018,7 @@ chart(T('Mini-case: ESTAR evidence or mean shifts?', 'Mini-studiu de caz: dovezi
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T('\\textbf{Regimes in Romanian inflation and the policy rate}: breaks, thresholds or both?', '\\textbf{Regimuri în inflația din România și în dobînda de politică monetară}: rupturi, praguri sau ambele?'),
      [T('replicate first: the Bai--Perron dates of this lecture and the TAR test of \\refHb\\ on the US data', 'replicați întîi: datele Bai--Perron din acest curs și testul TAR din \\refHb\\ pe datele din SUA'),
-      T('extension: an AR model of Romanian inflation with a partial break in the intercept against an LSTAR in the 12-month change of inflation; pre-register the comparison (1--12 months, CRPS, Holm)', 'extensie: un model AR al inflației din România cu o ruptură parțială în termenul liber, față de un LSTAR în variația pe 12 luni a inflației; preînregistrați comparația (1--12 luni, CRPS, Holm)'),
+      T('extension: an AR model of Romanian inflation with a partial break in the intercept against an LSTAR in the 12-month change of inflation; pre-register the comparison (1--12 months, CRPS, \\refHolm)', 'extensie: un model AR al inflației din România cu o ruptură parțială în termenul liber, față de un LSTAR în variația pe 12 luni a inflației; preînregistrați comparația (1--12 luni, CRPS, \\refHolm)'),
       T('optional: threshold pass-through from the BNR rate to ROBOR (Chapter 4)', 'opțional: transmiterea cu prag de la dobînda BNR la ROBOR (Capitolul 4)')]),
     T('Deliverables follow the course rules: repository, report, AI\\_USE.md, AI\\_ERRORS.md, oral defence', 'Livrabilele urmează regulile cursului: repository, raport, AI\\_USE.md, AI\\_ERRORS.md, susținere orală')), 'small')
 

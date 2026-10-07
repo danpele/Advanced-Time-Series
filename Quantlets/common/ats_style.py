@@ -35,6 +35,7 @@ Purple = '#8E44AD'
 Teal = '#17A2B8'
 Crimson = '#DC3545'
 DarkText = '#1F2A44'          # text, axes and ticks (dark navy, not grey)
+LightBlue = '#7EA6E0'         # thin background series (e.g. the other countries of a panel): a blue tint, never grey
 
 PALETTE = [MainBlue, IDAred, Forest, Amber, Purple, Orange, Teal, Crimson]
 # fixed colours for the series used in several chapters

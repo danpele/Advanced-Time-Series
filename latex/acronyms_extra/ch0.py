@@ -4,7 +4,7 @@
 EXTRA = {
     'ECTS': ('European Credit Transfer and Accumulation System', 'en', 'sistemul european de credite transferabile', None),
     'QR': ('Quick Response (code)', 'en', 'cod de răspuns rapid', None),
-    'ARDL': ('AutoRegressive Distributed Lag (model)', 'en', 'model autoregresiv cu decalaje distribuite', None),
+    'ARDL': ('AutoRegressive Distributed Lag (model)', 'en', 'model autoregresiv cu laguri distribuite', None),
     'EOD': ('End Of Day (daily closing data)', 'en', 'date de sfîrșit de zi, adică prețuri de închidere', None),
     'ECB': ('European Central Bank', 'en', 'Banca Centrală Europeană (BCE)', None),
     'LLN': ('Law of Large Numbers', 'en', 'legea numerelor mari', None),

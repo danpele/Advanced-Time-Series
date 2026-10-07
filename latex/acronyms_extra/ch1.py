@@ -8,8 +8,6 @@ EXTRA = {
     'RC': ("White's Reality Check (for data snooping)", 'en', 'testul Reality Check al lui White (pentru data snooping)', None),
     'MCS': ('Model Confidence Set', 'en', 'mulțimea de încredere a modelelor', None),
     'CRPS': ('Continuous Ranked Probability Score', 'en', 'scorul probabilistic continuu', None),
-    'CPIAUCSL': ('Consumer Price Index for All Urban Consumers (FRED series code)', 'en', 'indicele prețurilor de consum pentru toți consumatorii urbani (codul seriei în FRED)', None),
-    'UNRATE': ('Unemployment Rate (FRED series code)', 'en', 'rata șomajului (codul seriei în FRED)', None),
     'EA': ('Euro Area', 'en', 'zona euro', None),
     'ZE': ('Zona euro', 'ro', None, 'euro area'),
     'ISE': ('(Fraunhofer) Institute for Solar Energy Systems', 'en', 'Institutul Fraunhofer pentru sisteme de energie solară', None),
@@ -40,5 +38,5 @@ EXTRA = {
     'pp': ('percentage points', 'en', 'puncte procentuale', None),
 }
 OVERRIDE_CH = {
-    'SPF': ('Survey of Professional Forecasters (Federal Reserve Bank of Philadelphia)', 'en', 'ancheta trimestrială a prognozatorilor profesioniști (Federal Reserve Bank of Philadelphia)', None),
+    'SPF': ('Survey of Professional Forecasters (Federal Reserve Bank of Philadelphia)', 'en', 'ancheta trimestrială a prognozatorilor profesioniști (Banca Rezervei Federale din Philadelphia)', None),
 }

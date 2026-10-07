@@ -97,9 +97,13 @@ class Values(dict):
         self[key] = f'{int(x):,}'.replace(',', '\\,')
 
 
-RO_NOUNS = ('zile|randamente|perechi|traiectorii|decalaje|observații|extrageri|prognoze|acțiuni|ferestre|'
-            'reziduuri|luni|ani|simulări|valori|companii|săptămîni|săptămâni|tranzacții|indici|serii')
+RO_NOUNS = ('zile|randamente|perechi|traiectorii|decalaje|laguri|observații|extrageri|prognoze|prognozatori|'
+            'acțiuni|ferestre|reziduuri|luni|ani|trimestre|simulări|valori|companii|săptămîni|săptămâni|tranzacții|'
+            'indici|serii|lei|depășiri|puncte|regresii|reguli|replicări|reeșantionări|țări|modele|iterații|'
+            'parametri|predictori|origini|estimații|perioade')
 RO_NUM = re.compile(r'(?<![\d,.}{\\-])(⁅?)(\d{1,3}(?:(?:\\,|\\ )\d{3})+|\d+)(⁆?) (?=(?:' + RO_NOUNS + r')\b)')
+# a range "74--131 zile": the noun follows the second numeral, which the rule above skips (it follows a dash)
+RO_RANGE = re.compile(r'(?<![\d,.}{\\-])(⁅?\d+⁆?--)(⁅?)(\d+)(⁆?) (?=(?:' + RO_NOUNS + r')\b)')
 
 
 def ro_de(tex):
@@ -108,7 +112,12 @@ def ro_de(tex):
         v = int(re.sub(r'\D', '', m.group(2)))
         need = v >= 20 and (v % 100 >= 20 or v % 100 == 0)
         return m.group(0) + ('de ' if need else '')
-    return RO_NUM.sub(f, tex)
+
+    def g(m):
+        v = int(m.group(3))
+        need = v >= 20 and (v % 100 >= 20 or v % 100 == 0)
+        return m.group(0) + ('de ' if need else '')
+    return RO_RANGE.sub(g, RO_NUM.sub(f, tex))
 
 
 def render(tex, lang, values=None):
@@ -120,6 +129,8 @@ def render(tex, lang, values=None):
             raise KeyError(f'missing value @{{{key}}}')
         return str(values[key])
     tex = TOKEN.sub(tok, tex)
+    # negative numbers from the formatter (n(), Values.put): a real minus sign, valid in text and in math mode
+    tex = tex.replace('⁅-', '⁅\\ensuremath{-}')
     tex = MARK.sub(lambda m: m.group(1) if lang == 'en' else m.group(2), tex)
     if lang == 'ro':
         # the comma becomes the decimal mark: two numbers separated by a comma ([1.23, 1.45]) get a semicolon
@@ -282,7 +293,9 @@ class Deck:
     def references(self, refs, per=16):
         """Bibliografia: intrari complete cu \\href (DOI verificat), in ordine alfabetica."""
         self.section('References', 'Bibliografie')
-        chunks = [refs[i:i + per] for i in range(0, len(refs), per)]
+        pages = max(1, -(-len(refs) // per))
+        size = -(-len(refs) // pages)          # balanced pages: 17 entries -> 9 + 8, not 16 + 1
+        chunks = [refs[i:i + size] for i in range(0, len(refs), size)]
         for i, ch in enumerate(chunks, 1):
             num = f' ({i}/{len(chunks)})' if len(chunks) > 1 else ''
             self.FR.append(f'\\begin{{frame}}{{⟦References||Bibliografie⟧{num}}}\n\\itemsize{{\\tiny}}\n'

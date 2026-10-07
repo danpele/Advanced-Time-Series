@@ -25,6 +25,8 @@
 \newcommand{\refKunsch}{\href{https://doi.org/10.1214/aos/1176347265}{Künsch (1989)}}
 \newcommand{\refLahiri}{\href{https://doi.org/10.1007/978-1-4757-3803-2}{Lahiri (2003)}}
 \newcommand{\refPR}{\href{https://doi.org/10.1080/01621459.1994.10476870}{Politis and Romano (1994)}}
+\newcommand{\refPRc}{\href{https://openlibrary.org/books/OL1551704M}{Politis and Romano (1992)}}
+\newcommand{\refHolm}{\href{https://www.jstor.org/stable/4615733}{Holm (1979)}}
 \newcommand{\refPW}{\href{https://doi.org/10.1081/ETC-120028836}{Politis and White (2004)}}
 \newcommand{\refPPW}{\href{https://doi.org/10.1080/07474930802459016}{Patton, Politis and White (2009)}}
 \newcommand{\refKV}{\href{https://doi.org/10.1017/S0266466605050565}{Kiefer and Vogelsang (2005)}}
@@ -94,8 +96,8 @@ MSCA Digital Finance}
 \end{frame}
 }
 % BEGIN-ACRONYMS (generat de latex/acronyms.py; nu editati manual)
-\begin{frame}{Acronyms used in this material (1/3)}
-\setbeamertemplate{itemize/enumerate body begin}{\tiny}
+\begin{frame}{Acronyms used in this material (1/2)}
+\setbeamertemplate{itemize/enumerate body begin}{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
@@ -111,11 +113,11 @@ MSCA Digital Finance}
     \item \textbf{ATS}: Advanced Time Series Analysis and Forecasting
     \item \textbf{BET}: Bucharest Exchange Trading (index)
     \item \textbf{BNR}: Banca Națională a României (the National Bank of Romania)
-    \item \textbf{BVAR}: Bayesian Vector AutoRegression
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{BVAR}: Bayesian Vector AutoRegression
     \item \textbf{CBB}: Circular Block Bootstrap
     \item \textbf{CLT}: Central Limit Theorem
     \item \textbf{CPI}: Consumer Price Index
@@ -133,8 +135,8 @@ MSCA Digital Finance}
 \end{column}
 \end{columns}
 \end{frame}
-\begin{frame}{Acronyms used in this material (2/3)}
-\setbeamertemplate{itemize/enumerate body begin}{\tiny}
+\begin{frame}{Acronyms used in this material (2/2)}
+\setbeamertemplate{itemize/enumerate body begin}{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
@@ -150,11 +152,11 @@ MSCA Digital Finance}
     \item \textbf{LLN}: Law of Large Numbers
     \item \textbf{LLSW}: Lazarus, Lewis, Stock and Watson (2018)
     \item \textbf{MA}: Moving Average
-    \item \textbf{MBB}: Moving-Block Bootstrap
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{MBB}: Moving-Block Bootstrap
     \item \textbf{MDS}: Martingale Difference Sequence
     \item \textbf{MFM}: Modelling Financial Markets
     \item \textbf{MSE}: Mean Squared Error
@@ -168,19 +170,8 @@ MSCA Digital Finance}
     \item \textbf{TSA}: Time Series Analysis
     \item \textbf{US}: United States
     \item \textbf{VAR}: Vector AutoRegression
-\end{itemize}
-\end{column}
-\end{columns}
-\end{frame}
-\begin{frame}{Acronyms used in this material (3/3)}
-\setbeamertemplate{itemize/enumerate body begin}{\tiny}
-\begin{columns}[T]
-\begin{column}{0.49\textwidth}
-\begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{VECM}: Vector Error Correction Model
 \end{itemize}
-\end{column}
-\begin{column}{0.49\textwidth}
 \end{column}
 \end{columns}
 \end{frame}
@@ -1324,7 +1315,7 @@ circular block bootstrap & 7.4 & 12.0 & 30.8 & 5.6 & 8.6 & 15.6 \\
 \begin{frame}{Circular and stationary bootstrap}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item \textbf{Circular block bootstrap} (Politis and Romano, 1992; \refLahiri): wrap the data on a circle, $x_{T+i} = x_i$
+    \item \textbf{Circular block bootstrap} (\refPRc; \refLahiri): wrap the data on a circle, $x_{T+i} = x_i$
     \begin{itemize}
         \item Every observation enters $l$ blocks: $E^*\bar x^* = \bar x$ exactly (Seminar 0, A5--A6)
     \end{itemize}
@@ -1604,7 +1595,7 @@ NW, $S = 1.3\sqrt{T} = 21$, fixed-$b$ & 0.25 & 2.04 & 2.18 \\
     \item Error rates for $K$ tests
     \begin{itemize}
         \item FWER (family-wise error rate): probability of at least one false rejection among the $K$ tests at level $\alpha$
-        \item Bonferroni tests each hypothesis at $\alpha/K$; Holm (step-down) compares the ordered p-values $p_{(i)}$ with $\alpha/(K - i + 1)$; both control the FWER
+        \item Bonferroni tests each hypothesis at $\alpha/K$; Holm (step-down; \refHolm) compares the ordered p-values $p_{(i)}$ with $\alpha/(K - i + 1)$; both control the FWER
         \item FDR (false discovery rate): expected share of false rejections among rejections, controlled by \refBH
     \end{itemize}
     \item In forecasting: many models, many horizons, many samples
@@ -1962,6 +1953,7 @@ NW, $S = 1.3\sqrt{T} = 21$, fixed-$b$ & 0.25 & 2.04 & 2.18 \\
     \item Hansen, L.P., Hodrick, R.J. (1980). \href{https://doi.org/10.1086/260910}{Forward exchange rates as optimal predictors of future spot rates: an econometric analysis}. \emph{Journal of Political Economy}, 88(5), 829--853.
     \item Hansen, P.R. (2005). \href{https://doi.org/10.1198/073500105000000063}{A test for superior predictive ability}. \emph{Journal of Business \& Economic Statistics}, 23(4), 365--380.
     \item Harvey, C.R., Liu, Y., Zhu, H. (2016). \href{https://doi.org/10.1093/rfs/hhv059}{\ldots and the cross-section of expected returns}. \emph{The Review of Financial Studies}, 29(1), 5--68.
+    \item Holm, S. (1979). \href{https://www.jstor.org/stable/4615733}{A simple sequentially rejective multiple test procedure}. \emph{Scandinavian Journal of Statistics}, 6(2), 65--70.
     \item Huang, C., Petukhina, A. (2022). \href{https://doi.org/10.1007/978-3-031-13584-2}{\emph{Applied Time Series Analysis and Forecasting with Python}}. Springer.
     \item Hyndman, R.J., Athanasopoulos, G. (2021). \href{https://otexts.com/fpp3/}{\emph{Forecasting: Principles and Practice}} (3rd ed.). OTexts.
     \item Ibragimov, I.A. (1962). \href{https://doi.org/10.1137/1107036}{Some limit theorems for stationary processes}. \emph{Theory of Probability and Its Applications}, 7(4), 349--382.
@@ -1969,13 +1961,13 @@ NW, $S = 1.3\sqrt{T} = 21$, fixed-$b$ & 0.25 & 2.04 & 2.18 \\
     \item Kiefer, N.M., Vogelsang, T.J. (2005). \href{https://doi.org/10.1017/S0266466605050565}{A new asymptotic theory for heteroskedasticity-autocorrelation robust tests}. \emph{Econometric Theory}, 21(6), 1130--1164.
     \item Kiefer, N.M., Vogelsang, T.J., Bunzel, H. (2000). \href{https://doi.org/10.1111/1468-0262.00128}{Simple robust testing of regression hypotheses}. \emph{Econometrica}, 68(3), 695--714.
     \item Kilian, L., Lütkepohl, H. (2017). \href{https://doi.org/10.1017/9781108164818}{\emph{Structural Vector Autoregressive Analysis}}. Cambridge University Press.
-    \item Künsch, H.R. (1989). \href{https://doi.org/10.1214/aos/1176347265}{The jackknife and the bootstrap for general stationary observations}. \emph{The Annals of Statistics}, 17(3), 1217--1241.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{References (3/4)}
 \itemsize{\tiny}
 \begin{itemize}
+    \item Künsch, H.R. (1989). \href{https://doi.org/10.1214/aos/1176347265}{The jackknife and the bootstrap for general stationary observations}. \emph{The Annals of Statistics}, 17(3), 1217--1241.
     \item Lahiri, S.N. (2003). \href{https://doi.org/10.1007/978-1-4757-3803-2}{\emph{Resampling Methods for Dependent Data}}. Springer.
     \item Lazarus, E., Lewis, D.J., Stock, J.H. (2021). \href{https://doi.org/10.3982/ECTA15404}{The size-power tradeoff in HAR inference}. \emph{Econometrica}, 89(5), 2497--2516.
     \item Lazarus, E., Lewis, D.J., Stock, J.H., Watson, M.W. (2018). \href{https://doi.org/10.1080/07350015.2018.1506926}{HAR inference: recommendations for practice}. \emph{Journal of Business \& Economic Statistics}, 36(4), 541--559.
@@ -1990,13 +1982,14 @@ NW, $S = 1.3\sqrt{T} = 21$, fixed-$b$ & 0.25 & 2.04 & 2.18 \\
     \item Patton, A., Politis, D.N., White, H. (2009). \href{https://doi.org/10.1080/07474930802459016}{Correction to ``Automatic block-length selection for the dependent bootstrap''}. \emph{Econometric Reviews}, 28(4), 372--375.
     \item Petropoulos, F., Apiletti, D., Assimakopoulos, V., Babai, M.Z., et al.\ (2022). \href{https://doi.org/10.1016/j.ijforecast.2021.11.001}{Forecasting: theory and practice}. \emph{International Journal of Forecasting}, 38(3), 705--871.
     \item Phillips, P.C.B. (1986). \href{https://doi.org/10.1016/0304-4076(86)90001-1}{Understanding spurious regressions in econometrics}. \emph{Journal of Econometrics}, 33(3), 311--340.
-    \item Phillips, P.C.B., Solo, V. (1992). \href{https://doi.org/10.1214/aos/1176348666}{Asymptotics for linear processes}. \emph{The Annals of Statistics}, 20(2), 971--1001.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{References (4/4)}
 \itemsize{\tiny}
 \begin{itemize}
+    \item Phillips, P.C.B., Solo, V. (1992). \href{https://doi.org/10.1214/aos/1176348666}{Asymptotics for linear processes}. \emph{The Annals of Statistics}, 20(2), 971--1001.
+    \item Politis, D.N., Romano, J.P. (1992). \href{https://openlibrary.org/books/OL1551704M}{A circular block-resampling procedure for stationary data}. In R. LePage, L. Billard (Eds.), \emph{Exploring the Limits of Bootstrap} (pp. 263--270). Wiley.
     \item Politis, D.N., Romano, J.P. (1994). \href{https://doi.org/10.1080/01621459.1994.10476870}{The stationary bootstrap}. \emph{Journal of the American Statistical Association}, 89(428), 1303--1313.
     \item Politis, D.N., White, H. (2004). \href{https://doi.org/10.1081/ETC-120028836}{Automatic block-length selection for the dependent bootstrap}. \emph{Econometric Reviews}, 23(1), 53--70.
     \item Romano, J.P., Wolf, M. (2005). \href{https://doi.org/10.1111/j.1468-0262.2005.00615.x}{Stepwise multiple testing as formalized data snooping}. \emph{Econometrica}, 73(4), 1237--1282.

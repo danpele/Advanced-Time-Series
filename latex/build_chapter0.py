@@ -770,7 +770,7 @@ frame('⟦Case study: the moving-block bootstrap of Künsch (1989)||Studiu de ca
     ph('kunsch', 'Hans Rudolf Künsch (2007)', '0.34\\textheight'), '0.64', '0.32'), 'footnotesize')
 
 frame('⟦Circular and stationary bootstrap||Bootstrap circular și bootstrap staționar⟧', items(
-    ('⟦\\textbf{Circular block bootstrap} (Politis and Romano, 1992; \\refLahiri): wrap the data on a circle, $x_{T+i} = x_i$||\\textbf{Bootstrap circular pe blocuri} (Politis și Romano, 1992; \\refLahiri): așezăm datele pe un cerc, $x_{T+i} = x_i$⟧',
+    ('⟦\\textbf{Circular block bootstrap} (\\refPRc; \\refLahiri): wrap the data on a circle, $x_{T+i} = x_i$||\\textbf{Bootstrap circular pe blocuri} (\\refPRc; \\refLahiri): așezăm datele pe un cerc, $x_{T+i} = x_i$⟧',
      ['⟦Every observation enters $l$ blocks: $E^*\\bar x^* = \\bar x$ exactly (Seminar 0, A5--A6)||Fiecare observație intră în $l$ blocuri: $E^*\\bar x^* = \\bar x$ exact (Seminarul 0, A5--A6)⟧']),
     ('⟦\\textbf{Stationary bootstrap} \\refPR: block lengths geometric with mean $1/p$, uniform starting points, data wrapped on a circle||\\textbf{Bootstrap-ul staționar} \\refPR: lungimile blocurilor au distribuție geometrică cu media $1/p$, începuturile sînt uniforme, datele sînt așezate pe cerc⟧',
      ['⟦Equivalently: each step continues the block with probability $1 - p$ or jumps to a random point with probability $p$||Echivalent: la fiecare pas blocul continuă cu probabilitatea $1 - p$ sau sare într-un punct aleator cu probabilitatea $p$⟧',
@@ -903,7 +903,7 @@ frame('⟦Data snooping||Data snooping⟧', items(
       '⟦\\refHLZ: more than 300 published return factors; a new factor needs $t > 3$, not $t > 2$||\\refHLZ: peste 300 de factori de randament publicați; un factor nou are nevoie de $t > 3$, nu de $t > 2$⟧']),
     ('⟦Error rates for $K$ tests||Ratele de eroare pentru $K$ teste⟧',
      ['⟦FWER (family-wise error rate): probability of at least one false rejection among the $K$ tests at level $\\alpha$||FWER (rata de eroare la nivelul familiei de teste): probabilitatea a cel puțin unei respingeri false printre cele $K$ teste la nivelul $\\alpha$⟧',
-      '⟦Bonferroni tests each hypothesis at $\\alpha/K$; Holm (step-down) compares the ordered p-values $p_{(i)}$ with $\\alpha/(K - i + 1)$; both control the FWER||Bonferroni testează fiecare ipoteză la $\\alpha/K$; Holm (descendent, pas cu pas) compară p-value-urile ordonate $p_{(i)}$ cu $\\alpha/(K - i + 1)$; ambele controlează FWER⟧',
+      '⟦Bonferroni tests each hypothesis at $\\alpha/K$; Holm (step-down; \\refHolm) compares the ordered p-values $p_{(i)}$ with $\\alpha/(K - i + 1)$; both control the FWER||Bonferroni testează fiecare ipoteză la $\\alpha/K$; Holm (descendent, pas cu pas; \\refHolm) compară p-value-urile ordonate $p_{(i)}$ cu $\\alpha/(K - i + 1)$; ambele controlează FWER⟧',
       '⟦FDR (false discovery rate): expected share of false rejections among rejections, controlled by \\refBH||FDR (false discovery rate): proporția așteptată a respingerilor false printre respingeri, controlată de \\refBH⟧']),
     ('⟦In forecasting: many models, many horizons, many samples||În prognoză: multe modele, multe orizonturi, multe eșantioane⟧',
      ['⟦the honest $p$-value is the one of the \\emph{search}, not of the winner||p-value-ul corect este cel al \\emph{căutării}, nu cel al modelului cîștigător⟧'])), 'footnotesize')

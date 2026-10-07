@@ -379,6 +379,8 @@ R = {
     'HLST': ('10.1016/j.jempfin.2015.09.002', 'Harvey et al.\\ (2016)', 'Harvey et al.\\ (2016)',
              r'Harvey, D. I., Leybourne, S. J., Sollis, R., \& Taylor, A. M. R. (2016). Tests for explosive financial bubbles in the presence of non-stationary volatility. \textit{Journal of Empirical Finance}, 38, 548--574.'),
     # ------------------------------------------------ inference, testing and research practice
+    'Holm': ('https://www.jstor.org/stable/4615733', 'Holm (1979)', 'Holm (1979)',
+             r'Holm, S. (1979). A simple sequentially rejective multiple test procedure. \textit{Scandinavian Journal of Statistics}, 6(2), 65--70.'),
     'Hansen': ('10.1198/073500105000000063', 'Hansen (2005)', 'Hansen (2005)',
                r'Hansen, P. R. (2005). A test for superior predictive ability. \textit{Journal of Business \& Economic Statistics}, 23(4), 365--380.'),
     'HLNa': ('10.3982/ECTA5771', 'Hansen, Lunde and Nason (2011)', 'Hansen, Lunde și Nason (2011)',

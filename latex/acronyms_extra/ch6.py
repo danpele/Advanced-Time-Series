@@ -12,7 +12,7 @@ EXTRA = {
     'TVP-VAR': ('Time-Varying-Parameter Vector AutoRegression', 'en', 'model VAR cu parametri variabili în timp', None),
     'TVP-VAR-SV': ('TVP-VAR with Stochastic Volatility', 'en', 'model VAR cu parametri variabili în timp și volatilitate stochastică', None),
     'FFBS': ('Forward Filtering, Backward Sampling', 'en', 'filtrare înainte, eșantionare înapoi', None),
-    'DK': ('Durbin–Koopman (simulation smoother, 2002)', 'en', 'simulation smoother-ul Durbin–Koopman (2002)', None),
+    'DK': ('Durbin–Koopman (simulation smoother, 2002)', 'en', 'algoritmul Durbin–Koopman (2002) de simulare a stărilor netezite', None),
     'EKF': ('Extended Kalman Filter', 'en', 'filtrul Kalman extins', None),
     'UKF': ('Unscented Kalman Filter', 'en', 'filtrul Kalman unscented', None),
     'APF': ('Auxiliary Particle Filter', 'en', 'filtrul de particule auxiliar', None),
@@ -22,8 +22,4 @@ EXTRA = {
     'IMA': ('Integrated Moving Average (model)', 'en', 'model integrat de medie mobilă', None),
     'BSTS': ('Bayesian Structural Time Series', 'en', 'serii de timp structurale bayesiene', None),
     'FERMIAC': ('mechanical Monte Carlo device of Enrico Fermi (Los Alamos, 1947)', 'en', 'dispozitiv mecanic Monte Carlo al lui Enrico Fermi (Los Alamos, 1947)', None),
-    'INDPRO': ('Industrial production index (FRED series code)', 'en', 'indicele producției industriale (codul seriei în FRED)', None),
-    'PAYEMS': ('Total nonfarm payroll employment (FRED series code)', 'en', 'numărul total de salariați din afara agriculturii (codul seriei în FRED)', None),
-    'W875RX1': ('Real personal income excluding current transfer receipts (FRED series code)', 'en', 'venitul personal real fără transferurile curente (codul seriei în FRED)', None),
-    'CMRMTSPL': ('Real manufacturing and trade industries sales (FRED series code)', 'en', 'vînzările reale din industrie și comerț (codul seriei în FRED)', None),
 }

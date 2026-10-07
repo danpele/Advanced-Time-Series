@@ -134,7 +134,7 @@ A = {
     'FF5': ('Fama–French five-factor model', 'en', 'modelul Fama–French cu cinci factori', None),
     'HML': ('High Minus Low (value factor)', 'en', 'factorul valoare: B/M mare minus mic', None),
     'IPCA': ('Instrumented Principal Component Analysis', 'en', 'analiza componentelor principale instrumentată', None),
-    'MDD': ('Maximum DrawDown', 'en', 'drawdown maxim', None),
+    'MDD': ('Maximum DrawDown', 'en', 'drawdown-ul maxim', None),
     'MKT': ('MarKeT factor (market excess return)', 'en', 'factorul piață (randamentul în exces al pieței)', None),
     'MOM': ('MOMentum factor', 'en', 'factorul momentum', None),
     'OHLC': ('Open, High, Low, Close', 'en', 'deschidere, maxim, minim, închidere', None),
@@ -243,7 +243,7 @@ A = {
     'UTC': ('Coordinated Universal Time (Temps Universel Coordonné)', 'en', 'timpul universal coordonat', None),
     'DAX': ('Deutscher Aktienindex', 'de', 'indicele principal al Bursei din Frankfurt', 'the German stock index of the Frankfurt Stock Exchange'),
     'SFM': ('Statistics of Financial Markets', 'en', 'Statistica piețelor financiare, cursul de licență', None),
-    'SPF': ('Survey of Professional Forecasters', 'en', 'ancheta specialiștilor în prognoză (Survey of Professional Forecasters)', None),
+    'SPF': ('Survey of Professional Forecasters', 'en', 'ancheta trimestrială a prognozatorilor profesioniști', None),
     'ATS': ('Advanced Time Series Analysis and Forecasting', 'en', 'Analiza avansată a seriilor de timp și previziune, cursul de master', None),
     'TSA': ('Time Series Analysis', 'en', 'Serii de timp, cursul de licență', None),
     'ASDS': ('Statistică aplicată și data science', 'ro', None, "the Master's programme Applied Statistics and Data Science"),
@@ -252,6 +252,9 @@ A = {
     'WIG20': ('Warszawski Indeks Giełdowy 20', 'pl', 'indicele celor mai mari 20 de companii de la Bursa din Varșovia', 'the Warsaw Stock Exchange index of the 20 largest companies'),
 }
 IGNORE = set("""CC CC0 BY BY-SA EDHAC QK VQ NDSR RS RISK SA AG SUM SIGKDD TB3MS DE""".split())   # licente, credite, simboluri matematice
+# codurile seriilor (FRED, BLS, Eurostat) nu sint acronime: se explica in text, nu in glosar
+SERIES_CODES = set("""UNEMP4 B230RC0Q173SBEA CMRMTSPL CP0722 CPIAUCNS CPIAUCSL CUMFNS DEXUSUK FPI GDPC1 GDPDEF GNPC96 GS10 IGREA INDPRO LNS11000025 LNS13000025 LNS14000025 LNU01000025 LNU03000025 PAYEMS PCESV PCND RBROBIS TB3MS UNRATE USREC USRECQ W875RX1 WPSFD49207""".split())
+IGNORE |= SERIES_CODES
 
 
 OVERRIDE = {  # acelasi acronim, sens diferit in capitole diferite: (capitol, acronim) -> tuplu
@@ -273,14 +276,64 @@ for _f in sorted(_glob.glob(os.path.join(HERE, 'acronyms_extra', 'ch*.py'))):
         OVERRIDE[(_n, _k)] = _v
 
 
-def entry(key, lang, chap=None):
+def entry_text(key, lang, chap=None):
     origin, olang, ro, en = (OVERRIDE[(chap, key)] if (chap, key) in OVERRIDE else A[key])
     if lang == 'ro':
         tr = ro if olang != 'ro' else None
     else:
         tr = en if olang != 'en' else None
     tex = origin if not tr else (f'{origin} — {tr}' if origin.endswith(')') else f'{origin} ({tr})')   # no doubled parentheses
-    return r'\item \textbf{' + key + '}: ' + tex.replace('&', r'\&')
+    return tex.replace('&', r'\&')
+
+
+def entry(key, lang, chap=None):
+    return r'\item \textbf{' + key + '}: ' + entry_text(key, lang, chap)
+
+
+# Glosarul: \footnotesize, doua coloane pe pagina, coloane echilibrate (fara o ultima pagina aproape goala)
+CPL = 52          # caractere pe rind intr-o coloana de 0,49\textwidth la \footnotesize (16:9, 9pt; masurat in MFM)
+CAP = 22          # rinduri pe coloana (sub titlu, deasupra subsolului; masurat: 8pt pe rind + 2pt intre intrari, zona utila ~52--232pt)
+
+
+def entry_lines(key, lang, chap=None):
+    t = entry_text(key, lang, chap).replace('\\&', 'x')
+    return max(1, -(-(len(key) + 3 + len(t)) // CPL)) + 0.25     # + spatiul dintre intrari (~2pt din ~8pt pe rind)
+
+
+def columns(keys, lines, cap=CAP):
+    """Imparte lista (ordinea alfabetica pastrata) in coloane de cel mult `cap` rinduri, cu inaltimi cit mai
+    egale: numarul minim de pagini (2 coloane pe pagina), apoi inaltimea maxima minima pentru acel numar."""
+    def greedy(h):
+        cols, cur, n = [], [], 0
+        for k, l in zip(keys, lines):
+            if cur and n + l > h:
+                cols.append(cur); cur, n = [], 0
+            cur.append(k); n += l
+        return cols + ([cur] if cur else [])
+
+    def balanced(h, ncol):
+        # fiecare coloana tinteste media rindurilor ramase, fara a depasi h
+        cols, i, rem = [], 0, sum(lines)
+        for c in range(ncol):
+            if i >= len(keys):
+                break
+            target, cur, n = rem / (ncol - c), [], 0
+            while i < len(keys) and n + lines[i] <= h and (not cur or n + lines[i] / 2 <= target):
+                cur.append(keys[i]); n += lines[i]; i += 1
+            cols.append(cur); rem -= n
+        return cols if i == len(keys) else None
+
+    total = sum(lines)
+    pages = max(1, int(-(-total // (2 * cap))))
+    while True:
+        ncol = 2 * pages
+        h = max(max(lines), -(-total // ncol))
+        while len(greedy(h)) > ncol:
+            h += 1
+        if h <= cap or h <= max(lines):
+            bal = balanced(h, ncol)
+            return bal if bal else greedy(h)
+        pages += 1
 
 
 sys.path.insert(0, HERE)
@@ -293,16 +346,17 @@ def found_in(tex_path):
     return [a for a in m.scan(tex_path) if a not in IGNORE]
 
 
-def glossary_frames(keys, lang, per_col=13, chap=None):
+def glossary_frames(keys, lang, chap=None):
     title = 'Acronime folosite în acest material' if lang == 'ro' else 'Acronyms used in this material'
     keys = sorted(keys, key=lambda k: k.upper())
-    chunks = [keys[i:i + 2 * per_col] for i in range(0, len(keys), 2 * per_col)]
+    cols = columns(keys, [entry_lines(k, lang, chap) for k in keys]) if keys else [[]]
+    chunks = [cols[i:i + 2] for i in range(0, len(cols), 2)]
     out = ['% BEGIN-ACRONYMS (generat de latex/acronyms.py; nu editati manual)']
     for n, ch in enumerate(chunks, 1):
         t = title + (f' ({n}/{len(chunks)})' if len(chunks) > 1 else '')
-        left, right = ch[:per_col], ch[per_col:]
+        left, right = ch[0], (ch[1] if len(ch) > 1 else [])
         out.append(r'\begin{frame}{' + t + '}')
-        out.append(r'\setbeamertemplate{itemize/enumerate body begin}{\tiny}')
+        out.append(r'\setbeamertemplate{itemize/enumerate body begin}{\footnotesize}')
         out.append(r'\begin{columns}[T]')
         for col in (left, right):
             out.append(r'\begin{column}{0.49\textwidth}')

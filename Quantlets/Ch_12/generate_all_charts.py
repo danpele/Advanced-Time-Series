@@ -341,11 +341,13 @@ def fig_leakage(save_it=True, reps=60):
     fig, ax = plt.subplots(figsize=(9.5, 3.8))
     cols = [st.IDAred, st.MainBlue, st.Forest, st.Amber]
     b = ax.boxplot([d[c] for c in d.columns], vert=False, patch_artist=True, widths=0.55)
+    from matplotlib.colors import to_rgba
     for patch, c in zip(b['boxes'], cols):
-        patch.set_facecolor(c)
-        patch.set_alpha(0.55)
-    for med in b['medians']:
-        med.set_color(st.DarkText)
+        patch.set_facecolor(to_rgba(c, 0.55))      # translucent fill, opaque coloured edge (no grey outline)
+        patch.set_edgecolor(c)
+    for part in ('whiskers', 'caps', 'medians'):
+        for ln in b[part]:
+            ln.set_color(st.DarkText)
     ax.set_yticks(range(1, len(d.columns) + 1))
     ax.set_yticklabels(d.columns)
     ax.axvline(1, color=st.DarkText, ls=':', lw=1)

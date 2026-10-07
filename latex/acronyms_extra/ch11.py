@@ -18,7 +18,6 @@ EXTRA = {
     'PL': ('Poland (Eurostat country code)', 'en', 'Polonia (codul de țară Eurostat)', None),
     'SK': ('Slovakia (Eurostat country code)', 'en', 'Slovacia (codul de țară Eurostat)', None),
     'EA20': ('Euro Area, 20 member states (Eurostat code)', 'en', 'zona euro cu 20 de state membre (codul Eurostat)', None),
-    'GS10': ('10-year US Treasury constant-maturity yield (FRED code)', 'en', 'randamentul titlurilor de stat americane la 10 ani (codul FRED)', None),
     'MCO': ('Metoda celor mai mici pătrate obișnuite', 'ro', None, 'ordinary least squares'),
 }
 # acronyms.py evaluates A[key] eagerly in entry(), so an OVERRIDE_CH key must also exist in A: the same tuples are

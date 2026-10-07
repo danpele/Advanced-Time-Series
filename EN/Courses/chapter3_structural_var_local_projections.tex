@@ -20,6 +20,7 @@
 \newcommand{\refFP}{\href{https://doi.org/10.1257/jel.49.4.938}{Fry and Pagan (2011)}}
 \newcommand{\refGali}{\href{https://doi.org/10.1257/aer.89.1.249}{Galí (1999)}}
 \newcommand{\refGK}{\href{https://doi.org/10.1257/mac.20130329}{Gertler and Karadi (2015)}}
+\newcommand{\refGZ}{\href{https://doi.org/10.1257/aer.102.4.1692}{Gilchrist and Zakrajšek (2012)}}
 \newcommand{\refGKi}{\href{https://doi.org/10.3982/ecta16773}{Giacomini and Kitagawa (2021)}}
 \newcommand{\refGoK}{\href{https://doi.org/10.1016/j.jeconom.2003.10.030}{Gonçalves and Kilian (2004)}}
 \newcommand{\refGSS}{\href{https://www.ijcb.org/journal/ijcb05q2a2.htm}{Gürkaynak, Sack and Swanson (2005)}}
@@ -80,7 +81,7 @@ MSCA Digital Finance}
 }
 % BEGIN-ACRONYMS (generat de latex/acronyms.py; nu editati manual)
 \begin{frame}{Acronyms used in this material (1/2)}
-\setbeamertemplate{itemize/enumerate body begin}{\tiny}
+\setbeamertemplate{itemize/enumerate body begin}{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
@@ -93,14 +94,13 @@ MSCA Digital Finance}
     \item \textbf{BQ}: Blanchard–Quah (long-run identification)
     \item \textbf{CEE}: Christiano–Eichenbaum–Evans (recursive monetary VAR, 1999)
     \item \textbf{CPI}: Consumer Price Index
-    \item \textbf{CPIAUCSL}: Consumer Price Index for All Urban Consumers (FRED series code)
     \item \textbf{DGP}: Data-Generating Process
-    \item \textbf{EA}: Euro Area
-    \item \textbf{ECB}: European Central Bank
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{EA}: Euro Area
+    \item \textbf{ECB}: European Central Bank
     \item \textbf{EIA}: US Energy Information Administration
     \item \textbf{FEVD}: Forecast Error Variance Decomposition
     \item \textbf{FF4}: surprise in the federal funds futures contract three months ahead
@@ -109,37 +109,34 @@ MSCA Digital Finance}
     \item \textbf{FRED}: Federal Reserve Economic Data
     \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity
     \item \textbf{GDP}: Gross Domestic Product
-    \item \textbf{GK}: Gertler–Karadi (proxy SVAR, 2015)
-    \item \textbf{GNP}: Gross National Product
-    \item \textbf{GNPC96}: Real Gross National Product (FRED series code)
-    \item \textbf{HAC}: Heteroskedasticity and Autocorrelation Consistent (standard errors)
-    \item \textbf{HICP}: Harmonised Index of Consumer Prices
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 \begin{frame}{Acronyms used in this material (2/2)}
-\setbeamertemplate{itemize/enumerate body begin}{\tiny}
+\setbeamertemplate{itemize/enumerate body begin}{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{GK}: Gertler–Karadi (proxy SVAR, 2015)
+    \item \textbf{GNP}: Gross National Product
+    \item \textbf{HAC}: Heteroskedasticity and Autocorrelation Consistent (standard errors)
+    \item \textbf{HICP}: Harmonised Index of Consumer Prices
     \item \textbf{HQ}: Hannan–Quinn (information criterion)
-    \item \textbf{IGREA}: Index of Global Real Economic Activity (FRED series code)
     \item \textbf{IP}: Industrial Production
     \item \textbf{LLM}: Large Language Model
-    \item \textbf{LNS14000025}: Unemployment rate, men aged 20 and over (FRED series code)
     \item \textbf{LP}: Local Projection
     \item \textbf{LP-IV}: Local Projection with Instrumental Variables
     \item \textbf{MA}: Moving Average
     \item \textbf{MSE}: Mean Squared Error
     \item \textbf{OLS}: Ordinary Least Squares
-    \item \textbf{QR}: Quick Response (code)
-    \item \textbf{RMSE}: Root Mean Squared Error
-    \item \textbf{ROBOR}: Romanian Interbank Offer Rate
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{QR}: Quick Response (code)
+    \item \textbf{RMSE}: Root Mean Squared Error
+    \item \textbf{ROBOR}: Romanian Interbank Offer Rate
     \item \textbf{RZ}: Ramey–Zubairy (state-dependent multipliers, 2018)
     \item \textbf{SCA}: Seasonally and Calendar Adjusted
     \item \textbf{SE}: Standard Error
@@ -827,7 +824,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{frame}{Case study: Gertler and Karadi (2015)}
 \itemsize{\small}
 \begin{itemize}
-    \item The paper: the 1-year Treasury yield as policy indicator (it captures forward guidance), log IP, log CPI and the excess bond premium of Gilchrist and Zakrajšek; VAR(12), 1979:7--2012:6 \refGK
+    \item The paper: the 1-year Treasury yield as policy indicator (it captures forward guidance), log IP, log CPI and the excess bond premium of \refGZ; VAR(12), 1979:7--2012:6 \refGK
     \begin{itemize}
         \item instrument: FF4 surprises, monthly, 1991:1--2012:6; the residuals of the full sample are used for the proxy regression on the overlap
     \end{itemize}
@@ -1474,14 +1471,15 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
     \item Faust, J., \& Leeper, E. M. (1997). When do long-run identifying restrictions give reliable results? \textit{Journal of Business \& Economic Statistics}, 15(3), 345--353. \href{https://doi.org/10.1080/07350015.1997.10524712}{doi:10.1080/07350015.1997.10524712}
     \item Fry, R., \& Pagan, A. (2011). Sign restrictions in structural vector autoregressions: A critical review. \textit{Journal of Economic Literature}, 49(4), 938--960. \href{https://doi.org/10.1257/jel.49.4.938}{doi:10.1257/jel.49.4.938}
     \item Galí, J. (1999). Technology, employment, and the business cycle: Do technology shocks explain aggregate fluctuations? \textit{American Economic Review}, 89(1), 249--271. \href{https://doi.org/10.1257/aer.89.1.249}{doi:10.1257/aer.89.1.249}
-    \item Gertler, M., \& Karadi, P. (2015). Monetary policy surprises, credit costs, and economic activity. \textit{American Economic Journal: Macroeconomics}, 7(1), 44--76. \href{https://doi.org/10.1257/mac.20130329}{doi:10.1257/mac.20130329}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{References (2/4)}
 \itemsize{\tiny}
 \begin{itemize}
+    \item Gertler, M., \& Karadi, P. (2015). Monetary policy surprises, credit costs, and economic activity. \textit{American Economic Journal: Macroeconomics}, 7(1), 44--76. \href{https://doi.org/10.1257/mac.20130329}{doi:10.1257/mac.20130329}
     \item Giacomini, R., \& Kitagawa, T. (2021). Robust Bayesian inference for set-identified models. \textit{Econometrica}, 89(4), 1519--1556. \href{https://doi.org/10.3982/ecta16773}{doi:10.3982/ecta16773}
+    \item Gilchrist, S., \& Zakrajšek, E. (2012). Credit spreads and business cycle fluctuations. \textit{American Economic Review}, 102(4), 1692--1720. \href{https://doi.org/10.1257/aer.102.4.1692}{doi:10.1257/aer.102.4.1692}
     \item Gonçalves, S., \& Kilian, L. (2004). Bootstrapping autoregressions with conditional heteroskedasticity of unknown form. \textit{Journal of Econometrics}, 123(1), 89--120. \href{https://doi.org/10.1016/j.jeconom.2003.10.030}{doi:10.1016/j.jeconom.2003.10.030}
     \item Gürkaynak, R. S., Sack, B., \& Swanson, E. T. (2005). Do actions speak louder than words? The response of asset prices to monetary policy actions and statements. \textit{International Journal of Central Banking}, 1(1), 55--93. \href{https://www.ijcb.org/journal/ijcb05q2a2.htm}{ijcb.org}
     \item Hamilton, J. D. (1994). \textit{Time Series Analysis}. Princeton University Press. \href{https://doi.org/10.2307/j.ctv14jx6sm}{doi:10.2307/j.ctv14jx6sm}
@@ -1490,15 +1488,15 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
     \item Jordà, Ò. (2005). Estimation and inference of impulse responses by local projections. \textit{American Economic Review}, 95(1), 161--182. \href{https://doi.org/10.1257/0002828053828518}{doi:10.1257/0002828053828518}
     \item Kilian, L., \& Lütkepohl, H. (2017). \textit{Structural Vector Autoregressive Analysis}. Cambridge University Press. \href{https://doi.org/10.1017/9781108164818}{doi:10.1017/9781108164818}
     \item Kilian, L. (2019). Measuring global real economic activity: Do recent critiques hold up to scrutiny? \textit{Economics Letters}, 178, 106--110. \href{https://doi.org/10.1016/j.econlet.2019.03.001}{doi:10.1016/j.econlet.2019.03.001}
-    \item Kilian, L. (2009). Not all oil price shocks are alike: Disentangling demand and supply shocks in the crude oil market. \textit{American Economic Review}, 99(3), 1053--1069. \href{https://doi.org/10.1257/aer.99.3.1053}{doi:10.1257/aer.99.3.1053}
-    \item Kilian, L. (1998). Small-sample confidence intervals for impulse response functions. \textit{The Review of Economics and Statistics}, 80(2), 218--230. \href{https://doi.org/10.1162/003465398557465}{doi:10.1162/003465398557465}
-    \item Kuttner, K. N. (2001). Monetary policy surprises and interest rates: Evidence from the Fed funds futures market. \textit{Journal of Monetary Economics}, 47(3), 523--544. \href{https://doi.org/10.1016/S0304-3932(01)00055-1}{doi:10.1016/S0304-3932(01)00055-1}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{References (3/4)}
 \itemsize{\tiny}
 \begin{itemize}
+    \item Kilian, L. (2009). Not all oil price shocks are alike: Disentangling demand and supply shocks in the crude oil market. \textit{American Economic Review}, 99(3), 1053--1069. \href{https://doi.org/10.1257/aer.99.3.1053}{doi:10.1257/aer.99.3.1053}
+    \item Kilian, L. (1998). Small-sample confidence intervals for impulse response functions. \textit{The Review of Economics and Statistics}, 80(2), 218--230. \href{https://doi.org/10.1162/003465398557465}{doi:10.1162/003465398557465}
+    \item Kuttner, K. N. (2001). Monetary policy surprises and interest rates: Evidence from the Fed funds futures market. \textit{Journal of Monetary Economics}, 47(3), 523--544. \href{https://doi.org/10.1016/S0304-3932(01)00055-1}{doi:10.1016/S0304-3932(01)00055-1}
     \item Lanne, M., \& Lütkepohl, H. (2008). Identifying monetary policy shocks via changes in volatility. \textit{Journal of Money, Credit and Banking}, 40(6), 1131--1149. \href{https://doi.org/10.1111/j.1538-4616.2008.00151.x}{doi:10.1111/j.1538-4616.2008.00151.x}
     \item Li, D., Plagborg-Møller, M., \& Wolf, C. K. (2024). Local projections vs.\ VARs: Lessons from thousands of DGPs. \textit{Journal of Econometrics}, 244(2), 105722. \href{https://doi.org/10.1016/j.jeconom.2024.105722}{doi:10.1016/j.jeconom.2024.105722}
     \item Lütkepohl, H. (2005). \textit{New Introduction to Multiple Time Series Analysis}. Springer. \href{https://doi.org/10.1007/978-3-540-27752-1}{doi:10.1007/978-3-540-27752-1}
@@ -1507,16 +1505,16 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
     \item Montiel Olea, J. L., \& Plagborg-Møller, M. (2019). Simultaneous confidence bands: Theory, implementation, and an application to SVARs. \textit{Journal of Applied Econometrics}, 34(1), 1--17. \href{https://doi.org/10.1002/jae.2656}{doi:10.1002/jae.2656}
     \item Montiel Olea, J. L., Stock, J. H., \& Watson, M. W. (2021). Inference in structural vector autoregressions identified with an external instrument. \textit{Journal of Econometrics}, 225(1), 74--87. \href{https://doi.org/10.1016/j.jeconom.2020.05.014}{doi:10.1016/j.jeconom.2020.05.014}
     \item Nakamura, E., \& Steinsson, J. (2018). High-frequency identification of monetary non-neutrality: The information effect. \textit{The Quarterly Journal of Economics}, 133(3), 1283--1330. \href{https://doi.org/10.1093/qje/qjy004}{doi:10.1093/qje/qjy004}
-    \item Plagborg-Møller, M., \& Wolf, C. K. (2021). Local projections and VARs estimate the same impulse responses. \textit{Econometrica}, 89(2), 955--980. \href{https://doi.org/10.3982/ECTA17813}{doi:10.3982/ECTA17813}
-    \item Ramey, V. A. (2016). Macroeconomic shocks and their propagation. In J. B. Taylor \& H. Uhlig (Eds.), \textit{Handbook of Macroeconomics} (Vol.\ 2A, pp.\ 71--162). Elsevier. \href{https://doi.org/10.1016/bs.hesmac.2016.03.003}{doi:10.1016/bs.hesmac.2016.03.003}
-    \item Ramey, V. A., \& Zubairy, S. (2018). Government spending multipliers in good times and in bad: Evidence from US historical data. \textit{Journal of Political Economy}, 126(2), 850--901. \href{https://doi.org/10.1086/696277}{doi:10.1086/696277}
-    \item Rigobon, R. (2003). Identification through heteroskedasticity. \textit{The Review of Economics and Statistics}, 85(4), 777--792. \href{https://doi.org/10.1162/003465303772815727}{doi:10.1162/003465303772815727}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{References (4/4)}
 \itemsize{\tiny}
 \begin{itemize}
+    \item Plagborg-Møller, M., \& Wolf, C. K. (2021). Local projections and VARs estimate the same impulse responses. \textit{Econometrica}, 89(2), 955--980. \href{https://doi.org/10.3982/ECTA17813}{doi:10.3982/ECTA17813}
+    \item Ramey, V. A. (2016). Macroeconomic shocks and their propagation. In J. B. Taylor \& H. Uhlig (Eds.), \textit{Handbook of Macroeconomics} (Vol.\ 2A, pp.\ 71--162). Elsevier. \href{https://doi.org/10.1016/bs.hesmac.2016.03.003}{doi:10.1016/bs.hesmac.2016.03.003}
+    \item Ramey, V. A., \& Zubairy, S. (2018). Government spending multipliers in good times and in bad: Evidence from US historical data. \textit{Journal of Political Economy}, 126(2), 850--901. \href{https://doi.org/10.1086/696277}{doi:10.1086/696277}
+    \item Rigobon, R. (2003). Identification through heteroskedasticity. \textit{The Review of Economics and Statistics}, 85(4), 777--792. \href{https://doi.org/10.1162/003465303772815727}{doi:10.1162/003465303772815727}
     \item Romer, C. D., \& Romer, D. H. (2004). A new measure of monetary shocks: Derivation and implications. \textit{American Economic Review}, 94(4), 1055--1084. \href{https://doi.org/10.1257/0002828042002651}{doi:10.1257/0002828042002651}
     \item Rubio-Ramírez, J. F., Waggoner, D. F., \& Zha, T. (2010). Structural vector autoregressions: Theory of identification and algorithms for inference. \textit{The Review of Economic Studies}, 77(2), 665--696. \href{https://doi.org/10.1111/j.1467-937X.2009.00578.x}{doi:10.1111/j.1467-937X.2009.00578.x}
     \item Sims, C. A. (1980). Macroeconomics and reality. \textit{Econometrica}, 48(1), 1--48. \href{https://doi.org/10.2307/1912017}{doi:10.2307/1912017}

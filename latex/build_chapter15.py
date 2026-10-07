@@ -491,7 +491,7 @@ D.frame(T('Step 3: the pre-registration', 'Etapa 3: preînregistrarea'), items(
      [T('the hypotheses and the primary outcome', 'ipotezele și rezultatul principal'),
       T('the data: sources, vintages, sample, transformations, exclusions', 'datele: surse, ediții, eșantion, transformări, excluderi'),
       T('the evaluation: estimation and test windows, horizons, losses, tests, the benchmark', 'evaluarea: ferestrele de estimare și de test, orizonturile, funcțiile de pierdere, testele, reperul'),
-      T('the multiplicity plan: how many comparisons, which correction (Holm, MCS, SPA)', 'planul pentru testarea multiplă: cîte comparații, ce corecție (Holm, MCS, SPA)'),
+      T('the multiplicity plan: how many comparisons, which correction (\\refHolm, MCS, SPA)', 'planul pentru testarea multiplă: cîte comparații, ce corecție (\\refHolm, MCS, SPA)'),
       T('the robustness rule: which variations, and what counts as a robust result', 'regula de robustețe: ce variații și ce înseamnă un rezultat robust')]),
     T(r'A power calculation for the evaluation: is the test sample long enough to detect the published gain? (mini-case at the end)', r'Un calcul al puterii evaluării: este eșantionul de test destul de lung pentru a detecta cîștigul publicat? (mini studiul de caz de la final)'),
     T('Deviations are allowed but reported: the pre-registration is a commitment to transparency, not a prison', 'Abaterile sînt permise, dar se raportează: preînregistrarea este un angajament de transparență, nu o constrîngere rigidă'),

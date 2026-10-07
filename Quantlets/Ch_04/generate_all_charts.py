@@ -1276,27 +1276,31 @@ def fig_panel(save_it=True, reps=1000):
         E.append(pd.Series(u, index=dd['year'].values[1:], name=g_))
     E = pd.concat(E, axis=1)
     cd_pmg = cd_test(E.values)
-    fig, axs = plt.subplots(1, 2, figsize=(12, 3.9), gridspec_kw=dict(width_ratios=[1.0, 1.25]))
+    fig, axs = plt.subplots(1, 2, figsize=(10, 3.4), gridspec_kw=dict(width_ratios=[1.0, 1.25]))
     gC = Wc.diff().dropna()
     for i, gname in enumerate(gC.columns):
-        axs[0].plot(gC.index, gC[gname], color=st.MainBlue if gname != 'RO' else st.IDAred,
-                    lw=0.6 if gname != 'RO' else 1.8, alpha=0.35 if gname != 'RO' else 1.0,
+        axs[0].plot(gC.index, gC[gname], color=st.LightBlue if gname != 'RO' else st.IDAred,
+                    lw=0.8 if gname != 'RO' else 2.0, alpha=0.9 if gname != 'RO' else 1.0,
                     label='Romania' if gname == 'RO' else ('other EU countries' if i == 0 else '_'))
     axs[0].plot(gC.index, gC.mean(axis=1), color=st.DarkText, lw=1.8, label='cross-section average')
-    axs[0].set_title('growth of real per capita consumption (%)', fontsize=11.5)
+    axs[0].set_title('growth of real per capita consumption (%)', fontsize=14)
+    axs[0].tick_params(labelsize=12.5)
     axs[0].xaxis.set_major_locator(plt.MaxNLocator(integer=True))
     th = mg['thetas'][:, 0]
     o = np.argsort(th)
     geos = sorted(P['geo'].unique())
     axs[1].scatter(np.arange(N), th[o], color=st.MainBlue, s=22, zorder=3, label='country estimate (MG components)')
     axs[1].set_xticks(np.arange(N))
-    axs[1].set_xticklabels([geos[i] for i in o], rotation=90, fontsize=8.5)
+    axs[1].set_xticklabels([geos[i] for i in o], rotation=90, fontsize=11)
+    axs[1].tick_params(axis='y', labelsize=12.5)
     for val, c, lab in ((pm['theta'][0], st.IDAred, 'PMG'), (mg['theta'][0], st.Forest, 'MG'), (cc['theta'][0], st.Amber, 'CCEMG')):
         axs[1].axhline(val, color=c, lw=1.4, ls='--', label=lab)
-    axs[1].set_title('long-run income elasticity of consumption', fontsize=11.5)
+    axs[1].set_title('long-run income elasticity of consumption', fontsize=14)
     axs[1].set_ylim(-1.5, 3.0)
-    st.fig_legend_bottom(fig, ncol=6, y=0.0)
-    plt.tight_layout(rect=(0, 0.08, 1, 1))
+    plt.tight_layout()
+    leg = st.fig_legend_bottom(fig, ncol=4, y=0.0)
+    for t in leg.get_texts():
+        t.set_fontsize(12.5)
     save('ats_ch4_panel', save_it)
     def pk(r):
         return dict(theta=[float(x) for x in r['theta']], se=[float(x) for x in r['se']],

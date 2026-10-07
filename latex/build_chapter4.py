@@ -1004,7 +1004,7 @@ D.frame(T('Case study: Pesaran, Shin and Smith (1999)', 'Studiu de caz: Pesaran,
 chart(T('Heterogeneity across the EU', 'Eterogenitatea în UE'), 'ats_ch4_panel', 'ATS_ch4_panel', [
     T(r'Left: consumption growth (Romania in red, cross-section average in dark blue); right: country long-run income elasticities from the individual ARDLs, with MG, PMG and CCEMG', r'Stînga: creșterea consumului (România cu roșu, media pe secțiune cu albastru închis); dreapta: elasticitățile de termen lung față de venit din ARDL-urile individuale, cu MG, PMG și CCEMG'),
     T(r'Country elasticities range from @{pn.thmin} to @{pn.thmax}; Romania @{pn.thro}', r'Elasticitățile pe țări variază între @{pn.thmin} și @{pn.thmax}; România @{pn.thro}')],
-    h='0.5\\textheight')
+    h='0.6\\textheight')
 
 D.frame(T('Long-run estimates for EU-27', 'Estimații de termen lung pentru UE-27'), table(
     'lccc', T(r'\textbf{Estimator}', r'\textbf{Estimatorul}') + r' & $\theta_y$ & $\theta_\pi$ & $\phi$',

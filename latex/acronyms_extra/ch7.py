@@ -14,7 +14,6 @@ EXTRA = {
     'HMP': ('Haas–Mittnik–Paolella (MS-GARCH, 2004)', 'en', 'modelul MS-GARCH Haas–Mittnik–Paolella (2004)', None),
     'QPS': ('Quadratic Probability Score', 'en', 'scorul pătratic al probabilităților', None),
     'SWARCH': ('Switching ARCH (Hamilton–Susmel)', 'en', 'model ARCH cu schimbare de regim (Hamilton–Susmel)', None),
-    'USRECQ': ('NBER recession indicator, quarterly (FRED series code)', 'en', 'indicatorul trimestrial al recesiunilor NBER (codul seriei în FRED)', None),
     'RON': ('Romanian leu (ISO code)', 'en', 'leul românesc (cod ISO)', None),
     'MSM-AR': ('Markov-Switching Mean AutoRegression', 'en', 'model autoregresiv cu medie care comută', None),
     'MSI-AR': ('Markov-Switching Intercept AutoRegression', 'en', 'model autoregresiv cu termen liber care comută', None),
