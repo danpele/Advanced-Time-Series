@@ -208,8 +208,9 @@ MSCA Digital Finance}
 \begin{frame}{Today's question and route}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Question}: how precisely can we measure, model and forecast a variance that is never observed, and which of our tools still work when the data are noisy, jumpy or high-dimensional?
+    \item \textbf{Question}: how precisely can we measure, model and forecast a variance that is never observed?
     \begin{itemize}
+        \item and which of our tools still work when the data are noisy, jumpy or high-dimensional?
         \item two routes to volatility: a parametric filter of daily returns (GARCH) and a nonparametric measurement from intraday prices (realised measures); the frontier combines them
     \end{itemize}
     \item \textbf{Route} of the chapter
@@ -219,7 +220,10 @@ MSCA Digital Finance}
         \item forecasting with realised measures: HAR, HARQ, Realized GARCH, HEAVY; robust loss functions
         \item multivariate: BEKK, DCC and cDCC, the curse of dimensionality and DCC-NL, realised covariance
     \end{itemize}
-    \item We build on \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter5_conditional_volatility_garch.pdf}{TSA, Chapter 5} (GARCH, GJR, EGARCH, news impact, QLIKE) and \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter14_multivariate_garch_models.pdf}{TSA, Chapter 14} (DCC basics); MFM, Chapters 5--9 apply these tools to market risk; Seminar 8 comes before this lecture
+    \item We build on \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter5_conditional_volatility_garch.pdf}{TSA, Chapter 5} (GARCH, GJR, EGARCH, news impact, QLIKE) and \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter14_multivariate_garch_models.pdf}{TSA, Chapter 14} (DCC basics)
+    \begin{itemize}
+        \item MFM, Chapters 5--9 apply these tools to market risk; Seminar 8 comes before this lecture
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -237,8 +241,9 @@ MSCA Digital Finance}
 \begin{frame}{Reading, data and tools}
 \itemsize{\small}
 \begin{itemize}
-    \item Backbone: \refFZ; \refABDL; \refBNSa; \refBNHLSa; \refCor; \refHHS; \refEngD; \refPat
+    \item Backbone: \refFZ; \refABDL; \refBNSa; \refBNHLSa
     \begin{itemize}
+        \item forecasting and the multivariate case: \refCor; \refHHS; \refEngD; \refPat
         \item case studies: \refEGS\ (GARCH-MIDAS), \refBPQ\ (HARQ), \refHHS\ (Realized GARCH), \refELW\ (DCC-NL)
     \end{itemize}
     \item Python Quantlets of this chapter: \href{https://github.com/danpele/Advanced-Time-Series/tree/main/Quantlets/Ch_08}{Quantlets/Ch\_08}
@@ -841,11 +846,12 @@ GARCH(1,1) & & & & & & 22721.9 \\
     \begin{itemize}
         \item $u_i$: i.i.d. noise with variance $\omega^2$, independent of $X$; sources: bid--ask bounce, price discreteness, stale quotes
     \end{itemize}
-    \item RV computed from the observed prices at $n$ intervals, $\mathrm{RV}^{(n)}_t$, is biased upwards, and the bias grows with $n$ (\atsapplink{atsapp2}{atssrc2}{Appendix})
+    \item RV computed from the observed prices at $n$ intervals, $\mathrm{RV}^{(n)}_t$, is biased upwards, and the bias grows with $n$
     \[ \E(\mathrm{RV}^{(n)}_t | X) = \mathrm{IV}_t + 2n\omega^2, \qquad \Var(\mathrm{RV}^{(n)}_t | X) \approx 4n\,\E u^4 \]
     \begin{itemize}
         \item each observed return contains $u_i - u_{i-1}$, with variance $2\omega^2$; summed over $n$ returns this gives $2n\omega^2$
         \item RV diverges as $n \to \infty$: sampling as often as possible is not optimal
+        \item derivation of the bias and of the variance: \atsapplink{atsapp2}{atssrc2}{Appendix}  % applink: the noise bias of realised variance
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1653,14 +1659,36 @@ $N$ & VEC & BEKK & diagonal BEKK & scalar BEKK & DCC \\
 \quantlet{ATS\_ch8\_mgarch}{\qlurl{ATS_ch8_mgarch}}
 \end{frame}
 
-\begin{frame}{Interpreting the GMV comparison}
+\begin{frame}{Interpreting the GMV comparison (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Out-of-sample s.d. (\% p.a.): 1/N 25.05, sample 15.83, linear shrinkage 15.99, nonlinear shrinkage 15.81, DCC 18.35, DCC-NL 18.33
-    \item With $N/T = 17/1\,250$ the sample covariance is already accurate: nonlinear shrinkage changes little (15.81 against 15.83); DCC-NL is no better than DCC
-    \item Here the dynamics hurt: DCC (with GARCH variances, forecasts averaged over the 21-day holding period) gives 18.35 against 15.83; one-month-ahead variance forecasts of single stocks such as MSTR and TSLA are noisy, and GMV amplifies their errors
-    \item With a window of 250 days ($N/T$ five times larger) the sample GMV has s.d. 15.24 and nonlinear shrinkage 15.21: only 0.2\% lower, although the ETFs make the correlation matrix nearly singular (median condition number 1146); the shorter window itself lowers the risk, a crude form of time variation
-    \item The original study uses hundreds of stocks, where $N/T$ is large and DCC-NL gains are substantial; with our $N$ the lesson is when shrinkage matters, not how much it gains
+    \item With $N/T = 17/1\,250$ the sample covariance is already accurate
+    \begin{itemize}
+        \item nonlinear shrinkage changes little (15.81 against 15.83); DCC-NL is no better than DCC
+    \end{itemize}
+    \item Here the dynamics hurt: DCC gives 18.35 against 15.83
+    \begin{itemize}
+        \item DCC uses GARCH variances, with forecasts averaged over the 21-day holding period
+        \item one-month-ahead variance forecasts of single stocks such as MSTR and TSLA are noisy, and GMV amplifies their errors
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Interpreting the GMV comparison (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item A window of 250 days makes $N/T$ five times larger
+    \begin{itemize}
+        \item s.d. of the sample GMV 15.24, with nonlinear shrinkage 15.21: only 0.2\% lower
+        \item yet the ETFs make the correlation matrix nearly singular (median condition number 1146)
+        \item the shorter window itself lowers the risk: a crude form of time variation
+    \end{itemize}
+    \item The original study uses hundreds of stocks, where $N/T$ is large
+    \begin{itemize}
+        \item there the DCC-NL gains are substantial
+        \item with our $N$ the lesson is when shrinkage matters, not how much it gains
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1779,7 +1807,9 @@ $N$ & VEC & BEKK & diagonal BEKK & scalar BEKK & DCC \\
     \item \textbf{Realised volatility of crypto-assets: does the equity toolkit transfer?}: replicate first, then extend
     \begin{itemize}
         \item replicate: HAR and HARQ of this lecture for Bitcoin (QLIKE ratio 0.946) and Realized GARCH for the S\&P 500 (persistence 0.968)
-        \item extend: ten coins from the Binance archive; noise-robust measures from one-second data; an intraday seasonality correction before jump tests; Realized GARCH with the realised kernel; the spot-ETF date (January 2024) as a natural break
+        \item extend: ten coins from the Binance archive; noise-robust measures from one-second data
+        \item extend the tests: an intraday seasonality correction before jump tests; Realized GARCH with the realised kernel
+        \item use the spot-ETF date (January 2024) as a natural break
         \item pre-register: assets, sample, measures, models, windows, losses, the DM/MCS tests and the robustness grid
     \end{itemize}
     \item Deliverables follow the course rules: repository, report, AI\_USE.md, AI\_ERRORS.md, oral defence

@@ -546,6 +546,7 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
     \begin{itemize}
         \item cu un scor neomogen, zilele volatile domină pierderea medie și testul DM (diferențe de pierdere heteroscedastice)
         \item FZ0 ordonează la fel prognozele în \% și în puncte de bază; valoarea ei poate fi negativă (EUR/RON)
+        \item demonstrația consistenței și a omogenității: \atsapplink{atsapp2}{atssrc2}{Anexa}  % applink: FZ0, consistență și omogenitate
     \end{itemize}
     \item Contururile de pierdere așteptată constantă sînt convexe în condiții slabe, ceea ce ajută minimizarea numerică \refPZC
 \end{itemize}
@@ -640,7 +641,8 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
     \item \refKB: cuantila de nivel $\alpha$ a lui $y_t$ condiționat de $x_t$ este modelată ca $x_t'\beta$ și estimată prin minimizarea pierderii pinball
     \[ \hat\beta(\alpha) = \arg\min_\beta \sum_t \rho_\alpha(y_t - x_t'\beta), \qquad \rho_\alpha(u) = u\,(\alpha - \mathbf 1\{u < 0\}) \]
     \begin{itemize}
-        \item $x_t$: vectorul regresorilor; $\rho_\alpha$: funcția pinball, cu panta $\alpha$ pentru reziduuri pozitive și $\alpha - 1$ pentru reziduuri negative; problema este una de programare liniară
+        \item $x_t$: vectorul regresorilor; $\rho_\alpha$: funcția pinball; problema este una de programare liniară
+        \item $\rho_\alpha$ are panta $\alpha$ pentru reziduuri pozitive și $\alpha - 1$ pentru reziduuri negative
         \item condiția de ordinul întîi: $\sum_t x_t(\mathbf 1\{y_t \le x_t'\hat\beta\} - \alpha) \approx 0$, funcția de identificare
     \end{itemize}
 \end{itemize}
@@ -768,16 +770,17 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
 
 \begin{frame}{Estimații, erori standard și teste DQ}
 \itemsize{\footnotesize}
+\setlength{\tabcolsep}{3pt}
 \begin{center}
-\tiny
-\begin{tabular}{lccccc>{\raggedright\arraybackslash}p{1.25cm}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}p{1.5cm}}
+\scriptsize
+\begin{tabular}{lrrrrrrrr}
 \toprule
-\textbf{Modelul} & $\beta_1$ & $\beta_2$ & $\beta_3$ & $\beta_4$ & RQ$\times10^2$ & depășiri în eșantion (\%) & depășiri în afara eșantionului (\%) & DQ în afara eșantionului ($p$) \\
+\textbf{Modelul} & $\beta_1$ & $\beta_2$ & $\beta_3$ & $\beta_4$ & RQ$\times10^2$ & \shortstack[r]{depășiri în\\eșantion (\%)} & \shortstack[r]{depășiri în afara\\eșantionului (\%)} & \shortstack[r]{DQ în afara\\eșantionului ($p$)} \\
 \midrule
-SAV & 0{,}359 (0{,}217) & 0{,}702 (0{,}118) & 0{,}604 (0{,}243) & -- & 3{,}305 & 1{,}00 & 1{,}4 & 14{,}4 (0{,}025) \\
-AS & 0{,}264 (0{,}137) & 0{,}805 (0{,}080) & 0{,}044 (0{,}185) & 0{,}616 (0{,}149) & 3{,}220 & 1{,}00 & 1{,}2 & 15{,}8 (0{,}015) \\
-IG & 0{,}942 (0{,}467) & 0{,}674 (0{,}105) & 1{,}429 (0{,}702) & -- & 3{,}267 & 1{,}00 & 1{,}2 & 2{,}3 (0{,}891) \\
-ADAPT & 1{,}190 (0{,}069) & -- & -- & -- & 4{,}044 & 0{,}90 & 0{,}8 & 27{,}5 ($<$0{,}001) \\
+SAV & 0{,}359 (0{,}217) & 0{,}702 (0{,}118) & 0{,}604 (0{,}243) & -- & 3{,}305 & 1{,}0 & 1{,}4 & 14{,}4 (0{,}025) \\
+AS & 0{,}264 (0{,}137) & 0{,}805 (0{,}080) & 0{,}044 (0{,}185) & 0{,}616 (0{,}149) & 3{,}220 & 1{,}0 & 1{,}2 & 15{,}8 (0{,}015) \\
+IG & 0{,}942 (0{,}467) & 0{,}674 (0{,}105) & 1{,}429 (0{,}702) & -- & 3{,}267 & 1{,}0 & 1{,}2 & 2{,}3 (0{,}891) \\
+ADAPT & 1{,}190 (0{,}069) & -- & -- & -- & 4{,}044 & 0{,}9 & 0{,}8 & 27{,}5 ($<$0{,}001) \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -1356,7 +1359,11 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \begin{frame}{Prognozele pe mai multe zile și testarea lor}
 \itemsize{\small}
 \begin{itemize}
-    \item FHS: GJR-GARCH(1,1) prin QML pe o fereastră mobilă de 2000 de zile (reestimat la fiecare 250 de zile); 2000 de traiectorii de 10 zile cu reziduuri standardizate extrase prin bootstrap \refBoll, \refGJR
+    \item FHS: GJR-GARCH(1,1) prin QML \refBoll, \refGJR
+    \begin{itemize}
+        \item fereastră mobilă de 2000 de zile, reestimat la fiecare 250 de zile
+        \item 2000 de traiectorii de 10 zile cu reziduuri standardizate extrase prin bootstrap
+    \end{itemize}
     \item Backtesting pentru VaR pe 10 zile
     \begin{itemize}
         \item prognozele zilnice pe 10 zile se suprapun: depășirile sînt MA(9) chiar sub $H_0$; tratarea lor ca independente crește mărimea testului (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}, observații suprapuse)
@@ -1692,15 +1699,17 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \hypertarget{atsapp1}{}\atsappback{atssrc1}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
-    \item $\E_F S(x, Y) = \int_{-\infty}^x(1 - \alpha)(G(x) - G(y))\,dF(y) + \int_x^\infty \alpha(G(y) - G(x))\,dF(y)$
-    \item Derivăm (Leibniz; termenii de frontieră se anulează): $\dfrac{d}{dx}\E_F S(x, Y) = G'(x)\big[(1 - \alpha)F(x) - \alpha(1 - F(x))\big] = G'(x)(F(x) - \alpha)$
+    \item Scorul GPL așteptat al unei raportări $x$ cînd $Y \sim F$
+    \[ \E_F S(x, Y) = \int_{-\infty}^x(1 - \alpha)(G(x) - G(y))\,dF(y) + \int_x^\infty \alpha(G(y) - G(x))\,dF(y) \]
+    \item Derivăm (Leibniz; termenii de frontieră se anulează)
+    \[ \frac{d}{dx}\E_F S(x, Y) = G'(x)\big[(1 - \alpha)F(x) - \alpha(1 - F(x))\big] = G'(x)(F(x) - \alpha) \]
     \item $G' \ge 0$: derivata este $\le 0$ pentru $x < q_\alpha$ și $\ge 0$ pentru $x > q_\alpha$, deci $q_\alpha$ minimizează; strict dacă $G$ este strict crescătoare și $F$ are o singură cuantilă de nivel $\alpha$
     \item Același calcul cu $G(x) = x$ este condiția de ordinul întîi a regresiei cuantilice
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Anexă: FZ0, consistență și omogenitate}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Înapoi}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Fixăm $e$; în $v$, FZ0 este $-\frac{1}{\alpha e}\big[\mathbf 1\{y \le v\}(v - y) - \alpha v\big]$ plus termeni fără $v$: deoarece $-1/(\alpha e) > 0$, un multiplu pozitiv al pierderii pinball, minimizat în $q_\alpha$

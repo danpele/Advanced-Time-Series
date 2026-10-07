@@ -597,7 +597,7 @@ def fig_kernels(save_it=True, days=300):
     ax.axhline(0, color=st.DarkText, lw=0.8)
     ax.set_ylim(-5, 30)
     top = 100 * out['RV 1 s']['rmse']
-    ax.text(0, 28.5, f'bias {100 * out["RV 1 s"]["bias"]:.0f}%, RMSE {top:.0f}% (off scale)', ha='center', va='top',
+    ax.text(0.5, 28.5, f'RV 1 s: bias {100 * out["RV 1 s"]["bias"]:.0f}%, RMSE {top:.0f}% (off scale)', ha='left', va='top',
             color=st.DarkText, fontsize=10)
     ax.set_xticks(x)
     ax.set_xticklabels([k.replace(', ', ',\n') for k in names])

@@ -320,12 +320,13 @@ D.frame(T('Counting parameters', 'Numărarea parametrilor'), items(
       T(r'a 10-year window has $T = 120$ months: with $k > T$, OLS does not exist ($X\'X$ is singular)', r'o fereastră de 10 ani are $T = 120$ de luni: cu $k > T$, OLS nu există ($X\'X$ este singulară)')]),
     (T(r'Even with $k < T$, the estimation error grows with $k/T$: one-step MSE $\approx \sigma^2(1 + k/T)$ for a correctly specified regression', r'Chiar cu $k < T$, eroarea de estimare crește cu $k/T$: MSE la un pas $\approx \sigma^2(1 + k/T)$ pentru o regresie corect specificată'),
      [T('overfitting: in-sample fit improves, out-of-sample accuracy deteriorates', 'supraajustare: potrivirea în eșantion se îmbunătățește, acuratețea în afara eșantionului se deteriorează')]),
-    T('Three remedies: (i) shrinkage (Bayesian priors, ridge, LASSO); (ii) dimension reduction (factors); (iii) variable selection',
-      'Trei remedii: (i) shrinkage (distribuții a priori bayesiene, ridge, LASSO); (ii) reducerea dimensiunii (factori); (iii) selecția variabilelor')), 'small')
+    (T('Three remedies', 'Trei remedii'),
+     [T('shrinkage: Bayesian priors, ridge, LASSO', 'shrinkage: distribuții a priori bayesiene, ridge, LASSO'),
+      T('dimension reduction: factors; variable selection', 'reducerea dimensiunii: factori; selecția variabilelor')])), 'small')
 
 chart(T('Simulation: OLS VAR against a Minnesota BVAR', 'Simulare: VAR estimat prin OLS comparat cu un BVAR Minnesota'), 'ats_ch5_curse', 'ATS_ch5_bvar', [
-    T(r'True model: stationary VAR(1) $A = 0.5I + (0.3/n)\mathbf{1}\mathbf{1}\'$; estimated VAR(4), $T = 120$; one-step MSE of variable 1 relative to the true model; @{cu.reps} replications',
-      r'Modelul adevărat: VAR(1) staționar $A = 0.5I + (0.3/n)\mathbf{1}\mathbf{1}\'$; se estimează un VAR(4), $T = 120$; MSE la un pas al variabilei 1 raportat la modelul adevărat; @{cu.reps} de replicări')],
+    T(r'True model: stationary VAR(1) $A = 0.5I + (0.3/n)\mathbf{1}\mathbf{1}\'$ ($\mathbf{1}$: a vector of ones); estimated VAR(4), $T = 120$; one-step MSE of variable 1 relative to the true model; @{cu.reps} replications',
+      r'Modelul adevărat: VAR(1) staționar $A = 0.5I + (0.3/n)\mathbf{1}\mathbf{1}\'$ ($\mathbf{1}$: vectorul de unu); se estimează un VAR(4), $T = 120$; MSE la un pas al variabilei 1 raportat la modelul adevărat; @{cu.reps} de replicări')],
     h='0.5\\textheight')
 
 interp(('the simulation', 'simulării'), [
@@ -392,8 +393,9 @@ D.frame(T('Marginal likelihood and Bayes factors', 'Verosimilitatea marginală �
     T(r'Hierarchical use: treat the hyperparameters $\gamma$ of the prior as parameters and maximise $p(y\mid\gamma)$ (empirical Bayes) or put a hyperprior on them \refGLP', r'Folosirea ierarhică: tratăm hiperparametrii $\gamma$ ai distribuției a priori ca parametri și maximizăm $p(y\mid\gamma)$ (Bayes empiric) sau le dăm o distribuție a priori \refGLP')), 'small')
 
 D.frame(T('Gibbs sampling (1/2)', 'Eșantionarea Gibbs (1/2)'), items(
-    (T(r'When the joint posterior has no closed form but each \textbf{full conditional} does: draw $\theta_1\mid\theta_2, y$, then $\theta_2\mid\theta_1, y$, and repeat \refGG, \refGS', r'Cînd distribuția a posteriori comună nu are formă închisă, dar fiecare \textbf{distribuție condiționată completă} are: extragem $\theta_1\mid\theta_2, y$, apoi $\theta_2\mid\theta_1, y$ și repetăm \refGG, \refGS'),
-     [T(r'$\theta_1$, $\theta_2$: two blocks of parameters; full conditional: the distribution of one block given the other and the data', r'$\theta_1$, $\theta_2$: două blocuri de parametri; distribuția condiționată completă: distribuția unui bloc dat fiind celălalt și datele'),
+    (T(r'Use: the joint posterior has no closed form, but each \textbf{full conditional} has one \refGG, \refGS', r'Utilizarea: distribuția a posteriori comună nu are formă închisă, dar fiecare \textbf{distribuție condiționată completă} are \refGG, \refGS'),
+     [T(r'draw $\theta_1\mid\theta_2, y$, then $\theta_2\mid\theta_1, y$, and repeat', r'extragem $\theta_1\mid\theta_2, y$, apoi $\theta_2\mid\theta_1, y$ și repetăm'),
+      T(r'$\theta_1$, $\theta_2$: two blocks of parameters; full conditional: the distribution of one block given the other and the data', r'$\theta_1$, $\theta_2$: două blocuri de parametri; distribuția condiționată completă: distribuția unui bloc dat fiind celălalt și datele'),
       T('the draws form a Markov chain whose stationary distribution is the posterior', 'extragerile formează un lanț Markov a cărui distribuție staționară este cea a posteriori'),
       T('discard a burn-in, then average functions of the draws (ergodic theorem)', 'eliminăm o perioadă inițială (burn-in), apoi mediem funcții ale extragerilor (teorema ergodică)')]),
     T('In VARs: stochastic volatility, non-conjugate priors and set-identified SVARs (Chapter 3) need Gibbs or Metropolis--Hastings steps', 'În VAR: volatilitatea stochastică, distribuțiile a priori neconjugate și SVAR identificate pe mulțimi (Capitolul 3) cer pași Gibbs sau Metropolis--Hastings')), 'small')
@@ -406,15 +408,22 @@ D.frame(T('Gibbs sampling (2/2): the linear regression', 'Eșantionarea Gibbs (2
     (T(r'Step 2, the variance given the coefficients: $\sigma^2\mid\beta, y \sim IG(a_0 + T/2,\ d_0 + e\'e/2)$', r'Pasul 2, varianța dați fiind coeficienții: $\sigma^2\mid\beta, y \sim IG(a_0 + T/2,\ d_0 + e\'e/2)$'),
      [T(r'$e = y - X\beta$: the residuals at the current draw of $\beta$; the data add $T/2$ to the shape and half the residual sum of squares to the scale', r'$e = y - X\beta$: reziduurile la extragerea curentă a lui $\beta$; datele adaugă $T/2$ la parametrul de formă și jumătate din suma pătratelor reziduurilor la scală')])), 'small')
 
-D.frame(T('MCMC diagnostics', 'Diagnosticarea MCMC'), items(
+D.frame(T('MCMC diagnostics (1/2)', 'Diagnosticarea MCMC (1/2)'), items(
     (T(r'\textbf{Effective sample size}: $\mathrm{ESS} = M/(1 + 2\sum_{k\ge1}\rho_k)$: the number of independent draws with the same precision', r'\textbf{Mărimea efectivă a eșantionului}: $\mathrm{ESS} = M/(1 + 2\sum_{k\ge1}\rho_k)$: numărul de extrageri independente cu aceeași precizie'),
      [T(r'$M$: the number of draws kept; $\rho_k$: the autocorrelation of the draws at lag $k$', r'$M$: numărul de extrageri păstrate; $\rho_k$: autocorelația extragerilor la lagul $k$'),
       T(r'AR(1)-type chain: $\mathrm{ESS} = M(1 - \rho)/(1 + \rho)$; $\rho = 0.9$ keeps about 5\% of the draws', r'lanț de tip AR(1): $\mathrm{ESS} = M(1 - \rho)/(1 + \rho)$; $\rho = 0.9$ păstrează aproximativ 5\% din extrageri')]),
     (T(r'\textbf{$\widehat R$} \refGR: several chains from dispersed starts; $\widehat R = \sqrt{\hat V/W}$, $\hat V = \frac{n-1}{n}W + B/n$', r'\textbf{$\widehat R$} \refGR: mai multe lanțuri din puncte de pornire dispersate; $\widehat R = \sqrt{\hat V/W}$, $\hat V = \frac{n-1}{n}W + B/n$'),
      [T(r'$n$: draws per chain; $W$: within-chain variance; $B$: $n\times$ the variance of the chain means; $\hat V$: the pooled variance estimate', r'$n$: numărul de extrageri pe lanț; $W$: varianța în interiorul lanțurilor; $B$: $n\times$ varianța mediilor lanțurilor; $\hat V$: estimația comună a varianței'),
-      T(r'$\widehat R \approx 1$: the chains agree; current practice: rank-normalised split-$\widehat R < 1.01$ \refVGS', r'$\widehat R \approx 1$: lanțurile sînt de acord; practica actuală: $\widehat R$ cu ranguri normalizate și lanțuri divizate $< 1{,}01$ \refVGS')]),
-    T(r'\textbf{Geweke} $z$: compares the mean of the first 10\% and of the last 50\% of a chain, with spectral variances; $|z| > 2$ signals non-convergence', r'Statistica $z$ \textbf{Geweke}: compară media primelor 10\% și a ultimelor 50\% din lanț, cu varianțe spectrale; $|z| > 2$ semnalează lipsa convergenței'),
-    T('None of them proves convergence; each can reveal a failure', 'Niciuna nu demonstrează convergența; fiecare poate dezvălui un eșec')), 'small')
+      T(r'$\widehat R \approx 1$: the chains agree', r'$\widehat R \approx 1$: lanțurile sînt de acord')])), 'small')
+
+D.frame(T('MCMC diagnostics (2/2)', 'Diagnosticarea MCMC (2/2)'), items(
+    (T(r'$\widehat R$ in current practice \refVGS', r'$\widehat R$ în practica actuală \refVGS'),
+     [T(r'rank-normalised, split chains; require $\widehat R < 1.01$', r'cu ranguri normalizate și lanțuri divizate; cerem $\widehat R < 1{,}01$')]),
+    (T(r'\textbf{Geweke} $z$: $z = (\bar\theta_A - \bar\theta_B)/\sqrt{\hat S_A(0)/n_A + \hat S_B(0)/n_B}$', r'Statistica \textbf{Geweke}: $z = (\bar\theta_A - \bar\theta_B)/\sqrt{\hat S_A(0)/n_A + \hat S_B(0)/n_B}$'),
+     [T(r'$\bar\theta_A$, $\bar\theta_B$: the means of the first 10\% and of the last 50\% of a chain; $n_A$, $n_B$: their lengths', r'$\bar\theta_A$, $\bar\theta_B$: mediile primelor 10\% și ale ultimelor 50\% din lanț; $n_A$, $n_B$: lungimile lor'),
+      T(r'$\hat S(0)$: the spectral density at frequency zero, which accounts for autocorrelation', r'$\hat S(0)$: densitatea spectrală la frecvența zero, care ține cont de autocorelare'),
+      T(r'$z \approx N(0, 1)$ after convergence; $|z| > 2$ signals non-convergence', r'$z \approx N(0, 1)$ după convergență; $|z| > 2$ semnalează lipsa convergenței')]),
+    T('None of the three proves convergence; each can reveal a failure', 'Niciuna dintre cele trei nu demonstrează convergența; fiecare poate dezvălui un eșec')), 'small')
 
 chart(T('Gibbs sampling: a bad and a good parametrisation', 'Eșantionarea Gibbs: o parametrizare ineficientă și una eficientă'), 'ats_ch5_gibbs', 'ATS_ch5_bayes', [
     T(r'Monthly US IP growth on lagged capacity utilisation (mean @{gb.xm}\%, sd @{gb.xs}), 1967--2019, $T = @{gb.T}$; one-at-a-time Gibbs, four chains, 4\,000 draws, burn-in 1\,000',
@@ -442,8 +451,9 @@ D.frame(T('The Minnesota prior', 'Distribuția a priori Minnesota'), items(
     (T(r'VAR($p$): $y_t = c + A_1y_{t-1} + \dots + A_py_{t-p} + u_t$; $(A_l)_{ij}$: the effect of variable $j$ at lag $l$ on variable $i$', r'VAR($p$): $y_t = c + A_1y_{t-1} + \dots + A_py_{t-p} + u_t$; $(A_l)_{ij}$: efectul variabilei $j$ cu lagul $l$ asupra variabilei $i$'),
      [T(r'prior means \refLit: $\E[(A_1)_{ii}] = \delta_i$, all other coefficients 0; $\delta_i = 1$ (random walk) for persistent series, 0 (white noise) otherwise', r'mediile a priori \refLit: $\E[(A_1)_{ii}] = \delta_i$, toți ceilalți coeficienți 0; $\delta_i = 1$ (mers aleator) pentru serii persistente, 0 (zgomot alb) în rest'),
       T(r'prior variances \refBGR, eq.~(2): $\Var[(A_l)_{ij}] = \lambda^2/l^2$ if $j = i$, $\vartheta\lambda^2\sigma_i^2/(l^2\sigma_j^2)$ if $j \ne i$', r'varianțele a priori \refBGR, ec.~(2): $\Var[(A_l)_{ij}] = \lambda^2/l^2$ dacă $j = i$, $\vartheta\lambda^2\sigma_i^2/(l^2\sigma_j^2)$ dacă $j \ne i$')]),
-    (T(r'Hyperparameters: $\lambda$ overall tightness, $1/l^2$ lag decay, $\vartheta \in (0, 1]$ cross-variable shrinkage', r'Hiperparametri: $\lambda$ gradul general de strîngere, $1/l^2$ descreșterea cu lagul, $\vartheta \in (0, 1]$ shrinkage-ul între variabile'),
-     [T(r'$\sigma_i^2$: residual variance of a univariate AR for $y_i$, so that $\sigma_i^2/\sigma_j^2$ fixes units', r'$\sigma_i^2$: varianța reziduală a unui AR univariat pentru $y_i$, astfel încît $\sigma_i^2/\sigma_j^2$ fixează unitățile de măsură'),
+    (T('Hyperparameters', 'Hiperparametrii'),
+     [T(r'$\lambda$: overall tightness; $1/l^2$: the decay with the lag; $\vartheta \in (0, 1]$: cross-variable shrinkage', r'$\lambda$: gradul general de strîngere; $1/l^2$: descreșterea cu lagul; $\vartheta \in (0, 1]$: shrinkage-ul între variabile'),
+      T(r'$\sigma_i^2$: residual variance of a univariate AR for $y_i$, so that $\sigma_i^2/\sigma_j^2$ fixes units', r'$\sigma_i^2$: varianța reziduală a unui AR univariat pentru $y_i$, astfel încît $\sigma_i^2/\sigma_j^2$ fixează unitățile de măsură'),
       T(r'$\lambda = 0$: posterior = prior; $\lambda \to \infty$: posterior mean = OLS', r'$\lambda = 0$: a posteriori = a priori; $\lambda \to \infty$: media a posteriori = OLS')]),
     T('Original version: $\\Sigma$ diagonal and fixed, each equation a separate ridge-type regression with a diffuse constant', 'Versiunea originală: $\\Sigma$ diagonală și fixă, fiecare ecuație o regresie separată de tip ridge, cu termen liber difuz')), 'small')
 
@@ -453,24 +463,30 @@ D.frame(T('The natural conjugate prior (1/2)', 'Distribuția a priori natural co
     (T(r'Prior \refKK: $\mathrm{vec}(B)\mid\Sigma \sim N(\mathrm{vec}(B_0), \Sigma\otimes\Omega_0)$, $\Sigma \sim IW(\Psi, d)$', r'Distribuția a priori \refKK: $\mathrm{vec}(B)\mid\Sigma \sim N(\mathrm{vec}(B_0), \Sigma\otimes\Omega_0)$, $\Sigma \sim IW(\Psi, d)$'),
      [T(r'$\mathrm{vec}$: stacks the columns; $\otimes$: Kronecker product; $B_0$: prior mean; $\Omega_0$ ($k\times k$): prior covariance across regressors', r'$\mathrm{vec}$: așază coloanele una sub alta; $\otimes$: produsul Kronecker; $B_0$: media a priori; $\Omega_0$ ($k\times k$): covarianța a priori între regresori'),
       T(r'$IW(\Psi, d)$: inverse Wishart with scale matrix $\Psi$ and $d$ degrees of freedom', r'$IW(\Psi, d)$: distribuția inverse Wishart cu matricea de scală $\Psi$ și $d$ grade de libertate')]),
-    (T('Posterior: the same families, with updated parameters', 'Distribuția a posteriori: aceleași familii, cu parametri actualizați'),
+    (T('Posterior: the same families, with updated parameters (derivation: Appendix)  % applink: natural conjugate posterior', 'Distribuția a posteriori: aceleași familii, cu parametri actualizați (derivarea: Anexa)  % applink: posteriori natural conjugată'),
      [T(r'$\bar\Omega^{-1} = \Omega_0^{-1} + X\'X$, $\bar B = \bar\Omega(\Omega_0^{-1}B_0 + X\'Y)$: the precision-weighted average again', r'$\bar\Omega^{-1} = \Omega_0^{-1} + X\'X$, $\bar B = \bar\Omega(\Omega_0^{-1}B_0 + X\'Y)$: din nou media ponderată cu precizii'),
       T(r'$\Sigma\mid Y \sim IW(\bar\Psi, T + d)$, $\bar\Psi = \Psi + \hat U\'\hat U + (\bar B - B_0)\'\Omega_0^{-1}(\bar B - B_0)$, $\hat U = Y - X\bar B$', r'$\Sigma\mid Y \sim IW(\bar\Psi, T + d)$, $\bar\Psi = \Psi + \hat U\'\hat U + (\bar B - B_0)\'\Omega_0^{-1}(\bar B - B_0)$, $\hat U = Y - X\bar B$')])), 'small')
 
 D.frame(T('The natural conjugate prior (2/2)', 'Distribuția a priori natural conjugată (2/2)'), items(
     (T(r'Price of conjugacy: the Kronecker structure gives every equation the same $\Omega_0$, so $\vartheta = 1$', r'Prețul conjugării: structura Kronecker dă fiecărei ecuații același $\Omega_0$, deci $\vartheta = 1$'),
      [T(r'Minnesota moments with $\Omega_0 = \mathrm{diag}(\lambda^2/(l^2\sigma_j^2))$ and $\E\Sigma = \mathrm{diag}(\sigma_i^2)$ ($d = n + 2$, $\Psi = \mathrm{diag}(\sigma_i^2)$)', r'momentele Minnesota cu $\Omega_0 = \mathrm{diag}(\lambda^2/(l^2\sigma_j^2))$ și $\E\Sigma = \mathrm{diag}(\sigma_i^2)$ ($d = n + 2$, $\Psi = \mathrm{diag}(\sigma_i^2)$)')]),
-    T(r'Gain: one $k\times k$ inversion for all equations; exact draws without MCMC; a closed-form marginal likelihood (appendix)', r'Cîștigul: o singură inversare $k\times k$ pentru toate ecuațiile; extrageri exacte fără MCMC; verosimilitatea marginală în formă închisă (anexă)')), 'small')
+    T(r'Gain: one $k\times k$ inversion for all equations; exact draws without MCMC; a closed-form marginal likelihood (Appendix)  % applink: marginal likelihood in closed form', r'Cîștigul: o singură inversare $k\times k$ pentru toate ecuațiile; extrageri exacte fără MCMC; verosimilitatea marginală în formă închisă (Anexa)  % applink: verosimilitatea marginală în formă închisă')), 'small')
 
-D.frame(T('Dummy observations', 'Observații fictive'), items(
-    (T(r'Theil mixed estimation: add $T_d$ artificial rows $(Y_d, X_d)$ and run OLS on $\binom{Y_d}{Y}$, $\binom{X_d}{X}$; each row states a prior belief as if it were data', r'Estimarea mixtă Theil: adăugăm $T_d$ linii artificiale $(Y_d, X_d)$ și aplicăm OLS pe $\binom{Y_d}{Y}$, $\binom{X_d}{X}$; fiecare linie exprimă o convingere a priori ca și cum ar fi date'),
-     [T(r'equivalent to the NIW prior with $B_0 = (X_d\'X_d)^{-1}X_d\'Y_d$, $\Omega_0 = (X_d\'X_d)^{-1}$ \refBGR, eq.~(5)', r'echivalent cu distribuția a priori NIW cu $B_0 = (X_d\'X_d)^{-1}X_d\'Y_d$, $\Omega_0 = (X_d\'X_d)^{-1}$ \refBGR, ec.~(5)'),
-      T(r'Minnesota block: $Y_d = \mathrm{diag}(\delta_i\sigma_i)/\lambda$, $X_d = J_p\otimes\mathrm{diag}(\sigma_i)/\lambda$, $J_p = \mathrm{diag}(1, \dots, p)$', r'blocul Minnesota: $Y_d = \mathrm{diag}(\delta_i\sigma_i)/\lambda$, $X_d = J_p\otimes\mathrm{diag}(\sigma_i)/\lambda$, $J_p = \mathrm{diag}(1, \dots, p)$')]),
+D.frame(T('Dummy observations (1/2)', 'Observații fictive (1/2)'), items(
+    (T('Theil mixed estimation', 'Estimarea mixtă Theil'),
+     [T(r'add $T_d$ artificial rows $(Y_d, X_d)$ and run OLS on $\binom{Y_d}{Y}$, $\binom{X_d}{X}$', r'adăugăm $T_d$ linii artificiale $(Y_d, X_d)$ și aplicăm OLS pe $\binom{Y_d}{Y}$, $\binom{X_d}{X}$'),
+      T('each row states a prior belief as if it were data', 'fiecare linie exprimă o convingere a priori ca și cum ar fi date'),
+      T(r'equivalent to the NIW prior with $B_0 = (X_d\'X_d)^{-1}X_d\'Y_d$, $\Omega_0 = (X_d\'X_d)^{-1}$ \refBGR, eq.~(5)', r'echivalent cu distribuția a priori NIW cu $B_0 = (X_d\'X_d)^{-1}X_d\'Y_d$, $\Omega_0 = (X_d\'X_d)^{-1}$ \refBGR, ec.~(5)'),
+      T(r'Minnesota block: $Y_d = \mathrm{diag}(\delta_i\sigma_i)/\lambda$, $X_d = J_p\otimes\mathrm{diag}(\sigma_i)/\lambda$, $J_p = \mathrm{diag}(1, \dots, p)$', r'blocul Minnesota: $Y_d = \mathrm{diag}(\delta_i\sigma_i)/\lambda$, $X_d = J_p\otimes\mathrm{diag}(\sigma_i)/\lambda$, $J_p = \mathrm{diag}(1, \dots, p)$')])), 'small')
+
+D.frame(T('Dummy observations (2/2)', 'Observații fictive (2/2)'), items(
     (T(r'\textbf{Sum of coefficients} \refDLS: $Y_d = \mathrm{diag}(\bar y_i)/\mu$, $X_d = (\mathbf{1}_p\'\otimes\mathrm{diag}(\bar y_i)/\mu,\ 0)$', r'\textbf{Suma coeficienților} \refDLS: $Y_d = \mathrm{diag}(\bar y_i)/\mu$, $X_d = (\mathbf{1}_p\'\otimes\mathrm{diag}(\bar y_i)/\mu,\ 0)$'),
      [T(r'$\bar y_i$: the mean of the first $p$ observations of $y_i$; $\mathbf{1}_p$: a vector of $p$ ones; $\mu > 0$: the tightness of this prior', r'$\bar y_i$: media primelor $p$ observații ale lui $y_i$; $\mathbf{1}_p$: un vector de $p$ unități; $\mu > 0$: gradul de strîngere al acestei distribuții'),
       T(r'shrinks $\Pi = I - \sum_l A_l$ to 0 (``inexact differencing\'\'): $\mu \to 0$ gives a VAR in differences without cointegration', r'strînge $\Pi = I - \sum_l A_l$ spre 0 („diferențiere inexactă”): $\mu \to 0$ dă un VAR în diferențe, fără cointegrare')]),
     (T(r'\textbf{Dummy initial observation} \refSims, \refSZ: one row $y = \bar y\'/\phi$, $x = (\bar y\'/\phi, \dots, \bar y\'/\phi, 1/\phi)$', r'\textbf{Observația inițială fictivă} \refSims, \refSZ: o linie $y = \bar y\'/\phi$, $x = (\bar y\'/\phi, \dots, \bar y\'/\phi, 1/\phi)$'),
-     [T('$\\bar y$: the vector of the $\\bar y_i$; $\\phi > 0$: its tightness; it pushes towards unit roots \\emph{or} towards a stationary model whose mean is $\\bar y$: allows cointegration (Chapter 4)', '$\\bar y$: vectorul valorilor $\\bar y_i$; $\\phi > 0$: gradul de strîngere; împinge spre rădăcini unitare \\emph{sau} spre un model staționar cu media $\\bar y$: permite cointegrarea (Capitolul 4)')])), 'small')
+     [T('$\\bar y$: the vector of the $\\bar y_i$; $\\phi > 0$: its tightness', '$\\bar y$: vectorul valorilor $\\bar y_i$; $\\phi > 0$: gradul de strîngere'),
+      T('pushes towards unit roots \\emph{or} towards a stationary model whose mean is $\\bar y$', 'împinge spre rădăcini unitare \\emph{sau} spre un model staționar cu media $\\bar y$'),
+      T('so it allows cointegration (Chapter 4)', 'permite deci cointegrarea (Capitolul 4)')])), 'small')
 
 chart(T('How much shrinkage? In-sample fit against out-of-sample accuracy', 'Cît shrinkage? Potrivirea în eșantion comparată cu acuratețea în afara eșantionului'), 'ats_ch5_tradeoff', 'ATS_ch5_large_bvar', [
     T(r'MEDIUM system (20 variables, $p = 13$, $k = @{tr.k}$), BGR prior, rolling 10-year windows; out-of-sample: one-step MSFE of employment, CPI and the funds rate, 1971--2003, relative to a random walk',
@@ -510,13 +526,18 @@ interp(('the marginal likelihood', 'verosimilității marginale'), [
     T(r'Using the textbook value $\lambda = 0.2$ costs @{lb.MEDIUM.l02} log points for MEDIUM and @{lb.LARGE.l02} for LARGE; $\lambda = 1$ costs @{lb.LARGE.l1} for LARGE', r'Valoarea din manuale $\lambda = 0{,}2$ costă @{lb.MEDIUM.l02} puncte logaritmice pentru MEDIUM și @{lb.LARGE.l02} pentru LARGE; $\lambda = 1$ costă @{lb.LARGE.l1} pentru LARGE'),
     T(r'Joint mode with the hyperpriors: SMALL $\mu = @{lb.SMALL.mu}$, $\phi = @{lb.SMALL.phi}$; MEDIUM $\mu = @{lb.MEDIUM.mu}$, $\phi = @{lb.MEDIUM.phi}$: the data ask for tight sum-of-coefficients and initial-observation priors', r'Modul comun cu distribuțiile hiperparametrilor: SMALL $\mu = @{lb.SMALL.mu}$, $\phi = @{lb.SMALL.phi}$; MEDIUM $\mu = @{lb.MEDIUM.mu}$, $\phi = @{lb.MEDIUM.phi}$: datele cer distribuții strînse pentru suma coeficienților și observația inițială')])
 
-D.frame(T('Two rules for one hyperparameter', 'Două reguli pentru un singur hiperparametru'), items(
-    (T(r'\textbf{BGR fit rule}: choose $\lambda$ so that the in-sample one-step fit of the key variables equals that of a small OLS VAR \refBGR, Section~3', r'\textbf{Regula potrivirii BGR}: alegem $\lambda$ astfel încît potrivirea în eșantion la un pas a variabilelor-cheie să fie egală cu cea a unui VAR mic estimat prin OLS \refBGR, secțiunea~3'),
-     [T(r'$\mathrm{Fit}(\lambda) = \frac13\sum_{i\in I}\mathrm{msfe}_i^{(\lambda)}/\mathrm{msfe}_i^{(0)}$ on 1960--1969; here the target is @{bg.fit}', r'$\mathrm{Fit}(\lambda) = \frac13\sum_{i\in I}\mathrm{msfe}_i^{(\lambda)}/\mathrm{msfe}_i^{(0)}$ pe 1960--1969; aici ținta este @{bg.fit}'),
+D.frame(T('Two rules for one hyperparameter (1/2)', 'Două reguli pentru un singur hiperparametru (1/2)'), items(
+    (T(r'\textbf{BGR fit rule} \refBGR, Section~3', r'\textbf{Regula potrivirii BGR} \refBGR, secțiunea~3'),
+     [T(r'choose $\lambda$ so that the in-sample one-step fit of the key variables equals that of a small OLS VAR', r'alegem $\lambda$ astfel încît potrivirea în eșantion la un pas a variabilelor-cheie să fie egală cu cea a unui VAR mic estimat prin OLS'),
+      T(r'$\mathrm{Fit}(\lambda) = \frac13\sum_{i\in I}\mathrm{msfe}_i^{(\lambda)}/\mathrm{msfe}_i^{(0)}$ on 1960--1969; here the target is @{bg.fit}', r'$\mathrm{Fit}(\lambda) = \frac13\sum_{i\in I}\mathrm{msfe}_i^{(\lambda)}/\mathrm{msfe}_i^{(0)}$ pe 1960--1969; aici ținta este @{bg.fit}'),
       T(r'$I$: the three key variables; $\mathrm{msfe}_i^{(\lambda)}$: in-sample one-step mean squared error of variable $i$ with tightness $\lambda$; $\lambda = 0$: the prior mean alone', r'$I$: cele trei variabile-cheie; $\mathrm{msfe}_i^{(\lambda)}$: eroarea pătratică medie la un pas, în eșantion, a variabilei $i$ cu gradul de strîngere $\lambda$; $\lambda = 0$: doar media a priori'),
-      T(r'our values: MEDIUM @{bg.lmed}, LARGE @{bg.llar} (BGR Table~1: 0.108 and 0.035 on their data set)', r'valorile noastre: MEDIUM @{bg.lmed}, LARGE @{bg.llar} (BGR, tabelul~1: 0,108 și 0,035 pe setul lor de date)')]),
-    (T(r'\textbf{GLP marginal likelihood}: re-estimated on each window; on 10-year windows the median mode is @{bg.glp.SMALL} (SMALL) and @{bg.glp.MEDIUM} (MEDIUM)', r'\textbf{Verosimilitatea marginală GLP}: reestimată pe fiecare fereastră; pe ferestre de 10 ani modul median este @{bg.glp.SMALL} (SMALL) și @{bg.glp.MEDIUM} (MEDIUM)'),
-     [T(r'10\%--90\% range of the MEDIUM mode across windows: [@{bg.glp.MEDIUM.lo}, @{bg.glp.MEDIUM.hi}]', r'intervalul 10\%--90\% al modului MEDIUM între ferestre: [@{bg.glp.MEDIUM.lo}, @{bg.glp.MEDIUM.hi}]')]),
+      T(r'our values: MEDIUM @{bg.lmed}, LARGE @{bg.llar} (BGR Table~1: 0.108 and 0.035 on their data set)', r'valorile noastre: MEDIUM @{bg.lmed}, LARGE @{bg.llar} (BGR, tabelul~1: 0,108 și 0,035 pe setul lor de date)')])), 'small')
+
+D.frame(T('Two rules for one hyperparameter (2/2)', 'Două reguli pentru un singur hiperparametru (2/2)'), items(
+    (T(r'\textbf{GLP marginal likelihood} \refGLP', r'\textbf{Verosimilitatea marginală GLP} \refGLP'),
+     [T('the mode of $\\lambda$ is re-estimated on each window', 'modul lui $\\lambda$ se reestimează pe fiecare fereastră'),
+      T(r'on 10-year windows the median mode is @{bg.glp.SMALL} (SMALL) and @{bg.glp.MEDIUM} (MEDIUM)', r'pe ferestre de 10 ani modul median este @{bg.glp.SMALL} (SMALL) și @{bg.glp.MEDIUM} (MEDIUM)'),
+      T(r'10\%--90\% range of the MEDIUM mode across windows: [@{bg.glp.MEDIUM.lo}, @{bg.glp.MEDIUM.hi}]', r'intervalul 10\%--90\% al modului MEDIUM între ferestre: [@{bg.glp.MEDIUM.lo}, @{bg.glp.MEDIUM.hi}]')]),
     T(r'The Python package \texttt{bvar} of the Bank of England implements the GLP optimisation for the conjugate model; the notebook compares it with our \texttt{numpy} code', r'Pachetul Python \texttt{bvar} al Băncii Angliei implementează optimizarea GLP pentru modelul conjugat; notebook-ul îl compară cu codul nostru \texttt{numpy}')), 'small')
 
 D.recap(('Hierarchical priors', 'distribuții a priori ierarhice'), [
@@ -530,12 +551,20 @@ D.recap(('Hierarchical priors', 'distribuții a priori ierarhice'), [
 D.section('Case study: large Bayesian VARs', 'Studiu de caz: modele VAR bayesiene mari')
 
 D.frame(T('Bańbura, Giannone and Reichlin (2010): the design', 'Bańbura, Giannone și Reichlin (2010): designul'), items(
-    (T(r'\refBGR: can a VAR with 131 variables forecast and identify shocks? Systems SMALL (employment, CPI, funds rate), MEDIUM (20), LARGE (all)', r'\refBGR: poate un VAR cu 131 de variabile să prognozeze și să identifice șocuri? Sistemele SMALL (ocupare, IPC, dobînda federal funds), MEDIUM (20), LARGE (toate)'),
-     [T(r'$p = 13$; rolling 10-year windows; posterior-mean point forecasts iterated to $h = 12$; benchmark: random walk with drift', r'$p = 13$; ferestre mobile de 10 ani; prognoze punctuale din media a posteriori, iterate pînă la $h = 12$; reper: mers aleator cu derivă'),
-      T(r'Minnesota NIW prior plus sum-of-coefficients with $\tau = 10\lambda$ (Section~3.3); $\lambda$ by the fit rule on 1960--1969', r'distribuția a priori NIW Minnesota plus suma coeficienților cu $\tau = 10\lambda$ (secțiunea~3.3); $\lambda$ prin regula potrivirii pe 1960--1969')]),
+    (T(r'\refBGR', r'\refBGR'),
+     [T('question: can a VAR with 131 variables forecast and identify shocks?', 'întrebarea: poate un VAR cu 131 de variabile să prognozeze și să identifice șocuri?'),
+      T('systems: SMALL (employment, CPI, funds rate), MEDIUM (20), LARGE (all)', 'sistemele: SMALL (ocupare, IPC, dobînda federal funds), MEDIUM (20), LARGE (toate)'),
+      T(r'$p = 13$; rolling 10-year windows; posterior-mean point forecasts iterated to $h = 12$; benchmark: random walk with drift', r'$p = 13$; ferestre mobile de 10 ani; prognoze punctuale din media a posteriori, iterate pînă la $h = 12$; reper: mers aleator cu derivă'),
+      T(r'Minnesota NIW prior plus sum-of-coefficients with $\tau = 10\lambda$ (Section~3.3); $\lambda$ by the fit rule on 1960--1969', r'distribuția a priori NIW Minnesota plus suma coeficienților cu $\tau = 10\lambda$ (secțiunea~3.3); $\lambda$ prin regula potrivirii pe 1960--1969')])), 'small')
+
+D.frame(T('Bańbura, Giannone and Reichlin (2010): our replication', 'Bańbura, Giannone și Reichlin (2010): replicarea noastră'), items(
     (T(r'Our data: FRED-MD-format panel; LARGE = the @{bg.nl} series observed over 1960--2026 (aggregates and components)', r'Datele noastre: panelul în format FRED-MD; LARGE = cele @{bg.nl} serii observate pe 1960--2026 (agregate și componente)'),
-     [T('MEDIUM: the BGR list, with the S\\&P 500, the effective exchange rate and nonborrowed reserves replaced by the Baa yield, the 3-month bill rate and building permits (not available for 1960--2026 or negative after 2008)', 'MEDIUM: lista BGR, cu S\\&P 500, cursul de schimb efectiv și rezervele neîmprumutate înlocuite de randamentul Baa, dobînda la 3 luni și autorizațiile de construcție (indisponibile pentru 1960--2026 sau negative după 2008)')]),
-    T(r'Evaluation: targets 1971--2003 (the paper), 2004--2019 and 2004--2026 (extensions); @{bg.no} forecast origins; GLP SMALL and MEDIUM added', r'Evaluarea: ținte 1971--2003 (lucrarea), 2004--2019 și 2004--2026 (extinderi); @{bg.no} de origini ale prognozelor; adăugăm GLP SMALL și MEDIUM')), 'small')
+     [T('MEDIUM: the BGR list, with three substitutions', 'MEDIUM: lista BGR, cu trei înlocuiri'),
+      T('the S\\&P 500, the effective exchange rate and nonborrowed reserves are replaced by the Baa yield, the 3-month bill rate and building permits', 'S\\&P 500, cursul de schimb efectiv și rezervele neîmprumutate sînt înlocuite de randamentul Baa, dobînda la 3 luni și autorizațiile de construcție'),
+      T('reason: not available for 1960--2026, or negative after 2008', 'motivul: indisponibile pentru 1960--2026 sau negative după 2008')]),
+    (T('Evaluation', 'Evaluarea'),
+     [T('targets 1971--2003 (the paper), 2004--2019 and 2004--2026 (extensions)', 'ținte 1971--2003 (lucrarea), 2004--2019 și 2004--2026 (extinderi)'),
+      T(r'@{bg.no} forecast origins; GLP SMALL and MEDIUM added', r'@{bg.no} de origini ale prognozelor; adăugăm GLP SMALL și MEDIUM')])), 'small')
 
 chart(T('Forecast accuracy, 1971--2003', 'Acuratețea prognozelor, 1971--2003'), 'ats_ch5_bgr', 'ATS_ch5_large_bvar', [
     T('MSFE relative to the random walk with drift (log scale; below 1 = better), employment and CPI in 100 $\\times$ log levels, funds rate in percent',
@@ -656,7 +685,7 @@ chart(T('The economic content of the factors', 'Conținutul economic al factoril
     T(r'Average marginal $R^2$ of the regression of each standardised series on one factor, by group (as in McCracken and Ng 2016)', r'$R^2$ marginal mediu al regresiei fiecărei serii standardizate pe un singur factor, pe grupe (ca în McCracken și Ng 2016)')],
     h='0.5\\textheight')
 
-interp(('the marginal R2', 'R2 marginal'), [
+interp(('the marginal $R^2$', 'lui $R^2$ marginal'), [
     T(r'Factor 1 is real activity: $R^2$ @{mr.f1.out} for output, @{mr.f1.lab} for labour; the best single series has @{mr.top1}', r'Factorul 1 este activitatea reală: $R^2$ @{mr.f1.out} pentru producție, @{mr.f1.lab} pentru muncă; cea mai bine explicată serie are @{mr.top1}'),
     T(r'Factors 2 and 3 load on prices (@{mr.f2.pri}, @{mr.f3.pri}) and housing (@{mr.f2.hou}, @{mr.f3.hou})', r'Factorii 2 și 3 se încarcă pe prețuri (@{mr.f2.pri}; @{mr.f3.pri}) și pe locuințe (@{mr.f2.hou}; @{mr.f3.hou})'),
     T('Interest rates load weakly on the first three factors: monetary information sits in later factors or in the rates themselves, the motivation for the FAVAR', 'Dobînzile se încarcă slab pe primii trei factori: informația monetară se află în factori ulteriori sau în dobînzile înseși, motivația pentru FAVAR'),
@@ -693,12 +722,23 @@ D.section('Factor-augmented VARs', 'Modele VAR augmentate cu factori')
 
 D.frame(T('FAVAR: Bernanke, Boivin and Eliasz (2005)', 'FAVAR: Bernanke, Boivin și Eliasz (2005)'), two(
     ph('bernanke', T('Ben Bernanke, 2008', 'Ben Bernanke, 2008'), h='0.32\\textheight'),
-    items((T(r'\refBBE: $\binom{F_t}{Y_t} = \Phi(L)\binom{F_{t-1}}{Y_{t-1}} + v_t$, $X_t = \Lambda^fF_t + \Lambda^yY_t + e_t$, $Y_t$ = funds rate', r'\refBBE: $\binom{F_t}{Y_t} = \Phi(L)\binom{F_{t-1}}{Y_{t-1}} + v_t$, $X_t = \Lambda^fF_t + \Lambda^yY_t + e_t$, $Y_t$ = dobînda federal funds'),
-           [T(r'$F_t$: $K$ unobserved factors; $X_t$: the large panel; $\Lambda^f$, $\Lambda^y$: loadings; $\Phi(L)$: a lag polynomial; $v_t$, $e_t$: errors', r'$F_t$: $K$ factori neobservați; $X_t$: panelul mare; $\Lambda^f$, $\Lambda^y$: ponderile factoriale; $\Phi(L)$: un polinom în operatorul lag; $v_t$, $e_t$: erorile'),
-            T('the VAR sees the information of 100 series through $K$ factors; responses are available for every series in $X_t$', 'VAR-ul vede informația a 100 de serii prin $K$ factori; răspunsurile sînt disponibile pentru fiecare serie din $X_t$')]),
-          (T('Two-step estimation (Section III): principal components $\\hat C_t$ of $X_t$; slow factors from slow-moving series; remove $Y_t$: $\\hat F_t = \\hat C_t - \\hat b_Y Y_t$', 'Estimarea în doi pași (secțiunea III): componentele principale $\\hat C_t$ ale lui $X_t$; factorii lenți din seriile lente; eliminăm $Y_t$: $\\hat F_t = \\hat C_t - \\hat b_Y Y_t$'),
-           [T(r'$K = 3$, VAR(13), 1960:1--2001:8 (ours: $T = @{fv.T}$, $N = @{fv.N}$ balanced series, @{fv.Ns} slow); Cholesky with $Y_t$ last; 25 bp shock', r'$K = 3$, VAR(13), 1960:1--2001:8 (la noi: $T = @{fv.T}$, $N = @{fv.N}$ serii complete, @{fv.Ns} lente); Cholesky cu $Y_t$ ultimul; șoc de 25 bp')]),
-          T('Prices and money enter as monthly growth rates; responses are cumulated to levels', 'Prețurile și masa monetară intră ca rate lunare de creștere; răspunsurile se cumulează în niveluri')), '0.30', '0.68'), 'footnotesize')
+    items((T(r'\refBBE', r'\refBBE'),
+           [T(r'VAR: $\binom{F_t}{Y_t} = \Phi(L)\binom{F_{t-1}}{Y_{t-1}} + v_t$; panel: $X_t = \Lambda^fF_t + \Lambda^yY_t + e_t$', r'VAR-ul: $\binom{F_t}{Y_t} = \Phi(L)\binom{F_{t-1}}{Y_{t-1}} + v_t$; panelul: $X_t = \Lambda^fF_t + \Lambda^yY_t + e_t$'),
+            T(r'$Y_t$: the funds rate; $F_t$: $K$ unobserved factors; $X_t$: the large panel', r'$Y_t$: dobînda federal funds; $F_t$: $K$ factori neobservați; $X_t$: panelul mare'),
+            T(r'$\Lambda^f$, $\Lambda^y$: loadings; $\Phi(L)$: a lag polynomial; $v_t$, $e_t$: errors', r'$\Lambda^f$, $\Lambda^y$: ponderile factoriale; $\Phi(L)$: un polinom în operatorul lag; $v_t$, $e_t$: erorile')]),
+          (T('Why it helps', 'Avantajul'),
+           [T('the VAR sees the information of 100 series through $K$ factors', 'VAR-ul vede informația a 100 de serii prin $K$ factori'),
+            T('responses are available for every series in $X_t$', 'răspunsurile sînt disponibile pentru fiecare serie din $X_t$')])), '0.30', '0.68'), 'footnotesize')
+
+D.frame(T('FAVAR: estimation and our replication', 'FAVAR: estimarea și replicarea noastră'), items(
+    (T('Two-step estimation (Section III of the paper)', 'Estimarea în doi pași (secțiunea III a lucrării)'),
+     [T(r'principal components $\hat C_t$ of $X_t$; slow factors from slow-moving series', r'componentele principale $\hat C_t$ ale lui $X_t$; factorii lenți din seriile lente'),
+      T(r'remove $Y_t$: $\hat F_t = \hat C_t - \hat b_YY_t$; $\hat b_Y$: the coefficient of $Y_t$ in a regression of $\hat C_t$ on the slow factors and $Y_t$', r'eliminăm $Y_t$: $\hat F_t = \hat C_t - \hat b_YY_t$; $\hat b_Y$: coeficientul lui $Y_t$ într-o regresie a lui $\hat C_t$ pe factorii lenți și pe $Y_t$'),
+      T(r'Cholesky identification with $Y_t$ last; a 25 bp shock', r'identificare Cholesky cu $Y_t$ ultimul; un șoc de 25 bp')]),
+    (T('Specification', 'Specificația'),
+     [T('paper: $K = 3$, VAR(13), 1960:1--2001:8', 'lucrarea: $K = 3$, VAR(13), 1960:1--2001:8'),
+      T(r'ours: $T = @{fv.T}$, $N = @{fv.N}$ balanced series, of which @{fv.Ns} slow', r'la noi: $T = @{fv.T}$, $N = @{fv.N}$ serii complete, dintre care @{fv.Ns} lente'),
+      T('prices and money enter as monthly growth rates; responses are cumulated to levels', 'prețurile și masa monetară intră ca rate lunare de creștere; răspunsurile se cumulează în niveluri')])), 'small')
 
 chart(T('FAVAR responses to a 25 bp monetary policy shock', 'Răspunsurile FAVAR la un șoc de politică monetară de 25 bp'), 'ats_ch5_favar', 'ATS_ch5_favar', [
     T(r'Levels in percent (rates and unemployment in pp); 90\% residual-bootstrap bands, factors treated as data; dashed: sample to 2007:12', r'Niveluri în procente (dobînzi și șomaj în pp); benzi bootstrap pe reziduuri de 90\%, factorii tratați ca date; linia întreruptă: eșantion pînă în 2007:12')],
@@ -715,13 +755,24 @@ interp(('the FAVAR', 'FAVAR'), [
 # =============================================================================
 D.section('Dynamic factor models in state-space form', 'Modele factoriale dinamice în forma spațiului stărilor')
 
-D.frame(T('The dynamic factor model', 'Modelul factorial dinamic'), items(
-    (T(r'Measurement: $x_t = \Lambda f_t + e_t$, $e_t \sim N(0, \Psi)$, $\Psi$ diagonal; transition: $f_t = A_1f_{t-1} + \dots + A_qf_{t-q} + u_t$, $u_t \sim N(0, Q)$', r'Ecuația de măsurare: $x_t = \Lambda f_t + e_t$, $e_t \sim N(0, \Psi)$, $\Psi$ diagonală; ecuația de tranziție: $f_t = A_1f_{t-1} + \dots + A_qf_{t-q} + u_t$, $u_t \sim N(0, Q)$'),
-     [T(r'$x_t$: the $N$ observed series; $f_t$: the $r$ factors; $\Lambda$: loadings; $e_t$: idiosyncratic errors with diagonal covariance $\Psi$; $A_j$: factor VAR($q$) matrices; $Q$: covariance of the factor shocks $u_t$', r'$x_t$: cele $N$ serii observate; $f_t$: cei $r$ factori; $\Lambda$: ponderile factoriale; $e_t$: erorile idiosincratice, cu covarianța diagonală $\Psi$; $A_j$: matricele VAR($q$) ale factorilor; $Q$: covarianța șocurilor factorilor $u_t$'),
-      T(r'a state-space model (TSA, Chapter 10; Chapter 6): state $s_t = (f_t\', \dots, f_{t-m}\')\'$, $m \ge q - 1$ lags; Kalman filter and smoother', r'un model în spațiul stărilor (TSA, Capitolul 10; Capitolul 6): starea $s_t = (f_t\', \dots, f_{t-m}\')\'$, cu $m \ge q - 1$ laguri; filtrul și netezitorul Kalman')]),
-    (T(r'\textbf{Two-step} \refDGRb: PCA for $\hat f_t$, OLS for $\Lambda$ and $\Psi$, a VAR on $\hat f_t$ for $A$ and $Q$, then the Kalman smoother re-estimates $f_t$', r'\textbf{În doi pași} \refDGRb: PCA pentru $\hat f_t$, OLS pentru $\Lambda$ și $\Psi$, un VAR pe $\hat f_t$ pentru $A$ și $Q$, apoi netezitorul Kalman reestimează $f_t$'),
-     [T('consistent for large $N$ and $T$ even though $\\Psi$ diagonal is misspecified', 'consistent pentru $N$ și $T$ mari, deși $\\Psi$ diagonală este o specificare greșită')]),
-    T(r'\textbf{Quasi-maximum likelihood by EM} \refDGRc, \refBM: E-step = Kalman smoother, M-step = regressions on smoothed moments; handles any pattern of missing data and idiosyncratic AR(1) terms', r'\textbf{Verosimilitate cvasi-maximă prin EM} \refDGRc, \refBM: pasul E = netezitorul Kalman, pasul M = regresii pe momentele netezite; tratează orice structură de date lipsă și componente idiosincratice AR(1)')), 'small')
+D.frame(T('The dynamic factor model (1/2)', 'Modelul factorial dinamic (1/2)'), items(
+    (T(r'Measurement equation: $x_t = \Lambda f_t + e_t$, $e_t \sim N(0, \Psi)$', r'Ecuația de măsurare: $x_t = \Lambda f_t + e_t$, $e_t \sim N(0, \Psi)$'),
+     [T(r'$x_t$: the $N$ observed series; $f_t$: the $r$ factors; $\Lambda$ ($N\times r$): the loadings', r'$x_t$: cele $N$ serii observate; $f_t$: cei $r$ factori; $\Lambda$ ($N\times r$): ponderile factoriale'),
+      T(r'$e_t$: idiosyncratic errors with diagonal covariance $\Psi$', r'$e_t$: erorile idiosincratice, cu covarianța diagonală $\Psi$')]),
+    (T(r'Transition equation: $f_t = A_1f_{t-1} + \dots + A_qf_{t-q} + u_t$, $u_t \sim N(0, Q)$', r'Ecuația de tranziție: $f_t = A_1f_{t-1} + \dots + A_qf_{t-q} + u_t$, $u_t \sim N(0, Q)$'),
+     [T(r'$A_j$: the factor VAR($q$) matrices; $Q$: the covariance of the factor shocks $u_t$', r'$A_j$: matricele VAR($q$) ale factorilor; $Q$: covarianța șocurilor factorilor $u_t$')]),
+    (T('A state-space model (TSA, Chapter 10; Chapter 6)', 'Un model în spațiul stărilor (TSA, Capitolul 10; Capitolul 6)'),
+     [T(r'state $s_t = (f_t\', \dots, f_{t-m}\')\'$, with $m \ge q - 1$ lags', r'starea $s_t = (f_t\', \dots, f_{t-m}\')\'$, cu $m \ge q - 1$ laguri'),
+      T('estimated by the Kalman filter and smoother', 'estimată prin filtrul și netezitorul Kalman')])), 'small')
+
+D.frame(T('The dynamic factor model (2/2)', 'Modelul factorial dinamic (2/2)'), items(
+    (T(r'\textbf{Two-step estimation} \refDGRb', r'\textbf{Estimarea în doi pași} \refDGRb'),
+     [T(r'PCA for $\hat f_t$; OLS for $\Lambda$ and $\Psi$; a VAR on $\hat f_t$ for $A$ and $Q$', r'PCA pentru $\hat f_t$; OLS pentru $\Lambda$ și $\Psi$; un VAR pe $\hat f_t$ pentru $A$ și $Q$'),
+      T(r'then the Kalman smoother re-estimates $f_t$', r'apoi netezitorul Kalman reestimează $f_t$'),
+      T('consistent for large $N$ and $T$ even though $\\Psi$ diagonal is misspecified', 'consistent pentru $N$ și $T$ mari, deși $\\Psi$ diagonală este o specificare greșită')]),
+    (T(r'\textbf{Quasi-maximum likelihood by EM} \refDGRc, \refBM', r'\textbf{Verosimilitate cvasi-maximă prin EM} \refDGRc, \refBM'),
+     [T('E-step: the Kalman smoother; M-step: regressions on the smoothed moments', 'pasul E: netezitorul Kalman; pasul M: regresii pe momentele netezite'),
+      T('handles any pattern of missing data and idiosyncratic AR(1) terms', 'tratează orice structură de date lipsă și componente idiosincratice AR(1)')])), 'small')
 
 D.frame(T('Missing data are not a problem for the Kalman filter', 'Datele lipsă nu sînt o problemă pentru filtrul Kalman'), items(
     (T(r'At time $t$, keep only the observed rows: $x_t^o = W_tx_t$, $\Lambda_t = W_t\Lambda$, $\Psi_t = W_t\Psi W_t\'$ with $W_t$ a selection matrix', r'La momentul $t$ păstrăm doar liniile observate: $x_t^o = W_tx_t$, $\Lambda_t = W_t\Lambda$, $\Psi_t = W_t\Psi W_t\'$, cu $W_t$ o matrice de selecție'),
@@ -804,14 +855,19 @@ interp(('the nowcast accuracy', 'acurateței nowcast-ului'), [
     T(r'Diebold--Mariano DFM against AR at month 3: $t = @{nc.dmt}$, $p = @{nc.dmp}$: the gain is not significant on @{nc.nq} quarters', r'Diebold--Mariano DFM comparat cu AR în luna 3: $t = @{nc.dmt}$, $p = @{nc.dmp}$: cîștigul nu este semnificativ pe @{nc.nq} de trimestre'),
     T(r'With 2020: AR @{nc.cv.ar.M3}, DFM @{nc.cv.dfm.Mp1} at month 1 after: the monthly data catch the collapse, the AR cannot', r'Cu 2020: AR @{nc.cv.ar.M3}, DFM @{nc.cv.dfm.Mp1} în luna 1 de după: datele lunare surprind prăbușirea, AR nu poate')])
 
-D.frame(T('News and revisions: Bańbura and Modugno (2014)', 'Știri și revizuiri: Bańbura și Modugno (2014)'), items(
-    (T(r'Information sets $\Omega_v \subset \Omega_{v+1}$; the new releases $x_j$, $j \in J_{v+1}$; the \textbf{news} is $I_j = x_j - \E[x_j\mid\Omega_v]$, not $x_j$', r'Seturile de informații $\Omega_v \subset \Omega_{v+1}$; noile publicări $x_j$, $j \in J_{v+1}$; \textbf{știrea} este $I_j = x_j - \E[x_j\mid\Omega_v]$, nu $x_j$'),
-     [T(r'with fixed parameters the revision of the nowcast of $y$ is a weighted sum of the news: $\E[y\mid\Omega_{v+1}] - \E[y\mid\Omega_v] = \E[yI\']\E[II\']^{-1}I = \sum_j w_jI_j$ \refBM', r'cu parametri ficși, revizuirea nowcast-ului lui $y$ este o sumă ponderată a știrilor: $\E[y\mid\Omega_{v+1}] - \E[y\mid\Omega_v] = \E[yI\']\E[II\']^{-1}I = \sum_j w_jI_j$ \refBM'),
-      T(r'$I$: the vector of news $I_j$; $w_j$: the weight of release $j$', r'$I$: vectorul știrilor $I_j$; $w_j$: ponderea publicării $j$')]),
+D.frame(T('News and revisions: Bańbura and Modugno (2014) (1/2)', 'Știri și revizuiri: Bańbura și Modugno (2014) (1/2)'), items(
+    (T(r'The \textbf{news} of a release: $I_j = x_j - \E[x_j\mid\Omega_v]$, not $x_j$ itself', r'\textbf{Știrea} unei publicări: $I_j = x_j - \E[x_j\mid\Omega_v]$, nu $x_j$ însăși'),
+     [T(r'$\Omega_v \subset \Omega_{v+1}$: two successive information sets (data vintages)', r'$\Omega_v \subset \Omega_{v+1}$: două seturi de informații succesive (ediții ale datelor)'),
+      T(r'$x_j$, $j \in J_{v+1}$: the releases that are new in $\Omega_{v+1}$', r'$x_j$, $j \in J_{v+1}$: publicările noi din $\Omega_{v+1}$')]),
+    (T(r'With fixed parameters, the revision is a weighted sum of the news \refBM', r'Cu parametri ficși, revizuirea este o sumă ponderată a știrilor \refBM'),
+     [T(r'$\E[y\mid\Omega_{v+1}] - \E[y\mid\Omega_v] = \E[yI\']\E[II\']^{-1}I = \sum_j w_jI_j$', r'$\E[y\mid\Omega_{v+1}] - \E[y\mid\Omega_v] = \E[yI\']\E[II\']^{-1}I = \sum_j w_jI_j$'),
+      T(r'$y$: the target (GDP growth); $I$: the vector of news $I_j$; $w_j$: the weight of release $j$', r'$y$: ținta (creșterea PIB); $I$: vectorul știrilor $I_j$; $w_j$: ponderea publicării $j$')]),
+    T('A large release that was expected moves nothing; a small surprise in a heavily weighted series moves a lot; correlated releases share their weight', 'O publicare mare, dar așteptată, nu schimbă nimic; o surpriză mică într-o serie cu pondere mare schimbă mult; publicările corelate își împart ponderea')), 'small')
+
+D.frame(T('News and revisions: Bańbura and Modugno (2014) (2/2)', 'Știri și revizuiri: Bańbura și Modugno (2014) (2/2)'), items(
     (T(r'In the DFM: $I_j = \lambda_j\'(f_{t_j} - \hat f_{t_j\mid v}) + e_j$, so $\E[II\'] = H P_{\mid v}H\' + \Psi_J$ and $\E[yI\'] = z_y\'P_{\mid v}H\'$', r'În DFM: $I_j = \lambda_j\'(f_{t_j} - \hat f_{t_j\mid v}) + e_j$, deci $\E[II\'] = H P_{\mid v}H\' + \Psi_J$ și $\E[yI\'] = z_y\'P_{\mid v}H\'$'),
      [T(r'$\lambda_j$: the loadings of release $j$; $t_j$: its reference month; $\hat f_{t_j\mid v}$: the factor estimate given $\Omega_v$; $H$: the stacked $\lambda_j\'$; $\Psi_J$: their idiosyncratic variances; $z_y$: the loading of the target', r'$\lambda_j$: ponderile factoriale ale publicării $j$; $t_j$: luna la care se referă; $\hat f_{t_j\mid v}$: estimația factorului dat fiind $\Omega_v$; $H$: vectorii $\lambda_j\'$ așezați pe linii; $\Psi_J$: varianțele lor idiosincratice; $z_y$: ponderea factorială a țintei'),
-      T(r'$P_{\mid v}$: the covariance of the stacked state given $\Omega_v$, from the Kalman filter', r'$P_{\mid v}$: covarianța stării stivuite dat fiind $\Omega_v$, din filtrul Kalman')]),
-    T('A large release that was expected moves nothing; a small surprise in a heavily weighted series moves a lot; correlated releases share their weight', 'O publicare mare dar așteptată nu schimbă nimic; o surpriză mică într-o serie cu pondere mare schimbă mult; publicările corelate își împart ponderea')), 'small')
+      T(r'$P_{\mid v}$: the covariance of the stacked state given $\Omega_v$, from the Kalman filter', r'$P_{\mid v}$: covarianța stării stivuite dat fiind $\Omega_v$, din filtrul Kalman')])), 'small')
 
 chart(T('Nowcasting 2026Q3, and where the revision came from', 'Nowcast pentru T3 2026 și sursa revizuirii'), 'ats_ch5_news', 'ATS_ch5_nowcast', [
     T('Left: nowcasts at the ends of June--September 2026; right: news decomposition of the two-step DFM nowcast between the August and September information sets', 'Stînga: nowcast-uri la sfîrșitul lunilor iunie--septembrie 2026; dreapta: descompunerea în știri a nowcast-ului DFM în doi pași între seturile de informații din august și septembrie')],
@@ -901,10 +957,12 @@ D.frame(T('Appendix: the natural conjugate posterior', 'Anexă: distribuția a p
     T(r'Likelihood: $p(Y\mid B, \Sigma) \propto |\Sigma|^{-T/2}\exp\{-\frac12\mathrm{tr}[\Sigma^{-1}(Y - XB)\'(Y - XB)]\}$', r'Verosimilitatea: $p(Y\mid B, \Sigma) \propto |\Sigma|^{-T/2}\exp\{-\frac12\mathrm{tr}[\Sigma^{-1}(Y - XB)\'(Y - XB)]\}$'),
     T(r'Prior: $|\Sigma|^{-k/2}\exp\{-\frac12\mathrm{tr}[\Sigma^{-1}(B - B_0)\'\Omega_0^{-1}(B - B_0)]\}\times|\Sigma|^{-(d + n + 1)/2}\exp\{-\frac12\mathrm{tr}(\Sigma^{-1}\Psi)\}$', r'Distribuția a priori: $|\Sigma|^{-k/2}\exp\{-\frac12\mathrm{tr}[\Sigma^{-1}(B - B_0)\'\Omega_0^{-1}(B - B_0)]\}\times|\Sigma|^{-(d + n + 1)/2}\exp\{-\frac12\mathrm{tr}(\Sigma^{-1}\Psi)\}$'),
     T(r'Complete the square in $B$: $(Y - XB)\'(Y - XB) + (B - B_0)\'\Omega_0^{-1}(B - B_0) = (B - \bar B)\'\bar\Omega^{-1}(B - \bar B) + \hat U\'\hat U + (\bar B - B_0)\'\Omega_0^{-1}(\bar B - B_0)$', r'Completăm pătratul în $B$: $(Y - XB)\'(Y - XB) + (B - B_0)\'\Omega_0^{-1}(B - B_0) = (B - \bar B)\'\bar\Omega^{-1}(B - \bar B) + \hat U\'\hat U + (\bar B - B_0)\'\Omega_0^{-1}(\bar B - B_0)$'),
-    T(r'Hence $B\mid\Sigma, Y \sim MN(\bar B, \bar\Omega, \Sigma)$ and $\Sigma\mid Y \sim IW(\bar\Psi, T + d)$: the same families as the prior', r'Deci $B\mid\Sigma, Y \sim MN(\bar B, \bar\Omega, \Sigma)$ și $\Sigma\mid Y \sim IW(\bar\Psi, T + d)$: aceleași familii ca distribuția a priori')), 'small')
+    T(r'Hence $B\mid\Sigma, Y \sim MN(\bar B, \bar\Omega, \Sigma)$ and $\Sigma\mid Y \sim IW(\bar\Psi, T + d)$: the same families as the prior', r'Deci $B\mid\Sigma, Y \sim MN(\bar B, \bar\Omega, \Sigma)$ și $\Sigma\mid Y \sim IW(\bar\Psi, T + d)$: aceleași familii ca distribuția a priori'),
+    T(r'$MN(\bar B, \bar\Omega, \Sigma)$: the matrix normal distribution, i.e.\ $\mathrm{vec}(B) \sim N(\mathrm{vec}(\bar B), \Sigma\otimes\bar\Omega)$', r'$MN(\bar B, \bar\Omega, \Sigma)$: distribuția Normală matriceală, adică $\mathrm{vec}(B) \sim N(\mathrm{vec}(\bar B), \Sigma\otimes\bar\Omega)$')), 'small')
 
 D.frame(T('Appendix: the marginal likelihood in closed form', 'Anexă: verosimilitatea marginală în formă închisă'), items(
-    T(r'Integrating $B$ and $\Sigma$ out (GLP, appendix): $p(Y) = \pi^{-nT/2}\frac{\Gamma_n(\frac{T + d}2)}{\Gamma_n(\frac d2)}|\Omega_0|^{-\frac n2}|X\'X + \Omega_0^{-1}|^{-\frac n2}|\Psi|^{\frac d2}|\bar\Psi|^{-\frac{T + d}2}$', r'Integrînd $B$ și $\Sigma$ (GLP, anexă): $p(Y) = \pi^{-nT/2}\frac{\Gamma_n(\frac{T + d}2)}{\Gamma_n(\frac d2)}|\Omega_0|^{-\frac n2}|X\'X + \Omega_0^{-1}|^{-\frac n2}|\Psi|^{\frac d2}|\bar\Psi|^{-\frac{T + d}2}$'),
+    T(r'Integrating $B$ and $\Sigma$ out (the online appendix of GLP): $p(Y) = \pi^{-nT/2}\frac{\Gamma_n(\frac{T + d}2)}{\Gamma_n(\frac d2)}|\Omega_0|^{-\frac n2}|X\'X + \Omega_0^{-1}|^{-\frac n2}|\Psi|^{\frac d2}|\bar\Psi|^{-\frac{T + d}2}$', r'Integrînd după $B$ și $\Sigma$ (anexa online a lucrării GLP): $p(Y) = \pi^{-nT/2}\frac{\Gamma_n(\frac{T + d}2)}{\Gamma_n(\frac d2)}|\Omega_0|^{-\frac n2}|X\'X + \Omega_0^{-1}|^{-\frac n2}|\Psi|^{\frac d2}|\bar\Psi|^{-\frac{T + d}2}$'),
+    T(r'$\Gamma_n(a) = \pi^{n(n-1)/4}\prod_{j=1}^n\Gamma(a + (1 - j)/2)$: the multivariate gamma function', r'$\Gamma_n(a) = \pi^{n(n-1)/4}\prod_{j=1}^n\Gamma(a + (1 - j)/2)$: funcția gamma multivariată'),
     T(r'$|\Omega_0|\,|X\'X + \Omega_0^{-1}| = |I + \Omega_0X\'X|$: the complexity penalty, growing with $\lambda$', r'$|\Omega_0|\,|X\'X + \Omega_0^{-1}| = |I + \Omega_0X\'X|$: penalizarea complexității, care crește cu $\lambda$'),
     T(r'$|\bar\Psi|$: the fit term, falling with $\lambda$; the optimum balances the two', r'$|\bar\Psi|$: termenul de potrivire, care scade cu $\lambda$; optimul le echilibrează'),
     T(r'With dummies: $\ln p(Y\mid\gamma) = \ln p(Y, Y_d\mid\gamma) - \ln p(Y_d\mid\gamma)$, each by the formula above', r'Cu observații fictive: $\ln p(Y\mid\gamma) = \ln p(Y, Y_d\mid\gamma) - \ln p(Y_d\mid\gamma)$, fiecare cu formula de mai sus')), 'small')

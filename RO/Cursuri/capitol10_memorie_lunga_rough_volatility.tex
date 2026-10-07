@@ -265,7 +265,11 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
     \item Hurst a studiat secole de niveluri ale Nilului pentru a dimensiona rezervoarele de deasupra Aswanului \refHur
     \item Amplitudinea ajustată a afluxurilor cumulate creștea ca $n^H$ cu $H \approx 0{,}7$, nu ca $n^{1/2}$: \textbf{efectul Hurst}
     \item Anii ploioși urmează anilor ploioși în serii lungi: o dependență pe care niciun ARMA finit nu o reproduce
-    \item Explicat prin zgomotul gaussian fracționar \refMVN\ și prin diferențierea fracționară \refGJ, \refHos
+    \item Au urmat două explicații
+    \begin{itemize}
+        \item zgomotul gaussian fracționar \refMVN
+        \item diferențierea fracționară \refGJ, \refHos
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -563,6 +567,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
     \item Nicio ipoteză de distribuție în afara unui proces liniar cu inovații diferențe de martingal
     \begin{itemize}
         \item eficiența relativă față de GPH: $(\pi^2/24)/(1/4) = \pi^2/6 \approx 1{,}64$
+        \item derivarea pas cu pas: \atsapplink{atsapp1}{atssrc1}{Anexa}  % applink: varianța estimatorului local Whittle
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1157,6 +1162,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
     \[ m(q, \Delta) = K_q\nu^q\Delta^{\zeta_q}, \qquad \zeta_q = qH \]
     \begin{itemize}
         \item $\nu$: volatilitatea volatilității; $K_q = \E|Z|^q$, $Z \sim N(0, 1)$; $\zeta_q$: exponentul de scalare, liniar în $q$, cu panta $H$
+        \item derivarea și abaterile de la această scalare: \atsapplink{atsapp2}{atssrc2}{Anexa}  % applink: scalarea momentelor fBm
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1208,8 +1214,10 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
     \begin{itemize}
         \item GJR arată că local Whittle și estimatori similari aplicați simulărilor RFSV dau valorile de „memorie lungă” găsite în literatură
     \end{itemize}
-    \item Evaluarea opțiunilor: rough Bergomi \refBFG\ și rough Heston \refER\ reproduc structura la termen a pantei volatilității implicite, $\propto \tau^{H-1/2}$ ($\tau$: scadența opțiunii), cu puțini parametri; estimările din opțiuni dau tot $H$ mic \refLMPR
+    \item Evaluarea opțiunilor: rough Bergomi \refBFG\ și rough Heston \refER
     \begin{itemize}
+        \item ambele reproduc structura la termen a pantei volatilității implicite, $\propto \tau^{H-1/2}$ ($\tau$: scadența opțiunii), cu puțini parametri
+        \item estimările din opțiuni dau tot $H$ mic \refLMPR
         \item partea de evaluare aparține MFM; aici testăm afirmația de serie de timp
     \end{itemize}
 \end{itemize}
@@ -1307,7 +1315,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \begin{frame}{Interpretarea celor două scări}
 \itemsize{\small}
 \begin{itemize}
-    \item Decalaje scurte: panta $2H = 0{,}32$, $H = 0{,}16$; laguri lungi: panta 0{,}20, încă în creștere la 1000 de zile, peste $2\Var(\log\sigma)$
+    \item Laguri scurte: panta $2H = 0{,}32$, $H = 0{,}16$; laguri lungi: panta 0{,}20, încă în creștere la 1000 de zile, peste $2\Var(\log\sigma)$
     \item Citită ca proces fracționar nestaționar, panta la laguri lungi $2d - 1$ dă $d = 0{,}60$; local Whittle cu $m = 74$ dă 0{,}56
     \item Ajustarea ACF dă doar $d = 0{,}31$: ACF de eșantion este deplasată în jos cînd $d$ este aproape de 1/2 sau peste
     \item Neregulată la scări mici, foarte persistentă la scări mari: ambele afirmații sînt valabile pentru aceeași serie
@@ -1551,6 +1559,7 @@ $h = 22$ & 1{,}002 & 0{,}969 & 0{,}968 & 0{,}982 & 0{,}986 & 1{,}027 \\
 %=============================================================================
 
 \begin{frame}{Anexă: varianța estimatorului local Whittle}
+\hypertarget{atsapp1}{}\atsappback{atssrc1}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Dezvoltăm $R'(\hat d) = 0$ în jurul lui $d$: $\sqrt m(\hat d - d) = -\sqrt m\,R'(d)/R''(\bar d)$
@@ -1561,6 +1570,7 @@ $h = 22$ & 1{,}002 & 0{,}969 & 0{,}968 & 0{,}982 & 0{,}986 & 1{,}027 \\
 \end{frame}
 
 \begin{frame}{Anexă: scalarea momentelor fBm}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item $W^H_{t+\Delta} - W^H_t \sim N(0, \Delta^{2H})$, deci $\E|W^H_{t+\Delta} - W^H_t|^q = \Delta^{qH}\E|Z|^q$, $\E|Z|^q = 2^{q/2}\Gamma\big(\tfrac{q+1}{2}\big)/\sqrt\pi$

@@ -155,7 +155,11 @@ MSCA Digital Finance}
         \item date-stamping, real-time monitoring, evaluation of early warnings; fundamentals against prices (rents)
         \item LPPLS as a competing detector; applications: dot-com, Shanghai 2015, Bitcoin, BET 2007, housing
     \end{itemize}
-    \item We build on \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter13_bubbles_lppl.pdf}{TSA, Chapter 13} (bubbles in history, PSY basics, LPPL with the Filimonov--Sornette calibration) and on \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter2_structural_breaks_nonlinear_models.pdf}{Chapter 2} (unit roots, structural breaks); \atschlink{https://danpele.github.io/MFM/EN/Courses/chapter17_bubbles_crashes.pdf}{MFM, Chapter 17} applies the tests to markets
+    \item Prerequisites and continuation
+    \begin{itemize}
+        \item \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter13_bubbles_lppl.pdf}{TSA, Chapter 13}: bubbles in history, PSY basics, LPPL with the Filimonov--Sornette calibration
+        \item \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter2_structural_breaks_nonlinear_models.pdf}{Chapter 2}: unit roots, structural breaks; \atschlink{https://danpele.github.io/MFM/EN/Courses/chapter17_bubbles_crashes.pdf}{MFM, Chapter 17} applies the tests to markets
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -234,14 +238,22 @@ All price series of the course data & EODHD, monthly closes (screen of the AI mi
 \end{column}
 \begin{column}{0.62\textwidth}
 \begin{itemize}
-    \item Known (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter13_bubbles_lppl.pdf}{TSA, Chapter 13}): manias in history; the right-tailed ADF, SADF, GSADF and BSADF with Monte Carlo critical values; the LPPL equation, the two-step calibration, the confidence indicator
+    \item Known (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter13_bubbles_lppl.pdf}{TSA, Chapter 13})
+    \begin{itemize}
+        \item manias in history; the right-tailed ADF, SADF, GSADF and BSADF with Monte Carlo critical values
+        \item the LPPL equation, the two-step calibration, the confidence indicator
+    \end{itemize}
     \item New: the research layer
     \begin{itemize}
         \item why rational bubbles must explode and why they are hard to see
         \item the limit theory behind the tests, their size under changing volatility and across many dates
         \item how early, how often and how wrongly the detectors raise alarms
     \end{itemize}
-    \item Case studies: Phillips--Wu--Yu (2011), Phillips--Shi--Yu (2015), Phillips--Yu (2011), Homm--Breitung (2012), Harvey et al.\ (2016), Sornette et al.\ (2015), on our data
+    \item Case studies, on our data
+    \begin{itemize}
+        \item \refPWY; \refPSYa; \refPY
+        \item \refHB; \refHLST; \refSha
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -397,11 +409,11 @@ All price series of the course data & EODHD, monthly closes (screen of the AI mi
 \section{Explosive autoregressions}
 %=============================================================================
 
-\begin{frame}{Three regimes of the AR(1) estimator}
+\begin{frame}{Three regimes of the AR(1) estimator (1/2)}
 \itemsize{\small}
 {\renewcommand{\arraystretch}{2.0}\begin{center}
 \footnotesize
-\begin{tabular}{lll}
+\begin{tabular}{@{}lll@{}}
 \toprule
 \textbf{Root} & \textbf{Rate and limit of} $\hat\rho - \rho$ & \textbf{Invariance} \\
 \midrule
@@ -413,12 +425,33 @@ $|\rho| > 1$ fixed & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \m
 \end{tabular}
 \end{center}
 }\begin{itemize}
-    \item $y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS without intercept; $n$: sample size; $W$: a standard Brownian motion; $\mathcal C$: the standard Cauchy law
+    \item Model: $y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS without intercept
     \begin{itemize}
-        \item mildly explosive: $c > 0$ and $k_n \to \infty$ more slowly than $n$ ($k_n = o(n)$, i.e.\ $k_n/n \to 0$); CLT/FCLT: (functional) central limit theorem; $\Rightarrow$: convergence in distribution
+        \item $n$: sample size; $W$: a standard Brownian motion; $\mathcal C$: the standard Cauchy law; $\Rightarrow$: convergence in distribution
+        \item CLT/FCLT: (functional) central limit theorem
     \end{itemize}
-    \item The rate grows from $\sqrt n$ to $n$ to the exponential $\rho^n$: the further from unity, the faster we learn $\rho$ (unit roots: \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter2_structural_breaks_nonlinear_models.pdf}{Chapter 2} and \refHam, Chapter 17)
-    \item Mildly explosive roots are the realistic case for bubbles: faster than any local-to-unity root $1 + c/n$, slower than any fixed explosive root
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Three regimes of the AR(1) estimator (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Mildly explosive root: $\rho_n = 1 + c/k_n$
+    \begin{itemize}
+        \item $c > 0$, and $k_n \to \infty$ more slowly than $n$: $k_n = o(n)$, i.e.\ $k_n/n \to 0$
+        \item the Cauchy limit is derived in the \atsapplink{atsapp1}{atssrc1}{Appendix} % applink: the mildly explosive Cauchy limit
+    \end{itemize}
+    \item The rate grows from $\sqrt n$ to $n$ to the exponential $\rho^n$
+    \begin{itemize}
+        \item the further from unity, the faster we learn $\rho$
+        \item unit roots: \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter2_structural_breaks_nonlinear_models.pdf}{Chapter 2} and \refHam, Chapter 17
+    \end{itemize}
+    \item Mildly explosive roots are the realistic case for bubbles
+    \begin{itemize}
+        \item faster than any local-to-unity root $1 + c/n$
+        \item slower than any fixed explosive root
+        \item their limit theory is invariant to the error law, unlike the fixed explosive case
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -430,8 +463,9 @@ $|\rho| > 1$ fixed & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \m
     \begin{itemize}
         \item then $\rho^{-n}y_n \approx Y_n$, $\rho^{-2n}\sum_t y_{t-1}^2 \approx Y_n^2/(\rho^2 - 1)$ and $\rho^{-n}\sum_t y_{t-1}u_t \approx X_nY_n$
     \end{itemize}
-    \item Hence $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \approx \dfrac{X_n}{Y_n}$; $X_n$ and $Y_n$ use disjoint blocks of shocks asymptotically, so they are independent with equal variances $\sigma^2/(\rho^2 - 1)$
+    \item Hence $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \approx \dfrac{X_n}{Y_n}$
     \begin{itemize}
+        \item $X_n$ and $Y_n$ use disjoint blocks of shocks asymptotically: independent, with equal variances $\sigma^2/(\rho^2 - 1)$
         \item \textbf{fixed} $\rho$: each sum is dominated by a few shocks; it is Gaussian only if the $u_j$ are Gaussian, so the ratio is Cauchy only then \refAnd
         \item \textbf{mildly explosive} $\rho_n$: about $k_n \to \infty$ shocks enter each sum with comparable weights, a CLT applies, and $X_n/Y_n \Rightarrow \mathcal C$ for any i.i.d.\ errors with finite variance \refPM
     \end{itemize}
@@ -670,7 +704,7 @@ $|\rho| > 1$ fixed & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \m
     \begin{itemize}
         \item $r_j$: return of period $j$; $\bar r_n$, $\hat\sigma_n$: mean and standard deviation of the training returns; $b_t$: the boundary, which widens with $t$; $a$: a constant that sets the error rate
     \end{itemize}
-    \item Error rate over the whole horizon (proof in the \atsapplink{atsapp2}{atssrc1}{Appendix})
+    \item Error rate over the whole horizon (proof in the \atsapplink{atsapp2}{atssrc2}{Appendix})
     \begin{itemize}
         \item $\Pr\{S_t > b_t$ for some $t\} \to 1 - \Phi(a) + a\varphi(a)$; $\Phi$, $\varphi$: standard Normal distribution and density functions
         \item 5\% gives $a = 2.50$, $a^2 = 6.25$
@@ -709,7 +743,10 @@ $|\rho| > 1$ fixed & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \m
 \itemsize{\small}
 \begin{itemize}
     \item Nasdaq 100: the CUSUM alarm comes on 24 December 1999, three months before the peak of 24 March 2000; the first confirmed BSADF alarm after training comes on 21 July 1995, more than four years earlier
-    \item Bitcoin: CUSUM on 8 December 2017, at the top of the 2017 run-up; BSADF on 9 June 2017; the boundary widens with $\sqrt{t\ln t}$, so after 2018 the 2021 rally cannot reach it
+    \item Bitcoin: CUSUM on 8 December 2017, at the top of the 2017 run-up; BSADF on 9 June 2017
+    \begin{itemize}
+        \item the boundary widens with $\sqrt{t\ln t}$, so after 2018 the 2021 rally cannot reach it
+    \end{itemize}
     \item CUSUM detects a change in the mean return (persistent acceleration), not explosiveness as such; it is slow, but its size is controlled over the whole horizon
     \item BSADF reacts early and often: an early alarm that is followed by years of further gains is costly to anyone who acts on it
 \end{itemize}
@@ -861,12 +898,16 @@ $|\rho| > 1$ fixed & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \m
 \begin{frame}{Spectral views of log-periodicity and the critique}
 \itemsize{\small}
 \begin{itemize}
-    \item Log-periodic oscillation $\cos(\omega\ln(t_c - t))$ is periodic in $\ln(t_c - t)$: test it with the Lomb periodogram of the detrended residual against $\ln(t_c - t)$ \refLom; nonparametric $(H, q)$-derivative analysis \refZS
+    \item The oscillation $\cos(\omega\ln(t_c - t))$ is periodic in $\ln(t_c - t)$
     \begin{itemize}
+        \item test: the Lomb periodogram of the detrended residual against $\ln(t_c - t)$ \refLom
+        \item nonparametric alternative: the $(H, q)$-derivative analysis \refZS
         \item in calendar time its instantaneous frequency is $\omega/[2\pi(t_c - t)]$: oscillations speed up towards $t_c$; the Hilbert transform of the residual gives this phase directly (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter11_spectral_wavelet_analysis.pdf}{Chapter 11} for the tools)
     \end{itemize}
-    \item Critique: log-periodic peaks appear in noise after fitting and detrending \refFei; out-of-sample crash calls perform poorly \refBJ; estimation is fragile \refGF
+    \item Critique
     \begin{itemize}
+        \item log-periodic peaks appear in noise after fitting and detrending \refFei
+        \item out-of-sample crash calls perform poorly \refBJ; estimation is fragile \refGF
         \item replies on the stochastic formulation, filters and multi-window indicators: \refSWYZ
     \end{itemize}
     \item A fair comparison with PSY uses the same events, dates and error measures: next section
@@ -997,7 +1038,11 @@ BET, 20 July 2007 & 2 September 2005 & 98 & no & -- & 46\% \\
 \begin{itemize}
     \item Wild-bootstrap critical values are higher than Monte Carlo ones on real data; some textbook rejections do not survive
     \item Major peaks are usually preceded by alarms, but with long and variable leads; family-wise control removes most of them
-    \item Over decades, precision must be read against the base rate: exuberance scores help for Bitcoin, where crashes follow run-ups, and fail for the S\&P 500, where most pre-crash dates lie inside bear markets
+    \item Over decades, precision must be read against the base rate
+    \begin{itemize}
+        \item exuberance scores help for Bitcoin, where crashes follow run-ups
+        \item they fail for the S\&P 500, where most pre-crash dates lie inside bear markets
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1009,13 +1054,20 @@ BET, 20 July 2007 & 2 September 2005 & 98 & no & -- & 46\% \\
 \begin{frame}{An open question}
 \itemsize{\small}
 \begin{itemize}
-    \item Do explosive-root and LPPLS alarms carry information about large falls beyond momentum and volatility, once base rates, overlapping horizons and the search over assets are accounted for?
+    \item The question
+    \begin{itemize}
+        \item do explosive-root and LPPLS alarms carry information about large falls beyond momentum and volatility?
+        \item once base rates, overlapping horizons and the search over assets are accounted for
+    \end{itemize}
+    \item A testable form
     \begin{itemize}
         \item formal: in a logit or probit of the event on lagged momentum, volatility and the alarm score, $H_0$: the alarm coefficient is zero, with block-bootstrap inference and a pre-registered panel of assets
         \item falsified by a significant out-of-sample gain in a proper score (log score, Brier) over the momentum-volatility model, pooled across assets
     \end{itemize}
-    \item Why it matters: regulators and investors read bubble indicators as warnings; most evidence comes from a few famous episodes chosen after the fact
+    \item Why it matters
     \begin{itemize}
+        \item regulators and investors read bubble indicators as warnings
+        \item most evidence comes from a few famous episodes chosen after the fact
         \item literature to start from: \refPS, \refAHLST, \refDS, \refBJ, \refHB
     \end{itemize}
 \end{itemize}
@@ -1169,8 +1221,15 @@ LPPLS & $\ln p = A + B f + C_1 f\cos(\omega\ln(t_c - t)) + C_2 f\sin(\omega\ln(t
 \end{column}
 \begin{column}{0.64\textwidth}
 \begin{itemize}
-    \item Surveys: \refGur; \refGSY{} (bubbles and later returns); \refShi; \refKA
-    \item Implementation: the R package \texttt{exuber} \refVPM; our Quantlets reproduce its statistics in Python
+    \item Surveys
+    \begin{itemize}
+        \item \refGur; \refShi; \refKA
+        \item bubbles and later returns: \refGSY
+    \end{itemize}
+    \item Implementation: the R package \texttt{exuber} \refVPM
+    \begin{itemize}
+        \item our Quantlets reproduce its statistics in Python
+    \end{itemize}
     \item Applications to markets, risk and policy: \atschlink{https://danpele.github.io/MFM/EN/Courses/chapter17_bubbles_crashes.pdf}{MFM, Chapter 17}
     \item Further reading on the Bucharest Stock Exchange: \refPMM
     \item The course ends here; the project defence is described in \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter15_review_project_defence.pdf}{Chapter 15}
@@ -1196,7 +1255,7 @@ LPPLS & $\ln p = A + B f + C_1 f\cos(\omega\ln(t_c - t)) + C_2 f\sin(\omega\ln(t
 \end{frame}
 
 \begin{frame}{Appendix: the monitoring boundary}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Back}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item Under the null, $S_t \approx n^{-1/2}\sigma^{-1}[\sum_{j \le t}\varepsilon_j - (t/n)\sum_{j \le n}\varepsilon_j]$; with $s = (t - n)/n$: $S \Rightarrow Z(s) = W(1 + s) - (1 + s)W(1)$, $\Var Z(s) = s(1 + s)$

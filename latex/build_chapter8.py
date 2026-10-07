@@ -285,9 +285,11 @@ minus_fix(V)
 # DESCHIDERE
 # =============================================================================
 D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items(
-    (T(r'\textbf{Question}: how precisely can we measure, model and forecast a variance that is never observed, and which of our tools still work when the data are noisy, jumpy or high-dimensional?',
-       r'\textbf{Întrebarea}: cît de precis putem măsura, modela și prognoza o varianță care nu se observă niciodată și care dintre instrumentele noastre funcționează în continuare cînd datele sînt zgomotoase, au salturi sau au multe dimensiuni?'),
-     [T('two routes to volatility: a parametric filter of daily returns (GARCH) and a nonparametric measurement from intraday prices (realised measures); the frontier combines them',
+    (T(r'\textbf{Question}: how precisely can we measure, model and forecast a variance that is never observed?',
+       r'\textbf{Întrebarea}: cît de precis putem măsura, modela și prognoza o varianță care nu se observă niciodată?'),
+     [T('and which of our tools still work when the data are noisy, jumpy or high-dimensional?',
+        'și care dintre instrumentele noastre funcționează în continuare cînd datele sînt zgomotoase, au salturi sau au multe dimensiuni?'),
+      T('two routes to volatility: a parametric filter of daily returns (GARCH) and a nonparametric measurement from intraday prices (realised measures); the frontier combines them',
         'două căi către volatilitate: un filtru parametric al randamentelor zilnice (GARCH) și o măsurare neparametrică din prețurile intraday (măsurile realizate); cercetarea actuală le combină')]),
     (T(r'\textbf{Route} of the chapter', r'\textbf{Traseul} capitolului'),
      [T('quasi-maximum likelihood for GARCH and robust inference; long-run components: component GARCH and GARCH-MIDAS with macroeconomic drivers',
@@ -298,8 +300,10 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
         'prognoza cu măsuri realizate: HAR, HARQ, Realized GARCH, HEAVY; funcții de pierdere robuste'),
       T('multivariate: BEKK, DCC and cDCC, the curse of dimensionality and DCC-NL, realised covariance',
         'cazul multivariat: BEKK, DCC și cDCC, blestemul dimensionalității și DCC-NL, covarianța realizată')]),
-    T('We build on TSA, Chapter 5 (GARCH, GJR, EGARCH, news impact, QLIKE) and TSA, Chapter 14 (DCC basics); MFM, Chapters 5--9 apply these tools to market risk; Seminar 8 comes before this lecture',
-      'Pornim de la TSA, Capitolul 5 (GARCH, GJR, EGARCH, curba de impact a știrilor, QLIKE) și TSA, Capitolul 14 (bazele DCC); MFM, Capitolele 5--9 aplică aceste instrumente riscului de piață; Seminarul 8 are loc înaintea acestui curs')), 'small')
+    (T('We build on TSA, Chapter 5 (GARCH, GJR, EGARCH, news impact, QLIKE) and TSA, Chapter 14 (DCC basics)',
+       'Pornim de la TSA, Capitolul 5 (GARCH, GJR, EGARCH, curba de impact a știrilor, QLIKE) și TSA, Capitolul 14 (bazele DCC)'),
+     [T('MFM, Chapters 5--9 apply these tools to market risk; Seminar 8 comes before this lecture',
+        'MFM, Capitolele 5--9 aplică aceste instrumente riscului de piață; Seminarul 8 are loc înaintea acestui curs')])), 'small')
 
 D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
     T('State the conditions under which Gaussian QML for GARCH is consistent and asymptotically normal, and compute Bollerslev--Wooldridge standard errors',
@@ -314,9 +318,11 @@ D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
       'Estimați modele DCC și cDCC, explicați de ce matricele de covarianță mari au nevoie de shrinkage și măsurați corelația din date intraday')), 'small')
 
 D.frame(T('Reading, data and tools', 'Bibliografie, date și instrumente'), items(
-    (T(r'Backbone: \refFZ; \refABDL; \refBNSa; \refBNHLSa; \refCor; \refHHS; \refEngD; \refPat',
-       r'Bibliografia de bază: \refFZ; \refABDL; \refBNSa; \refBNHLSa; \refCor; \refHHS; \refEngD; \refPat'),
-     [T(r'case studies: \refEGS\ (GARCH-MIDAS), \refBPQ\ (HARQ), \refHHS\ (Realized GARCH), \refELW\ (DCC-NL)',
+    (T(r'Backbone: \refFZ; \refABDL; \refBNSa; \refBNHLSa',
+       r'Bibliografia de bază: \refFZ; \refABDL; \refBNSa; \refBNHLSa'),
+     [T(r'forecasting and the multivariate case: \refCor; \refHHS; \refEngD; \refPat',
+        r'prognoza și cazul multivariat: \refCor; \refHHS; \refEngD; \refPat'),
+      T(r'case studies: \refEGS\ (GARCH-MIDAS), \refBPQ\ (HARQ), \refHHS\ (Realized GARCH), \refELW\ (DCC-NL)',
         r'studii de caz: \refEGS\ (GARCH-MIDAS), \refBPQ\ (HARQ), \refHHS\ (Realized GARCH), \refELW\ (DCC-NL)')]),
     (T(r'Python Quantlets of this chapter: \href{' + QLURL + r'}{Quantlets/Ch\_08}', r'Quantlet-urile Python ale capitolului: \href{' + QLURL + r'}{Quantlets/Ch\_08}'),
      [T(r'QML with sandwich standard errors, component GARCH, GARCH-MIDAS, realised kernels, jump tests, HAR/HARQ, Realized GARCH, DCC/cDCC and nonlinear shrinkage written out in \texttt{numpy}',
@@ -776,14 +782,16 @@ D.frame(T('Microstructure noise (1/2): the bias of RV', 'Zgomotul de microstruct
     \[ Y_{i/n} = X_{i/n} + u_i \]''',
      [T(r'$u_i$: i.i.d. noise with variance $\omega^2$, independent of $X$; sources: bid--ask bounce, price discreteness, stale quotes',
         r'$u_i$: zgomot i.i.d. cu varianța $\omega^2$, independent de $X$; surse: oscilația între bid și ask, discretizarea prețului, cotațiile stale (neactualizate)')]),
-    (T(r'RV computed from the observed prices at $n$ intervals, $\mathrm{RV}^{(n)}_t$, is biased upwards, and the bias grows with $n$ (Appendix)',
-       r'RV calculat din prețurile observate la $n$ intervale, $\mathrm{RV}^{(n)}_t$, este deplasat în sus, iar deplasarea crește cu $n$ (Anexa)'
+    (T(r'RV computed from the observed prices at $n$ intervals, $\mathrm{RV}^{(n)}_t$, is biased upwards, and the bias grows with $n$',
+       r'RV calculat din prețurile observate la $n$ intervale, $\mathrm{RV}^{(n)}_t$, este deplasat în sus, iar deplasarea crește cu $n$'
        ) + r'''
     \[ \E(\mathrm{RV}^{(n)}_t | X) = \mathrm{IV}_t + 2n\omega^2, \qquad \Var(\mathrm{RV}^{(n)}_t | X) \approx 4n\,\E u^4 \]''',
      [T(r'each observed return contains $u_i - u_{i-1}$, with variance $2\omega^2$; summed over $n$ returns this gives $2n\omega^2$',
         r'fiecare randament observat conține $u_i - u_{i-1}$, cu varianța $2\omega^2$; însumat pe $n$ randamente, aceasta dă $2n\omega^2$'),
       T(r'RV diverges as $n \to \infty$: sampling as often as possible is not optimal',
-        r'RV diverge cînd $n \to \infty$: eșantionarea cît mai deasă nu este optimă')])), 'small')
+        r'RV diverge cînd $n \to \infty$: eșantionarea cît mai deasă nu este optimă'),
+      T(r'derivation of the bias and of the variance: Appendix  % applink: the noise bias of realised variance',
+        r'derivarea deplasării și a varianței: Anexa  % applink: deplasarea din zgomot a varianței realizate')])), 'small')
 
 D.frame(T('Microstructure noise (2/2): diagnostics', 'Zgomotul de microstructură (2/2): diagnostice'), items(
     (T(r'Two consequences of i.i.d. noise', r'Două consecințe ale zgomotului i.i.d.'),
@@ -1366,16 +1374,30 @@ chart(T('Case study: Engle, Ledoit and Wolf (2019) on US equities', 'Studiu de c
       r'@{gm.N} active: 14 acțiuni din SUA și trei ETF-uri pe acțiuni (SPY, QQQ, RSP), care sînt ele însele portofolii de acțiuni; ponderi GMV rebalansate la fiecare 21 de zile din @{gm.first} (@{gm.n} rebalansări); fereastra de @{gm.win} de zile, respectiv @{gm.short} de zile pentru ultimele două bare; abaterea standard anualizată în afara eșantionului')],
     h='0.6\\textheight')
 
-interp(('the GMV comparison', 'comparației GMV'), [
+D.frame(T('Interpreting the GMV comparison (1/2)', 'Interpretarea comparației GMV (1/2)'), items(
     T(r'Out-of-sample s.d. (\% p.a.): 1/N @{gm.ew}, sample @{gm.s}, linear shrinkage @{gm.lw}, nonlinear shrinkage @{gm.nl}, DCC @{gm.dcc}, DCC-NL @{gm.dccnl}',
       r'Abaterea standard în afara eșantionului (\% anual): 1/N @{gm.ew}, eșantion @{gm.s}, shrinkage liniar @{gm.lw}, shrinkage neliniar @{gm.nl}, DCC @{gm.dcc}, DCC-NL @{gm.dccnl}'),
-    T(r'With $N/T = @{gm.N}/@{gm.win}$ the sample covariance is already accurate: nonlinear shrinkage changes little (@{gm.nl} against @{gm.s}); DCC-NL is no better than DCC',
-      r'Cu $N/T = @{gm.N}/@{gm.win}$, covarianța de eșantion este deja precisă: shrinkage-ul neliniar schimbă puțin (@{gm.nl} față de @{gm.s}); DCC-NL nu este mai bun decît DCC'),
-    T(r'Here the dynamics hurt: DCC (with GARCH variances, forecasts averaged over the 21-day holding period) gives @{gm.dcc} against @{gm.s}; one-month-ahead variance forecasts of single stocks such as MSTR and TSLA are noisy, and GMV amplifies their errors',
-      r'Aici dinamica dăunează: DCC (cu varianțe GARCH, prognoze mediate pe perioada de deținere de 21 de zile) dă @{gm.dcc} față de @{gm.s}; prognozele de varianță pe o lună pentru acțiuni individuale precum MSTR și TSLA sînt zgomotoase, iar GMV le amplifică erorile'),
-    T(r'With a window of @{gm.short} days ($N/T$ five times larger) the sample GMV has s.d. @{gm.s250} and nonlinear shrinkage @{gm.nl250}: only @{gm.gain250}\% lower, although the ETFs make the correlation matrix nearly singular (median condition number @{gm.cond}); the shorter window itself lowers the risk, a crude form of time variation',
-      r'Cu o fereastră de @{gm.short} de zile ($N/T$ de cinci ori mai mare), portofoliul GMV din eșantion are abaterea standard @{gm.s250}, iar cel cu shrinkage neliniar @{gm.nl250}: doar cu @{gm.gain250}\% mai mică, deși ETF-urile fac matricea de corelație aproape singulară (numărul de condiționare median @{gm.cond}); fereastra mai scurtă reduce ea însăși riscul, o formă rudimentară de variație în timp'),
-    T('The original study uses hundreds of stocks, where $N/T$ is large and DCC-NL gains are substantial; with our $N$ the lesson is when shrinkage matters, not how much it gains', 'Studiul original folosește sute de acțiuni, unde $N/T$ este mare și cîștigurile DCC-NL sînt substanțiale; cu $N$-ul nostru, lecția este cînd contează shrinkage-ul, nu cît cîștigă')])
+    (T(r'With $N/T = @{gm.N}/@{gm.win}$ the sample covariance is already accurate', r'Cu $N/T = @{gm.N}/@{gm.win}$, covarianța de eșantion este deja precisă'),
+     [T(r'nonlinear shrinkage changes little (@{gm.nl} against @{gm.s}); DCC-NL is no better than DCC',
+        r'shrinkage-ul neliniar schimbă puțin (@{gm.nl} față de @{gm.s}); DCC-NL nu este mai bun decît DCC')]),
+    (T(r'Here the dynamics hurt: DCC gives @{gm.dcc} against @{gm.s}', r'Aici dinamica dăunează: DCC dă @{gm.dcc} față de @{gm.s}'),
+     [T('DCC uses GARCH variances, with forecasts averaged over the 21-day holding period',
+        'DCC folosește varianțe GARCH, cu prognoze mediate pe perioada de deținere de 21 de zile'),
+      T('one-month-ahead variance forecasts of single stocks such as MSTR and TSLA are noisy, and GMV amplifies their errors',
+        'prognozele de varianță pe o lună pentru acțiuni individuale precum MSTR și TSLA sînt zgomotoase, iar GMV le amplifică erorile')])), 'small')
+
+D.frame(T('Interpreting the GMV comparison (2/2)', 'Interpretarea comparației GMV (2/2)'), items(
+    (T(r'A window of @{gm.short} days makes $N/T$ five times larger', r'O fereastră de @{gm.short} de zile face $N/T$ de cinci ori mai mare'),
+     [T(r's.d. of the sample GMV @{gm.s250}, with nonlinear shrinkage @{gm.nl250}: only @{gm.gain250}\% lower',
+        r'abaterea standard a portofoliului GMV din eșantion este @{gm.s250}, cu shrinkage neliniar @{gm.nl250}: doar cu @{gm.gain250}\% mai mică'),
+      T(r'yet the ETFs make the correlation matrix nearly singular (median condition number @{gm.cond})',
+        r'deși ETF-urile fac matricea de corelație aproape singulară (numărul de condiționare median @{gm.cond})'),
+      T('the shorter window itself lowers the risk: a crude form of time variation',
+        'fereastra mai scurtă reduce ea însăși riscul: o formă rudimentară de variație în timp')]),
+    (T('The original study uses hundreds of stocks, where $N/T$ is large', 'Studiul original folosește sute de acțiuni, unde $N/T$ este mare'),
+     [T('there the DCC-NL gains are substantial', 'acolo cîștigurile DCC-NL sînt substanțiale'),
+      T('with our $N$ the lesson is when shrinkage matters, not how much it gains',
+        'cu $N$-ul nostru, lecția este cînd contează shrinkage-ul, nu cît cîștigă')])), 'small')
 
 D.frame(T('Realised covariance', 'Covarianța realizată'), items(
     (T(r'The multivariate RV: the sum of outer products of the intraday return vectors', r'RV multivariat: suma produselor exterioare ale vectorilor de randamente intraday'
@@ -1454,8 +1476,11 @@ D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{Realised volatility of crypto-assets: does the equity toolkit transfer?}: replicate first, then extend', r'\textbf{Volatilitatea realizată a criptoactivelor: se transferă instrumentele de la acțiuni?}: întîi replicare, apoi extindere'),
      [T(r'replicate: HAR and HARQ of this lecture for Bitcoin (QLIKE ratio @{ho.btc.harq}) and Realized GARCH for the S\&P 500 (persistence @{rg.pers})',
         r'replicați: HAR și HARQ din acest curs pentru Bitcoin (raportul QLIKE @{ho.btc.harq}) și Realized GARCH pentru S\&P 500 (persistența @{rg.pers})'),
-      T(r'extend: ten coins from the Binance archive; noise-robust measures from one-second data; an intraday seasonality correction before jump tests; Realized GARCH with the realised kernel; the spot-ETF date (January 2024) as a natural break',
-        r'extindeți: zece monede din arhiva Binance; măsuri robuste la zgomot din date la o secundă; o corecție a sezonalității intraday înaintea testelor de salt; Realized GARCH cu realised kernel; data ETF-urilor spot (ianuarie 2024) ca ruptură naturală'),
+      T(r'extend: ten coins from the Binance archive; noise-robust measures from one-second data',
+        r'extindeți: zece monede din arhiva Binance; măsuri robuste la zgomot din date la o secundă'),
+      T(r'extend the tests: an intraday seasonality correction before jump tests; Realized GARCH with the realised kernel',
+        r'extindeți testele: o corecție a sezonalității intraday înaintea testelor de salt; Realized GARCH cu realised kernel'),
+      T(r'use the spot-ETF date (January 2024) as a natural break', r'folosiți data ETF-urilor spot (ianuarie 2024) ca ruptură naturală'),
       T(r'pre-register: assets, sample, measures, models, windows, losses, the DM/MCS tests and the robustness grid',
         r'preînregistrați: activele, eșantionul, măsurile, modelele, ferestrele, funcțiile de pierdere, testele DM/MCS și grila de robustețe')]),
     T(r'Deliverables follow the course rules: repository, report, AI\_USE.md, AI\_ERRORS.md, oral defence', r'Livrabilele urmează regulile cursului: repository, raport, AI\_USE.md, AI\_ERRORS.md, susținere orală')), 'small')

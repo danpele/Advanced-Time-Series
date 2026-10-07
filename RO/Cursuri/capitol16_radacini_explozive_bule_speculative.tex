@@ -156,7 +156,11 @@ MSCA Digital Finance}
         \item datarea episoadelor, monitorizarea în timp real, evaluarea alarmelor timpurii; fundamentele față de prețuri (chirii)
         \item LPPLS ca detector alternativ; aplicații: dot-com, Shanghai 2015, Bitcoin, BET 2007, piața locuințelor
     \end{itemize}
-    \item Pornim de la \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol13_bule_lppl.pdf}{TSA, Capitolul 13} (bulele în istorie, elementele de bază PSY, LPPL cu calibrarea Filimonov--Sornette) și de la \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2} (rădăcini unitare, rupturi structurale); \atschlink{https://danpele.github.io/MFM/RO/Cursuri/capitol17_bule_crahuri.pdf}{MFM, Capitolul 17} aplică testele pe piețe
+    \item Cunoștințe necesare și continuare
+    \begin{itemize}
+        \item \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol13_bule_lppl.pdf}{TSA, Capitolul 13}: bulele în istorie, elementele de bază PSY, LPPL cu calibrarea Filimonov--Sornette
+        \item \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2}: rădăcini unitare, rupturi structurale; \atschlink{https://danpele.github.io/MFM/RO/Cursuri/capitol17_bule_crahuri.pdf}{MFM, Capitolul 17} aplică testele pe piețe
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -235,14 +239,22 @@ Toate seriile de prețuri din datele cursului & EODHD, închideri lunare (analiz
 \end{column}
 \begin{column}{0.62\textwidth}
 \begin{itemize}
-    \item Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol13_bule_lppl.pdf}{TSA, Capitolul 13}): maniile din istorie; ADF pe coada din dreapta, SADF, GSADF și BSADF cu valori critice Monte Carlo; ecuația LPPL, calibrarea în doi pași, indicatorul de încredere
+    \item Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol13_bule_lppl.pdf}{TSA, Capitolul 13})
+    \begin{itemize}
+        \item maniile din istorie; ADF pe coada din dreapta, SADF, GSADF și BSADF cu valori critice Monte Carlo
+        \item ecuația LPPL, calibrarea în doi pași, indicatorul de încredere
+    \end{itemize}
     \item Nou: nivelul de cercetare
     \begin{itemize}
         \item de ce bulele raționale trebuie să explodeze și de ce sînt greu de văzut
         \item teoria asimptotică din spatele testelor, nivelul lor sub volatilitate variabilă și pe multe date
         \item cît de devreme, cît de des și cît de greșit dau alarma detectorii
     \end{itemize}
-    \item Studii de caz: Phillips--Wu--Yu (2011), Phillips--Shi--Yu (2015), Phillips--Yu (2011), Homm--Breitung (2012), Harvey et al.\ (2016), Sornette et al.\ (2015), pe datele noastre
+    \item Studii de caz, pe datele noastre
+    \begin{itemize}
+        \item \refPWY; \refPSYa; \refPY
+        \item \refHB; \refHLST; \refSha
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -398,11 +410,11 @@ Toate seriile de prețuri din datele cursului & EODHD, închideri lunare (analiz
 \section{Procese autoregresive explozive}
 %=============================================================================
 
-\begin{frame}{Trei regimuri ale estimatorului AR(1)}
+\begin{frame}{Trei regimuri ale estimatorului AR(1) (1/2)}
 \itemsize{\small}
 {\renewcommand{\arraystretch}{2.0}\begin{center}
 \footnotesize
-\begin{tabular}{lll}
+\begin{tabular}{@{}lll@{}}
 \toprule
 \textbf{Rădăcina} & \textbf{Rata și limita lui} $\hat\rho - \rho$ & \textbf{Invarianța} \\
 \midrule
@@ -414,12 +426,33 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \end{tabular}
 \end{center}
 }\begin{itemize}
-    \item $y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS fără termen liber; $n$: mărimea eșantionului; $W$: o mișcare browniană standard; $\mathcal C$: legea Cauchy standard
+    \item Modelul: $y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS fără termen liber
     \begin{itemize}
-        \item ușor exploziv: $c > 0$, iar $k_n \to \infty$ mai lent decît $n$ ($k_n = o(n)$, adică $k_n/n \to 0$); CLT/FCLT: teorema limită centrală (funcțională); $\Rightarrow$: convergență în distribuție
+        \item $n$: mărimea eșantionului; $W$: o mișcare browniană standard; $\mathcal C$: legea Cauchy standard; $\Rightarrow$: convergență în distribuție
+        \item CLT/FCLT: teorema limită centrală (funcțională)
     \end{itemize}
-    \item Rata crește de la $\sqrt n$ la $n$ și la exponențialul $\rho^n$: cu cît sîntem mai departe de 1, cu atît învățăm mai repede $\rho$ (rădăcini unitare: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2} și \refHam, capitolul 17)
-    \item Rădăcinile ușor explozive sînt cazul realist pentru bule: mai rapide decît orice rădăcină locală la unitate $1 + c/n$, mai lente decît orice rădăcină explozivă fixă
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Trei regimuri ale estimatorului AR(1) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Rădăcină ușor explozivă: $\rho_n = 1 + c/k_n$
+    \begin{itemize}
+        \item $c > 0$, iar $k_n \to \infty$ mai lent decît $n$: $k_n = o(n)$, adică $k_n/n \to 0$
+        \item limita Cauchy este derivată în \atsapplink{atsapp1}{atssrc1}{Anexă} % applink: limita Cauchy în cazul ușor exploziv
+    \end{itemize}
+    \item Rata crește de la $\sqrt n$ la $n$ și la exponențialul $\rho^n$
+    \begin{itemize}
+        \item cu cît sîntem mai departe de 1, cu atît învățăm mai repede $\rho$
+        \item rădăcini unitare: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2} și \refHam, capitolul 17
+    \end{itemize}
+    \item Rădăcinile ușor explozive sînt cazul realist pentru bule
+    \begin{itemize}
+        \item mai rapide decît orice rădăcină locală la unitate $1 + c/n$
+        \item mai lente decît orice rădăcină explozivă fixă
+        \item teoria lor asimptotică nu depinde de legea erorilor, spre deosebire de cazul exploziv fix
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -431,8 +464,9 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
     \begin{itemize}
         \item atunci $\rho^{-n}y_n \approx Y_n$, $\rho^{-2n}\sum_t y_{t-1}^2 \approx Y_n^2/(\rho^2 - 1)$ și $\rho^{-n}\sum_t y_{t-1}u_t \approx X_nY_n$
     \end{itemize}
-    \item Deci $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \approx \dfrac{X_n}{Y_n}$; $X_n$ și $Y_n$ folosesc asimptotic blocuri disjuncte de șocuri, deci sînt independente, cu dispersii egale $\sigma^2/(\rho^2 - 1)$
+    \item Deci $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \approx \dfrac{X_n}{Y_n}$
     \begin{itemize}
+        \item $X_n$ și $Y_n$ folosesc asimptotic blocuri disjuncte de șocuri: independente, cu dispersii egale $\sigma^2/(\rho^2 - 1)$
         \item $\rho$ \textbf{fix}: fiecare sumă este dominată de cîteva șocuri; este gaussiană doar dacă $u_j$ sînt gaussiene, deci raportul este Cauchy doar atunci \refAnd
         \item $\rho_n$ \textbf{ușor exploziv}: aproximativ $k_n \to \infty$ șocuri intră în fiecare sumă cu ponderi comparabile, se aplică o teoremă limită centrală, iar $X_n/Y_n \Rightarrow \mathcal C$ pentru orice erori i.i.d.\ cu dispersie finită \refPM
     \end{itemize}
@@ -671,7 +705,7 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
     \begin{itemize}
         \item $r_j$: randamentul perioadei $j$; $\bar r_n$, $\hat\sigma_n$: media și abaterea standard a randamentelor din antrenare; $b_t$: frontiera, care se lărgește cu $t$; $a$: o constantă care fixează rata de eroare
     \end{itemize}
-    \item Rata de eroare pe întregul orizont (demonstrația în \atsapplink{atsapp2}{atssrc1}{Anexă})
+    \item Rata de eroare pe întregul orizont (demonstrația în \atsapplink{atsapp2}{atssrc2}{Anexă})
     \begin{itemize}
         \item $\Pr\{S_t > b_t$ pentru un $t\} \to 1 - \Phi(a) + a\varphi(a)$; $\Phi$, $\varphi$: funcția de repartiție și densitatea distribuției Normale standard
         \item 5\% dă $a = 2{,}50$, $a^2 = 6{,}25$
@@ -710,7 +744,10 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \itemsize{\small}
 \begin{itemize}
     \item Nasdaq 100: alarma CUSUM apare pe 24 decembrie 1999, cu trei luni înaintea maximului din 24 martie 2000; prima alarmă BSADF confirmată după antrenare apare pe 21 iulie 1995, cu peste patru ani mai devreme
-    \item Bitcoin: CUSUM pe 8 decembrie 2017, la vîrful creșterii din 2017; BSADF pe 9 iunie 2017; frontiera se lărgește ca $\sqrt{t\ln t}$, deci după 2018 creșterea din 2021 nu o mai poate atinge
+    \item Bitcoin: CUSUM pe 8 decembrie 2017, la vîrful creșterii din 2017; BSADF pe 9 iunie 2017
+    \begin{itemize}
+        \item frontiera se lărgește ca $\sqrt{t\ln t}$, deci după 2018 creșterea din 2021 nu o mai poate atinge
+    \end{itemize}
     \item CUSUM detectează o schimbare a randamentului mediu (o accelerare persistentă), nu explozivitatea ca atare; este lent, dar nivelul lui este controlat pe tot orizontul
     \item BSADF reacționează devreme și des: o alarmă timpurie urmată de ani de creșteri suplimentare este costisitoare pentru oricine acționează pe baza ei
 \end{itemize}
@@ -862,12 +899,16 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \begin{frame}{Abordări spectrale ale log-periodicității și critica}
 \itemsize{\small}
 \begin{itemize}
-    \item Oscilația log-periodică $\cos(\omega\ln(t_c - t))$ este periodică în $\ln(t_c - t)$: o testăm cu periodograma Lomb a reziduului fără tendință, în funcție de $\ln(t_c - t)$ \refLom; analiza neparametrică cu derivata $(H, q)$ \refZS
+    \item Oscilația $\cos(\omega\ln(t_c - t))$ este periodică în $\ln(t_c - t)$
     \begin{itemize}
+        \item testul: periodograma Lomb a reziduului fără tendință, în funcție de $\ln(t_c - t)$ \refLom
+        \item alternativa neparametrică: analiza cu derivata $(H, q)$ \refZS
         \item în timp calendaristic frecvența ei instantanee este $\omega/[2\pi(t_c - t)]$: oscilațiile se accelerează spre $t_c$; transformata Hilbert a reziduului dă direct această fază (instrumentele în \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol11_analiza_spectrala_analiza_wavelet.pdf}{Capitolul 11})
     \end{itemize}
-    \item Critica: vîrfurile log-periodice apar și în zgomot după ajustare și eliminarea tendinței \refFei; prognozele de crah în afara eșantionului sînt slabe \refBJ; estimarea este fragilă \refGF
+    \item Critica
     \begin{itemize}
+        \item vîrfurile log-periodice apar și în zgomot după ajustare și eliminarea tendinței \refFei
+        \item prognozele de crah în afara eșantionului sînt slabe \refBJ; estimarea este fragilă \refGF
         \item răspunsuri privind formularea stochastică, filtrele și indicatorii pe multe ferestre: \refSWYZ
     \end{itemize}
     \item O comparație corectă cu PSY folosește aceleași evenimente, date și măsuri de eroare: secțiunea următoare
@@ -998,7 +1039,11 @@ BET, 20 iulie 2007 & 2 septembrie 2005 & 98 & nu & -- & 46\% \\
 \begin{itemize}
     \item Valorile critice wild bootstrap sînt mai mari decît cele Monte Carlo pe date reale; unele respingeri clasice nu rezistă
     \item Maximele importante sînt de obicei precedate de alarme, dar cu avansuri lungi și variabile; controlul de familie elimină majoritatea lor
-    \item Pe decenii, precizia trebuie citită față de frecvența de bază: scorurile de exuberanță ajută pentru Bitcoin, unde crahurile urmează creșterilor, și eșuează pentru S\&P 500, unde majoritatea datelor dinaintea crahurilor se află în piețe în declin
+    \item Pe decenii, precizia trebuie citită față de frecvența de bază
+    \begin{itemize}
+        \item scorurile de exuberanță ajută pentru Bitcoin, unde crahurile urmează creșterilor
+        \item ele eșuează pentru S\&P 500, unde majoritatea datelor dinaintea crahurilor se află în piețe în declin
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1010,13 +1055,20 @@ BET, 20 iulie 2007 & 2 septembrie 2005 & 98 & nu & -- & 46\% \\
 \begin{frame}{O întrebare deschisă}
 \itemsize{\small}
 \begin{itemize}
-    \item Conțin alarmele bazate pe rădăcini explozive și pe LPPLS informație despre scăderile mari dincolo de momentum și volatilitate, după ce ținem seama de frecvențele de bază, de orizonturile suprapuse și de căutarea pe multe active?
+    \item Întrebarea
+    \begin{itemize}
+        \item conțin alarmele bazate pe rădăcini explozive și pe LPPLS informație despre scăderile mari dincolo de momentum și volatilitate?
+        \item după ce ținem seama de frecvențele de bază, de orizonturile suprapuse și de căutarea pe multe active
+    \end{itemize}
+    \item O formă testabilă
     \begin{itemize}
         \item formal: într-un model logit sau probit al evenimentului pe momentum, volatilitate și scorul alarmei (cu lag), $H_0$: coeficientul alarmei este zero, cu inferență block bootstrap și un panel de active preînregistrat
         \item infirmată de un cîștig semnificativ în afara eșantionului într-o regulă de scor proprie (log score, Brier) față de modelul cu momentum și volatilitate, agregat pe active
     \end{itemize}
-    \item De ce contează: autoritățile și investitorii citesc indicatorii de bulă ca avertismente; majoritatea dovezilor provin din cîteva episoade celebre, alese după ce s-au produs
+    \item Miza
     \begin{itemize}
+        \item autoritățile și investitorii citesc indicatorii de bulă ca avertismente
+        \item majoritatea dovezilor provin din cîteva episoade celebre, alese după ce s-au produs
         \item literatura de pornire: \refPS, \refAHLST, \refDS, \refBJ, \refHB
     \end{itemize}
 \end{itemize}
@@ -1170,8 +1222,15 @@ LPPLS & $\ln p = A + B f + C_1 f\cos(\omega\ln(t_c - t)) + C_2 f\sin(\omega\ln(t
 \end{column}
 \begin{column}{0.64\textwidth}
 \begin{itemize}
-    \item Sinteze: \refGur; \refGSY{} (bulele și randamentele ulterioare); \refShi; \refKA
-    \item Implementare: pachetul R \texttt{exuber} \refVPM; Quantlet-urile noastre reproduc statisticile lui în Python
+    \item Sinteze
+    \begin{itemize}
+        \item \refGur; \refShi; \refKA
+        \item bulele și randamentele ulterioare: \refGSY
+    \end{itemize}
+    \item Implementare: pachetul R \texttt{exuber} \refVPM
+    \begin{itemize}
+        \item Quantlet-urile noastre reproduc statisticile lui în Python
+    \end{itemize}
     \item Aplicații pe piețe, în risc și politici: \atschlink{https://danpele.github.io/MFM/RO/Cursuri/capitol17_bule_crahuri.pdf}{MFM, Capitolul 17}
     \item Lectură suplimentară despre Bursa de Valori București: \refPMM
     \item Cursul se încheie aici; susținerea proiectelor este descrisă în \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol15_recapitulare_proiecte.pdf}{Capitolul 15}
@@ -1197,7 +1256,7 @@ LPPLS & $\ln p = A + B f + C_1 f\cos(\omega\ln(t_c - t)) + C_2 f\sin(\omega\ln(t
 \end{frame}
 
 \begin{frame}{Anexă: frontiera de monitorizare}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Înapoi}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Sub ipoteza nulă, $S_t \approx n^{-1/2}\sigma^{-1}[\sum_{j \le t}\varepsilon_j - (t/n)\sum_{j \le n}\varepsilon_j]$; cu $s = (t - n)/n$: $S \Rightarrow Z(s) = W(1 + s) - (1 + s)W(1)$, $\Var Z(s) = s(1 + s)$

@@ -305,8 +305,10 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
         'predicția conformală: interschimbabilitate, split conformal, CQR, limitele acoperirii condiționate'),
       T('dependent data: weights, EnbPI, ACI, conformal PID; diagnostics; calibrating foundation-model intervals and VaR',
         'date dependente: ponderi, EnbPI, ACI, PID conformal; diagnosticare; calibrarea intervalelor produse de foundation models și VaR')]),
-    T('We build on TSA, Chapter 11 (Chronos, TimesFM, Moirai, zero-shot tests, CRPS and WQL), on Chapter 1 (scoring rules, DM, MCS), Chapter 9 (VaR backtests, ACI for VaR) and Chapter 12 (deep architectures); Seminar 13 comes before this lecture',
-      'Pornim de la TSA, Capitolul 11 (Chronos, TimesFM, Moirai, teste zero-shot, CRPS și WQL), de la Capitolul 1 (reguli de scor, DM, MCS), Capitolul 9 (backtesting VaR, ACI pentru VaR) și Capitolul 12 (arhitecturi deep); Seminarul 13 are loc înaintea acestui curs')), 'small')
+    (T('Prerequisites; Seminar 13 comes before this lecture', 'Cunoștințe necesare; Seminarul 13 are loc înaintea acestui curs'),
+     [T('TSA, Chapter 11: Chronos, TimesFM, Moirai, zero-shot tests, CRPS and WQL', 'TSA, Capitolul 11: Chronos, TimesFM, Moirai, teste zero-shot, CRPS și WQL'),
+      T('Chapter 1 (scoring rules, DM, MCS), Chapter 9 (VaR backtests, ACI for VaR), Chapter 12 (deep architectures)',
+        'Capitolul 1 (reguli de scor, DM, MCS), Capitolul 9 (backtesting VaR, ACI pentru VaR), Capitolul 12 (arhitecturi deep)')])), 'small')
 
 D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
     T('Explain how a time series foundation model is pretrained: corpus, scaling, tokenisation or patching, output head and loss',
@@ -321,9 +323,12 @@ D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
       'Aplicați predicția conformală ponderată, EnbPI, ACI și PID conformal pe date dependente, diagnosticați acoperirea și calibrați intervalele produse de foundation models')), 'small')
 
 D.frame(T('Reading, data and tools', 'Bibliografie, date și instrumente'), items(
-    (T(r'Foundation models: \refAns; \refAnsB; \refDas; \refWoo; \refAue; benchmarks: \refAks; \refShc', r'Foundation models: \refAns; \refAnsB; \refDas; \refWoo; \refAue; benchmark-uri: \refAks; \refShc'),
-     [T(r'Conformal prediction: \refVGSb; \refAB; \refRPC; \refBar; \refGC; \refACT; \refXX', r'Predicție conformală: \refVGSb; \refAB; \refRPC; \refBar; \refGC; \refACT; \refXX'),
-      T(r'Critique and evaluation: \refTan; \refHAB; survey of forecasting practice: \refPet', r'Critică și evaluare: \refTan; \refHAB; sinteză despre practica prognozei: \refPet')]),
+    (T('Foundation models and benchmarks', 'Foundation models și benchmark-uri'),
+     [T(r'models: \refAns; \refAnsB; \refDas; \refWoo; \refAue', r'modele: \refAns; \refAnsB; \refDas; \refWoo; \refAue'),
+      T(r'benchmarks: \refAks; \refShc; critique and evaluation: \refTan; \refHAB', r'benchmark-uri: \refAks; \refShc; critică și evaluare: \refTan; \refHAB')]),
+    (T('Conformal prediction', 'Predicție conformală'),
+     [T(r'theory: \refVGSb; \refAB; \refRPC; \refBar', r'teorie: \refVGSb; \refAB; \refRPC; \refBar'),
+      T(r'time series: \refGC; \refACT; \refXX; survey of forecasting practice: \refPet', r'serii de timp: \refGC; \refACT; \refXX; sinteză despre practica prognozei: \refPet')]),
     (T(r'Python Quantlets of this chapter: \href{' + QLURL + r'}{Quantlets/Ch\_13}', r'Quantlet-urile Python ale capitolului: \href{' + QLURL + r'}{Quantlets/Ch\_13}'),
      [T(r'open checkpoints on a CPU: \texttt{chronos-forecasting} (Chronos-Bolt, Chronos-2), \texttt{timesfm} (TimesFM 2.5), \texttt{tirex-ts} (TiRex); conformal methods, DM, MCS and backtests written in \texttt{numpy}',
         r'modele deschise pe un CPU: \texttt{chronos-forecasting} (Chronos-Bolt, Chronos-2), \texttt{timesfm} (TimesFM 2.5), \texttt{tirex-ts} (TiRex); metodele conformale, DM, MCS și backtesting-ul scrise în \texttt{numpy}')]),
@@ -354,8 +359,10 @@ D.frame(T('Two lines of research that met', 'Două direcții de cercetare care s
             r'2017--2025: Transformers \refVas, foundation models \refBom; pentru serii: Lag-Llama, TimesFM, Moirai, Chronos (2023--2024), TiRex, Chronos-2 (2025)')), '0.4', '0.58'), 'footnotesize')
 
 D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), items(
-    (T('Known (TSA, Chapter 11): zero-shot use of Chronos, TimesFM, Moirai and Lag-Llama; mean scaling and quantisation in brief; pinball loss, CRPS, WQL, MASE; first warnings about contamination',
-       'Cunoscut (TSA, Capitolul 11): folosirea zero-shot a modelelor Chronos, TimesFM, Moirai și Lag-Llama; scalarea prin medie și cuantizarea, pe scurt; pierderea pinball, CRPS, WQL, MASE; primele avertismente despre contaminare'), []),
+    (T('Known (TSA, Chapter 11)', 'Cunoscut (TSA, Capitolul 11)'),
+     [T('zero-shot use of Chronos, TimesFM, Moirai and Lag-Llama; mean scaling and quantisation in brief',
+        'folosirea zero-shot a modelelor Chronos, TimesFM, Moirai și Lag-Llama; scalarea prin medie și cuantizarea, pe scurt'),
+      T('pinball loss, CRPS, WQL, MASE; first warnings about contamination', 'pierderea pinball, CRPS, WQL, MASE; primele avertismente despre contaminare')]),
     (T('New: the research toolkit', 'Nou: instrumentele de cercetare'),
      [T('design choices and their consequences (range limits, quantile heads, patching, covariates in context), scaling evidence',
         'alegerile de proiectare și consecințele lor (limitele de domeniu, straturi de cuantile, patching, covariabile în context), dovezile de scalare'),
@@ -363,8 +370,9 @@ D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), i
         'benchmark-uri cu ferestre preînregistrate după lansarea modelelor, teste pe multe serii cu corecțiile Holm și BH'),
       T('conformal theory with proofs, its failure under dependence and the online methods that repair it, with coverage diagnostics',
         'teoria conformală cu demonstrații, eșecul ei sub dependență și metodele online care o corectează, cu diagnosticarea acoperirii')]),
-    T('Case studies: Ansari et al.\\ (2024), Tan et al.\\ (2024), Romano--Patterson--Candès (2019), Gibbs--Candès (2021), Barber et al.\\ (2023), Angelopoulos--Candès--Tibshirani (2023), Xu--Xie (2021), with the designs of the papers, on our data',
-      'Studii de caz: Ansari et al.\\ (2024), Tan et al.\\ (2024), Romano--Patterson--Candès (2019), Gibbs--Candès (2021), Barber et al.\\ (2023), Angelopoulos--Candès--Tibshirani (2023), Xu--Xie (2021), cu designul din lucrări, pe datele noastre')), 'small')
+    (T('Case studies: the designs of the papers, on our data', 'Studii de caz: designul din lucrări, pe datele noastre'),
+     [T(r'foundation models: \refAns; \refTan', r'foundation models: \refAns; \refTan'),
+      T(r'conformal prediction: \refRPC; \refGC; \refBar; \refACT; \refXX', r'predicție conformală: \refRPC; \refGC; \refBar; \refACT; \refXX')])), 'small')
 
 # =============================================================================
 # 1. PREANTRENAREA
@@ -403,12 +411,16 @@ D.frame(T('Structure shared across series', 'Structuri comune între serii'), it
      [T('financial returns are close to a martingale difference: little shape to transfer, much to overfit', 'randamentele financiare sînt aproape de o diferență de martingală: puțină structură transferabilă și un risc mare de supraajustare')])), 'small')
 
 D.frame(T('Pretraining data: scale and composition', 'Datele de preantrenare: volum și compoziție'), items(
-    (T(r'Chronos \refAns: public data sets plus two augmentations: \textbf{TSMixup} (convex mixtures of real series) and \textbf{KernelSynth} (series drawn from Gaussian processes with random composite kernels)',
-       r'Chronos \refAns: seturi de date publice plus două augmentări: \textbf{TSMixup} (combinații convexe de serii reale) și \textbf{KernelSynth} (serii extrase din procese gaussiene cu nuclee compuse aleatoare)'), []),
-    (T(r'TimesFM \refDas: about $10^{11}$ time points: Google Trends, Wikipedia page views, synthetic and public series; Moirai \refWoo: LOTSA, over 27 billion observations in nine domains',
-       r'TimesFM \refDas: aproximativ $10^{11}$ momente de timp: Google Trends, accesări Wikipedia, serii sintetice și publice; Moirai \refWoo: LOTSA, peste 27 de miliarde de observații din nouă domenii'), []),
-    (T(r'Toto \refCoh: observability metrics of a cloud provider, a corpus 4--10 times larger than those of earlier models; GIFT-Eval \refAks: a \textbf{non-leaking} pretraining set of about 230 billion points',
-       r'Toto \refCoh: metrici de observabilitate ale unui furnizor cloud, un corpus de 4--10 ori mai mare decît al modelelor anterioare; GIFT-Eval \refAks: un set de preantrenare \textbf{fără leakage} de circa 230 de miliarde de puncte'), []),
+    (T(r'Chronos \refAns', r'Chronos \refAns'),
+     [T('public data sets plus two augmentations', 'seturi de date publice plus două augmentări'),
+      T(r'\textbf{TSMixup}: convex mixtures of real series; \textbf{KernelSynth}: series drawn from Gaussian processes with random composite kernels',
+        r'\textbf{TSMixup}: combinații convexe de serii reale; \textbf{KernelSynth}: serii extrase din procese gaussiene cu nuclee compuse aleatoare')]),
+    (T(r'TimesFM \refDas; Moirai \refWoo', r'TimesFM \refDas; Moirai \refWoo'),
+     [T(r'TimesFM: about $10^{11}$ time points: Google Trends, Wikipedia page views, synthetic and public series', r'TimesFM: aproximativ $10^{11}$ momente de timp: Google Trends, accesări Wikipedia, serii sintetice și publice'),
+      T('Moirai: LOTSA, over 27 billion observations in nine domains', 'Moirai: LOTSA, peste 27 de miliarde de observații din nouă domenii')]),
+    (T(r'Toto \refCoh; GIFT-Eval \refAks', r'Toto \refCoh; GIFT-Eval \refAks'),
+     [T('Toto: observability metrics of a cloud provider, a corpus 4--10 times larger than those of earlier models', 'Toto: metrici de observabilitate ale unui furnizor cloud, un corpus de 4--10 ori mai mare decît al modelelor anterioare'),
+      T(r'GIFT-Eval: a \textbf{non-leaking} pretraining set of about 230 billion points', r'GIFT-Eval: un set de preantrenare \textbf{fără leakage} de circa 230 de miliarde de puncte')]),
     T('Composition matters more than size for us: economic and financial series are a small, low-frequency share of every corpus',
       'Pentru noi compoziția contează mai mult decît volumul: seriile economice și financiare sînt o parte mică, de frecvență joasă, a oricărui corpus')), 'small')
 
@@ -479,8 +491,9 @@ D.frame(T('Scaling laws', 'Legi de scalare'), items(
        r'Serii de timp: Transformers de tip decoder-only arată aceleași legi de putere în parametri, date și calcul \refEdw; lungimea contextului interacționează cu volumul datelor \refShi'),
      [T(r'out-of-distribution: the log-likelihood scales similarly in and out of distribution, but architecture matters; tweaks that help in distribution can reduce OOD scalability \refYao',
         r'în afara distribuției: log-verosimilitatea se scalează asemănător în și în afara distribuției, dar arhitectura contează; ajustările care ajută în distribuție pot reduce scalabilitatea OOD \refYao')]),
-    T('A scaling law is a statement about average loss on the corpus distribution, not about one Romanian series; small models (TiRex, 35 million parameters) beat larger ones on public leaderboards \\refAue',
-      'O lege de scalare este o afirmație despre pierderea medie pe distribuția corpusului, nu despre o serie românească anume; modele mici (TiRex, 35 de milioane de parametri) le întrec pe cele mari în clasamentele publice \\refAue')), 'small')
+    (T('A scaling law concerns the average loss on the corpus distribution', 'O lege de scalare privește pierderea medie pe distribuția corpusului'),
+     [T('it says nothing about one particular Romanian series', 'ea nu spune nimic despre o serie românească anume'),
+      T('small models (TiRex, 35 million parameters) beat larger ones on public leaderboards \\refAue', 'modele mici (TiRex, 35 de milioane de parametri) le întrec pe cele mari în clasamentele publice \\refAue')])), 'small')
 
 chart(T('Size and accuracy on our three tasks', 'Mărimea și acuratețea pe cele trei sarcini ale noastre'), 'ats_ch13_scaling', 'ATS_ch13_pretraining', [
     T(r'Losses relative to the baseline of each task: Romanian load (MAE / expert ARX, 2025--2026), EU inflation (MAE / random walk, $h = 12$, geometric mean over 27 countries), Bitcoin log RV (MSE / HAR)',
@@ -522,50 +535,64 @@ D.frame(T('The main open models', 'Principalele modele deschise'), table(
     T(r'Toto \refCoh (151 M, observability data) and Moirai 2.0 \refLiu are open as well; TimeGPT \refGar is reached only through a paid API', r'Toto \refCoh (151 M, date de observabilitate) și Moirai 2.0 \refLiu sînt și ele deschise; TimeGPT \refGar este accesibil doar printr-un API cu plată')), 'footnotesize')
 
 D.frame(T('The Chronos family', 'Familia Chronos'), items(
-    (T(r'\textbf{Chronos} \refAns: the training procedure of language models, unchanged; forecasts by sampling token paths',
-       r'\textbf{Chronos} \refAns: procedura de antrenare a modelelor de limbaj, nemodificată; prognoze prin eșantionarea traiectoriilor de token-uri'),
-     [T('zero-shot results comparable to models trained on the target data (their Benchmark II)', 'rezultate zero-shot comparabile cu cele ale modelelor antrenate pe datele-țintă (Benchmark II din lucrare)')]),
-    (T(r'\textbf{Chronos-Bolt}: patch inputs, a direct quantile decoder; much faster; context up to 2048, 64 steps; quantiles only between 10\% and 90\%',
-       r'\textbf{Chronos-Bolt}: intrări sub formă de patch-uri, decodor direct de cuantile; mult mai rapid; context de pînă la 2048, 64 de pași; cuantile doar între 10\% și 90\%'),
-     [T('a 95\\% interval or a VaR 1\\% cannot be read from its output: the request is clipped to the nearest trained level', 'un interval de 95\\% sau un VaR 1\\% nu se pot citi din ieșirea lui: cererea este trunchiată la cel mai apropiat nivel antrenat')]),
-    (T(r'\textbf{Chronos-2} \refAnsB: group attention shares information across the series of a group (variates, related series, covariates); \textbf{in-context learning} of covariate effects',
-       r'\textbf{Chronos-2} \refAnsB: atenția de grup împarte informația între seriile unui grup (variabile, serii înrudite, covariabile); \textbf{învățare în context} a efectelor covariabilelor'),
-     [T('trained largely on synthetic multivariate structures imposed on univariate series; context 8192; 21 quantiles from 1\\% to 99\\%; arcsinh scaling',
-        'antrenat în mare parte pe structuri multivariate sintetice impuse unor serii univariate; context de 8192; 21 de cuantile de la 1\\% la 99\\%; scalare arcsinh')])), 'small')
+    (T(r'\textbf{Chronos} \refAns', r'\textbf{Chronos} \refAns'),
+     [T('the training procedure of language models, unchanged; forecasts by sampling token paths', 'procedura de antrenare a modelelor de limbaj, nemodificată; prognoze prin eșantionarea traiectoriilor de token-uri'),
+      T('zero-shot results comparable to models trained on the target data (their Benchmark II)', 'rezultate zero-shot comparabile cu cele ale modelelor antrenate pe datele-țintă (Benchmark II din lucrare)')]),
+    (T(r'\textbf{Chronos-Bolt}', r'\textbf{Chronos-Bolt}'),
+     [T('patch inputs and a direct quantile decoder: much faster than Chronos', 'intrări sub formă de patch-uri și un decodor direct de cuantile: mult mai rapid decît Chronos'),
+      T('context up to 2048, 64 steps; quantiles only between 10\\% and 90\\%', 'context de pînă la 2048, 64 de pași; cuantile doar între 10\\% și 90\\%'),
+      T('a 95\\% interval or a VaR 1\\% cannot be read from its output: the request is clipped to the nearest trained level', 'un interval de 95\\% sau un VaR 1\\% nu se pot citi din ieșirea lui: cererea este trunchiată la cel mai apropiat nivel antrenat')]),
+    (T(r'\textbf{Chronos-2} \refAnsB', r'\textbf{Chronos-2} \refAnsB'),
+     [T('group attention shares information across the series of a group (variates, related series, covariates)', 'atenția de grup împarte informația între seriile unui grup (variabile, serii înrudite, covariabile)'),
+      T(r'\textbf{in-context learning} of covariate effects, without re-estimation', r'\textbf{învățare în context} a efectelor covariabilelor, fără reestimare'),
+      T('trained largely on synthetic multivariate structures imposed on univariate series', 'antrenat în mare parte pe structuri multivariate sintetice impuse unor serii univariate'),
+      T('context 8192; 21 quantiles from 1\\% to 99\\%; arcsinh scaling', 'context de 8192; 21 de cuantile de la 1\\% la 99\\%; scalare arcsinh')])), 'small')
 
-D.frame(T('TimesFM, Moirai, Lag-Llama, MOMENT', 'TimesFM, Moirai, Lag-Llama, MOMENT'), items(
-    (T(r'\textbf{TimesFM} \refDas: decoder-only, patches; output patch longer than input patch; trained on many granularities; version 2.5 adds a quantile head and long contexts',
-       r'\textbf{TimesFM} \refDas: decoder-only, patch-uri; patch-ul de ieșire mai lung decît cel de intrare; antrenat pe multe frecvențe; versiunea 2.5 adaugă un strat de cuantile și contexte lungi'), []),
-    (T(r'\textbf{Moirai} \refWoo: masked encoder; frequency-specific patch sizes; any-variate attention flattens multivariate inputs; mixture output (Student-$t$, log-normal, negative binomial)',
-       r'\textbf{Moirai} \refWoo: encoder mascat; mărimi de patch specifice frecvenței; atenția pe orice număr de variabile aplatizează intrările multivariate; ieșire sub formă de amestec (Student-$t$, log-normală, binomială negativă)'),
-     [T(r'Moirai 2.0 \refLiu: a decoder-only simplification, smaller and better on GIFT-Eval', r'Moirai 2.0 \refLiu: o simplificare decoder-only, mai mică și mai bună pe GIFT-Eval')]),
-    (T(r'\textbf{Lag-Llama} \refRas: a LLaMA-type decoder whose tokens are vectors of lagged values at many seasonal lags; Student-$t$ head; strong after fine-tuning',
-       r'\textbf{Lag-Llama} \refRas: un decodor de tip LLaMA ale cărui token-uri sînt vectori de valori cu lag, la multe laguri sezoniere; strat Student-$t$; puternic după fine-tuning'), []),
-    T(r'\textbf{MOMENT} \refGos: masked reconstruction on the Time series Pile; one encoder for forecasting, classification, anomaly detection and imputation',
-      r'\textbf{MOMENT} \refGos: reconstrucție mascată pe Time series Pile; un singur encoder pentru prognoză, clasificare, detectarea anomaliilor și imputare')), 'small')
+D.frame(T('TimesFM, Moirai, Lag-Llama, MOMENT (1/2)', 'TimesFM, Moirai, Lag-Llama, MOMENT (1/2)'), items(
+    (T(r'\textbf{TimesFM} \refDas', r'\textbf{TimesFM} \refDas'),
+     [T('decoder-only, with patches; the output patch is longer than the input patch', 'decoder-only, cu patch-uri; patch-ul de ieșire este mai lung decît cel de intrare'),
+      T('trained on many granularities; version 2.5 adds a quantile head and long contexts', 'antrenat pe multe frecvențe; versiunea 2.5 adaugă un strat de cuantile și contexte lungi')]),
+    (T(r'\textbf{Moirai} \refWoo', r'\textbf{Moirai} \refWoo'),
+     [T('masked encoder; frequency-specific patch sizes', 'encoder mascat; mărimi de patch specifice frecvenței'),
+      T('any-variate attention flattens multivariate inputs into one sequence', 'atenția pe orice număr de variabile aplatizează intrările multivariate într-o singură secvență'),
+      T(r'mixture output: Student-$t$, log-normal, negative binomial', r'ieșire sub formă de amestec: Student-$t$, log-normală, binomială negativă'),
+      T(r'Moirai 2.0 \refLiu: a decoder-only simplification, smaller and better on GIFT-Eval', r'Moirai 2.0 \refLiu: o simplificare decoder-only, mai mică și mai bună pe GIFT-Eval')])), 'small')
+
+D.frame(T('TimesFM, Moirai, Lag-Llama, MOMENT (2/2)', 'TimesFM, Moirai, Lag-Llama, MOMENT (2/2)'), items(
+    (T(r'\textbf{Lag-Llama} \refRas', r'\textbf{Lag-Llama} \refRas'),
+     [T('a LLaMA-type decoder whose tokens are vectors of lagged values at many seasonal lags', 'un decodor de tip LLaMA ale cărui token-uri sînt vectori de valori cu lag, la multe laguri sezoniere'),
+      T(r'Student-$t$ output head; strong after fine-tuning', r'strat de ieșire Student-$t$; puternic după fine-tuning')]),
+    (T(r'\textbf{MOMENT} \refGos', r'\textbf{MOMENT} \refGos'),
+     [T('pretrained by masked reconstruction on the Time series Pile', 'preantrenat prin reconstrucție mascată pe Time series Pile'),
+      T('one encoder for forecasting, classification, anomaly detection and imputation', 'un singur encoder pentru prognoză, clasificare, detectarea anomaliilor și imputare')]),
+    ), 'small')
 
 D.frame(T('Recurrent again, observability, and a closed API', 'Din nou recurente, observabilitate și un API închis'), items(
-    (T(r'\textbf{TiRex} \refAue: an xLSTM keeps a state across the context, which allows state tracking over long horizons',
-       r'\textbf{TiRex} \refAue: un xLSTM păstrează o stare de-a lungul contextului, ceea ce permite urmărirea stării pe orizonturi lungi'),
-     [T('xLSTM: the recurrent cells of Chapter 12 with exponential gating and a matrix memory', 'xLSTM: celulele recurente din Capitolul 12, cu porți exponențiale și memorie matriceală'),
-T('contiguous patch masking (CPM) in training: the model learns to forecast with missing patches, i.e.\\ several steps without feedback',
-        'mascarea patch-urilor contigue (CPM) la antrenare: modelul învață să prognozeze cu patch-uri lipsă, adică mai mulți pași fără reacție')]),
-    (T(r'\textbf{Toto} \refCoh: decoder-only for multivariate observability metrics; the BOOM benchmark (2807 series); shows that domain composition of the corpus drives results',
-       r'\textbf{Toto} \refCoh: decoder-only pentru metrici multivariate de observabilitate; benchmark-ul BOOM (2807 serii); arată că alcătuirea pe domenii a corpusului determină rezultatele'), []),
-    (T(r'\textbf{TimeGPT} \refGar: closed weights and undisclosed corpus behind a paid API', r'\textbf{TimeGPT} \refGar: ponderi închise și corpus nedezvăluit, în spatele unui API cu plată'),
-     [T('contamination cannot be audited; results are not reproducible if the service changes the model; data leave your institution', 'contaminarea nu poate fi verificată; rezultatele nu sînt reproductibile dacă serviciul schimbă modelul; datele ies din instituția dumneavoastră')])), 'small')
+    (T(r'\textbf{TiRex} \refAue', r'\textbf{TiRex} \refAue'),
+     [T('an xLSTM keeps a state across the context, which allows state tracking over long horizons', 'un xLSTM păstrează o stare de-a lungul contextului, ceea ce permite urmărirea stării pe orizonturi lungi'),
+      T('xLSTM: the recurrent cells of Chapter 12 with exponential gating and a matrix memory', 'xLSTM: celulele recurente din Capitolul 12, cu porți exponențiale și memorie matriceală'),
+      T('contiguous patch masking (CPM) in training: the model learns to forecast several steps without feedback',
+        'mascarea patch-urilor contigue (CPM) la antrenare: modelul învață să prognozeze mai mulți pași fără reacție')]),
+    (T(r'\textbf{Toto} \refCoh', r'\textbf{Toto} \refCoh'),
+     [T('decoder-only, for multivariate observability metrics; the BOOM benchmark (2807 series)', 'decoder-only, pentru metrici multivariate de observabilitate; benchmark-ul BOOM (2807 serii)'),
+      T('the domain composition of the corpus drives the results', 'alcătuirea pe domenii a corpusului determină rezultatele')]),
+    (T(r'\textbf{TimeGPT} \refGar', r'\textbf{TimeGPT} \refGar'),
+     [T('closed weights and an undisclosed corpus, behind a paid API', 'ponderi închise și un corpus nedezvăluit, în spatele unui API cu plată'),
+      T('contamination cannot be audited; results are not reproducible if the service changes the model', 'contaminarea nu poate fi verificată; rezultatele nu sînt reproductibile dacă serviciul schimbă modelul'),
+      T('the data leave your institution', 'datele ies din instituția dumneavoastră')])), 'small')
 
 D.frame(T('Zero-shot, fine-tuning, in-context covariates', 'Zero-shot, fine-tuning, covariabile în context'), items(
-    (T(r'\textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; no training, hence no risk of overfitting the target; the only choices are $C$ and the model',
-       r'\textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; fără antrenare, deci fără risc de supraajustare pe seria-țintă; singurele alegeri sînt $C$ și modelul'), []),
-    (T(r'\textbf{Fine-tuning}: the weights $\theta$ start at $\hat\theta$ and take a few gradient steps on the target data (all weights, or adapters such as LoRA)',
-       r'\textbf{Fine-tuning}: ponderile $\theta$ pornesc de la $\hat\theta$ și fac cîțiva pași de gradient pe datele-țintă (toate ponderile sau adaptoare precum LoRA)'),
-     [T('needs a validation split respecting time (Chapter 12); can forget the prior; with short economic series it rarely pays', 'cere o împărțire de validare care respectă timpul (Capitolul 12); poate uita distribuția a priori; pe serii economice scurte rareori merită')]),
-    (T(r'\textbf{In-context covariates} (Chronos-2): pass past values of a covariate $x_t$ (e.g.\ temperature) and future values of regressors known in advance; the model infers their effect inside the forward pass',
-       r'\textbf{Covariabile în context} (Chronos-2): se transmit valorile trecute ale unei covariabile $x_t$ (de exemplu temperatura) și valorile viitoare ale regresorilor cunoscuți dinainte; modelul deduce efectul lor în timpul trecerii înainte'),
-     [T('cross-learning: forecasting a batch of related series jointly (all 27 EU countries at one origin)', 'învățarea încrucișată: prognoza în comun a unui lot de serii înrudite (toate cele 27 de țări UE la aceeași origine)')]),
-    T('Known future covariates must really be known at the origin: weather forecasts, not realised weather, unless an upper bound is the goal',
-      'Covariabilele viitoare cunoscute trebuie să fie chiar cunoscute la origine: prognoze meteo, nu vremea realizată, cu excepția cazului în care se urmărește o limită superioară')), 'small')
+    (T(r'\textbf{Zero-shot}: the forecast is $f_{\hat\theta}(y_{T-C+1:T})$', r'\textbf{Zero-shot}: prognoza este $f_{\hat\theta}(y_{T-C+1:T})$'),
+     [T('no training, hence no risk of overfitting the target; the only choices are $C$ and the model', 'fără antrenare, deci fără risc de supraajustare pe seria-țintă; singurele alegeri sînt $C$ și modelul')]),
+    (T(r'\textbf{Fine-tuning}: the weights start at $\hat\theta$ and take a few gradient steps on the target data', r'\textbf{Fine-tuning}: ponderile pornesc de la $\hat\theta$ și fac cîțiva pași de gradient pe datele-țintă'),
+     [T('all weights, or low-rank adapters (LoRA) added to frozen weights', 'toate ponderile sau adaptoare de rang mic (LoRA) adăugate ponderilor înghețate'),
+      T('needs a validation split respecting time (Chapter 12); can forget the prior; with short economic series it rarely pays', 'cere o împărțire de validare care respectă timpul (Capitolul 12); poate uita distribuția a priori; pe serii economice scurte rareori merită')]),
+    (T(r'\textbf{In-context covariates} (Chronos-2)', r'\textbf{Covariabile în context} (Chronos-2)'),
+     [T(r'past values of a covariate $x_t$ (e.g.\ temperature) and future values of regressors known in advance enter the context', r'valorile trecute ale unei covariabile $x_t$ (de exemplu temperatura) și valorile viitoare ale regresorilor cunoscuți dinainte intră în context'),
+      T('the model infers their effect inside the forward pass, with no parameter estimated', 'modelul deduce efectul lor în timpul trecerii înainte, fără niciun parametru estimat'),
+      T('cross-learning: forecasting a batch of related series jointly (all 27 EU countries at one origin)', 'învățarea încrucișată: prognoza în comun a unui lot de serii înrudite (toate cele 27 de țări UE la aceeași origine)')]),
+    (T('Known future covariates must really be known at the origin', 'Covariabilele viitoare cunoscute trebuie să fie chiar cunoscute la origine'),
+     [T('weather forecasts, not realised weather, unless an upper bound is the goal', 'prognoze meteo, nu vremea realizată, cu excepția cazului în care se urmărește o limită superioară')])), 'small')
 
 chart(T('Four zero-shot forecasts from one model', 'Patru prognoze zero-shot cu același model'), 'ats_ch13_zeroshot', 'ATS_ch13_zero_shot', [
     T(r'Chronos-2 from the last origin of each data set: Romanian load (48 hours), Romanian HICP inflation (12 months), Bitcoin log realised variance and BET daily returns (22 days); bands 10--90\% and 1--99\%',
@@ -626,11 +653,13 @@ D.frame(T('Aggregating scores across series (2/2)', 'Agregarea scorurilor pe mai
       T('the mean of raw errors: dominated by the series with the largest scale', 'media erorilor brute: dominată de seria cu scala cea mai mare')])), 'small')
 
 D.frame(T('Leakage and contamination', 'Leakage și contaminare'), items(
-    (T(r'\textbf{Series leakage}: an evaluation series (or a near copy) is in the pretraining corpus; Chronos separates in-domain (Benchmark I) from zero-shot (Benchmark II) results for this reason \refAns',
-       r'\textbf{Leakage-ul seriilor}: o serie de evaluare (sau o copie apropiată) se află în corpusul de preantrenare; Chronos separă din acest motiv rezultatele în domeniu (Benchmark I) de cele zero-shot (Benchmark II) \refAns'), []),
-    (T(r'\textbf{Temporal contamination}: the test window precedes the training cutoff; the model may have seen the outcomes of other, correlated series in the same period',
-       r'\textbf{Contaminarea temporală}: fereastra de test precede data-limită a antrenării; modelul poate să fi văzut rezultatele altor serii, corelate, din aceeași perioadă'),
-     [T(r'LLMs recall exact economic values from before their cutoff \refLTZ; a two-data-set design against contamination for electricity prices \refPE', r'LLM-urile reproduc valori economice exacte din perioada dinaintea datei-limită \refLTZ; un design cu două seturi de date împotriva contaminării, pentru prețurile electricității \refPE')]),
+    (T(r'\textbf{Series leakage}', r'\textbf{Leakage-ul seriilor}'),
+     [T('an evaluation series (or a near copy) is in the pretraining corpus', 'o serie de evaluare (sau o copie apropiată) se află în corpusul de preantrenare'),
+      T(r'Chronos separates in-domain (Benchmark I) from zero-shot (Benchmark II) results for this reason \refAns', r'Chronos separă din acest motiv rezultatele în domeniu (Benchmark I) de cele zero-shot (Benchmark II) \refAns')]),
+    (T(r'\textbf{Temporal contamination}', r'\textbf{Contaminarea temporală}'),
+     [T('the test window precedes the training cutoff: the model may have seen the outcomes of other, correlated series in the same period', 'fereastra de test precede data-limită a antrenării: modelul poate să fi văzut rezultatele altor serii, corelate, din aceeași perioadă'),
+      T(r'LLMs recall exact economic values from before their cutoff \refLTZ', r'LLM-urile reproduc valori economice exacte din perioada dinaintea datei-limită \refLTZ'),
+      T(r'a two-data-set design against contamination, for electricity prices \refPE', r'un design cu două seturi de date împotriva contaminării, pentru prețurile electricității \refPE')]),
     (T('Designs that help', 'Designuri care ajută'),
      [T('evaluate only after the release (or the declared cutoff) of every model in the comparison; we use 1 November 2025, after the last of our models (Chronos-2, 30 October 2025)',
         'evaluați doar după lansarea (sau data-limită declarată) a fiecărui model din comparație; folosim 1 noiembrie 2025, după ultimul dintre modelele noastre (Chronos-2, 30 octombrie 2025)'),
@@ -638,8 +667,9 @@ D.frame(T('Leakage and contamination', 'Leakage și contaminare'), items(
       T('pre-register origins, horizons, metrics and baselines before looking at the results', 'preînregistrați originile, orizonturile, metricile și modelele de referință înainte de a vedea rezultatele')])), 'small')
 
 D.frame(T('Testing across many series (1/2)', 'Testarea pe multe serii (1/2)'), items(
-    (T(r'One series: DM with HLN correction \refDM, \refHLN; conditional ability \refGW; many models: MCS \refHLNa (all in Chapter 1)',
-       r'O serie: DM cu corecția HLN \refDM, \refHLN; capacitatea condiționată \refGW; multe modele: MCS \refHLNa (toate în Capitolul 1)'), []),
+    (T('One series (all in Chapter 1)', 'O serie (toate în Capitolul 1)'),
+     [T(r'DM with HLN correction \refDM, \refHLN; conditional ability \refGW', r'DM cu corecția HLN \refDM, \refHLN; capacitatea condiționată \refGW'),
+      T(r'many models: MCS \refHLNa', r'multe modele: MCS \refHLNa')]),
     (T(r'$S$ series tested separately, each at level 5\%: under the null hypothesis about $0.05S$ false rejections are expected',
        r'$S$ serii testate separat, fiecare la nivelul de 5\%: sub ipoteza nulă se așteaptă aproximativ $0{,}05S$ respingeri false'),
      [T(r'with $S = 27$ countries, about one or two ``significant'' countries by chance alone', r'cu $S = 27$ de țări, aproximativ una sau două țări „semnificative” doar din întîmplare')]),
@@ -772,7 +802,8 @@ interp(('the volatility comparison', 'comparației pentru volatilitate'), [
     (T(r'Three of the four zero-shot models beat HAR on both assets, and HAR is outside both MCS', r'Trei dintre cele patru modele zero-shot întrec HAR pe ambele active, iar HAR nu intră în niciun MCS'),
      [T(r'the slowly decaying memory of log RV (Chapter 10) is a shape a model can learn from a corpus', r'memoria lentă a lui log RV (Capitolul 10) este o structură pe care modelul o poate învăța din corpus'),
       T(r'the gain is large for Bitcoin, small for the S\&P 500', r'cîștigul este mare pentru Bitcoin și mic pentru S\&P 500')]),
-    T(r'Recent studies reach mixed verdicts \refGoe, \refBri, \refRNW: gains depend on the asset, the horizon and the loss, and fine-tuning or pretraining on financial data often matters', r'Studii recente ajung la verdicte mixte \refGoe, \refBri, \refRNW: cîștigurile depind de activ, de orizont și de funcția de pierdere, iar fine-tuning-ul sau preantrenarea pe date financiare contează adesea')])
+    (T(r'Recent studies reach mixed verdicts \refGoe, \refBri, \refRNW', r'Studii recente ajung la verdicte mixte \refGoe, \refBri, \refRNW'),
+     [T('gains depend on the asset, the horizon and the loss; fine-tuning or pretraining on financial data often matters', 'cîștigurile depind de activ, de orizont și de funcția de pierdere; fine-tuning-ul sau preantrenarea pe date financiare contează adesea')])])
 
 chart(T('Before and after the releases', 'Înainte și după lansări'), 'ats_ch13_contamination', 'ATS_ch13_benchmark', [
     T(r'Relative loss of each model in an earlier window and in the window after every release (from 1 November 2025): load (MAE / expert ARX) and Bitcoin (QLIKE / HAR)',
@@ -810,37 +841,47 @@ D.frame(T('LLMTime: numbers as text', 'LLMTime: numerele ca text'), items(
       'Costuri: mii de token-uri pe serie și multe eșantioane pentru o prognoză; fereastra de context limitează istoria; LLM-ul poate să fi memorat datele')), 'small')
 
 D.frame(T('Reprogramming a frozen LLM', 'Reprogramarea unui LLM înghețat'), items(
-    (T(r'\textbf{Time-LLM} \refJin: patches of the series are mapped onto text prototypes (word embeddings), a prompt prefix describes the task and statistics; the LLM stays frozen, a projection reads the forecast',
-       r'\textbf{Time-LLM} \refJin: patch-urile seriei sînt proiectate pe prototipuri de text (embedding-uri de cuvinte), un prefix de prompt descrie sarcina și statisticile; LLM-ul rămîne înghețat, o proiecție citește prognoza'), []),
-    (T(r'\textbf{One Fits All} (GPT4TS) \refZho: a frozen GPT-2 with trained input embedding, layer norms and output layer, for forecasting, classification and anomaly detection',
-       r'\textbf{One Fits All} (GPT4TS) \refZho: un GPT-2 înghețat, cu embedding-ul de intrare, normalizările de strat și stratul de ieșire antrenate, pentru prognoză, clasificare și detectarea anomaliilor'), []),
-    T('The claim: knowledge from language transfers to series; the test of the claim is an ablation that removes the language model',
-      'Afirmația: cunoașterea din limbaj se transferă la serii; testul afirmației este o ablație care elimină modelul de limbaj')), 'small')
+    (T(r'\textbf{Time-LLM} \refJin', r'\textbf{Time-LLM} \refJin'),
+     [T('patches of the series are mapped onto text prototypes (word embeddings)', 'patch-urile seriei sînt proiectate pe prototipuri de text (embedding-uri de cuvinte)'),
+      T('a prompt prefix describes the task and the statistics of the series', 'un prefix de prompt descrie sarcina și statisticile seriei'),
+      T('the LLM stays frozen; a trained projection reads the forecast', 'LLM-ul rămîne înghețat; o proiecție antrenată citește prognoza')]),
+    (T(r'\textbf{One Fits All} (GPT4TS) \refZho', r'\textbf{One Fits All} (GPT4TS) \refZho'),
+     [T('a frozen GPT-2; only the input embedding, the layer norms and the output layer are trained', 'un GPT-2 înghețat; se antrenează doar embedding-ul de intrare, normalizările de strat și stratul de ieșire'),
+      T('one model for forecasting, classification and anomaly detection', 'un singur model pentru prognoză, clasificare și detectarea anomaliilor')]),
+    (T('The claim: knowledge from language transfers to series', 'Afirmația: cunoașterea din limbaj se transferă la serii'),
+     [T('the test of the claim is an ablation that removes the language model', 'testul afirmației este o ablație care elimină modelul de limbaj')])), 'small')
 
 D.frame(T('Case study: are language models actually useful?', 'Studiu de caz: sînt modelele de limbaj chiar utile?'), two(
     items(T(r'\refTan: three LLM-based forecasters (including Time-LLM and GPT4TS), the same benchmarks, three ablations',
             r'\refTan: trei prognozatori pe bază de LLM (inclusiv Time-LLM și GPT4TS), aceleași benchmark-uri, trei ablații'),
           (T('Ablations', 'Ablațiile'),
            [T('remove the LLM; replace it by one attention layer; replace it by a basic Transformer block', 'eliminarea LLM-ului; înlocuirea lui cu un strat de atenție; înlocuirea cu un bloc Transformer simplu')]),
-          T('Result: no degradation, often an improvement; pretrained LLMs do no better than the same model trained from scratch, do not model sequential dependence, do not help in few-shot settings',
-            'Rezultat: nicio degradare, adesea o îmbunătățire; LLM-urile preantrenate nu sînt mai bune decît același model antrenat de la zero, nu modelează dependența secvențială, nu ajută cînd datele sînt puține'),
+          (T('Result: no degradation, often an improvement', 'Rezultat: nicio degradare, adesea o îmbunătățire'),
+           [T('pretrained LLMs do no better than the same model trained from scratch', 'LLM-urile preantrenate nu sînt mai bune decît același model antrenat de la zero'),
+            T('they do not model sequential dependence and do not help in few-shot settings', 'nu modelează dependența secvențială și nu ajută cînd datele sînt puține')]),
           T('Training and inference cost orders of magnitude more', 'Antrenarea și inferența costă cu ordine de mărime mai mult')),
-    items(T('The method matters more than the result', 'Metoda contează mai mult decît rezultatul'),
-          T('an architecture claim needs an ablation with matched compute and tuning', 'o afirmație despre arhitectură cere o ablație cu calcul și ajustare comparabile'),
-          T('time-series foundation models trained on series (Chronos, TimesFM, TiRex) are not affected by this critique; LLMs used as forecasters are', 'foundation models antrenate pe serii (Chronos, TimesFM, TiRex) nu sînt vizate de această critică; LLM-urile folosite ca prognozatori sînt'),
-          T(r'LLMs remain useful around forecasting: code, literature, critique (Section 9)', r'LLM-urile rămîn utile în jurul prognozei: cod, literatură, critică (secțiunea 9)')), '0.56', '0.42'), 'small')
+    items((T('The method matters more than the result', 'Metoda contează mai mult decît rezultatul'),
+           [T('an architecture claim needs an ablation with matched compute and tuning', 'o afirmație despre arhitectură cere o ablație cu calcul și ajustare comparabile')]),
+          (T('Scope of the critique', 'Ce vizează critica'),
+           [T('LLMs used as forecasters are affected', 'LLM-urile folosite ca prognozatori sînt vizate'),
+            T('foundation models trained on series (Chronos, TimesFM, TiRex) are not', 'foundation models antrenate pe serii (Chronos, TimesFM, TiRex) nu sînt vizate'),
+            T(r'LLMs remain useful around forecasting: code, literature, critique (Section 9)', r'LLM-urile rămîn utile în jurul prognozei: cod, literatură, critică (secțiunea 9)')])), '0.56', '0.42'), 'small')
 
 D.frame(T('Memorisation and look-ahead', 'Memorare și anticiparea viitorului'), items(
-    (T(r'\refLTZ: LLMs reproduce macroeconomic and market values from their training period with high precision, even when asked not to use future information',
-       r'\refLTZ: LLM-urile reproduc cu mare precizie valori macroeconomice și de piață din perioada lor de antrenare, chiar și cînd li se cere să nu folosească informații viitoare'),
-     [T('a backtest before the training cutoff measures recall, not forecasting', 'un backtest înainte de data-limită a antrenării măsoară memoria, nu capacitatea de prognoză')]),
-    (T('For time-series foundation models the same logic applies to public series in the corpus (electricity, traffic, M4)', 'Pentru foundation models pe serii de timp, aceeași logică se aplică seriilor publice din corpus (electricitate, trafic, M4)'),
-     [T('our evidence: windows after every release (Section 4); the strongest evidence: live, pre-registered forecasts', 'dovezile noastre: ferestre de după toate lansările (secțiunea 4); cele mai puternice dovezi: prognoze live, preînregistrate')]),
-    T('A practical rule: state the training cutoff of every model and the start of the evaluation window in the same table', 'O regulă practică: precizați data-limită de antrenare a fiecărui model și începutul ferestrei de evaluare în același tabel')), 'small')
+    (T(r'LLMs recall their training period \refLTZ', r'LLM-urile își amintesc perioada de antrenare \refLTZ'),
+     [T('they reproduce macroeconomic and market values from that period with high precision, even when asked not to use future information', 'reproduc cu mare precizie valori macroeconomice și de piață din acea perioadă, chiar și cînd li se cere să nu folosească informații viitoare'),
+      T('a backtest before the training cutoff measures recall, not forecasting', 'un backtest înainte de data-limită a antrenării măsoară memoria, nu capacitatea de prognoză')]),
+    (T('The same logic for time-series foundation models', 'Aceeași logică pentru foundation models pe serii de timp'),
+     [T('it applies to public series in the corpus (electricity, traffic, M4)', 'ea se aplică seriilor publice din corpus (electricitate, trafic, M4)'),
+      T('our evidence: windows after every release (Section 4)', 'dovezile noastre: ferestre de după toate lansările (secțiunea 4)'),
+      T('the strongest evidence: live, pre-registered forecasts', 'cele mai puternice dovezi: prognoze live, preînregistrate')]),
+    (T('A practical rule', 'O regulă practică'),
+     [T('state the training cutoff of every model and the start of the evaluation window in the same table', 'precizați data-limită de antrenare a fiecărui model și începutul ferestrei de evaluare în același tabel')])), 'small')
 
 D.recap(('LLMs', 'LLM'), [
     T('LLMTime and reprogramming show that text models can be bent to series; ablations show the language part is rarely what helps', 'LLMTime și reprogramarea arată că modelele de text pot fi adaptate la serii; ablațiile arată că partea de limbaj rareori este cea care ajută'),
-    T('Memorisation makes pre-cutoff evaluation of LLM forecasts invalid', 'Memorarea face ca evaluarea prognozelor LLM înainte de data-limită să nu fie validă')])
+    T('Memorisation makes pre-cutoff evaluation of LLM forecasts invalid', 'Memorarea face ca evaluarea prognozelor LLM înainte de data-limită să nu fie validă'),
+    T('For forecasting, foundation models trained on series are the default; LLMs remain useful for code, literature and critique', 'Pentru prognoză, foundation models antrenate pe serii sînt alegerea implicită; LLM-urile rămîn utile pentru cod, literatură și critică')])
 
 # =============================================================================
 # 6. PREDICȚIA CONFORMALĂ
@@ -849,10 +890,13 @@ D.section('Conformal prediction', 'Predicția conformală')
 
 D.frame(T('Where conformal prediction comes from', 'Originea predicției conformale'), two(
     ph('gammerman', T('Alexander Gammerman, Royal Holloway, 2018', 'Alexander Gammerman, Royal Holloway, 2018'), h='0.36\\textheight'),
-    items(T(r'Vovk, Gammerman and Shafer \refVGS, \refVGSb: prediction sets valid in finite samples under exchangeability only, for any predictive model',
-            r'Vovk, Gammerman și Shafer \refVGS, \refVGSb: mulțimi de predicție valide în eșantioane finite doar sub interschimbabilitate, pentru orice model predictiv'),
-          T('The idea: how "conforming" a candidate value is to the data seen, measured by a rank', 'Ideea: cît de „conformă” este o valoare candidat cu datele văzute, măsurat printr-un rang'),
-          T(r'Modern statistics adopted it as a wrapper around machine learning \refLei, \refAB', r'Statistica modernă a adoptat-o ca înveliș în jurul metodelor de machine learning \refLei, \refAB')), '0.42', '0.56'), 'small')
+    items((T(r'\refVGS; \refVGSb', r'\refVGS; \refVGSb'),
+           [T('prediction sets valid in finite samples', 'mulțimi de predicție valide în eșantioane finite'),
+            T('only exchangeability is assumed, for any predictive model', 'se presupune doar interschimbabilitatea, pentru orice model predictiv')]),
+          (T('The idea', 'Ideea'),
+           [T("how ``conforming'' a candidate value is to the data seen, measured by a rank", 'cît de „conformă” este o valoare candidat cu datele văzute, măsurat printr-un rang')]),
+          (T(r'Modern statistics \refLei; \refAB', r'Statistica modernă \refLei; \refAB'),
+           [T('adopted it as a wrapper around machine learning methods', 'a adoptat-o ca înveliș în jurul metodelor de machine learning')])), '0.42', '0.56'), 'small')
 
 D.frame(T('Exchangeability and the target guarantee (1/2)', 'Interschimbabilitatea și garanția urmărită (1/2)'), items(
     (T(r'Data: $n$ calibration points and one test point, $Z_i = (X_i, Y_i)$, $i = 1, \dots, n + 1$',
@@ -956,9 +1000,10 @@ interp(('CQR', 'CQR'), [
      [T(r'the gain of CQR is in width: narrow where $Y$ is concentrated, wide where the Poisson noise is large', r'cîștigul CQR este în lățime: îngust acolo unde $Y$ este concentrat, larg acolo unde zgomotul Poisson este mare')])])
 
 D.frame(T('The limits of conditional coverage', 'Limitele acoperirii condiționate'), items(
-    (T(r'\textbf{Impossibility} \refVov, \refLW, \refBarB: if $\hat C$ has conditional coverage $\ge 1 - \alpha$ at almost every $x$ for every distribution with a continuous $X$, then its expected length is infinite',
-       r'\textbf{Imposibilitate} \refVov, \refLW, \refBarB: dacă $\hat C$ are acoperire condiționată $\ge 1 - \alpha$ în aproape orice $x$, pentru orice distribuție cu $X$ continuu, atunci lungimea lui așteptată este infinită'),
-     [T('no finite-sample method can certify coverage at each point of a continuous covariate without assumptions', 'nicio metodă nu poate certifica în eșantioane finite acoperirea în fiecare punct al unei covariabile continue fără ipoteze')]),
+    (T(r'\textbf{Impossibility} \refVov; \refLW; \refBarB', r'\textbf{Imposibilitate} \refVov; \refLW; \refBarB'),
+     [T(r'if $\hat C$ has conditional coverage $\ge 1 - \alpha$ at almost every $x$, for every distribution with a continuous $X$, its expected length is infinite',
+        r'dacă $\hat C$ are acoperire condiționată $\ge 1 - \alpha$ în aproape orice $x$, pentru orice distribuție cu $X$ continuu, lungimea lui așteptată este infinită'),
+      T('no finite-sample method can certify coverage at each point of a continuous covariate without assumptions', 'nicio metodă nu poate certifica în eșantioane finite acoperirea în fiecare punct al unei covariabile continue fără ipoteze')]),
     (T(r'What is achievable', r'Rezultate posibile'),
      [T('coverage within each of a finite set of groups (Mondrian conformal: calibrate separately by group)', 'acoperire în fiecare dintre un număr finit de grupuri (conformal Mondrian: calibrare separată pe grupuri)'),
       T('approximate conditional coverage under smoothness assumptions', 'acoperire condiționată aproximativă, sub ipoteze de netezime'),
@@ -1062,7 +1107,7 @@ D.frame(T('Adaptive conformal inference (2/2)', 'Inferența conformală adaptiv�
        r'\textbf{Teoremă} \refGC: pentru orice șir de date, frecvența ratărilor pe $T$ perioade este apropiată de $\alpha$'),
      [r'\[ \Big|\frac1T\sum_{t=1}^T\mathrm{err}_t - \alpha\Big| \le \frac{\max\{\alpha_1, 1 - \alpha_1\} + \gamma}{\gamma T} \]',
       T(r'$\alpha_1$: the starting level; the bound falls as $1/T$, and is tighter for a larger $\gamma$', r'$\alpha_1$: nivelul de pornire; marginea scade ca $1/T$ și este mai strînsă pentru un $\gamma$ mai mare')]),
-    (T(r'Idea of the proof (Appendix)', r'Ideea demonstrației (Anexă)'),
+    (T(r'Idea of the proof (Appendix) % applink: the two online guarantees', r'Ideea demonstrației (Anexă) % applink: cele două garanții online'),
      [T(r'$\alpha_t$ always stays in $[-\gamma, 1 + \gamma]$', r'$\alpha_t$ rămîne mereu în $[-\gamma, 1 + \gamma]$'),
       T(r'summing the updates, $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; divide by $\gamma T$', r'însumînd actualizările, $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; se împarte la $\gamma T$')]),
     (T('A long-run frequency, not conditional coverage', 'O frecvență pe termen lung, nu o acoperire condiționată'),
@@ -1178,19 +1223,28 @@ D.recap(('conformal methods for time series', 'metodele conformale pentru serii 
 # =============================================================================
 D.section('Calibrating foundation-model intervals', 'Calibrarea intervalelor produse de foundation models')
 
-D.frame(T('The need to calibrate foundation-model quantiles', 'Nevoia de calibrare a cuantilelor foundation models'), items(
+D.frame(T('The need to calibrate foundation-model quantiles (1/2)', 'Nevoia de calibrare a cuantilelor foundation models (1/2)'), items(
     (T(r'Pretrained quantiles are calibrated on the corpus distribution, not on your series',
        r'Cuantilele preantrenate sînt calibrate pe distribuția corpusului, nu pe seria dumneavoastră'),
      [T('miscalibration is the default, in either direction (bands too narrow or too wide)', 'calibrarea greșită este situația implicită, în ambele sensuri (benzi prea înguste sau prea largi)')]),
-    (T(r'Most models output only 10\%--90\%: a 95\% interval or VaR 1\% requires extrapolation beyond the trained levels',
-       r'Majoritatea modelelor dau doar cuantile de 10\%--90\%: un interval de 95\% sau VaR 1\% cere extrapolare dincolo de nivelurile antrenate'), []),
-    (T(r'Procedure: online CQR on the model\'s own 10\%--90\% band, with ACI choosing the threshold for any target level (80\% or 95\%)',
-       r'Procedura: CQR online pe banda proprie de 10\%--90\% a modelului, iar ACI alege pragul pentru orice nivel-țintă (80\% sau 95\%)'),
+    (T(r'Most models output only the 10\%--90\% quantiles', r'Majoritatea modelelor dau doar cuantilele de 10\%--90\%'),
+     [T(r'a 95\% interval or a VaR 1\% requires extrapolation beyond the trained levels', r'un interval de 95\% sau un VaR 1\% cere extrapolare dincolo de nivelurile antrenate')]),
+    (T(r'Procedure: online CQR on the model\'s own 10\%--90\% band',
+       r'Procedura: CQR online pe banda proprie de 10\%--90\% a modelului'),
      [dm(r'S_t = \max\{\hat q_{0.1,t} - y_t,\; y_t - \hat q_{0.9,t}\}, \qquad \hat C_t = [\hat q_{0.1,t} - q_t,\; \hat q_{0.9,t} + q_t]'),
-      T(r'$\hat q_{0.1,t}$, $\hat q_{0.9,t}$: the 10\% and 90\% quantiles forecast by the model for period $t$; $q_t$: the ACI threshold', r'$\hat q_{0.1,t}$, $\hat q_{0.9,t}$: cuantilele de 10\% și 90\% prognozate de model pentru perioada $t$; $q_t$: pragul ACI')]),
-    (T(r'One-sided version for VaR: score $S_t = \hat q_{0.1,t} - y_t$, threshold $q_t$ at level $\alpha$', r'Varianta unilaterală pentru VaR: scorul $S_t = \hat q_{0.1,t} - y_t$, pragul $q_t$ la nivelul $\alpha$'),
-     [T(r'the calibrated quantile is $\hat q_{0.1,t} - q_t$ and $\mathrm{VaR}_t = -(\hat q_{0.1,t} - q_t)$ (VaR as a positive loss)', r'cuantila calibrată este $\hat q_{0.1,t} - q_t$, iar $\mathrm{VaR}_t = -(\hat q_{0.1,t} - q_t)$ (VaR ca pierdere pozitivă)')]),
-    T(r'Further reading on conformal VaR recalibration of foundation models: \refCO; \refTV', r'Lectură suplimentară despre recalibrarea conformală a VaR pentru foundation models: \refCO; \refTV')), 'small')
+      T(r'$\hat q_{0.1,t}$, $\hat q_{0.9,t}$: the 10\% and 90\% quantiles forecast by the model for period $t$; $S_t$: the CQR score', r'$\hat q_{0.1,t}$, $\hat q_{0.9,t}$: cuantilele de 10\% și 90\% prognozate de model pentru perioada $t$; $S_t$: scorul CQR'),
+      T(r'$q_t$: the threshold chosen by ACI for any target level (80\% or 95\%)', r'$q_t$: pragul ales de ACI pentru orice nivel-țintă (80\% sau 95\%)')])), 'small')
+
+D.frame(T('The need to calibrate foundation-model quantiles (2/2)', 'Nevoia de calibrare a cuantilelor foundation models (2/2)'), items(
+    (T(r'One-sided version for VaR', r'Varianta unilaterală pentru VaR'),
+     [T(r'score $S_t = \hat q_{0.1,t} - y_t$; threshold $q_t$ tracked at level $\alpha$', r'scorul $S_t = \hat q_{0.1,t} - y_t$; pragul $q_t$ urmărit la nivelul $\alpha$'),
+      T(r'the calibrated quantile is $\hat q_{0.1,t} - q_t$', r'cuantila calibrată este $\hat q_{0.1,t} - q_t$'),
+      T(r'$\mathrm{VaR}_t = -(\hat q_{0.1,t} - q_t)$: VaR expressed as a positive loss', r'$\mathrm{VaR}_t = -(\hat q_{0.1,t} - q_t)$: VaR exprimat ca pierdere pozitivă')]),
+    (T('What the shift changes', 'Ce schimbă deplasarea'),
+     [T(r'$q_t > 0$ lowers the quantile (a larger VaR); $q_t < 0$ raises it', r'$q_t > 0$ coboară cuantila (un VaR mai mare); $q_t < 0$ o ridică'),
+      T('the model itself is not re-estimated: only its output is recalibrated', 'modelul însuși nu este reestimat: doar ieșirea lui este recalibrată')]),
+    (T('Further reading', 'Lectură suplimentară'),
+     [T(r'conformal VaR recalibration of foundation models: \refCO; \refTV', r'recalibrarea conformală a VaR pentru foundation models: \refCO; \refTV')])), 'small')
 
 chart(T('Raw and conformal coverage of foundation models', 'Acoperirea brută și cea conformală a foundation models'), 'ats_ch13_fm_calib', 'ATS_ch13_calibration', [
     T(r'Coverage of the raw 10--90\% band and of the online-CQR 80\% and 95\% intervals (ACI, window 250, $\gamma = 0.005$): Romanian load (24 hourly streams), Bitcoin log RV, EU inflation at $h = 1$ (27 streams), BET daily returns',
@@ -1231,15 +1285,18 @@ D.recap(('calibration', 'calibrarea'), [
 D.section('AI for scientific discovery', 'AI în descoperirea științifică')
 
 D.frame(T('An open question', 'O întrebare deschisă'), items(
-    (T('Do time-series foundation models beat domain-specific econometric models on Central and Eastern European data after their release dates, once multiplicity is accounted for?',
-       'Întrec foundation models pentru serii de timp modelele econometrice de domeniu pe datele din Europa Centrală și de Est, într-o fereastră de după lansarea lor și cu corecție pentru testarea multiplă?'),
+    (T('The question', 'Întrebarea'),
+     [T('do time-series foundation models beat domain-specific econometric models on Central and Eastern European data?', 'întrec foundation models pentru serii de timp modelele econometrice de domeniu pe datele din Europa Centrală și de Est?'),
+      T('in a window after their release dates, and once multiplicity is accounted for', 'într-o fereastră de după lansarea lor și cu corecție pentru testarea multiplă')]),
+    (T('A testable form', 'O formă testabilă'),
      [T(r'formal: $H_0$: equal expected loss (pooled over pre-registered series) of the best foundation model and the best domain model, in a window that starts after every model release',
         r'formal: $H_0$: pierderea așteptată egală (agregată pe serii preînregistrate) a celui mai bun foundation model și a celui mai bun model de domeniu, într-o fereastră care începe după lansarea tuturor modelelor'),
       T('falsified by a pooled DM test at 5\\% and an MCS that excludes one side, on series and horizons fixed before the data arrive',
         'infirmată de un test DM agregat la 5\\% și de un MCS care exclude una dintre părți, pe serii și orizonturi fixate înainte de sosirea datelor')]),
-    (T('Why it matters: central banks and grid operators consider replacing tuned models by zero-shot ones; published wins often come from a favourable choice of series',
-       'De ce contează: băncile centrale și operatorii de rețea iau în calcul înlocuirea modelelor ajustate cu modele zero-shot; cîștigurile publicate provin adesea dintr-o alegere favorabilă a seriilor'),
-     [T(r'literature to start from: \refAks, \refShc, \refMey, \refPE, \refBri', r'literatura de pornire: \refAks, \refShc, \refMey, \refPE, \refBri')])), 'small')
+    (T('Why it matters', 'Miza'),
+     [T('central banks and grid operators consider replacing tuned models by zero-shot ones', 'băncile centrale și operatorii de rețea iau în calcul înlocuirea modelelor ajustate cu modele zero-shot'),
+      T('published wins often come from a favourable choice of series', 'cîștigurile publicate provin adesea dintr-o alegere favorabilă a seriilor'),
+      T(r'literature to start from: \refAks, \refShc, \refMey, \refPE, \refBri', r'literatura de pornire: \refAks, \refShc, \refMey, \refPE, \refBri')])), 'small')
 
 D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un asistent AI'), items(
     (T('An AI assistant (an LLM such as Claude, ChatGPT, Gemini or Copilot) speeds up each step; Semantic Scholar and Elicit help with the literature',

@@ -109,7 +109,7 @@ MSCA Digital Finance}
 \end{frame}
 }
 % BEGIN-ACRONYMS (generat de latex/acronyms.py; nu editati manual)
-\begin{frame}{Acronyms used in this material (1/3)}
+\begin{frame}{Acronyms used in this material (1/2)}
 \setbeamertemplate{itemize/enumerate body begin}{\tiny}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
@@ -148,7 +148,7 @@ MSCA Digital Finance}
 \end{column}
 \end{columns}
 \end{frame}
-\begin{frame}{Acronyms used in this material (2/3)}
+\begin{frame}{Acronyms used in this material (2/2)}
 \setbeamertemplate{itemize/enumerate body begin}{\tiny}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
@@ -165,12 +165,11 @@ MSCA Digital Finance}
     \item \textbf{MW}: MegaWatt
     \item \textbf{MZ}: Mincer–Zarnowitz (regression)
     \item \textbf{OLS}: Ordinary Least Squares
-    \item \textbf{PC}: Phillips Curve
+    \item \textbf{PIT}: Probability Integral Transform
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{PIT}: Probability Integral Transform
     \item \textbf{QLIKE}: Quasi-LIKElihood loss
     \item \textbf{RC}: White's Reality Check (for data snooping)
     \item \textbf{RMSE}: Root Mean Squared Error
@@ -183,19 +182,8 @@ MSCA Digital Finance}
     \item \textbf{UIP}: Uncovered Interest Parity
     \item \textbf{UNRATE}: Unemployment Rate (FRED series code)
     \item \textbf{US}: United States
-\end{itemize}
-\end{column}
-\end{columns}
-\end{frame}
-\begin{frame}{Acronyms used in this material (3/3)}
-\setbeamertemplate{itemize/enumerate body begin}{\tiny}
-\begin{columns}[T]
-\begin{column}{0.49\textwidth}
-\begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{VAR}: Vector AutoRegression
 \end{itemize}
-\end{column}
-\begin{column}{0.49\textwidth}
 \end{column}
 \end{columns}
 \end{frame}
@@ -314,10 +302,11 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
     \item Out-of-sample design: $R$ observations to estimate, $P$ forecasts to evaluate, $R + P + h - 1 = T$
     \begin{itemize}
         \item schemes: \textbf{fixed} (estimate once), \textbf{rolling} (last $R$), \textbf{recursive} (all past); \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter4_seasonality_forecasting.pdf}{TSA, Chapter 4} called this rolling-origin evaluation
-        \item $T$: the total sample; the last forecast, made at $R + P - 1$, targets $T$; the scheme matters for inference: West (1996) vs Giacomini--White (2006), Section 4
+        \item $T$: the total sample; the last forecast, made at $R + P - 1$, targets $T$; the scheme matters for inference: \refWest\ versus \refGW, Section 4
     \end{itemize}
     \item Known from \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter0_introduction.pdf}{TSA, Chapter 0}: MAE, RMSE, MAPE and the scale-free MASE \refHK
     \begin{itemize}
+        \item $\mathrm{MAE} = P^{-1}\sum|e_t|$, $\mathrm{RMSE} = (P^{-1}\sum e_t^2)^{1/2}$, $\mathrm{MAPE} = 100P^{-1}\sum|e_t/y_t|$; MASE: the MAE divided by the in-sample MAE of the naive forecast
         \item here the question is different: \emph{which} loss, and what does it reward?
     \end{itemize}
 \end{itemize}
@@ -372,7 +361,7 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \begin{frame}{Interpreting the three minimisers}
 \itemsize{\small}
 \begin{itemize}
-    \item Mean 1.20, median 1, 0.9-quantile 2.16: three different ``best'' forecasts of the same variable
+    \item Mean 1.20, median 1, 0.9-quantile 2.16; three different ``best'' forecasts of the same variable
     \begin{itemize}
         \item for a right-skewed target (wages, loads, prices, volatility) the gap is large
     \end{itemize}
@@ -486,7 +475,7 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What PIT histograms reveal}
+\begin{frame}{PIT histogram shapes}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.48\textheight,keepaspectratio]{ats_ch1_pit_shapes.pdf}
@@ -511,7 +500,7 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \begin{frame}{Testing calibration (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Berkowitz (2001)} \refBerk: if the PITs are i.i.d.\ uniform, $z_t = \Phi^{-1}(u_t)$ is i.i.d.\ $N(0, 1)$
+    \item \textbf{Berkowitz test} \refBerk: if the PITs are i.i.d.\ uniform, $z_t = \Phi^{-1}(u_t)$ is i.i.d.\ $N(0, 1)$
     \begin{itemize}
         \item $\Phi^{-1}$: the quantile function of the standard Normal distribution
     \end{itemize}
@@ -697,6 +686,7 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
         \item $\mathrm{ES}(F, \mathbf y) = \E\|\mathbf X - \mathbf y\| - \frac12\E\|\mathbf X - \mathbf X'\|$
         \item $\mathbf y$: the outcome vector; $\mathbf X, \mathbf X'$: independent draws from the forecast $F$; $\|\cdot\|$: the Euclidean norm
         \item weak at detecting wrong correlations; the \textbf{variogram score} \refSH\ targets the dependence structure (24 hourly loads, a VAR path)
+        \item $\mathrm{VS}_p = \sum_{i,j}w_{ij}\big(|y_i - y_j|^p - \E|X_i - X_j|^p\big)^2$: compares observed and forecast differences between components; $w_{ij} \ge 0$: weights, $p$: usually 0.5
     \end{itemize}
     \item Tails: threshold-weighted CRPS stays proper \refGRjaa
     \begin{itemize}
@@ -754,7 +744,7 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \itemsize{\footnotesize}
 \begin{center}
 \footnotesize
-\begin{tabular}{lcccc}
+\begin{tabular}{lrrrr}
 \toprule
 \textbf{Model} & \textbf{Log score} & \textbf{CRPS} & \textbf{Outside 90\%} & \textbf{Berkowitz $p$} \\
 \midrule
@@ -792,11 +782,11 @@ MA(1)-GARCH(1,1)-$t$ & 1.233 & 0.507 & 8.4\% & 0.019 \\
 \begin{frame}{Two questions about predictive ability}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Population} (West 1996): are the \emph{models}, at their pseudo-true parameters, equally accurate? \refWest
+    \item \textbf{Population} \refWest: are the \emph{models}, at their pseudo-true parameters, equally accurate?
     \begin{itemize}
         \item estimation error enters the asymptotic variance unless $P/R \to 0$ or the loss is the one used in estimation
     \end{itemize}
-    \item \textbf{Finite sample} (Giacomini--White 2006): are the \emph{forecasting methods}, with their estimation windows, equally accurate? \refGW
+    \item \textbf{Finite sample} \refGW: are the \emph{forecasting methods}, with their estimation windows, equally accurate?
     \begin{itemize}
         \item rolling window of fixed size $R$: estimation noise is part of the method; nested models allowed
     \end{itemize}
@@ -895,7 +885,7 @@ MA(1)-GARCH(1,1)-$t$ & 1.233 & 0.507 & 8.4\% & 0.019 \\
 \itemsize{\footnotesize}
 \begin{center}
 \footnotesize
-\begin{tabular}{lccccc}
+\begin{tabular}{lrrrrr}
 \toprule
 \textbf{Forecast} & \textbf{RMSE} & \textbf{DM} & \textbf{HLN} & \textbf{$p$ (HLN)} & \textbf{$p$, abs.\ loss} \\
 \midrule
@@ -945,7 +935,7 @@ average & 3.76 & 0.96 & 0.88 & 0.378 & 0.795 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Nested models: why DM fails and Clark--West (1/2)}
+\begin{frame}{Nested models: the failure of DM and the Clark--West test (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Model 1 (small, e.g.\ the random walk) is nested in model 2; under $H_0$ the extra coefficients are zero
@@ -960,7 +950,7 @@ average & 3.76 & 0.96 & 0.88 & 0.378 & 0.795 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Nested models: why DM fails and Clark--West (2/2)}
+\begin{frame}{Nested models: the failure of DM and the Clark--West test (2/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Clark--West} \refCW: adjust the larger model for the noise it adds
@@ -1011,7 +1001,7 @@ average & 3.76 & 0.96 & 0.88 & 0.378 & 0.795 \\
 \itemsize{\footnotesize}
 \begin{center}
 \scriptsize
-\begin{tabular}{lcccc}
+\begin{tabular}{lrrrr}
 \toprule
 \textbf{Model} & \textbf{RMSE / RW} & \textbf{DM (HLN)} & \textbf{CW} & \textbf{$p$ (CW, one-sided)} \\
 \midrule
@@ -1095,7 +1085,11 @@ average & 1.026 & 0.85 & -- & -- \\
     \begin{itemize}
         \item the moving ratio peaks at 10.3 in 2021Q3: the Phillips curve extrapolated the pandemic unemployment spike
     \end{itemize}
-    \item GW: $p$ 0.355 with the lagged differential, $p$ 0.322 with unemployment; encompassing: $H_0$ ``naive encompasses PC'' $p$ 0.289; ``PC encompasses naive'' $p$ 0.118
+    \item GW: p-value 0.355 with the lagged differential, 0.322 with unemployment
+    \begin{itemize}
+        \item encompassing, $H_0$ ``the naive forecast encompasses the Phillips curve'': p-value 0.289
+        \item encompassing, $H_0$ ``the Phillips curve encompasses the naive forecast'': p-value 0.118
+    \end{itemize}
     \item The AO conclusion holds in point estimates, and a test on 41 years of overlapping data cannot separate the two
 \end{itemize}
 \end{frame}
@@ -1207,7 +1201,7 @@ average & 1.026 & 0.85 & -- & -- \\
 \itemsize{\footnotesize}
 \begin{center}
 \scriptsize
-\begin{tabular}{lcccc}
+\begin{tabular}{lrrrr}
 \toprule
 \textbf{Model} & \textbf{Pinball (MW)} & \textbf{MAE (MW)} & \textbf{90\% coverage} & \textbf{MCS $p$} \\
 \midrule
@@ -1365,7 +1359,7 @@ ARX + mean of 4 weeks & 107 & 285 & 88.3\% & $<$\,0.001 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Case study: can anything beat the simple average?}
+\begin{frame}{Case study: combination schemes against the simple average}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.32\textwidth}
@@ -1419,7 +1413,7 @@ ARX + mean of 4 weeks & 107 & 285 & 88.3\% & $<$\,0.001 \\
     \item Median 0.999, trimmed mean 1.000, inverse-MSE 1.008, previous best 1.099 (relative RMSE)
     \begin{itemize}
         \item DM--HLN against the mean: median $p$ 0.842; inverse MSE $p$ 0.091; previous best HLN 2.76, $p$ 0.007
-        \item Genre et al.'s answer holds on US data: nothing beats the average significantly, and chasing the past winner loses
+        \item The answer of \refGKMT\ holds on US data: nothing beats the average significantly, and chasing the past winner loses
     \end{itemize}
     \item Yet 33\% of the 76 forecasters with at least 20 forecasts have a lower RMSE than the mean
     \begin{itemize}
@@ -1432,12 +1426,12 @@ ARX + mean of 4 weeks & 107 & 285 & 88.3\% & $<$\,0.001 \\
 \begin{frame}{Lessons from the M4 and M5 competitions}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{M4} (2018) \refMd: 100{,}000 series, 61 methods, point forecasts and 95\% intervals
+    \item \textbf{M4} (2018) \refMd: 100\,000 series, 61 methods, point forecasts and 95\% intervals
     \begin{itemize}
         \item the winner was a hybrid of exponential smoothing and a recurrent neural network; the second, a combination of statistical methods with weights learned by a meta-learner
         \item combinations dominated the top places; pure machine learning methods did poorly; prediction intervals were too narrow for most methods
     \end{itemize}
-    \item \textbf{M5} (2020) \refMe: 42{,}840 hierarchical Walmart sales series, weighted scaled errors
+    \item \textbf{M5} (2020) \refMe: 42\,840 hierarchical Walmart sales series, weighted scaled errors
     \begin{itemize}
         \item gradient-boosted trees (LightGBM) trained \emph{across} series won; exogenous variables (prices, events) and cross-learning mattered
         \item again, ensembles of many models were at the top (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12})
@@ -1560,7 +1554,7 @@ ARX + mean of 4 weeks & 107 & 285 & 88.3\% & $<$\,0.001 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What the human checks}
+\begin{frame}{Required checks}
 \itemsize{\small}
 \begin{itemize}
     \item Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)

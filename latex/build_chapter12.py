@@ -284,7 +284,7 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
 
 D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
     T('State when K-fold cross-validation is valid for autoregressive prediction, and design blocked, purged and rolling-origin validation that avoids leakage',
-      'Enunțați cînd este validă validarea încrucișată cu K subeșantioane pentru predicția autoregresivă și construiți validări pe blocuri, cu purjare și cu origine mobilă, fără scurgere de informație'),
+      'Enunțați cînd este validă validarea încrucișată cu K subeșantioane pentru predicția autoregresivă și construiți validări pe blocuri, cu purjare și cu origine mobilă, fără leakage'),
     T('Derive the lasso, adaptive lasso and elastic net solutions, state their consistency conditions for dependent data, and explain why naive inference after selection fails',
       'Deduceți soluțiile lasso, lasso adaptiv și elastic net, enunțați condițiile lor de consistență pentru date dependente și explicați de ce inferența naivă după selecție eșuează'),
     T('Explain the bias--variance mechanics of bagging, random forests, quantile regression forests and gradient boosting with constraints',
@@ -319,7 +319,7 @@ D.frame(T('Four generations of forecasting models', 'Patru generații de modele 
     ph('hinton', T('Geoffrey Hinton, Nobel Prize in Physics 2024', 'Geoffrey Hinton, Premiul Nobel pentru fizică 2024'), h='0.48\\textheight'),
     items(T(r'\textbf{Statistical}: ARIMA, ETS, HAR, state space: few parameters, one model per series', r'\textbf{Statistice}: ARIMA, ETS, HAR, spațiul stărilor: puțini parametri, un model pe serie'),
           T(r'\textbf{Machine learning}: penalised regressions, forests, boosting on lag features, often global', r'\textbf{Machine learning}: regresii penalizate, păduri, boosting pe variabile cu laguri, adesea globale'),
-          T(r'\textbf{Deep sequence models}: RNN, LSTM, TCN, Transformers, N-BEATS, DeepAR; backpropagation \refRHW', r'\textbf{Modele deep de secvențe}: RNN, LSTM, TCN, Transformers, N-BEATS, DeepAR; retropropagarea \refRHW'),
+          T(r'\textbf{Deep sequence models} trained by backpropagation \refRHW: RNN, LSTM, TCN, Transformers, N-BEATS, DeepAR', r'\textbf{Modele deep de secvențe}, antrenate prin retropropagare \refRHW: RNN, LSTM, TCN, Transformers, N-BEATS, DeepAR'),
           T('\\textbf{Foundation models}: pretrained on many series, used zero-shot (Chapter 13)', '\\textbf{Foundation models}: preantrenate pe multe serii, folosite zero-shot (Capitolul 13)'),
           T('Each generation must beat the previous one out of sample, with tests, on the same data', 'Fiecare generație trebuie să fie mai bună decît cea dinainte în afara eșantionului, cu teste, pe aceleași date')), '0.36', '0.62'), 'small')
 
@@ -343,8 +343,9 @@ interp(('the four data sets', 'celor patru seturi de date'), [
 D.section('Learning from dependent data', 'Învățarea din date dependente')
 
 D.frame(T('Known from TSA, and new here', 'Cunoscut din TSA și elemente noi'), items(
-    (T('Known (TSA, Chapter 9): lag features, walk-forward validation, leakage by example, ridge and lasso, trees, random forests, gradient boosting, a small MLP, conformal basics, M4 and M5',
-       'Cunoscut (TSA, Capitolul 9): variabile cu laguri, validare walk-forward, scurgere de informație prin exemple, ridge și lasso, arbori, păduri aleatoare, gradient boosting, un MLP mic, elemente de predicție conformală, M4 și M5'), []),
+    (T('Known from TSA, Chapter 9', 'Cunoscut din TSA, Capitolul 9'),
+     [T('lag features, walk-forward validation, leakage by example, ridge and lasso', 'variabile cu laguri, validare walk-forward, leakage între exemple, ridge și lasso'),
+      T('trees, random forests, gradient boosting, a small MLP, conformal basics, M4 and M5', 'arbori, păduri aleatoare, gradient boosting, un MLP mic, elemente de predicție conformală, M4 și M5')]),
     (T('New: the statistics behind the recipes', 'Nou: statistica din spatele rețetelor'),
      [T('generalisation under mixing; when cross-validation is valid; global models', 'generalizarea sub mixing; cînd este validă validarea încrucișată; modele globale'),
       T('selection consistency and post-selection inference; quantile forests; constrained boosting', 'consistența selecției și inferența după selecție; păduri cuantilice; boosting cu restricții'),
@@ -415,7 +416,8 @@ D.frame(T('When K-fold is valid: Bergmeir, Hyndman and Koo (2018)', 'Validitatea
       T('the rows of the lag matrix are then exchangeable enough: a test row shares no error with a training row', 'rîndurile matricei de laguri sînt atunci suficient de interschimbabile: un rînd de test nu are nicio eroare comună cu un rînd de antrenare'),
       T(r'result: the K-fold estimate of the MSE is asymptotically unbiased, and has a lower variance than OOS because every row is used', r'rezultat: estimația MSE prin K subeșantioane este asimptotic nedeplasată și are o varianță mai mică decît OOS, pentru că fiecare rînd este folosit')]),
     (T('It fails when the residuals are autocorrelated: an under-specified model, overlapping $h$-step targets, or features that identify time', 'Eșuează cînd reziduurile sînt autocorelate: un model subspecificat, ținte suprapuse la $h$ pași sau variabile care identifică momentul'),
-     [T('then a test error is predictable from the neighbouring training errors: optimistic estimates', 'atunci o eroare de test este previzibilă din erorile de antrenare vecine: estimații optimiste')]),
+     [T('then a test error is predictable from the neighbouring training errors: optimistic estimates', 'atunci o eroare de test este previzibilă din erorile de antrenare vecine: estimații optimiste'),
+      T('the size of this bias: Appendix  % applink: the bias of K-fold under autocorrelated errors', 'mărimea acestei deplasări: Anexa  % applink: deplasarea validării cu K subeșantioane')]),
     T(r'Practical rule: check the residual ACF of the fitted model (Ljung--Box, TSA, Chapter 2) before trusting random K-fold', r'Regula practică: verificați ACF a reziduurilor modelului estimat (Ljung--Box, TSA, Capitolul 2) înainte de a avea încredere în K subeșantioane aleatoare')), 'small')
 
 D.frame(T('Replication design: Bergmeir, Hyndman and Koo (2018, Section 4)', 'Schema replicării: Bergmeir, Hyndman și Koo (2018, secțiunea 4)'), items(
@@ -439,7 +441,7 @@ interp(('the replication', 'replicării'), [
     T(r'Seasonal counterexample: every AR($p \le 5$) misses lag 12; CV is biased down (MPAE @{cv.sar.cv.5.b} for AR(5)) and no more precise than OOS (@{cv.sar.cv.5.a} against @{cv.sar.oos.5.a})', r'Contraexemplul sezonier: orice AR($p \le 5$) omite lagul 12; validarea încrucișată este deplasată în jos (MPAE @{cv.sar.cv.5.b} pentru AR(5)) și nu mai este mai precisă decît OOS (@{cv.sar.cv.5.a} față de @{cv.sar.oos.5.a})'),
     T(r'Non-dependent CV removes so many rows that its models are poor: bias @{cv.ar.nd.3.b} for AR(3); the price of independence is paid in data', r'Validarea nedependentă elimină atît de multe rînduri încît modelele ei sînt slabe: deplasare @{cv.ar.nd.3.b} pentru AR(3); prețul independenței se plătește în date')])
 
-D.frame(T('Leakage through overlapping targets and time features', 'Scurgerea de informație prin ținte suprapuse și variabile de timp'), items(
+D.frame(T('Leakage through overlapping targets and time features', 'Leakage prin ținte suprapuse și variabile de timp'), items(
     (T(r'Target $z_t = \frac1h\sum_{j=1}^h y_{t+j}$ (a month of volatility, a quarter of sales): $\mathrm{corr}(z_t, z_{t+1}) \ge (h - 1)/h$ when $y$ is white noise, more when $y$ is persistent',
        r'Ținta $z_t = \frac1h\sum_{j=1}^h y_{t+j}$ (o lună de volatilitate, un trimestru de vînzări): $\mathrm{corr}(z_t, z_{t+1}) \ge (h - 1)/h$ cînd $y$ este zgomot alb, mai mult cînd $y$ este persistent'),
      [T('a random fold puts $z_{t-1}$ and $z_{t+1}$ in training when $z_t$ is tested: the answer is almost in the training set', 'un subeșantion aleator pune $z_{t-1}$ și $z_{t+1}$ în antrenare cînd $z_t$ este testat: răspunsul este aproape în setul de antrenare')]),
@@ -450,7 +452,7 @@ D.frame(T('Leakage through overlapping targets and time features', 'Scurgerea de
 chart(T('How optimistic is each validation scheme?', 'Optimismul fiecărei scheme de validare'), 'ats_ch12_leakage', 'ATS_ch12_validation', [
     T('Ratio 1: the scheme estimates the error on new data without bias; below 1: optimistic', 'Raportul 1: schema estimează fără deplasare eroarea pe date noi; sub 1: optimistă')], h='0.46\\textheight')
 
-interp(('the leakage experiment', 'experimentului de scurgere'), [
+interp(('the leakage experiment', 'experimentului de leakage'), [
     T(r'Random 5-fold: median ratio @{lk.rnd} (quartiles @{lk.rnd.q1}--@{lk.rnd.q3}): it claims an error three times smaller than the truth', r'5 subeșantioane aleatoare: raportul median @{lk.rnd} (quartile @{lk.rnd.q1}--@{lk.rnd.q3}): pretinde o eroare de trei ori mai mică decît cea reală'),
     T(r'Blocked 5-fold @{lk.blk}, purged 5-fold @{lk.pur}, last 20\% @{lk.oos}: contiguity and the purge remove most of the bias', r'5 blocuri contigue @{lk.blk}, 5 blocuri cu purjare @{lk.pur}, ultimele 20\% @{lk.oos}: contiguitatea și purjarea elimină cea mai mare parte a deplasării'),
     T('The interior blocks still let the forest interpolate in time; only the last block reproduces extrapolation into the future', 'Blocurile interioare lasă încă pădurea să interpoleze în timp; doar ultimul bloc reproduce extrapolarea în viitor'),
@@ -504,7 +506,8 @@ D.frame(T('The lasso (1/2): optimality conditions', 'Lasso (1/2): condițiile de
     (T(r'Orthonormal predictors ($X\'X = nI$): soft thresholding of the OLS coefficient $z_j$', r'Predictori ortonormali ($X\'X = nI$): pragul moale aplicat coeficientului OLS $z_j$'
        ) + r'''
     \[ \hat\beta_j^{\mathrm{lasso}} = \mathrm{sign}(z_j)\,(|z_j| - \lambda)_+, \qquad \hat\beta_j^{\mathrm{ridge}} = \frac{z_j}{1 + \lambda} \]''',
-     [T(r'$(u)_+ = \max(u, 0)$; the lasso selects (sets small $z_j$ to zero), ridge only shrinks', r'$(u)_+ = \max(u, 0)$; lasso selectează (anulează coeficienții $z_j$ mici), ridge doar îi micșorează')])), 'small')
+     [T(r'$(u)_+ = \max(u, 0)$; the lasso selects (sets small $z_j$ to zero), ridge only shrinks', r'$(u)_+ = \max(u, 0)$; lasso selectează (anulează coeficienții $z_j$ mici), ridge doar îi micșorează'),
+      T('derivation, also for the elastic net: Appendix  % applink: soft thresholding and the elastic net', 'derivarea, inclusiv pentru elastic net: Anexa  % applink: pragul moale și elastic net')])), 'small')
 
 D.frame(T('The lasso (2/2): prediction and selection', 'Lasso (2/2): predicție și selecție'), items(
     (T(r'Prediction: with $s$ non-zero coefficients and a restricted eigenvalue $\kappa$, for $\lambda \asymp \sigma\sqrt{\log p/n}$', r'Predicția: cu $s$ coeficienți nenuli și o valoare proprie restrînsă $\kappa$, pentru $\lambda \asymp \sigma\sqrt{\log p/n}$'
@@ -537,11 +540,14 @@ D.frame(T('Adaptive lasso and elastic net', 'Lasso adaptiv și elastic net'), it
 D.frame(T('Inference after selection', 'Inferența după selecție'), items(
     (T(r'Naive practice: select with the lasso, then report OLS $t$-statistics of the selected variables: the $p$-values are \textbf{too small}', r'Practica naivă: selecție cu lasso, apoi raportarea statisticilor $t$ OLS ale variabilelor selectate: p-value-urile sînt \textbf{prea mici}'),
      [T('the same data chose the model and test it: the distribution of $\\hat\\beta$ is conditional on being selected', 'aceleași date au ales modelul și îl testează: distribuția lui $\\hat\\beta$ este condiționată de faptul că a fost selectat')]),
-    (T(r'Remedies: \textbf{PoSI} intervals valid for any selection \refBerk; \textbf{exact conditional} intervals for the lasso (a polyhedral selection event) \refLSST',
-       r'Remedii: intervale \textbf{PoSI}, valabile pentru orice selecție \refBerk; intervale \textbf{condiționate exacte} pentru lasso (un eveniment de selecție poliedral) \refLSST'), []),
-    (T(r'For one coefficient of interest (a policy rate, a foreign shock): \textbf{double selection} \refBCH: lasso of $y$ on the controls, lasso of the regressor of interest on the controls, OLS on the union',
-       r'Pentru un coeficient de interes (o dobîndă de politică, un șoc extern): \textbf{dubla selecție} \refBCH: lasso al lui $y$ pe variabilele de control, lasso al regresorului de interes pe aceleași variabile, OLS pe reuniune'),
-     [T('with HAC standard errors for time series (Chapter 0)', 'cu erori standard HAC pentru serii de timp (Capitolul 0)')]),
+    (T('Remedies', 'Remedii'),
+     [T(r'\textbf{PoSI} intervals, valid for any selection \refBerk', r'intervale \textbf{PoSI}, valabile pentru orice selecție \refBerk'),
+      T(r'\textbf{exact conditional} intervals for the lasso (a polyhedral selection event) \refLSST', r'intervale \textbf{condiționate exacte} pentru lasso (un eveniment de selecție poliedral) \refLSST')]),
+    (T(r'One coefficient of interest (a policy rate, a foreign shock): \textbf{double selection} \refBCH',
+       r'Un coeficient de interes (o dobîndă de politică, un șoc extern): \textbf{dubla selecție} \refBCH'),
+     [T(r'lasso of $y$ on the controls, lasso of the regressor of interest on the controls, OLS on the union',
+        r'lasso al lui $y$ pe variabilele de control, lasso al regresorului de interes pe aceleași variabile, OLS pe reuniune'),
+      T('with HAC standard errors for time series (Chapter 0)', 'cu erori standard HAC pentru serii de timp (Capitolul 0)')]),
     T('For forecasting, selection is a means: judge it by out-of-sample loss and by the stability of what is selected', 'Pentru prognoză, selecția este un mijloc: se judecă după pierderea în afara eșantionului și după stabilitatea a ceea ce este selectat')), 'small')
 
 D.frame(T('Design: Romanian inflation from the EU panel', 'Schema studiului: inflația României din panelul UE'), items(
@@ -607,16 +613,20 @@ D.frame(T('Gradient boosting (2/2): second order, histograms, constraints', 'Gra
     \[ w^* = -\frac{G}{H + \lambda}, \qquad \text{cîștigul} = \frac12\Big[\frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R + \lambda} - \frac{G^2}{H + \lambda}\Big] - \gamma \]'''),
      [T(r'$G$, $H$: sums of the first and second derivatives of the loss over the points of a leaf ($L$, $R$: left and right child); $\lambda$: penalty on leaf values; $\gamma$: cost of a split',
         r'$G$, $H$: sumele derivatelor de ordinul întîi și doi ale pierderii pe punctele unei frunze ($L$, $R$: descendentul stîng și drept); $\lambda$: penalizarea valorilor frunzelor; $\gamma$: costul unei ramificări')]),
-    (T(r'LightGBM \refKeA: features binned into histograms (at most 255 bins), leaf-wise growth, gradient-based one-side sampling; scikit-learn HistGradientBoosting (used here) follows the same construction',
-       r'LightGBM \refKeA: variabile grupate în histograme (cel mult 255 de intervale), creștere pe frunze, eșantionare unilaterală după gradient; HistGradientBoosting din scikit-learn (folosit aici) urmează aceeași construcție'), []),
-    T(r'Monotone constraints: a split is allowed only if the left and right leaf values respect the order, and children inherit bounds; the fit is then monotone in that feature everywhere', r'Restricțiile de monotonie: o ramificare este permisă doar dacă valorile frunzelor stîngă și dreaptă respectă ordinea, iar descendenții moștenesc limitele; funcția estimată este atunci monotonă în acea variabilă peste tot')), 'small')
+    (T(r'LightGBM \refKeA', r'LightGBM \refKeA'),
+     [T('features binned into histograms (at most 255 bins), leaf-wise growth, gradient-based one-side sampling', 'variabile grupate în histograme (cel mult 255 de intervale), creștere pe frunze, eșantionare unilaterală după gradient'),
+      T('scikit-learn HistGradientBoosting (used here) follows the same construction', 'HistGradientBoosting din scikit-learn (folosit aici) urmează aceeași construcție')]),
+    (T('Monotone constraints', 'Restricțiile de monotonie'),
+     [T('a split is allowed only if the left and right leaf values respect the order; children inherit the bounds', 'o ramificare este permisă doar dacă valorile frunzelor stîngă și dreaptă respectă ordinea; descendenții moștenesc limitele'),
+      T('the fit is then monotone in that feature everywhere', 'funcția estimată este atunci monotonă în acea variabilă peste tot')])), 'small')
 
 D.frame(T('Design: Romanian day-ahead load', 'Schema studiului: consumul României pentru ziua următoare'), two(
     ph('tower', T('750 kV line at Mărășești, Romania', 'Linie de 750 kV la Mărășești, România'), h='0.42\\textheight'),
     items(T(r'Forecast the 24 hourly loads of day $d + 1$ with data up to day $d$; evaluation @{ld.days} days, January 2025 -- September 2026', r'Prognozăm cele 24 de valori orare ale zilei $d + 1$ cu date pînă în ziua $d$; evaluare pe @{ld.days} de zile, ianuarie 2025 -- septembrie 2026'),
           T(r'Benchmark: the expert ARX of Chapter 1 (\refZW): one regression per hour, 364-day window, refitted daily', r'Reper: ARX-ul expert din Capitolul 1 (\refZW): o regresie pe oră, fereastră de 364 de zile, reestimat zilnic'),
-          T(r'Global learners (one model for all hours) on the same lags, hour, weekday, Romanian holidays, annual cycle; refitted monthly on all earlier data: RF with QRF bands, HGB, HGB increasing in the three load lags, quantile HGB',
-            r'Algoritmi globali (un model pentru toate orele) pe aceleași laguri, ora, ziua săptămînii, sărbătorile din România, ciclul anual; reestimați lunar pe toate datele anterioare: RF cu benzi QRF, HGB, HGB crescător în cele trei laguri ale consumului, HGB cuantilic'),
+          (T('Global learners (one model for all hours), refitted monthly on all earlier data', 'Algoritmi globali (un model pentru toate orele), reestimați lunar pe toate datele anterioare'),
+           [T('inputs: the same lags, hour, weekday, Romanian holidays, annual cycle', 'intrări: aceleași laguri, ora, ziua săptămînii, sărbătorile din România, ciclul anual'),
+            T('RF with QRF bands, HGB, HGB increasing in the three load lags, quantile HGB', 'RF cu benzi QRF, HGB, HGB crescător în cele trei laguri ale consumului, HGB cuantilic')]),
           T('Losses: MAE, average pinball over the deciles, 80\\% coverage; DM against ARX and MCS (Chapter 1)', 'Pierderi: MAE, pinball mediu pe decile, acoperirea de 80\\%; DM față de ARX și MCS (Capitolul 1)')), '0.34', '0.64'), 'small')
 
 chart(T('Trees against the expert ARX', 'Arbori față de ARX-ul expert'), 'ats_ch12_load_trees', 'ATS_ch12_trees', [
@@ -654,8 +664,11 @@ D.frame(T('From the MLP to sequence models', 'De la MLP la modelele de secvențe
     \[ \hat y_{t+h} = W_2\,\sigma(W_1x_t + b_1) + b_2 \]''',
            [T(r'$x_t$: the $L$ most recent values; $W_1$, $W_2$: weight matrices; $b_1$, $b_2$: biases; $\sigma$: activation applied elementwise (ReLU or tanh)',
               r'$x_t$: cele mai recente $L$ valori; $W_1$, $W_2$: matricele de ponderi; $b_1$, $b_2$: termenii liberi (bias); $\sigma$: funcția de activare aplicată pe elemente (ReLU sau tanh)')]),
-          T(r'Training: backpropagation \refRHW\ with Adam \refKB; early stopping on the last block of the training sample; inputs standardised with training moments only', r'Antrenarea: retropropagare \refRHW\ cu Adam \refKB; oprire timpurie pe ultimul bloc al eșantionului de antrenare; intrări standardizate doar cu momentele de antrenare'),
-          T('Universal approximation says nothing about data needs: with a few thousand daily observations a network has little room over a linear model', 'Aproximarea universală nu spune nimic despre necesarul de date: cu cîteva mii de observații zilnice, o rețea are puțin spațiu față de un model liniar'),
+          (T(r'Training: backpropagation \refRHW\ with Adam \refKB', r'Antrenarea: retropropagare \refRHW\ cu Adam \refKB'),
+           [T('early stopping on the last block of the training sample', 'oprire timpurie pe ultimul bloc al eșantionului de antrenare'),
+            T('inputs standardised with training moments only', 'intrări standardizate doar cu momentele de antrenare')]),
+          (T('Universal approximation says nothing about data needs', 'Aproximarea universală nu spune nimic despre necesarul de date'),
+           [T('with a few thousand daily observations, a network has little room over a linear model', 'cu cîteva mii de observații zilnice, o rețea are puțin spațiu față de un model liniar')]),
           T('Sequence models share weights across time: recurrence (RNN), convolution (TCN) or attention (Transformer)', 'Modelele de secvențe partajează ponderile în timp: recurență (RNN), convoluție (TCN) sau atenție (Transformer)')), '0.32', '0.66'), 'small')
 
 D.frame(T('Recurrent networks and backpropagation through time (1/2)', 'Rețele recurente și retropropagarea în timp (1/2)'), items(
@@ -852,8 +865,12 @@ D.frame(T('Design: the M4 hourly subset', 'Schema studiului: subsetul orar M4'),
     \[ \mathrm{OWA} = \frac12\Big(\frac{\mathrm{sMAPE}}{\mathrm{sMAPE}_{\mathrm{Naive2}}} + \frac{\mathrm{MASE}}{\mathrm{MASE}_{\mathrm{Naive2}}}\Big) \]''',
      [T(r'sMAPE: mean of $2|y - \hat y|/(|y| + |\hat y|)$ in \%; MASE: mean absolute error divided by the in-sample MAE of the seasonal naive (period 24) \refHK; OWA $< 1$: better than Naive 2',
         r'sMAPE: media lui $2|y - \hat y|/(|y| + |\hat y|)$, în \%; MASE: eroarea absolută medie împărțită la MAE din eșantion al naivului sezonier (perioada 24) \refHK; OWA $< 1$: mai bun decît Naive 2')]),
-    T(r'Our Naive, seasonal naive and Naive 2 reproduce the official M4 evaluation file exactly: Naive 2 sMAPE @{m4.n2.s} (official @{mo4.n2.s}), MASE @{m4.n2.m} (official @{mo4.n2.m})', r'Naive, naivul sezonier și Naive 2 calculate aici reproduc exact fișierul oficial de evaluare M4: Naive 2 sMAPE @{m4.n2.s} (oficial @{mo4.n2.s}), MASE @{m4.n2.m} (oficial @{mo4.n2.m})'),
-    T(r'Reference points from the same file: the M4 MLP and RNN benchmarks (OWA @{mo4.mlp.o} and @{mo4.rnn.o}), Theta @{mo4.th.o}, the winner \refSmyl\ @{mo4.smyl.o}, the runner-up Montero-Manso et al.\ @{mo4.mm.o}; all global models are trained only on the training parts', r'Repere din același fișier: reperele M4 MLP și RNN (OWA @{mo4.mlp.o} și @{mo4.rnn.o}), Theta @{mo4.th.o}, cîștigătorul \refSmyl\ @{mo4.smyl.o}, locul doi Montero-Manso et al.\ @{mo4.mm.o}; toate modelele globale sînt antrenate doar pe părțile de antrenare')), 'small')
+    (T('Naive, seasonal naive and Naive 2 are computed here', 'Naive, naivul sezonier și Naive 2 sînt calculate aici'),
+     [T(r'Naive 2: sMAPE @{m4.n2.s} (official M4 value @{mo4.n2.s}), MASE @{m4.n2.m} (official @{mo4.n2.m})', r'Naive 2: sMAPE @{m4.n2.s} (valoarea oficială M4 @{mo4.n2.s}), MASE @{m4.n2.m} (oficial @{mo4.n2.m})')]),
+    (T('Reference points from the official M4 evaluation file (OWA)', 'Repere din fișierul oficial de evaluare M4 (OWA)'),
+     [T(r'the M4 MLP and RNN benchmarks: @{mo4.mlp.o} and @{mo4.rnn.o}; Theta @{mo4.th.o}', r'reperele M4 MLP și RNN: @{mo4.mlp.o} și @{mo4.rnn.o}; Theta @{mo4.th.o}'),
+      T(r'the winner \refSmyl\ @{mo4.smyl.o}; the runner-up Montero-Manso et al.\ @{mo4.mm.o}', r'cîștigătorul \refSmyl\ @{mo4.smyl.o}; locul doi Montero-Manso et al.\ @{mo4.mm.o}')]),
+    T('All global models are trained only on the training parts', 'Toate modelele globale sînt antrenate doar pe părțile de antrenare')), 'small')
 
 chart(T('Global deep models on the M4 hourly series', 'Modele deep globale pe seriile orare M4'), 'ats_ch12_m4', 'ATS_ch12_global_deep', [
     T(r'Left: OWA (Naive 2 = 1); right: one series with the seasonal naive, N-BEATS and N-HiTS forecasts', r'Stînga: OWA (Naive 2 = 1); dreapta: o serie cu prognozele naivului sezonier, N-BEATS și N-HiTS')], h='0.48\\textheight')
@@ -949,7 +966,7 @@ interp(('attention and occlusion', 'atenției și ocluziei'), [
 
 D.frame(T('The honest benchmark', 'Comparația riguroasă'), items(
     (T('Strong baselines first: seasonal naive, ETS/Theta, HAR, an expert ARX; Lago et al.\\ built an open benchmark because published electricity-price models were rarely compared with them \\refLMDW', 'Întîi repere puternice: naiv sezonier, ETS/Theta, HAR, un ARX expert; Lago et al.\\ au construit un reper deschis pentru că modelele publicate de prețuri ale electricității erau rar comparate cu ele \\refLMDW'), []),
-    (T(r'Pitfalls catalogued by \refHAB: test-set reuse, leakage in scaling and features, errors averaged across series of different scales, no significance tests, unreported tuning budget', r'Capcanele inventariate de \refHAB: reutilizarea setului de test, scurgeri prin scalare și variabile, erori mediate pe serii de scări diferite, fără teste de semnificație, buget de reglare neraportat'), []),
+    (T(r'Pitfalls catalogued by \refHAB: test-set reuse, leakage in scaling and features, errors averaged across series of different scales, no significance tests, unreported tuning budget', r'Capcanele inventariate de \refHAB: reutilizarea setului de test, leakage prin scalare și variabile, erori mediate pe serii de scări diferite, fără teste de semnificație, buget de reglare neraportat'), []),
     (T(r'Tests (Chapter 1): DM for two models, MCS \refHLN\ for many, the reality check \refWhi\ and SPA \refHan\ when the best of many was chosen on the same data', r'Teste (Capitolul 1): DM pentru două modele, MCS \refHLN\ pentru mai multe, reality check \refWhi\ și SPA \refHan\ cînd cel mai bun dintre multe a fost ales pe aceleași date'), []),
     T('Report seeds, hardware, training time, every architecture tried; pre-register the design (Chapter 0)', 'Raportați seed-urile, hardware-ul, timpul de antrenare, fiecare arhitectură încercată; preînregistrați schema (Capitolul 0)')), 'small')
 
@@ -984,7 +1001,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
      [T(r'\textbf{literature}: \aiprompt{List peer-reviewed papers since 2019 comparing neural networks or boosting with HAR for realised volatility out of sample; give DOIs and the test used.} Then check every DOI on Crossref', r'\textbf{literatura}: \aiprompt{Listează articole recenzate din 2019 încoace care compară rețele neuronale sau boosting cu HAR pentru volatilitatea realizată în afara eșantionului; dă DOI-urile și testul folosit.} Apoi verificați fiecare DOI pe Crossref'),
       T(r'\textbf{design}: \aiprompt{Write a pre-registration: assets, horizons, windows, refit schedule, loss, tests, seeds, what counts as a win.}', r'\textbf{schema}: \aiprompt{Scrie o preînregistrare: active, orizonturi, ferestre, calendarul reestimării, pierderea, testele, seed-urile, ce înseamnă un cîștig.}'),
       T(r'\textbf{code and replication}: reproduce first the S\&P 500 HAR QLIKE (@{rv.1.har} at $h = 1$ here), then add learners one at a time', r'\textbf{cod și replicare}: reproduceți întîi QLIKE HAR pentru S\&P 500 (@{rv.1.har} la $h = 1$ aici), apoi adăugați algoritmii pe rînd'),
-      T(r'\textbf{critique}: \aiprompt{Act as a hostile referee: list every source of leakage, snooping and unfair tuning in this comparison.}', r'\textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră fiecare sursă de scurgere de informație, data snooping și reglare inechitabilă din această comparație.}')]),
+      T(r'\textbf{critique}: \aiprompt{Act as a hostile referee: list every source of leakage, snooping and unfair tuning in this comparison.}', r'\textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră fiecare sursă de leakage, data snooping și reglare inechitabilă din această comparație.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
 D.frame(T('What the human checks', 'Verificări necesare'), items(

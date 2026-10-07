@@ -353,7 +353,9 @@ D.frame(T('From the Nile to long memory', 'De la Nil la memoria lungă'), two(
     items(T(r'Hurst studied centuries of Nile levels to size the reservoirs above Aswan \refHur', r'Hurst a studiat secole de niveluri ale Nilului pentru a dimensiona rezervoarele de deasupra Aswanului \refHur'),
           T(r'The adjusted range of cumulated inflows grew like $n^H$ with $H \approx 0.7$, not $n^{1/2}$: the \textbf{Hurst effect}', r'Amplitudinea ajustată a afluxurilor cumulate creștea ca $n^H$ cu $H \approx 0{,}7$, nu ca $n^{1/2}$: \textbf{efectul Hurst}'),
           T('Wet years follow wet years in long runs: dependence that no finite ARMA reproduces', 'Anii ploioși urmează anilor ploioși în serii lungi: o dependență pe care niciun ARMA finit nu o reproduce'),
-          T(r'Explained by fractional Gaussian noise \refMVN\ and by fractional differencing \refGJ, \refHos', r'Explicat prin zgomotul gaussian fracționar \refMVN\ și prin diferențierea fracționară \refGJ, \refHos')), '0.36', '0.62'), 'small')
+          (T('Two explanations followed', 'Au urmat două explicații'),
+           [T(r'fractional Gaussian noise \refMVN', r'zgomotul gaussian fracționar \refMVN'),
+            T(r'fractional differencing \refGJ, \refHos', r'diferențierea fracționară \refGJ, \refHos')])), '0.36', '0.62'), 'small')
 
 D.frame(T('Records of the river', 'Înregistrările fluviului'), two(
     ph('nilo', T('The Nilometer on Roda Island, Cairo', 'Nilometrul de pe insula Roda, Cairo'), h='0.5\\textheight'),
@@ -535,7 +537,8 @@ D.frame(T('Local Whittle (2/2): the variance', 'Local Whittle (2/2): varianța')
      [T(r'$\nu_j = \log\lambda_j - \overline{\log\lambda}$: centred log frequency; with $\Var(\xi_j) = 1$ and $R\'\'(d) \to 4$: $\sqrt m(\hat d - d) \to N(0, 4/16) = N(0, 1/4)$',
         r'$\nu_j = \log\lambda_j - \overline{\log\lambda}$: logaritmul centrat al frecvenței; cu $\Var(\xi_j) = 1$ și $R\'\'(d) \to 4$: $\sqrt m(\hat d - d) \to N(0, 4/16) = N(0, 1/4)$')]),
     (T(r'No distributional assumption beyond a linear process with martingale-difference innovations', r'Nicio ipoteză de distribuție în afara unui proces liniar cu inovații diferențe de martingal'),
-     [T(r'efficiency relative to GPH: $(\pi^2/24)/(1/4) = \pi^2/6 \approx 1.64$', r'eficiența relativă față de GPH: $(\pi^2/24)/(1/4) = \pi^2/6 \approx 1{,}64$')])), 'small')
+     [T(r'efficiency relative to GPH: $(\pi^2/24)/(1/4) = \pi^2/6 \approx 1.64$', r'eficiența relativă față de GPH: $(\pi^2/24)/(1/4) = \pi^2/6 \approx 1{,}64$'),
+      T('derivation step by step: Appendix  % applink: the variance of local Whittle', 'derivarea pas cu pas: Anexa  % applink: varianța estimatorului local Whittle')])), 'small')
 
 D.frame(T('Local Whittle: the theorem and its limits', 'Local Whittle: teorema și limitele ei'), items(
     (T(r'\refRobC: for $d \in (-1/2, 1/2)$, $f(\lambda) = G\lambda^{-2d}(1 + O(\lambda^\beta))$ and a bandwidth with $1/m + m^{1+2\beta}(\log m)^2/n^{2\beta} \to 0$', r'\refRobC: pentru $d \in (-1/2, 1/2)$, $f(\lambda) = G\lambda^{-2d}(1 + O(\lambda^\beta))$ și o lățime de bandă cu $1/m + m^{1+2\beta}(\log m)^2/n^{2\beta} \to 0$'),
@@ -873,7 +876,8 @@ D.frame(T('The evidence: scaling of log volatility (1/2)', 'Evidența: scalarea 
        ) + r'''
     \[ m(q, \Delta) = K_q\nu^q\Delta^{\zeta_q}, \qquad \zeta_q = qH \]''',
      [T(r'$\nu$: volatility of volatility; $K_q = \E|Z|^q$, $Z \sim N(0, 1)$; $\zeta_q$: scaling exponent, linear in $q$ with slope $H$',
-        r'$\nu$: volatilitatea volatilității; $K_q = \E|Z|^q$, $Z \sim N(0, 1)$; $\zeta_q$: exponentul de scalare, liniar în $q$, cu panta $H$')])), 'small')
+        r'$\nu$: volatilitatea volatilității; $K_q = \E|Z|^q$, $Z \sim N(0, 1)$; $\zeta_q$: exponentul de scalare, liniar în $q$, cu panta $H$'),
+      T('derivation and deviations from this scaling: Appendix  % applink: scaling of fBm moments', 'derivarea și abaterile de la această scalare: Anexa  % applink: scalarea momentelor fBm')])), 'small')
 
 D.frame(T('The evidence: scaling of log volatility (2/2)', 'Evidența: scalarea logaritmului volatilității (2/2)'), items(
     (T(r'Procedure: OLS of $\log m(q, \Delta)$ on $\log\Delta$ for each $q$ gives $\zeta_q$; regress $\zeta_q$ on $q$ through the origin to get $H$', r'Procedura: OLS al lui $\log m(q, \Delta)$ pe $\log\Delta$ pentru fiecare $q$ dă $\zeta_q$; regresăm $\zeta_q$ pe $q$ prin origine pentru a obține $H$'),
@@ -900,8 +904,11 @@ D.frame(T('The RFSV model', 'Modelul RFSV'), items(
       T(r'for $\alpha T \ll 1$ ($T$: sample span) the increments behave like those of $\nu W^H$; stationarity only shows at horizons of order $1/\alpha$', r'pentru $\alpha T \ll 1$ ($T$: lungimea eșantionului) creșterile se comportă ca ale lui $\nu W^H$; staționaritatea apare doar pe orizonturi de ordinul $1/\alpha$')]),
     (T(r'The link with long memory: over observable horizons $\log\sigma$ is close to a non-stationary fBm with $H \approx 0.1$, whose ARFIMA reading is $d = H + 1/2 \approx 0.6$', r'Legătura cu memoria lungă: pe orizonturile observabile, $\log\sigma$ este aproape de o fBm nestaționară cu $H \approx 0{,}1$, a cărei lectură ARFIMA este $d = H + 1/2 \approx 0{,}6$'),
      [T('GJR show that local Whittle and similar estimators applied to RFSV simulations return the ``long-memory\'\' values found in the literature', 'GJR arată că local Whittle și estimatori similari aplicați simulărilor RFSV dau valorile de „memorie lungă” găsite în literatură')]),
-    (T(r'Pricing: rough Bergomi \refBFG\ and rough Heston \refER\ fit the term structure of the implied-volatility skew, $\propto \tau^{H-1/2}$ ($\tau$: option maturity), with few parameters; option-based estimates also give small $H$ \refLMPR', r'Evaluarea opțiunilor: rough Bergomi \refBFG\ și rough Heston \refER\ reproduc structura la termen a pantei volatilității implicite, $\propto \tau^{H-1/2}$ ($\tau$: scadența opțiunii), cu puțini parametri; estimările din opțiuni dau tot $H$ mic \refLMPR'),
-     [T('the pricing side belongs to MFM; here we test the time-series claim', 'partea de evaluare aparține MFM; aici testăm afirmația de serie de timp')])), 'small')
+    (T(r'Pricing: rough Bergomi \refBFG\ and rough Heston \refER', r'Evaluarea opțiunilor: rough Bergomi \refBFG\ și rough Heston \refER'),
+     [T(r'both fit the term structure of the implied-volatility skew, $\propto \tau^{H-1/2}$ ($\tau$: option maturity), with few parameters',
+        r'ambele reproduc structura la termen a pantei volatilității implicite, $\propto \tau^{H-1/2}$ ($\tau$: scadența opțiunii), cu puțini parametri'),
+      T(r'option-based estimates also give small $H$ \refLMPR', r'estimările din opțiuni dau tot $H$ mic \refLMPR'),
+      T('the pricing side belongs to MFM; here we test the time-series claim', 'partea de evaluare aparține MFM; aici testăm afirmația de serie de timp')])), 'small')
 
 chart(T('Roughness across markets and proxies', 'Neregularitatea pe mai multe piețe și proxy-uri'), 'ats_ch10_gjr_assets', 'ATS_ch10_rough', [
     T(r'$H$ from 5-minute RV (Oxford-Man; Bitcoin: Binance) by the moment regression and with a measurement-error intercept; Parkinson range of EODHD daily highs and lows over the same days, where available',
@@ -943,7 +950,7 @@ chart(T('Short scales and long scales', 'Scări mici și scări mari'), 'ats_ch1
       r'Logaritmul volatilității pentru S\&P 500, laguri 1--1000 de zile; stînga: variograma $m(2, \Delta)$ cu pantele pe lagurile 1--10 și 100--1000; dreapta: ACF de eșantion cu o ajustare $k^{2d-1}$ pe lagurile 10--250')], h='0.48\\textheight')
 
 interp(('the two scales', 'celor două scări'), [
-    T(r'Short lags: slope $2H = @{dc.2H}$, $H = @{dc.H}$; long lags: slope @{dc.sl}, still rising at 1000 days, above $2\Var(\log\sigma)$', r'Decalaje scurte: panta $2H = @{dc.2H}$, $H = @{dc.H}$; laguri lungi: panta @{dc.sl}, încă în creștere la 1000 de zile, peste $2\Var(\log\sigma)$'),
+    T(r'Short lags: slope $2H = @{dc.2H}$, $H = @{dc.H}$; long lags: slope @{dc.sl}, still rising at 1000 days, above $2\Var(\log\sigma)$', r'Laguri scurte: panta $2H = @{dc.2H}$, $H = @{dc.H}$; laguri lungi: panta @{dc.sl}, încă în creștere la 1000 de zile, peste $2\Var(\log\sigma)$'),
     T(r'Read as a non-stationary fractional process, the long-lag slope $2d - 1$ gives $d = @{dc.dl}$; local Whittle with $m = @{dc.mlw}$ gives @{dc.dlw}', r'Citită ca proces fracționar nestaționar, panta la laguri lungi $2d - 1$ dă $d = @{dc.dl}$; local Whittle cu $m = @{dc.mlw}$ dă @{dc.dlw}'),
     T(r'The ACF fit gives only $d = @{dc.dacf}$: the sample ACF is biased down when $d$ is near or above 1/2', r'Ajustarea ACF dă doar $d = @{dc.dacf}$: ACF de eșantion este deplasată în jos cînd $d$ este aproape de 1/2 sau peste'),
     T('Rough at short scales, highly persistent at long scales: both claims hold for the same series', 'Neregulată la scări mici, foarte persistentă la scări mari: ambele afirmații sînt valabile pentru aceeași serie')])

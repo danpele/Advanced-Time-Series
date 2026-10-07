@@ -119,7 +119,7 @@ for s in ('SAV', 'AS', 'IG', 'ADAPT'):
         P(f'cv.{s}.b{i}', bb, 3)
         P(f'cv.{s}.s{i}', se, 3)
     P(f'cv.{s}.rq', 100 * r['rq'], 3)
-    P(f'cv.{s}.hi', 100 * r['hit_in'], 2)
+    P(f'cv.{s}.hi', 100 * r['hit_in'], 1)
     P(f'cv.{s}.ho', 100 * r['hit_out'], 1)
     P(f'cv.{s}.dq', r['dq_out'][0], 1)
     pv(f'cv.{s}.dqp', r['dq_out'][1])
@@ -529,7 +529,8 @@ D.frame(T('FZ0: the zero-homogeneous member', 'FZ0: membrul omogen de grad zero'
       T(r'the VaR part resembles the pinball loss; the ES part resembles QLIKE (Chapter 8)', r'partea de VaR seamănă cu pierderea pinball; partea de ES seamănă cu QLIKE (Capitolul 8)')]),
     (T('Why zero homogeneity matters for time series', 'De ce contează omogenitatea de grad zero pentru serii de timp'),
      [T('with a non-homogeneous score, volatile days dominate the average loss and the DM test (heteroskedastic loss differences)', 'cu un scor neomogen, zilele volatile domină pierderea medie și testul DM (diferențe de pierdere heteroscedastice)'),
-      T(r'FZ0 ranks forecasts in \% and in basis points identically; its value can be negative (EUR/RON)', r'FZ0 ordonează la fel prognozele în \% și în puncte de bază; valoarea ei poate fi negativă (EUR/RON)')]),
+      T(r'FZ0 ranks forecasts in \% and in basis points identically; its value can be negative (EUR/RON)', r'FZ0 ordonează la fel prognozele în \% și în puncte de bază; valoarea ei poate fi negativă (EUR/RON)'),
+      T('proof of consistency and of homogeneity: Appendix  % applink: FZ0, consistency and homogeneity', 'demonstrația consistenței și a omogenității: Anexa  % applink: FZ0, consistență și omogenitate')]),
     T(r'Iso-expected-loss contours are convex under mild conditions, which helps numerical minimisation \refPZC', r'Contururile de pierdere așteptată constantă sînt convexe în condiții slabe, ceea ce ajută minimizarea numerică \refPZC')), 'small')
 
 chart(T('Expected losses around the truth', 'Pierderile așteptate în jurul valorii corecte'), 'ats_ch9_fz0_contour', 'ATS_ch9_scoring', [
@@ -581,8 +582,10 @@ D.frame(T('Quantile regression as M-estimation (1/2)', 'Regresia cuantilică ca 
              r'\refKB: cuantila de nivel $\alpha$ a lui $y_t$ condiționat de $x_t$ este modelată ca $x_t\'\beta$ și estimată prin minimizarea pierderii pinball'
              ) + r'''
     \[ \hat\beta(\alpha) = \arg\min_\beta \sum_t \rho_\alpha(y_t - x_t'\beta), \qquad \rho_\alpha(u) = u\,(\alpha - \mathbf 1\{u < 0\}) \]''',
-           [T(r'$x_t$: vector of regressors; $\rho_\alpha$: the check (pinball) function, slope $\alpha$ for positive residuals and $\alpha - 1$ for negative ones; the problem is a linear program',
-              r'$x_t$: vectorul regresorilor; $\rho_\alpha$: funcția pinball, cu panta $\alpha$ pentru reziduuri pozitive și $\alpha - 1$ pentru reziduuri negative; problema este una de programare liniară'),
+           [T(r'$x_t$: vector of regressors; $\rho_\alpha$: the check (pinball) function; the problem is a linear program',
+              r'$x_t$: vectorul regresorilor; $\rho_\alpha$: funcția pinball; problema este una de programare liniară'),
+            T(r'$\rho_\alpha$ has slope $\alpha$ for positive residuals and $\alpha - 1$ for negative ones',
+              r'$\rho_\alpha$ are panta $\alpha$ pentru reziduuri pozitive și $\alpha - 1$ pentru reziduuri negative'),
             T(r'first-order condition: $\sum_t x_t(\mathbf 1\{y_t \le x_t\'\hat\beta\} - \alpha) \approx 0$, the identification function',
               r'condiția de ordinul întîi: $\sum_t x_t(\mathbf 1\{y_t \le x_t\'\hat\beta\} - \alpha) \approx 0$, funcția de identificare')])), '0.27', '0.71'), 'small')
 
@@ -659,13 +662,13 @@ chart(T('CAViaR VaR 1\\% of the S\\&P 500', 'VaR 1\\% CAViaR pentru S\\&P 500'),
       r'Ultimul an al eșantionului de estimare și cele 500 de zile din afara lui; liniile: cuantila de 1\% a randamentelor $q_t = -\mathrm{VaR}_t$ pentru cele patru specificații')],
     h='0.5\\textheight')
 
-D.frame(T('Estimates, standard errors and DQ tests', 'Estimații, erori standard și teste DQ'), table(
-    'lccccc' + TB + 'p{1.25cm}' + TB + 'p{1.35cm}' + TB + 'p{1.5cm}', T(r'\textbf{Model}', r'\textbf{Modelul}') + r' & $\beta_1$ & $\beta_2$ & $\beta_3$ & $\beta_4$ & RQ$\times10^2$ & ' + T(r'hits in sample (\%)', r'depășiri în eșantion (\%)') + ' & ' + T(r'hits out of sample (\%)', r'depășiri în afara eșantionului (\%)') + ' & ' + T('DQ out of sample ($p$)', 'DQ în afara eșantionului ($p$)'),
+D.frame(T('Estimates, standard errors and DQ tests', 'Estimații, erori standard și teste DQ'), '\\setlength{\\tabcolsep}{3pt}\n' + table(
+    'lrrrrrrrr', T(r'\textbf{Model}', r'\textbf{Modelul}') + r' & $\beta_1$ & $\beta_2$ & $\beta_3$ & $\beta_4$ & RQ$\times10^2$ & ' + T(r'\shortstack[r]{hits in\\sample (\%)}', r'\shortstack[r]{depășiri în\\eșantion (\%)}') + ' & ' + T(r'\shortstack[r]{hits out of\\sample (\%)}', r'\shortstack[r]{depășiri în afara\\eșantionului (\%)}') + ' & ' + T(r'\shortstack[r]{DQ out of\\sample ($p$)}', r'\shortstack[r]{DQ în afara\\eșantionului ($p$)}'),
     [r'SAV & @{cv.SAV.b0} (@{cv.SAV.s0}) & @{cv.SAV.b1} (@{cv.SAV.s1}) & @{cv.SAV.b2} (@{cv.SAV.s2}) & -- & @{cv.SAV.rq} & @{cv.SAV.hi} & @{cv.SAV.ho} & @{cv.SAV.dq} (@{cv.SAV.dqp})',
      r'AS & @{cv.AS.b0} (@{cv.AS.s0}) & @{cv.AS.b1} (@{cv.AS.s1}) & @{cv.AS.b2} (@{cv.AS.s2}) & @{cv.AS.b3} (@{cv.AS.s3}) & @{cv.AS.rq} & @{cv.AS.hi} & @{cv.AS.ho} & @{cv.AS.dq} (@{cv.AS.dqp})',
      r'IG & @{cv.IG.b0} (@{cv.IG.s0}) & @{cv.IG.b1} (@{cv.IG.s1}) & @{cv.IG.b2} (@{cv.IG.s2}) & -- & @{cv.IG.rq} & @{cv.IG.hi} & @{cv.IG.ho} & @{cv.IG.dq} (@{cv.IG.dqp})',
      r'ADAPT & @{cv.ADAPT.b0} (@{cv.ADAPT.s0}) & -- & -- & -- & @{cv.ADAPT.rq} & @{cv.ADAPT.hi} & @{cv.ADAPT.ho} & @{cv.ADAPT.dq} (@{cv.ADAPT.dqp})'],
-    size='tiny') + items(
+    size='scriptsize') + items(
     T(r'Standard errors from the asymptotic covariance of EM; RQ: the minimised in-sample criterion; DQ out of sample with four lagged hits and the VaR, $\chi^2_6$; 500 days give 5 expected hits',
       r'Erorile standard din covarianța asimptotică EM; RQ: criteriul minimizat în eșantion; DQ în afara eșantionului cu patru laguri ale depășirilor și VaR, $\chi^2_6$; 500 de zile dau 5 depășiri așteptate'),
     T(r'Out-of-sample average pinball loss ($\times10^2$): SAV @{cv.SAV.pin}, AS @{cv.AS.pin}, IG @{cv.IG.pin}, adaptive @{cv.ADAPT.pin}', r'Pierderea pinball medie în afara eșantionului ($\times10^2$): SAV @{cv.SAV.pin}, AS @{cv.AS.pin}, IG @{cv.IG.pin}, adaptiv @{cv.ADAPT.pin}')), 'footnotesize')
@@ -1004,7 +1007,9 @@ D.frame(T('Why the square-root-of-time rule fails (2/2)', 'Limitele regulii răd
     T('Remedies: simulate the $h$-day distribution (FHS), or forecast the $h$-day quantile directly (quantile regression on $h$-day returns)', 'Remedii: simularea distribuției pe $h$ zile (FHS) sau prognoza directă a cuantilei pe $h$ zile (regresie cuantilică pe randamentele pe $h$ zile)')), 'small')
 
 D.frame(T('Multi-day forecasts and their backtests', 'Prognozele pe mai multe zile și testarea lor'), items(
-    (T(r'FHS: GJR-GARCH(1,1) by QML on a rolling 2000-day window (re-estimated every 250 days); 2000 paths of 10 days with bootstrapped standardised residuals \refBoll, \refGJR', r'FHS: GJR-GARCH(1,1) prin QML pe o fereastră mobilă de 2000 de zile (reestimat la fiecare 250 de zile); 2000 de traiectorii de 10 zile cu reziduuri standardizate extrase prin bootstrap \refBoll, \refGJR'), []),
+    (T(r'FHS: GJR-GARCH(1,1) by QML \refBoll, \refGJR', r'FHS: GJR-GARCH(1,1) prin QML \refBoll, \refGJR'),
+     [T('rolling 2000-day window, re-estimated every 250 days', 'fereastră mobilă de 2000 de zile, reestimat la fiecare 250 de zile'),
+      T('2000 paths of 10 days with bootstrapped standardised residuals', '2000 de traiectorii de 10 zile cu reziduuri standardizate extrase prin bootstrap')]),
     (T('Backtesting 10-day VaR', 'Backtesting pentru VaR pe 10 zile'),
      [T(r'daily 10-day forecasts overlap: hits are MA(9) even under $H_0$; counting them as independent inflates the size (Chapter 0, overlapping observations)', r'prognozele zilnice pe 10 zile se suprapun: depășirile sînt MA(9) chiar sub $H_0$; tratarea lor ca independente crește mărimea testului (Capitolul 0, observații suprapuse)'),
       T('options: non-overlapping windows (every 10th day, few hits), or HAC variance on overlapping hits', 'variante: ferestre fără suprapunere (fiecare a zecea zi, puține depășiri) sau varianță HAC pentru depășirile suprapuse')]),
@@ -1204,8 +1209,10 @@ D.frame(T('Self-assessment', 'Autoevaluare'), cols(
 D.section('Appendix', 'Anexă')
 
 D.frame(T('Appendix: consistency of GPL quantile scores', 'Anexă: consistența scorurilor GPL pentru cuantile'), items(
-    T(r'$\E_F S(x, Y) = \int_{-\infty}^x(1 - \alpha)(G(x) - G(y))\,dF(y) + \int_x^\infty \alpha(G(y) - G(x))\,dF(y)$', r'$\E_F S(x, Y) = \int_{-\infty}^x(1 - \alpha)(G(x) - G(y))\,dF(y) + \int_x^\infty \alpha(G(y) - G(x))\,dF(y)$'),
-    T(r'Differentiate (Leibniz; the boundary terms vanish): $\dfrac{d}{dx}\E_F S(x, Y) = G\'(x)\big[(1 - \alpha)F(x) - \alpha(1 - F(x))\big] = G\'(x)(F(x) - \alpha)$', r'Derivăm (Leibniz; termenii de frontieră se anulează): $\dfrac{d}{dx}\E_F S(x, Y) = G\'(x)\big[(1 - \alpha)F(x) - \alpha(1 - F(x))\big] = G\'(x)(F(x) - \alpha)$'),
+    (T(r'The expected GPL score of a report $x$ under $Y \sim F$', r'Scorul GPL așteptat al unei raportări $x$ cînd $Y \sim F$') + r'''
+    \[ \E_F S(x, Y) = \int_{-\infty}^x(1 - \alpha)(G(x) - G(y))\,dF(y) + \int_x^\infty \alpha(G(y) - G(x))\,dF(y) \]''', []),
+    (T(r'Differentiate (Leibniz; the boundary terms vanish)', r'Derivăm (Leibniz; termenii de frontieră se anulează)') + r'''
+    \[ \frac{d}{dx}\E_F S(x, Y) = G'(x)\big[(1 - \alpha)F(x) - \alpha(1 - F(x))\big] = G'(x)(F(x) - \alpha) \]''', []),
     T(r'$G\' \ge 0$: the derivative is $\le 0$ for $x < q_\alpha$ and $\ge 0$ for $x > q_\alpha$, so $q_\alpha$ minimises; strictly if $G$ is strictly increasing and $F$ has a unique $\alpha$-quantile', r'$G\' \ge 0$: derivata este $\le 0$ pentru $x < q_\alpha$ și $\ge 0$ pentru $x > q_\alpha$, deci $q_\alpha$ minimizează; strict dacă $G$ este strict crescătoare și $F$ are o singură cuantilă de nivel $\alpha$'),
     T(r'The same computation with $G(x) = x$ is the first-order condition of quantile regression', r'Același calcul cu $G(x) = x$ este condiția de ordinul întîi a regresiei cuantilice')), 'small')
 

@@ -126,7 +126,6 @@ MSCA Digital Finance}
 \begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{IP}: Industrial Production (producția industrială)
     \item \textbf{IPC}: Indicele prețurilor de consum
-    \item \textbf{JK}: Jarociński–Karadi (monetary policy and information shocks, 2020) — șocurile de politică monetară și informaționale Jarociński–Karadi (2020)
     \item \textbf{LLM}: Large Language Model (model lingvistic de mari dimensiuni)
     \item \textbf{LNS14000025}: Unemployment rate, men aged 20 and over (FRED series code) — rata șomajului, bărbați de 20 de ani și peste (codul seriei în FRED)
     \item \textbf{LP}: Local Projection (proiecție locală)
@@ -137,11 +136,11 @@ MSCA Digital Finance}
     \item \textbf{OLS}: Ordinary Least Squares (metoda celor mai mici pătrate)
     \item \textbf{PIB}: Produsul intern brut
     \item \textbf{PNB}: Produsul național brut
+    \item \textbf{QR}: Quick Response (code) — cod de răspuns rapid
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{QR}: Quick Response (code) — cod de răspuns rapid
     \item \textbf{RMSE}: Root Mean Squared Error (rădăcina erorii pătratice medii)
     \item \textbf{ROBOR}: Romanian Interbank Offer Rate (rata dobînzii interbancare la care se oferă depozite în lei)
     \item \textbf{RZ}: Ramey–Zubairy (state-dependent multipliers, 2018) — multiplicatorii dependenți de stare Ramey–Zubairy (2018)
@@ -513,7 +512,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{frame}{Interpretarea descompunerii istorice}
 \itemsize{\small}
 \begin{itemize}
-    \item 2003--mijlocul lui 2008: cererea agregată adaugă 126 puncte logaritmice, oferta \ensuremath{-}12: boom-ul a fost unul al cererii globale
+    \item 2003--mijlocul lui 2008: cererea agregată adaugă 126 de puncte logaritmice, oferta \ensuremath{-}12: boom-ul a fost unul al cererii globale
     \item De la mijlocul lui 2008 la începutul lui 2009: cererea specifică \ensuremath{-}82, cererea agregată \ensuremath{-}35; începutul lui 2020: cererea specifică \ensuremath{-}103
     \item De la mijlocul lui 2021 la mijlocul lui 2022: cererea specifică 43, oferta \ensuremath{-}2: modelul citește saltul din 2022 drept cerere de precauție
     \item Rezervă: restricția zero pentru răspunsul ofertei este puternică; \refBHb\ permit o elasticitate mică, dar nenulă, și găsesc un rol mai mare pentru ofertă
@@ -585,12 +584,12 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item Șocul de cerere: producția atinge un maxim de 1{,}33\% după 2 trimestre și revine la zero prin construcție; șomajul scade cu \ensuremath{-}0{,}65 pp
     \item Șocul de ofertă: producția crește permanent (0{,}42\% după zece ani, banda [0{,}28; 0{,}55]), iar șomajul întîi \emph{crește} (0{,}18 pp)
-    \item Șocurile de cerere explică 92\% din varianța nivelului producției la un an și 54\% la zece ani: ca în lucrare, cererea domină la orizonturile ciclului economic
+    \item Șocurile de cerere explică 92\% din varianța nivelului producției la un an și 54\% la zece ani: în acord cu \refBQ, cererea domină la orizonturile ciclului economic
     \item Seminarul 3, B5: fără ruptură și fără trend, ponderile se schimbă radical
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Cît de fiabile sînt restricțiile de termen lung?}
+\begin{frame}{Fiabilitatea restricțiilor de termen lung}
 \itemsize{\small}
 \begin{itemize}
     \item \refFL: multiplicatorul de termen lung $A(1)^{-1}$ se estimează imprecis din eșantioane finite
@@ -790,7 +789,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
     \end{itemize}
     \item Atunci covarianța reziduurilor cu proxy-ul este proporțională cu coloana de impact $b_1$
     \begin{itemize}
-        \item $\E u_tz_t = B_0\E\varepsilon_tz_t = \alpha b_1$
+        \item $\E u_tz_t = B_0\E\varepsilon_tz_t = \alpha b_1$ (derivarea în \atsapplink{atsapp2}{atssrc2}{Anexă})
         \item $b_1$: prima coloană a lui $B_0$, efectele la impact ale șocului 1 asupra tuturor celor $n$ variabile
     \end{itemize}
 \end{itemize}
@@ -858,7 +857,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{frame}{Interpretarea modelului proxy SVAR}
 \itemsize{\small}
 \begin{itemize}
-    \item Prima de risc excedentară crește cu 0{,}14 pp la impact (banda [0{,}03; 0{,}36]): politica monetară acționează prin costul creditului, ca în lucrare
+    \item Prima de risc excedentară crește cu 0{,}14 pp la impact (banda [0{,}03; 0{,}36]): politica monetară acționează prin costul creditului, în acord cu \refGK
     \item IP ajunge la \ensuremath{-}0{,}52\% după 25 de luni (banda [\ensuremath{-}1{,}09; \ensuremath{-}0{,}08]); IPC este \ensuremath{-}0{,}12\% după doi ani (banda [\ensuremath{-}0{,}34; 0{,}04]), fără anomalia prețurilor
     \item $F = 17{,}7$ trece pragul empiric $F > 10$, dar răspunsul prețurilor este imprecis: benzile robuste la instrumente slabe sînt mai largi \refMSW
 \end{itemize}
@@ -1003,7 +1002,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{frame}{LP și VAR estimează aceleași răspunsuri}
 \itemsize{\small}
 \begin{itemize}
-    \item \refPW: în populație, o LP cu $p$ laguri ale tuturor variabilelor drept controale și un VAR($p$) cu aceeași ordonare dau răspunsuri \emph{identice} pînă la orizontul $p$
+    \item \refPW: în populație, o LP cu $p$ laguri ale tuturor variabilelor drept controale și un VAR($p$) cu aceeași ordonare dau răspunsuri \emph{identice} pînă la orizontul $p$ (\atsapplink{atsapp3}{atssrc3}{Anexă})
     \begin{itemize}
         \item cu laguri nerestricționate ($p \to \infty$) coincid la toate orizonturile: alegerea privește estimarea, nu identificarea
         \item orice schemă de identificare VAR (recursivă, instrument extern) are un echivalent LP și invers
@@ -1126,7 +1125,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item Liniar: 0{,}67 la doi ani (SE 0{,}06) și 0{,}71 la patru ani (SE 0{,}04)
     \item Șomaj ridicat: 0{,}62 și 0{,}68; șomaj scăzut: 0{,}59 și 0{,}66
-    \item Ca în lucrare: multiplicatori sub unu în ambele stări și nicio diferență semnificativă între ele
+    \item În acord cu \refRZ: multiplicatori sub unu în ambele stări și nicio diferență semnificativă între ele
     \item Argumentul pentru LP aici: un VAR ar impune aceeași dinamică în ambele stări dacă tranzițiile între stări nu sînt modelate
 \end{itemize}
 \end{frame}
@@ -1233,11 +1232,11 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Cît din evoluția României vine din zona euro?}
+\begin{frame}{Contribuția zonei euro la fluctuațiile din România}
 \itemsize{\small}
 \begin{center}
 \scriptsize
-\begin{tabular}{lcccc}
+\begin{tabular}{lrrrr}
 \toprule
 \textbf{Variabila} & \textbf{șocuri ZE, 12 luni} & \textbf{șocuri ZE, 36 de luni} & \textbf{șoc ROBOR, 12 luni} & \textbf{șoc propriu, 12 luni} \\
 \midrule
@@ -1250,7 +1249,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
 \end{center}
 \begin{itemize}
     \item Descompunerea varianței erorii de prognoză din VAR(2) recursiv; șocuri ZE = cele trei șocuri ale zonei euro împreună
-    \item Șocurile zonei euro explică 46\% din IP din România și 55\% din IAPC la trei ani; șocul dobînzii interne explică mai puțin de o zecime din fiecare
+    \item Șocurile zonei euro explică 46\% din IP din România la un an și 55\% din IAPC la trei ani; șocul dobînzii interne explică mai puțin de o zecime din fiecare
     \item Ponderile sînt la fel de credibile ca ordonarea; cu un VAR cu exogenitate pe blocuri ele sînt o limită inferioară a influenței externe
 \end{itemize}
 \end{frame}
@@ -1354,7 +1353,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Mini-studiu de caz: cît de robustă este o singură cifră?}
+\begin{frame}{Mini-studiu de caz: robustețea unei singure cifre}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.5\textheight,keepaspectratio]{ats_ch3_ai_case.pdf}
@@ -1373,7 +1372,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
     \item \textbf{Efectele politicii monetare din zona euro asupra României}: întîi replicare, apoi extindere
     \begin{itemize}
         \item replicați: modelul proxy SVAR din \refGK\ (în acest curs: $F = 17{,}7$, saltul primei de risc) și LP pentru România din acest curs
-        \item extindeți: surprizele zilnice BCE agregate lunar cu metoda de mediere Gertler--Karadi; o versiune trimestrială cu PIB; mulțimi Anderson--Rubin; restricții de semn pe surprize (JK)
+        \item extindeți: surprizele zilnice BCE agregate lunar cu metoda de mediere Gertler--Karadi; o versiune trimestrială cu PIB; mulțimi Anderson--Rubin; restricții de semn pe surprize (\refJK)
         \item preînregistrați: șocul, variabilele de rezultat, orizonturile 0--24, regula pentru laguri, tratarea anului 2020 și corecția Holm pentru mai multe variabile
     \end{itemize}
     \item Livrabilele urmează regulile cursului: repository, raport, AI\_USE.md, AI\_ERRORS.md, susținere orală
@@ -1438,7 +1437,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
 \end{frame}
 
 \begin{frame}{Anexă: identificarea coloanei $b_1$ prin proxy}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Înapoi}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item $u_t = B_0\varepsilon_t = b_1\varepsilon_{1t} + \sum_{j\ge2}b_j\varepsilon_{jt}$
@@ -1449,7 +1448,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
 \end{frame}
 
 \begin{frame}{Anexă: LP și VAR coincid pînă la orizontul $p$}
-\hypertarget{atsapp3}{}\atsappback{atssrc1}{Înapoi}
+\hypertarget{atsapp3}{}\atsappback{atssrc3}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Fie $w_t = (y_{t-1}, \dots, y_{t-p})$, iar șocul inovația $\tilde x_t = x_t - \mathrm{proj}(x_t\mid w_t)$

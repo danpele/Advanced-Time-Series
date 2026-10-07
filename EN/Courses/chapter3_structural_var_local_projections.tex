@@ -126,7 +126,6 @@ MSCA Digital Finance}
     \item \textbf{HQ}: Hannan–Quinn (information criterion)
     \item \textbf{IGREA}: Index of Global Real Economic Activity (FRED series code)
     \item \textbf{IP}: Industrial Production
-    \item \textbf{JK}: Jarociński–Karadi (monetary policy and information shocks, 2020)
     \item \textbf{LLM}: Large Language Model
     \item \textbf{LNS14000025}: Unemployment rate, men aged 20 and over (FRED series code)
     \item \textbf{LP}: Local Projection
@@ -136,11 +135,11 @@ MSCA Digital Finance}
     \item \textbf{OLS}: Ordinary Least Squares
     \item \textbf{QR}: Quick Response (code)
     \item \textbf{RMSE}: Root Mean Squared Error
+    \item \textbf{ROBOR}: Romanian Interbank Offer Rate
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{ROBOR}: Romanian Interbank Offer Rate
     \item \textbf{RZ}: Ramey–Zubairy (state-dependent multipliers, 2018)
     \item \textbf{SCA}: Seasonally and Calendar Adjusted
     \item \textbf{SE}: Standard Error
@@ -412,7 +411,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What the recursive assumption cannot do}
+\begin{frame}{Limits of the recursive assumption}
 \itemsize{\small}
 \begin{itemize}
     \item Simultaneity: interest rates and asset prices react to each other within the day
@@ -582,12 +581,12 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{itemize}
     \item Demand shock: output peaks at 1.33\% after 2 quarters and returns to zero by construction; unemployment falls by \ensuremath{-}0.65 pp
     \item Supply shock: output rises permanently (0.42\% after ten years, band [0.28, 0.55]), unemployment first \emph{rises} (0.18 pp)
-    \item Demand shocks explain 92\% of the output-level variance at one year and 54\% at ten years: as in the paper, demand dominates at business-cycle horizons
+    \item Demand shocks explain 92\% of the output-level variance at one year and 54\% at ten years: in line with \refBQ, demand dominates at business-cycle horizons
     \item Seminar 3, B5: without the break and the trend, the shares change dramatically
 \end{itemize}
 \end{frame}
 
-\begin{frame}{How reliable are long-run restrictions?}
+\begin{frame}{Reliability of long-run restrictions}
 \itemsize{\small}
 \begin{itemize}
     \item \refFL: the long-run multiplier $A(1)^{-1}$ is estimated imprecisely from finite samples
@@ -787,7 +786,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
     \end{itemize}
     \item Then the covariance of the residuals with the proxy is proportional to the impact column $b_1$
     \begin{itemize}
-        \item $\E u_tz_t = B_0\E\varepsilon_tz_t = \alpha b_1$
+        \item $\E u_tz_t = B_0\E\varepsilon_tz_t = \alpha b_1$ (derivation in the \atsapplink{atsapp2}{atssrc2}{Appendix})
         \item $b_1$: the first column of $B_0$, the impact effects of shock 1 on all $n$ variables
     \end{itemize}
 \end{itemize}
@@ -855,7 +854,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{frame}{Interpreting the proxy SVAR}
 \itemsize{\small}
 \begin{itemize}
-    \item The excess bond premium jumps by 0.14 pp on impact (band [0.03, 0.36]): monetary policy works through credit costs, as in the paper
+    \item The excess bond premium jumps by 0.14 pp on impact (band [0.03, 0.36]): monetary policy works through credit costs, in line with \refGK
     \item IP reaches \ensuremath{-}0.52\% after 25 months (band [\ensuremath{-}1.09, \ensuremath{-}0.08]); CPI is \ensuremath{-}0.12\% after two years (band [\ensuremath{-}0.34, 0.04]), with no price puzzle
     \item $F = 17.7$ passes the rule of thumb $F > 10$, but the price response is imprecise: weak-instrument-robust bands are wider \refMSW
 \end{itemize}
@@ -1000,7 +999,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{frame}{LP and VAR estimate the same responses}
 \itemsize{\small}
 \begin{itemize}
-    \item \refPW: in population, an LP with $p$ lags of all variables as controls and a VAR($p$) with the same ordering give \emph{identical} responses up to horizon $p$
+    \item \refPW: in population, an LP with $p$ lags of all variables as controls and a VAR($p$) with the same ordering give \emph{identical} responses up to horizon $p$ (\atsapplink{atsapp3}{atssrc3}{Appendix})
     \begin{itemize}
         \item with unrestricted lags ($p \to \infty$) they coincide at all horizons: the choice is about estimation, not identification
         \item any VAR identification scheme (recursive, external instrument) has an LP counterpart, and vice versa
@@ -1123,7 +1122,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{itemize}
     \item Linear: 0.67 at two years (SE 0.06) and 0.71 at four years (SE 0.04)
     \item High unemployment: 0.62 and 0.68; low unemployment: 0.59 and 0.66
-    \item As in the paper: multipliers below one in both states and no significant difference between them
+    \item In line with \refRZ: multipliers below one in both states and no significant difference between them
     \item The case for LP here: a VAR would impose the same dynamics in both states unless the state transitions are modelled
 \end{itemize}
 \end{frame}
@@ -1230,11 +1229,11 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \end{itemize}
 \end{frame}
 
-\begin{frame}{How much of Romania comes from the euro area?}
+\begin{frame}{The euro-area share of Romanian fluctuations}
 \itemsize{\small}
 \begin{center}
 \scriptsize
-\begin{tabular}{lcccc}
+\begin{tabular}{lrrrr}
 \toprule
 \textbf{Variable} & \textbf{EA shocks, 12 m} & \textbf{EA shocks, 36 m} & \textbf{ROBOR shock, 12 m} & \textbf{own shock, 12 m} \\
 \midrule
@@ -1247,7 +1246,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
 \end{center}
 \begin{itemize}
     \item Forecast error variance decomposition of the recursive VAR(2); EA shocks = the three euro-area shocks together
-    \item Euro-area shocks explain 46\% of Romanian IP and 55\% of HICP at three years; the domestic rate shock explains less than a tenth of either
+    \item Euro-area shocks explain 46\% of Romanian IP at one year and 55\% of HICP at three years; the domestic rate shock explains less than a tenth of either
     \item The shares are as credible as the ordering; with a block-exogenous VAR they are a lower bound for external influence
 \end{itemize}
 \end{frame}
@@ -1340,7 +1339,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What the human checks}
+\begin{frame}{Required checks}
 \itemsize{\small}
 \begin{itemize}
     \item Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)
@@ -1351,7 +1350,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Mini-case: how robust is one number?}
+\begin{frame}{Mini-case: the robustness of one number}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.5\textheight,keepaspectratio]{ats_ch3_ai_case.pdf}
@@ -1370,7 +1369,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
     \item \textbf{Euro-area monetary spillovers to Romania}: replicate first, then extend
     \begin{itemize}
         \item replicate: the proxy SVAR of \refGK\ (this lecture: $F = 17.7$, the bond-premium jump) and the Romanian LP of this lecture
-        \item extend: daily ECB surprises aggregated to monthly with the Gertler--Karadi averaging; a quarterly GDP version; Anderson--Rubin sets; sign restrictions on the surprises (JK)
+        \item extend: daily ECB surprises aggregated to monthly with the Gertler--Karadi averaging; a quarterly GDP version; Anderson--Rubin sets; sign restrictions on the surprises (\refJK)
         \item pre-register: shock, outcomes, horizons 0--24, lag rule, the 2020 treatment and the Holm correction across outcomes
     \end{itemize}
     \item Deliverables follow the course rules: repository, report, AI\_USE.md, AI\_ERRORS.md, oral defence
@@ -1434,8 +1433,8 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Appendix: how the proxy identifies $b_1$}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Back}
+\begin{frame}{Appendix: identifying the column $b_1$ with a proxy}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item $u_t = B_0\varepsilon_t = b_1\varepsilon_{1t} + \sum_{j\ge2}b_j\varepsilon_{jt}$
@@ -1446,7 +1445,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
 \end{frame}
 
 \begin{frame}{Appendix: LP and VAR agree up to horizon $p$}
-\hypertarget{atsapp3}{}\atsappback{atssrc1}{Back}
+\hypertarget{atsapp3}{}\atsappback{atssrc3}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item Let $w_t = (y_{t-1}, \dots, y_{t-p})$ and the shock be the innovation $\tilde x_t = x_t - \mathrm{proj}(x_t\mid w_t)$

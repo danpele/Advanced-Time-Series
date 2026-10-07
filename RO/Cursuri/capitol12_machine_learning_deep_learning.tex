@@ -229,7 +229,7 @@ MSCA Digital Finance}
 \begin{frame}{Rezultatele învățării}
 \itemsize{\small}
 \begin{itemize}
-    \item Enunțați cînd este validă validarea încrucișată cu K subeșantioane pentru predicția autoregresivă și construiți validări pe blocuri, cu purjare și cu origine mobilă, fără scurgere de informație
+    \item Enunțați cînd este validă validarea încrucișată cu K subeșantioane pentru predicția autoregresivă și construiți validări pe blocuri, cu purjare și cu origine mobilă, fără leakage
     \item Deduceți soluțiile lasso, lasso adaptiv și elastic net, enunțați condițiile lor de consistență pentru date dependente și explicați de ce inferența naivă după selecție eșuează
     \item Explicați mecanica deplasare--varianță pentru bagging, păduri aleatoare, păduri de regresie cuantilică și gradient boosting cu restricții
     \item Deduceți stingerea gradienților în rețelele recurente și rolul porților; citiți arhitecturile TCN, Transformers, N-BEATS, N-HiTS, DeepAR și TFT
@@ -286,7 +286,7 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
 \begin{itemize}
     \item \textbf{Statistice}: ARIMA, ETS, HAR, spațiul stărilor: puțini parametri, un model pe serie
     \item \textbf{Machine learning}: regresii penalizate, păduri, boosting pe variabile cu laguri, adesea globale
-    \item \textbf{Modele deep de secvențe}: RNN, LSTM, TCN, Transformers, N-BEATS, DeepAR; retropropagarea \refRHW
+    \item \textbf{Modele deep de secvențe}, antrenate prin retropropagare \refRHW: RNN, LSTM, TCN, Transformers, N-BEATS, DeepAR
     \item \textbf{Foundation models}: preantrenate pe multe serii, folosite zero-shot (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol13_foundation_models_conformal.pdf}{Capitolul 13})
     \item Fiecare generație trebuie să fie mai bună decît cea dinainte în afara eșantionului, cu teste, pe aceleași date
 \end{itemize}
@@ -324,7 +324,11 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
 \begin{frame}{Cunoscut din TSA și elemente noi}
 \itemsize{\small}
 \begin{itemize}
-    \item Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol9_invatare_automata_serii_timp.pdf}{TSA, Capitolul 9}): variabile cu laguri, validare walk-forward, scurgere de informație prin exemple, ridge și lasso, arbori, păduri aleatoare, gradient boosting, un MLP mic, elemente de predicție conformală, M4 și M5
+    \item Cunoscut din \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol9_invatare_automata_serii_timp.pdf}{TSA, Capitolul 9}
+    \begin{itemize}
+        \item variabile cu laguri, validare walk-forward, leakage între exemple, ridge și lasso
+        \item arbori, păduri aleatoare, gradient boosting, un MLP mic, elemente de predicție conformală, M4 și M5
+    \end{itemize}
     \item Nou: statistica din spatele rețetelor
     \begin{itemize}
         \item generalizarea sub mixing; cînd este validă validarea încrucișată; modele globale
@@ -425,6 +429,7 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
     \item Eșuează cînd reziduurile sînt autocorelate: un model subspecificat, ținte suprapuse la $h$ pași sau variabile care identifică momentul
     \begin{itemize}
         \item atunci o eroare de test este previzibilă din erorile de antrenare vecine: estimații optimiste
+        \item mărimea acestei deplasări: \atsapplink{atsapp1}{atssrc1}{Anexa}  % applink: deplasarea validării cu K subeșantioane
     \end{itemize}
     \item Regula practică: verificați ACF a reziduurilor modelului estimat (Ljung--Box, \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol2_modele_arma.pdf}{TSA, Capitolul 2}) înainte de a avea încredere în K subeșantioane aleatoare
 \end{itemize}
@@ -466,7 +471,7 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Scurgerea de informație prin ținte suprapuse și variabile de timp}
+\begin{frame}{Leakage prin ținte suprapuse și variabile de timp}
 \itemsize{\small}
 \begin{itemize}
     \item Ținta $z_t = \frac1h\sum_{j=1}^h y_{t+j}$ (o lună de volatilitate, un trimestru de vînzări): $\mathrm{corr}(z_t, z_{t+1}) \ge (h - 1)/h$ cînd $y$ este zgomot alb, mai mult cînd $y$ este persistent
@@ -490,7 +495,7 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
 \quantlet{ATS\_ch12\_validation}{\qlurl{ATS_ch12_validation}}
 \end{frame}
 
-\begin{frame}{Interpretarea experimentului de scurgere}
+\begin{frame}{Interpretarea experimentului de leakage}
 \itemsize{\small}
 \begin{itemize}
     \item 5 subeșantioane aleatoare: raportul median 0{,}34 (quartile 0{,}28--0{,}39): pretinde o eroare de trei ori mai mică decît cea reală
@@ -575,6 +580,7 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
     \[ \hat\beta_j^{\mathrm{lasso}} = \mathrm{sign}(z_j)\,(|z_j| - \lambda)_+, \qquad \hat\beta_j^{\mathrm{ridge}} = \frac{z_j}{1 + \lambda} \]
     \begin{itemize}
         \item $(u)_+ = \max(u, 0)$; lasso selectează (anulează coeficienții $z_j$ mici), ridge doar îi micșorează
+        \item derivarea, inclusiv pentru elastic net: \atsapplink{atsapp2}{atssrc2}{Anexa}  % applink: pragul moale și elastic net
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -621,9 +627,14 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
     \begin{itemize}
         \item aceleași date au ales modelul și îl testează: distribuția lui $\hat\beta$ este condiționată de faptul că a fost selectat
     \end{itemize}
-    \item Remedii: intervale \textbf{PoSI}, valabile pentru orice selecție \refBerk; intervale \textbf{condiționate exacte} pentru lasso (un eveniment de selecție poliedral) \refLSST
-    \item Pentru un coeficient de interes (o dobîndă de politică, un șoc extern): \textbf{dubla selecție} \refBCH: lasso al lui $y$ pe variabilele de control, lasso al regresorului de interes pe aceleași variabile, OLS pe reuniune
+    \item Remedii
     \begin{itemize}
+        \item intervale \textbf{PoSI}, valabile pentru orice selecție \refBerk
+        \item intervale \textbf{condiționate exacte} pentru lasso (un eveniment de selecție poliedral) \refLSST
+    \end{itemize}
+    \item Un coeficient de interes (o dobîndă de politică, un șoc extern): \textbf{dubla selecție} \refBCH
+    \begin{itemize}
+        \item lasso al lui $y$ pe variabilele de control, lasso al regresorului de interes pe aceleași variabile, OLS pe reuniune
         \item cu erori standard HAC pentru serii de timp (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0})
     \end{itemize}
     \item Pentru prognoză, selecția este un mijloc: se judecă după pierderea în afara eșantionului și după stabilitatea a ceea ce este selectat
@@ -730,8 +741,16 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
     \begin{itemize}
         \item $G$, $H$: sumele derivatelor de ordinul întîi și doi ale pierderii pe punctele unei frunze ($L$, $R$: descendentul stîng și drept); $\lambda$: penalizarea valorilor frunzelor; $\gamma$: costul unei ramificări
     \end{itemize}
-    \item LightGBM \refKeA: variabile grupate în histograme (cel mult 255 de intervale), creștere pe frunze, eșantionare unilaterală după gradient; HistGradientBoosting din scikit-learn (folosit aici) urmează aceeași construcție
-    \item Restricțiile de monotonie: o ramificare este permisă doar dacă valorile frunzelor stîngă și dreaptă respectă ordinea, iar descendenții moștenesc limitele; funcția estimată este atunci monotonă în acea variabilă peste tot
+    \item LightGBM \refKeA
+    \begin{itemize}
+        \item variabile grupate în histograme (cel mult 255 de intervale), creștere pe frunze, eșantionare unilaterală după gradient
+        \item HistGradientBoosting din scikit-learn (folosit aici) urmează aceeași construcție
+    \end{itemize}
+    \item Restricțiile de monotonie
+    \begin{itemize}
+        \item o ramificare este permisă doar dacă valorile frunzelor stîngă și dreaptă respectă ordinea; descendenții moștenesc limitele
+        \item funcția estimată este atunci monotonă în acea variabilă peste tot
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -748,7 +767,11 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
 \begin{itemize}
     \item Prognozăm cele 24 de valori orare ale zilei $d + 1$ cu date pînă în ziua $d$; evaluare pe 638 de zile, ianuarie 2025 -- septembrie 2026
     \item Reper: ARX-ul expert din \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1} (\refZW): o regresie pe oră, fereastră de 364 de zile, reestimat zilnic
-    \item Algoritmi globali (un model pentru toate orele) pe aceleași laguri, ora, ziua săptămînii, sărbătorile din România, ciclul anual; reestimați lunar pe toate datele anterioare: RF cu benzi QRF, HGB, HGB crescător în cele trei laguri ale consumului, HGB cuantilic
+    \item Algoritmi globali (un model pentru toate orele), reestimați lunar pe toate datele anterioare
+    \begin{itemize}
+        \item intrări: aceleași laguri, ora, ziua săptămînii, sărbătorile din România, ciclul anual
+        \item RF cu benzi QRF, HGB, HGB crescător în cele trei laguri ale consumului, HGB cuantilic
+    \end{itemize}
     \item Pierderi: MAE, pinball mediu pe decile, acoperirea de 80\%; DM față de ARX și MCS (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
 \end{itemize}
 \end{column}
@@ -829,8 +852,15 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
     \begin{itemize}
         \item $x_t$: cele mai recente $L$ valori; $W_1$, $W_2$: matricele de ponderi; $b_1$, $b_2$: termenii liberi (bias); $\sigma$: funcția de activare aplicată pe elemente (ReLU sau tanh)
     \end{itemize}
-    \item Antrenarea: retropropagare \refRHW\ cu Adam \refKB; oprire timpurie pe ultimul bloc al eșantionului de antrenare; intrări standardizate doar cu momentele de antrenare
-    \item Aproximarea universală nu spune nimic despre necesarul de date: cu cîteva mii de observații zilnice, o rețea are puțin spațiu față de un model liniar
+    \item Antrenarea: retropropagare \refRHW\ cu Adam \refKB
+    \begin{itemize}
+        \item oprire timpurie pe ultimul bloc al eșantionului de antrenare
+        \item intrări standardizate doar cu momentele de antrenare
+    \end{itemize}
+    \item Aproximarea universală nu spune nimic despre necesarul de date
+    \begin{itemize}
+        \item cu cîteva mii de observații zilnice, o rețea are puțin spațiu față de un model liniar
+    \end{itemize}
     \item Modelele de secvențe partajează ponderile în timp: recurență (RNN), convoluție (TCN) sau atenție (Transformer)
 \end{itemize}
 \end{column}
@@ -1159,8 +1189,16 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
     \begin{itemize}
         \item sMAPE: media lui $2|y - \hat y|/(|y| + |\hat y|)$, în \%; MASE: eroarea absolută medie împărțită la MAE din eșantion al naivului sezonier (perioada 24) \refHK; OWA $< 1$: mai bun decît Naive 2
     \end{itemize}
-    \item Naive, naivul sezonier și Naive 2 calculate aici reproduc exact fișierul oficial de evaluare M4: Naive 2 sMAPE 18{,}38 (oficial 18{,}38), MASE 2{,}40 (oficial 2{,}40)
-    \item Repere din același fișier: reperele M4 MLP și RNN (OWA 0{,}921 și 1{,}036), Theta 1{,}006, cîștigătorul \refSmyl\ 0{,}440, locul doi Montero-Manso et al.\ 0{,}484; toate modelele globale sînt antrenate doar pe părțile de antrenare
+    \item Naive, naivul sezonier și Naive 2 sînt calculate aici
+    \begin{itemize}
+        \item Naive 2: sMAPE 18{,}38 (valoarea oficială M4 18{,}38), MASE 2{,}40 (oficial 2{,}40)
+    \end{itemize}
+    \item Repere din fișierul oficial de evaluare M4 (OWA)
+    \begin{itemize}
+        \item reperele M4 MLP și RNN: 0{,}921 și 1{,}036; Theta 1{,}006
+        \item cîștigătorul \refSmyl\ 0{,}440; locul doi Montero-Manso et al.\ 0{,}484
+    \end{itemize}
+    \item Toate modelele globale sînt antrenate doar pe părțile de antrenare
 \end{itemize}
 \end{frame}
 
@@ -1341,7 +1379,7 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
 \itemsize{\small}
 \begin{itemize}
     \item Întîi repere puternice: naiv sezonier, ETS/Theta, HAR, un ARX expert; Lago et al.\ au construit un reper deschis pentru că modelele publicate de prețuri ale electricității erau rar comparate cu ele \refLMDW
-    \item Capcanele inventariate de \refHAB: reutilizarea setului de test, scurgeri prin scalare și variabile, erori mediate pe serii de scări diferite, fără teste de semnificație, buget de reglare neraportat
+    \item Capcanele inventariate de \refHAB: reutilizarea setului de test, leakage prin scalare și variabile, erori mediate pe serii de scări diferite, fără teste de semnificație, buget de reglare neraportat
     \item Teste (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}): DM pentru două modele, MCS \refHLN\ pentru mai multe, reality check \refWhi\ și SPA \refHan\ cînd cel mai bun dintre multe a fost ales pe aceleași date
     \item Raportați seed-urile, hardware-ul, timpul de antrenare, fiecare arhitectură încercată; preînregistrați schema (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0})
 \end{itemize}
@@ -1406,7 +1444,7 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
         \item \textbf{literatura}: \aiprompt{Listează articole recenzate din 2019 încoace care compară rețele neuronale sau boosting cu HAR pentru volatilitatea realizată în afara eșantionului; dă DOI-urile și testul folosit.} Apoi verificați fiecare DOI pe Crossref
         \item \textbf{schema}: \aiprompt{Scrie o preînregistrare: active, orizonturi, ferestre, calendarul reestimării, pierderea, testele, seed-urile, ce înseamnă un cîștig.}
         \item \textbf{cod și replicare}: reproduceți întîi QLIKE HAR pentru S\&P 500 (0{,}253 la $h = 1$ aici), apoi adăugați algoritmii pe rînd
-        \item \textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră fiecare sursă de scurgere de informație, data snooping și reglare inechitabilă din această comparație.}
+        \item \textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră fiecare sursă de leakage, data snooping și reglare inechitabilă din această comparație.}
     \end{itemize}
     \item Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)
 \end{itemize}
@@ -1496,6 +1534,7 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
 %=============================================================================
 
 \begin{frame}{Anexă: deplasarea validării cu K subeșantioane sub erori autocorelate}
+\hypertarget{atsapp1}{}\atsappback{atssrc1}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Model liniar $y = X\beta + \varepsilon$; omitem rîndul $i$: $e_{(i)} = e_i/(1 - h_{ii})$, $h_{ii}$ efectul de pîrghie
@@ -1506,6 +1545,7 @@ Subsetul orar M4 & \refMfourA: 414 de serii de 700--960 de ore, orizont 48 & N-B
 \end{frame}
 
 \begin{frame}{Anexă: pragul moale și elastic net}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Cu $X'X = nI$, funcția obiectiv se separă: $\frac12(\beta_j - z_j)^2 + \lambda|\beta_j|$ pentru fiecare $j$, $z_j = x_j'y/n$

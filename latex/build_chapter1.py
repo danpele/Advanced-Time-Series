@@ -311,9 +311,10 @@ D.frame(T('Setting and notation', 'Cadrul și notațiile'), items(
       T('a \\textbf{probabilistic forecast} is a predictive distribution $F_{t+h|t}$ (density, quantiles, interval, ensemble)', 'o \\textbf{prognoză probabilistică} este o distribuție predictivă $F_{t+h|t}$ (densitate, cuantile, interval, ansamblu)')]),
     (T('Out-of-sample design: $R$ observations to estimate, $P$ forecasts to evaluate, $R + P + h - 1 = T$', 'Plan în afara eșantionului: $R$ observații pentru estimare, $P$ prognoze pentru evaluare, $R + P + h - 1 = T$'),
      [T('schemes: \\textbf{fixed} (estimate once), \\textbf{rolling} (last $R$), \\textbf{recursive} (all past); TSA, Chapter 4 called this rolling-origin evaluation', 'scheme: \\textbf{fixă} (o singură estimare), \\textbf{mobilă} (ultimele $R$), \\textbf{recursivă} (tot trecutul); în TSA, Capitolul 4 aceasta este evaluarea cu origine mobilă'),
-      T('$T$: the total sample; the last forecast, made at $R + P - 1$, targets $T$; the scheme matters for inference: West (1996) vs Giacomini--White (2006), Section 4', '$T$: eșantionul total; ultima prognoză, făcută la $R + P - 1$, are ținta $T$; schema contează pentru inferență: West (1996) față de Giacomini--White (2006), secțiunea 4')]),
+      T('$T$: the total sample; the last forecast, made at $R + P - 1$, targets $T$; the scheme matters for inference: \\refWest\\ versus \\refGW, Section 4', '$T$: eșantionul total; ultima prognoză, făcută la $R + P - 1$, are ținta $T$; schema contează pentru inferență: \\refWest\\ față de \\refGW, secțiunea 4')]),
     (T('Known from TSA, Chapter 0: MAE, RMSE, MAPE and the scale-free MASE \\refHK', 'Cunoscute din TSA, Capitolul 0: MAE, RMSE, MAPE și MASE, independentă de scală \\refHK'),
-     [T('here the question is different: \\emph{which} loss, and what does it reward?', 'aici întrebarea este alta: \\emph{ce} pierdere și ce răsplătește ea?')])), 'small')
+     [T('$\\mathrm{MAE} = P^{-1}\\sum|e_t|$, $\\mathrm{RMSE} = (P^{-1}\\sum e_t^2)^{1/2}$, $\\mathrm{MAPE} = 100P^{-1}\\sum|e_t/y_t|$; MASE: the MAE divided by the in-sample MAE of the naive forecast', '$\\mathrm{MAE} = P^{-1}\\sum|e_t|$, $\\mathrm{RMSE} = (P^{-1}\\sum e_t^2)^{1/2}$, $\\mathrm{MAPE} = 100P^{-1}\\sum|e_t/y_t|$; MASE: MAE împărțit la MAE-ul în eșantion al prognozei naive'),
+      T('here the question is different: \\emph{which} loss, and what does it reward?', 'aici întrebarea este alta: \\emph{ce} pierdere și ce răsplătește ea?')])), 'small')
 
 D.frame(T('The optimal point forecast and consistency (1/2)', 'Prognoza punctuală optimă și consistența (1/2)'), items(
     (T('Given a loss $L(x, y)$ and a predictive distribution $F$, the \\textbf{optimal} (Bayes) forecast minimises the expected loss:', 'Dată o pierdere $L(x, y)$ și o distribuție predictivă $F$, prognoza \\textbf{optimă} (Bayes) minimizează pierderea așteptată:'),
@@ -338,7 +339,7 @@ chart(T('Three losses, three optimal forecasts', 'Trei pierderi, trei prognoze o
       '$Y$ log-normal cu $\\ln Y \\sim N(0, @{l.s}^2)$; pierderea așteptată ca funcție de prognoza punctuală $x$ (simulare, $2 \\times 10^5$ extrageri)')], h='0.52\\textheight')
 
 interp(('the three minimisers', 'celor trei puncte de minim'), [
-    (T('Mean @{l.mean}, median 1, 0.9-quantile @{l.q90}: three different ``best\'\' forecasts of the same variable', 'Media @{l.mean}, mediana 1, cuantila 0,9 @{l.q90}: trei prognoze „cele mai bune” diferite pentru aceeași variabilă'),
+    (T('Mean @{l.mean}, median 1, 0.9-quantile @{l.q90}; three different ``best\'\' forecasts of the same variable', 'Media @{l.mean}, mediana 1, cuantila de nivel 0,9: @{l.q90}; trei prognoze „cele mai bune” diferite pentru aceeași variabilă'),
      [T('for a right-skewed target (wages, loads, prices, volatility) the gap is large', 'pentru o țintă asimetrică la dreapta (salarii, consum de energie, prețuri, volatilitate) diferența este mare')]),
     T('The pinball curve is flat near its minimum: quantile forecasts are hard to separate with few observations', 'Curba pinball este plată în jurul minimului: prognozele de cuantilă se deosebesc greu cu puține observații'),
     T('A forecaster who knows the loss reports the matching functional; ranking forecasts by another loss rewards the wrong behaviour', 'Un prognozator care cunoaște pierderea raportează funcționala potrivită; ierarhizarea cu altă pierdere răsplătește un comportament greșit')])
@@ -400,7 +401,7 @@ D.frame(T('The probability integral transform', 'Transformarea integrală de pro
     (T('Uniformity is necessary, not sufficient: \\refHamill\\ and \\refGBR\\ build uncalibrated forecasters whose PIT is uniform on average', 'Uniformitatea este necesară, nu suficientă: \\refHamill\\ și \\refGBR\\ construiesc prognozatori necalibrați al căror PIT este uniform în medie'),
      [T('check PIT conditionally: by sub-sample, by regime, by horizon', 'verificați PIT condiționat: pe subeșantioane, pe regimuri, pe orizonturi')])), 'small')
 
-chart(T('What PIT histograms reveal', 'Interpretarea histogramelor PIT'), 'ats_ch1_pit_shapes', 'ATS_ch1_calibration_scores', [
+chart(T('PIT histogram shapes', 'Formele histogramelor PIT'), 'ats_ch1_pit_shapes', 'ATS_ch1_calibration_scores', [
     T('$Y \\sim N(0, 1)$, 5000 draws; four Normal forecasts; dashed line: the uniform density',
       '$Y \\sim N(0, 1)$, 5000 de extrageri; patru prognoze Normale; linia întreruptă: densitatea uniformă')], h='0.48\\textheight')
 
@@ -415,7 +416,7 @@ interp(('the PIT shapes', 'formelor PIT'), [
       'CRPS (mai mic este mai bine): ideală @{pit.id.crps}, prea concentrată @{pit.sh.crps}, prea largă @{pit.wi.crps}, deplasată @{pit.bi.crps}: scorul propriu pune prognoza ideală pe primul loc')])
 
 D.frame(T('Testing calibration (1/2)', 'Testarea calibrării (1/2)'), items(
-    (T('\\textbf{Berkowitz (2001)} \\refBerk: if the PITs are i.i.d.\\ uniform, $z_t = \\Phi^{-1}(u_t)$ is i.i.d.\\ $N(0, 1)$', '\\textbf{Berkowitz (2001)} \\refBerk: dacă valorile PIT sînt i.i.d.\\ uniforme, $z_t = \\Phi^{-1}(u_t)$ este i.i.d.\\ $N(0, 1)$'),
+    (T('\\textbf{Berkowitz test} \\refBerk: if the PITs are i.i.d.\\ uniform, $z_t = \\Phi^{-1}(u_t)$ is i.i.d.\\ $N(0, 1)$', '\\textbf{Testul Berkowitz} \\refBerk: dacă valorile PIT sînt i.i.d.\\ uniforme, $z_t = \\Phi^{-1}(u_t)$ este i.i.d.\\ $N(0, 1)$'),
      [T('$\\Phi^{-1}$: the quantile function of the standard Normal distribution', '$\\Phi^{-1}$: funcția cuantilă a distribuției Normale standard')]),
     (T('Fit a Gaussian AR(1) to $z_t$ and test its parameters:', 'Estimăm un AR(1) gaussian pentru $z_t$ și îi testăm parametrii:'),
      ['$z_t = \\mu + \\rho(z_{t-1} - \\mu) + \\varepsilon_t$, $\\quad \\varepsilon_t \\sim N(0, \\sigma^2(1 - \\rho^2))$',
@@ -511,7 +512,8 @@ D.frame(T('Quantile, interval and multivariate scores (2/2)', 'Scoruri pentru cu
     (T('\\textbf{Energy score} for vectors, the multivariate CRPS:', '\\textbf{Energy score} pentru vectori, CRPS multivariat:'),
      ['$\\mathrm{ES}(F, \\mathbf y) = \\E\\|\\mathbf X - \\mathbf y\\| - \\frac12\\E\\|\\mathbf X - \\mathbf X\'\\|$',
       T('$\\mathbf y$: the outcome vector; $\\mathbf X, \\mathbf X\'$: independent draws from the forecast $F$; $\\|\\cdot\\|$: the Euclidean norm', '$\\mathbf y$: vectorul realizărilor; $\\mathbf X, \\mathbf X\'$: extrageri independente din prognoza $F$; $\\|\\cdot\\|$: norma euclidiană'),
-      T('weak at detecting wrong correlations; the \\textbf{variogram score} \\refSH\\ targets the dependence structure (24 hourly loads, a VAR path)', 'slab în detectarea corelațiilor greșite; \\textbf{variogram score} \\refSH\\ vizează structura de dependență (24 de consumuri orare, o traiectorie VAR)')]),
+      T('weak at detecting wrong correlations; the \\textbf{variogram score} \\refSH\\ targets the dependence structure (24 hourly loads, a VAR path)', 'slab în detectarea corelațiilor greșite; \\textbf{variogram score} \\refSH\\ vizează structura de dependență (24 de consumuri orare, o traiectorie VAR)'),
+      T('$\\mathrm{VS}_p = \\sum_{i,j}w_{ij}\\big(|y_i - y_j|^p - \\E|X_i - X_j|^p\\big)^2$: compares observed and forecast differences between components; $w_{ij} \\ge 0$: weights, $p$: usually 0.5', '$\\mathrm{VS}_p = \\sum_{i,j}w_{ij}\\big(|y_i - y_j|^p - \\E|X_i - X_j|^p\\big)^2$: compară diferențele observate și prognozate dintre componente; $w_{ij} \\ge 0$: ponderi, $p$: de obicei 0,5')]),
     (T('Tails: threshold-weighted CRPS stays proper \\refGRjaa', 'Cozile: CRPS ponderat pe praguri rămîne propriu \\refGRjaa'),
      ['$\\int (F(z) - \\mathbf 1\\{y \\le z\\})^2w(z)dz$',
       T('$w(z) \\ge 0$: a weight that emphasises the thresholds of interest (e.g.\\ the left tail); the weighted likelihood ratio of \\refAG\\ does not stay proper \\refGRjaa', '$w(z) \\ge 0$: o pondere care accentuează pragurile de interes (de exemplu coada stîngă); raportul de verosimilitate ponderat din \\refAG\\ nu rămîne propriu \\refGRjaa')])))
@@ -539,7 +541,7 @@ D.frame(T('Elicitability', 'Elicitabilitate'), items(
       T('the Fissler--Ziegel scores and the backtests built on them: Chapter 9', 'funcțiile de scor Fissler--Ziegel și testele construite pe ele: Capitolul 9')])), 'small')
 
 D.frame(T('Scores of the S\\&P 500 density forecasts', 'Scorurile prognozelor de densitate pentru S\\&P 500'), table(
-    'lcccc', T('\\textbf{Model}', '\\textbf{Model}') + ' & ' + T('\\textbf{Log score}', '\\textbf{Scor logaritmic}') + ' & \\textbf{CRPS} & ' + T('\\textbf{Outside 90\\%}', '\\textbf{În afara 90\\%}') + ' & \\textbf{Berkowitz $p$}',
+    'lrrrr', T('\\textbf{Model}', '\\textbf{Model}') + ' & ' + T('\\textbf{Log score}', '\\textbf{Scor logaritmic}') + ' & \\textbf{CRPS} & ' + T('\\textbf{Outside 90\\%}', '\\textbf{În afara 90\\%}') + ' & \\textbf{Berkowitz $p$}',
     ['i.i.d.\\ Normal & @{dgt.iid.logs} & @{dgt.iid.crps} & @{dgt.iid.tails}\\% & @{dgt.iid.p}',
      'MA(1)-GARCH(1,1)-N & @{dgt.gn.logs} & @{dgt.gn.crps} & @{dgt.gn.tails}\\% & @{dgt.gn.p}',
      'MA(1)-GARCH(1,1)-$t$ & @{dgt.gt.logs} & @{dgt.gt.crps} & @{dgt.gt.tails}\\% & @{dgt.gt.p}'], size='footnotesize') + items(
@@ -560,9 +562,9 @@ D.recap(('Proper scores and elicitability', 'scoruri proprii și elicitabilitate
 D.section('Comparing forecasts', 'Compararea prognozelor')
 
 D.frame(T('Two questions about predictive ability', 'Două întrebări despre capacitatea predictivă'), items(
-    (T('\\textbf{Population} (West 1996): are the \\emph{models}, at their pseudo-true parameters, equally accurate? \\refWest', '\\textbf{Populație} (West 1996): sînt \\emph{modelele}, la parametrii lor pseudo-adevărați, la fel de precise? \\refWest'),
+    (T('\\textbf{Population} \\refWest: are the \\emph{models}, at their pseudo-true parameters, equally accurate?', '\\textbf{Populație} \\refWest: sînt \\emph{modelele}, la parametrii lor pseudo-adevărați, la fel de precise?'),
      [T('estimation error enters the asymptotic variance unless $P/R \\to 0$ or the loss is the one used in estimation', 'eroarea de estimare intră în varianța asimptotică, cu excepția cazului $P/R \\to 0$ sau cînd pierderea este cea folosită la estimare')]),
-    (T('\\textbf{Finite sample} (Giacomini--White 2006): are the \\emph{forecasting methods}, with their estimation windows, equally accurate? \\refGW', '\\textbf{Eșantion finit} (Giacomini--White 2006): sînt \\emph{metodele de prognoză}, cu ferestrele lor de estimare, la fel de precise? \\refGW'),
+    (T('\\textbf{Finite sample} \\refGW: are the \\emph{forecasting methods}, with their estimation windows, equally accurate?', '\\textbf{Eșantion finit} \\refGW: sînt \\emph{metodele de prognoză}, cu ferestrele lor de estimare, la fel de precise?'),
      [T('rolling window of fixed size $R$: estimation noise is part of the method; nested models allowed', 'fereastră mobilă de dimensiune fixă $R$: zgomotul de estimare face parte din metodă; modelele imbricate sînt permise')]),
     (T('\\textbf{Diebold--Mariano} \\refDM\\ treats the forecasts as given (``primitives\'\'): it compares forecasts, not models \\refDie', '\\textbf{Diebold--Mariano} \\refDM\\ tratează prognozele ca date („primitive”): compară prognoze, nu modele \\refDie'),
      [T('using DM to compare models with estimated parameters needs the West or GW framework', 'folosirea DM pentru a compara modele cu parametri estimați cere cadrul West sau GW')])), 'small')
@@ -607,7 +609,7 @@ chart(T('Romanian inflation forecasts one year ahead', 'Prognoze ale inflației 
     h='0.50\\textheight')
 
 D.frame(T('Interpreting the Romanian inflation comparison', 'Interpretarea comparației pentru inflația din România'), table(
-    'lccccc', T('\\textbf{Forecast}', '\\textbf{Prognoza}') + ' & \\textbf{RMSE} & \\textbf{DM} & \\textbf{HLN} & ' + T('\\textbf{$p$ (HLN)}', '\\textbf{$p$ (HLN)}') + ' & ' + T('\\textbf{$p$, abs.\\ loss}', '\\textbf{$p$, pierdere abs.}'),
+    'lrrrrr', T('\\textbf{Forecast}', '\\textbf{Prognoza}') + ' & \\textbf{RMSE} & \\textbf{DM} & \\textbf{HLN} & ' + T('\\textbf{$p$ (HLN)}', '\\textbf{$p$ (HLN)}') + ' & ' + T('\\textbf{$p$, abs.\\ loss}', '\\textbf{$p$, pierdere abs.}'),
     [T('no change', 'fără schimbare') + ' & @{ri.rmse.rw} & -- & -- & -- & --',
      'AR(3) & @{ri.rmse.ar} & @{ri.dm.ar} & @{ri.hln.ar} & @{ri.p.ar} & @{ri.pabs.ar}',
      T('BNR target', 'ținta BNR') + ' & @{ri.rmse.target_fc} & @{ri.dm.target_fc} & @{ri.hln.target_fc} & @{ri.p.target_fc} & @{ri.pabs.target_fc}',
@@ -632,14 +634,14 @@ D.frame(T('Conditional predictive ability: Giacomini--White (2/2)', 'Capacitatea
      [T('$\\pi_t - 2.5$: the distance of inflation from the BNR target', '$\\pi_t - 2{,}5$: distanța inflației față de ținta BNR'),
       T('$\\mathrm{GW} = @{ri.gw}$, $p$ @{ri.gwp}: neither the recent loss nor the distance from the target predicts the winner', '$\\mathrm{GW} = @{ri.gw}$, p-value @{ri.gwp}: nici pierderea recentă, nici distanța față de țintă nu prezic cîștigătorul')])))
 
-D.frame(T('Nested models: why DM fails and Clark--West (1/2)', 'Modele imbricate: de ce eșuează DM și testul Clark--West (1/2)'), items(
+D.frame(T('Nested models: the failure of DM and the Clark--West test (1/2)', 'Modele imbricate: eșecul testului DM și testul Clark--West (1/2)'), items(
     (T('Model 1 (small, e.g.\\ the random walk) is nested in model 2; under $H_0$ the extra coefficients are zero', 'Modelul 1 (mic, de exemplu mersul aleator) este imbricat în modelul 2; sub $H_0$ coeficienții suplimentari sînt nuli'),
      [T('MSPE: the mean squared prediction error; population MSPEs are equal, and $d_t$ is degenerate', 'MSPE: eroarea medie pătratică de prognoză; în populație, MSPE-urile sînt egale, iar $d_t$ este degenerat'),
       T('so the DM statistic is not asymptotically Normal \\refCM', 'de aceea statistica DM nu este asimptotic Normală \\refCM')]),
     (T('In finite samples model 2 estimates zero coefficients with noise', 'În eșantion finit, modelul 2 estimează cu zgomot niște coeficienți nuli'),
      [T('its MSPE is \\textbf{larger} than that of model 1: DM is undersized (rejects too rarely) and has little power', 'MSPE-ul lui este \\textbf{mai mare} decît al modelului 1: DM respinge prea rar și are putere mică')])))
 
-D.frame(T('Nested models: why DM fails and Clark--West (2/2)', 'Modele imbricate: de ce eșuează DM și testul Clark--West (2/2)'), items(
+D.frame(T('Nested models: the failure of DM and the Clark--West test (2/2)', 'Modele imbricate: eșecul testului DM și testul Clark--West (2/2)'), items(
     (T('\\textbf{Clark--West} \\refCW: adjust the larger model for the noise it adds', '\\textbf{Clark--West} \\refCW: corectăm modelul mare pentru zgomotul pe care îl adaugă'),
      ['$f_t = e_{1t}^2 - [e_{2t}^2 - (\\hat y_{1t} - \\hat y_{2t})^2]$',
       T('$e_{1t}, e_{2t}$: the errors of the small and large model; $\\hat y_{1t}, \\hat y_{2t}$: their forecasts; the squared gap between forecasts is the noise added by model 2', '$e_{1t}, e_{2t}$: erorile modelului mic și ale celui mare; $\\hat y_{1t}, \\hat y_{2t}$: prognozele lor; diferența la pătrat dintre prognoze este zgomotul adăugat de modelul 2'),
@@ -663,7 +665,7 @@ chart(T('EUR/RON: models against the random walk', 'EUR/RON: modele față de me
     h='0.52\\textheight')
 
 D.frame(T('Interpreting the EUR/RON tests', 'Interpretarea testelor pentru EUR/RON'), table(
-    'lcccc', T('\\textbf{Model}', '\\textbf{Model}') + ' & ' + T('\\textbf{RMSE / RW}', '\\textbf{RMSE / RW}') + ' & ' + T('\\textbf{DM (HLN)}', '\\textbf{DM (HLN)}') + ' & \\textbf{CW} & ' + T('\\textbf{$p$ (CW, one-sided)}', '\\textbf{$p$ (CW, unilateral)}'),
+    'lrrrr', T('\\textbf{Model}', '\\textbf{Model}') + ' & ' + T('\\textbf{RMSE / RW}', '\\textbf{RMSE / RW}') + ' & ' + T('\\textbf{DM (HLN)}', '\\textbf{DM (HLN)}') + ' & \\textbf{CW} & ' + T('\\textbf{$p$ (CW, one-sided)}', '\\textbf{$p$ (CW, unilateral)}'),
     [T(e, r) + f' & @{{fx.{i}.rel}} & @{{fx.{i}.dm}} & @{{fx.{i}.cw}} & @{{fx.{i}.cwp}}' for i, (_, e, r) in enumerate(FXM)], size='scriptsize') + items(
     T('Every model has a higher RMSE than the random walk (random-walk RMSE @{fx.rmse} pp a month); the Meese--Rogoff result holds for the leu', 'Toate modelele au RMSE mai mare decît mersul aleator (RMSE al mersului aleator: @{fx.rmse} puncte procentuale pe lună); rezultatul Meese--Rogoff se confirmă pentru leu'),
     T('Clark--West does not reject either: the adjustment is not enough to make AR or UIP useful; only the drift gets close', 'Nici Clark--West nu respinge: corecția nu este suficientă pentru ca AR sau UIP să devină utile; doar deriva se apropie'),
@@ -700,7 +702,9 @@ interp(('the Atkeson--Ohanian update', 'actualizării Atkeson--Ohanian'), [
     T('RMSE: naive @{ao.rn}, Phillips curve @{ao.rp} (ratio @{ao.ratio}); by period: @{ao.r1985} (1985--2007), @{ao.r2008} (2008--2019), @{ao.r2020} (2020--2026)', 'RMSE: naivă @{ao.rn}, curba Phillips @{ao.rp} (raport @{ao.ratio}); pe perioade: @{ao.r1985} (1985--2007), @{ao.r2008} (2008--2019), @{ao.r2020} (2020--2026)'),
     (T('Yet DM--HLN = @{ao.hln}, $p$ @{ao.p}: the large post-2020 errors inflate the HAC variance as much as the mean', 'Totuși DM--HLN = @{ao.hln}, p-value @{ao.p}: erorile mari de după 2020 măresc varianța HAC la fel de mult ca media'),
      [T('the moving ratio peaks at @{ao.relmax} in @{ao.relmaxd}: the Phillips curve extrapolated the pandemic unemployment spike', 'raportul pe fereastră mobilă atinge @{ao.relmax} în @{ao.relmaxd}: curba Phillips a extrapolat saltul șomajului din pandemie')]),
-    T('GW: $p$ @{ao.gwp} with the lagged differential, $p$ @{ao.gwup} with unemployment; encompassing: $H_0$ ``naive encompasses PC\'\' $p$ @{ao.encn}; ``PC encompasses naive\'\' $p$ @{ao.encp}', 'GW: p-value @{ao.gwp} cu diferențialul din perioada anterioară, $p$ @{ao.gwup} cu șomajul; încadrare: $H_0$ „naiva încadrează PC” $p$ @{ao.encn}; „PC încadrează naiva” $p$ @{ao.encp}'),
+    (T('GW: p-value @{ao.gwp} with the lagged differential, @{ao.gwup} with unemployment', 'GW: p-value @{ao.gwp} cu diferențialul din perioada anterioară, @{ao.gwup} cu șomajul'),
+     [T('encompassing, $H_0$ ``the naive forecast encompasses the Phillips curve\'\': p-value @{ao.encn}', 'încadrare, $H_0$ „prognoza naivă încadrează curba Phillips”: p-value @{ao.encn}'),
+      T('encompassing, $H_0$ ``the Phillips curve encompasses the naive forecast\'\': p-value @{ao.encp}', 'încadrare, $H_0$ „curba Phillips încadrează prognoza naivă”: p-value @{ao.encp}')]),
     T('The AO conclusion holds in point estimates, and a test on 41 years of overlapping data cannot separate the two', 'Concluzia AO se păstrează în estimările punctuale, iar un test pe 41 de ani de date suprapuse nu le poate separa')])
 
 D.frame(T('Many models: data snooping, the reality check and SPA', 'Multe modele: data snooping, reality check și SPA'), items(
@@ -748,7 +752,7 @@ chart(T('Average pinball loss and the 90\\% MCS', 'Pierderea pinball medie și M
     h='0.46\\textheight')
 
 D.frame(T('Interpreting the load comparison', 'Interpretarea comparației pentru consumul de electricitate'), table(
-    'lcccc', T('\\textbf{Model}', '\\textbf{Model}') + ' & ' + T('\\textbf{Pinball (MW)}', '\\textbf{Pinball (MW)}') + ' & \\textbf{MAE (MW)} & ' + T('\\textbf{90\\% coverage}', '\\textbf{Acoperire 90\\%}') + ' & ' + T('\\textbf{MCS $p$}', '\\textbf{$p$ MCS}'),
+    'lrrrr', T('\\textbf{Model}', '\\textbf{Model}') + ' & ' + T('\\textbf{Pinball (MW)}', '\\textbf{Pinball (MW)}') + ' & \\textbf{MAE (MW)} & ' + T('\\textbf{90\\% coverage}', '\\textbf{Acoperire 90\\%}') + ' & ' + T('\\textbf{MCS $p$}', '\\textbf{$p$ MCS}'),
     [T(e, r) + f' & @{{lo.{i}.pin}} & @{{lo.{i}.mae}} & @{{lo.{i}.cov}}\\% & @{{lo.{i}.mcs}}' for i, (_, e, r) in enumerate(LN)], size='scriptsize') + items(
     T('The expert ARX halves the losses of the naive rules and is alone in the MCS; DM--HLN against the ARX + mean combination: @{lo.dmc}', 'ARX expert înjumătățește pierderile regulilor naive și este singur în MCS; DM--HLN față de combinația ARX + medie: @{lo.dmc}'),
     T('Here combining with a much worse forecast hurts: equal weights help only when the forecasts are of similar quality (Section 5)', 'Aici combinarea cu o prognoză mult mai slabă strică: ponderile egale ajută doar cînd prognozele au calitate asemănătoare (secțiunea 5)'),
@@ -822,12 +826,12 @@ interp(('the optimal pools', 'combinărilor optime'), [
     T('With GARCH-N the optimum is the corner $w = 1$: the two GARCH densities carry the same information, the $t$ tails are simply better', 'Cu GARCH-N optimul este colțul $w = 1$: cele două densități GARCH conțin aceeași informație, cozile $t$ sînt pur și simplu mai bune'),
     T('Weights estimated on the evaluation sample are optimistic; in practice estimate them on a past window and evaluate on the next', 'Ponderile estimate pe eșantionul de evaluare sînt optimiste; în practică estimați-le pe o fereastră trecută și evaluați pe următoarea')])
 
-D.frame(T('Case study: can anything beat the simple average?', 'Studiu de caz: poate ceva să bată media simplă?'), two(
+D.frame(T('Case study: combination schemes against the simple average', 'Studiu de caz: scheme de combinare față de media simplă'), two(
     ph('fed', T('Federal Reserve Bank of Philadelphia, home of the SPF since 1990', 'Federal Reserve Bank of Philadelphia, unde se află SPF din 1990'), h='0.30\\textheight'),
     items((T('\\refGKMT\\ compare combination schemes on the ECB Survey of Professional Forecasters: equal weights, median, trimmed mean, performance-based weights, shrinkage, and others', '\\refGKMT\\ compară scheme de combinare pe Survey of Professional Forecasters al BCE: ponderi egale, mediana, media trunchiată, ponderi după performanță, shrinkage și altele'),
            [T('their answer: rarely, and not robustly over time', 'răspunsul lor: rareori și nu robust în timp')]),
-          (T('We apply their schemes to the US SPF: CPI inflation (annualised q/q) four quarters after the survey quarter; surveys @{sp.first}--@{sp.last} ($P = @{sp.n}$, @{sp.nf} forecasters, on average @{sp.panel} per survey)', 'Aplicăm schemele lor pe SPF din SUA: inflația IPC (anualizată, trimestrială) la patru trimestre după trimestrul anchetei; anchete @{sp.first}--@{sp.last} ($P = @{sp.n}$, @{sp.nf} prognozatori, în medie @{sp.panel} pe anchetă)'),
-           [T('performance weights: inverse MSE over the last 20 surveys with a known outcome, at least 8 past forecasts (on average @{sp.ok} eligible); trimmed mean: 10\\% on each side', 'ponderi după performanță: inversul MSE pe ultimele 20 de anchete cu realizare cunoscută, cel puțin 8 prognoze trecute (în medie @{sp.ok} eligibili); media trunchiată: 10\\% din fiecare parte')])), '0.32', '0.66'), 'footnotesize')
+          (T('We apply their schemes to the US SPF: CPI inflation (annualised q/q) four quarters after the survey quarter; surveys @{sp.first}--@{sp.last} ($P = @{sp.n}$, @{sp.nf} forecasters, on average @{sp.panel} per survey)', 'Aplicăm schemele lor pe SPF din SUA: inflația IPC (anualizată, trimestrială) la patru trimestre după trimestrul anchetei; anchete @{sp.first}--@{sp.last} ($P = @{sp.n}$, @{sp.nf} de prognozatori, în medie @{sp.panel} pe anchetă)'),
+           [T('performance weights: inverse MSE over the last 20 surveys with a known outcome, at least 8 past forecasts (on average @{sp.ok} eligible); trimmed mean: 10\\% on each side', 'ponderi după performanță: inversul MSE pe ultimele 20 de anchete cu realizare cunoscută, cel puțin 8 prognoze trecute (în medie @{sp.ok} de prognozatori eligibili); media trunchiată: 10\\% din fiecare parte')])), '0.32', '0.66'), 'footnotesize')
 
 chart(T('Individual SPF forecasts and the outcome', 'Prognozele individuale SPF și realizarea'), 'ats_ch1_spf', 'ATS_ch1_spf_combination', [
     T('Each dot: one forecaster\'s CPI forecast for the quarter four quarters ahead, placed at the target quarter; the outcome is far more volatile than any forecast', 'Fiecare punct: prognoza IPC a unui prognozator pentru trimestrul de peste patru trimestre, plasată la trimestrul-țintă; realizarea este mult mai volatilă decît orice prognoză')],
@@ -840,16 +844,16 @@ chart(T('Combination schemes against the mean', 'Scheme de combinare față de m
 D.frame(T('Interpreting the SPF combination', 'Interpretarea combinării SPF'), items(
     (T('Median @{sp.0.rel}, trimmed mean @{sp.1.rel}, inverse-MSE @{sp.4.rel}, previous best @{sp.5.rel} (relative RMSE)', 'Mediana @{sp.0.rel}, media trunchiată @{sp.1.rel}, inversul MSE @{sp.4.rel}, cel mai bun anterior @{sp.5.rel} (RMSE relativ)'),
      [T('DM--HLN against the mean: median $p$ @{sp.0.p}; inverse MSE $p$ @{sp.4.p}; previous best HLN @{sp.5.dm}, $p$ @{sp.5.p}', 'DM--HLN față de medie: mediana $p$ @{sp.0.p}; inversul MSE $p$ @{sp.4.p}; cel mai bun anterior HLN @{sp.5.dm}, $p$ @{sp.5.p}'),
-      T('Genre et al.\'s answer holds on US data: nothing beats the average significantly, and chasing the past winner loses', 'Răspunsul lui Genre et al.\\ se confirmă pe datele SUA: nimic nu bate media semnificativ, iar urmărirea cîștigătorului trecut pierde')]),
-    (T('Yet @{sp.indbeat}\\% of the @{sp.indn} forecasters with at least 20 forecasts have a lower RMSE than the mean', 'Totuși @{sp.indbeat}\\% dintre cei @{sp.indn} prognozatori cu cel puțin 20 de prognoze au RMSE mai mic decît media'),
+      T('The answer of \\refGKMT\\ holds on US data: nothing beats the average significantly, and chasing the past winner loses', 'Răspunsul lui \\refGKMT\\ se confirmă pe datele SUA: nimic nu bate media semnificativ, iar urmărirea cîștigătorului trecut pierde')]),
+    (T('Yet @{sp.indbeat}\\% of the @{sp.indn} forecasters with at least 20 forecasts have a lower RMSE than the mean', 'Totuși @{sp.indbeat}\\% dintre cei @{sp.indn} de prognozatori cu cel puțin 20 de prognoze au RMSE mai mic decît media'),
      [T('they are known only ex post, over different and shorter samples: survivorship and luck, not skill one could have selected', 'sînt cunoscuți doar ex post, pe eșantioane diferite și mai scurte: supraviețuire și noroc, nu abilitate care putea fi selectată')]),
     T('Mincer--Zarnowitz on the mean: $\\hat b = @{sp.mzb}$ (SE @{sp.mzsb}), $R^2 = @{sp.mzr2}$, $p$ @{sp.mzp}: one-year-ahead quarterly CPI inflation is almost unpredictable; the forecasts are smooth, the outcomes noisy', 'Mincer--Zarnowitz pentru medie: $\\hat b = @{sp.mzb}$ (SE @{sp.mzsb}), $R^2 = @{sp.mzr2}$, $p$ @{sp.mzp}: inflația IPC trimestrială cu un an înainte este aproape imprevizibilă; prognozele sînt netede, realizările zgomotoase')), 'footnotesize')
 
 D.frame(T('Lessons from the M4 and M5 competitions', 'Lecțiile competițiilor M4 și M5'), items(
-    (T('\\textbf{M4} (2018) \\refMd: 100{,}000 series, 61 methods, point forecasts and 95\\% intervals', '\\textbf{M4} (2018) \\refMd: 100.000 de serii, 61 de metode, prognoze punctuale și intervale de 95\\%'),
+    (T('\\textbf{M4} (2018) \\refMd: 100\\,000 series, 61 methods, point forecasts and 95\\% intervals', '\\textbf{M4} (2018) \\refMd: 100\\,000 de serii, 61 de metode, prognoze punctuale și intervale de 95\\%'),
      [T('the winner was a hybrid of exponential smoothing and a recurrent neural network; the second, a combination of statistical methods with weights learned by a meta-learner', 'cîștigătorul a fost un hibrid între netezirea exponențială și o rețea neuronală recurentă; locul doi, o combinație de metode statistice cu ponderi învățate de un meta-model'),
       T('combinations dominated the top places; pure machine learning methods did poorly; prediction intervals were too narrow for most methods', 'combinațiile au dominat primele locuri; metodele de machine learning pure au avut rezultate slabe; intervalele de predicție au fost prea înguste pentru majoritatea metodelor')]),
-    (T('\\textbf{M5} (2020) \\refMe: 42{,}840 hierarchical Walmart sales series, weighted scaled errors', '\\textbf{M5} (2020) \\refMe: 42.840 de serii ierarhice de vînzări Walmart, erori scalate ponderate'),
+    (T('\\textbf{M5} (2020) \\refMe: 42\\,840 hierarchical Walmart sales series, weighted scaled errors', '\\textbf{M5} (2020) \\refMe: 42\\,840 de serii ierarhice de vînzări Walmart, erori scalate ponderate'),
      [T('gradient-boosted trees (LightGBM) trained \\emph{across} series won; exogenous variables (prices, events) and cross-learning mattered', 'arborii cu gradient boosting (LightGBM) antrenați \\emph{pe toate} seriile au cîștigat; variabilele exogene (prețuri, evenimente) și învățarea între serii au contat'),
       T('again, ensembles of many models were at the top (Chapter 12)', 'din nou, ansamblurile de multe modele au fost în frunte (Capitolul 12)')]),
     T('Common lesson: combine, evaluate with scale-free scores (MASE, Chapter 0 of TSA) and proper scores, and report uncertainty that is calibrated', 'Lecția comună: combinați, evaluați cu scoruri independente de scală (MASE, TSA, Capitolul 0) și cu scoruri proprii și raportați o incertitudine calibrată')), 'small')
@@ -877,7 +881,7 @@ chart(T('US real GDP growth: first release and latest vintage', 'Creșterea PIB 
     h='0.48\\textheight')
 
 interp(('the revisions', 'revizuirilor'), [
-    (T('Mean revision @{rt.mean} pp, standard deviation @{rt.sd} pp, mean absolute revision @{rt.mad} pp over @{rt.n} quarters; correlation first--latest @{rt.corr}', 'Revizuirea medie @{rt.mean} pp, abaterea standard @{rt.sd} pp, revizuirea absolută medie @{rt.mad} pp pe @{rt.n} trimestre; corelația prima--ultima @{rt.corr}'),
+    (T('Mean revision @{rt.mean} pp, standard deviation @{rt.sd} pp, mean absolute revision @{rt.mad} pp over @{rt.n} quarters; correlation first--latest @{rt.corr}', 'Revizuirea medie @{rt.mean} pp, abaterea standard @{rt.sd} pp, revizuirea absolută medie @{rt.mad} pp pe @{rt.n} de trimestre; corelația prima--ultima @{rt.corr}'),
      [T('largest: @{rt.big0} (@{rt.big0v} pp) and @{rt.big1} (@{rt.big1v} pp): revisions are large exactly at turning points', 'cele mai mari: @{rt.big0} (@{rt.big0v} pp) și @{rt.big1} (@{rt.big1v} pp): revizuirile sînt mari exact la punctele de cotitură')]),
     T('SPF current-quarter nowcast ($P = @{rt.nspf}$): RMSE @{rt.rf} against the first release, @{rt.rl} against the latest; MZ slope @{rt.bf} and @{rt.bl}', 'Nowcast-ul SPF pentru trimestrul curent ($P = @{rt.nspf}$): RMSE @{rt.rf} față de prima publicare, @{rt.rl} față de ultima; panta MZ @{rt.bf} și @{rt.bl}'),
     T('The ranking of forecasters and models can change with the vintage: state the choice in the pre-registration', 'Ierarhia prognozatorilor și a modelelor se poate schimba cu versiunea: precizați alegerea în preînregistrare')])
@@ -916,7 +920,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
       T('\\textbf{robustness and critique}: \\aiprompt{Act as a hostile referee: list every way this evaluation could be data-snooped.}', '\\textbf{robustețe și critică}: \\aiprompt{Joacă rolul unui recenzent ostil: enumeră toate felurile în care această evaluare ar putea fi afectată de data snooping.}')]),
     T('Report: what was asked, what was kept, what was rejected (AI\\_USE.md, AI\\_ERRORS.md)', 'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\\_USE.md, AI\\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('No look-ahead: weights at survey $s$ use only outcomes known at $s$ (here, forecasts from at least five surveys earlier, whose target quarter has ended)', 'Fără informație din viitor: ponderile la ancheta $s$ folosesc doar realizări cunoscute la $s$ (aici, prognoze din anchete cu cel puțin cinci trimestre mai vechi, al căror trimestru-țintă s-a încheiat)'),
     T('The HAC lag matches the overlap of the targets ($h - 1$); the HLN correction is applied', 'Numărul de laguri HAC corespunde suprapunerii țintelor ($h - 1$); corecția HLN este aplicată'),

@@ -206,8 +206,12 @@ MSCA Digital Finance}
 \begin{itemize}
     \item Causality and time series: \refGra; \refSims; \refRS; \refBoS; \refAJK; \refSW
     \begin{itemize}
-        \item Discovery: \refSch; \refPCMCI; \refRunE; \refSug
-        \item Policy evaluation: \refADHa; \refADHb; \refAba; \refASCM; \refSDID; \refCSA; \refCI; survey \refAI
+        \item discovery: \refSch; \refPCMCI; \refRunE; \refSug
+    \end{itemize}
+    \item Policy evaluation
+    \begin{itemize}
+        \item synthetic control: \refADHa; \refADHb; \refAba; \refASCM; \refSDID
+        \item staggered DiD and CausalImpact: \refCSA; \refCI; survey \refAI
     \end{itemize}
     \item Python Quantlets of this chapter: \href{https://github.com/danpele/Advanced-Time-Series/tree/main/Quantlets/Ch_14}{Quantlets/Ch\_14}
     \begin{itemize}
@@ -251,10 +255,21 @@ Daily index and crypto prices; EUR/RON & EODHD; BNR reference rate; to 18 Septem
 \end{column}
 \begin{column}{0.62\textwidth}
 \begin{itemize}
-    \item \textbf{Structural causal models} \refPea: graphs, the $do(\cdot)$ operator, conditions under which a causal effect is identified from observational data
-    \item \textbf{Potential outcomes} \refRub, \refIR: $Y(1)$, $Y(0)$, assignment mechanisms, design before analysis
-    \item \textbf{Time series} add order, dependence and a single realisation: one country, one history, one treatment path
-    \item Granger and PCMCI speak the graph language; synthetic control, DiD and CausalImpact speak potential outcomes
+    \item \textbf{Structural causal models} \refPea
+    \begin{itemize}
+        \item graphs and the $do(\cdot)$ operator: $do(X = x)$ sets $X$ by intervention instead of observing it
+        \item conditions under which a causal effect is identified from observational data
+    \end{itemize}
+    \item \textbf{Potential outcomes} \refRub, \refIR
+    \begin{itemize}
+        \item $Y(1)$, $Y(0)$: the outcomes of one unit with and without treatment; only one of them is observed
+        \item assignment mechanisms; design before analysis
+    \end{itemize}
+    \item \textbf{Time series} add order, dependence and a single realisation
+    \begin{itemize}
+        \item one country, one history, one treatment path
+        \item Granger and PCMCI speak the graph language; synthetic control, DiD and CausalImpact speak potential outcomes
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -338,20 +353,25 @@ Daily index and crypto prices; EUR/RON & EODHD; BNR reference rate; to 18 Septem
 \begin{frame}{Granger causality is about prediction}
 \itemsize{\small}
 \begin{columns}[T]
-\begin{column}{0.34\textwidth}
+\begin{column}{0.36\textwidth}
 \centering
-\includegraphics[height=0.56\textheight]{ch1_granger_2008.jpg}\\[1mm]
+\includegraphics[height=0.44\textheight]{ch1_granger_2008.jpg}\\[1mm]
 \imgcap{Clive Granger, Nobel Prize in Economics 2003}
 \imgcredit{https://commons.wikimedia.org/wiki/File:Clive_Granger_by_Olaf_Storbeck.jpg}{Photo: Olaf Storbeck (2008); CC BY-SA 2.0; Wikimedia Commons}
 \end{column}
-\begin{column}{0.64\textwidth}
+\begin{column}{0.62\textwidth}
 \begin{itemize}
-    \item Four ways in which $x$ Granger-causes $y$ without causing it:
-    \item \textbf{common driver} with different delays (omitted $z$)
-    \item \textbf{expectations}: asset prices move before the events they anticipate (stock prices ``cause'' GDP; \refSims)
-    \item \textbf{timing}: different closing hours, aggregation and sampling turn instantaneous links into lagged ones
-    \item \textbf{measurement error} in $y$ that $x$ helps to filter
-    \item And the reverse: a true effect can be invisible to the test (nonlinear, contemporaneous, or offset by policy feedback)
+    \item Four ways in which $x$ Granger-causes $y$ without causing it
+    \begin{itemize}
+        \item \textbf{common driver} $z$, omitted, reaching $x$ and $y$ at different lags
+        \item \textbf{expectations}: asset prices move before the events they anticipate (stock prices ``cause'' GDP; \refSims)
+        \item \textbf{timing}: different closing hours, aggregation and sampling turn instantaneous links into lagged ones
+        \item \textbf{measurement error} in $y$ that $x$ helps to filter
+    \end{itemize}
+    \item And the reverse: a true effect can be invisible to the test
+    \begin{itemize}
+        \item nonlinear, contemporaneous, or offset by policy feedback
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -736,9 +756,19 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \end{column}
 \begin{column}{0.58\textwidth}
 \begin{itemize}
-    \item \textbf{1 July 2025}: the cap on household electricity prices (in force since 2022) ends; the household gas cap continues
-    \item \textbf{7 July 2025}: the government assumes responsibility for a fiscal package in Parliament (Law 141/2025, published 25 July)
-    \item \textbf{1 August 2025}: standard VAT 19\% $\to$ 21\%; reduced rates 5\% and 9\% $\to$ 11\%; excise duties up
+    \item \textbf{1 July 2025}
+    \begin{itemize}
+        \item the cap on household electricity prices (in force since 2022) ends
+        \item the household gas cap continues
+    \end{itemize}
+    \item \textbf{7 July 2025}
+    \begin{itemize}
+        \item the government assumes responsibility for a fiscal package in Parliament (Law 141/2025, published 25 July)
+    \end{itemize}
+    \item \textbf{1 August 2025}
+    \begin{itemize}
+        \item standard VAT 19\% $\to$ 21\%; reduced rates 5\% and 9\% $\to$ 11\%; excise duties up
+    \end{itemize}
     \item Timing alone cannot separate the two; the HICP at constant tax rates can isolate the tax part
     \item Question: how much did the two measures add to Romanian inflation over the following year?
 \end{itemize}
@@ -852,8 +882,9 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
     \end{itemize}
     \item $V = \mathrm{diag}(v)$: the importance of each predictor
     \begin{itemize}
-        \item chosen to minimise the pre-period MSPE of the outcome (nested optimisation, \refADHs), or by cross-validation on a training and a validation period \refADHb
-        \item MSPE: mean squared prediction error; with all pre-period outcomes in $X$ the covariates get no weight \refKKPS
+        \item chosen to minimise the pre-period $\mathrm{MSPE} = \frac{1}{T_0}\sum_{t \le T_0}(Y_{1t} - \sum_j w_j^*(V)Y_{jt})^2$ (nested optimisation, \refADHs)
+        \item MSPE: mean squared prediction error of the outcome; alternative: cross-validation on a training and a validation period \refADHb
+        \item with all pre-period outcomes in $X$, the covariates get no weight \refKKPS
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -878,11 +909,26 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \begin{frame}{Feasibility conditions}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Convex hull}: the treated unit must lie inside the range of the donors; otherwise no convex combination fits it \refAba
-    \item \textbf{Donor pool}: units with similar structure, not affected by the treatment (no spillovers) and without their own large shocks after $T_0$
-    \item \textbf{No anticipation}: effects must not start before $T_0$; backdate $T_0$ to the announcement if needed
-    \item \textbf{Long pre-period} with a good fit; \textbf{interpolation bias}: a mix of very different donors may not be similar to the treated unit even if the averages match
-    \item Report: weights, predictor balance, pre-period RMSPE, the placebo distribution, leave-one-out
+    \item \textbf{Convex hull} \refAba
+    \begin{itemize}
+        \item the treated unit must lie inside the range of the donors; otherwise no convex combination fits it
+    \end{itemize}
+    \item \textbf{Donor pool}
+    \begin{itemize}
+        \item units with similar structure, not affected by the treatment (no spillovers), without large shocks of their own after $T_0$
+    \end{itemize}
+    \item \textbf{No anticipation}
+    \begin{itemize}
+        \item effects must not start before $T_0$; backdate $T_0$ to the announcement if needed
+    \end{itemize}
+    \item \textbf{Long pre-period} with a good fit
+    \begin{itemize}
+        \item \textbf{interpolation bias}: a mix of very different donors may not resemble the treated unit even if the averages match
+    \end{itemize}
+    \item Report
+    \begin{itemize}
+        \item weights, predictor balance, pre-period RMSPE, the placebo distribution, leave-one-out
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -894,9 +940,10 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
         \item RMSPE: root mean squared prediction error of the synthetic control, before (pre) and after (post) $T_0$; a large $r_j$: a large post-treatment gap relative to the pre-fit
         \item $\#\{\cdot\}$: the number of units; the smallest attainable p-value is $1/(J + 1)$; exact only under random assignment across units, otherwise a descriptive ranking \refFiP
     \end{itemize}
-    \item \textbf{In-time placebos}: a fictitious $T_0$ inside the pre-period should give no effect
+    \item \textbf{Other robustness checks}
     \begin{itemize}
-        \item \textbf{leave-one-out}: drop each donor with positive weight and refit
+        \item in-time placebos: a fictitious $T_0$ inside the pre-period should give no effect
+        \item leave-one-out: drop each donor with positive weight and refit
     \end{itemize}
     \item \textbf{Conformal inference} \refCWZ: test $H_0$: $\tau_{1t} = \tau_0$ by permuting the residuals over time
     \begin{itemize}
@@ -916,10 +963,24 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{itemize}
-    \item \refADHb: did the 1990 reunification lower West German GDP per capita?
-    \item Data \refADHd: West Germany and 16 OECD countries, 1960--2003; predictors: GDP per capita, trade openness, inflation, industry share, schooling, investment rate
-    \item $V$ by cross-validation: training predictors 1971--1980, validation outcomes 1981--1990; weights from the 1981--1990 predictors with that $V$ (Section 4 and the replication code)
-    \item Erratum (2026): the outcome is GDP per capita in PPP \textit{current} USD, not 2002 USD as labelled in the article
+    \item \refADHb
+    \begin{itemize}
+        \item did the 1990 reunification lower West German GDP per capita?
+    \end{itemize}
+    \item Data \refADHd
+    \begin{itemize}
+        \item West Germany and 16 OECD countries, 1960--2003
+        \item predictors: GDP per capita, trade openness, inflation, industry share, schooling, investment rate
+    \end{itemize}
+    \item $V$ by cross-validation (Section 4 and the replication code)
+    \begin{itemize}
+        \item training predictors 1971--1980, validation outcomes 1981--1990
+        \item final weights from the 1981--1990 predictors with that $V$
+    \end{itemize}
+    \item Erratum (2026)
+    \begin{itemize}
+        \item the outcome is GDP per capita in PPP \textit{current} USD, not 2002 USD as labelled in the article
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -931,7 +992,7 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \begin{column}{0.38\textwidth}
 \begin{center}
 \footnotesize
-\begin{tabular}{lcc}
+\begin{tabular}{lrr}
 \toprule
 \textbf{Donor} & \textbf{ours} & \textbf{ADH, Table 1} \\
 \midrule
@@ -947,8 +1008,8 @@ Netherlands & 0.09 & 0.09 \\
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{center}
-\scriptsize
-\begin{tabular}{lccc}
+\footnotesize
+\begin{tabular}{lrrr}
 \toprule
 \textbf{Predictor} & \textbf{West Germany} & \textbf{synthetic} & \textbf{OECD avg.} \\
 \midrule
@@ -1017,18 +1078,33 @@ Investment rate & 27.0 & 27.0 & 25.9 \\
 \begin{frame}{Case study: the Brexit doppelganger}
 \itemsize{\small}
 \begin{columns}[T]
-\begin{column}{0.4\textwidth}
+\begin{column}{0.3\textwidth}
 \centering
-\includegraphics[height=0.40\textheight]{ch14_brexit_count_2016.jpg}\\[1mm]
+\includegraphics[height=0.32\textheight]{ch14_brexit_count_2016.jpg}\\[1mm]
 \imgcap{Counting the votes of the EU referendum, 23 June 2016}
 \imgcredit{https://commons.wikimedia.org/wiki/File:At_the_Brexit_referendum_count_in_Borehamwood_(28176894300).jpg}{Photo: Steve Bowbrick (2016); CC BY 2.0; Wikimedia Commons}
 \end{column}
-\begin{column}{0.58\textwidth}
+\begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item \refBMSS: the referendum of 23 June 2016 as a natural experiment; outcome: UK real GDP
-    \item Section 2.1: 23 OECD donors, quarterly real GDP normalised to 1 in 1995, pre-period 1995Q1--2016Q2, plus six covariate averages; published weights (Table 2): United States 0.51; Italy 0.17; New Zealand 0.14; Hungary 0.11; Germany 0.05
-    \item Published result: UK output 2.4\% below the doppelganger by the end of 2018; significant by the end-of-sample test of \refAnd
-    \item Our replication: the same donors and window, the current OECD vintage (to 2026Q2), the GDP path only (no covariates)
+    \item \refBMSS
+    \begin{itemize}
+        \item the referendum of 23 June 2016 as a natural experiment; outcome: UK real GDP
+    \end{itemize}
+    \item Design (Section 2.1)
+    \begin{itemize}
+        \item 23 OECD donors; quarterly real GDP, normalised to 1 in 1995
+        \item pre-period 1995Q1--2016Q2; six covariate averages
+        \item published weights (Table 2): United States 0.51; Italy 0.17; New Zealand 0.14; Hungary 0.11; Germany 0.05
+    \end{itemize}
+    \item Published result
+    \begin{itemize}
+        \item UK output 2.4\% below the doppelganger by the end of 2018
+        \item significant by the end-of-sample instability test of \refAnd
+    \end{itemize}
+    \item Our replication
+    \begin{itemize}
+        \item the same donors and window; the current OECD vintage (to 2026Q2); the GDP path only (no covariates)
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -1325,18 +1401,32 @@ SDID & -- & 2.62 & 2.75 ($se$ 0.70) & 0.26 \\
 \begin{frame}{Case study: the US spot Bitcoin ETFs}
 \itemsize{\small}
 \begin{columns}[T]
-\begin{column}{0.36\textwidth}
+\begin{column}{0.34\textwidth}
 \centering
 \includegraphics[height=0.40\textheight]{ch14_bitcoin_atm_2016.jpg}\\[1mm]
 \imgcap{A Bitcoin ATM, Prague}
 \imgcredit{https://commons.wikimedia.org/wiki/File:Bitcoin_ATM_Prague.jpg}{Photo: Perituss (2016); CC0; Wikimedia Commons}
 \end{column}
-\begin{column}{0.62\textwidth}
+\begin{column}{0.64\textwidth}
 \begin{itemize}
-    \item \textbf{10 January 2024}: the SEC approves eleven spot Bitcoin ETPs \refSEC; trading starts on 11 January
-    \item Did the approval change Bitcoin volatility (institutional demand, arbitrage between spot and ETF)?
-    \item Outcome: weekly log realised variance of Bitcoin; controls: the same measure for the S\&P 500, Nasdaq 100, gold and EUR/USD; pre-period January 2023 -- 7 January 2024 (53 weeks), post 25 weeks to June 2024
-    \item Anticipation: BlackRock filed on 15 June 2023; a court ruled for Grayscale on 29 August 2023 (dotted lines)
+    \item \textbf{10 January 2024} \refSEC
+    \begin{itemize}
+        \item the SEC approves eleven spot Bitcoin ETPs (exchange-traded products); trading starts on 11 January
+    \end{itemize}
+    \item Question
+    \begin{itemize}
+        \item did the approval change Bitcoin volatility (institutional demand, arbitrage between spot and ETF)?
+    \end{itemize}
+    \item Design
+    \begin{itemize}
+        \item outcome: weekly log realised variance of Bitcoin
+        \item controls: the same measure for the S\&P 500, Nasdaq 100, gold and EUR/USD
+        \item pre-period January 2023 -- 7 January 2024 (53 weeks); post: 25 weeks to June 2024
+    \end{itemize}
+    \item Anticipation (dotted lines)
+    \begin{itemize}
+        \item BlackRock filed on 15 June 2023; a court ruled for Grayscale on 29 August 2023
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -1489,13 +1579,20 @@ SVAR, LP, DML & as good as random given the past or an instrument & narrative ev
 \begin{frame}{An open question}
 \itemsize{\small}
 \begin{itemize}
-    \item How much of Romania's 2025--2026 inflation surge was caused by the end of the electricity cap and the VAT increase, and how robust is the answer to the method?
+    \item The question
+    \begin{itemize}
+        \item how much of Romania's 2025--2026 inflation surge was caused by the end of the electricity cap and the VAT increase?
+        \item how robust is the answer to the choice of method?
+    \end{itemize}
+    \item A testable form
     \begin{itemize}
         \item formal: $H_0$: the average gap over July 2025 -- June 2026 is zero; the claim ``between 2 and 3.5 pp'' must hold for every pre-registered estimator with a good pre-fit
         \item falsified if a reasonable specification gives less than 2 pp or a placebo country matches Romania
     \end{itemize}
-    \item Why it matters: monetary policy must tell one-off price-level effects from persistent inflation; second-round effects decide interest rates
+    \item Why it matters
     \begin{itemize}
+        \item monetary policy must tell one-off price-level effects from persistent inflation
+        \item second-round effects decide interest rates
         \item literature to start from: \refADHb, \refASCM, \refSDID, \refBMKW
     \end{itemize}
 \end{itemize}
@@ -1545,7 +1642,8 @@ SVAR, LP, DML & as good as random given the past or an instrument & narrative ev
     \item \textbf{Tax pass-through in Central and Eastern Europe with synthetic controls}: replicate first, then extend
     \begin{itemize}
         \item replicate: \refADHb{} (Table 1, Figures 2--5) with the public data, then this chapter's Romanian estimate
-        \item extend: product-level HICP (food, energy, services) to measure pass-through by VAT rate; other episodes (Hungary 2012, Croatia 2023 euro adoption); conformal intervals \refCWZ
+        \item extend: product-level HICP (food, energy, services) to measure pass-through by VAT rate
+        \item other episodes (Hungary 2012, Croatia 2023 euro adoption); conformal intervals \refCWZ
         \item pre-register: donors and exclusions, windows, estimators, placebos, the robustness rule
     \end{itemize}
     \item Deliverables follow the course rules: repository, report, AI\_USE.md, AI\_ERRORS.md, oral defence

@@ -250,7 +250,11 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
         \item inference on co-movement: coherence thresholds, phase errors, dynamic correlation, causality by frequency
         \item filters judged by their gain; time--frequency analysis with significance tests that control false discoveries
     \end{itemize}
-    \item Case studies: Thomson (1982), Croux--Forni--Reichlin (2001), Breitung--Candelon (2006), Baxter--King (1999), Cogley--Nason (1995), Hamilton (2018), Torrence--Compo (1998), Grinsted et al.\ (2004), with the specifications of the papers, on our data
+    \item Case studies, with the specifications of the papers, on our data
+    \begin{itemize}
+        \item spectral: \refTho; \refCFR; \refBC
+        \item filters and wavelets: \refBK; \refCN; \refHam; \refTC; \refGMJ
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -302,7 +306,11 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
         \item $dZ(\omega)$: the random amplitude at frequency $\omega$; $Z$ has \textbf{orthogonal increments}: $\E[dZ(\omega)\overline{dZ(\lambda)}] = 0$ for $\omega \ne \lambda$, $\E|dZ(\omega)|^2 = dF(\omega)$
     \end{itemize}
     \item Random amplitudes at different frequencies are uncorrelated: the frequency components can be studied one by one
-    \item The discrete Fourier transform (DFT) $d(\omega_j) = n^{-1/2}\sum_t x_te^{-i\omega_jt}$ at $\omega_j = 2\pi j/n$ is the sample analogue of $dZ(\omega_j)$: nearly uncorrelated across Fourier frequencies
+    \item The discrete Fourier transform (DFT) at the Fourier frequencies $\omega_j = 2\pi j/n$
+    \[ d(\omega_j) = n^{-1/2}\sum_{t=1}^n x_te^{-i\omega_jt} \]
+    \begin{itemize}
+        \item the sample analogue of $dZ(\omega_j)$: nearly uncorrelated across Fourier frequencies
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -399,6 +407,7 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
     \begin{itemize}
         \item $\psi_j$: weights with $\sum_j|j|^{1/2}|\psi_j| < \infty$; $\varepsilon_t$: i.i.d. innovations; $f > 0$; asymptotically independent over fixed Fourier frequencies $\omega_j$
         \item $\E I(\omega_j) \to f(\omega_j)$ but $\Var I(\omega_j) \to f(\omega_j)^2$: \textbf{inconsistent}, the variance does not fall with $n$
+        \item derivation for white noise and for a linear process: \atsapplink{atsapp1}{atssrc1}{Appendix}  % applink: the distribution of the periodogram
     \end{itemize}
     \item Leakage: the mean periodogram is the true spectrum smoothed by the Fejér kernel $F_n$
     \[ \E I(\omega) = \int F_n(\omega - \lambda)f(\lambda)\,d\lambda \]
@@ -455,7 +464,10 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \begin{frame}{Interpreting the windows}
 \itemsize{\small}
 \begin{itemize}
-    \item A narrow $W_M$ means low bias and high variance; Parzen is the widest at $M = 10$ (its $\int k^2 = 0.54$ is the smallest), QS the narrowest
+    \item A narrow $W_M$ means low bias and high variance
+    \begin{itemize}
+        \item at $M = 10$, Parzen is the widest (its $\int k^2 = 0.54$ is the smallest) and QS the narrowest
+    \end{itemize}
     \item Bartlett has side lobes (leakage through the window itself); Tukey--Hanning has negative weights
     \item Comparing kernels at the same $M$ is misleading: compare them at the same variance (the same equivalent degrees of freedom)
     \item The QS kernel is optimal in MSE among kernels with non-negative estimates \refAnd
@@ -718,7 +730,7 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
     \[ \kappa^2_{xy}(\omega) = \frac{|f_{xy}(\omega)|^2}{f_x(\omega)f_y(\omega)} \in [0, 1] \]
     \begin{itemize}
         \item $f_x$, $f_y$: the two spectra; $f_{xy}$: the cross-spectrum; $\kappa^2 = 1$: $y$ is an exact linear filter of $x$ at frequency $\omega$; $\kappa^2 = 0$: no linear relation at that frequency
-        \item invariant to filtering each series by an invertible filter: coherence does not depend on how the series are transformed (\atsapplink{atsapp2}{atssrc1}{Appendix})
+        \item invariant to filtering each series by an invertible filter: coherence does not depend on how the series are transformed (\atsapplink{atsapp2}{atssrc2}{Appendix})  % applink: two filter facts
     \end{itemize}
     \item \textbf{Gain} $|f_{xy}(\omega)|/f_x(\omega)$: the regression coefficient of $y$ on $x$ at frequency $\omega$
 \end{itemize}
@@ -1019,7 +1031,11 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
         \item $S_{xt} = 1$ if $x$ is in expansion (here: cycle above trend), 0 otherwise; under independence $\E C = p_xp_y + (1 - p_x)(1 - p_y)$, $p_x$, $p_y$: shares of expansion periods
     \end{itemize}
     \item Dynamic correlation over the business-cycle band \refCFR, which needs no filter
-    \item Evidence for Central and Eastern Europe: a meta-analysis of 35 publications finds that some countries already had high correlations with the euro area and that the estimation method changes the correlation significantly \refFK
+    \item Evidence for Central and Eastern Europe: a meta-analysis of 35 publications \refFK
+    \begin{itemize}
+        \item some countries already had high correlations with the euro area
+        \item the estimation method changes the correlation significantly
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1637,7 +1653,7 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \end{frame}
 
 \begin{frame}{Appendix: two filter facts}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Back}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Coherence is filter-invariant}: $\tilde x = A(L)x$, $\tilde y = B(L)y$ give $f_{\tilde x\tilde y} = A(\omega)\overline{B(\omega)}f_{xy}$, $f_{\tilde x} = |A|^2f_x$, $f_{\tilde y} = |B|^2f_y$, so $\kappa^2_{\tilde x\tilde y} = \kappa^2_{xy}$ where $A, B \ne 0$

@@ -287,7 +287,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \begin{itemize}
     \item \textbf{Statistical}: ARIMA, ETS, HAR, state space: few parameters, one model per series
     \item \textbf{Machine learning}: penalised regressions, forests, boosting on lag features, often global
-    \item \textbf{Deep sequence models}: RNN, LSTM, TCN, Transformers, N-BEATS, DeepAR; backpropagation \refRHW
+    \item \textbf{Deep sequence models} trained by backpropagation \refRHW: RNN, LSTM, TCN, Transformers, N-BEATS, DeepAR
     \item \textbf{Foundation models}: pretrained on many series, used zero-shot (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter13_foundation_models_conformal.pdf}{Chapter 13})
     \item Each generation must beat the previous one out of sample, with tests, on the same data
 \end{itemize}
@@ -325,7 +325,11 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \begin{frame}{Known from TSA, and new here}
 \itemsize{\small}
 \begin{itemize}
-    \item Known (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter9_machine_learning_time_series.pdf}{TSA, Chapter 9}): lag features, walk-forward validation, leakage by example, ridge and lasso, trees, random forests, gradient boosting, a small MLP, conformal basics, M4 and M5
+    \item Known from \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter9_machine_learning_time_series.pdf}{TSA, Chapter 9}
+    \begin{itemize}
+        \item lag features, walk-forward validation, leakage by example, ridge and lasso
+        \item trees, random forests, gradient boosting, a small MLP, conformal basics, M4 and M5
+    \end{itemize}
     \item New: the statistics behind the recipes
     \begin{itemize}
         \item generalisation under mixing; when cross-validation is valid; global models
@@ -426,6 +430,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
     \item It fails when the residuals are autocorrelated: an under-specified model, overlapping $h$-step targets, or features that identify time
     \begin{itemize}
         \item then a test error is predictable from the neighbouring training errors: optimistic estimates
+        \item the size of this bias: \atsapplink{atsapp1}{atssrc1}{Appendix}  % applink: the bias of K-fold under autocorrelated errors
     \end{itemize}
     \item Practical rule: check the residual ACF of the fitted model (Ljung--Box, \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter2_arma_models.pdf}{TSA, Chapter 2}) before trusting random K-fold
 \end{itemize}
@@ -576,6 +581,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
     \[ \hat\beta_j^{\mathrm{lasso}} = \mathrm{sign}(z_j)\,(|z_j| - \lambda)_+, \qquad \hat\beta_j^{\mathrm{ridge}} = \frac{z_j}{1 + \lambda} \]
     \begin{itemize}
         \item $(u)_+ = \max(u, 0)$; the lasso selects (sets small $z_j$ to zero), ridge only shrinks
+        \item derivation, also for the elastic net: \atsapplink{atsapp2}{atssrc2}{Appendix}  % applink: soft thresholding and the elastic net
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -622,9 +628,14 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
     \begin{itemize}
         \item the same data chose the model and test it: the distribution of $\hat\beta$ is conditional on being selected
     \end{itemize}
-    \item Remedies: \textbf{PoSI} intervals valid for any selection \refBerk; \textbf{exact conditional} intervals for the lasso (a polyhedral selection event) \refLSST
-    \item For one coefficient of interest (a policy rate, a foreign shock): \textbf{double selection} \refBCH: lasso of $y$ on the controls, lasso of the regressor of interest on the controls, OLS on the union
+    \item Remedies
     \begin{itemize}
+        \item \textbf{PoSI} intervals, valid for any selection \refBerk
+        \item \textbf{exact conditional} intervals for the lasso (a polyhedral selection event) \refLSST
+    \end{itemize}
+    \item One coefficient of interest (a policy rate, a foreign shock): \textbf{double selection} \refBCH
+    \begin{itemize}
+        \item lasso of $y$ on the controls, lasso of the regressor of interest on the controls, OLS on the union
         \item with HAC standard errors for time series (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0})
     \end{itemize}
     \item For forecasting, selection is a means: judge it by out-of-sample loss and by the stability of what is selected
@@ -731,8 +742,16 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
     \begin{itemize}
         \item $G$, $H$: sums of the first and second derivatives of the loss over the points of a leaf ($L$, $R$: left and right child); $\lambda$: penalty on leaf values; $\gamma$: cost of a split
     \end{itemize}
-    \item LightGBM \refKeA: features binned into histograms (at most 255 bins), leaf-wise growth, gradient-based one-side sampling; scikit-learn HistGradientBoosting (used here) follows the same construction
-    \item Monotone constraints: a split is allowed only if the left and right leaf values respect the order, and children inherit bounds; the fit is then monotone in that feature everywhere
+    \item LightGBM \refKeA
+    \begin{itemize}
+        \item features binned into histograms (at most 255 bins), leaf-wise growth, gradient-based one-side sampling
+        \item scikit-learn HistGradientBoosting (used here) follows the same construction
+    \end{itemize}
+    \item Monotone constraints
+    \begin{itemize}
+        \item a split is allowed only if the left and right leaf values respect the order; children inherit the bounds
+        \item the fit is then monotone in that feature everywhere
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -749,7 +768,11 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \begin{itemize}
     \item Forecast the 24 hourly loads of day $d + 1$ with data up to day $d$; evaluation 638 days, January 2025 -- September 2026
     \item Benchmark: the expert ARX of \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1} (\refZW): one regression per hour, 364-day window, refitted daily
-    \item Global learners (one model for all hours) on the same lags, hour, weekday, Romanian holidays, annual cycle; refitted monthly on all earlier data: RF with QRF bands, HGB, HGB increasing in the three load lags, quantile HGB
+    \item Global learners (one model for all hours), refitted monthly on all earlier data
+    \begin{itemize}
+        \item inputs: the same lags, hour, weekday, Romanian holidays, annual cycle
+        \item RF with QRF bands, HGB, HGB increasing in the three load lags, quantile HGB
+    \end{itemize}
     \item Losses: MAE, average pinball over the deciles, 80\% coverage; DM against ARX and MCS (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
 \end{itemize}
 \end{column}
@@ -830,8 +853,15 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
     \begin{itemize}
         \item $x_t$: the $L$ most recent values; $W_1$, $W_2$: weight matrices; $b_1$, $b_2$: biases; $\sigma$: activation applied elementwise (ReLU or tanh)
     \end{itemize}
-    \item Training: backpropagation \refRHW\ with Adam \refKB; early stopping on the last block of the training sample; inputs standardised with training moments only
-    \item Universal approximation says nothing about data needs: with a few thousand daily observations a network has little room over a linear model
+    \item Training: backpropagation \refRHW\ with Adam \refKB
+    \begin{itemize}
+        \item early stopping on the last block of the training sample
+        \item inputs standardised with training moments only
+    \end{itemize}
+    \item Universal approximation says nothing about data needs
+    \begin{itemize}
+        \item with a few thousand daily observations, a network has little room over a linear model
+    \end{itemize}
     \item Sequence models share weights across time: recurrence (RNN), convolution (TCN) or attention (Transformer)
 \end{itemize}
 \end{column}
@@ -1160,8 +1190,16 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
     \begin{itemize}
         \item sMAPE: mean of $2|y - \hat y|/(|y| + |\hat y|)$ in \%; MASE: mean absolute error divided by the in-sample MAE of the seasonal naive (period 24) \refHK; OWA $< 1$: better than Naive 2
     \end{itemize}
-    \item Our Naive, seasonal naive and Naive 2 reproduce the official M4 evaluation file exactly: Naive 2 sMAPE 18.38 (official 18.38), MASE 2.40 (official 2.40)
-    \item Reference points from the same file: the M4 MLP and RNN benchmarks (OWA 0.921 and 1.036), Theta 1.006, the winner \refSmyl\ 0.440, the runner-up Montero-Manso et al.\ 0.484; all global models are trained only on the training parts
+    \item Naive, seasonal naive and Naive 2 are computed here
+    \begin{itemize}
+        \item Naive 2: sMAPE 18.38 (official M4 value 18.38), MASE 2.40 (official 2.40)
+    \end{itemize}
+    \item Reference points from the official M4 evaluation file (OWA)
+    \begin{itemize}
+        \item the M4 MLP and RNN benchmarks: 0.921 and 1.036; Theta 1.006
+        \item the winner \refSmyl\ 0.440; the runner-up Montero-Manso et al.\ 0.484
+    \end{itemize}
+    \item All global models are trained only on the training parts
 \end{itemize}
 \end{frame}
 
@@ -1497,6 +1535,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 %=============================================================================
 
 \begin{frame}{Appendix: the bias of K-fold under autocorrelated errors}
+\hypertarget{atsapp1}{}\atsappback{atssrc1}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item Linear model $y = X\beta + \varepsilon$; leave out row $i$: $e_{(i)} = e_i/(1 - h_{ii})$, $h_{ii}$ the leverage
@@ -1507,6 +1546,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \end{frame}
 
 \begin{frame}{Appendix: soft thresholding and the elastic net}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item With $X'X = nI$ the objective separates: $\frac12(\beta_j - z_j)^2 + \lambda|\beta_j|$ for each $j$, $z_j = x_j'y/n$

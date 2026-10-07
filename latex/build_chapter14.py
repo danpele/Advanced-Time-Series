@@ -359,8 +359,10 @@ D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
 
 D.frame(T('Reading, data and tools', 'Bibliografie, date și instrumente'), items(
     (T(r'Causality and time series: \refGra; \refSims; \refRS; \refBoS; \refAJK; \refSW', r'Cauzalitate și serii de timp: \refGra; \refSims; \refRS; \refBoS; \refAJK; \refSW'),
-     [T(r'Discovery: \refSch; \refPCMCI; \refRunE; \refSug', r'Descoperire: \refSch; \refPCMCI; \refRunE; \refSug'),
-      T(r'Policy evaluation: \refADHa; \refADHb; \refAba; \refASCM; \refSDID; \refCSA; \refCI; survey \refAI', r'Evaluarea politicilor: \refADHa; \refADHb; \refAba; \refASCM; \refSDID; \refCSA; \refCI; sinteza \refAI')]),
+     [T(r'discovery: \refSch; \refPCMCI; \refRunE; \refSug', r'descoperire: \refSch; \refPCMCI; \refRunE; \refSug')]),
+    (T('Policy evaluation', 'Evaluarea politicilor'),
+     [T(r'synthetic control: \refADHa; \refADHb; \refAba; \refASCM; \refSDID', r'control sintetic: \refADHa; \refADHb; \refAba; \refASCM; \refSDID'),
+      T(r'staggered DiD and CausalImpact: \refCSA; \refCI; survey \refAI', r'DiD eșalonat și CausalImpact: \refCSA; \refCI; sinteza \refAI')]),
     (T(r'Python Quantlets of this chapter: \href{' + QLURL + r'}{Quantlets/Ch\_14}', r'Quantlet-urile Python ale capitolului: \href{' + QLURL + r'}{Quantlets/Ch\_14}'),
      [T(r'\texttt{numpy}, \texttt{scipy} (synthetic control weights by quadratic programming) and \texttt{statsmodels} (state space); every estimator written out, no black box',
         r'\texttt{numpy}, \texttt{scipy} (ponderile controlului sintetic prin programare pătratică) și \texttt{statsmodels} (spațiul stărilor); fiecare estimator este scris explicit, fără cutii negre')]),
@@ -380,10 +382,15 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
 D.frame(T('Two languages of causality', 'Două limbaje ale cauzalității'), cols(
     ph('pearl', T('Judea Pearl, Turing Award 2011', 'Judea Pearl, Premiul Turing 2011'), h='0.28\\textheight') + '\\\\[1mm]' +
     ph('imbens', T('Guido Imbens, Nobel Prize in Economics 2021', 'Guido Imbens, Premiul Nobel pentru economie 2021'), h='0.20\\textheight'),
-    items(T(r'\textbf{Structural causal models} \refPea: graphs, the $do(\cdot)$ operator, conditions under which a causal effect is identified from observational data', r'\textbf{Modele cauzale structurale} \refPea: grafuri, operatorul $do(\cdot)$, condiții în care un efect cauzal este identificat din date observaționale'),
-          T(r'\textbf{Potential outcomes} \refRub, \refIR: $Y(1)$, $Y(0)$, assignment mechanisms, design before analysis', r'\textbf{Rezultate potențiale} \refRub, \refIR: $Y(1)$, $Y(0)$, mecanisme de alocare, designul înaintea analizei'),
-          T(r'\textbf{Time series} add order, dependence and a single realisation: one country, one history, one treatment path', r'\textbf{Seriile de timp} adaugă ordinea, dependența și o singură realizare: o țară, o istorie, un singur drum al tratamentului'),
-          T('Granger and PCMCI speak the graph language; synthetic control, DiD and CausalImpact speak potential outcomes', 'Granger și PCMCI vorbesc limbajul grafurilor; controlul sintetic, DiD și CausalImpact vorbesc limbajul rezultatelor potențiale')), '0.36', '0.62'), 'small')
+    items((T(r'\textbf{Structural causal models} \refPea', r'\textbf{Modele cauzale structurale} \refPea'),
+           [T(r'graphs and the $do(\cdot)$ operator: $do(X = x)$ sets $X$ by intervention instead of observing it', r'grafuri și operatorul $do(\cdot)$: $do(X = x)$ fixează $X$ prin intervenție, în loc să îl observe'),
+            T('conditions under which a causal effect is identified from observational data', 'condiții în care un efect cauzal este identificat din date observaționale')]),
+          (T(r'\textbf{Potential outcomes} \refRub, \refIR', r'\textbf{Rezultate potențiale} \refRub, \refIR'),
+           [T(r'$Y(1)$, $Y(0)$: the outcomes of one unit with and without treatment; only one of them is observed', r'$Y(1)$, $Y(0)$: rezultatele unei unități cu și fără tratament; doar unul dintre ele este observat'),
+            T('assignment mechanisms; design before analysis', 'mecanisme de alocare; designul înaintea analizei')]),
+          (T(r'\textbf{Time series} add order, dependence and a single realisation', r'\textbf{Seriile de timp} adaugă ordinea, dependența și o singură realizare'),
+           [T('one country, one history, one treatment path', 'o țară, o istorie, un singur drum al tratamentului'),
+            T('Granger and PCMCI speak the graph language; synthetic control, DiD and CausalImpact speak potential outcomes', 'Granger și PCMCI vorbesc limbajul grafurilor; controlul sintetic, DiD și CausalImpact vorbesc limbajul rezultatelor potențiale')])), '0.36', '0.62'), 'small')
 
 chart(T('Four case studies', 'Patru studii de caz'), 'ats_ch14_overview', 'ATS_ch14_romania', [
     T(r'Romanian inflation against 26 EU countries; West Germany against the OECD sample; UK real GDP against 23 OECD countries; Bitcoin realised variance around the spot ETF approval',
@@ -435,13 +442,14 @@ D.frame(T('Granger causality: the definition (2/2)', 'Cauzalitatea Granger: defi
         r'$\sigma^2_{\mathrm{restrîns}}$, $\sigma^2_{\mathrm{complet}}$: varianțele reziduale ale regresiei fără și cu lagurile lui $x$; $F_{x\to y} \ge 0$, iar 0 înseamnă absența cauzalității Granger')])), 'small')
 
 D.frame(T('Granger causality is about prediction', 'Cauzalitatea Granger privește predicția'), two(
-    ph('granger', T('Clive Granger, Nobel Prize in Economics 2003', 'Clive Granger, Premiul Nobel pentru economie 2003'), h='0.56\\textheight'),
-    items(T(r'Four ways in which $x$ Granger-causes $y$ without causing it:', r'Patru moduri în care $x$ cauzează în sens Granger pe $y$ fără să îl cauzeze:'),
-          T(r'\textbf{common driver} with different delays (omitted $z$)', r'\textbf{un factor comun} cu întîrzieri diferite ($z$ omis)'),
-          T(r'\textbf{expectations}: asset prices move before the events they anticipate (stock prices ``cause\'\' GDP; \refSims)', r'\textbf{anticipări}: prețurile activelor se mișcă înaintea evenimentelor pe care le anticipează (prețurile acțiunilor „cauzează” PIB-ul; \refSims)'),
-          T(r'\textbf{timing}: different closing hours, aggregation and sampling turn instantaneous links into lagged ones', r'\textbf{momentul observării}: ore de închidere diferite, agregarea și eșantionarea transformă legături instantanee în legături cu lag'),
-          T(r'\textbf{measurement error} in $y$ that $x$ helps to filter', r'\textbf{erori de măsurare} în $y$, pe care $x$ ajută să le filtreze'),
-          T('And the reverse: a true effect can be invisible to the test (nonlinear, contemporaneous, or offset by policy feedback)', 'Și invers: un efect real poate fi invizibil pentru test (neliniar, contemporan sau compensat de reacția politicii)')), '0.34', '0.64'), 'small')
+    ph('granger', T('Clive Granger, Nobel Prize in Economics 2003', 'Clive Granger, Premiul Nobel pentru economie 2003'), h='0.44\\textheight'),
+    items((T(r'Four ways in which $x$ Granger-causes $y$ without causing it', r'Patru moduri în care $x$ cauzează în sens Granger pe $y$ fără să îl cauzeze'),
+           [T(r'\textbf{common driver} $z$, omitted, reaching $x$ and $y$ at different lags', r'\textbf{un factor comun} $z$, omis, care ajunge la $x$ și la $y$ cu laguri diferite'),
+            T(r'\textbf{expectations}: asset prices move before the events they anticipate (stock prices ``cause\'\' GDP; \refSims)', r'\textbf{anticipări}: prețurile activelor se mișcă înaintea evenimentelor anticipate (acțiunile „cauzează” PIB-ul; \refSims)'),
+            T(r'\textbf{timing}: different closing hours, aggregation and sampling turn instantaneous links into lagged ones', r'\textbf{momentul observării}: ore de închidere diferite, agregarea și eșantionarea transformă legături instantanee în legături cu lag'),
+            T(r'\textbf{measurement error} in $y$ that $x$ helps to filter', r'\textbf{erori de măsurare} în $y$, pe care $x$ ajută să le filtreze')]),
+          (T('And the reverse: a true effect can be invisible to the test', 'Și invers: un efect real poate fi invizibil pentru test'),
+           [T('nonlinear, contemporaneous, or offset by policy feedback', 'neliniar, contemporan sau compensat de reacția politicii')])), '0.36', '0.62'), 'small')
 
 chart(T('A common driver creates Granger causality', 'Un factor comun creează cauzalitate Granger'), 'ats_ch14_granger_sim', 'ATS_ch14_granger', [
     T(r'Simulated system: a driver $w_t = 0.9w_{t-1} + \eta_t$ (AR(1), $\phi = 0.9$); $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $\eta_t, e_t, u_t$: independent noise',
@@ -636,9 +644,13 @@ D.frame(T('Interrupted time series (2/2)', 'Serii de timp întrerupte (2/2)'), i
 
 D.frame(T('Romania 2025: two measures one month apart', 'România 2025: două măsuri la o lună distanță'), two(
     ph('parliament', T('Palace of the Parliament, Bucharest', 'Palatul Parlamentului, București'), h='0.40\\textheight'),
-    items(T(r'\textbf{1 July 2025}: the cap on household electricity prices (in force since 2022) ends; the household gas cap continues', r'\textbf{1 iulie 2025}: se încheie plafonarea prețului electricității pentru gospodării (în vigoare din 2022); plafonarea prețului gazelor continuă'),
-          T(r'\textbf{7 July 2025}: the government assumes responsibility for a fiscal package in Parliament (Law 141/2025, published 25 July)', r'\textbf{7 iulie 2025}: guvernul își asumă răspunderea în Parlament pentru un pachet fiscal (Legea 141/2025, publicată pe 25 iulie)'),
-          T(r'\textbf{1 August 2025}: standard VAT 19\% $\to$ 21\%; reduced rates 5\% and 9\% $\to$ 11\%; excise duties up', r'\textbf{1 august 2025}: cota standard de TVA 19\% $\to$ 21\%; cotele reduse 5\% și 9\% $\to$ 11\%; accize majorate'),
+    items((T(r'\textbf{1 July 2025}', r'\textbf{1 iulie 2025}'),
+           [T('the cap on household electricity prices (in force since 2022) ends', 'se încheie plafonarea prețului electricității pentru gospodării (în vigoare din 2022)'),
+            T('the household gas cap continues', 'plafonarea prețului gazelor continuă')]),
+          (T(r'\textbf{7 July 2025}', r'\textbf{7 iulie 2025}'),
+           [T('the government assumes responsibility for a fiscal package in Parliament (Law 141/2025, published 25 July)', 'guvernul își asumă răspunderea în Parlament pentru un pachet fiscal (Legea 141/2025, publicată pe 25 iulie)')]),
+          (T(r'\textbf{1 August 2025}', r'\textbf{1 august 2025}'),
+           [T(r'standard VAT 19\% $\to$ 21\%; reduced rates 5\% and 9\% $\to$ 11\%; excise duties up', r'cota standard de TVA 19\% $\to$ 21\%; cotele reduse 5\% și 9\% $\to$ 11\%; accize majorate')]),
           T('Timing alone cannot separate the two; the HICP at constant tax rates can isolate the tax part', 'Momentul singur nu le poate separa; IAPC la cote de taxare constante poate izola partea fiscală'),
           T('Question: how much did the two measures add to Romanian inflation over the following year?', 'Întrebarea: cît au adăugat cele două măsuri la inflația din România în anul următor?')), '0.4', '0.58'), 'small')
 
@@ -698,8 +710,9 @@ D.frame(T('The synthetic control estimator (2/2)', 'Estimatorul controlului sint
       T(r'$X_1$: the vector of pre-treatment predictors of the treated unit (outcome averages, covariates); $X_0$: the matrix of the same predictors for the donors', r'$X_1$: vectorul predictorilor anteriori tratamentului ai unității tratate (medii ale rezultatului, covariate); $X_0$: matricea acelorași predictori pentru donatori'),
       T(r'a quadratic programme on the simplex: weights are sparse and interpretable; no extrapolation outside the donors\' range', r'o problemă de programare pătratică pe simplex: ponderile sînt rare și interpretabile; nicio extrapolare în afara domeniului donatorilor')]),
     (T(r'$V = \mathrm{diag}(v)$: the importance of each predictor', r'$V = \mathrm{diag}(v)$: importanța fiecărui predictor'),
-     [T(r'chosen to minimise the pre-period MSPE of the outcome (nested optimisation, \refADHs), or by cross-validation on a training and a validation period \refADHb', r'aleasă pentru a minimiza MSPE al rezultatului în perioada anterioară (optimizare imbricată, \refADHs) sau prin validare încrucișată pe o perioadă de antrenare și una de validare \refADHb'),
-      T(r'MSPE: mean squared prediction error; with all pre-period outcomes in $X$ the covariates get no weight \refKKPS', r'MSPE: eroarea pătratică medie de predicție; cu toate rezultatele anterioare în $X$, covariatele nu primesc nicio pondere \refKKPS')])), 'small')
+     [T(r'chosen to minimise the pre-period $\mathrm{MSPE} = \frac{1}{T_0}\sum_{t \le T_0}(Y_{1t} - \sum_j w_j^*(V)Y_{jt})^2$ (nested optimisation, \refADHs)', r'aleasă pentru a minimiza în perioada anterioară $\mathrm{MSPE} = \frac{1}{T_0}\sum_{t \le T_0}(Y_{1t} - \sum_j w_j^*(V)Y_{jt})^2$ (optimizare imbricată, \refADHs)'),
+      T(r'MSPE: mean squared prediction error of the outcome; alternative: cross-validation on a training and a validation period \refADHb', r'MSPE: eroarea pătratică medie de predicție a rezultatului; alternativa: validarea încrucișată pe o perioadă de antrenare și una de validare \refADHb'),
+      T(r'with all pre-period outcomes in $X$, the covariates get no weight \refKKPS', r'cu toate rezultatele anterioare în $X$, covariatele nu primesc nicio pondere \refKKPS')])), 'small')
 
 D.frame(T('Why it works: the factor model', 'Fundamentul: modelul factorial'), items(
     (T(r'\refADHa: the untreated outcomes follow a factor model (interactive fixed effects \refBai)', r'\refADHa: rezultatele fără tratament urmează un model factorial (efecte fixe interactive \refBai)'),
@@ -714,11 +727,16 @@ D.frame(T('Why it works: the factor model', 'Fundamentul: modelul factorial'), i
     T(r'A short pre-period with a perfect fit can be overfitting the noise: the bound is then weak \refAba', r'O perioadă anterioară scurtă cu potrivire perfectă poate însemna supraajustarea zgomotului: marginea este atunci slabă \refAba')), 'small')
 
 D.frame(T('Feasibility conditions', 'Condiții de aplicabilitate'), items(
-    T(r'\textbf{Convex hull}: the treated unit must lie inside the range of the donors; otherwise no convex combination fits it \refAba', r'\textbf{Înfășurătoarea convexă}: unitatea tratată trebuie să se afle în domeniul donatorilor; altfel nicio combinație convexă nu o reproduce \refAba'),
-    T(r'\textbf{Donor pool}: units with similar structure, not affected by the treatment (no spillovers) and without their own large shocks after $T_0$', r'\textbf{Grupul donatorilor}: unități cu structură asemănătoare, neafectate de tratament (fără efecte de propagare) și fără șocuri mari proprii după $T_0$'),
-    T(r'\textbf{No anticipation}: effects must not start before $T_0$; backdate $T_0$ to the announcement if needed', r'\textbf{Nicio anticipare}: efectele nu trebuie să înceapă înainte de $T_0$; mutați $T_0$ la anunț dacă este nevoie'),
-    T(r'\textbf{Long pre-period} with a good fit; \textbf{interpolation bias}: a mix of very different donors may not be similar to the treated unit even if the averages match', r'\textbf{Perioadă anterioară lungă}, cu potrivire bună; \textbf{deplasarea de interpolare}: un amestec de donatori foarte diferiți poate să nu semene cu unitatea tratată chiar dacă mediile coincid'),
-    T('Report: weights, predictor balance, pre-period RMSPE, the placebo distribution, leave-one-out', 'Raportați: ponderile, echilibrul predictorilor, RMSPE în perioada anterioară, distribuția placebo, omiterea pe rînd a donatorilor')), 'small')
+    (T(r'\textbf{Convex hull} \refAba', r'\textbf{Înfășurătoarea convexă} \refAba'),
+     [T('the treated unit must lie inside the range of the donors; otherwise no convex combination fits it', 'unitatea tratată trebuie să se afle în domeniul donatorilor; altfel nicio combinație convexă nu o reproduce')]),
+    (T(r'\textbf{Donor pool}', r'\textbf{Grupul donatorilor}'),
+     [T(r'units with similar structure, not affected by the treatment (no spillovers), without large shocks of their own after $T_0$', r'unități cu structură asemănătoare, neafectate de tratament (fără efecte de propagare), fără șocuri mari proprii după $T_0$')]),
+    (T(r'\textbf{No anticipation}', r'\textbf{Nicio anticipare}'),
+     [T(r'effects must not start before $T_0$; backdate $T_0$ to the announcement if needed', r'efectele nu trebuie să înceapă înainte de $T_0$; mutați $T_0$ la anunț dacă este nevoie')]),
+    (T(r'\textbf{Long pre-period} with a good fit', r'\textbf{Perioadă anterioară lungă}, cu potrivire bună'),
+     [T(r'\textbf{interpolation bias}: a mix of very different donors may not resemble the treated unit even if the averages match', r'\textbf{deplasarea de interpolare}: un amestec de donatori foarte diferiți poate să nu semene cu unitatea tratată chiar dacă mediile coincid')]),
+    (T('Report', 'Raportați'),
+     [T('weights, predictor balance, pre-period RMSPE, the placebo distribution, leave-one-out', 'ponderile, echilibrul predictorilor, RMSPE în perioada anterioară, distribuția placebo, omiterea pe rînd a donatorilor')])), 'small')
 
 D.frame(T('Inference with one treated unit', 'Inferența cu o singură unitate tratată'), items(
     (T(r'\textbf{In-space placebos} \refADHa: reassign the treatment to every donor in turn, refit, and compute the ratio', r'\textbf{Placebo în spațiu} \refADHa: tratamentul se atribuie pe rînd fiecărui donator, se reestimează și se calculează raportul'),
@@ -727,29 +745,36 @@ D.frame(T('Inference with one treated unit', 'Inferența cu o singură unitate t
         r'RMSPE: rădăcina erorii pătratice medii de predicție a controlului sintetic, înainte (pre) și după (post) $T_0$; un $r_j$ mare: o diferență mare după tratament, relativ la potrivirea anterioară'),
       T(r'$\#\{\cdot\}$: the number of units; the smallest attainable p-value is $1/(J + 1)$; exact only under random assignment across units, otherwise a descriptive ranking \refFiP',
         r'$\#\{\cdot\}$: numărul de unități; cel mai mic p-value posibil este $1/(J + 1)$; exact doar dacă tratamentul este atribuit aleator între unități, altfel o ordonare descriptivă \refFiP')]),
-    (T(r'\textbf{In-time placebos}: a fictitious $T_0$ inside the pre-period should give no effect', r'\textbf{Placebo în timp}: un $T_0$ fictiv în perioada anterioară nu trebuie să dea niciun efect'),
-     [T(r'\textbf{leave-one-out}: drop each donor with positive weight and refit', r'\textbf{omiterea pe rînd}: se elimină fiecare donator cu pondere pozitivă și se reestimează')]),
+    (T(r'\textbf{Other robustness checks}', r'\textbf{Alte verificări de robustețe}'),
+     [T(r'in-time placebos: a fictitious $T_0$ inside the pre-period should give no effect', r'placebo în timp: un $T_0$ fictiv în perioada anterioară nu trebuie să dea niciun efect'),
+      T(r'leave-one-out: drop each donor with positive weight and refit', r'omiterea pe rînd: se elimină fiecare donator cu pondere pozitivă și se reestimează')]),
     (T(r'\textbf{Conformal inference} \refCWZ: test $H_0$: $\tau_{1t} = \tau_0$ by permuting the residuals over time', r'\textbf{Inferența conformală} \refCWZ: se testează $H_0$: $\tau_{1t} = \tau_0$ permutînd reziduurile în timp'),
      [T(r'block permutations for dependence; confidence sets by inverting the test over $\tau_0$', r'permutări pe blocuri pentru dependență; intervale de încredere prin inversarea testului după $\tau_0$')])), 'small')
 
 D.frame(T('Case study: the economic cost of German reunification', 'Studiu de caz: costul economic al reunificării Germaniei'), two(
     ph('gate', T('Brandenburg Gate, Berlin, 11 November 1989', 'Poarta Brandenburg, Berlin, 11 noiembrie 1989'), h='0.42\\textheight'),
-    items(T(r'\refADHb: did the 1990 reunification lower West German GDP per capita?', r'\refADHb: a scăzut reunificarea din 1990 PIB-ul pe locuitor al Germaniei de Vest?'),
-          T(r'Data \refADHd: West Germany and 16 OECD countries, 1960--2003; predictors: GDP per capita, trade openness, inflation, industry share, schooling, investment rate', r'Datele \refADHd: Germania de Vest și 16 țări OCDE, 1960--2003; predictori: PIB pe locuitor, deschiderea comercială, inflația, ponderea industriei, școlarizarea, rata investițiilor'),
-          T(r'$V$ by cross-validation: training predictors 1971--1980, validation outcomes 1981--1990; weights from the 1981--1990 predictors with that $V$ (Section 4 and the replication code)', r'$V$ prin validare încrucișată: predictori de antrenare 1971--1980, rezultate de validare 1981--1990; ponderile din predictorii 1981--1990 cu acest $V$ (secțiunea 4 și codul de replicare)'),
-          T(r'Erratum (2026): the outcome is GDP per capita in PPP \textit{current} USD, not 2002 USD as labelled in the article', r'Erată (2026): rezultatul este PIB-ul pe locuitor în USD PPC \textit{curenți}, nu în USD 2002 cum este etichetat în articol')), '0.38', '0.6'), 'small')
+    items((T(r'\refADHb', r'\refADHb'),
+           [T('did the 1990 reunification lower West German GDP per capita?', 'a scăzut reunificarea din 1990 PIB-ul pe locuitor al Germaniei de Vest?')]),
+          (T(r'Data \refADHd', r'Datele \refADHd'),
+           [T('West Germany and 16 OECD countries, 1960--2003', 'Germania de Vest și 16 țări OCDE, 1960--2003'),
+            T('predictors: GDP per capita, trade openness, inflation, industry share, schooling, investment rate', 'predictori: PIB pe locuitor, deschiderea comercială, inflația, ponderea industriei, școlarizarea, rata investițiilor')]),
+          (T(r'$V$ by cross-validation (Section 4 and the replication code)', r'$V$ prin validare încrucișată (secțiunea 4 și codul de replicare)'),
+           [T('training predictors 1971--1980, validation outcomes 1981--1990', 'predictori de antrenare 1971--1980, rezultate de validare 1981--1990'),
+            T(r'final weights from the 1981--1990 predictors with that $V$', r'ponderile finale din predictorii 1981--1990 cu acest $V$')]),
+          (T('Erratum (2026)', 'Erată (2026)'),
+           [T(r'the outcome is GDP per capita in PPP \textit{current} USD, not 2002 USD as labelled in the article', r'rezultatul este PIB-ul pe locuitor în USD PPC \textit{curenți}, nu în USD 2002 cum este etichetat în articol')])), '0.38', '0.6'), 'small')
 
 D.frame(T('Replication: weights and predictor balance', 'Replicare: ponderile și echilibrul predictorilor'), cols(
-    table('lcc', T(r'\textbf{Donor} & \textbf{ours} & \textbf{ADH, Table 1}', r'\textbf{Donator} & \textbf{replicare} & \textbf{ADH, tabelul 1}'),
+    table('lrr', T(r'\textbf{Donor} & \textbf{ours} & \textbf{ADH, Table 1}', r'\textbf{Donator} & \textbf{replicare} & \textbf{ADH, tabelul 1}'),
           [f'{cname(k)} & @{{ge.w.{k.lower()}}} & @{{ge.pub.{k.lower()}}}' for k in ('Austria', 'USA', 'Japan', 'Switzerland', 'Netherlands')],
           size='footnotesize'),
-    table('lccc', T(r'\textbf{Predictor} & \textbf{West Germany} & \textbf{synthetic} & \textbf{OECD avg.}', r'\textbf{Predictor} & \textbf{Germania de Vest} & \textbf{sintetic} & \textbf{media OCDE}'),
+    table('lrrr', T(r'\textbf{Predictor} & \textbf{West Germany} & \textbf{synthetic} & \textbf{OECD avg.}', r'\textbf{Predictor} & \textbf{Germania de Vest} & \textbf{sintetic} & \textbf{media OCDE}'),
           [T('GDP per capita', 'PIB pe locuitor') + ' & @{ge.gdp.t} & @{ge.gdp.s} & @{ge.gdp.a}',
            T('Trade openness', 'Deschidere comercială') + ' & @{ge.trade.t} & @{ge.trade.s} & @{ge.trade.a}',
            T('Inflation', 'Inflația') + ' & @{ge.inf.t} & @{ge.inf.s} & @{ge.inf.a}',
            T('Industry share', 'Ponderea industriei') + ' & @{ge.ind.t} & @{ge.ind.s} & @{ge.ind.a}',
            T('Schooling', 'Școlarizare') + ' & @{ge.sch.t} & @{ge.sch.s} & @{ge.sch.a}',
-           T('Investment rate', 'Rata investițiilor') + ' & @{ge.inv.t} & @{ge.inv.s} & @{ge.inv.a}'], size='scriptsize'),
+           T('Investment rate', 'Rata investițiilor') + ' & @{ge.inv.t} & @{ge.inv.s} & @{ge.inv.a}'], size='footnotesize'),
     '0.38', '0.6') + items(
     T('The cross-validated $V$ and the quadratic programme reproduce the published weights to two decimals; all other donors get zero weight', '$V$ ales prin validare încrucișată și programarea pătratică reproduc ponderile publicate cu două zecimale; toți ceilalți donatori primesc pondere zero'),
     T('The simple OECD average differs on every predictor: the unweighted comparison would be biased', 'Media simplă OCDE diferă la fiecare predictor: comparația neponderată ar fi deplasată')), 'small')
@@ -774,11 +799,18 @@ interp(('the German placebos', 'testelor placebo germane'), [
     T('With 17 units the permutation test cannot give $p < 0.059$', 'Cu 17 unități, testul de permutare nu poate da $p < 0{,}059$')])
 
 D.frame(T('Case study: the Brexit doppelganger', 'Studiu de caz: dublura Brexit'), two(
-    ph('brexit', T('Counting the votes of the EU referendum, 23 June 2016', 'Numărarea voturilor la referendumul privind UE, 23 iunie 2016'), h='0.40\\textheight'),
-    items(T(r'\refBMSS: the referendum of 23 June 2016 as a natural experiment; outcome: UK real GDP', r'\refBMSS: referendumul din 23 iunie 2016 ca experiment natural; rezultatul: PIB-ul real al Regatului Unit'),
-          T(r'Section 2.1: 23 OECD donors, quarterly real GDP normalised to 1 in 1995, pre-period 1995Q1--2016Q2, plus six covariate averages; published weights (Table 2): @{bx.pub}', r'Secțiunea 2.1: 23 de donatori OCDE, PIB real trimestrial normalizat la 1 în 1995, perioada anterioară T1 1995 -- T2 2016, plus mediile a șase covariate; ponderile publicate (tabelul 2): @{bx.pub}'),
-          T('Published result: UK output 2.4\\% below the doppelganger by the end of 2018; significant by the end-of-sample test of \\refAnd', 'Rezultatul publicat: producția Regatului Unit cu 2,4\\% sub dublură la sfîrșitul lui 2018; semnificativ după testul de instabilitate la sfîrșitul eșantionului al lui \\refAnd'),
-          T(r'Our replication: the same donors and window, the current OECD vintage (to @{ov.oecd}), the GDP path only (no covariates)', r'Replicarea noastră: aceiași donatori și aceeași fereastră, ediția curentă a datelor OCDE (pînă în @{ov.oecd}), doar traiectoria PIB (fără covariate)')), '0.4', '0.58'), 'small')
+    ph('brexit', T('Counting the votes of the EU referendum, 23 June 2016', 'Numărarea voturilor la referendumul privind UE, 23 iunie 2016'), h='0.32\\textheight'),
+    items((T(r'\refBMSS', r'\refBMSS'),
+           [T('the referendum of 23 June 2016 as a natural experiment; outcome: UK real GDP', 'referendumul din 23 iunie 2016 ca experiment natural; rezultatul: PIB-ul real al Regatului Unit')]),
+          (T('Design (Section 2.1)', 'Designul (secțiunea 2.1)'),
+           [T('23 OECD donors; quarterly real GDP, normalised to 1 in 1995', '23 de donatori OCDE; PIB real trimestrial, normalizat la 1 în 1995'),
+            T('pre-period 1995Q1--2016Q2; six covariate averages', 'perioada anterioară T1 1995 -- T2 2016; mediile a șase covariate'),
+            T(r'published weights (Table 2): @{bx.pub}', r'ponderile publicate (tabelul 2): @{bx.pub}')]),
+          (T('Published result', 'Rezultatul publicat'),
+           [T('UK output 2.4\\% below the doppelganger by the end of 2018', 'producția Regatului Unit cu 2,4\\% sub dublură la sfîrșitul lui 2018'),
+            T('significant by the end-of-sample instability test of \\refAnd', 'semnificativ după testul de instabilitate la sfîrșitul eșantionului al lui \\refAnd')]),
+          (T('Our replication', 'Replicarea noastră'),
+           [T(r'the same donors and window; the current OECD vintage (to @{ov.oecd}); the GDP path only (no covariates)', r'aceiași donatori și aceeași fereastră; ediția curentă a datelor OCDE (pînă în @{ov.oecd}); doar traiectoria PIB (fără covariate)')])), '0.3', '0.68'), 'small')
 
 chart(T('The doppelganger on today\'s data', 'Dublura pe datele de azi'), 'ats_ch14_brexit', 'ATS_ch14_brexit', [
     T(r'Left: UK real GDP and its doppelganger (\% from 2016Q2), with the doppelgangers of fictitious votes in every quarter 2010Q1--2016Q1; right: the 12 largest post/pre RMSPE ratios of the 24 countries', r'Stînga: PIB-ul real al Regatului Unit și dublura lui (\% față de T2 2016), cu dublurile voturilor fictive din fiecare trimestru T1 2010 -- T1 2016; dreapta: cele mai mari 12 rapoarte RMSPE după/înainte dintre cele 24 de țări')], h='0.56\\textheight')
@@ -928,10 +960,16 @@ D.frame(T('Our implementation', 'Implementarea folosită'), items(
 
 D.frame(T('Case study: the US spot Bitcoin ETFs', 'Studiu de caz: ETF-urile spot pe Bitcoin din SUA'), two(
     ph('atm', T('A Bitcoin ATM, Prague', 'Un bancomat Bitcoin, Praga'), h='0.40\\textheight'),
-    items(T(r'\textbf{10 January 2024}: the SEC approves eleven spot Bitcoin ETPs \refSEC; trading starts on 11 January', r'\textbf{10 ianuarie 2024}: SEC aprobă unsprezece ETP-uri spot pe Bitcoin \refSEC; tranzacționarea începe pe 11 ianuarie'),
-          T('Did the approval change Bitcoin volatility (institutional demand, arbitrage between spot and ETF)?', 'A schimbat aprobarea volatilitatea Bitcoin (cererea instituțională, arbitrajul între spot și ETF)?'),
-          T(r'Outcome: weekly log realised variance of Bitcoin; controls: the same measure for the S\&P 500, Nasdaq 100, gold and EUR/USD; pre-period January 2023 -- 7 January 2024 (@{bt.npre} weeks), post @{bt.npost} weeks to June 2024', r'Rezultatul: logaritmul varianței realizate săptămînale a Bitcoin; serii de control: aceeași măsură pentru S\&P 500, Nasdaq 100, aur și EUR/USD; perioada anterioară ianuarie 2023 -- 7 ianuarie 2024 (@{bt.npre} de săptămîni), după: @{bt.npost} de săptămîni pînă în iunie 2024'),
-          T(r'Anticipation: BlackRock filed on 15 June 2023; a court ruled for Grayscale on 29 August 2023 (dotted lines)', r'Anticipare: BlackRock a depus cererea pe 15 iunie 2023; o instanță a decis în favoarea Grayscale pe 29 august 2023 (liniile punctate)')), '0.36', '0.62'), 'small')
+    items((T(r'\textbf{10 January 2024} \refSEC', r'\textbf{10 ianuarie 2024} \refSEC'),
+           [T('the SEC approves eleven spot Bitcoin ETPs (exchange-traded products); trading starts on 11 January', 'SEC aprobă unsprezece ETP-uri (produse tranzacționate la bursă) spot pe Bitcoin; tranzacționarea începe pe 11 ianuarie')]),
+          (T('Question', 'Întrebarea'),
+           [T('did the approval change Bitcoin volatility (institutional demand, arbitrage between spot and ETF)?', 'a schimbat aprobarea volatilitatea Bitcoin (cererea instituțională, arbitrajul între spot și ETF)?')]),
+          (T('Design', 'Designul'),
+           [T('outcome: weekly log realised variance of Bitcoin', 'rezultatul: logaritmul varianței realizate săptămînale a Bitcoin'),
+            T(r'controls: the same measure for the S\&P 500, Nasdaq 100, gold and EUR/USD', r'serii de control: aceeași măsură pentru S\&P 500, Nasdaq 100, aur și EUR/USD'),
+            T(r'pre-period January 2023 -- 7 January 2024 (@{bt.npre} weeks); post: @{bt.npost} weeks to June 2024', r'perioada anterioară ianuarie 2023 -- 7 ianuarie 2024 (@{bt.npre} de săptămîni); după: @{bt.npost} de săptămîni pînă în iunie 2024')]),
+          (T('Anticipation (dotted lines)', 'Anticipare (liniile punctate)'),
+           [T('BlackRock filed on 15 June 2023; a court ruled for Grayscale on 29 August 2023', 'BlackRock a depus cererea pe 15 iunie 2023; o instanță a decis în favoarea Grayscale pe 29 august 2023')])), '0.34', '0.64'), 'small')
 
 chart(T('CausalImpact for the spot ETF approval', 'CausalImpact pentru aprobarea ETF-urilor spot'), 'ats_ch14_btc', 'ATS_ch14_causalimpact', [
     T('Top: observed and counterfactual log RV with a 95\\% interval; middle: pointwise effect; bottom: cumulative effect', 'Sus: log RV observat și contrafactual, cu interval de 95\\%; mijloc: efectul punctual; jos: efectul cumulat')], h='0.6\\textheight')
@@ -1010,11 +1048,16 @@ D.frame(T('Honest reporting', 'Raportarea onestă'), items(
 D.section('AI for scientific discovery', 'AI în descoperirea științifică')
 
 D.frame(T('An open question', 'O întrebare deschisă'), items(
-    (T('How much of Romania\'s 2025--2026 inflation surge was caused by the end of the electricity cap and the VAT increase, and how robust is the answer to the method?', 'Cît din creșterea inflației din România în 2025--2026 a fost cauzată de încheierea plafonării electricității și de majorarea TVA și cît de robust este răspunsul la alegerea metodei?'),
+    (T('The question', 'Întrebarea'),
+     [T('how much of Romania\'s 2025--2026 inflation surge was caused by the end of the electricity cap and the VAT increase?', 'cît din creșterea inflației din România în 2025--2026 a fost cauzată de încheierea plafonării electricității și de majorarea TVA?'),
+      T('how robust is the answer to the choice of method?', 'cît de robust este răspunsul la alegerea metodei?')]),
+    (T('A testable form', 'O formă testabilă'),
      [T(r'formal: $H_0$: the average gap over July 2025 -- June 2026 is zero; the claim ``between 2 and 3.5 pp\'\' must hold for every pre-registered estimator with a good pre-fit', r'formal: $H_0$: diferența medie pe iulie 2025 -- iunie 2026 este zero; afirmația „între 2 și 3,5 pp” trebuie să fie valabilă pentru orice estimator preînregistrat cu potrivire anterioară bună'),
       T('falsified if a reasonable specification gives less than 2 pp or a placebo country matches Romania', 'infirmată dacă o specificație rezonabilă dă mai puțin de 2 pp sau dacă o țară placebo egalează România')]),
-    (T('Why it matters: monetary policy must tell one-off price-level effects from persistent inflation; second-round effects decide interest rates', 'Miza: politica monetară trebuie să distingă efectele unice asupra nivelului prețurilor de inflația persistentă; efectele de runda a doua determină deciziile privind dobînzile'),
-     [T(r'literature to start from: \refADHb, \refASCM, \refSDID, \refBMKW', r'literatura de pornire: \refADHb, \refASCM, \refSDID, \refBMKW')])), 'small')
+    (T('Why it matters', 'Miza'),
+     [T('monetary policy must tell one-off price-level effects from persistent inflation', 'politica monetară trebuie să distingă efectele unice asupra nivelului prețurilor de inflația persistentă'),
+      T('second-round effects decide interest rates', 'efectele de runda a doua determină deciziile privind dobînzile'),
+      T(r'literature to start from: \refADHb, \refASCM, \refSDID, \refBMKW', r'literatura de pornire: \refADHb, \refASCM, \refSDID, \refBMKW')])), 'small')
 
 D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un asistent AI'), items(
     (T('An AI assistant (an LLM such as Claude, ChatGPT, Gemini or Copilot) speeds up each step; Semantic Scholar and Elicit help with the literature', 'Un asistent AI (un LLM precum Claude, ChatGPT, Gemini sau Copilot) accelerează fiecare etapă; Semantic Scholar și Elicit ajută la literatură'),
@@ -1039,7 +1082,8 @@ chart(T('Mini-case: a specification curve for Romania', 'Mini studiu de caz: cur
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{Tax pass-through in Central and Eastern Europe with synthetic controls}: replicate first, then extend', r'\textbf{Transmiterea taxelor în Europa Centrală și de Est cu controale sintetice}: întîi replicare, apoi extindere'),
      [T(r'replicate: \refADHb (Table 1, Figures 2--5) with the public data, then this chapter\'s Romanian estimate', r'replicați: \refADHb (tabelul 1, figurile 2--5) cu datele publice, apoi estimația pentru România din acest capitol'),
-      T('extend: product-level HICP (food, energy, services) to measure pass-through by VAT rate; other episodes (Hungary 2012, Croatia 2023 euro adoption); conformal intervals \\refCWZ', 'extindeți: IAPC pe grupe de produse (alimente, energie, servicii) pentru a măsura transmiterea pe cote de TVA; alte episoade (Ungaria 2012, adoptarea euro în Croația în 2023); intervale conformale \\refCWZ'),
+      T('extend: product-level HICP (food, energy, services) to measure pass-through by VAT rate', 'extindeți: IAPC pe grupe de produse (alimente, energie, servicii) pentru a măsura transmiterea pe cote de TVA'),
+      T('other episodes (Hungary 2012, Croatia 2023 euro adoption); conformal intervals \\refCWZ', 'alte episoade (Ungaria 2012, adoptarea euro în Croația în 2023); intervale conformale \\refCWZ'),
       T('pre-register: donors and exclusions, windows, estimators, placebos, the robustness rule', 'preînregistrați: donatorii și excluderile, ferestrele, estimatorii, testele placebo, regula de robustețe')]),
     T(r'Deliverables follow the course rules: repository, report, AI\_USE.md, AI\_ERRORS.md, oral defence', r'Livrabilele urmează regulile cursului: repository, raport, AI\_USE.md, AI\_ERRORS.md, susținere orală')), 'small')
 

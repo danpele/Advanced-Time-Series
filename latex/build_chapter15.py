@@ -122,7 +122,7 @@ def review(k, title, ideas, formula, repl, mistakes, size='footnotesize'):
     D.frame(T(f'Chapter {k}: {title[0]} (1/2)', f'Capitolul {k}: {title[1]} (1/2)'),
             items((IDEA, ideas), (FORM, list(formula) + NOTA.get(k, []))), size)
     D.frame(T(f'Chapter {k}: {title[0]} (2/2)', f'Capitolul {k}: {title[1]} (2/2)'),
-            items((REPL, repl), (MIST, mistakes)), size)
+            items((REPL, repl), (MIST, mistakes)), 'small')
 
 
 # =============================================================================
@@ -165,7 +165,7 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), two(i
      [T('one chapter that ties Chapters 0--14 and the self-study Chapter 16 to the team project', 'un capitol care leagă Capitolele 0--14 și Capitolul 16 (studiu individual) de proiectul de echipă')]),
     (T(r'\textbf{Route}', r'\textbf{Traseul}'),
      [T('Part I: the course map, one recap per chapter, the toolbox of methods', 'Partea I: harta cursului, cîte o recapitulare pentru fiecare capitol, trusa de metode'),
-      T('Part II: the research workflow, how to replicate a landmark paper, the reproducibility checklist, the failure modes', 'Partea a II-a: fluxul de cercetare, replicarea unei lucrări de referință, lista de verificare a reproductibilității, erorile frecvente'),
+      T('Part II: the research workflow, replicating a landmark paper, reproducibility, failure modes', 'Partea a II-a: fluxul de cercetare, replicarea unei lucrări de referință, reproductibilitatea, erorile frecvente'),
       T('Part III: the oral defence, AI in research, and choosing a project', 'Partea a III-a: susținerea orală, AI în cercetare și alegerea proiectului')]),
     T('There is no written exam: the project and its defence carry 70\\% of the grade', 'Cursul nu are examen scris: proiectul și susținerea lui reprezintă 70\\% din notă')),
     ph('ase', T('Bucharest University of Economic Studies', 'Academia de Studii Economice din București'), h='0.40\\textheight')), 'small')
@@ -179,7 +179,7 @@ D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
     T('Prepare the individual oral defence and document the use of AI tools', 'Pregătiți susținerea orală individuală și documentați folosirea instrumentelor AI')))
 
 D.frame(T('Assessment at a glance', 'Evaluarea pe scurt'), table(
-    TB + 'p{3.6cm}' + TB + 'p{1.4cm}' + TB + 'p{1.6cm}' + TB + 'p{6.6cm}',
+    TB + 'p{3.4cm}' + '>{\\raggedleft\\arraybackslash}p{1.2cm}' + TB + 'p{1.5cm}' + TB + 'p{6.1cm}',
     T(r'\textbf{Component}', r'\textbf{Componenta}') + ' & ' + T(r'\textbf{Weight}', r'\textbf{Pondere}') + ' & ' + T(r'\textbf{Who}', r'\textbf{Cine}') + ' & ' + T(r'\textbf{Content}', r'\textbf{Conținut}'),
     [T('Proposal and pre-registration', 'Propunerea și preînregistrarea') + r' & 5\% & ' + T('team', 'echipa') + ' & ' + T('question, paper to replicate, data, evaluation design fixed before estimation', 'întrebarea, lucrarea replicată, datele, designul evaluării fixat înaintea estimării'),
      T('Replication and extension', 'Replicarea și extensia') + r' & 15\% & ' + T('team', 'echipa') + ' & ' + T('repository, report in the form of a paper, AI\\_USE.md, AI\\_ERRORS.md', 'repository, raport în forma unui articol, AI\\_USE.md, AI\\_ERRORS.md'),
@@ -341,7 +341,8 @@ review(8, ('Advanced volatility modelling', 'Modelarea avansată a volatilităț
        [T('Gaussian QML needs only the variance equation; with fat tails, use sandwich standard errors', 'QML gaussian are nevoie doar de ecuația varianței; cu cozi groase, folosiți erori standard sandwich'),
         T('Realised measures make volatility observable with a known error; HAR, HARQ and Realized GARCH win one day ahead', 'Măsurile realizate fac volatilitatea observabilă, cu o eroare cunoscută; HAR, HARQ și Realized GARCH cîștigă la o zi')],
        [T(r'HARQ: $\mathrm{RV}_{t+1} = \beta_0 + (\beta_d + \beta_{dQ}\sqrt{\mathrm{RQ}_t})\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1}$', r'HARQ: $\mathrm{RV}_{t+1} = \beta_0 + (\beta_d + \beta_{dQ}\sqrt{\mathrm{RQ}_t})\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1}$')],
-       [T(r'\refBPQ on crypto: QLIKE relative to HAR @{c8.qb} (Bitcoin), @{c8.qe} (Ether); \refEGS: industrial production $t$ = @{c8.ipt}, only the realised-variance driver works ($t$ = @{c8.rvt})', r'\refBPQ pe cripto: QLIKE relativ la HAR @{c8.qb} (Bitcoin), @{c8.qe} (Ether); \refEGS: producția industrială $t$ = @{c8.ipt}, funcționează doar varianța realizată ($t$ = @{c8.rvt})'),
+       [T(r'\refBPQ on crypto: QLIKE relative to HAR @{c8.qb} (Bitcoin), @{c8.qe} (Ether)', r'\refBPQ pe cripto: QLIKE relativ la HAR @{c8.qb} (Bitcoin), @{c8.qe} (Ether)'),
+        T(r'\refEGS: industrial production $t$ = @{c8.ipt}; only the realised-variance driver works ($t$ = @{c8.rvt})', r'\refEGS: producția industrială $t$ = @{c8.ipt}; funcționează doar varianța realizată ($t$ = @{c8.rvt})'),
         T(r'\refELW: GMV volatility @{c8.gdnl} (DCC-NL) against @{c8.gd} (DCC): the gain does not appear here: \textbf{not replicated}', r'\refELW: volatilitatea GMV @{c8.gdnl} (DCC-NL), față de @{c8.gd} (DCC): cîștigul nu apare aici: \textbf{nereplicat}')],
        [T(r'Hessian standard errors with Student-$t(5)$ errors: coverage @{c8.hc}\% against @{c8.bw}\% for the sandwich', r'erori standard din hessiană cu erori Student-$t(5)$: acoperire @{c8.hc}\%, față de @{c8.bw}\% pentru sandwich'),
         T('non-robust losses (MAE, MSE on logs) with a noisy volatility proxy', 'funcții de pierdere nerobuste (MAE, MSE pe logaritmi) cu un indicator zgomotos al volatilității')])
@@ -414,10 +415,10 @@ review(16, ('Explosive roots and bubbles (self-study)', 'Rădăcini explozive ș
        [T(r'Monte Carlo critical values after a volatility shift: size @{c16.szmc}\% (wild bootstrap @{c16.szw}\%)', r'valori critice Monte Carlo după o schimbare a volatilității: mărimea @{c16.szmc}\% (wild bootstrap @{c16.szw}\%)'),
         T(r'pointwise date-stamping read as a 5\% test: false episodes in @{c16.ep}\% of no-bubble paths', r'datarea punctuală citită ca test de 5\%: episoade false în @{c16.ep}\% din traiectoriile fără bulă')])
 
-D.recap(('chapter recaps', 'recapitularea capitolelor'), [
+D.recap(('the sixteen chapters', 'cele șaisprezece capitole'), [
     T('Most landmark results replicate in direction on today\'s data; their strength and their tests often do not', 'Majoritatea rezultatelor de referință se replică în sens pe datele de azi; mărimea și testele lor adesea nu'),
     T('The same mistakes recur: i.i.d.\\ inference on dependent data, the wrong critical values, a search reported as one test', 'Aceleași greșeli revin: inferență i.i.d.\\ pe date dependente, valori critice greșite, o căutare raportată ca un singur test'),
-    T('Every chapter offers a replication and an extension for the project (Appendix)', 'Fiecare capitol oferă o replicare și o extensie pentru proiect (Anexa)')])
+    T('Every chapter offers a replication and an extension for the project (Appendix)', 'Fiecare capitol oferă o replicare și o extensie pentru proiect (Anexă)')])
 
 # =============================================================================
 # TRUSA DE METODE
@@ -425,7 +426,7 @@ D.recap(('chapter recaps', 'recapitularea capitolelor'), [
 D.section('The methods toolbox', 'Trusa de metode')
 
 QH = T(r'\textbf{Research question}', r'\textbf{Întrebarea de cercetare}') + ' & ' + T(r'\textbf{Tool}', r'\textbf{Instrumentul}') + ' & ' + T(r'\textbf{Ch.}', r'\textbf{Cap.}')
-SPEC = TB + 'p{5.6cm}' + TB + 'p{6.2cm}' + TB + 'p{0.8cm}'
+SPEC = TB + 'p{4.9cm}' + TB + 'p{5.6cm}' + TB + 'p{0.8cm}'
 
 D.frame(T('Which tool for which question (1/3): inference and evaluation', 'Instrumentul potrivit fiecărei întrebări (1/3): inferență și evaluare'), table(SPEC, QH, [
     T('Is a mean, a slope or a predictive coefficient different from zero?', 'Este o medie, o pantă sau un coeficient predictiv diferit de zero?') + ' & ' + T('HAC with fixed-$b$ or EWC; block bootstrap; Monte Carlo size check', 'HAC cu fixed-$b$ sau EWC; bootstrap pe blocuri; verificarea mărimii prin Monte Carlo') + ' & 0',
@@ -434,7 +435,7 @@ D.frame(T('Which tool for which question (1/3): inference and evaluation', 'Inst
     T('Is a density or interval forecast calibrated?', 'Este calibrată o prognoză de densitate sau de interval?') + ' & ' + T('PIT, Berkowitz; coverage and independence tests; CRPS, log score', 'PIT, Berkowitz; teste de acoperire și independență; CRPS, scorul logaritmic') + ' & 1, 13',
     T('Is a VaR or (VaR, ES) forecast adequate, and which is best?', 'Este adecvată o prognoză VaR sau (VaR, ES) și care este cea mai bună?') + ' & ' + T('Kupiec, Christoffersen, DQ; FZ0 loss, DM, MCS, Murphy diagrams', 'Kupiec, Christoffersen, DQ; pierderea FZ0, DM, MCS, diagrame Murphy') + ' & 9',
     T('Do my intervals keep their coverage under dependence?', 'Își păstrează intervalele acoperirea sub dependență?') + ' & ' + T('split conformal, CQR, ACI, conformal PID; coverage by regime', 'split conformal, CQR, ACI, PID conformal; acoperire pe regimuri') + ' & 13'],
-    size='scriptsize'), 'small')
+    size='footnotesize'), 'small')
 
 D.frame(T('Which tool for which question (2/3): structure and dynamics', 'Instrumentul potrivit fiecărei întrebări (2/3): structură și dinamică'), table(SPEC, QH, [
     T('Did the parameters change, and when?', 'S-au schimbat parametrii și cînd?') + ' & ' + T('sup/exp/ave tests, Bai--Perron, CSW monitoring, variance-break tests', 'teste sup/exp/ave, Bai--Perron, monitorizare CSW, teste pentru rupturi în varianță') + ' & 2',
@@ -443,7 +444,7 @@ D.frame(T('Which tool for which question (2/3): structure and dynamics', 'Instru
     T('Is there a long-run equilibrium, and who adjusts?', 'Există un echilibru pe termen lung și cine se ajustează?') + ' & ' + T('Johansen with bootstrap; tests on $\\beta$ and $\\alpha$; ARDL bounds; panel CCE and PMG', 'Johansen cu bootstrap; teste pe $\\beta$ și $\\alpha$; testul limitelor ARDL; CCE și PMG pentru panel') + ' & 4',
     T('How to forecast with many predictors or mixed frequencies?', 'Cum prognozăm cu mulți predictori sau frecvențe mixte?') + ' & ' + T('BVAR with optimised shrinkage, factors, DFM nowcasting, MIDAS', 'BVAR cu shrinkage optimizat, factori, nowcasting DFM, MIDAS') + ' & 5',
     T('What is the unobserved trend, gap or time-varying slope?', 'Care este trendul, output gap-ul sau panta variabilă neobservate?') + ' & ' + T('state space by ML or Gibbs, simulation smoother, UC-SV, particle filters', 'spațiul stărilor prin verosimilitate maximă sau Gibbs, netezire prin simulare, UC-SV, filtre de particule') + ' & 6'],
-    size='scriptsize'), 'small')
+    size='footnotesize'), 'small')
 
 D.frame(T('Which tool for which question (3/3): volatility, frequency, learning, causality', 'Instrumentul potrivit fiecărei întrebări (3/3): volatilitate, frecvență, învățare, cauzalitate'), table(SPEC, QH, [
     T('How to forecast volatility or a covariance matrix?', 'Cum prognozăm volatilitatea sau o matrice de covarianță?') + ' & ' + T('HAR, HARQ, Realized GARCH; DCC with shrinkage; QLIKE', 'HAR, HARQ, Realized GARCH; DCC cu shrinkage; QLIKE') + ' & 8',
@@ -452,7 +453,7 @@ D.frame(T('Which tool for which question (3/3): volatility, frequency, learning,
     T('Do flexible learners or foundation models beat the baseline?', 'Depășesc metodele flexibile sau foundation models reperul?') + ' & ' + T('blocked validation, strong baselines, pooled tests, Holm and BH', 'validare pe blocuri, repere puternice, teste agregate, Holm și BH') + ' & 12, 13',
     T('Does $x$ help predict $y$, and did a policy have an effect?', 'Ajută $x$ la prognoza lui $y$ și a avut o politică un efect?') + ' & ' + T('conditional Granger, PCMCI; ITS, synthetic control with placebos, CausalImpact', 'Granger condiționat, PCMCI; ITS, control sintetic cu placebo, CausalImpact') + ' & 14',
     T('Is there a bubble, and when did it start?', 'Există o bulă și cînd a început?') + ' & ' + T('GSADF and BSADF with wild bootstrap, family-wise dating', 'GSADF și BSADF cu wild bootstrap, datare cu control la nivel de familie') + ' & 16'],
-    size='scriptsize'), 'small')
+    size='footnotesize'), 'small')
 
 # =============================================================================
 # FLUXUL DE CERCETARE
@@ -493,7 +494,8 @@ D.frame(T('Step 3: the pre-registration', 'Etapa 3: preînregistrarea'), items(
       T('the multiplicity plan: how many comparisons, which correction (Holm, MCS, SPA)', 'planul pentru testarea multiplă: cîte comparații, ce corecție (Holm, MCS, SPA)'),
       T('the robustness rule: which variations, and what counts as a robust result', 'regula de robustețe: ce variații și ce înseamnă un rezultat robust')]),
     T(r'A power calculation for the evaluation: is the test sample long enough to detect the published gain? (mini-case at the end)', r'Un calcul al puterii evaluării: este eșantionul de test destul de lung pentru a detecta cîștigul publicat? (mini studiul de caz de la final)'),
-    T('Deviations are allowed but reported: the pre-registration is a commitment to transparency, not a prison', 'Abaterile sînt permise, dar se raportează: preînregistrarea este un angajament de transparență, nu o constrîngere rigidă')), 'small')
+    T('Deviations are allowed but reported: the pre-registration is a commitment to transparency, not a prison', 'Abaterile sînt permise, dar se raportează: preînregistrarea este un angajament de transparență, nu o constrîngere rigidă'),
+    T('A template with the seven sections (Appendix) % applink: a pre-registration template', 'Un model cu cele șapte secțiuni (Anexă) % applink: un model de preînregistrare')), 'small')
 
 D.frame(T('Steps 4--6: data, replication, extension', 'Etapele 4--6: datele, replicarea, extensia'), items(
     (T(r'\textbf{Data}: official sources, documented once', r'\textbf{Datele}: surse oficiale, documentate o singură dată'),
@@ -692,7 +694,8 @@ D.recap(('failure modes', 'erorile frecvente'), [
 D.section('The oral defence', 'Susținerea orală')
 
 D.frame(T('Format of the defence', 'Formatul susținerii'), two(items(
-    T('Individual, about 15 minutes per student: each member is examined separately and receives a separate grade (50\\% of the final grade)', 'Individuală, circa 15 minute pentru fiecare student: fiecare membru este examinat separat și primește o notă separată (50\\% din nota finală)'),
+    (T('Individual, about 15 minutes per student', 'Individuală, circa 15 minute pentru fiecare student'),
+     [T('each member is examined separately and receives a separate grade (50\\% of the final grade)', 'fiecare membru este examinat separat și primește o notă separată (50\\% din nota finală)')]),
     T('5 minutes: presentation of one\'s own contribution, the part of the project the student led, on the report and the repository', '5 minute: prezentarea contribuției proprii, adică a părții de proiect coordonate de student, pe baza raportului și a repository-ului'),
     (T('10 minutes: questions on the code, the method and the results', '10 minute: întrebări despre cod, metodă și rezultate'),
      [T('the code: open a file, explain a function, say what changes if a choice changes', 'codul: deschideți un fișier, explicați o funcție, spuneți ce se schimbă dacă se schimbă o alegere'),
@@ -704,7 +707,7 @@ D.frame(T('Format of the defence', 'Formatul susținerii'), two(items(
     ph('ase', T('Bucharest University of Economic Studies', 'Academia de Studii Economice din București'), h='0.36\\textheight'), '0.6', '0.36'), 'small')
 
 D.frame(T('Grading rubric of the individual defence', 'Criteriile de evaluare a susținerii individuale'), table(
-    TB + 'p{3.4cm}' + TB + 'p{1.1cm}' + TB + 'p{8.2cm}',
+    TB + 'p{3.2cm}' + '>{\\raggedleft\\arraybackslash}p{1.1cm}' + TB + 'p{7.2cm}',
     T(r'\textbf{Criterion}', r'\textbf{Criteriul}') + ' & ' + T(r'\textbf{Points}', r'\textbf{Puncte}') + ' & ' + T(r'\textbf{What earns the points}', r'\textbf{Ce aduce punctele}'),
     [T('Mastery of the method', 'Stăpînirea metodei') + ' & 25 & ' + T('states the model and its assumptions, derives the key result, knows when the method fails', 'formulează modelul și ipotezele, derivă rezultatul-cheie, știe cînd metoda nu funcționează'),
      T('Ownership of the code and data', 'Stăpînirea codului și a datelor') + ' & 20 & ' + T('explains any function of the repository, the data source and vintage, the effect of changing a setting', 'explică orice funcție din repository, sursa și ediția datelor, efectul schimbării unei setări'),
@@ -724,7 +727,7 @@ D.frame(T('What distinguishes the grades', 'Criteriile care diferențiază notel
     (T(r'\textbf{below 5}', r'\textbf{sub 5}'),
      [T('cannot explain own code or numbers; claims not supported by the results; undeclared AI use', 'nu poate explica propriul cod sau propriile rezultate; afirmații nesusținute de rezultate; folosire nedeclarată a AI')])))
 
-QA = T(r'\textbf{Q}', r'\textbf{Î}')
+QA = T(r'\textbf{Question}', r'\textbf{Întrebare}')
 AN = T(r'\textbf{Model answer}', r'\textbf{Răspuns-model}')
 
 

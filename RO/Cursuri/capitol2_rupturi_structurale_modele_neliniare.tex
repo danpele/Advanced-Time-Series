@@ -195,7 +195,6 @@ MSCA Digital Finance}
     \item \textbf{PELT}: Pruned Exact Linear Time (change-point algorithm) — algoritmul PELT de detectare a punctelor de schimbare
     \item \textbf{PIB}: Produsul intern brut
     \item \textbf{PPC}: Paritatea puterii de cumpărare
-    \item \textbf{PPP}: Purchasing Power Parity (paritatea puterii de cumpărare)
     \item \textbf{RMSE}: Root Mean Squared Error (rădăcina erorii pătratice medii)
     \item \textbf{ROBOR}: Romanian Interbank Offer Rate (rata dobînzii interbancare la care se oferă depozite în lei)
     \item \textbf{SETAR}: Self-Exciting Threshold AutoRegression (autoregresie cu prag autoexcitată)
@@ -204,11 +203,11 @@ MSCA Digital Finance}
     \item \textbf{SUA}: Statele Unite ale Americii
     \item \textbf{TAR}: Threshold AutoRegression (autoregresie cu prag)
     \item \textbf{TSA}: Time Series Analysis (Serii de timp, cursul de licență)
+    \item \textbf{VAR}: Vector AutoRegression (model vector autoregresiv)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{VAR}: Vector AutoRegression (model vector autoregresiv)
     \item \textbf{VECM}: Vector Error Correction Model (model vectorial cu corecția erorii)
 \end{itemize}
 \end{column}
@@ -230,7 +229,7 @@ MSCA Digital Finance}
         \item prognoza în prezența rupturilor: alegerea ferestrei de estimare
         \item modele neliniare: TAR/SETAR, STAR (LSTAR, ESTAR), teste de neliniaritate, prognoze neliniare
     \end{itemize}
-    \item Pornim de la \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol3_radacini_unitare_modele_arima.pdf}{TSA, Capitolul 3} (Perron 1989, Zivot--Andrews) și de la \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolele 0} și \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{1} (HAC, bootstrap, teste DM); Seminarul 2 are loc înaintea acestui curs
+    \item Pornim de la \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol3_radacini_unitare_modele_arima.pdf}{TSA, Capitolul 3} (\refPer, \refZA) și de la \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolele 0} și \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{1} (HAC, bootstrap, teste DM); Seminarul 2 are loc înaintea acestui curs
 \end{itemize}
 \end{frame}
 
@@ -537,7 +536,7 @@ Linxi capturați în Canada, 1821--1934 & set de date R citit prin statsmodels &
 \begin{frame}{Interpretarea rupturii în varianță}
 \itemsize{\small}
 \begin{itemize}
-    \item Eșantionul MPQ ($T = 185$): sup-Wald 52{,}5 ($p$ $<$\,0{,}001), exp 23{,}2, ave 17{,}5; data T1 1984, ca în lucrare
+    \item Eșantionul MPQ ($T = 185$): sup-Wald 52{,}5 ($p$ $<$\,0{,}001), exp 23{,}2, ave 17{,}5; data T1 1984, aceeași cu cea găsită de \refMPQ
     \begin{itemize}
         \item abaterea standard reziduală 1{,}06 înainte, 0{,}45 după: varianța scade de 5{,}5 ori; nicio ruptură în ecuația mediei (sup 3{,}2, $p$ 0{,}861)
     \end{itemize}
@@ -669,7 +668,7 @@ Linxi capturați în Canada, 1821--1934 & set de date R citit prin statsmodels &
 \itemsize{\footnotesize}
 \begin{center}
 \scriptsize
-\begin{tabular}{lcccccc}
+\begin{tabular}{lrrrrrr}
 \toprule
 \textbf{$m$} & 0 & 1 & 2 & 3 & 4 & 5 \\
 \midrule
@@ -783,7 +782,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Monitorizarea: de ce eșuează testele repetate (1/2)}
+\begin{frame}{Monitorizarea: eșecul testelor repetate (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item O bancă centrală estimează un model pe $m$ observații istorice și întreabă, la fiecare nouă publicare, „s-a stricat?”
@@ -798,7 +797,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Monitorizarea: de ce eșuează testele repetate (2/2)}
+\begin{frame}{Monitorizarea: eșecul testelor repetate (2/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Frontiera vine din \refRS:
@@ -1200,7 +1199,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{frame}{Interpretarea modelului TAR pentru șomaj}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item $\hat\gamma = 0{,}261$ pp (lucrarea: 0,302), regimuri de 314 și 124 de luni, exact împărțirea din lucrare; mulțimea de 95\% [0{,}131; 0{,}917]
+    \item $\hat\gamma = 0{,}261$ pp (lucrarea: 0,302), regimuri de 314 și 124 de luni, aceeași împărțire ca la \refHb; mulțimea de 95\% [0{,}131; 0{,}917]
     \begin{itemize}
         \item sup-Wald 47{,}2, p-value bootstrap 0{,}015; liniaritatea este respinsă la 5\% pentru 10 din cele 11 laguri $d$
     \end{itemize}
@@ -1266,7 +1265,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
     \begin{itemize}
         \item regresia auxiliară $\hat\varepsilon_t = \beta_0'\mathbf x_t + \beta_1'\tilde{\mathbf x}_t s_t + \beta_2'\tilde{\mathbf x}_t s_t^2 + \beta_3'\tilde{\mathbf x}_t s_t^3 + v_t$
         \item $\hat\varepsilon_t$: reziduurile AR-ului liniar; $\tilde{\mathbf x}_t$: $\mathbf x_t$ fără constantă; $\beta_k$: coeficienții interacțiunilor cu $s_t^k$; $v_t$: eroarea
-        \item LM3: $\beta_1 = \beta_2 = \beta_3 = 0$, un test $F$ cu $3p$ restricții; repetăm pentru fiecare $s_t$ candidat și alegem cel mai mic p-value
+        \item LM3: $\beta_1 = \beta_2 = \beta_3 = 0$, un test $F$ cu $3p$ restricții; repetăm pentru fiecare $s_t$ candidat și alegem cel mai mic p-value (derivarea în \atsapplink{atsapp3}{atssrc3}{Anexă})
     \end{itemize}
     \item \textbf{Alegerea familiei} \refTer: testăm $H_{04}$: $\beta_3 = 0$, apoi $H_{03}$: $\beta_2 = 0 \mid \beta_3 = 0$, apoi $H_{02}$: $\beta_1 = 0 \mid \beta_2 = \beta_3 = 0$
     \begin{itemize}
@@ -1306,7 +1305,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{itemize}
     \item P-value-urile LM3: $d = 1$: 0{,}124, $d = 2$: 0{,}052, $d = 3$: 0{,}275; pentru $d = 2$: $H_{04}$ 0{,}008, $H_{03}$ 0{,}548, $H_{02}$ 0{,}461: LSTAR
     \begin{itemize}
-        \item ca în lucrare: dovezi slabe, cele mai puternice pentru $d = 2$, care indică familia logistică
+        \item în acord cu \refVDTF: dovezi slabe, cele mai puternice pentru $d = 2$, care indică familia logistică
     \end{itemize}
     \item $\hat\gamma = 21{,}0$, $\hat c = 0{,}30$, raportul abaterilor standard reziduale 0{,}90; regimul se schimbă cînd șomajul a crescut cu aproximativ 0,3 pp într-un an ($G > 0{,}5$ în 32\% din luni)
     \begin{itemize}
@@ -1330,7 +1329,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \end{column}
 \begin{column}{0.64\textwidth}
 \begin{itemize}
-    \item PPC (Cassel, 1918): cursul real $q_t = s_t - p_t + p_t^*$ ar trebui să fie staționar
+    \item Paritatea puterii de cumpărare, PPC (Cassel, 1918): cursul real $q_t = s_t - p_t + p_t^*$ ar trebui să fie staționar
     \begin{itemize}
         \item $s_t$: logaritmul cursului nominal (moneda națională pentru o unitate de monedă străină); $p_t$, $p_t^*$: logaritmii nivelurilor prețurilor interne și externe
         \item după sfîrșitul sistemului Bretton Woods (1973), testele de rădăcină unitară resping rar
@@ -1341,7 +1340,6 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
         \item \refTPS: ESTAR $q_t - \mu = (q_{t-1} - \mu)\exp\{-\theta^2(q_{t-1} - \mu)^2\} + \varepsilon_t$
         \item $\mu$: echilibrul; aproape de el coeficientul AR $\exp\{\cdot\}$ este aproape de 1 (mers aleator), departe de el aproape de 0 (revenire rapidă); $\theta^2$: viteza
     \end{itemize}
-    \item PPC (PPP): paritatea puterii de cumpărare
 \end{itemize}
 \end{column}
 \end{columns}
@@ -1383,7 +1381,11 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
     \begin{itemize}
         \item abaterile mari se sting repede: al doilea paradox PPC este o trăsătură a șocurilor mici
     \end{itemize}
-    \item Dickey--Fuller: \ensuremath{-}2{,}20 ($p$ 0{,}205); puterea lui față de ESTAR-ul nostru este 19\%; KSS \refKSS: \ensuremath{-}2{,}47 ($p$ 0{,}144) pînă în 1996, \ensuremath{-}3{,}47 ($p$ 0{,}014) pînă în 2026
+    \item Dickey--Fuller: \ensuremath{-}2{,}20 ($p$ 0{,}205); puterea lui față de ESTAR-ul nostru este 19\%
+    \item KSS \refKSS: \ensuremath{-}2{,}47 ($p$ 0{,}144) pînă în 1996, \ensuremath{-}3{,}47 ($p$ 0{,}014) pînă în 2026
+    \begin{itemize}
+        \item statistica $t$ a lui $\delta$ în $\Delta q_t = \delta q_{t-1}^3 + e_t$ ($q_t$ cu media scăzută): test de rădăcină unitară față de un ESTAR staționar; respingem în coada stîngă
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1659,7 +1661,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \end{frame}
 
 \begin{frame}{Anexă: dezvoltarea Taylor din spatele LM3}
-\hypertarget{atsapp3}{}\atsappback{atssrc1}{Înapoi}
+\hypertarget{atsapp3}{}\atsappback{atssrc3}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item LSTAR: $G(s; \gamma, c) - \tfrac12 = \tfrac14\gamma(s - c) - \tfrac{1}{48}\gamma^3(s - c)^3 + O(\gamma^5)$ în jurul lui $\gamma = 0$ (cu $\hat\sigma_s = 1$)

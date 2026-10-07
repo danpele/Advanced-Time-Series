@@ -87,8 +87,8 @@
 \newcommand{\refXX}{\href{https://proceedings.mlr.press/v139/xu21h.html}{Xu and Xie (2021)}}
 \newcommand{\refXXb}{\href{https://doi.org/10.1109/TPAMI.2023.3272339}{Xu and Xie (2023)}}
 \newcommand{\refZaf}{\href{https://arxiv.org/abs/2202.07282}{Zaffran et al.\ (2022)}}
-\newcommand{\refCO}{\href{https://github.com/danpele/Conformal_Oracle}{Pele et al.\ (Conformal\_Oracle)}}
-\newcommand{\refTV}{\href{https://github.com/danpele/TSFM_VaR_CEE}{Pele et al.\ (TSFM\_VaR\_CEE)}}
+\newcommand{\refCO}{\href{https://github.com/danpele/Conformal_Oracle}{Pele et al., Conformal\_Oracle (GitHub)}}
+\newcommand{\refTV}{\href{https://github.com/danpele/TSFM_VaR_CEE}{Pele et al., TSFM\_VaR\_CEE (GitHub)}}
 
 \title[Advanced Time Series Analysis and Forecasting]{Advanced Time Series Analysis and Forecasting}
 \subtitle{Chapter 13: Foundation models and conformal prediction}
@@ -208,7 +208,11 @@ MSCA Digital Finance}
         \item conformal prediction: exchangeability, split conformal, CQR, the limits of conditional coverage
         \item dependent data: weights, EnbPI, ACI, conformal PID; diagnostics; calibrating foundation-model intervals and VaR
     \end{itemize}
-    \item We build on \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter11_foundation_models_time_series.pdf}{TSA, Chapter 11} (Chronos, TimesFM, Moirai, zero-shot tests, CRPS and WQL), on \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1} (scoring rules, DM, MCS), \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9} (VaR backtests, ACI for VaR) and \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12} (deep architectures); Seminar 13 comes before this lecture
+    \item Prerequisites; Seminar 13 comes before this lecture
+    \begin{itemize}
+        \item \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter11_foundation_models_time_series.pdf}{TSA, Chapter 11}: Chronos, TimesFM, Moirai, zero-shot tests, CRPS and WQL
+        \item \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1} (scoring rules, DM, MCS), \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9} (VaR backtests, ACI for VaR), \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12} (deep architectures)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -226,10 +230,15 @@ MSCA Digital Finance}
 \begin{frame}{Reading, data and tools}
 \itemsize{\small}
 \begin{itemize}
-    \item Foundation models: \refAns; \refAnsB; \refDas; \refWoo; \refAue; benchmarks: \refAks; \refShc
+    \item Foundation models and benchmarks
     \begin{itemize}
-        \item Conformal prediction: \refVGSb; \refAB; \refRPC; \refBar; \refGC; \refACT; \refXX
-        \item Critique and evaluation: \refTan; \refHAB; survey of forecasting practice: \refPet
+        \item models: \refAns; \refAnsB; \refDas; \refWoo; \refAue
+        \item benchmarks: \refAks; \refShc; critique and evaluation: \refTan; \refHAB
+    \end{itemize}
+    \item Conformal prediction
+    \begin{itemize}
+        \item theory: \refVGSb; \refAB; \refRPC; \refBar
+        \item time series: \refGC; \refACT; \refXX; survey of forecasting practice: \refPet
     \end{itemize}
     \item Python Quantlets of this chapter: \href{https://github.com/danpele/Advanced-Time-Series/tree/main/Quantlets/Ch_13}{Quantlets/Ch\_13}
     \begin{itemize}
@@ -283,14 +292,22 @@ BET, S\&P 500, NVIDIA, daily & EODHD daily closes & 2000 -- 2026 \\
 \begin{frame}{Known from TSA and new here}
 \itemsize{\small}
 \begin{itemize}
-    \item Known (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter11_foundation_models_time_series.pdf}{TSA, Chapter 11}): zero-shot use of Chronos, TimesFM, Moirai and Lag-Llama; mean scaling and quantisation in brief; pinball loss, CRPS, WQL, MASE; first warnings about contamination
+    \item Known (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter11_foundation_models_time_series.pdf}{TSA, Chapter 11})
+    \begin{itemize}
+        \item zero-shot use of Chronos, TimesFM, Moirai and Lag-Llama; mean scaling and quantisation in brief
+        \item pinball loss, CRPS, WQL, MASE; first warnings about contamination
+    \end{itemize}
     \item New: the research toolkit
     \begin{itemize}
         \item design choices and their consequences (range limits, quantile heads, patching, covariates in context), scaling evidence
         \item benchmarks with pre-registered windows after the model releases, tests across many series with Holm and BH corrections
         \item conformal theory with proofs, its failure under dependence and the online methods that repair it, with coverage diagnostics
     \end{itemize}
-    \item Case studies: Ansari et al.\ (2024), Tan et al.\ (2024), Romano--Patterson--Candès (2019), Gibbs--Candès (2021), Barber et al.\ (2023), Angelopoulos--Candès--Tibshirani (2023), Xu--Xie (2021), with the designs of the papers, on our data
+    \item Case studies: the designs of the papers, on our data
+    \begin{itemize}
+        \item foundation models: \refAns; \refTan
+        \item conformal prediction: \refRPC; \refGC; \refBar; \refACT; \refXX
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -355,9 +372,21 @@ BET, S\&P 500, NVIDIA, daily & EODHD daily closes & 2000 -- 2026 \\
 \begin{frame}{Pretraining data: scale and composition}
 \itemsize{\small}
 \begin{itemize}
-    \item Chronos \refAns: public data sets plus two augmentations: \textbf{TSMixup} (convex mixtures of real series) and \textbf{KernelSynth} (series drawn from Gaussian processes with random composite kernels)
-    \item TimesFM \refDas: about $10^{11}$ time points: Google Trends, Wikipedia page views, synthetic and public series; Moirai \refWoo: LOTSA, over 27 billion observations in nine domains
-    \item Toto \refCoh: observability metrics of a cloud provider, a corpus 4--10 times larger than those of earlier models; GIFT-Eval \refAks: a \textbf{non-leaking} pretraining set of about 230 billion points
+    \item Chronos \refAns
+    \begin{itemize}
+        \item public data sets plus two augmentations
+        \item \textbf{TSMixup}: convex mixtures of real series; \textbf{KernelSynth}: series drawn from Gaussian processes with random composite kernels
+    \end{itemize}
+    \item TimesFM \refDas; Moirai \refWoo
+    \begin{itemize}
+        \item TimesFM: about $10^{11}$ time points: Google Trends, Wikipedia page views, synthetic and public series
+        \item Moirai: LOTSA, over 27 billion observations in nine domains
+    \end{itemize}
+    \item Toto \refCoh; GIFT-Eval \refAks
+    \begin{itemize}
+        \item Toto: observability metrics of a cloud provider, a corpus 4--10 times larger than those of earlier models
+        \item GIFT-Eval: a \textbf{non-leaking} pretraining set of about 230 billion points
+    \end{itemize}
     \item Composition matters more than size for us: economic and financial series are a small, low-frequency share of every corpus
 \end{itemize}
 \end{frame}
@@ -455,7 +484,11 @@ BET, S\&P 500, NVIDIA, daily & EODHD daily closes & 2000 -- 2026 \\
     \begin{itemize}
         \item out-of-distribution: the log-likelihood scales similarly in and out of distribution, but architecture matters; tweaks that help in distribution can reduce OOD scalability \refYao
     \end{itemize}
-    \item A scaling law is a statement about average loss on the corpus distribution, not about one Romanian series; small models (TiRex, 35 million parameters) beat larger ones on public leaderboards \refAue
+    \item A scaling law concerns the average loss on the corpus distribution
+    \begin{itemize}
+        \item it says nothing about one particular Romanian series
+        \item small models (TiRex, 35 million parameters) beat larger ones on public leaderboards \refAue
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -526,46 +559,80 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{The Chronos family}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Chronos} \refAns: the training procedure of language models, unchanged; forecasts by sampling token paths
+    \item \textbf{Chronos} \refAns
     \begin{itemize}
+        \item the training procedure of language models, unchanged; forecasts by sampling token paths
         \item zero-shot results comparable to models trained on the target data (their Benchmark II)
     \end{itemize}
-    \item \textbf{Chronos-Bolt}: patch inputs, a direct quantile decoder; much faster; context up to 2048, 64 steps; quantiles only between 10\% and 90\%
+    \item \textbf{Chronos-Bolt}
     \begin{itemize}
+        \item patch inputs and a direct quantile decoder: much faster than Chronos
+        \item context up to 2048, 64 steps; quantiles only between 10\% and 90\%
         \item a 95\% interval or a VaR 1\% cannot be read from its output: the request is clipped to the nearest trained level
     \end{itemize}
-    \item \textbf{Chronos-2} \refAnsB: group attention shares information across the series of a group (variates, related series, covariates); \textbf{in-context learning} of covariate effects
+    \item \textbf{Chronos-2} \refAnsB
     \begin{itemize}
-        \item trained largely on synthetic multivariate structures imposed on univariate series; context 8192; 21 quantiles from 1\% to 99\%; arcsinh scaling
+        \item group attention shares information across the series of a group (variates, related series, covariates)
+        \item \textbf{in-context learning} of covariate effects, without re-estimation
+        \item trained largely on synthetic multivariate structures imposed on univariate series
+        \item context 8192; 21 quantiles from 1\% to 99\%; arcsinh scaling
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{TimesFM, Moirai, Lag-Llama, MOMENT}
+\begin{frame}{TimesFM, Moirai, Lag-Llama, MOMENT (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{TimesFM} \refDas: decoder-only, patches; output patch longer than input patch; trained on many granularities; version 2.5 adds a quantile head and long contexts
-    \item \textbf{Moirai} \refWoo: masked encoder; frequency-specific patch sizes; any-variate attention flattens multivariate inputs; mixture output (Student-$t$, log-normal, negative binomial)
+    \item \textbf{TimesFM} \refDas
     \begin{itemize}
+        \item decoder-only, with patches; the output patch is longer than the input patch
+        \item trained on many granularities; version 2.5 adds a quantile head and long contexts
+    \end{itemize}
+    \item \textbf{Moirai} \refWoo
+    \begin{itemize}
+        \item masked encoder; frequency-specific patch sizes
+        \item any-variate attention flattens multivariate inputs into one sequence
+        \item mixture output: Student-$t$, log-normal, negative binomial
         \item Moirai 2.0 \refLiu: a decoder-only simplification, smaller and better on GIFT-Eval
     \end{itemize}
-    \item \textbf{Lag-Llama} \refRas: a LLaMA-type decoder whose tokens are vectors of lagged values at many seasonal lags; Student-$t$ head; strong after fine-tuning
-    \item \textbf{MOMENT} \refGos: masked reconstruction on the Time series Pile; one encoder for forecasting, classification, anomaly detection and imputation
+\end{itemize}
+\end{frame}
+
+\begin{frame}{TimesFM, Moirai, Lag-Llama, MOMENT (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Lag-Llama} \refRas
+    \begin{itemize}
+        \item a LLaMA-type decoder whose tokens are vectors of lagged values at many seasonal lags
+        \item Student-$t$ output head; strong after fine-tuning
+    \end{itemize}
+    \item \textbf{MOMENT} \refGos
+    \begin{itemize}
+        \item pretrained by masked reconstruction on the Time series Pile
+        \item one encoder for forecasting, classification, anomaly detection and imputation
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Recurrent again, observability, and a closed API}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{TiRex} \refAue: an xLSTM keeps a state across the context, which allows state tracking over long horizons
+    \item \textbf{TiRex} \refAue
     \begin{itemize}
+        \item an xLSTM keeps a state across the context, which allows state tracking over long horizons
         \item xLSTM: the recurrent cells of \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12} with exponential gating and a matrix memory
-        \item contiguous patch masking (CPM) in training: the model learns to forecast with missing patches, i.e.\ several steps without feedback
+        \item contiguous patch masking (CPM) in training: the model learns to forecast several steps without feedback
     \end{itemize}
-    \item \textbf{Toto} \refCoh: decoder-only for multivariate observability metrics; the BOOM benchmark (2807 series); shows that domain composition of the corpus drives results
-    \item \textbf{TimeGPT} \refGar: closed weights and undisclosed corpus behind a paid API
+    \item \textbf{Toto} \refCoh
     \begin{itemize}
-        \item contamination cannot be audited; results are not reproducible if the service changes the model; data leave your institution
+        \item decoder-only, for multivariate observability metrics; the BOOM benchmark (2807 series)
+        \item the domain composition of the corpus drives the results
+    \end{itemize}
+    \item \textbf{TimeGPT} \refGar
+    \begin{itemize}
+        \item closed weights and an undisclosed corpus, behind a paid API
+        \item contamination cannot be audited; results are not reproducible if the service changes the model
+        \item the data leave your institution
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -573,16 +640,25 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{Zero-shot, fine-tuning, in-context covariates}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; no training, hence no risk of overfitting the target; the only choices are $C$ and the model
-    \item \textbf{Fine-tuning}: the weights $\theta$ start at $\hat\theta$ and take a few gradient steps on the target data (all weights, or adapters such as LoRA)
+    \item \textbf{Zero-shot}: the forecast is $f_{\hat\theta}(y_{T-C+1:T})$
     \begin{itemize}
+        \item no training, hence no risk of overfitting the target; the only choices are $C$ and the model
+    \end{itemize}
+    \item \textbf{Fine-tuning}: the weights start at $\hat\theta$ and take a few gradient steps on the target data
+    \begin{itemize}
+        \item all weights, or low-rank adapters (LoRA) added to frozen weights
         \item needs a validation split respecting time (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12}); can forget the prior; with short economic series it rarely pays
     \end{itemize}
-    \item \textbf{In-context covariates} (Chronos-2): pass past values of a covariate $x_t$ (e.g.\ temperature) and future values of regressors known in advance; the model infers their effect inside the forward pass
+    \item \textbf{In-context covariates} (Chronos-2)
     \begin{itemize}
+        \item past values of a covariate $x_t$ (e.g.\ temperature) and future values of regressors known in advance enter the context
+        \item the model infers their effect inside the forward pass, with no parameter estimated
         \item cross-learning: forecasting a batch of related series jointly (all 27 EU countries at one origin)
     \end{itemize}
-    \item Known future covariates must really be known at the origin: weather forecasts, not realised weather, unless an upper bound is the goal
+    \item Known future covariates must really be known at the origin
+    \begin{itemize}
+        \item weather forecasts, not realised weather, unless an upper bound is the goal
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -672,10 +748,16 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{Leakage and contamination}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Series leakage}: an evaluation series (or a near copy) is in the pretraining corpus; Chronos separates in-domain (Benchmark I) from zero-shot (Benchmark II) results for this reason \refAns
-    \item \textbf{Temporal contamination}: the test window precedes the training cutoff; the model may have seen the outcomes of other, correlated series in the same period
+    \item \textbf{Series leakage}
     \begin{itemize}
-        \item LLMs recall exact economic values from before their cutoff \refLTZ; a two-data-set design against contamination for electricity prices \refPE
+        \item an evaluation series (or a near copy) is in the pretraining corpus
+        \item Chronos separates in-domain (Benchmark I) from zero-shot (Benchmark II) results for this reason \refAns
+    \end{itemize}
+    \item \textbf{Temporal contamination}
+    \begin{itemize}
+        \item the test window precedes the training cutoff: the model may have seen the outcomes of other, correlated series in the same period
+        \item LLMs recall exact economic values from before their cutoff \refLTZ
+        \item a two-data-set design against contamination, for electricity prices \refPE
     \end{itemize}
     \item Designs that help
     \begin{itemize}
@@ -689,7 +771,11 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{Testing across many series (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item One series: DM with HLN correction \refDM, \refHLN; conditional ability \refGW; many models: MCS \refHLNa{} (all in \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
+    \item One series (all in \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
+    \begin{itemize}
+        \item DM with HLN correction \refDM, \refHLN; conditional ability \refGW
+        \item many models: MCS \refHLNa
+    \end{itemize}
     \item $S$ series tested separately, each at level 5\%: under the null hypothesis about $0.05S$ false rejections are expected
     \begin{itemize}
         \item with $S = 27$ countries, about one or two ``significant countries by chance alone
@@ -888,7 +974,10 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
         \item the slowly decaying memory of log RV (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter10_long_memory_rough_volatility.pdf}{Chapter 10}) is a shape a model can learn from a corpus
         \item the gain is large for Bitcoin, small for the S\&P 500
     \end{itemize}
-    \item Recent studies reach mixed verdicts \refGoe, \refBri, \refRNW: gains depend on the asset, the horizon and the loss, and fine-tuning or pretraining on financial data often matters
+    \item Recent studies reach mixed verdicts \refGoe, \refBri, \refRNW
+    \begin{itemize}
+        \item gains depend on the asset, the horizon and the loss; fine-tuning or pretraining on financial data often matters
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -951,9 +1040,21 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{Reprogramming a frozen LLM}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Time-LLM} \refJin: patches of the series are mapped onto text prototypes (word embeddings), a prompt prefix describes the task and statistics; the LLM stays frozen, a projection reads the forecast
-    \item \textbf{One Fits All} (GPT4TS) \refZho: a frozen GPT-2 with trained input embedding, layer norms and output layer, for forecasting, classification and anomaly detection
-    \item The claim: knowledge from language transfers to series; the test of the claim is an ablation that removes the language model
+    \item \textbf{Time-LLM} \refJin
+    \begin{itemize}
+        \item patches of the series are mapped onto text prototypes (word embeddings)
+        \item a prompt prefix describes the task and the statistics of the series
+        \item the LLM stays frozen; a trained projection reads the forecast
+    \end{itemize}
+    \item \textbf{One Fits All} (GPT4TS) \refZho
+    \begin{itemize}
+        \item a frozen GPT-2; only the input embedding, the layer norms and the output layer are trained
+        \item one model for forecasting, classification and anomaly detection
+    \end{itemize}
+    \item The claim: knowledge from language transfers to series
+    \begin{itemize}
+        \item the test of the claim is an ablation that removes the language model
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -967,16 +1068,26 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
     \begin{itemize}
         \item remove the LLM; replace it by one attention layer; replace it by a basic Transformer block
     \end{itemize}
-    \item Result: no degradation, often an improvement; pretrained LLMs do no better than the same model trained from scratch, do not model sequential dependence, do not help in few-shot settings
+    \item Result: no degradation, often an improvement
+    \begin{itemize}
+        \item pretrained LLMs do no better than the same model trained from scratch
+        \item they do not model sequential dependence and do not help in few-shot settings
+    \end{itemize}
     \item Training and inference cost orders of magnitude more
 \end{itemize}
 \end{column}
 \begin{column}{0.42\textwidth}
 \begin{itemize}
     \item The method matters more than the result
-    \item an architecture claim needs an ablation with matched compute and tuning
-    \item time-series foundation models trained on series (Chronos, TimesFM, TiRex) are not affected by this critique; LLMs used as forecasters are
-    \item LLMs remain useful around forecasting: code, literature, critique (Section 9)
+    \begin{itemize}
+        \item an architecture claim needs an ablation with matched compute and tuning
+    \end{itemize}
+    \item Scope of the critique
+    \begin{itemize}
+        \item LLMs used as forecasters are affected
+        \item foundation models trained on series (Chronos, TimesFM, TiRex) are not
+        \item LLMs remain useful around forecasting: code, literature, critique (Section 9)
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -985,15 +1096,21 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{Memorisation and look-ahead}
 \itemsize{\small}
 \begin{itemize}
-    \item \refLTZ: LLMs reproduce macroeconomic and market values from their training period with high precision, even when asked not to use future information
+    \item LLMs recall their training period \refLTZ
     \begin{itemize}
+        \item they reproduce macroeconomic and market values from that period with high precision, even when asked not to use future information
         \item a backtest before the training cutoff measures recall, not forecasting
     \end{itemize}
-    \item For time-series foundation models the same logic applies to public series in the corpus (electricity, traffic, M4)
+    \item The same logic for time-series foundation models
     \begin{itemize}
-        \item our evidence: windows after every release (Section 4); the strongest evidence: live, pre-registered forecasts
+        \item it applies to public series in the corpus (electricity, traffic, M4)
+        \item our evidence: windows after every release (Section 4)
+        \item the strongest evidence: live, pre-registered forecasts
     \end{itemize}
-    \item A practical rule: state the training cutoff of every model and the start of the evaluation window in the same table
+    \item A practical rule
+    \begin{itemize}
+        \item state the training cutoff of every model and the start of the evaluation window in the same table
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1002,6 +1119,7 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{itemize}
     \item LLMTime and reprogramming show that text models can be bent to series; ablations show the language part is rarely what helps
     \item Memorisation makes pre-cutoff evaluation of LLM forecasts invalid
+    \item For forecasting, foundation models trained on series are the default; LLMs remain useful for code, literature and critique
 \end{itemize}
 \end{frame}
 
@@ -1021,9 +1139,19 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \end{column}
 \begin{column}{0.56\textwidth}
 \begin{itemize}
-    \item Vovk, Gammerman and Shafer \refVGS, \refVGSb: prediction sets valid in finite samples under exchangeability only, for any predictive model
-    \item The idea: how "conforming" a candidate value is to the data seen, measured by a rank
-    \item Modern statistics adopted it as a wrapper around machine learning \refLei, \refAB
+    \item \refVGS; \refVGSb
+    \begin{itemize}
+        \item prediction sets valid in finite samples
+        \item only exchangeability is assumed, for any predictive model
+    \end{itemize}
+    \item The idea
+    \begin{itemize}
+        \item how ``conforming'' a candidate value is to the data seen, measured by a rank
+    \end{itemize}
+    \item Modern statistics \refLei; \refAB
+    \begin{itemize}
+        \item adopted it as a wrapper around machine learning methods
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -1193,8 +1321,9 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{The limits of conditional coverage}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Impossibility} \refVov, \refLW, \refBarB: if $\hat C$ has conditional coverage $\ge 1 - \alpha$ at almost every $x$ for every distribution with a continuous $X$, then its expected length is infinite
+    \item \textbf{Impossibility} \refVov; \refLW; \refBarB
     \begin{itemize}
+        \item if $\hat C$ has conditional coverage $\ge 1 - \alpha$ at almost every $x$, for every distribution with a continuous $X$, its expected length is infinite
         \item no finite-sample method can certify coverage at each point of a continuous covariate without assumptions
     \end{itemize}
     \item What is achievable
@@ -1350,7 +1479,7 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
     \begin{itemize}
         \item $\alpha_1$: the starting level; the bound falls as $1/T$, and is tighter for a larger $\gamma$
     \end{itemize}
-    \item Idea of the proof (\atsapplink{atsapp1}{atssrc2}{Appendix})
+    \item Idea of the proof (\atsapplink{atsapp2}{atssrc2}{Appendix}) % applink: the two online guarantees
     \begin{itemize}
         \item $\alpha_t$ always stays in $[-\gamma, 1 + \gamma]$
         \item summing the updates, $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; divide by $\gamma T$
@@ -1530,23 +1659,43 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \section{Calibrating foundation-model intervals}
 %=============================================================================
 
-\begin{frame}{The need to calibrate foundation-model quantiles}
+\begin{frame}{The need to calibrate foundation-model quantiles (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Pretrained quantiles are calibrated on the corpus distribution, not on your series
     \begin{itemize}
         \item miscalibration is the default, in either direction (bands too narrow or too wide)
     \end{itemize}
-    \item Most models output only 10\%--90\%: a 95\% interval or VaR 1\% requires extrapolation beyond the trained levels
-    \item Procedure: online CQR on the model's own 10\%--90\% band, with ACI choosing the threshold for any target level (80\% or 95\%) \[ S_t = \max\{\hat q_{0.1,t} - y_t,\; y_t - \hat q_{0.9,t}\}, \qquad \hat C_t = [\hat q_{0.1,t} - q_t,\; \hat q_{0.9,t} + q_t] \]
+    \item Most models output only the 10\%--90\% quantiles
     \begin{itemize}
-        \item $\hat q_{0.1,t}$, $\hat q_{0.9,t}$: the 10\% and 90\% quantiles forecast by the model for period $t$; $q_t$: the ACI threshold
+        \item a 95\% interval or a VaR 1\% requires extrapolation beyond the trained levels
     \end{itemize}
-    \item One-sided version for VaR: score $S_t = \hat q_{0.1,t} - y_t$, threshold $q_t$ at level $\alpha$
+    \item Procedure: online CQR on the model's own 10\%--90\% band \[ S_t = \max\{\hat q_{0.1,t} - y_t,\; y_t - \hat q_{0.9,t}\}, \qquad \hat C_t = [\hat q_{0.1,t} - q_t,\; \hat q_{0.9,t} + q_t] \]
     \begin{itemize}
-        \item the calibrated quantile is $\hat q_{0.1,t} - q_t$ and $\mathrm{VaR}_t = -(\hat q_{0.1,t} - q_t)$ (VaR as a positive loss)
+        \item $\hat q_{0.1,t}$, $\hat q_{0.9,t}$: the 10\% and 90\% quantiles forecast by the model for period $t$; $S_t$: the CQR score
+        \item $q_t$: the threshold chosen by ACI for any target level (80\% or 95\%)
     \end{itemize}
-    \item Further reading on conformal VaR recalibration of foundation models: \refCO; \refTV
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The need to calibrate foundation-model quantiles (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item One-sided version for VaR
+    \begin{itemize}
+        \item score $S_t = \hat q_{0.1,t} - y_t$; threshold $q_t$ tracked at level $\alpha$
+        \item the calibrated quantile is $\hat q_{0.1,t} - q_t$
+        \item $\mathrm{VaR}_t = -(\hat q_{0.1,t} - q_t)$: VaR expressed as a positive loss
+    \end{itemize}
+    \item What the shift changes
+    \begin{itemize}
+        \item $q_t > 0$ lowers the quantile (a larger VaR); $q_t < 0$ raises it
+        \item the model itself is not re-estimated: only its output is recalibrated
+    \end{itemize}
+    \item Further reading
+    \begin{itemize}
+        \item conformal VaR recalibration of foundation models: \refCO; \refTV
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1617,13 +1766,20 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{An open question}
 \itemsize{\small}
 \begin{itemize}
-    \item Do time-series foundation models beat domain-specific econometric models on Central and Eastern European data after their release dates, once multiplicity is accounted for?
+    \item The question
+    \begin{itemize}
+        \item do time-series foundation models beat domain-specific econometric models on Central and Eastern European data?
+        \item in a window after their release dates, and once multiplicity is accounted for
+    \end{itemize}
+    \item A testable form
     \begin{itemize}
         \item formal: $H_0$: equal expected loss (pooled over pre-registered series) of the best foundation model and the best domain model, in a window that starts after every model release
         \item falsified by a pooled DM test at 5\% and an MCS that excludes one side, on series and horizons fixed before the data arrive
     \end{itemize}
-    \item Why it matters: central banks and grid operators consider replacing tuned models by zero-shot ones; published wins often come from a favourable choice of series
+    \item Why it matters
     \begin{itemize}
+        \item central banks and grid operators consider replacing tuned models by zero-shot ones
+        \item published wins often come from a favourable choice of series
         \item literature to start from: \refAks, \refShc, \refMey, \refPE, \refBri
     \end{itemize}
 \end{itemize}
@@ -1740,7 +1896,7 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \end{frame}
 
 \begin{frame}{Appendix: the two online guarantees}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Back}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{ACI}: if $\alpha_t < 0$ then $q_t = +\infty$ and $\mathrm{err}_t = 0$, so $\alpha_{t+1} = \alpha_t + \gamma\alpha > \alpha_t$; if $\alpha_t > 1$, $\mathrm{err}_t = 1$ and $\alpha_t$ falls
@@ -1844,8 +2000,8 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \itemsize{\tiny}
 \begin{itemize}
     \item Patton, A. J. (2011). Volatility forecast comparison using imperfect volatility proxies. \textit{Journal of Econometrics}, 160(1), 246--256. \href{https://doi.org/10.1016/j.jeconom.2010.03.034}{doi:10.1016/j.jeconom.2010.03.034}
-    \item Pele, D. T., et al. Conformal\_Oracle: conformal VaR recalibration for time series foundation models and classical models. GitHub repository (further reading). \href{https://github.com/danpele/Conformal_Oracle}{github.com}
-    \item Pele, D. T., et al. TSFM\_VaR\_CEE: benchmarking time-series foundation models for VaR and ES forecasting in Central and Eastern European markets. GitHub repository (further reading). \href{https://github.com/danpele/TSFM_VaR_CEE}{github.com}
+    \item Pele, D. T., et al. Conformal\_Oracle: conformal VaR recalibration for time series foundation models and classical models. GitHub repository. \href{https://github.com/danpele/Conformal_Oracle}{github.com}
+    \item Pele, D. T., et al. TSFM\_VaR\_CEE: benchmarking time-series foundation models for VaR and ES forecasting in Central and Eastern European markets. GitHub repository. \href{https://github.com/danpele/TSFM_VaR_CEE}{github.com}
     \item Petropoulos, F., Apiletti, D., Assimakopoulos, V., Babai, M. Z., et al.\ (2022). Forecasting: Theory and practice. \textit{International Journal of Forecasting}, 38(3), 705--871. \href{https://doi.org/10.1016/j.ijforecast.2021.11.001}{doi:10.1016/j.ijforecast.2021.11.001}
     \item Rahimikia, E., Ni, H., \& Wang, W. (2025). Re(Visiting) time series foundation models in finance. \textit{arXiv:2511.18578}. \href{https://arxiv.org/abs/2511.18578}{arXiv:2511.18578}
     \item Rasul, K., Ashok, A., Williams, A. R., Ghonia, H., Bhagwatkar, R., Khorasani, A., et al.\ (2023). Lag-Llama: Towards foundation models for probabilistic time series forecasting. \textit{arXiv:2310.08278}. \href{https://arxiv.org/abs/2310.08278}{arXiv:2310.08278}

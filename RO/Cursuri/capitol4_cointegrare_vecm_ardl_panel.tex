@@ -383,7 +383,7 @@ UE-27: consumul gospodăriilor, venitul disponibil, deflatorul consumului, popul
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Teorema de reprezentare Granger (1/2)}
+\begin{frame}{Teorema de reprezentare Granger (1/3)}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.30\textwidth}
@@ -395,33 +395,49 @@ UE-27: consumul gospodăriilor, venitul disponibil, deflatorul consumului, popul
 \begin{column}{0.68\textwidth}
 \begin{itemize}
     \item Teorema scrie un VAR cointegrat ca trenduri de tip mers aleator plus abateri staționare
+    \item VAR-ul în niveluri: $y_t = \sum_{i=1}^{p}A_iy_{t-i} + \Phi D_t + \varepsilon_t$
+    \begin{itemize}
+        \item $A_i$ ($n\times n$): matricele lui de lag; $A(z) = I - \sum_{i=1}^{p}A_iz^i$: polinomul lui caracteristic
+        \item $\Pi = -A(1)$, $\Gamma_i = -\sum_{j>i}A_j$: matricele VECM; $\Gamma = I - \sum_i\Gamma_i$
+    \end{itemize}
     \item Condițiile
     \begin{itemize}
-        \item rădăcinile lui $|A(z)| = 0$ satisfac $|z| > 1$ sau $z = 1$
-        \item $\mathrm{rang}\,\Pi = r$
-        \item $\alpha_\perp'\Gamma\beta_\perp$ are rang complet, $\Gamma = I - \sum_i\Gamma_i$
+        \item rădăcinile lui $|A(z)| = 0$ satisfac $|z| > 1$ sau $z = 1$ (fără rădăcini explozive sau sezoniere)
+        \item $\mathrm{rang}\,\Pi = r$, deci $\Pi = \alpha\beta'$
+        \item $\alpha_\perp'\Gamma\beta_\perp$ are rang complet, $n - r$
+        \item $\alpha_\perp$, $\beta_\perp$ ($n\times(n - r)$): complementele ortogonale, $\alpha'\alpha_\perp = 0$, $\beta'\beta_\perp = 0$
     \end{itemize}
-    \item Atunci \[ y_t = C\sum_{i=1}^{t}(\varepsilon_i + \Phi D_i) + C^*(L)(\varepsilon_t + \Phi D_t) + A_0 \] cu $C = \beta_\perp(\alpha_\perp'\Gamma\beta_\perp)^{-1}\alpha_\perp'$
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Teorema de reprezentare Granger (2/2)}
+\begin{frame}{Teorema de reprezentare Granger (2/3)}
 \itemsize{\small}
 \begin{itemize}
+    \item În aceste condiții $y_t$ este I(1), $\beta'y_t$ este I(0), iar \[ y_t = C\sum_{i=1}^{t}(\varepsilon_i + \Phi D_i) + C^*(L)(\varepsilon_t + \Phi D_t) + A_0 \]
     \item Notațiile
     \begin{itemize}
-        \item $A(z) = I - \sum_{i=1}^{p}A_iz^i$: polinomul caracteristic al VAR-ului în niveluri, $y_t = \sum_i A_iy_{t-i} + \dots$; condiția exclude rădăcinile explozive și sezoniere
-        \item $\alpha_\perp$, $\beta_\perp$ ($n\times(n - r)$, de rang complet): complementele ortogonale, $\alpha'\alpha_\perp = 0$, $\beta'\beta_\perp = 0$
-        \item $C$: matricea impactului pe termen lung; $C^*(L)$: un polinom în operatorul lag cu coeficienți sumabili (partea staționară); $A_0$: depinde de valorile inițiale, $\beta'A_0 = 0$
+        \item $C = \beta_\perp(\alpha_\perp'\Gamma\beta_\perp)^{-1}\alpha_\perp'$: matricea impactului pe termen lung, de rang $n - r$ (derivarea: \atsapplink{atsapp2}{atssrc2}{Anexa})  % applink: matricei impactului
+        \item $C^*(L) = \sum_{j\ge 0}C_j^*L^j$: un polinom în operatorul lag $L$ ($Ly_t = y_{t-1}$) cu coeficienți sumabili, partea staționară
+        \item $A_0$: o constantă care depinde de valorile inițiale, cu $\beta'A_0 = 0$
     \end{itemize}
+    \item Primul termen: mersuri aleatoare plus trenduri deterministe; al doilea termen: abateri staționare de la ele
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Teorema de reprezentare Granger (3/3)}
+\itemsize{\small}
+\begin{itemize}
     \item Interpretarea
     \begin{itemize}
         \item $\beta'C = 0$: relațiile nu conțin trendurile stochastice
         \item $C\alpha = 0$: o eroare de echilibru nu are efect permanent
         \item trendurile comune: cele $n - r$ mersuri aleatoare $\alpha_\perp'\sum_i\varepsilon_i$
-        \item $\alpha_\perp'\Gamma\beta_\perp$ singulară înseamnă I(2) (vezi secțiunea despre I(2))
+    \end{itemize}
+    \item Dacă $\alpha_\perp'\Gamma\beta_\perp$ este singulară, teorema nu se mai aplică
+    \begin{itemize}
+        \item $C$ nu există, iar unele trenduri sînt I(2) (vezi secțiunea despre I(2))
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -527,18 +543,45 @@ $n - r$ & cazul 1 & cazul 2 & cazul 3 & cazul 4 & cazul 5 \\
 \section{Eșantioane mici: corecții și bootstrap}
 %=============================================================================
 
-\begin{frame}{Respingerile excesive ale testului asimptotic}
+\begin{frame}{Respingerile excesive ale testului asimptotic (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Statistica trace estimează $n^2(p - 1)$ parametri pe termen scurt plus termenii determiniști; cu $T = 100$, $n = 3$ și $p = 4$ aceștia consumă o parte mare din informație
-    \item Distorsiunea crește cu dinamica pe termen scurt persistentă ($\Gamma_i$ aproape de cercul unitate) și cu rădăcini ale părții staționare apropiate de unu
-    \item Trei remedii
+    \item VECM-ul consumă mulți parametri pentru termenul scurt
     \begin{itemize}
-        \item \textbf{Reinsel--Ahn}: înmulțim statistica cu $(T - np)/T$ \refRA; simplu, adesea prea conservator
-        \item \textbf{Corecția Bartlett}: $LR_{tr}/(1 + a(\theta)/T)$ cu $\E LR_{tr} \approx f\,(1 + a(\theta)/T)$ \refJohG; $f$: media distribuției limită; $a(\theta)$: o funcție analitică de parametrii $\theta$, estimată prin înlocuirea lor cu estimațiile
-        \item \textbf{Bootstrap}: simulăm distribuția nulă din modelul estimat sub $H(r)$ \refSwe, \refCRT
+        \item $n^2(p - 1)$ elemente ale matricelor $\Gamma_1, \dots, \Gamma_{p-1}$, plus termenii determiniști
+        \item cu $T = 100$, $n = 3$ și $p = 4$: 27 de parametri de termen scurt, o parte mare din informație
     \end{itemize}
-    \item Heteroscedasticitatea condiționată nu schimbă distribuția limită, dar înrăutățește nivelul efectiv al testului în eșantioane finite \refCRTa: folosiți bootstrap-ul wild
+    \item Distorsiunea crește cu persistența
+    \begin{itemize}
+        \item dinamica pe termen scurt persistentă: rădăcini ale părții staționare apropiate de cercul unitate
+        \item testul asimptotic găsește atunci prea multe relații de cointegrare
+    \end{itemize}
+    \item Heteroscedasticitatea condiționată \refCRTa
+    \begin{itemize}
+        \item nu schimbă distribuția limită
+        \item dar înrăutățește nivelul efectiv al testului în eșantioane finite: folosiți bootstrap-ul wild
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Respingerile excesive ale testului asimptotic (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Reinsel--Ahn} \refRA
+    \begin{itemize}
+        \item înmulțim statistica cu $(T - np)/T$: o corecție pentru gradele de libertate
+        \item simplă, adesea prea conservatoare
+    \end{itemize}
+    \item \textbf{Corecția Bartlett} \refJohG
+    \begin{itemize}
+        \item $\E LR_{tr} \approx f\,(1 + a(\theta)/T)$; statistica corectată este $LR_{tr}/(1 + a(\theta)/T)$
+        \item $f$: media distribuției limită; $\theta$: parametrii VECM-ului
+        \item $a(\theta)$: o funcție analitică de $\theta$, evaluată în estimații
+    \end{itemize}
+    \item \textbf{Bootstrap} \refSwe, \refCRT
+    \begin{itemize}
+        \item simulăm distribuția nulă din modelul estimat sub $H(r)$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -827,13 +870,23 @@ ROBOR slab exogen (rînd zero în $\alpha$) & 0{,}57 & 2 & 0{,}752 \\
 \begin{frame}{Cînd modelul I(1) nu este suficient}
 \itemsize{\small}
 \begin{itemize}
-    \item Dacă $\alpha_\perp'\Gamma\beta_\perp$ are rang redus $s < n - r$, reprezentarea Granger nu mai funcționează: unele trenduri comune sînt I(2), $y_t$ conține $\sum\sum\varepsilon$
-    \item Candidați tipici: nivelurile prețurilor și masa monetară nominală în perioade cu inflație variabilă; inflația este atunci I(1)
-    \item Modelul I(2): două condiții de rang redus, $\Pi = \alpha\beta'$ și $\alpha_\perp'\Gamma\beta_\perp = \xi\eta'$; ML și teste de rang în \refJohF, ghid aplicat în \refJus
+    \item Dacă $\alpha_\perp'\Gamma\beta_\perp$ are rang redus $s < n - r$, reprezentarea Granger nu se mai aplică
     \begin{itemize}
-        \item cointegrare polinomială: $\beta'y_t + \delta'\Delta y_t \sim$ I(0), de exemplu masa monetară reală plus un multiplu al inflației
+        \item unele trenduri comune sînt I(2): $y_t$ conține sume duble $\sum_{j\le t}\sum_{i\le j}\varepsilon_i$
+        \item candidați tipici: prețurile și masa monetară nominale cînd inflația variază; inflația este atunci I(1)
     \end{itemize}
-    \item Verificare practică: testați rădăcina unitară pentru $\Delta y_t$; dacă VECM-ul I(1) are o rădăcină aproape de unu în partea staționară, suspectați I(2); soluția uzuală este modelarea variabilelor reale (deflatate)
+    \item Modelul I(2) \refJohF, \refJus
+    \begin{itemize}
+        \item două condiții de rang redus: $\Pi = \alpha\beta'$ și $\alpha_\perp'\Gamma\beta_\perp = \xi\eta'$
+        \item $\xi$, $\eta$ ($(n - r)\times s$, de rang complet): factorii celei de-a doua matrice de rang redus
+        \item cointegrare polinomială: $\beta'y_t + \delta'\Delta y_t \sim$ I(0); $\delta$ ($n\times r$): ponderile diferențelor
+        \item exemplu: masa monetară reală plus un multiplu al inflației
+    \end{itemize}
+    \item Verificarea practică
+    \begin{itemize}
+        \item testați rădăcina unitară pentru $\Delta y_t$; o rădăcină aproape de unu în partea staționară a VECM-ului I(1) este un semnal de alarmă
+        \item soluția uzuală: modelarea variabilelor reale (deflatate) și a inflației
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -893,18 +946,41 @@ ROBOR slab exogen (rînd zero în $\alpha$) & 0{,}57 & 2 & 0{,}752 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Studiu de caz: King, Plosser, Stock și Watson (1991)}
+\begin{frame}{Studiu de caz: King, Plosser, Stock și Watson (1991) (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refKPSW: într-un model de ciclu real cu trend stochastic al productivității, consumul, investițiile și producția au un singur trend comun: rapoartele de echilibru (great ratios) $c - y$ și $i - y$ sînt staționare
+    \item \refKPSW
     \begin{itemize}
-        \item $n = 3$, $r = 2$, $\beta = \begin{pmatrix}1 & 0\\ 0 & 1\\ -1 & -1\end{pmatrix}$ impus; un singur șoc permanent de „creștere echilibrată”
-        \item întrebarea: cît din ciclul economic explică șocul permanent?
+        \item un model de ciclu real cu trend stochastic al productivității
+        \item consumul, investițiile și producția au un singur trend comun
+        \item rapoartele de echilibru (great ratios) $c - y$ și $i - y$ sînt staționare ($c$, $i$, $y$: logaritmi pe locuitor)
     \end{itemize}
-    \item Replicarea noastră: date trimestriale SUA 1949T1--1988T4 (eșantionul lucrării), $T = 160$; $c$: bunuri nedurabile și servicii, $i$: investiții fixe, $y$: PIB, pe locuitor, deflatate cu deflatorul PIB
+    \item În termenii VECM
     \begin{itemize}
-        \item VAR($2$) în niveluri (toate criteriile), cazul 3; trace: 45{,}8; 19{,}4; 1{,}4 față de cuantilele de 95\% 29{,}8; 15{,}5; 3{,}9: $r = 2$
-        \item rapoartele de echilibru exacte sînt respinse: $LR = 16{,}6$, $\chi^2(2)$, $p = $<$\,0{,}001$; cu trend restricționat (cazul 4) nu sînt respinse: $LR = 0{,}50$, $p = 0{,}778$
+        \item $n = 3$, $r = 2$, $\beta = \begin{pmatrix}1 & 0\\ 0 & 1\\ -1 & -1\end{pmatrix}$ impus pentru $(c, i, y)$
+        \item $k = n - r = 1$: un singur șoc permanent de „creștere echilibrată”
+    \end{itemize}
+    \item Întrebarea: cît din ciclul economic explică șocul permanent?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Studiu de caz: King, Plosser, Stock și Watson (1991) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Replicarea noastră: date trimestriale SUA, 1949T1--1988T4 (eșantionul lucrării), $T = 160$
+    \begin{itemize}
+        \item $c$: bunuri nedurabile și servicii; $i$: investiții fixe; $y$: PIB
+        \item toate pe locuitor, deflatate cu deflatorul PIB
+    \end{itemize}
+    \item Rangul
+    \begin{itemize}
+        \item VAR($2$) în niveluri (toate criteriile), cazul 3
+        \item trace: 45{,}8; 19{,}4; 1{,}4 față de cuantilele de 95\% 29{,}8; 15{,}5; 3{,}9: $r = 2$
+    \end{itemize}
+    \item Testul lui $\beta = \beta_0$ (rapoartele de echilibru exacte)
+    \begin{itemize}
+        \item cazul 3: respins, $LR = 16{,}6$, $\chi^2(2)$, $p < 0{,}001$
+        \item cu trend restricționat (cazul 4): nerespins, $LR = 0{,}50$, $p = 0{,}778$
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -998,19 +1074,42 @@ rapoarte de echilibru, cazul 3, 1949--2025 & 28\% & 20\% & 20\% & 29\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testul bounds}
+\begin{frame}{Testul bounds (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $H_0$: nu există relație în niveluri, $\pi_{yy} = 0$ și $\pi_{yx} = 0$; testul Wald $F$ (și $t$ pentru $\pi_{yy}$, ca să excludem cazul degenerat $\pi_{yy} = 0 \ne \pi_{yx}$)
-    \item Distribuția nulă depinde de ordinul de integrare al lui $x_t$: limita inferioară dacă tot $x_t$ este I(0), limita superioară dacă tot este I(1)
+    \item $H_0$: nu există relație în niveluri, $\pi_{yy} = 0$ și $\pi_{yx} = 0$
     \begin{itemize}
-        \item $F$ peste limita superioară: respingem (există relație în niveluri); sub limita inferioară: nu respingem; între ele: neconcludent, iar ordinul de integrare contează
+        \item $F$: statistica Wald a acestor $k + 1$ restricții, împărțită la $k + 1$
+        \item $t$: raportul $t$ al lui $\hat\pi_{yy}$; exclude cazul degenerat $\pi_{yy} = 0 \ne \pi_{yx}$
     \end{itemize}
-    \item Cinci cazuri (ca la Johansen): I fără termeni; II termen liber restricționat; III termen liber nerestricționat; IV termen liber nerestricționat, trend restricționat; V termen liber și trend nerestricționate
+    \item Distribuția nulă depinde de ordinul de integrare al lui $x_t$
     \begin{itemize}
+        \item limita inferioară: tot $x_t$ este I(0); limita superioară: tot $x_t$ este I(1)
+    \end{itemize}
+    \item Decizia
+    \begin{itemize}
+        \item $F$ peste limita superioară: respingem, există relație în niveluri
+        \item $F$ sub limita inferioară: nu respingem
+        \item între limite: neconcludent, ordinul de integrare al lui $x_t$ contează
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testul bounds (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Cinci cazuri, ca la Johansen
+    \begin{itemize}
+        \item I: fără termeni determiniști; II: termen liber restricționat
+        \item III: termen liber nerestricționat; IV: termen liber nerestricționat, trend restricționat
+        \item V: termen liber și trend nerestricționate
         \item în cazurile II și IV termenii restricționați fac parte din $H_0$; limitele pentru $t$ există pentru cazurile I, III, V
     \end{itemize}
-    \item Limite simulate de 5\% ($T = 1000$, 10\,000 de replicări), $k = 1$: cazul II [3{,}58; 4{,}14], cazul III [4{,}97; 5{,}71]; $t$, cazul III: [\ensuremath{-}2{,}86; \ensuremath{-}3{,}22]
+    \item Limite simulate de 5\%, $k = 1$ ($T = 1000$, 10\,000 de replicări)
+    \begin{itemize}
+        \item $F$: cazul II [3{,}58; 4{,}14], cazul III [4{,}97; 5{,}71]
+        \item $t$, cazul III: [\ensuremath{-}2{,}86; \ensuremath{-}3{,}22]
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1045,7 +1144,11 @@ Utilizare structurală & multiplicatorii lui $x$ asupra lui $y$ & trenduri comun
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item Regula: estimați întîi VECM cînd este posibil; dacă o variabilă este slab exogenă și relația este unică, ARDL este eficient și mai simplu; dacă există feedback, estimațiile ARDL sînt inconsistente
+    \item Regula: estimați întîi VECM cînd este posibil
+    \begin{itemize}
+        \item regresori slab exogeni și o relație unică: ARDL este eficient și mai simplu
+        \item feedback de la $y_t$ la $x_t$: estimațiile ARDL sînt inconsistente
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1085,18 +1188,37 @@ Utilizare structurală & multiplicatorii lui $x$ asupra lui $y$ & trenduri comun
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Două instrumente înrudite}
+\begin{frame}{Două instrumente înrudite (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Cauzalitatea Toda--Yamamoto} \refTY: într-un VAR cu variabile posibil integrate sau cointegrate, estimăm $p + d_{\max}$ laguri în niveluri și testăm doar primele $p$; $d_{\max}$: ordinul maxim de integrare presupus
+    \item \textbf{Cauzalitatea Toda--Yamamoto} \refTY
     \begin{itemize}
-        \item statistica Wald este asimptotic $\chi^2(p)$ oricare ar fi proprietățile de integrare și cointegrare; prețul: putere mai mică decît un VECM corect specificat
+        \item un VAR cu variabile posibil integrate sau cointegrate
+        \item estimăm $p + d_{\max}$ laguri în niveluri și testăm doar primele $p$; $d_{\max}$: ordinul maxim de integrare presupus
+        \item statistica Wald este asimptotic $\chi^2(p)$ oricare ar fi proprietățile de integrare și cointegrare
+        \item prețul: putere mai mică decît un VECM corect specificat
     \end{itemize}
-    \item \textbf{ARDL neliniar} \refSYG: descompunem $x_t$ în sumele parțiale ale creșterilor $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$ și ale scăderilor $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$
+    \item \textbf{ARDL neliniar} \refSYG
+    \begin{itemize}
+        \item sumele parțiale ale creșterilor: $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$
+        \item sumele parțiale ale scăderilor: $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$, astfel încît $x_t = x_0 + x_t^+ + x_t^-$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Două instrumente înrudite (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item ARDL neliniar: $x_t^+$ și $x_t^-$ ca doi regresori
     \begin{itemize}
         \item $x_t^+$ și $x_t^-$ intră în ARDL ca doi regresori, cu coeficienții de termen lung $\theta^+$, $\theta^-$ și cei de termen scurt $\omega_j^+$, $\omega_j^-$
-        \item asimetrie pe termen lung: $\theta^+ \ne \theta^-$; asimetrie pe termen scurt: $\omega_j^\pm$ diferiți; teste Wald, limite cu $k = 2$
-        \item utilizarea clasică: prețurile carburanților cresc repede cu petrolul și scad încet („rockets and feathers”) \refBac; Seminarul 4 testează acest lucru pentru România
+        \item asimetrie pe termen lung: $\theta^+ \ne \theta^-$; asimetrie pe termen scurt: $\omega_j^+$ și $\omega_j^-$ diferiți
+        \item ambele se testează prin teste Wald; testul bounds folosește $k = 2$
+    \end{itemize}
+    \item Utilizarea clasică: „rockets and feathers” \refBac
+    \begin{itemize}
+        \item prețurile carburanților cresc repede cu petrolul și scad încet
+        \item Seminarul 4 testează acest lucru pentru România
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1127,10 +1249,22 @@ Utilizare structurală & multiplicatorii lui $x$ asupra lui $y$ & trenduri comun
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item Seriile pe țări sînt scurte (20--30 de ani de date anuale): un test de rang sau bounds pentru o singură țară are putere mică; $N$ țări adaugă informație
-    \item Asimptotică în două dimensiuni: secvențială ($T \to \infty$, apoi $N \to \infty$) sau comună cu $N/T \to 0$; o regresie panel cu serii I(1) estimează o relație medie de termen lung chiar fără cointegrare \refPM, \refKao
-    \item Două probleme noi: \textbf{eterogenitatea} (dinamica diferă între țări) și \textbf{dependența între unități} (șocuri comune: recesiunea din 2009, COVID-19, euro)
-    \item Testele de primă generație presupun unități independente; cele de generația a doua modelează dependența \refBrP
+    \item Cîștigul: $N$ țări adaugă informație
+    \begin{itemize}
+        \item seriile pe țări sînt scurte: 20--30 de ani de date anuale
+        \item un test de rang sau bounds pentru o singură țară are putere mică
+    \end{itemize}
+    \item Asimptotică în două dimensiuni \refPM, \refKao
+    \begin{itemize}
+        \item secvențială ($T \to \infty$, apoi $N \to \infty$) sau comună, cu $N/T \to 0$
+        \item o regresie panel cu serii I(1) estimează o relație medie de termen lung chiar fără cointegrare
+    \end{itemize}
+    \item Două probleme noi
+    \begin{itemize}
+        \item \textbf{eterogenitatea}: dinamica diferă între țări
+        \item \textbf{dependența între unități}: șocuri comune (2009, COVID-19, euro)
+        \item testele de primă generație presupun unități independente; cele de generația a doua modelează dependența \refBrP
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -1144,9 +1278,29 @@ Utilizare structurală & multiplicatorii lui $x$ asupra lui $y$ & trenduri comun
         \item $\hat\rho_{ij}$: corelația în timp dintre reziduurile (sau seriile centrate) unităților $i$ și $j$; $N$: numărul de unități; $T$: numărul de perioade
         \item citirea: $CD \approx 0$ sub ipoteza nulă; $|CD| > 1{,}96$ o respinge la 5\%
     \end{itemize}
-    \item Ipoteza nulă este dependența \emph{slabă} \refPesC: o corelație care dispare în medie cînd $N$ crește; un factor comun cu încărcări de medie nenulă dă $|CD| \to \infty$
-    \item Valabil pentru $T$ fix și $N$ mare, și în panele dinamice sau cu rădăcini unitare; corelațiile pozitive și negative se pot compensa, deci raportați și media $|\hat\rho_{ij}|$
-    \item UE-27, $T = 22$ (2001--2022): CD = 50{,}3 pentru creșterea consumului (media $|\hat\rho| = 0{,}59$), 25{,}7 pentru creșterea venitului, 62{,}4 pentru inflație: dependență puternică peste tot
+    \item Ipoteza nulă este dependența \emph{slabă} \refPesC
+    \begin{itemize}
+        \item o corelație care dispare în medie cînd $N$ crește
+        \item un factor comun cu încărcări de medie nenulă dă $|CD| \to \infty$
+        \item valabilă pentru $T$ fix și $N$ mare, și în panele dinamice sau cu rădăcini unitare
+        \item corelațiile pozitive și negative se pot compensa: raportați și media $|\hat\rho_{ij}|$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Dependența între unități în panelul UE-27}
+\itemsize{\small}
+\begin{itemize}
+    \item UE-27, $T = 22$ (2001--2022)
+    \begin{itemize}
+        \item creșterea consumului: CD = 50{,}3, media $|\hat\rho_{ij}| = 0{,}59$
+        \item creșterea venitului: CD = 25{,}7; inflația: CD = 62{,}4
+    \end{itemize}
+    \item Interpretarea
+    \begin{itemize}
+        \item fiecare statistică depășește cu mult 1,96: dependență puternică peste tot
+        \item testele panel de primă generație nu sînt fiabile pentru aceste date
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1222,40 +1376,63 @@ inflație (constantă) & \ensuremath{-}10{,}10 (0{,}003) & \ensuremath{-}1{,}82 
 \begin{itemize}
     \item Statisticile Westerlund
     \begin{itemize}
-        \item statisticile de grup: $G_t$, media celor $N$ rapoarte $t$ ale lui $\hat\alpha_i$, și $G_a$, media coeficienților $\hat\alpha_i$ scalați; $H_1$: unele țări se ajustează
-        \item statisticile panel $P_t$, $P_a$: aceleași cu un $\alpha$ comun; $H_1$: toate țările se ajustează
+        \item de grup: $G_t = N^{-1}\sum_i\hat\alpha_i/\mathrm{SE}(\hat\alpha_i)$, $G_a = N^{-1}\sum_i T\hat\alpha_i/\hat\alpha_i(1)$; $H_1$: unele țări se ajustează
+        \item $\hat\alpha_i(1) = 1 - \sum_j\hat a_{ij}$: scalează $\hat\alpha_i$ la ajustarea pe termen lung
+        \item panel: $P_t$, $P_a$, aceleași rapoarte pentru un $\alpha$ comun; $H_1$: toate țările se ajustează
         \item valori critice bootstrap în prezența dependenței între unități
     \end{itemize}
-    \item UE-27, $c$ pe $y$ și $\pi$: Pedroni group ADF \ensuremath{-}3{,}05 (valoarea critică 5\% \ensuremath{-}2{,}73, $p = $<$\,0{,}001$); Westerlund $G_t$ \ensuremath{-}1{,}66 (\ensuremath{-}2{,}18, $p = 0{,}714$); distribuții nule simulate
-    \item Cele două familii nu sînt de acord: testul pe reziduuri respinge, testul ECM nu; cu $T = 22$ și dependență puternică, niciun verdict nu este sigur
+    \item UE-27, $c$ pe $y$ și $\pi$ (distribuții nule simulate)
+    \begin{itemize}
+        \item Pedroni group ADF (media rapoartelor $t$ ADF ale lui $\hat e_{it}$ pe țări): \ensuremath{-}3{,}05, valoarea critică 5\% \ensuremath{-}2{,}73, $p < 0{,}001$
+        \item Westerlund $G_t$: \ensuremath{-}1{,}66, valoarea critică 5\% \ensuremath{-}2{,}18, $p = 0{,}714$
+    \end{itemize}
+    \item Cele două familii nu sînt de acord
+    \begin{itemize}
+        \item testul pe reziduuri respinge, testul ECM nu
+        \item cu $T = 22$ și dependență puternică, niciun verdict nu este sigur
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Estimatori ai relației de termen lung (1/2)}
+\begin{frame}{Estimatori ai relației de termen lung (1/3)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{FMOLS/DOLS panel}: OLS complet modificat \refPH\ sau laguri și valori viitoare (leads) ale lui $\Delta x$ \refSai, \refSWa, pe țări și apoi mediate (group mean) \refPedB
-    \item \textbf{Mean group (MG)} \refPSm: estimăm ARDL pentru fiecare țară și facem media coeficienților de termen lung $\hat\theta_i$
+    \item \textbf{FMOLS/DOLS panel} \refPedB
     \begin{itemize}
+        \item FMOLS: OLS complet modificat, corectat pentru endogenitate și autocorelare \refPH
+        \item DOLS: OLS cu valori viitoare (leads) și laguri ale lui $\Delta x$ \refSai, \refSWa
+        \item estimate pe țări și apoi mediate (group mean)
+    \end{itemize}
+    \item \textbf{Mean group (MG)} \refPSm
+    \begin{itemize}
+        \item estimăm ARDL pentru fiecare țară și facem media coeficienților de termen lung: $\hat\theta_{MG} = N^{-1}\sum_i\hat\theta_i$
         \item consistent sub eterogenitate completă; SE $= s_\theta/\sqrt N$, $s_\theta$: abaterea standard a lui $\hat\theta_i$ între țări
         \item efectele fixe cu pante comune sînt inconsistente cînd pantele reale diferă, chiar pentru $T$ mare; pentru $T$ mic se adaugă deplasarea Nickell \refNic
     \end{itemize}
-    \item \textbf{CCE} \refPesA: $y_{it} = \alpha_i + \beta_i'x_{it} + \gamma_i'f_t + e_{it}$; adăugăm $\bar y_t, \bar x_t$ în fiecare regresie
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimatori ai relației de termen lung (2/3)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{CCE} \refPesA
     \begin{itemize}
+        \item modelul: $y_{it} = \alpha_i + \beta_i'x_{it} + \gamma_i'f_t + e_{it}$
+        \item estimarea: adăugăm mediile pe secțiune $\bar y_t, \bar x_t$ în fiecare regresie
         \item $f_t$: factori comuni neobservați; $\gamma_i$: încărcările țării pe acești factori; mediile $\bar y_t, \bar x_t$ preiau $f_t$
         \item valabil și cu factori nestaționari \refKPY; versiunea dinamică CS-ARDL \refCP
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Estimatori ai relației de termen lung (2/2)}
+\begin{frame}{Estimatori ai relației de termen lung (3/3)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Pooled mean group (PMG)} \refPSSa: un termen lung comun în ECM-uri specifice fiecărei țări \[ \Delta y_{it} = \phi_i(y_{i,t-1} - \theta'x_{i,t-1}) + \sum_j\lambda_{ij}\Delta y_{i,t-j} + \sum_j\delta_{ij}'\Delta x_{i,t-j} + \mu_i + \varepsilon_{it} \]
     \begin{itemize}
         \item $\theta$: coeficienții de termen lung, comuni tuturor țărilor; $\phi_i$: viteza de ajustare a țării, cu condiția $\phi_i < 0$
         \item $\lambda_{ij}$, $\delta_{ij}$, $\mu_i$, $\sigma_i^2 = \Var\varepsilon_{it}$: termenul scurt, termenul liber și varianța erorii, toate specifice țării
-        \item ML: maximizăm $-\sum_i\tfrac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ după $\theta$; $T_i$: lungimea eșantionului țării $i$
+        \item ML: maximizăm $-\sum_i\tfrac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ după $\theta$; $T_i$: lungimea eșantionului țării $i$ (derivarea: \atsapplink{atsapp3}{atssrc3}{Anexa})  % applink: verosimilitatea PMG
     \end{itemize}
     \item Testul Hausman pentru $\theta_{MG} = \theta_{PMG}$
     \begin{itemize}
@@ -1268,8 +1445,10 @@ inflație (constantă) & \ensuremath{-}10{,}10 (0{,}003) & \ensuremath{-}1{,}82 
 \begin{frame}{Studiu de caz: Pesaran, Shin și Smith (1999)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refPSSa\ estimează funcții de consum pentru țări OCDE: ARDL pentru logaritmul consumului real pe locuitor, logaritmul venitului disponibil real pe locuitor și inflație, date anuale
+    \item \refPSSa
     \begin{itemize}
+        \item funcții de consum pentru țări OCDE, date anuale
+        \item ARDL pentru logaritmul consumului real pe locuitor, logaritmul venitului disponibil real pe locuitor și inflație
         \item compară MG, PMG și efectele fixe dinamice și folosesc teste Hausman pentru a decide dacă efectele pe termen lung ale venitului și inflației pot fi comune
         \item argumentul lor: teoria (venitul permanent) restricționează termenul lung; vitezele de ajustare, obiceiurile și constrîngerile de credit diferă între țări
     \end{itemize}
@@ -1476,8 +1655,8 @@ CCEMG & 0{,}73 (0{,}05) & 0{,}10 (0{,}10) & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Anexă: de ce $C = \beta_\perp(\alpha_\perp'\Gamma\beta_\perp)^{-1}\alpha_\perp'$}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Înapoi}
+\begin{frame}{Anexă: derivarea matricei impactului pe termen lung $C$}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Înmulțim VECM cu $\alpha_\perp'$: $\alpha_\perp'\Delta y_t = \alpha_\perp'\sum_i\Gamma_i\Delta y_{t-i} + \alpha_\perp'\varepsilon_t$; prin însumare $\alpha_\perp'\Gamma y_t \approx \alpha_\perp'\sum_{s\le t}\varepsilon_s$ pînă la termeni staționari
@@ -1488,11 +1667,16 @@ CCEMG & 0{,}73 (0{,}05) & 0{,}10 (0{,}10) & -- \\
 \end{frame}
 
 \begin{frame}{Anexă: verosimilitatea PMG}
-\hypertarget{atsapp3}{}\atsappback{atssrc1}{Înapoi}
+\hypertarget{atsapp3}{}\atsappback{atssrc3}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item $\ell(\theta, \phi, \sigma^2) = -\sum_{i=1}^N\frac{T_i}{2}\ln(2\pi\sigma_i^2) - \sum_{i=1}^N\frac{1}{2\sigma_i^2}(\Delta y_i - \phi_i\xi_i(\theta))'H_i(\Delta y_i - \phi_i\xi_i(\theta))$
-    \item $\xi_i(\theta) = y_{i,-1} - X_{i,-1}\theta$; $H_i$ elimină regresorii pe termen scurt și termenul liber ai țării
+    \item Notațiile
+    \begin{itemize}
+        \item $\Delta y_i$, $y_{i,-1}$ ($T_i\times 1$), $X_{i,-1}$ ($T_i\times k$): modificările, nivelurile cu lag ale lui $y$ și ale lui $x$ pentru țara $i$
+        \item $\xi_i(\theta) = y_{i,-1} - X_{i,-1}\theta$: eroarea de echilibru a țării $i$
+        \item $H_i = I - W_i(W_i'W_i)^{-1}W_i'$; $W_i$: regresorii pe termen scurt și termenul liber ai țării, eliminați prin $H_i$
+    \end{itemize}
     \item Pentru $\theta$ dat, $\phi_i$ și $\sigma_i^2$ sînt OLS pe țări; verosimilitatea concentrată $-\sum_i\frac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ se maximizează după $\theta$ (substituție înapoi sau Newton)
     \item $\hat\theta_{PMG}$ este consistent și asimptotic normal dacă $\phi_i < 0$ pentru orice $i$ și termenul lung este omogen; statutul I(0)/I(1) al lui $x$ nu contează, ca în ARDL
 \end{itemize}

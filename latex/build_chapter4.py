@@ -222,6 +222,9 @@ P('ai.max', ai['tmax'], 2)
 V.raw('ai.nrej', str(ai['nrej']))
 V.raw('ai.n', str(ai['n']))
 minus_fix(V)
+for _k, _v in list(V.items()):   # '$p = 0.011$' or '$p < 0.001$' (never '$p = $<$0.001$')
+    if isinstance(_v, str):
+        V.raw(_k + '.e', '$p < ⁅0.001⁆$' if _v.startswith('$<$') else '$p = ' + _v + '$')
 
 # =============================================================================
 # DESCHIDERE
@@ -373,27 +376,36 @@ D.frame(T('Likelihood ratio tests of the rank (2/2)', 'Teste de raport de verosi
      [T(r'a multivariate Dickey--Fuller distribution: quantiles by simulation \refOL, \refMHM', r'o distribuție Dickey--Fuller multivariată: cuantilele se obțin prin simulare \refOL, \refMHM'),
       T(r'non-standard: neither $\chi^2$ nor Normal', r'nestandard: nici $\chi^2$, nici distribuția Normală')])), 'small')
 
-D.frame(T('The Granger representation theorem (1/2)', 'Teorema de reprezentare Granger (1/2)'), two(
+D.frame(T('The Granger representation theorem (1/3)', 'Teorema de reprezentare Granger (1/3)'), two(
     ph('granger', T('Clive Granger, 2008', 'Clive Granger, 2008'), h='0.33\\textheight'),
     items(T(r'The theorem writes a cointegrated VAR as random-walk trends plus stationary deviations',
             r'Teorema scrie un VAR cointegrat ca trenduri de tip mers aleator plus abateri staționare'),
+          (T(r'VAR in levels: $y_t = \sum_{i=1}^{p}A_iy_{t-i} + \Phi D_t + \varepsilon_t$', r'VAR-ul în niveluri: $y_t = \sum_{i=1}^{p}A_iy_{t-i} + \Phi D_t + \varepsilon_t$'),
+           [T(r'$A_i$ ($n\times n$): its lag matrices; $A(z) = I - \sum_{i=1}^{p}A_iz^i$: its characteristic polynomial', r'$A_i$ ($n\times n$): matricele lui de lag; $A(z) = I - \sum_{i=1}^{p}A_iz^i$: polinomul lui caracteristic'),
+            T(r'$\Pi = -A(1)$, $\Gamma_i = -\sum_{j>i}A_j$: the VECM matrices; $\Gamma = I - \sum_i\Gamma_i$', r'$\Pi = -A(1)$, $\Gamma_i = -\sum_{j>i}A_j$: matricele VECM; $\Gamma = I - \sum_i\Gamma_i$')]),
           (T('Conditions', 'Condițiile'),
-           [T(r'the roots of $|A(z)| = 0$ satisfy $|z| > 1$ or $z = 1$', r'rădăcinile lui $|A(z)| = 0$ satisfac $|z| > 1$ sau $z = 1$'),
-            T(r'$\mathrm{rank}\,\Pi = r$', r'$\mathrm{rang}\,\Pi = r$'),
-            T(r'$\alpha_\perp\'\Gamma\beta_\perp$ has full rank, $\Gamma = I - \sum_i\Gamma_i$', r'$\alpha_\perp\'\Gamma\beta_\perp$ are rang complet, $\Gamma = I - \sum_i\Gamma_i$')]),
-          T(r'Then \[ y_t = C\sum_{i=1}^{t}(\varepsilon_i + \Phi D_i) + C^*(L)(\varepsilon_t + \Phi D_t) + A_0 \] with $C = \beta_\perp(\alpha_\perp\'\Gamma\beta_\perp)^{-1}\alpha_\perp\'$',
-            r'Atunci \[ y_t = C\sum_{i=1}^{t}(\varepsilon_i + \Phi D_i) + C^*(L)(\varepsilon_t + \Phi D_t) + A_0 \] cu $C = \beta_\perp(\alpha_\perp\'\Gamma\beta_\perp)^{-1}\alpha_\perp\'$')), '0.30', '0.68'), 'footnotesize')
+           [T(r'the roots of $|A(z)| = 0$ satisfy $|z| > 1$ or $z = 1$ (no explosive or seasonal roots)', r'rădăcinile lui $|A(z)| = 0$ satisfac $|z| > 1$ sau $z = 1$ (fără rădăcini explozive sau sezoniere)'),
+            T(r'$\mathrm{rank}\,\Pi = r$, so $\Pi = \alpha\beta\'$', r'$\mathrm{rang}\,\Pi = r$, deci $\Pi = \alpha\beta\'$'),
+            T(r'$\alpha_\perp\'\Gamma\beta_\perp$ has full rank $n - r$', r'$\alpha_\perp\'\Gamma\beta_\perp$ are rang complet, $n - r$'),
+            T(r'$\alpha_\perp$, $\beta_\perp$ ($n\times(n - r)$): orthogonal complements, $\alpha\'\alpha_\perp = 0$, $\beta\'\beta_\perp = 0$', r'$\alpha_\perp$, $\beta_\perp$ ($n\times(n - r)$): complementele ortogonale, $\alpha\'\alpha_\perp = 0$, $\beta\'\beta_\perp = 0$')])), '0.30', '0.68'), 'footnotesize')
 
-D.frame(T('The Granger representation theorem (2/2)', 'Teorema de reprezentare Granger (2/2)'), items(
+D.frame(T('The Granger representation theorem (2/3)', 'Teorema de reprezentare Granger (2/3)'), items(
+    T(r'Under these conditions $y_t$ is I(1), $\beta\'y_t$ is I(0), and \[ y_t = C\sum_{i=1}^{t}(\varepsilon_i + \Phi D_i) + C^*(L)(\varepsilon_t + \Phi D_t) + A_0 \]',
+      r'În aceste condiții $y_t$ este I(1), $\beta\'y_t$ este I(0), iar \[ y_t = C\sum_{i=1}^{t}(\varepsilon_i + \Phi D_i) + C^*(L)(\varepsilon_t + \Phi D_t) + A_0 \]'),
     (T('Notation', 'Notațiile'),
-     [T(r'$A(z) = I - \sum_{i=1}^{p}A_iz^i$: the characteristic polynomial of the VAR in levels, $y_t = \sum_i A_iy_{t-i} + \dots$; the root condition excludes explosive and seasonal roots', r'$A(z) = I - \sum_{i=1}^{p}A_iz^i$: polinomul caracteristic al VAR-ului în niveluri, $y_t = \sum_i A_iy_{t-i} + \dots$; condiția exclude rădăcinile explozive și sezoniere'),
-      T(r'$\alpha_\perp$, $\beta_\perp$ ($n\times(n - r)$, full rank): orthogonal complements, $\alpha\'\alpha_\perp = 0$, $\beta\'\beta_\perp = 0$', r'$\alpha_\perp$, $\beta_\perp$ ($n\times(n - r)$, de rang complet): complementele ortogonale, $\alpha\'\alpha_\perp = 0$, $\beta\'\beta_\perp = 0$'),
-      T(r'$C$: the long-run impact matrix; $C^*(L)$: a lag polynomial with summable coefficients (the stationary part); $A_0$: depends on initial values, $\beta\'A_0 = 0$', r'$C$: matricea impactului pe termen lung; $C^*(L)$: un polinom în operatorul lag cu coeficienți sumabili (partea staționară); $A_0$: depinde de valorile inițiale, $\beta\'A_0 = 0$')]),
+     [T(r'$C = \beta_\perp(\alpha_\perp\'\Gamma\beta_\perp)^{-1}\alpha_\perp\'$: the long-run impact matrix, of rank $n - r$ (derivation: Appendix)  % applink: long-run impact matrix', r'$C = \beta_\perp(\alpha_\perp\'\Gamma\beta_\perp)^{-1}\alpha_\perp\'$: matricea impactului pe termen lung, de rang $n - r$ (derivarea: Anexa)  % applink: matricei impactului'),
+      T(r'$C^*(L) = \sum_{j\ge 0}C_j^*L^j$: a polynomial in the lag operator $L$ ($Ly_t = y_{t-1}$) with summable coefficients, the stationary part', r'$C^*(L) = \sum_{j\ge 0}C_j^*L^j$: un polinom în operatorul lag $L$ ($Ly_t = y_{t-1}$) cu coeficienți sumabili, partea staționară'),
+      T(r'$A_0$: a constant that depends on the initial values, with $\beta\'A_0 = 0$', r'$A_0$: o constantă care depinde de valorile inițiale, cu $\beta\'A_0 = 0$')]),
+    T(r'First term: random walks plus deterministic trends; second term: stationary deviations from them',
+      r'Primul termen: mersuri aleatoare plus trenduri deterministe; al doilea termen: abateri staționare de la ele')), 'small')
+
+D.frame(T('The Granger representation theorem (3/3)', 'Teorema de reprezentare Granger (3/3)'), items(
     (T('Interpretation', 'Interpretarea'),
      [T(r'$\beta\'C = 0$: the relations do not contain the stochastic trends', r'$\beta\'C = 0$: relațiile nu conțin trendurile stochastice'),
       T(r'$C\alpha = 0$: an equilibrium error has no permanent effect', r'$C\alpha = 0$: o eroare de echilibru nu are efect permanent'),
-      T(r'common trends: the $n - r$ random walks $\alpha_\perp\'\sum_i\varepsilon_i$', r'trendurile comune: cele $n - r$ mersuri aleatoare $\alpha_\perp\'\sum_i\varepsilon_i$'),
-      T(r'$\alpha_\perp\'\Gamma\beta_\perp$ singular means I(2) (see the I(2) section)', r'$\alpha_\perp\'\Gamma\beta_\perp$ singulară înseamnă I(2) (vezi secțiunea despre I(2))')])), 'small')
+      T(r'common trends: the $n - r$ random walks $\alpha_\perp\'\sum_i\varepsilon_i$', r'trendurile comune: cele $n - r$ mersuri aleatoare $\alpha_\perp\'\sum_i\varepsilon_i$')]),
+    (T(r'If $\alpha_\perp\'\Gamma\beta_\perp$ is singular, the theorem fails', r'Dacă $\alpha_\perp\'\Gamma\beta_\perp$ este singulară, teorema nu se mai aplică'),
+     [T(r'$C$ does not exist and some trends are I(2) (see the I(2) section)', r'$C$ nu există, iar unele trenduri sînt I(2) (vezi secțiunea despre I(2))')])), 'small')
 
 D.recap(('The cointegrated VAR', 'VAR-ul cointegrat'), [
     T(r'Concentrate out the short run, then maximise over $\beta$: a generalised eigenvalue problem', r'Eliminăm dinamica pe termen scurt, apoi maximizăm după $\beta$: o problemă generalizată de valori proprii'),
@@ -452,17 +464,27 @@ D.recap(('Deterministic terms', 'termenii determiniști'), [
 # =============================================================================
 D.section('Small samples: corrections and the bootstrap', 'Eșantioane mici: corecții și bootstrap')
 
-D.frame(T('Over-rejection of the asymptotic test', 'Respingerile excesive ale testului asimptotic'), items(
-    T(r'The trace statistic estimates $n^2(p - 1)$ short-run parameters plus the deterministic terms; with $T = 100$ and $n = 3$, $p = 4$ this is a large share of the information',
-      r'Statistica trace estimează $n^2(p - 1)$ parametri pe termen scurt plus termenii determiniști; cu $T = 100$, $n = 3$ și $p = 4$ aceștia consumă o parte mare din informație'),
-    T(r'The distortion grows with persistent short-run dynamics ($\Gamma_i$ near the unit circle) and with roots of the stationary part near one',
-      r'Distorsiunea crește cu dinamica pe termen scurt persistentă ($\Gamma_i$ aproape de cercul unitate) și cu rădăcini ale părții staționare apropiate de unu'),
-    (T('Three remedies', 'Trei remedii'),
-     [T(r'\textbf{Reinsel--Ahn}: multiply the statistic by $(T - np)/T$ \refRA; simple, often too conservative', r'\textbf{Reinsel--Ahn}: înmulțim statistica cu $(T - np)/T$ \refRA; simplu, adesea prea conservator'),
-      T(r'\textbf{Bartlett correction}: $LR_{tr}/(1 + a(\theta)/T)$ with $\E LR_{tr} \approx f\,(1 + a(\theta)/T)$ \refJohG; $f$: the mean of the limit distribution; $a(\theta)$: an analytic function of the parameters $\theta$, estimated by plug-in', r'\textbf{Corecția Bartlett}: $LR_{tr}/(1 + a(\theta)/T)$ cu $\E LR_{tr} \approx f\,(1 + a(\theta)/T)$ \refJohG; $f$: media distribuției limită; $a(\theta)$: o funcție analitică de parametrii $\theta$, estimată prin înlocuirea lor cu estimațiile'),
-      T(r'\textbf{Bootstrap}: simulate the null distribution from the model estimated under $H(r)$ \refSwe, \refCRT', r'\textbf{Bootstrap}: simulăm distribuția nulă din modelul estimat sub $H(r)$ \refSwe, \refCRT')]),
-    T(r'Conditional heteroskedasticity leaves the limit distribution unchanged but worsens the finite-sample size \refCRTa: use the wild bootstrap',
-      r'Heteroscedasticitatea condiționată nu schimbă distribuția limită, dar înrăutățește nivelul efectiv al testului în eșantioane finite \refCRTa: folosiți bootstrap-ul wild')), 'small')
+D.frame(T('Over-rejection of the asymptotic test (1/2)', 'Respingerile excesive ale testului asimptotic (1/2)'), items(
+    (T(r'The VECM spends many parameters on the short run', r'VECM-ul consumă mulți parametri pentru termenul scurt'),
+     [T(r'$n^2(p - 1)$ elements of $\Gamma_1, \dots, \Gamma_{p-1}$, plus the deterministic terms', r'$n^2(p - 1)$ elemente ale matricelor $\Gamma_1, \dots, \Gamma_{p-1}$, plus termenii determiniști'),
+      T(r'with $T = 100$, $n = 3$ and $p = 4$: 27 short-run parameters, a large share of the information', r'cu $T = 100$, $n = 3$ și $p = 4$: 27 de parametri de termen scurt, o parte mare din informație')]),
+    (T('The distortion grows with persistence', 'Distorsiunea crește cu persistența'),
+     [T(r'persistent short-run dynamics: roots of the stationary part close to the unit circle', r'dinamica pe termen scurt persistentă: rădăcini ale părții staționare apropiate de cercul unitate'),
+      T('the asymptotic test then finds too many cointegrating relations', 'testul asimptotic găsește atunci prea multe relații de cointegrare')]),
+    (T(r'Conditional heteroskedasticity \refCRTa', r'Heteroscedasticitatea condiționată \refCRTa'),
+     [T('leaves the limit distribution unchanged', 'nu schimbă distribuția limită'),
+      T('but worsens the finite-sample size: use the wild bootstrap', 'dar înrăutățește nivelul efectiv al testului în eșantioane finite: folosiți bootstrap-ul wild')])), 'small')
+
+D.frame(T('Over-rejection of the asymptotic test (2/2)', 'Respingerile excesive ale testului asimptotic (2/2)'), items(
+    (T(r'\textbf{Reinsel--Ahn} \refRA', r'\textbf{Reinsel--Ahn} \refRA'),
+     [T(r'multiply the statistic by $(T - np)/T$: a degrees-of-freedom correction', r'înmulțim statistica cu $(T - np)/T$: o corecție pentru gradele de libertate'),
+      T('simple, often too conservative', 'simplă, adesea prea conservatoare')]),
+    (T(r'\textbf{Bartlett correction} \refJohG', r'\textbf{Corecția Bartlett} \refJohG'),
+     [T(r'$\E LR_{tr} \approx f\,(1 + a(\theta)/T)$; the corrected statistic is $LR_{tr}/(1 + a(\theta)/T)$', r'$\E LR_{tr} \approx f\,(1 + a(\theta)/T)$; statistica corectată este $LR_{tr}/(1 + a(\theta)/T)$'),
+      T(r'$f$: the mean of the limit distribution; $\theta$: the VECM parameters', r'$f$: media distribuției limită; $\theta$: parametrii VECM-ului'),
+      T(r'$a(\theta)$: an analytic function of $\theta$, evaluated at the estimates', r'$a(\theta)$: o funcție analitică de $\theta$, evaluată în estimații')]),
+    (T(r'\textbf{Bootstrap} \refSwe, \refCRT', r'\textbf{Bootstrap} \refSwe, \refCRT'),
+     [T(r'simulate the null distribution from the model estimated under $H(r)$', r'simulăm distribuția nulă din modelul estimat sub $H(r)$')])), 'small')
 
 D.frame(T('The bootstrap rank test, step by step', 'Testul de rang bootstrap, pas cu pas'), items(
     T(r'1. Estimate the VECM under $H(r)$: $\hat\alpha^{(r)}, \hat\beta^{(r)}, \hat\Gamma_i^{(r)}, \hat\Phi^{(r)}$ and residuals $\hat\varepsilon_t^{(r)}$',
@@ -593,8 +615,8 @@ D.frame(T('Rank of the pass-through system', 'Rangul sistemului de transmitere')
      r'$r \le 2$ & @{pt.tr2} & @{pt.ra2} & @{pt.cv2} & @{pt.bo2} & @{pt.tr42} & @{pt.ra42} & @{pt.bo42}'], size='scriptsize') + items(
     T(r'Case 2; RA: Reinsel--Ahn; cv: simulated 95\% quantile; wild $p$: 399 wild-bootstrap samples under $H(r)$; lag order by BIC = @{pt.ic.bic}, HQ = @{pt.ic.hq}, AIC = @{pt.ic.aic}',
       r'Cazul 2; RA: Reinsel--Ahn; cv: cuantila simulată de 95\%; $p$ wild: 399 de eșantioane bootstrap wild sub $H(r)$; numărul de laguri după BIC = @{pt.ic.bic}, HQ = @{pt.ic.hq}, AIC = @{pt.ic.aic}'),
-    T(r'With $p = @{pt.p}$ all three methods give $r = 2$; with $p = 4$ the asymptotic test gives $r = 1$ and the wild bootstrap rejects nothing',
-      r'Cu $p = @{pt.p}$ toate cele trei metode dau $r = 2$; cu $p = 4$ testul asimptotic dă $r = 1$, iar bootstrap-ul wild nu respinge nimic')), 'small')
+    T(r'With @{pt.p.e} all three methods give $r = 2$; with $p = 4$ the asymptotic test gives $r = 1$ and the wild bootstrap rejects nothing',
+      r'Cu @{pt.p.e} toate cele trei metode dau $r = 2$; cu $p = 4$ testul asimptotic dă $r = 1$, iar bootstrap-ul wild nu respinge nimic')), 'small')
 
 interp(('the rank tests', 'testelor de rang'), [
     T(r'Two relations are what theory predicts: one for lending rates, one for deposit rates, both anchored to ROBOR', r'Două relații sînt exact ceea ce prezice teoria: una pentru dobînzile la credite, una pentru cele la depozite, ambele ancorate de ROBOR'),
@@ -620,8 +642,8 @@ chart(T('The two equilibrium errors', 'Cele două erori de echilibru'), 'ats_ch4
 
 interp(('the pass-through VECM', 'VECM-ului de transmitere'), [
     T(r'Lending rates over-react slightly in the long run (@{pt.thl} per point of ROBOR), deposit rates under-react (@{pt.thd}): the bank margin widens when ROBOR rises', r'Dobînzile la credite reacționează ușor peste unu pe termen lung (@{pt.thl} pentru un punct de ROBOR), cele la depozite sub unu (@{pt.thd}): marja băncilor crește cînd crește ROBOR'),
-    T(r'Joint complete pass-through is rejected ($p = @{pt.pc}$), driven by deposits; for lending rates alone the verdict depends on the lag length', r'Transmiterea completă comună este respinsă ($p = @{pt.pc}$), din cauza depozitelor; pentru dobînzile la credite verdictul depinde de numărul de laguri'),
-    T(r'ROBOR is weakly exogenous ($p = @{pt.pw}$): money-market rates lead, bank rates follow; this justifies a single-equation ARDL', r'ROBOR este slab exogen ($p = @{pt.pw}$): dobînzile pieței monetare se mișcă primele, iar dobînzile bancare le urmează; aceasta justifică un ARDL pe o singură ecuație'),
+    T(r'Joint complete pass-through is rejected (@{pt.pc.e}), driven by deposits; for lending rates alone the verdict depends on the lag length', r'Transmiterea completă comună este respinsă (@{pt.pc.e}), din cauza depozitelor; pentru dobînzile la credite verdictul depinde de numărul de laguri'),
+    T(r'ROBOR is weakly exogenous (@{pt.pw.e}): money-market rates lead, bank rates follow; this justifies a single-equation ARDL', r'ROBOR este slab exogen (@{pt.pw.e}): dobînzile pieței monetare se mișcă primele, iar dobînzile bancare le urmează; aceasta justifică un ARDL pe o singură ecuație'),
     T('The lending equilibrium error is persistent before 2010: the transition-era spread is not a stable markup, a candidate for a broken constant \\refJMN', 'Eroarea de echilibru pentru credite este persistentă înainte de 2010: diferența din perioada tranziției nu este o marjă stabilă, un candidat pentru o constantă cu ruptură \\refJMN')])
 
 D.recap(('Pass-through in Romania', 'transmiterea în România'), [
@@ -635,16 +657,17 @@ D.recap(('Pass-through in Romania', 'transmiterea în România'), [
 D.section('I(2) in brief', 'I(2) pe scurt')
 
 D.frame(T('When the I(1) model is not enough', 'Cînd modelul I(1) nu este suficient'), items(
-    T(r'If $\alpha_\perp\'\Gamma\beta_\perp$ has reduced rank $s < n - r$, the Granger representation fails: some common trends are I(2), $y_t$ contains $\sum\sum\varepsilon$',
-      r'Dacă $\alpha_\perp\'\Gamma\beta_\perp$ are rang redus $s < n - r$, reprezentarea Granger nu mai funcționează: unele trenduri comune sînt I(2), $y_t$ conține $\sum\sum\varepsilon$'),
-    T(r'Typical candidates: nominal price levels and nominal money in periods of changing inflation; inflation is then I(1)',
-      r'Candidați tipici: nivelurile prețurilor și masa monetară nominală în perioade cu inflație variabilă; inflația este atunci I(1)'),
-    (T(r'I(2) model: two reduced-rank conditions, $\Pi = \alpha\beta\'$ and $\alpha_\perp\'\Gamma\beta_\perp = \xi\eta\'$; ML and rank tests in \refJohF, applied guidance in \refJus',
-       r'Modelul I(2): două condiții de rang redus, $\Pi = \alpha\beta\'$ și $\alpha_\perp\'\Gamma\beta_\perp = \xi\eta\'$; ML și teste de rang în \refJohF, ghid aplicat în \refJus'),
-     [T(r'polynomial cointegration: $\beta\'y_t + \delta\'\Delta y_t \sim$ I(0), e.g.\ real money plus a multiple of inflation',
-        r'cointegrare polinomială: $\beta\'y_t + \delta\'\Delta y_t \sim$ I(0), de exemplu masa monetară reală plus un multiplu al inflației')]),
-    T(r'Practical check: test $\Delta y_t$ for a unit root; if the I(1) VECM has a root near one in the stationary part, suspect I(2); the usual fix is to model real (deflated) variables',
-      r'Verificare practică: testați rădăcina unitară pentru $\Delta y_t$; dacă VECM-ul I(1) are o rădăcină aproape de unu în partea staționară, suspectați I(2); soluția uzuală este modelarea variabilelor reale (deflatate)')), 'small')
+    (T(r'If $\alpha_\perp\'\Gamma\beta_\perp$ has reduced rank $s < n - r$, the Granger representation fails', r'Dacă $\alpha_\perp\'\Gamma\beta_\perp$ are rang redus $s < n - r$, reprezentarea Granger nu se mai aplică'),
+     [T(r'some common trends are I(2): $y_t$ contains double sums $\sum_{j\le t}\sum_{i\le j}\varepsilon_i$', r'unele trenduri comune sînt I(2): $y_t$ conține sume duble $\sum_{j\le t}\sum_{i\le j}\varepsilon_i$'),
+      T('typical candidates: nominal prices and nominal money when inflation changes; inflation is then I(1)', 'candidați tipici: prețurile și masa monetară nominale cînd inflația variază; inflația este atunci I(1)')]),
+    (T(r'The I(2) model \refJohF, \refJus', r'Modelul I(2) \refJohF, \refJus'),
+     [T(r'two reduced-rank conditions: $\Pi = \alpha\beta\'$ and $\alpha_\perp\'\Gamma\beta_\perp = \xi\eta\'$', r'două condiții de rang redus: $\Pi = \alpha\beta\'$ și $\alpha_\perp\'\Gamma\beta_\perp = \xi\eta\'$'),
+      T(r'$\xi$, $\eta$ ($(n - r)\times s$, full rank): the factors of the second reduced-rank matrix', r'$\xi$, $\eta$ ($(n - r)\times s$, de rang complet): factorii celei de-a doua matrice de rang redus'),
+      T(r'polynomial cointegration: $\beta\'y_t + \delta\'\Delta y_t \sim$ I(0); $\delta$ ($n\times r$): the weights of the differences', r'cointegrare polinomială: $\beta\'y_t + \delta\'\Delta y_t \sim$ I(0); $\delta$ ($n\times r$): ponderile diferențelor'),
+      T('example: real money plus a multiple of inflation', 'exemplu: masa monetară reală plus un multiplu al inflației')]),
+    (T('Practical check', 'Verificarea practică'),
+     [T(r'test $\Delta y_t$ for a unit root; a root near one in the stationary part of the I(1) VECM is a warning', r'testați rădăcina unitară pentru $\Delta y_t$; o rădăcină aproape de unu în partea staționară a VECM-ului I(1) este un semnal de alarmă'),
+      T('the usual fix: model real (deflated) variables and inflation', 'soluția uzuală: modelarea variabilelor reale (deflatate) și a inflației')])), 'small')
 
 chart(T('Is the Romanian price level I(2)?', 'Este nivelul prețurilor din România I(2)?'), 'ats_ch4_i2', 'ATS_ch4_i2_check', [
     T(r'Left: $100\ln$ HICP; right: monthly inflation, annualised; dashed line: inflation targeting from August 2005', r'Stînga: $100\ln$ IAPC; dreapta: inflația lunară, anualizată; linia punctată: țintirea inflației din august 2005'),
@@ -680,17 +703,26 @@ D.frame(T('Permanent and transitory shocks (2/2)', 'Șocuri permanente și tranz
     T(r'This generalises Blanchard--Quah (Chapter 3): there the long-run zero was imposed; here it comes from the cointegration rank',
       r'Aceasta generalizează Blanchard--Quah (Capitolul 3): acolo zeroul de termen lung era impus; aici provine din rangul de cointegrare')), 'small')
 
-D.frame(T('Case study: King, Plosser, Stock and Watson (1991)', 'Studiu de caz: King, Plosser, Stock și Watson (1991)'), items(
-    (T(r'\refKPSW: in a real business-cycle model with a stochastic productivity trend, consumption, investment and output share one trend: the great ratios $c - y$ and $i - y$ are stationary',
-       r'\refKPSW: într-un model de ciclu real cu trend stochastic al productivității, consumul, investițiile și producția au un singur trend comun: rapoartele de echilibru (great ratios) $c - y$ și $i - y$ sînt staționare'),
-     [T(r'$n = 3$, $r = 2$, $\beta = \begin{pmatrix}1 & 0\\ 0 & 1\\ -1 & -1\end{pmatrix}$ imposed; one permanent ``balanced-growth\'\' shock', r'$n = 3$, $r = 2$, $\beta = \begin{pmatrix}1 & 0\\ 0 & 1\\ -1 & -1\end{pmatrix}$ impus; un singur șoc permanent de „creștere echilibrată”'),
-      T('question: how much of the business cycle does the permanent shock explain?', 'întrebarea: cît din ciclul economic explică șocul permanent?')]),
-    (T(r'Our replication: US quarterly 1949Q1--1988Q4 (the paper\'s sample), $T = @{kp.T}$; $c$: nondurables and services, $i$: fixed investment, $y$: GDP, per capita, deflated by the GDP deflator',
-       r'Replicarea noastră: date trimestriale SUA 1949T1--1988T4 (eșantionul lucrării), $T = @{kp.T}$; $c$: bunuri nedurabile și servicii, $i$: investiții fixe, $y$: PIB, pe locuitor, deflatate cu deflatorul PIB'),
-     [T(r'VAR($@{kp.p}$) in levels (all criteria), case 3; trace: @{kp.tr0}, @{kp.tr1}, @{kp.tr2} against 95\% quantiles @{kp.cv0}, @{kp.cv1}, @{kp.cv2}: $r = 2$',
-        r'VAR($@{kp.p}$) în niveluri (toate criteriile), cazul 3; trace: @{kp.tr0}, @{kp.tr1}, @{kp.tr2} față de cuantilele de 95\% @{kp.cv0}, @{kp.cv1}, @{kp.cv2}: $r = 2$'),
-      T(r'the exact great ratios are rejected: $LR = @{kp.lr}$, $\chi^2(2)$, $p = @{kp.plr}$; with a restricted trend (case 4) they are not: $LR = @{kp.lr4}$, $p = @{kp.plr4}$',
-        r'rapoartele de echilibru exacte sînt respinse: $LR = @{kp.lr}$, $\chi^2(2)$, $p = @{kp.plr}$; cu trend restricționat (cazul 4) nu sînt respinse: $LR = @{kp.lr4}$, $p = @{kp.plr4}$')])), 'small')
+D.frame(T('Case study: King, Plosser, Stock and Watson (1991) (1/2)', 'Studiu de caz: King, Plosser, Stock și Watson (1991) (1/2)'), items(
+    (T(r'\refKPSW', r'\refKPSW'),
+     [T('a real business-cycle model with a stochastic productivity trend', 'un model de ciclu real cu trend stochastic al productivității'),
+      T('consumption, investment and output share one common trend', 'consumul, investițiile și producția au un singur trend comun'),
+      T(r'the great ratios $c - y$ and $i - y$ are stationary ($c$, $i$, $y$: logarithms per capita)', r'rapoartele de echilibru (great ratios) $c - y$ și $i - y$ sînt staționare ($c$, $i$, $y$: logaritmi pe locuitor)')]),
+    (T('In VECM terms', 'În termenii VECM'),
+     [T(r'$n = 3$, $r = 2$, $\beta = \begin{pmatrix}1 & 0\\ 0 & 1\\ -1 & -1\end{pmatrix}$ imposed for $(c, i, y)$', r'$n = 3$, $r = 2$, $\beta = \begin{pmatrix}1 & 0\\ 0 & 1\\ -1 & -1\end{pmatrix}$ impus pentru $(c, i, y)$'),
+      T(r'$k = n - r = 1$: one permanent ``balanced-growth\'\' shock', r'$k = n - r = 1$: un singur șoc permanent de „creștere echilibrată”')]),
+    T('Question: how much of the business cycle does the permanent shock explain?', 'Întrebarea: cît din ciclul economic explică șocul permanent?')), 'small')
+
+D.frame(T('Case study: King, Plosser, Stock and Watson (1991) (2/2)', 'Studiu de caz: King, Plosser, Stock și Watson (1991) (2/2)'), items(
+    (T(r'Our replication: US quarterly data, 1949Q1--1988Q4 (the paper\'s sample), $T = @{kp.T}$', r'Replicarea noastră: date trimestriale SUA, 1949T1--1988T4 (eșantionul lucrării), $T = @{kp.T}$'),
+     [T(r'$c$: nondurables and services; $i$: fixed investment; $y$: GDP', r'$c$: bunuri nedurabile și servicii; $i$: investiții fixe; $y$: PIB'),
+      T('all per capita, deflated by the GDP deflator', 'toate pe locuitor, deflatate cu deflatorul PIB')]),
+    (T('Rank', 'Rangul'),
+     [T(r'VAR($@{kp.p}$) in levels (all criteria), case 3', r'VAR($@{kp.p}$) în niveluri (toate criteriile), cazul 3'),
+      T(r'trace: @{kp.tr0}, @{kp.tr1}, @{kp.tr2} against 95\% quantiles @{kp.cv0}, @{kp.cv1}, @{kp.cv2}: $r = 2$', r'trace: @{kp.tr0}, @{kp.tr1}, @{kp.tr2} față de cuantilele de 95\% @{kp.cv0}, @{kp.cv1}, @{kp.cv2}: $r = 2$')]),
+    (T(r'Test of $\beta = \beta_0$ (the exact great ratios)', r'Testul lui $\beta = \beta_0$ (rapoartele de echilibru exacte)'),
+     [T(r'case 3: rejected, $LR = @{kp.lr}$, $\chi^2(2)$, @{kp.plr.e}', r'cazul 3: respins, $LR = @{kp.lr}$, $\chi^2(2)$, @{kp.plr.e}'),
+      T(r'with a restricted trend (case 4): not rejected, $LR = @{kp.lr4}$, @{kp.plr4.e}', r'cu trend restricționat (cazul 4): nerespins, $LR = @{kp.lr4}$, @{kp.plr4.e}')])), 'small')
 
 chart(T('The balanced-growth shock', 'Șocul de creștere echilibrată'), 'ats_ch4_kpsw', 'ATS_ch4_common_trends', [
     T(r'Great ratios imposed (case 3); one-standard-deviation permanent shock; 90\% residual-bootstrap bands (@{kp.B} samples, $\beta$ fixed)', r'Rapoartele de echilibru impuse (cazul 3); șoc permanent de o abatere standard; benzi bootstrap pe reziduuri de 90\% (@{kp.B} de eșantioane, $\beta$ fixat)'),
@@ -742,18 +774,26 @@ D.frame(T('From a VECM to a conditional ECM (2/2)', 'De la VECM la un ECM condi�
       T(r'standard errors of $\hat\theta$ by the delta method; $t$-tests on $\theta$ are asymptotically valid', r'erorile standard ale lui $\hat\theta$ prin metoda delta; testele $t$ asupra lui $\theta$ sînt valabile asimptotic')]),
     T(r'The attraction: $x_t$ may be I(0), I(1) or a mix, and we need not pre-test it', r'Avantajul: $x_t$ poate fi I(0), I(1) sau un amestec și nu trebuie testat în prealabil')), 'small')
 
-D.frame(T('The bounds test', 'Testul bounds'), items(
-    T(r'$H_0$: no level relationship, $\pi_{yy} = 0$ and $\pi_{yx} = 0$; Wald $F$ (and $t$ on $\pi_{yy}$ to exclude the degenerate case $\pi_{yy} = 0 \ne \pi_{yx}$)',
-      r'$H_0$: nu există relație în niveluri, $\pi_{yy} = 0$ și $\pi_{yx} = 0$; testul Wald $F$ (și $t$ pentru $\pi_{yy}$, ca să excludem cazul degenerat $\pi_{yy} = 0 \ne \pi_{yx}$)'),
-    (T(r'The null distribution depends on the integration order of $x_t$: lower bound if all of $x_t$ is I(0), upper bound if all is I(1)',
-       r'Distribuția nulă depinde de ordinul de integrare al lui $x_t$: limita inferioară dacă tot $x_t$ este I(0), limita superioară dacă tot este I(1)'),
-     [T('$F$ above the upper bound: reject (a level relationship); below the lower bound: do not reject; between: inconclusive, then the order of integration matters',
-        '$F$ peste limita superioară: respingem (există relație în niveluri); sub limita inferioară: nu respingem; între ele: neconcludent, iar ordinul de integrare contează')]),
-    (T('Five cases (as in Johansen): I none; II restricted intercept; III unrestricted intercept; IV unrestricted intercept, restricted trend; V unrestricted intercept and trend',
-       'Cinci cazuri (ca la Johansen): I fără termeni; II termen liber restricționat; III termen liber nerestricționat; IV termen liber nerestricționat, trend restricționat; V termen liber și trend nerestricționate'),
-     [T(r'in cases II and IV the restricted terms are part of $H_0$; the $t$-bounds exist for cases I, III, V', r'în cazurile II și IV termenii restricționați fac parte din $H_0$; limitele pentru $t$ există pentru cazurile I, III, V')]),
-    T(r'Simulated 5\% bounds ($T = 1000$, @{bd.reps} replications), $k = 1$: case II [@{bd.2.1.95.lo}; @{bd.2.1.95.hi}], case III [@{bd.3.1.95.lo}; @{bd.3.1.95.hi}]; $t$, case III: [@{bd.t.lo}; @{bd.t.hi}]',
-      r'Limite simulate de 5\% ($T = 1000$, @{bd.reps} de replicări), $k = 1$: cazul II [@{bd.2.1.95.lo}; @{bd.2.1.95.hi}], cazul III [@{bd.3.1.95.lo}; @{bd.3.1.95.hi}]; $t$, cazul III: [@{bd.t.lo}; @{bd.t.hi}]')), 'small')
+D.frame(T('The bounds test (1/2)', 'Testul bounds (1/2)'), items(
+    (T(r'$H_0$: no level relationship, $\pi_{yy} = 0$ and $\pi_{yx} = 0$', r'$H_0$: nu există relație în niveluri, $\pi_{yy} = 0$ și $\pi_{yx} = 0$'),
+     [T(r'$F$: the Wald statistic of these $k + 1$ restrictions, divided by $k + 1$', r'$F$: statistica Wald a acestor $k + 1$ restricții, împărțită la $k + 1$'),
+      T(r'$t$: the $t$ ratio of $\hat\pi_{yy}$; it excludes the degenerate case $\pi_{yy} = 0 \ne \pi_{yx}$', r'$t$: raportul $t$ al lui $\hat\pi_{yy}$; exclude cazul degenerat $\pi_{yy} = 0 \ne \pi_{yx}$')]),
+    (T(r'The null distribution depends on the integration order of $x_t$', r'Distribuția nulă depinde de ordinul de integrare al lui $x_t$'),
+     [T(r'lower bound: all of $x_t$ is I(0); upper bound: all of $x_t$ is I(1)', r'limita inferioară: tot $x_t$ este I(0); limita superioară: tot $x_t$ este I(1)')]),
+    (T('Decision', 'Decizia'),
+     [T('$F$ above the upper bound: reject, there is a level relationship', '$F$ peste limita superioară: respingem, există relație în niveluri'),
+      T('$F$ below the lower bound: do not reject', '$F$ sub limita inferioară: nu respingem'),
+      T('between the bounds: inconclusive, the order of integration of $x_t$ matters', 'între limite: neconcludent, ordinul de integrare al lui $x_t$ contează')])), 'small')
+
+D.frame(T('The bounds test (2/2)', 'Testul bounds (2/2)'), items(
+    (T('Five cases, as in Johansen', 'Cinci cazuri, ca la Johansen'),
+     [T('I: no deterministic terms; II: restricted intercept', 'I: fără termeni determiniști; II: termen liber restricționat'),
+      T('III: unrestricted intercept; IV: unrestricted intercept, restricted trend', 'III: termen liber nerestricționat; IV: termen liber nerestricționat, trend restricționat'),
+      T('V: unrestricted intercept and trend', 'V: termen liber și trend nerestricționate'),
+      T(r'in cases II and IV the restricted terms are part of $H_0$; the $t$-bounds exist for cases I, III, V', r'în cazurile II și IV termenii restricționați fac parte din $H_0$; limitele pentru $t$ există pentru cazurile I, III, V')]),
+    (T(r'Simulated 5\% bounds, $k = 1$ ($T = 1000$, @{bd.reps} replications)', r'Limite simulate de 5\%, $k = 1$ ($T = 1000$, @{bd.reps} de replicări)'),
+     [T(r'$F$: case II [@{bd.2.1.95.lo}; @{bd.2.1.95.hi}], case III [@{bd.3.1.95.lo}; @{bd.3.1.95.hi}]', r'$F$: cazul II [@{bd.2.1.95.lo}; @{bd.2.1.95.hi}], cazul III [@{bd.3.1.95.lo}; @{bd.3.1.95.hi}]'),
+      T(r'$t$, case III: [@{bd.t.lo}; @{bd.t.hi}]', r'$t$, cazul III: [@{bd.t.lo}; @{bd.t.hi}]')])), 'small')
 
 D.frame(T('Critical values in small samples', 'Valori critice în eșantioane mici'), items(
     T(r'PSS tabulate asymptotic bounds ($T = 1000$); with 30--80 annual observations they are too low \refNar',
@@ -774,8 +814,9 @@ D.frame(T('ARDL or VECM?', 'ARDL sau VECM?'), table(
      T('Small samples', 'Eșantioane mici') + ' & ' + T('few parameters; small-sample bounds needed', 'puțini parametri; necesită limite pentru eșantioane mici') + ' & ' + T('many parameters; bootstrap needed', 'mulți parametri; necesită bootstrap'),
      T('Structural use', 'Utilizare structurală') + ' & ' + T('multipliers of $x$ on $y$', 'multiplicatorii lui $x$ asupra lui $y$') + ' & ' + T('common trends, identified shocks', 'trenduri comune, șocuri identificate')],
     size='scriptsize') + items(
-    T(r'Rule: estimate the VECM first when you can; if a variable is weakly exogenous and the relation is unique, the ARDL is efficient and simpler; if feedback is present, ARDL estimates are inconsistent',
-      r'Regula: estimați întîi VECM cînd este posibil; dacă o variabilă este slab exogenă și relația este unică, ARDL este eficient și mai simplu; dacă există feedback, estimațiile ARDL sînt inconsistente')), 'small')
+    (T('Rule: estimate the VECM first when you can', 'Regula: estimați întîi VECM cînd este posibil'),
+     [T('weakly exogenous regressors and a unique relation: the ARDL is efficient and simpler', 'regresori slab exogeni și o relație unică: ARDL este eficient și mai simplu'),
+      T('feedback from $y_t$ to $x_t$: the ARDL estimates are inconsistent', 'feedback de la $y_t$ la $x_t$: estimațiile ARDL sînt inconsistente')])), 'small')
 
 D.frame(T('ARDL pass-through of ROBOR to the lending rate', 'ARDL: transmiterea ROBOR către dobînda la credite'), items(
     T(r'ARDL(@{ar.lend.p}, @{ar.lend.q}) selected by BIC, case II (ROBOR weakly exogenous in the VECM), $n = @{ar.lend.n}$',
@@ -800,18 +841,24 @@ interp(('the ARDL results', 'rezultatelor ARDL'), [
     T(r'ARDL and VECM agree on the size of the lending pass-through (@{ar.lend.theta} and @{pt.thl}) but not on the test of $\theta = 1$: different nuisance parameters, different power', r'ARDL și VECM coincid asupra mărimii transmiterii către credite (@{ar.lend.theta} și @{pt.thl}), dar nu asupra testului $\theta = 1$: alți parametri de perturbare, altă putere'),
     T(r'About half of the long-run effect arrives within six months (@{ar.m6}); the rest is slow, with a half-life of the disequilibrium of @{ar.lend.hl} months, consistent with fixed-rate periods and contract repricing', r'Aproximativ jumătate din efectul de termen lung apare în șase luni (@{ar.m6}); restul este lent, cu un timp de înjumătățire a dezechilibrului de @{ar.lend.hl} luni, în acord cu perioadele cu dobîndă fixă și cu reevaluarea contractelor')])
 
-D.frame(T('Two related tools', 'Două instrumente înrudite'), items(
-    (T(r'\textbf{Toda--Yamamoto causality} \refTY: in a VAR of possibly integrated or cointegrated variables, fit $p + d_{\max}$ lags in levels and test only the first $p$; $d_{\max}$: the highest suspected order of integration',
-       r'\textbf{Cauzalitatea Toda--Yamamoto} \refTY: într-un VAR cu variabile posibil integrate sau cointegrate, estimăm $p + d_{\max}$ laguri în niveluri și testăm doar primele $p$; $d_{\max}$: ordinul maxim de integrare presupus'),
-     [T(r'the Wald statistic is asymptotically $\chi^2(p)$ whatever the integration and cointegration properties; the price: lower power than a correctly specified VECM',
-        r'statistica Wald este asimptotic $\chi^2(p)$ oricare ar fi proprietățile de integrare și cointegrare; prețul: putere mai mică decît un VECM corect specificat')]),
-    (T(r'\textbf{Nonlinear ARDL} \refSYG: split $x_t$ into partial sums of increases $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$ and decreases $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$',
-       r'\textbf{ARDL neliniar} \refSYG: descompunem $x_t$ în sumele parțiale ale creșterilor $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$ și ale scăderilor $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$'),
+D.frame(T('Two related tools (1/2)', 'Două instrumente înrudite (1/2)'), items(
+    (T(r'\textbf{Toda--Yamamoto causality} \refTY', r'\textbf{Cauzalitatea Toda--Yamamoto} \refTY'),
+     [T('a VAR of possibly integrated or cointegrated variables', 'un VAR cu variabile posibil integrate sau cointegrate'),
+      T(r'fit $p + d_{\max}$ lags in levels and test only the first $p$; $d_{\max}$: the highest suspected order of integration', r'estimăm $p + d_{\max}$ laguri în niveluri și testăm doar primele $p$; $d_{\max}$: ordinul maxim de integrare presupus'),
+      T(r'the Wald statistic is asymptotically $\chi^2(p)$ whatever the integration and cointegration properties', r'statistica Wald este asimptotic $\chi^2(p)$ oricare ar fi proprietățile de integrare și cointegrare'),
+      T('the price: lower power than a correctly specified VECM', 'prețul: putere mai mică decît un VECM corect specificat')]),
+    (T(r'\textbf{Nonlinear ARDL} \refSYG', r'\textbf{ARDL neliniar} \refSYG'),
+     [T(r'partial sums of increases: $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$', r'sumele parțiale ale creșterilor: $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$'),
+      T(r'partial sums of decreases: $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$, so that $x_t = x_0 + x_t^+ + x_t^-$', r'sumele parțiale ale scăderilor: $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$, astfel încît $x_t = x_0 + x_t^+ + x_t^-$')])), 'small')
+
+D.frame(T('Two related tools (2/2)', 'Două instrumente înrudite (2/2)'), items(
+    (T(r'Nonlinear ARDL: $x_t^+$ and $x_t^-$ as two regressors', r'ARDL neliniar: $x_t^+$ și $x_t^-$ ca doi regresori'),
      [T(r'$x_t^+$ and $x_t^-$ enter the ARDL as two regressors, with long-run coefficients $\theta^+$, $\theta^-$ and short-run coefficients $\omega_j^+$, $\omega_j^-$', r'$x_t^+$ și $x_t^-$ intră în ARDL ca doi regresori, cu coeficienții de termen lung $\theta^+$, $\theta^-$ și cei de termen scurt $\omega_j^+$, $\omega_j^-$'),
-      T(r'long-run asymmetry: $\theta^+ \ne \theta^-$; short-run asymmetry: different $\omega_j^\pm$; Wald tests, bounds with $k = 2$',
-        r'asimetrie pe termen lung: $\theta^+ \ne \theta^-$; asimetrie pe termen scurt: $\omega_j^\pm$ diferiți; teste Wald, limite cu $k = 2$'),
-      T(r'classic use: retail fuel prices rise fast with oil and fall slowly (``rockets and feathers\'\') \refBac; Seminar 4 tests it for Romania',
-        r'utilizarea clasică: prețurile carburanților cresc repede cu petrolul și scad încet („rockets and feathers”) \refBac; Seminarul 4 testează acest lucru pentru România')])), 'small')
+      T(r'long-run asymmetry: $\theta^+ \ne \theta^-$; short-run asymmetry: different $\omega_j^+$ and $\omega_j^-$', r'asimetrie pe termen lung: $\theta^+ \ne \theta^-$; asimetrie pe termen scurt: $\omega_j^+$ și $\omega_j^-$ diferiți'),
+      T(r'both tested by Wald tests; the bounds test uses $k = 2$', r'ambele se testează prin teste Wald; testul bounds folosește $k = 2$')]),
+    (T(r'Classic use: ``rockets and feathers\'\' \refBac', r'Utilizarea clasică: „rockets and feathers” \refBac'),
+     [T('retail fuel prices rise fast with oil and fall slowly', 'prețurile carburanților cresc repede cu petrolul și scad încet'),
+      T('Seminar 4 tests it for Romania', 'Seminarul 4 testează acest lucru pentru România')])), 'small')
 
 D.recap(('ARDL and the bounds test', 'ARDL și testul bounds'), [
     T('The conditional ECM is an ARDL rewritten; it needs weak exogeneity and a single relation', 'ECM-ul condiționat este un ARDL rescris; necesită exogenitate slabă și o singură relație'),
@@ -826,26 +873,35 @@ D.section('Panel time series', 'Serii de timp panel')
 
 D.frame(T('Panels: the gain and the new problems', 'Datele panel: cîștigul și problemele noi'), two(
     ph('ecb', T('The ECB seat, Frankfurt', 'Sediul BCE, Frankfurt'), h='0.27\\textheight'),
-    items(T(r'Country series are short (20--30 years of annual data): a single-country rank or bounds test has little power; $N$ countries add information',
-            r'Seriile pe țări sînt scurte (20--30 de ani de date anuale): un test de rang sau bounds pentru o singură țară are putere mică; $N$ țări adaugă informație'),
-          T(r'Asymptotics in two dimensions: sequential ($T \to \infty$, then $N \to \infty$) or joint with $N/T \to 0$; a panel regression of I(1) series estimates a long-run average relation even without cointegration \refPM, \refKao',
-            r'Asimptotică în două dimensiuni: secvențială ($T \to \infty$, apoi $N \to \infty$) sau comună cu $N/T \to 0$; o regresie panel cu serii I(1) estimează o relație medie de termen lung chiar fără cointegrare \refPM, \refKao'),
-          T(r'Two new problems: \textbf{heterogeneity} (dynamics differ across countries) and \textbf{cross-section dependence} (common shocks: the 2009 recession, COVID-19, the euro)',
-            r'Două probleme noi: \textbf{eterogenitatea} (dinamica diferă între țări) și \textbf{dependența între unități} (șocuri comune: recesiunea din 2009, COVID-19, euro)'),
-          T(r'First-generation tests assume independent units; second-generation tests model the dependence \refBrP',
-            r'Testele de primă generație presupun unități independente; cele de generația a doua modelează dependența \refBrP')), '0.30', '0.68'), 'footnotesize')
+    items((T('The gain: $N$ countries add information', 'Cîștigul: $N$ țări adaugă informație'),
+           [T('country series are short: 20--30 years of annual data', 'seriile pe țări sînt scurte: 20--30 de ani de date anuale'),
+            T('a single-country rank or bounds test has little power', 'un test de rang sau bounds pentru o singură țară are putere mică')]),
+          (T(r'Asymptotics in two dimensions \refPM, \refKao', r'Asimptotică în două dimensiuni \refPM, \refKao'),
+           [T(r'sequential ($T \to \infty$, then $N \to \infty$) or joint, with $N/T \to 0$', r'secvențială ($T \to \infty$, apoi $N \to \infty$) sau comună, cu $N/T \to 0$'),
+            T('a panel regression of I(1) series estimates an average long-run relation even without cointegration', 'o regresie panel cu serii I(1) estimează o relație medie de termen lung chiar fără cointegrare')]),
+          (T('Two new problems', 'Două probleme noi'),
+           [T(r'\textbf{heterogeneity}: the dynamics differ across countries', r'\textbf{eterogenitatea}: dinamica diferă între țări'),
+            T(r'\textbf{cross-section dependence}: common shocks (2009, COVID-19, the euro)', r'\textbf{dependența între unități}: șocuri comune (2009, COVID-19, euro)'),
+            T(r'first-generation tests assume independent units; second-generation tests model the dependence \refBrP', r'testele de primă generație presupun unități independente; cele de generația a doua modelează dependența \refBrP')])), '0.30', '0.68'), 'footnotesize')
 
 D.frame(T('Measuring cross-section dependence', 'Măsurarea dependenței între unități'), items(
     (T(r'\textbf{CD} statistic \refPesE: the scaled sum of all pairwise correlations \[ CD = \sqrt{\dfrac{2T}{N(N - 1)}}\sum_{i<j}\hat\rho_{ij} \to N(0, 1) \]',
        r'Statistica \textbf{CD} \refPesE: suma scalată a tuturor corelațiilor pe perechi \[ CD = \sqrt{\dfrac{2T}{N(N - 1)}}\sum_{i<j}\hat\rho_{ij} \to N(0, 1) \]'),
      [T(r'$\hat\rho_{ij}$: the correlation over time between the residuals (or demeaned series) of units $i$ and $j$; $N$: number of units; $T$: number of periods', r'$\hat\rho_{ij}$: corelația în timp dintre reziduurile (sau seriile centrate) unităților $i$ și $j$; $N$: numărul de unități; $T$: numărul de perioade'),
       T(r'reading: $CD \approx 0$ under the null; $|CD| > 1.96$ rejects it at 5\%', r'citirea: $CD \approx 0$ sub ipoteza nulă; $|CD| > 1.96$ o respinge la 5\%')]),
-    T(r'The null is \emph{weak} dependence \refPesC: correlation that vanishes on average as $N$ grows; a common factor with non-zero mean loadings gives $|CD| \to \infty$',
-      r'Ipoteza nulă este dependența \emph{slabă} \refPesC: o corelație care dispare în medie cînd $N$ crește; un factor comun cu încărcări de medie nenulă dă $|CD| \to \infty$'),
-    T(r'Valid for fixed $T$ and large $N$, also in dynamic and unit-root panels; positive and negative correlations can offset each other, so report the mean $|\hat\rho_{ij}|$ as well',
-      r'Valabil pentru $T$ fix și $N$ mare, și în panele dinamice sau cu rădăcini unitare; corelațiile pozitive și negative se pot compensa, deci raportați și media $|\hat\rho_{ij}|$'),
-    T(r'EU-27, $T = @{pn.T}$ (@{pn.first}--@{pn.last}): CD = @{pn.cd.c} for consumption growth (mean $|\hat\rho| = @{pn.rho.c}$), @{pn.cd.y} for income growth, @{pn.cd.pi} for inflation: strong dependence everywhere',
-      r'UE-27, $T = @{pn.T}$ (@{pn.first}--@{pn.last}): CD = @{pn.cd.c} pentru creșterea consumului (media $|\hat\rho| = @{pn.rho.c}$), @{pn.cd.y} pentru creșterea venitului, @{pn.cd.pi} pentru inflație: dependență puternică peste tot')), 'small')
+    (T(r'The null is \emph{weak} dependence \refPesC', r'Ipoteza nulă este dependența \emph{slabă} \refPesC'),
+     [T(r'correlation that vanishes on average as $N$ grows', r'o corelație care dispare în medie cînd $N$ crește'),
+      T(r'a common factor with non-zero mean loadings gives $|CD| \to \infty$', r'un factor comun cu încărcări de medie nenulă dă $|CD| \to \infty$'),
+      T('valid for fixed $T$ and large $N$, also in dynamic and unit-root panels', 'valabilă pentru $T$ fix și $N$ mare, și în panele dinamice sau cu rădăcini unitare'),
+      T(r'positive and negative correlations can offset each other: report the mean $|\hat\rho_{ij}|$ as well', r'corelațiile pozitive și negative se pot compensa: raportați și media $|\hat\rho_{ij}|$')])), 'small')
+
+D.frame(T('Cross-section dependence in EU-27 data', 'Dependența între unități în panelul UE-27'), items(
+    (T(r'EU-27, $T = @{pn.T}$ (@{pn.first}--@{pn.last})', r'UE-27, $T = @{pn.T}$ (@{pn.first}--@{pn.last})'),
+     [T(r'consumption growth: CD = @{pn.cd.c}, mean $|\hat\rho_{ij}| = @{pn.rho.c}$', r'creșterea consumului: CD = @{pn.cd.c}, media $|\hat\rho_{ij}| = @{pn.rho.c}$'),
+      T(r'income growth: CD = @{pn.cd.y}; inflation: CD = @{pn.cd.pi}', r'creșterea venitului: CD = @{pn.cd.y}; inflația: CD = @{pn.cd.pi}')]),
+    (T('Interpretation', 'Interpretarea'),
+     [T(r'every statistic is far above 1.96: strong dependence everywhere', r'fiecare statistică depășește cu mult 1,96: dependență puternică peste tot'),
+      T('first-generation panel tests are not reliable for these data', 'testele panel de primă generație nu sînt fiabile pentru aceste date')])), 'small')
 
 D.frame(T('Panel unit-root tests (1/2)', 'Teste de rădăcină unitară în panel (1/2)'), items(
     (T(r'\textbf{LLC} \refLLC: one ADF regression per unit with a common $\rho$ \[ \Delta y_{it} = \mu_i + \rho y_{i,t-1} + \sum_j\gamma_{ij}\Delta y_{i,t-j} + e_{it} \]',
@@ -876,8 +932,8 @@ D.frame(T('Panel unit roots in EU-27 data', 'Rădăcini unitare în panelul UE-2
       r'$c$, $y$: $100\ln$ consumul real și venitul disponibil real pe locuitor ale gospodăriilor; $\pi$: inflația deflatorului consumului; $N = @{pn.N}$, $T = @{pn.T}$, un lag'),
     T(r'$p$-values in brackets from @{pn.reps} simulations of the null with independent units, for our $N$ and $T$ (replacing the tabulated moments)',
       r'P-value-urile din paranteze provin din @{pn.reps} de simulări ale ipotezei nule cu unități independente, pentru $N$ și $T$ ale noastre (în locul momentelor tabelate)'),
-    T(r'Consumption: IPS rejects the unit root ($p = @{pn.c.ips.p}$), CIPS does not ($p = @{pn.c.cips.p}$): the ``stationarity\'\' was a common factor; inflation is stationary by every test',
-      r'Consumul: IPS respinge rădăcina unitară ($p = @{pn.c.ips.p}$), CIPS nu ($p = @{pn.c.cips.p}$): „staționaritatea” era un factor comun; inflația este staționară după toate testele')), 'small')
+    T(r'Consumption: IPS rejects the unit root (@{pn.c.ips.p.e}), CIPS does not (@{pn.c.cips.p.e}): the ``stationarity\'\' was a common factor; inflation is stationary by every test',
+      r'Consumul: IPS respinge rădăcina unitară (@{pn.c.ips.p.e}), CIPS nu (@{pn.c.cips.p.e}): „staționaritatea” era un factor comun; inflația este staționară după toate testele')), 'small')
 
 D.frame(T('Panel cointegration tests (1/2)', 'Teste de cointegrare în panel (1/2)'), items(
     (T(r'\textbf{Residual-based} \refPedA, \refPedC: estimate $y_{it} = a_i + \delta_it + \beta_i\'x_{it} + e_{it}$ country by country and test the residuals for a unit root',
@@ -892,41 +948,50 @@ D.frame(T('Panel cointegration tests (1/2)', 'Teste de cointegrare în panel (1/
 
 D.frame(T('Panel cointegration tests (2/2)', 'Teste de cointegrare în panel (2/2)'), items(
     (T(r'Westerlund statistics', r'Statisticile Westerlund'),
-     [T(r'group statistics: $G_t$, the mean of the $N$ $t$-ratios of $\hat\alpha_i$, and $G_a$, the mean of the scaled $\hat\alpha_i$; $H_1$: some countries adjust', r'statisticile de grup: $G_t$, media celor $N$ rapoarte $t$ ale lui $\hat\alpha_i$, și $G_a$, media coeficienților $\hat\alpha_i$ scalați; $H_1$: unele țări se ajustează'),
-      T(r'panel statistics $P_t$, $P_a$: the same with a common $\alpha$; $H_1$: all countries adjust', r'statisticile panel $P_t$, $P_a$: aceleași cu un $\alpha$ comun; $H_1$: toate țările se ajustează'),
+     [T(r'group: $G_t = N^{-1}\sum_i\hat\alpha_i/\mathrm{SE}(\hat\alpha_i)$, $G_a = N^{-1}\sum_i T\hat\alpha_i/\hat\alpha_i(1)$; $H_1$: some countries adjust', r'de grup: $G_t = N^{-1}\sum_i\hat\alpha_i/\mathrm{SE}(\hat\alpha_i)$, $G_a = N^{-1}\sum_i T\hat\alpha_i/\hat\alpha_i(1)$; $H_1$: unele țări se ajustează'),
+      T(r'$\hat\alpha_i(1) = 1 - \sum_j\hat a_{ij}$: scales $\hat\alpha_i$ to the long-run adjustment', r'$\hat\alpha_i(1) = 1 - \sum_j\hat a_{ij}$: scalează $\hat\alpha_i$ la ajustarea pe termen lung'),
+      T(r'panel: $P_t$, $P_a$, the same ratios for a common $\alpha$; $H_1$: all countries adjust', r'panel: $P_t$, $P_a$, aceleași rapoarte pentru un $\alpha$ comun; $H_1$: toate țările se ajustează'),
       T('bootstrap critical values under cross-section dependence', 'valori critice bootstrap în prezența dependenței între unități')]),
-    T(r'EU-27, $c$ on $y$ and $\pi$: Pedroni group ADF @{pn.ped} (5\% critical value @{pn.ped.cv}, $p = @{pn.ped.p}$); Westerlund $G_t$ @{pn.wgt} (@{pn.wgt.cv}, $p = @{pn.wgt.p}$); null distributions simulated',
-      r'UE-27, $c$ pe $y$ și $\pi$: Pedroni group ADF @{pn.ped} (valoarea critică 5\% @{pn.ped.cv}, $p = @{pn.ped.p}$); Westerlund $G_t$ @{pn.wgt} (@{pn.wgt.cv}, $p = @{pn.wgt.p}$); distribuții nule simulate'),
-    T(r'The two families disagree: the residual-based test rejects, the ECM test does not; with $T = @{pn.T}$ and strong dependence, neither verdict is secure',
-      r'Cele două familii nu sînt de acord: testul pe reziduuri respinge, testul ECM nu; cu $T = @{pn.T}$ și dependență puternică, niciun verdict nu este sigur')), 'small')
+    (T(r'EU-27, $c$ on $y$ and $\pi$ (null distributions simulated)', r'UE-27, $c$ pe $y$ și $\pi$ (distribuții nule simulate)'),
+     [T(r'Pedroni group ADF (the mean of the country ADF $t$-ratios of $\hat e_{it}$): @{pn.ped}, 5\% critical value @{pn.ped.cv}, @{pn.ped.p.e}', r'Pedroni group ADF (media rapoartelor $t$ ADF ale lui $\hat e_{it}$ pe țări): @{pn.ped}, valoarea critică 5\% @{pn.ped.cv}, @{pn.ped.p.e}'),
+      T(r'Westerlund $G_t$: @{pn.wgt}, 5\% critical value @{pn.wgt.cv}, @{pn.wgt.p.e}', r'Westerlund $G_t$: @{pn.wgt}, valoarea critică 5\% @{pn.wgt.cv}, @{pn.wgt.p.e}')]),
+    (T('The two families disagree', 'Cele două familii nu sînt de acord'),
+     [T(r'the residual-based test rejects, the ECM test does not', r'testul pe reziduuri respinge, testul ECM nu'),
+      T(r'with $T = @{pn.T}$ and strong dependence, neither verdict is secure', r'cu $T = @{pn.T}$ și dependență puternică, niciun verdict nu este sigur')])), 'small')
 
-D.frame(T('Estimators of the long-run relation (1/2)', 'Estimatori ai relației de termen lung (1/2)'), items(
-    T(r'\textbf{Panel FMOLS/DOLS}: fully modified OLS \refPH\ or leads and lags of $\Delta x$ \refSai, \refSWa, per country and averaged (group mean) \refPedB',
-      r'\textbf{FMOLS/DOLS panel}: OLS complet modificat \refPH\ sau laguri și valori viitoare (leads) ale lui $\Delta x$ \refSai, \refSWa, pe țări și apoi mediate (group mean) \refPedB'),
-    (T(r'\textbf{Mean group (MG)} \refPSm: estimate each country\'s ARDL and average the long-run coefficients $\hat\theta_i$',
-       r'\textbf{Mean group (MG)} \refPSm: estimăm ARDL pentru fiecare țară și facem media coeficienților de termen lung $\hat\theta_i$'),
-     [T(r'consistent under full heterogeneity; SE $= s_\theta/\sqrt N$, $s_\theta$: the cross-country standard deviation of $\hat\theta_i$', r'consistent sub eterogenitate completă; SE $= s_\theta/\sqrt N$, $s_\theta$: abaterea standard a lui $\hat\theta_i$ între țări'),
+D.frame(T('Estimators of the long-run relation (1/3)', 'Estimatori ai relației de termen lung (1/3)'), items(
+    (T(r'\textbf{Panel FMOLS/DOLS} \refPedB', r'\textbf{FMOLS/DOLS panel} \refPedB'),
+     [T(r'FMOLS: fully modified OLS, corrected for endogeneity and serial correlation \refPH', r'FMOLS: OLS complet modificat, corectat pentru endogenitate și autocorelare \refPH'),
+      T(r'DOLS: OLS with leads and lags of $\Delta x$ \refSai, \refSWa', r'DOLS: OLS cu valori viitoare (leads) și laguri ale lui $\Delta x$ \refSai, \refSWa'),
+      T('estimated per country and averaged (group mean)', 'estimate pe țări și apoi mediate (group mean)')]),
+    (T(r'\textbf{Mean group (MG)} \refPSm', r'\textbf{Mean group (MG)} \refPSm'),
+     [T(r'estimate each country\'s ARDL and average the long-run coefficients: $\hat\theta_{MG} = N^{-1}\sum_i\hat\theta_i$', r'estimăm ARDL pentru fiecare țară și facem media coeficienților de termen lung: $\hat\theta_{MG} = N^{-1}\sum_i\hat\theta_i$'),
+      T(r'consistent under full heterogeneity; SE $= s_\theta/\sqrt N$, $s_\theta$: the cross-country standard deviation of $\hat\theta_i$', r'consistent sub eterogenitate completă; SE $= s_\theta/\sqrt N$, $s_\theta$: abaterea standard a lui $\hat\theta_i$ între țări'),
       T('pooled fixed effects with common slopes are inconsistent when the true slopes differ, even for large $T$; for small $T$ the Nickell bias adds \\refNic',
-        'efectele fixe cu pante comune sînt inconsistente cînd pantele reale diferă, chiar pentru $T$ mare; pentru $T$ mic se adaugă deplasarea Nickell \\refNic')]),
-    (T(r'\textbf{CCE} \refPesA: $y_{it} = \alpha_i + \beta_i\'x_{it} + \gamma_i\'f_t + e_{it}$; add $\bar y_t, \bar x_t$ to each regression',
-       r'\textbf{CCE} \refPesA: $y_{it} = \alpha_i + \beta_i\'x_{it} + \gamma_i\'f_t + e_{it}$; adăugăm $\bar y_t, \bar x_t$ în fiecare regresie'),
-     [T(r'$f_t$: unobserved common factors; $\gamma_i$: the country loadings on them; the averages $\bar y_t, \bar x_t$ absorb $f_t$', r'$f_t$: factori comuni neobservați; $\gamma_i$: încărcările țării pe acești factori; mediile $\bar y_t, \bar x_t$ preiau $f_t$'),
+        'efectele fixe cu pante comune sînt inconsistente cînd pantele reale diferă, chiar pentru $T$ mare; pentru $T$ mic se adaugă deplasarea Nickell \\refNic')])), 'small')
+
+D.frame(T('Estimators of the long-run relation (2/3)', 'Estimatori ai relației de termen lung (2/3)'), items(
+    (T(r'\textbf{CCE} \refPesA', r'\textbf{CCE} \refPesA'),
+     [T(r'model: $y_{it} = \alpha_i + \beta_i\'x_{it} + \gamma_i\'f_t + e_{it}$', r'modelul: $y_{it} = \alpha_i + \beta_i\'x_{it} + \gamma_i\'f_t + e_{it}$'),
+      T(r'estimation: add the cross-section averages $\bar y_t, \bar x_t$ to each regression', r'estimarea: adăugăm mediile pe secțiune $\bar y_t, \bar x_t$ în fiecare regresie'),
+      T(r'$f_t$: unobserved common factors; $\gamma_i$: the country loadings on them; the averages $\bar y_t, \bar x_t$ absorb $f_t$', r'$f_t$: factori comuni neobservați; $\gamma_i$: încărcările țării pe acești factori; mediile $\bar y_t, \bar x_t$ preiau $f_t$'),
       T(r'valid with non-stationary factors \refKPY; dynamic version CS-ARDL \refCP', r'valabil și cu factori nestaționari \refKPY; versiunea dinamică CS-ARDL \refCP')])), 'small')
 
-D.frame(T('Estimators of the long-run relation (2/2)', 'Estimatori ai relației de termen lung (2/2)'), items(
+D.frame(T('Estimators of the long-run relation (3/3)', 'Estimatori ai relației de termen lung (3/3)'), items(
     (T(r'\textbf{Pooled mean group (PMG)} \refPSSa: a common long run inside country-specific ECMs \[ \Delta y_{it} = \phi_i(y_{i,t-1} - \theta\'x_{i,t-1}) + \sum_j\lambda_{ij}\Delta y_{i,t-j} + \sum_j\delta_{ij}\'\Delta x_{i,t-j} + \mu_i + \varepsilon_{it} \]',
        r'\textbf{Pooled mean group (PMG)} \refPSSa: un termen lung comun în ECM-uri specifice fiecărei țări \[ \Delta y_{it} = \phi_i(y_{i,t-1} - \theta\'x_{i,t-1}) + \sum_j\lambda_{ij}\Delta y_{i,t-j} + \sum_j\delta_{ij}\'\Delta x_{i,t-j} + \mu_i + \varepsilon_{it} \]'),
      [T(r'$\theta$: the long-run coefficients, common to all countries; $\phi_i$: the country speed of adjustment, $\phi_i < 0$ required', r'$\theta$: coeficienții de termen lung, comuni tuturor țărilor; $\phi_i$: viteza de ajustare a țării, cu condiția $\phi_i < 0$'),
       T(r'$\lambda_{ij}$, $\delta_{ij}$, $\mu_i$, $\sigma_i^2 = \Var\varepsilon_{it}$: short run, intercept and error variance, all country-specific', r'$\lambda_{ij}$, $\delta_{ij}$, $\mu_i$, $\sigma_i^2 = \Var\varepsilon_{it}$: termenul scurt, termenul liber și varianța erorii, toate specifice țării'),
-      T(r'ML: maximise $-\sum_i\tfrac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ over $\theta$; $T_i$: the sample length of country $i$', r'ML: maximizăm $-\sum_i\tfrac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ după $\theta$; $T_i$: lungimea eșantionului țării $i$')]),
+      T(r'ML: maximise $-\sum_i\tfrac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ over $\theta$; $T_i$: the sample length of country $i$ (derivation: Appendix)  % applink: PMG likelihood', r'ML: maximizăm $-\sum_i\tfrac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ după $\theta$; $T_i$: lungimea eșantionului țării $i$ (derivarea: Anexa)  % applink: verosimilitatea PMG')]),
     (T(r'Hausman test of $\theta_{MG} = \theta_{PMG}$', r'Testul Hausman pentru $\theta_{MG} = \theta_{PMG}$'),
      [T(r'$H = (\hat\theta_{MG} - \hat\theta_{PMG})\'[\widehat\Var(\hat\theta_{MG}) - \widehat\Var(\hat\theta_{PMG})]^{-1}(\hat\theta_{MG} - \hat\theta_{PMG}) \to \chi^2(\dim\theta)$', r'$H = (\hat\theta_{MG} - \hat\theta_{PMG})\'[\widehat\Var(\hat\theta_{MG}) - \widehat\Var(\hat\theta_{PMG})]^{-1}(\hat\theta_{MG} - \hat\theta_{PMG}) \to \chi^2(\dim\theta)$'),
       T(r'PMG is efficient under homogeneity, MG consistent in both cases: a small $H$ (large p-value) supports pooling', r'PMG este eficient sub omogenitate, MG consistent în ambele cazuri: un $H$ mic (p-value mare) susține coeficienții comuni')])), 'small')
 
 D.frame(T('Case study: Pesaran, Shin and Smith (1999)', 'Studiu de caz: Pesaran, Shin și Smith (1999)'), items(
-    (T(r'\refPSSa\ estimate consumption functions for OECD countries: ARDL in log real per capita consumption, log real per capita disposable income and inflation, annual data',
-       r'\refPSSa\ estimează funcții de consum pentru țări OCDE: ARDL pentru logaritmul consumului real pe locuitor, logaritmul venitului disponibil real pe locuitor și inflație, date anuale'),
-     [T('they compare MG, PMG and dynamic fixed effects and use Hausman tests to decide whether the long-run income and inflation effects can be pooled',
+    (T(r'\refPSSa', r'\refPSSa'),
+     [T('consumption functions for OECD countries, annual data', 'funcții de consum pentru țări OCDE, date anuale'),
+      T('ARDL in log real per capita consumption, log real per capita disposable income and inflation', 'ARDL pentru logaritmul consumului real pe locuitor, logaritmul venitului disponibil real pe locuitor și inflație'),
+      T('they compare MG, PMG and dynamic fixed effects and use Hausman tests to decide whether the long-run income and inflation effects can be pooled',
         'compară MG, PMG și efectele fixe dinamice și folosesc teste Hausman pentru a decide dacă efectele pe termen lung ale venitului și inflației pot fi comune'),
       T('their argument: theory (permanent income) restricts the long run; adjustment speeds, habits and credit constraints differ across countries',
         'argumentul lor: teoria (venitul permanent) restricționează termenul lung; vitezele de ajustare, obiceiurile și constrîngerile de credit diferă între țări')]),
@@ -951,8 +1016,8 @@ D.frame(T('Long-run estimates for EU-27', 'Estimații de termen lung pentru UE-2
     size='footnotesize') + items(
     T(r'Standard errors in brackets (MG, DOLS, CCEMG: dispersion of country estimates; PMG: likelihood; FE: clustered by country)',
       r'Erorile standard în paranteze (MG, DOLS, CCEMG: dispersia estimațiilor pe țări; PMG: verosimilitatea; FE: grupate pe țări)'),
-    T(r'Hausman MG against PMG: $H = @{pn.H}$, $\chi^2(2)$, $p = @{pn.pH}$; CD of the PMG residuals: @{pn.cdpmg}',
-      r'Hausman MG față de PMG: $H = @{pn.H}$, $\chi^2(2)$, $p = @{pn.pH}$; CD pentru reziduurile PMG: @{pn.cdpmg}')), 'small')
+    T(r'Hausman MG against PMG: $H = @{pn.H}$, $\chi^2(2)$, @{pn.pH.e}; CD of the PMG residuals: @{pn.cdpmg}',
+      r'Hausman MG față de PMG: $H = @{pn.H}$, $\chi^2(2)$, @{pn.pH.e}; CD pentru reziduurile PMG: @{pn.cdpmg}')), 'small')
 
 interp(('the panel estimates', 'estimațiilor panel'), [
     T(r'The income elasticity lies between @{pn.mg.y} (MG) and @{pn.dfe.y} (FE), clearly below one: consumption does not track income one for one over 2001--2022', r'Elasticitatea față de venit se află între @{pn.mg.y} (MG) și @{pn.dfe.y} (FE), clar sub unu: consumul nu urmează venitul unu la unu în 2001--2022'),
@@ -1055,7 +1120,7 @@ D.frame(T('Appendix: from the likelihood to the eigenvalues', 'Anexă: de la ver
     T(r'The minimum is $\prod_{i\le r}(1 - \lambda_i)$; nested ranks share eigenvectors, so the LR statistics are sums of $-T\ln(1 - \hat\lambda_i)$',
       r'Minimul este $\prod_{i\le r}(1 - \lambda_i)$; rangurile imbricate au aceiași vectori proprii, deci statisticile LR sînt sume de termeni $-T\ln(1 - \hat\lambda_i)$')), 'small')
 
-D.frame(T('Appendix: why $C = \\beta_\\perp(\\alpha_\\perp\'\\Gamma\\beta_\\perp)^{-1}\\alpha_\\perp\'$', 'Anexă: de ce $C = \\beta_\\perp(\\alpha_\\perp\'\\Gamma\\beta_\\perp)^{-1}\\alpha_\\perp\'$'), items(
+D.frame(T('Appendix: deriving the long-run impact matrix $C$', 'Anexă: derivarea matricei impactului pe termen lung $C$'), items(
     T(r'Multiply the VECM by $\alpha_\perp\'$: $\alpha_\perp\'\Delta y_t = \alpha_\perp\'\sum_i\Gamma_i\Delta y_{t-i} + \alpha_\perp\'\varepsilon_t$; summing gives $\alpha_\perp\'\Gamma y_t \approx \alpha_\perp\'\sum_{s\le t}\varepsilon_s$ up to stationary terms',
       r'Înmulțim VECM cu $\alpha_\perp\'$: $\alpha_\perp\'\Delta y_t = \alpha_\perp\'\sum_i\Gamma_i\Delta y_{t-i} + \alpha_\perp\'\varepsilon_t$; prin însumare $\alpha_\perp\'\Gamma y_t \approx \alpha_\perp\'\sum_{s\le t}\varepsilon_s$ pînă la termeni staționari'),
     T(r'Decompose $y_t = \beta(\beta\'\beta)^{-1}\beta\'y_t + \beta_\perp(\beta_\perp\'\beta_\perp)^{-1}\beta_\perp\'y_t$; the first part is stationary',
@@ -1068,8 +1133,10 @@ D.frame(T('Appendix: why $C = \\beta_\\perp(\\alpha_\\perp\'\\Gamma\\beta_\\perp
 D.frame(T('Appendix: the PMG likelihood', 'Anexă: verosimilitatea PMG'), items(
     T(r'$\ell(\theta, \phi, \sigma^2) = -\sum_{i=1}^N\frac{T_i}{2}\ln(2\pi\sigma_i^2) - \sum_{i=1}^N\frac{1}{2\sigma_i^2}(\Delta y_i - \phi_i\xi_i(\theta))\'H_i(\Delta y_i - \phi_i\xi_i(\theta))$',
       r'$\ell(\theta, \phi, \sigma^2) = -\sum_{i=1}^N\frac{T_i}{2}\ln(2\pi\sigma_i^2) - \sum_{i=1}^N\frac{1}{2\sigma_i^2}(\Delta y_i - \phi_i\xi_i(\theta))\'H_i(\Delta y_i - \phi_i\xi_i(\theta))$'),
-    T(r'$\xi_i(\theta) = y_{i,-1} - X_{i,-1}\theta$; $H_i$ projects out the country\'s short-run regressors and intercept',
-      r'$\xi_i(\theta) = y_{i,-1} - X_{i,-1}\theta$; $H_i$ elimină regresorii pe termen scurt și termenul liber ai țării'),
+    (T('Notation', 'Notațiile'),
+     [T(r'$\Delta y_i$, $y_{i,-1}$ ($T_i\times 1$), $X_{i,-1}$ ($T_i\times k$): the changes, the lagged levels of $y$ and of $x$ for country $i$', r'$\Delta y_i$, $y_{i,-1}$ ($T_i\times 1$), $X_{i,-1}$ ($T_i\times k$): modificările, nivelurile cu lag ale lui $y$ și ale lui $x$ pentru țara $i$'),
+      T(r'$\xi_i(\theta) = y_{i,-1} - X_{i,-1}\theta$: the equilibrium error of country $i$', r'$\xi_i(\theta) = y_{i,-1} - X_{i,-1}\theta$: eroarea de echilibru a țării $i$'),
+      T(r'$H_i = I - W_i(W_i\'W_i)^{-1}W_i\'$; $W_i$: the country\'s short-run regressors and intercept, which $H_i$ projects out', r'$H_i = I - W_i(W_i\'W_i)^{-1}W_i\'$; $W_i$: regresorii pe termen scurt și termenul liber ai țării, eliminați prin $H_i$')]),
     T(r'Given $\theta$, $\phi_i$ and $\sigma_i^2$ are country OLS; the concentrated likelihood $-\sum_i\frac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ is maximised over $\theta$ (back-substitution or Newton)',
       r'Pentru $\theta$ dat, $\phi_i$ și $\sigma_i^2$ sînt OLS pe țări; verosimilitatea concentrată $-\sum_i\frac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ se maximizează după $\theta$ (substituție înapoi sau Newton)'),
     T(r'$\hat\theta_{PMG}$ is consistent and asymptotically normal if $\phi_i < 0$ for all $i$ and the long run is homogeneous; the I(0)/I(1) status of $x$ does not matter, as in ARDL',

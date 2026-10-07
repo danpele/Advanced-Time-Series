@@ -107,14 +107,13 @@ MSCA Digital Finance}
     \item \textbf{BN}: Beveridge–Nelson (decomposition)
     \item \textbf{BNR}: Banca Națională a României (the National Bank of Romania)
     \item \textbf{BSTS}: Bayesian Structural Time Series
-    \item \textbf{CI}: Confidence Interval
     \item \textbf{CLT}: Central Limit Theorem
     \item \textbf{CMRMTSPL}: Real manufacturing and trade industries sales (FRED series code)
+    \item \textbf{DFM}: Dynamic Factor Model
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{DFM}: Dynamic Factor Model
     \item \textbf{DK}: Durbin–Koopman (simulation smoother, 2002)
     \item \textbf{DSGE}: Dynamic Stochastic General Equilibrium (model)
     \item \textbf{EKF}: Extended Kalman Filter
@@ -127,6 +126,7 @@ MSCA Digital Finance}
     \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity
     \item \textbf{GDP}: Gross Domestic Product
     \item \textbf{GDPC1}: Real Gross Domestic Product (FRED code)
+    \item \textbf{GDPDEF}: GDP implicit price deflator (FRED series code)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -136,7 +136,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{GDPDEF}: GDP implicit price deflator (FRED series code)
     \item \textbf{HICP}: Harmonised Index of Consumer Prices
     \item \textbf{HP}: Hodrick–Prescott (filter)
     \item \textbf{IG}: inverse gamma (distribution)
@@ -149,11 +148,11 @@ MSCA Digital Finance}
     \item \textbf{MCMC}: Markov Chain Monte Carlo
     \item \textbf{ML}: Machine Learning
     \item \textbf{MNZ}: Morley–Nelson–Zivot (2003)
+    \item \textbf{OLS}: Ordinary Least Squares
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{OLS}: Ordinary Least Squares
     \item \textbf{PAYEMS}: Total nonfarm payroll employment (FRED series code)
     \item \textbf{PMMH}: Particle Marginal Metropolis–Hastings
     \item \textbf{QML}: Quasi-Maximum Likelihood
@@ -166,6 +165,7 @@ MSCA Digital Finance}
     \item \textbf{UC}: Unobserved Components (model)
     \item \textbf{UC-SV}: Unobserved Components model with Stochastic Volatility (Stock–Watson 2007)
     \item \textbf{UC-UR}: UC model with correlated trend and cycle shocks (Morley–Nelson–Zivot 2003)
+    \item \textbf{UC0}: UC model with uncorrelated trend and cycle shocks (Clark 1987)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -175,7 +175,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{UC0}: UC model with uncorrelated trend and cycle shocks (Clark 1987)
     \item \textbf{UKF}: Unscented Kalman Filter
     \item \textbf{US}: United States
     \item \textbf{VAR}: Vector AutoRegression
@@ -366,27 +365,41 @@ US industrial production, payrolls, real income less transfers, real sales (mont
 \itemsize{\small}
 \begin{itemize}
     \item State smoother \refDK: $r_{t-1} = Z_t'F_t^{-1}v_t + L_t'r_t$, $\quad N_{t-1} = Z_t'F_t^{-1}Z_t + L_t'N_tL_t$, $\quad r_n = 0$, $N_n = 0$
-    \item $r_{t-1}$: a weighted sum of the innovations after $t$; $N_{t-1} = \Var(r_{t-1})$; then $\hat\alpha_t = a_t + P_tr_{t-1}$, $\quad V_t = P_t - P_tN_{t-1}P_t$
-    \item $r_{t-1}$ is a weighted sum of future innovations: $\hat\alpha_t$ corrects $a_t$ by everything learned after $t$
+    \item Smoothed state: $\hat\alpha_t = a_t + P_tr_{t-1}$, $\quad V_t = P_t - P_tN_{t-1}P_t$
+    \begin{itemize}
+        \item $r_{t-1}$: a weighted sum of the innovations from $t$ on; $N_{t-1} = \Var(r_{t-1})$
+        \item $\hat\alpha_t$ corrects $a_t$ by everything learned from $t$ on
+    \end{itemize}
     \item Disturbance smoother: $\hat\varepsilon_t = H_t(F_t^{-1}v_t - K_t'r_t)$, $\hat\eta_t = Q_tR_t'r_t$: auxiliary residuals for outliers and breaks, and the score of the likelihood
     \item Derivation from the same lemma, now conditioning on $v_t, \dots, v_n$, which are independent (\atsapplink{atsapp1}{atssrc1}{Appendix})
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Diffuse initialisation}
-\itemsize{\footnotesize}
+\begin{frame}{Diffuse initialisation (1/2)}
+\itemsize{\small}
 \begin{itemize}
     \item Random walks, trends and regression coefficients have no stationary distribution: $P_1 = \kappa P_\infty + P_*$, $\kappa \to \infty$
     \begin{itemize}
         \item ``big kappa'' ($\kappa = 10^6$--$10^7$) is an approximation with two failures: the likelihood contains $-\frac12\ln\kappa$ terms, and round-off errors grow with $\kappa$
     \end{itemize}
-    \item Exact diffuse filter \refKoo, \refAK, \refdJa: expand $P_t = \kappa P_{\infty,t} + P_{*,t} + O(\kappa^{-1})$ and keep both parts while $P_{\infty,t} \ne 0$
+    \item Exact diffuse filter \refKoo, \refAK, \refdJa
+    \begin{itemize}
+        \item expand $P_t = \kappa P_{\infty,t} + P_{*,t} + O(\kappa^{-1})$ and keep both parts while $P_{\infty,t} \ne 0$
+        \item $P_{\infty,t}$ reaches zero after $d$ steps ($d$ = number of diffuse elements, if they are identified)
+        \item then the ordinary filter takes over
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Diffuse initialisation (2/2)}
+\itemsize{\footnotesize}
+\begin{itemize}
+    \item The exact diffuse recursions
     \begin{itemize}
         \item $F_{\infty,t}$, $F_{*,t}$: the diffuse and finite parts of $F_t$; $K^{(0)}_t$, $K^{(1)}_t$: the matching gains; $L^{(0)}_t = T_t - K^{(0)}_tZ_t$, $L^{(1)}_t = -K^{(1)}_tZ_t$
         \item univariate $y_t$, $F_{\infty,t} = Z_tP_{\infty,t}Z_t' > 0$: $K^{(0)}_t = T_tP_{\infty,t}Z_t'/F_{\infty,t}$, $K^{(1)}_t = T_t(P_{*,t}Z_t' - P_{\infty,t}Z_t'F_{*,t}/F_{\infty,t})/F_{\infty,t}$
         \item $a_{t+1} = c_t + T_ta_t + K^{(0)}_tv_t$; $P_{\infty,t+1} = T_tP_{\infty,t}L^{(0)\prime}_t$; $P_{*,t+1} = T_tP_{\infty,t}L^{(1)\prime}_t + T_tP_{*,t}L^{(0)\prime}_t + R_tQ_tR_t'$
     \end{itemize}
-    \item $P_{\infty,t}$ reaches zero after $d$ steps ($d$ = number of diffuse elements, if they are identified); then the ordinary filter takes over
     \item The smoother has matching diffuse recursions for $r^{(0)}, r^{(1)}, N^{(0)}, N^{(1)}, N^{(2)}$ \refDK, Section 5.3; in the Quantlet both are checked against \texttt{statsmodels}
 \end{itemize}
 \end{frame}
@@ -484,8 +497,10 @@ US industrial production, payrolls, real income less transfers, real sales (mont
     \begin{itemize}
         \item the score at $q = 0$ is often negative because a smooth trend fits the data better than a slightly wandering one
     \end{itemize}
-    \item Consequences: the Hessian-based CI is invalid; the LR test of $q = 0$ is not $\chi^2_1$, not even $\frac12\chi^2_0 + \frac12\chi^2_1$, because the model under the alternative is nonstationary
+    \item Consequences
     \begin{itemize}
+        \item the confidence interval computed from the Hessian is invalid
+        \item the LR test of $q = 0$ is not $\chi^2_1$, not even $\frac12\chi^2_0 + \frac12\chi^2_1$: the model under the alternative is nonstationary
         \item remedies: median-unbiased estimation of a coefficient variance \refSWa; parametric bootstrap of the LR statistic (TVP section); Bayesian priors that keep $q$ away from zero
     \end{itemize}
     \item Same issue in TVP regressions (is the coefficient constant?) and in UC models (is the trend deterministic?)
@@ -573,7 +588,7 @@ US industrial production, payrolls, real income less transfers, real sales (mont
         \item 2. run one state smoother on $y - y^+$ (zero intercepts): $\hat\alpha(y - y^+) = \hat\alpha(y) - \hat\alpha(y^+)$
         \item 3. $\tilde\alpha = \alpha^+ + \hat\alpha(y) - \hat\alpha(y^+)$ is a draw from $p(\alpha | Y_n)$
     \end{itemize}
-    \item Only the mean smoother is needed: no $P_{t|t}$ inversions, no singularity problems, diffuse states handled by the exact diffuse smoother
+    \item Only the mean smoother is needed: no $P_{t|t}$ inversions, no singularity problems, diffuse states handled by the exact diffuse smoother (proof of exactness: \atsapplink{atsapp2}{atssrc2}{Appendix})  % applink: exactness of the Durbin
     \item Precursor: the disturbance simulation smoother of \refdJS; same idea for the disturbances $\varepsilon_t, \eta_t$
 \end{itemize}
 \end{frame}
@@ -581,7 +596,11 @@ US industrial production, payrolls, real income less transfers, real sales (mont
 \begin{frame}{The precision sampler}
 \itemsize{\small}
 \begin{itemize}
-    \item Stack the model: $y = X\alpha + \varepsilon$, $H\alpha = \eta$ with $H$ a banded difference matrix: $\alpha | y \sim N(\hat\alpha, K^{-1})$, $K = H'\Sigma_\eta^{-1}H + X'\Sigma_\varepsilon^{-1}X$ \refCJ
+    \item Stack the model \refCJ: $y = X\alpha + \varepsilon$, $D\alpha = \eta$
+    \begin{itemize}
+        \item $D$: a banded difference matrix (first differences for a random walk)
+        \item then $\alpha | y \sim N(\hat\alpha, K^{-1})$ with $K = D'\Sigma_\eta^{-1}D + X'\Sigma_\varepsilon^{-1}X$
+    \end{itemize}
     \item $K$ is banded (tridiagonal for a random walk): one banded Cholesky factor $K = U'U$ costs $O(n)$
     \begin{itemize}
         \item $\alpha$, $y$: all states and observations stacked; $X$: block-diagonal of the $Z_t$; $\Sigma_\varepsilon$, $\Sigma_\eta$: the stacked noise covariances; $K$: the posterior precision (inverse covariance)
@@ -684,24 +703,31 @@ US industrial production, payrolls, real income less transfers, real sales (mont
 \end{columns}
 \end{frame}
 
-\begin{frame}{Stochastic volatility is not GARCH}
+\begin{frame}{Stochastic volatility is not GARCH (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item GARCH \refBol: $\sigma^2_t = \omega + \alpha y^2_{t-1} + \beta\sigma^2_{t-1}$ ($\omega > 0$, $\alpha, \beta \ge 0$) is known at $t-1$ (measurable with respect to past returns): one source of randomness
+    \item GARCH \refBol: $\sigma^2_t = \omega + \alpha y^2_{t-1} + \beta\sigma^2_{t-1}$, $\omega > 0$, $\alpha, \beta \ge 0$
     \begin{itemize}
+        \item $\sigma^2_t$ is known at $t-1$ (a function of past returns): one source of randomness
         \item the likelihood is a product of known densities: one pass, exact ML
     \end{itemize}
     \item SV: $h_t$ has its own shock $\eta_t$; even with all past returns, today's variance is uncertain
     \begin{itemize}
         \item $p(y_{1:n} | \psi) = \int\prod_t N(y_t; 0, e^{h_t})\,p(h_{1:n} | \psi)\,dh_{1:n}$: an $n$-dimensional integral without closed form
     \end{itemize}
+    \item Comparison on the likelihood scale is possible only after the integral is computed: particle filter (next section) or importance sampling \refKSC
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Stochastic volatility is not GARCH (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Moments, with $\sigma^2_h = \sigma^2_\eta/(1 - \phi^2)$ the unconditional variance of $h_t$
     \begin{itemize}
         \item kurtosis of $y_t$: $3\exp(\sigma^2_h) > 3$ even with Gaussian $\epsilon_t$: fat tails come from the random variance
         \item $\Corr(y^2_t, y^2_{t-k}) = (e^{\sigma^2_h\phi^k} - 1)/(3e^{\sigma^2_h} - 1)$: volatility clustering that decays with $\phi^k$
     \end{itemize}
     \item Leverage enters as $\Corr(\epsilon_t, \eta_t) = \rho < 0$ \refOCSN; GARCH needs an asymmetric term for the same effect
-    \item Comparison on the likelihood scale is possible only after the integral is computed: particle filter (next section) or importance sampling \refKSC
 \end{itemize}
 \end{frame}
 
@@ -861,8 +887,12 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \begin{frame}{The unscented Kalman filter}
 \itemsize{\small}
 \begin{itemize}
-    \item Unscented transform \refJU: represent $N(m, P)$ ($n$ dimensions) by $2n + 1$ sigma points $\mathcal X_0 = m$, $\mathcal X_{\pm i} = m \pm (\sqrt{(n + \lambda)P})_i$
-    \item Weights $w_0 = \lambda/(n + \lambda)$, $w_{\pm i} = 1/(2(n + \lambda))$; push each point through $g$ and take weighted means and covariances; $\lambda$: a spread parameter, $(\sqrt{A})_i$: the $i$-th column of a matrix square root
+    \item Unscented transform \refJU: $N(m, P)$ in $n$ dimensions is represented by $2n + 1$ sigma points
+    \begin{itemize}
+        \item $\mathcal X_0 = m$, $\mathcal X_{\pm i} = m \pm (\sqrt{(n + \lambda)P})_i$; $(\sqrt{A})_i$: the $i$-th column of a matrix square root
+        \item weights $w_0 = \lambda/(n + \lambda)$, $w_{\pm i} = 1/(2(n + \lambda))$; $\lambda$: a spread parameter
+        \item push each point through $g$ and take weighted means and covariances
+    \end{itemize}
     \item Exact for the mean to second order of the Taylor expansion of $g$ (the EKF: first order); no Jacobians needed
     \item UKF: apply the transform in the prediction and in the update step; cost similar to the EKF
     \item Still Gaussian at each step: multimodal or heavy-tailed filtering densities need particles
@@ -903,7 +933,12 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \begin{column}{0.68\textwidth}
 \begin{itemize}
     \item Represent $p(x_t | Y_t)$ by particles $x^{(i)}_t$ with weights $W^{(i)}_t$, $i = 1, \dots, N$; Monte Carlo goes back to Ulam and Metropolis (1949)
-    \item Bootstrap filter \refGSS, \refKit: (1) propagate $x^{(i)}_t \sim f(\cdot | x^{(i)}_{t-1})$; (2) weight $w^{(i)}_t = g(y_t | x^{(i)}_t)$; (3) resample $N$ particles with probabilities $W^{(i)}_t \propto w^{(i)}_t$
+    \item Bootstrap filter \refGSS, \refKit
+    \begin{itemize}
+        \item propagate: $x^{(i)}_t \sim f(\cdot | x^{(i)}_{t-1})$
+        \item weight: $w^{(i)}_t = g(y_t | x^{(i)}_t)$
+        \item resample $N$ particles with probabilities $W^{(i)}_t \propto w^{(i)}_t$
+    \end{itemize}
     \item Without resampling the weights degenerate (one particle takes all the weight); effective sample size $\mathrm{ESS}_t = 1/\sum_i(W^{(i)}_t)^2$
     \item Systematic resampling: one uniform $U$, points $(U + i - 1)/N$ on the cumulative weights: lower variance than multinomial
 \end{itemize}
@@ -915,8 +950,9 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \itemsize{\small}
 \begin{itemize}
     \item $\hat p(y_t | Y_{t-1}) = \frac1N\sum_i w^{(i)}_t$ and $\hat L(\psi) = \prod_t\hat p(y_t | Y_{t-1})$
-    \item $\E\hat L(\psi) = L(\psi)$ exactly, for any $N \ge 1$ \refDM: unbiased on the level scale
+    \item $\E\hat L(\psi) = L(\psi)$ exactly, for any $N \ge 1$ \refDM{} (\atsapplink{atsapp3}{atssrc3}{Appendix})  % applink: unbiasedness of the particle likelihood
     \begin{itemize}
+        \item $\hat L$ is unbiased on the level scale
         \item not on the log scale: if $\ln\hat L \approx N(\ln L - \tau^2/2, \tau^2)$, then $\E\ln\hat L = \ln L - \tau^2/2$; $\tau^2 = \Var\ln\hat L$
     \end{itemize}
     \item $\Var\ln\hat L$ grows roughly linearly in $n$ and falls like $1/N$: double the sample, double the particles
@@ -951,12 +987,14 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \itemsize{\small}
 \begin{itemize}
     \item Bootstrap weakness: particles are propagated blind to $y_t$; an outlier leaves few particles with weight
-    \item APF \refPS: look ahead before propagating. First stage: resample $x^{(i)}_{t-1}$ with weights $\propto W^{(i)}_{t-1}\,g(y_t | \mu^{(i)}_t)$, $\mu^{(i)}_t = \E(x_t | x^{(i)}_{t-1})$
+    \item APF \refPS: look ahead before propagating
     \begin{itemize}
+        \item first stage: resample $x^{(i)}_{t-1}$ with weights $\propto W^{(i)}_{t-1}\,g(y_t | \mu^{(i)}_t)$, $\mu^{(i)}_t = \E(x_t | x^{(i)}_{t-1})$
         \item second stage: propagate, then weight by $g(y_t | x^{(i)}_t)/g(y_t | \mu^{(k_i)}_t)$ to correct the look-ahead
+        \item $k_i$: the index of the particle selected in the first stage
     \end{itemize}
     \item Fully adapted case: first-stage weights $p(y_t | x_{t-1})$ and proposal $p(x_t | x_{t-1}, y_t)$: second-stage weights are equal (locally optimal)
-    \item The likelihood estimate stays unbiased: $\hat p(y_t | Y_{t-1}) = \big(\sum_iW^{(i)}_{t-1}g(y_t | \mu^{(i)}_t)\big)\cdot\frac1N\sum_i\omega^{(i)}_t$
+    \item The likelihood estimate stays unbiased: $\hat p(y_t | Y_{t-1}) = \big(\sum_iW^{(i)}_{t-1}g(y_t | \mu^{(i)}_t)\big)\cdot\frac1N\sum_i\omega^{(i)}_t$; $\omega^{(i)}_t$: the second-stage weights
 \end{itemize}
 \end{frame}
 
@@ -986,9 +1024,16 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \itemsize{\small}
 \begin{itemize}
     \item Pseudo-marginal idea \refAR: run Metropolis--Hastings with an unbiased, positive estimate $\hat L(\psi)$ in place of $L(\psi)$; the chain still targets the exact posterior $p(\psi | Y_n)$
-    \item PMMH \refADH: propose $\psi'$ from a proposal density $q(\cdot | \psi)$; run a particle filter for $\hat L(\psi')$; accept with probability $\min\{1, \hat L(\psi')p(\psi')q(\psi | \psi') / [\hat L(\psi)p(\psi)q(\psi' | \psi)]\}$; keep $\hat L$ of the current point
-    \item Choosing $N$: too few particles make the chain stick; too many waste time. Target $\Var(\ln\hat L) \approx 1$--$2$ at the posterior mean \refPSGK, \refDPDK
+    \item PMMH \refADH
     \begin{itemize}
+        \item propose $\psi'$ from a proposal density $q(\cdot | \psi)$; run a particle filter for $\hat L(\psi')$
+        \item accept with probability $\min\{1, \hat L(\psi')p(\psi')q(\psi | \psi') / [\hat L(\psi)p(\psi)q(\psi' | \psi)]\}$; $p(\cdot)$: the prior
+        \item keep $\hat L$ of the current point (do not recompute it)
+    \end{itemize}
+    \item Choosing $N$ \refPSGK, \refDPDK
+    \begin{itemize}
+        \item too few particles make the chain stick; too many waste time
+        \item target: $\Var(\ln\hat L) \approx 1$--$2$ at the posterior mean
         \item particle Gibbs (conditional SMC) samples the state path too; useful when no conditionally Gaussian structure exists
     \end{itemize}
     \item Works for any model you can simulate and whose measurement density you can evaluate: SV with jumps, DSGE models, nonlinear UC models
@@ -1034,7 +1079,11 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \begin{frame}{A TVP regression in state space form}
 \itemsize{\small}
 \begin{itemize}
-    \item $y_t = c_t + b_tx_t + D_t'\gamma + \varepsilon_t$, $\quad c_{t+1} = c_t + \eta_{c,t}$, $\quad b_{t+1} = b_t + \eta_{b,t}$: state $\alpha_t = (c_t, b_t, \gamma')'$, $Z_t = (1, x_t, D_t')$; $c_t$, $b_t$: intercept and slope as random walks with variances $\sigma^2_c$, $\sigma^2_b$; $D_t$: dummies with fixed $\gamma$
+    \item $y_t = c_t + b_tx_t + D_t'\gamma + \varepsilon_t$, $\quad c_{t+1} = c_t + \eta_{c,t}$, $\quad b_{t+1} = b_t + \eta_{b,t}$
+    \begin{itemize}
+        \item $c_t$, $b_t$: intercept and slope, random walks with variances $\sigma^2_c$, $\sigma^2_b$; $D_t$: dummies with fixed $\gamma$
+        \item state $\alpha_t = (c_t, b_t, \gamma')'$; $Z_t = (1, x_t, D_t')$
+    \end{itemize}
     \item Fixed coefficients ($\gamma$, here quarterly seasonal dummies) are states with zero variance and a diffuse start: $d$ = number of states = 5
     \begin{itemize}
         \item with $\sigma^2_c = \sigma^2_b = 0$ the smoother returns the OLS estimates (recursive least squares)
@@ -1078,7 +1127,12 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item \refCSa, \refCSb, \refPri: $y_t = X_t'\beta_t + A_t^{-1}\Sigma_t\epsilon_t$; $\beta_t$, the free elements $a_t$ of the lower-triangular $A_t$ and $\ln\sigma_{j,t}$ follow random walks; $X_t$: the lags; $\Sigma_t = \mathrm{diag}(\sigma_{j,t})$; $\epsilon_t \sim N(0, I)$
+    \item \refCSa, \refCSb, \refPri: $y_t = X_t'\beta_t + A_t^{-1}\Sigma_t\epsilon_t$
+    \begin{itemize}
+        \item $X_t$: the lags; $\beta_t$: the coefficients; $\epsilon_t \sim N(0, I)$
+        \item $A_t$: lower triangular with free elements $a_t$; $\Sigma_t = \mathrm{diag}(\sigma_{j,t})$
+        \item $\beta_t$, $a_t$ and $\ln\sigma_{j,t}$ follow random walks
+    \end{itemize}
     \item Question: did US monetary policy change (drifting coefficients) or did the shocks shrink (falling volatilities) after 1980?
     \item Answer of \refPri: the systematic response of policy did change, but these changes explain little of the 1970s; the variance of non-policy shocks matters more
     \item Without stochastic volatility, falling shock variances are wrongly attributed to changing coefficients
@@ -1117,20 +1171,32 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \section{Dynamic factor models in state space form}
 %=============================================================================
 
-\begin{frame}{The DFM as a state space model}
+\begin{frame}{The DFM as a state space model (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $x_{it} = \lambda_i'f_t + e_{it}$, $\quad f_t = \Phi f_{t-1} + u_t$, $\quad e_{it} = \rho_ie_{i,t-1} + \nu_{it}$: state $(f_t', f_{t-1}', e_t')'$, $Z = (\Lambda, 0, I)$
+    \item $x_{it} = \lambda_i'f_t + e_{it}$, $\quad f_t = \Phi f_{t-1} + u_t$, $\quad e_{it} = \rho_ie_{i,t-1} + \nu_{it}$
     \begin{itemize}
-        \item $f_t$: the factors, a VAR(1) with matrix $\Phi$; $\lambda_i$: the loadings of series $i$, stacked in $\Lambda$; $e_{it}$: idiosyncratic AR(1) errors with coefficients $\rho_i$; $u_t$, $\nu_{it}$: shocks
+        \item $f_t$: the factors, a VAR(1) with matrix $\Phi$; $\lambda_i$: the loadings of series $i$, stacked in $\Lambda$
+        \item $e_{it}$: idiosyncratic AR(1) errors with coefficients $\rho_i$; $u_t$, $\nu_{it}$: shocks
+        \item state $(f_t', f_{t-1}', e_t')'$; measurement matrix $Z = (\Lambda, 0, I)$
     \end{itemize}
-    \item Estimation:
+    \item Mixed frequencies \refMM
+    \begin{itemize}
+        \item a quarterly growth rate is a weighted sum of monthly states
+        \item missing months are simply skipped by the filter
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The DFM as a state space model (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Estimation
     \begin{itemize}
         \item two steps \refDGR: principal components give $\Lambda$, $\Phi$, $\Sigma_e$; then the Kalman smoother re-estimates $f_t$ on the full panel; consistent as $N, T \to \infty$
         \item ML by EM \refSS, \refBM: the E-step is the smoother, arbitrary missing patterns are allowed
         \item large $N$: collapse the $N$ observations into an $r$-dimensional vector before filtering \refJK; the cost no longer grows with $N^3$
     \end{itemize}
-    \item Mixed frequencies: a quarterly growth rate is a weighted sum of monthly states \refMM; missing months are simply skipped by the filter
     \item Nowcasting \refGRS: the ragged edge, news decomposition and real-time evaluation are in \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter5_bvar_factor_models_nowcasting.pdf}{Chapter 5}; this section shows the state space engine
 \end{itemize}
 \end{frame}
@@ -1165,8 +1231,9 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \begin{frame}{Three definitions of the cycle}
 \itemsize{\small}
 \begin{itemize}
-    \item Beveridge--Nelson \refBN: trend = long-horizon forecast net of drift, $\tau^{BN}_t = y_t + \sum_{j\ge1}\E_t(\Delta y_{t+j} - \mu)$; cycle $c^{BN}_t = y_t - \tau^{BN}_t$
+    \item Beveridge--Nelson \refBN: trend = long-horizon forecast net of drift
     \begin{itemize}
+        \item $\tau^{BN}_t = y_t + \sum_{j\ge1}\E_t(\Delta y_{t+j} - \mu)$; cycle $c^{BN}_t = y_t - \tau^{BN}_t$
         \item $\E_t$: expectation given data to $t$; $\mu$: mean growth; the trend is where $y$ is expected to settle once the predictable growth has died out
         \item for an AR(1) in growth: $c^{BN}_t = -\frac{\phi}{1 - \phi}(\Delta y_t - \mu)$; one-sided, depends on the ARMA chosen; reliable versions: \refKMW
     \end{itemize}
@@ -1179,8 +1246,9 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \begin{frame}{Unobserved components with correlated shocks}
 \itemsize{\small}
 \begin{itemize}
-    \item \refMNZ: $y_t = \tau_t + c_t$, $\tau_t = \mu + \tau_{t-1} + \eta_t$, $c_t = \phi_1c_{t-1} + \phi_2c_{t-2} + \varepsilon_t$, $\Corr(\eta_t, \varepsilon_t) = \rho$ (UC-UR)
+    \item \refMNZ, the UC-UR model
     \begin{itemize}
+        \item $y_t = \tau_t + c_t$, $\tau_t = \mu + \tau_{t-1} + \eta_t$, $c_t = \phi_1c_{t-1} + \phi_2c_{t-2} + \varepsilon_t$, $\Corr(\eta_t, \varepsilon_t) = \rho$
         \item $\tau_t$: the stochastic trend with drift $\mu$ and shocks $\eta_t$ (s.d. $\sigma_\eta$); $c_t$: an AR(2) cycle with shocks $\varepsilon_t$ (s.d. $\sigma_\varepsilon$); $\rho$: the correlation of the two shocks
     \end{itemize}
     \item Clark's UC0 imposes $\rho = 0$; with an AR(2) cycle, $\rho$ is identified: the reduced form is an ARIMA(2,1,2) with as many parameters as UC-UR
@@ -1498,8 +1566,8 @@ UC-UR & 0.859 & 1.334 & \ensuremath{-}0.738 & 1.185 & 0.669 & \ensuremath{-}0.92
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Appendix: why the DK simulation smoother is exact}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Back}
+\begin{frame}{Appendix: exactness of the Durbin--Koopman simulation smoother}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item Gaussian model: $\alpha | y \sim N(\hat\alpha(y), V)$ with $V$ independent of $y$, and $\hat\alpha(y)$ linear in $y$ (affine with the intercepts)
@@ -1510,7 +1578,7 @@ UC-UR & 0.859 & 1.334 & \ensuremath{-}0.738 & 1.185 & 0.669 & \ensuremath{-}0.92
 \end{frame}
 
 \begin{frame}{Appendix: unbiasedness of the particle likelihood}
-\hypertarget{atsapp3}{}\atsappback{atssrc1}{Back}
+\hypertarget{atsapp3}{}\atsappback{atssrc3}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item Bootstrap filter, one step: $\E[\frac1N\sum_iw^{(i)}_t\,|\,\mathcal F_{t-1}] = \int g(y_t | x)\,\hat p_{N}(x | Y_{t-1})\,dx$, with $\hat p_N$ the empirical predictive law of the particles

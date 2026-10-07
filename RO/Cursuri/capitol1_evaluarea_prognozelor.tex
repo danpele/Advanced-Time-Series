@@ -166,12 +166,11 @@ MSCA Digital Finance}
     \item \textbf{MW}: MegaWatt (megawatt)
     \item \textbf{MZ}: Mincer–Zarnowitz (regression) — regresia Mincer–Zarnowitz
     \item \textbf{OLS}: Ordinary Least Squares (metoda celor mai mici pătrate)
-    \item \textbf{PC}: Phillips Curve (curba Phillips)
+    \item \textbf{PIB}: Produsul intern brut
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{PIB}: Produsul intern brut
     \item \textbf{PIT}: Probability Integral Transform (transformarea integrală de probabilitate)
     \item \textbf{QLIKE}: Quasi-LIKElihood loss (pierderea de tip cvasi-verosimilitate)
     \item \textbf{RC}: White's Reality Check (for data snooping) — testul Reality Check al lui White (pentru data snooping)
@@ -184,6 +183,7 @@ MSCA Digital Finance}
     \item \textbf{SUA}: Statele Unite ale Americii
     \item \textbf{TSA}: Time Series Analysis (Serii de timp, cursul de licență)
     \item \textbf{UIP}: Uncovered Interest Parity (paritatea neacoperită a dobînzilor)
+    \item \textbf{UNRATE}: Unemployment Rate (FRED series code) — rata șomajului (codul seriei în FRED)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -193,7 +193,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{UNRATE}: Unemployment Rate (FRED series code) — rata șomajului (codul seriei în FRED)
     \item \textbf{VAR}: Vector AutoRegression (model vector autoregresiv)
     \item \textbf{ZE}: Zona euro
 \end{itemize}
@@ -317,10 +316,11 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
     \item Plan în afara eșantionului: $R$ observații pentru estimare, $P$ prognoze pentru evaluare, $R + P + h - 1 = T$
     \begin{itemize}
         \item scheme: \textbf{fixă} (o singură estimare), \textbf{mobilă} (ultimele $R$), \textbf{recursivă} (tot trecutul); în \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol4_sezonalitate_prognoza.pdf}{TSA, Capitolul 4} aceasta este evaluarea cu origine mobilă
-        \item $T$: eșantionul total; ultima prognoză, făcută la $R + P - 1$, are ținta $T$; schema contează pentru inferență: West (1996) față de Giacomini--White (2006), secțiunea 4
+        \item $T$: eșantionul total; ultima prognoză, făcută la $R + P - 1$, are ținta $T$; schema contează pentru inferență: \refWest\ față de \refGW, secțiunea 4
     \end{itemize}
     \item Cunoscute din \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol0_introducere.pdf}{TSA, Capitolul 0}: MAE, RMSE, MAPE și MASE, independentă de scală \refHK
     \begin{itemize}
+        \item $\mathrm{MAE} = P^{-1}\sum|e_t|$, $\mathrm{RMSE} = (P^{-1}\sum e_t^2)^{1/2}$, $\mathrm{MAPE} = 100P^{-1}\sum|e_t/y_t|$; MASE: MAE împărțit la MAE-ul în eșantion al prognozei naive
         \item aici întrebarea este alta: \emph{ce} pierdere și ce răsplătește ea?
     \end{itemize}
 \end{itemize}
@@ -375,7 +375,7 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \begin{frame}{Interpretarea celor trei puncte de minim}
 \itemsize{\small}
 \begin{itemize}
-    \item Media 1{,}20, mediana 1, cuantila 0,9 2{,}16: trei prognoze „cele mai bune” diferite pentru aceeași variabilă
+    \item Media 1{,}20, mediana 1, cuantila de nivel 0,9: 2{,}16; trei prognoze „cele mai bune” diferite pentru aceeași variabilă
     \begin{itemize}
         \item pentru o țintă asimetrică la dreapta (salarii, consum de energie, prețuri, volatilitate) diferența este mare
     \end{itemize}
@@ -489,7 +489,7 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Interpretarea histogramelor PIT}
+\begin{frame}{Formele histogramelor PIT}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.48\textheight,keepaspectratio]{ats_ch1_pit_shapes.pdf}
@@ -514,7 +514,7 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \begin{frame}{Testarea calibrării (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Berkowitz (2001)} \refBerk: dacă valorile PIT sînt i.i.d.\ uniforme, $z_t = \Phi^{-1}(u_t)$ este i.i.d.\ $N(0, 1)$
+    \item \textbf{Testul Berkowitz} \refBerk: dacă valorile PIT sînt i.i.d.\ uniforme, $z_t = \Phi^{-1}(u_t)$ este i.i.d.\ $N(0, 1)$
     \begin{itemize}
         \item $\Phi^{-1}$: funcția cuantilă a distribuției Normale standard
     \end{itemize}
@@ -700,6 +700,7 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
         \item $\mathrm{ES}(F, \mathbf y) = \E\|\mathbf X - \mathbf y\| - \frac12\E\|\mathbf X - \mathbf X'\|$
         \item $\mathbf y$: vectorul realizărilor; $\mathbf X, \mathbf X'$: extrageri independente din prognoza $F$; $\|\cdot\|$: norma euclidiană
         \item slab în detectarea corelațiilor greșite; \textbf{variogram score} \refSH\ vizează structura de dependență (24 de consumuri orare, o traiectorie VAR)
+        \item $\mathrm{VS}_p = \sum_{i,j}w_{ij}\big(|y_i - y_j|^p - \E|X_i - X_j|^p\big)^2$: compară diferențele observate și prognozate dintre componente; $w_{ij} \ge 0$: ponderi, $p$: de obicei 0,5
     \end{itemize}
     \item Cozile: CRPS ponderat pe praguri rămîne propriu \refGRjaa
     \begin{itemize}
@@ -757,7 +758,7 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \itemsize{\footnotesize}
 \begin{center}
 \footnotesize
-\begin{tabular}{lcccc}
+\begin{tabular}{lrrrr}
 \toprule
 \textbf{Model} & \textbf{Scor logaritmic} & \textbf{CRPS} & \textbf{În afara 90\%} & \textbf{Berkowitz $p$} \\
 \midrule
@@ -795,11 +796,11 @@ MA(1)-GARCH(1,1)-$t$ & 1{,}233 & 0{,}507 & 8{,}4\% & 0{,}019 \\
 \begin{frame}{Două întrebări despre capacitatea predictivă}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Populație} (West 1996): sînt \emph{modelele}, la parametrii lor pseudo-adevărați, la fel de precise? \refWest
+    \item \textbf{Populație} \refWest: sînt \emph{modelele}, la parametrii lor pseudo-adevărați, la fel de precise?
     \begin{itemize}
         \item eroarea de estimare intră în varianța asimptotică, cu excepția cazului $P/R \to 0$ sau cînd pierderea este cea folosită la estimare
     \end{itemize}
-    \item \textbf{Eșantion finit} (Giacomini--White 2006): sînt \emph{metodele de prognoză}, cu ferestrele lor de estimare, la fel de precise? \refGW
+    \item \textbf{Eșantion finit} \refGW: sînt \emph{metodele de prognoză}, cu ferestrele lor de estimare, la fel de precise?
     \begin{itemize}
         \item fereastră mobilă de dimensiune fixă $R$: zgomotul de estimare face parte din metodă; modelele imbricate sînt permise
     \end{itemize}
@@ -898,7 +899,7 @@ MA(1)-GARCH(1,1)-$t$ & 1{,}233 & 0{,}507 & 8{,}4\% & 0{,}019 \\
 \itemsize{\footnotesize}
 \begin{center}
 \footnotesize
-\begin{tabular}{lccccc}
+\begin{tabular}{lrrrrr}
 \toprule
 \textbf{Prognoza} & \textbf{RMSE} & \textbf{DM} & \textbf{HLN} & \textbf{$p$ (HLN)} & \textbf{$p$, pierdere abs.} \\
 \midrule
@@ -948,7 +949,7 @@ media & 3{,}76 & 0{,}96 & 0{,}88 & 0{,}378 & 0{,}795 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Modele imbricate: de ce eșuează DM și testul Clark--West (1/2)}
+\begin{frame}{Modele imbricate: eșecul testului DM și testul Clark--West (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Modelul 1 (mic, de exemplu mersul aleator) este imbricat în modelul 2; sub $H_0$ coeficienții suplimentari sînt nuli
@@ -963,7 +964,7 @@ media & 3{,}76 & 0{,}96 & 0{,}88 & 0{,}378 & 0{,}795 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Modele imbricate: de ce eșuează DM și testul Clark--West (2/2)}
+\begin{frame}{Modele imbricate: eșecul testului DM și testul Clark--West (2/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Clark--West} \refCW: corectăm modelul mare pentru zgomotul pe care îl adaugă
@@ -1014,7 +1015,7 @@ media & 3{,}76 & 0{,}96 & 0{,}88 & 0{,}378 & 0{,}795 \\
 \itemsize{\footnotesize}
 \begin{center}
 \scriptsize
-\begin{tabular}{lcccc}
+\begin{tabular}{lrrrr}
 \toprule
 \textbf{Model} & \textbf{RMSE / RW} & \textbf{DM (HLN)} & \textbf{CW} & \textbf{$p$ (CW, unilateral)} \\
 \midrule
@@ -1098,7 +1099,11 @@ media modelelor & 1{,}026 & 0{,}85 & -- & -- \\
     \begin{itemize}
         \item raportul pe fereastră mobilă atinge 10{,}3 în T3 2021: curba Phillips a extrapolat saltul șomajului din pandemie
     \end{itemize}
-    \item GW: p-value 0{,}355 cu diferențialul din perioada anterioară, $p$ 0{,}322 cu șomajul; încadrare: $H_0$ „naiva încadrează PC” $p$ 0{,}289; „PC încadrează naiva” $p$ 0{,}118
+    \item GW: p-value 0{,}355 cu diferențialul din perioada anterioară, 0{,}322 cu șomajul
+    \begin{itemize}
+        \item încadrare, $H_0$ „prognoza naivă încadrează curba Phillips”: p-value 0{,}289
+        \item încadrare, $H_0$ „curba Phillips încadrează prognoza naivă”: p-value 0{,}118
+    \end{itemize}
     \item Concluzia AO se păstrează în estimările punctuale, iar un test pe 41 de ani de date suprapuse nu le poate separa
 \end{itemize}
 \end{frame}
@@ -1210,7 +1215,7 @@ media modelelor & 1{,}026 & 0{,}85 & -- & -- \\
 \itemsize{\footnotesize}
 \begin{center}
 \scriptsize
-\begin{tabular}{lcccc}
+\begin{tabular}{lrrrr}
 \toprule
 \textbf{Model} & \textbf{Pinball (MW)} & \textbf{MAE (MW)} & \textbf{Acoperire 90\%} & \textbf{$p$ MCS} \\
 \midrule
@@ -1368,7 +1373,7 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Studiu de caz: poate ceva să bată media simplă?}
+\begin{frame}{Studiu de caz: scheme de combinare față de media simplă}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.32\textwidth}
@@ -1383,9 +1388,9 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
     \begin{itemize}
         \item răspunsul lor: rareori și nu robust în timp
     \end{itemize}
-    \item Aplicăm schemele lor pe SPF din SUA: inflația IPC (anualizată, trimestrială) la patru trimestre după trimestrul anchetei; anchete T1 1990--T2 2025 ($P = 142$, 195 prognozatori, în medie 36 pe anchetă)
+    \item Aplicăm schemele lor pe SPF din SUA: inflația IPC (anualizată, trimestrială) la patru trimestre după trimestrul anchetei; anchete T1 1990--T2 2025 ($P = 142$, 195 de prognozatori, în medie 36 pe anchetă)
     \begin{itemize}
-        \item ponderi după performanță: inversul MSE pe ultimele 20 de anchete cu realizare cunoscută, cel puțin 8 prognoze trecute (în medie 25 eligibili); media trunchiată: 10\% din fiecare parte
+        \item ponderi după performanță: inversul MSE pe ultimele 20 de anchete cu realizare cunoscută, cel puțin 8 prognoze trecute (în medie 25 de prognozatori eligibili); media trunchiată: 10\% din fiecare parte
     \end{itemize}
 \end{itemize}
 \end{column}
@@ -1422,9 +1427,9 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
     \item Mediana 0{,}999, media trunchiată 1{,}000, inversul MSE 1{,}008, cel mai bun anterior 1{,}099 (RMSE relativ)
     \begin{itemize}
         \item DM--HLN față de medie: mediana $p$ 0{,}842; inversul MSE $p$ 0{,}091; cel mai bun anterior HLN 2{,}76, $p$ 0{,}007
-        \item Răspunsul lui Genre et al.\ se confirmă pe datele SUA: nimic nu bate media semnificativ, iar urmărirea cîștigătorului trecut pierde
+        \item Răspunsul lui \refGKMT\ se confirmă pe datele SUA: nimic nu bate media semnificativ, iar urmărirea cîștigătorului trecut pierde
     \end{itemize}
-    \item Totuși 33\% dintre cei 76 prognozatori cu cel puțin 20 de prognoze au RMSE mai mic decît media
+    \item Totuși 33\% dintre cei 76 de prognozatori cu cel puțin 20 de prognoze au RMSE mai mic decît media
     \begin{itemize}
         \item sînt cunoscuți doar ex post, pe eșantioane diferite și mai scurte: supraviețuire și noroc, nu abilitate care putea fi selectată
     \end{itemize}
@@ -1435,12 +1440,12 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
 \begin{frame}{Lecțiile competițiilor M4 și M5}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{M4} (2018) \refMd: 100.000 de serii, 61 de metode, prognoze punctuale și intervale de 95\%
+    \item \textbf{M4} (2018) \refMd: 100\,000 de serii, 61 de metode, prognoze punctuale și intervale de 95\%
     \begin{itemize}
         \item cîștigătorul a fost un hibrid între netezirea exponențială și o rețea neuronală recurentă; locul doi, o combinație de metode statistice cu ponderi învățate de un meta-model
         \item combinațiile au dominat primele locuri; metodele de machine learning pure au avut rezultate slabe; intervalele de predicție au fost prea înguste pentru majoritatea metodelor
     \end{itemize}
-    \item \textbf{M5} (2020) \refMe: 42.840 de serii ierarhice de vînzări Walmart, erori scalate ponderate
+    \item \textbf{M5} (2020) \refMe: 42\,840 de serii ierarhice de vînzări Walmart, erori scalate ponderate
     \begin{itemize}
         \item arborii cu gradient boosting (LightGBM) antrenați \emph{pe toate} seriile au cîștigat; variabilele exogene (prețuri, evenimente) și învățarea între serii au contat
         \item din nou, ansamblurile de multe modele au fost în frunte (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12})
@@ -1494,7 +1499,7 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
 \begin{frame}{Interpretarea revizuirilor}
 \itemsize{\small}
 \begin{itemize}
-    \item Revizuirea medie 0{,}23 pp, abaterea standard 1{,}54 pp, revizuirea absolută medie 1{,}21 pp pe 143 trimestre; corelația prima--ultima 0{,}939
+    \item Revizuirea medie 0{,}23 pp, abaterea standard 1{,}54 pp, revizuirea absolută medie 1{,}21 pp pe 143 de trimestre; corelația prima--ultima 0{,}939
     \begin{itemize}
         \item cele mai mari: T2 2020 (4{,}9 pp) și T4 2008 (\ensuremath{-}4{,}7 pp): revizuirile sînt mari exact la punctele de cotitură
     \end{itemize}

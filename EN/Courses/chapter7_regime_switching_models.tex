@@ -387,6 +387,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
     \begin{itemize}
         \item key step: $\Pr(S_t = i \mid S_{t+1} = j, Y_T) = \Pr(S_t = i \mid S_{t+1} = j, Y_t)$: given $S_{t+1}$, future $y$ carry no extra information on $S_t$
         \item exact for MSI/MSIH/MSM on the expanded state; an approximation only when the state also has a continuous part (Kim 1994, \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter6_state_space_models_bayesian_filtering.pdf}{Chapter 6})
+        \item proof of the key step: \atsapplink{atsapp2}{atssrc1}{Appendix}  % applink: Kim smoother, the Markov step
     \end{itemize}
     \item Bayes on the pair: $\Pr(S_t = i, S_{t+1} = j \mid Y_T) = \dfrac{\hat\xi_{i,t|t}\,p_{ij}}{\hat\xi_{j,t+1|t}}\,\hat\xi_{j,t+1|T}$
     \begin{itemize}
@@ -451,6 +452,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
     \item Variances: $\sigma_j^{2(m+1)} = \sum_t\hat\xi_{j,t|T}(y_t - x_t'\beta_j)^2/\sum_t\hat\xi_{j,t|T}$; MS-VAR: the same with matrices
     \item Common coefficients (MSIH-AR): one stacked weighted regression with weights $\hat\xi_{j,t|T}/\sigma_j^2$ (a conditional M-step, ECM)
     \item MSM-AR: $\mu$ and $\phi$ enter as products, so no closed form: numerical maximisation (or EM with a numerical M-step)
+    \item Derivation of the M-step for $\mathbf{P}$ and of the monotonicity of EM: \atsapplink{atsapp1}{atssrc2}{Appendix}  % applink: EM for the Markov chain
 \end{itemize}
 \end{frame}
 
@@ -488,7 +490,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
 \begin{frame}{Interpreting the EM paths}
 \itemsize{\small}
 \begin{itemize}
-    \item 2 limits (log-likelihood, number of starts): \ensuremath{-}186.48 (20); -183.76 (10); median 159 iterations, at most 216
+    \item 2 limits (log-likelihood, number of starts): \ensuremath{-}186.48 (20); \ensuremath{-}183.76 (10); median 159 iterations, at most 216
     \item The highest (\ensuremath{-}183.76) is \textbf{degenerate}: a regime with $\sigma^2 = 0.049$, $p_{11}$ $<10^{-9}$ and mean 1.11, used by 29 isolated quarters
     \item \texttt{statsmodels} (20 random searches) reports \ensuremath{-}185.73, a third local maximum that none of our starts reached
     \item Lesson: report the starting-value design, all local maxima, and why the chosen one is economically meaningful
@@ -547,8 +549,13 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
         \item applied to Hamilton's GNP model: no evidence against one regime at conventional levels
     \end{itemize}
     \item \refGar: the asymptotic null distribution of the sup-LR for MS models with switching mean (and variance), with tabulated critical values
-    \item \refCW: quasi-LR against a two-component mixture (an i.i.d.\ switch has the same null behaviour); \refCHP: an optimal test against Markov switching that needs only the null model (score-type, second-order terms)
-    \item Practice: \textbf{parametric bootstrap} of the LR: simulate from the estimated null, re-estimate both models (with several starts) on each sample, $p = (1 + \#\{LR^* \ge LR\})/(B + 1)$; $LR^*$: the $B$ bootstrap statistics, $\#$: their count above $LR$
+    \item \refCW: quasi-LR against a two-component mixture (an i.i.d.\ switch has the same null behaviour)
+    \item \refCHP: an optimal score-type test against Markov switching that needs only the null model
+    \item Practice: \textbf{parametric bootstrap} of the LR
+    \begin{itemize}
+        \item simulate from the estimated null; re-estimate both models (with several starts) on each sample
+        \item $p = (1 + \#\{LR^* \ge LR\})/(B + 1)$; $LR^*$: the $B$ bootstrap statistics; $\#$: their count above $LR$
+    \end{itemize}
     \item Selection rather than testing: AIC, BIC, HQ, or Bayes factors through the marginal likelihood \refChibA
 \end{itemize}
 \end{frame}
@@ -785,9 +792,17 @@ constant transitions & & 2.77 & $p_{00} = 0.983$ & $p_{11} = 0.14$ & \ensuremath
 \begin{frame}{Interpreting the MS-VAR}
 \itemsize{\small}
 \begin{itemize}
-    \item The regimes are calm and volatile: output shock s.d.\ 0.42 against 1.02 pp, durations 21.8 and 14.3 quarters; the volatile regime holds 83\% of quarters before 1984, 17\% after, and 100\% of NBER quarters
+    \item The regimes are calm and volatile
+    \begin{itemize}
+        \item output shock s.d.\ 0.42 against 1.02 pp; durations 21.8 and 14.3 quarters
+        \item the volatile regime holds 83\% of quarters before 1984, 17\% after, and 100\% of NBER quarters
+    \end{itemize}
     \item Unemployment 12 quarters after a 1 pp output shock: \ensuremath{-}0.06 pp (calm), \ensuremath{-}0.83 pp (volatile), \ensuremath{-}0.65 pp (linear VAR)
-    \item Okun's law is regime-dependent: in the calm regime output surprises barely move unemployment (correlation of shocks \ensuremath{-}0.15, against \ensuremath{-}0.69); a linear VAR averages two transmissions
+    \item Okun's law is regime-dependent
+    \begin{itemize}
+        \item in the calm regime output surprises barely move unemployment (correlation of shocks \ensuremath{-}0.15, against \ensuremath{-}0.69)
+        \item a linear VAR averages two transmissions
+    \end{itemize}
     \item $\ln L$: \ensuremath{-}166.8 (MS-VAR) against \ensuremath{-}222.0 (linear VAR); regime-dependent responses assume the regime persists over the horizon
 \end{itemize}
 \end{frame}
@@ -820,8 +835,10 @@ constant transitions & & 2.77 & $p_{00} = 0.983$ & $p_{11} = 0.14$ & \ensuremath
 \begin{frame}{The path-dependence problem}
 \itemsize{\small}
 \begin{itemize}
-    \item Naive MS-GARCH: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$, with $h_{t-1}$ itself regime-dependent; $h_t$: conditional variance; $\varepsilon_{t-1}$: last return shock; $\omega$, $\alpha$, $\beta$: GARCH parameters of the regime
+    \item Naive MS-GARCH: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$
     \begin{itemize}
+        \item $h_t$: the conditional variance; $\varepsilon_{t-1}$: the last return shock; $\omega$, $\alpha$, $\beta$: the GARCH parameters of the regime
+        \item $h_{t-1}$ is itself regime-dependent
         \item $h_t$ depends on the whole path $(S_1, \dots, S_t)$: $K^t$ histories, so the Hamilton filter cannot be applied ($2^{100} \approx 10^{30}$)
     \end{itemize}
     \item \refGray: collapse the past into $h_{t-1} = \E[\varepsilon_{t-1}^2 \mid Y_{t-2}]$, the variance of the mixture: $h_{j,t} = \omega_j + \alpha_j\varepsilon_{t-1}^2 + \beta_j h_{t-1}$
@@ -936,7 +953,11 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \begin{frame}{Regimes and asset allocation, briefly}
 \itemsize{\small}
 \begin{itemize}
-    \item \refAB: with regime switching, optimal portfolios depend on the current regime probabilities; home bias and the value of international diversification change across regimes
+    \item \refAB
+    \begin{itemize}
+        \item with regime switching, optimal portfolios depend on the current regime probabilities
+        \item home bias and the value of international diversification change across regimes
+    \end{itemize}
     \item Mean-variance weight of equity against cash, risk aversion $\gamma = 5$: $w = \mu/(\gamma\sigma^2)$; $\mu$, $\sigma^2$: weekly mean and variance of the return in the regime
     \begin{itemize}
         \item S\&P 500: 2.79 in the calm regime, \ensuremath{-}0.51 in the turbulent one, 0.39 with constant moments
@@ -1025,8 +1046,10 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \begin{frame}{Rare switches look like long memory}
 \itemsize{\small}
 \begin{itemize}
-    \item \refDI: $y_t = \mu_{S_t} + \varepsilon_t$ with $p_{ii} = 1 - c/T^\delta$ ($c, \delta > 0$: switches become rarer as $T$ grows): the variance of partial sums grows like that of an I($d$) process, $d > 0$
+    \item \refDI: $y_t = \mu_{S_t} + \varepsilon_t$ with $p_{ii} = 1 - c/T^\delta$
     \begin{itemize}
+        \item $c, \delta > 0$: switches become rarer as $T$ grows
+        \item the variance of partial sums grows like that of an I($d$) process, $d > 0$
         \item the autocorrelations $\propto\lambda^k$ with $\lambda \to 1$ decay so slowly that, in any finite sample, they look hyperbolic
     \end{itemize}
     \item Consequences
@@ -1092,7 +1115,11 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
     \item Regime levels $\nu_j/(1 - \phi)$: 68.7\%, 17.8\% and 2.9\%; shock s.d.\ 10.58, 1.70 and 0.45 pp; $\phi = 0.971$: after 2001 the two lower regimes differ mainly in volatility
     \item The volatile regime returns in the 2010 VAT increase, in 2022 and in 2025; filtered probabilities in August 2026 (inflation 6.1\%): 0.00, 0.93, 0.07
     \item BIC prefers change points: 3 segments 887.0, 4 segments 897.5, Markov switching 934.1; the change points of the 4-segment model: April 1998, March 1999, September 2000
-    \item Reading: disinflation was a one-way process; after 2000 a single, very persistent segment absorbs the 2022 and 2025 surges as shocks; whether they are a recurrent regime is decided out of sample
+    \item Reading: disinflation was a one-way process
+    \begin{itemize}
+        \item after 2000 a single, very persistent segment absorbs the 2022 and 2025 surges as shocks
+        \item whether they are a recurrent regime is decided out of sample
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1190,7 +1217,7 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \begin{itemize}
     \item RMSE: AR(1) 0.554, MSIH(2)-AR(1) 0.558: the point forecasts are almost the same, as Clements and Krolzig found
     \item Mean log score: \ensuremath{-}1.028 against \ensuremath{-}0.890; Diebold--Mariano on the difference 1.16 ($p = 0.24$)
-    \item The gain comes from the variance regime: the AR(1) density is too wide after 1984 (PIT piled in the middle, KS $p$ = $<0.001$); the MS density is closer to uniform but not calibrated either (KS $p$ = 0.01)
+    \item The gain comes from the variance regime: the AR(1) density is too wide after 1984 (PIT piled in the middle, KS $p < 0.001$); the MS density is closer to uniform but not calibrated either (KS $p = 0.01$)
     \item Cumulative log-score gain before 2008: 17.72; from 2008: \ensuremath{-}1.10: the regime model pays in calm times and loses in the crisis
 \end{itemize}
 \end{frame}
@@ -1257,7 +1284,11 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \vspace{-0.25cm}
 \begin{itemize}
     \item US GDP growth: four specifications $\times$ three sample starts, all ending in 2019Q4; QPS of the smoothed low-mean-regime probability against the NBER quarters, 1985--2019
-    \item QPS from 0.034 to 1.846 (a constant probability scores 0.145); 4 variants flag most quarters (their low-mean regime is the Great Moderation); 1 of 12 dates both 2001 and 2008 without false alarms: an AI summary that reports one variant as ``the'' dating is wrong
+    \item QPS from 0.034 to 1.846 (a constant probability scores 0.145)
+    \begin{itemize}
+        \item 4 variants flag most quarters: their low-mean regime is the Great Moderation
+        \item 1 of 12 dates both 2001 and 2008 without false alarms: an AI summary that reports one variant as ``the'' dating is wrong
+    \end{itemize}
 \end{itemize}
 \quantlet{ATS\_ch7\_hamilton}{\qlurl{ATS_ch7_hamilton}}
 \end{frame}
@@ -1322,6 +1353,7 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 %=============================================================================
 
 \begin{frame}{Appendix: EM for the Markov chain, step by step}
+\hypertarget{atsapp1}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item Expected complete-data log-likelihood: $Q(\theta \mid \theta^{(m)}) = \sum_j\hat\xi_{j,1|T}\ln\rho_j + \sum_{t\ge2}\sum_{i,j}\hat\xi_{ij,t|T}\ln p_{ij} + \sum_t\sum_j\hat\xi_{j,t|T}\ln\eta_{jt}$
@@ -1332,6 +1364,7 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \end{frame}
 
 \begin{frame}{Appendix: the Kim smoother, the Markov step}
+\hypertarget{atsapp2}{}\atsappback{atssrc1}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item $\Pr(S_t = i \mid S_{t+1} = j, Y_T) = \dfrac{f(y_{t+1:T} \mid S_t = i, S_{t+1} = j, Y_t)\Pr(S_t = i \mid S_{t+1} = j, Y_t)}{f(y_{t+1:T} \mid S_{t+1} = j, Y_t)}$

@@ -239,10 +239,10 @@ R = {
     'Zaf': (AX + '2202.07282', 'Zaffran et al.\\ (2022)', 'Zaffran et al.\\ (2022)',
             r'Zaffran, M., Dieuleveut, A., Féron, O., Goude, Y., \& Josse, J. (2022). Adaptive conformal predictions for time series. \textit{Proceedings of the 39th International Conference on Machine Learning (ICML)}; \textit{arXiv:2202.07282}.'),
     # ---------------------------------------------------------------- further reading (instructor's repositories)
-    'CO': ('https://github.com/danpele/Conformal_Oracle', 'Pele et al.\\ (Conformal\\_Oracle)', 'Pele et al.\\ (Conformal\\_Oracle)',
-           r'Pele, D. T., et al. Conformal\_Oracle: conformal VaR recalibration for time series foundation models and classical models. GitHub repository (further reading).'),
-    'TV': ('https://github.com/danpele/TSFM_VaR_CEE', 'Pele et al.\\ (TSFM\\_VaR\\_CEE)', 'Pele et al.\\ (TSFM\\_VaR\\_CEE)',
-           r'Pele, D. T., et al. TSFM\_VaR\_CEE: benchmarking time-series foundation models for VaR and ES forecasting in Central and Eastern European markets. GitHub repository (further reading).'),
+    'CO': ('https://github.com/danpele/Conformal_Oracle', 'Pele et al., Conformal\\_Oracle (GitHub)', 'Pele et al., Conformal\\_Oracle (GitHub)',
+           r'Pele, D. T., et al. Conformal\_Oracle: conformal VaR recalibration for time series foundation models and classical models. GitHub repository.'),
+    'TV': ('https://github.com/danpele/TSFM_VaR_CEE', 'Pele et al., TSFM\\_VaR\\_CEE (GitHub)', 'Pele et al., TSFM\\_VaR\\_CEE (GitHub)',
+           r'Pele, D. T., et al. TSFM\_VaR\_CEE: benchmarking time-series foundation models for VaR and ES forecasting in Central and Eastern European markets. GitHub repository.'),
 }
 
 

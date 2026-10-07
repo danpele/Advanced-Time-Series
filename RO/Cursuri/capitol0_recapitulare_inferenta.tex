@@ -413,7 +413,7 @@ MSCA Digital Finance}
 \itemsize{\footnotesize}
 \begin{center}
 \scriptsize
-\begin{tabular}{p{3.3cm}p{5.4cm}p{2.6cm}p{2.0cm}}
+\begin{tabular}{p{3.0cm}p{5.0cm}p{2.6cm}p{1.6cm}}
 \toprule
 \textbf{Seria} & \textbf{Definiție} & \textbf{Perioada} & \textbf{Sursa} \\
 \midrule
@@ -603,7 +603,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \vspace{-0.25cm}
 \begin{itemize}
     \item Inflația IAPC în România, ianuarie 2006 -- august 2026: de la $\ensuremath{-}2{,}9\%$ (mai 2016) la $14{,}6\%$ (noiembrie 2022); ultima valoare $6{,}3\%$
-    \item Creșterea PIB în România: 106 trimestre, minimum $\ensuremath{-}10{,}2\%$ în 2009Q1; zilnic: 5\,352 de observații EUR/RON și 6\,714 S\&P 500
+    \item Creșterea PIB în România: 106 de trimestre, minimum $\ensuremath{-}10{,}2\%$ în 2009Q1; zilnic: 5\,352 de observații EUR/RON și 6\,714 S\&P 500
 \end{itemize}
 \quantlet{ATS\_ch0\_dependence\_data}{\qlurl{ATS_ch0_dependence_data}}
 \end{frame}
@@ -621,6 +621,9 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
     \end{itemize}
     \item EUR/RON și S\&P 500: volatility clustering (ani calmi, episoade de criză): dependență în momentul de ordinul doi
     \item Ce credeți? Care dintre cele patru serii are cea mai mare varianță de termen lung raportată la varianța ei?
+    \begin{itemize}
+        \item Răspuns: inflația, seria cea mai persistentă; rapoartele sînt pe slide-ul „Interpretarea autocorelațiilor”
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -733,7 +736,9 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
     \end{itemize}
     \item $\alpha$-mixing: $\alpha(m) \to 0$ cînd $m \to \infty$, adică trecutul și viitorul îndepărtat devin independente
     \begin{itemize}
-        \item $\beta$-mixing și $\phi$-mixing sînt mai tari; mixing implică ergodicitate \refBradley
+        \item $\beta(m) = \sup_t E\big[\sup_{B \in \mathcal{F}_{t+m}^{\infty}}|P(B \mid \mathcal{F}_{-\infty}^{t}) - P(B)|\big]$: abaterea medie a probabilităților condiționate de trecut ale evenimentelor viitoare de la cele necondiționate
+        \item $\varphi(m) = \sup_t\sup\{|P(B \mid A) - P(B)|: A \in \mathcal{F}_{-\infty}^{t}, P(A) > 0, B \in \mathcal{F}_{t+m}^{\infty}\}$: cazul cel mai nefavorabil dintre evenimentele trecute
+        \item $\alpha(m) \le \beta(m) \le \varphi(m)$: $\beta$-mixing și $\varphi$-mixing sînt mai tari; mixing implică ergodicitate \refBradley
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -770,7 +775,12 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
     \begin{itemize}
         \item Acoperă pătratele randamentelor unui GARCH cu moment de ordinul patru infinit: mediile converg, dar TLC poate să nu aibă loc
     \end{itemize}
-    \item \textbf{Mixingale și dependență near-epoch}: variantele folosite în teoria econometrică pentru funcții de procese mixing \refHamilton
+    \item \textbf{Mixingale și dependență near-epoch} \refHamilton
+    \begin{itemize}
+        \item mixingale: $\|E(x_t - \mu \mid \mathcal{F}_{t-m})\|_2 \le c_t\,\psi_m$, cu $\psi_m \to 0$: trecutul îndepărtat prognozează tot mai puțin din $x_t$
+        \item dependență near-epoch: $\|x_t - E(x_t \mid v_{t-m}, \dots, v_{t+m})\|_2 \to 0$ cînd $m \to \infty$, cu $\{v_t\}$ mixing: $x_t$ este aproape o funcție de valorile apropiate ale unui proces mixing
+        \item $\|z\|_2 = (E z^2)^{1/2}$; $c_t$: constante de scală; acoperă funcții de procese mixing, de exemplu pătratele unui GARCH
+    \end{itemize}
     \item Consistența (LGN) se obține ușor; erorile standard valide (TLC plus un $\hat\Omega$ consistent) sînt partea dificilă
 \end{itemize}
 \end{frame}
@@ -828,7 +838,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Cîtă informație elimină dependența?}
+\begin{frame}{Informația pierdută prin dependență}
 \itemsize{\footnotesize}
 \begin{center}
     \includegraphics[width=0.97\textwidth,height=0.56\textheight,keepaspectratio]{ats_ch0_lrv_ar1.pdf}
@@ -843,15 +853,15 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{frame}{Interpretarea creșterii varianței}
 \itemsize{\small}
 \begin{itemize}
-    \item $\phi = 0,5$: factorul este $3$ (simulat $2{,}98$); $\phi = 0,9$: $19$ (simulat $18{,}1$; factorul $1 - |j|/T$ al eșantionului finit îl reduce)
+    \item $\phi = 0{,}5$: factorul este $3$ (simulat $2{,}98$); $\phi = 0{,}9$: $19$ (simulat $18{,}1$; factorul $1 - |j|/T$ al eșantionului finit îl reduce)
     \begin{itemize}
-        \item Testul naiv respinge o ipoteză $H_0$ adevărată cu probabilitatea $15\%$ la $\phi = 0,3$, $26\%$ la $0,5$ și $65\%$ la $0,9$
+        \item Testul naiv respinge o ipoteză $H_0$ adevărată cu probabilitatea $15\%$ la $\phi = 0{,}3$, $26\%$ la $0{,}5$ și $65\%$ la $0{,}9$
     \end{itemize}
-    \item Dependența negativă acționează invers: $\phi = -0,5$ dă un factor de $0{,}33$, deci un test naiv conservator
+    \item Dependența negativă acționează invers: $\phi = -0{,}5$ dă un factor de $0{,}33$, deci un test naiv conservator
     \begin{itemize}
         \item Media randamentelor S\&P 500 este un exemplu: eroarea ei standard HAC este mai mică decît cea naivă
     \end{itemize}
-    \item Intervalele de încredere moștenesc factorul: un interval naiv de 95\% acoperă $\mu$ doar în aproximativ $74\%$ din cazuri la $\phi = 0,5$
+    \item Intervalele de încredere moștenesc factorul: un interval naiv de 95\% acoperă $\mu$ doar în aproximativ $74\%$ din cazuri la $\phi = 0{,}5$
 \end{itemize}
 \end{frame}
 
@@ -952,7 +962,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
     \end{itemize}
     \item Consistență cu $L \to \infty$, $L = o(T^{1/4})$ în lucrarea originală
     \begin{itemize}
-        \item $L = o(T^{1/4})$: $L$ crește mai lent decît $T^{1/4}$; Andrews (1991) rafinează ratele
+        \item $L = o(T^{1/4})$: $L$ crește mai lent decît $T^{1/4}$; \refAndrews{} rafinează ratele
     \end{itemize}
     \item O pagină de algebră, astăzi eroarea standard robustă implicită în orice pachet econometric
 \end{itemize}
@@ -1078,6 +1088,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
     \begin{itemize}
         \item $\hat\Omega/\Omega \to_d Q_k(b)$, $\qquad t \to_d W(1)/\sqrt{Q_k(b)}$
         \item $W(r)$: o mișcare browniană standard pe $r \in [0,1]$ ($r$: fracțiunea din eșantion); $Q_k(b)$: o funcțională aleatoare a punții browniene $\tilde W(r) = W(r) - rW(1)$
+        \item nucleul Bartlett: $Q(b) = \frac{2}{b}\int_0^1 \tilde W(r)^2\,dr - \frac{2}{b}\int_0^{1-b}\tilde W(r+b)\tilde W(r)\,dr$ \refKV
         \item nestandard, dar pivotal (nu depinde de parametri necunoscuți): valorile critice depind doar de nucleu și de $b$
     \end{itemize}
     \item Teoria de ordin superior: valorile critice fixed-$b$ elimină termenul principal al distorsiunii de mărime din aproximarea normală \refSPJ
@@ -1099,13 +1110,16 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{frame}{Interpretarea valorilor critice fixed-$b$}
 \itemsize{\small}
 \begin{itemize}
-    \item Bartlett: $2{,}23$ la $b = 0,1$, $3{,}47$ la $b = 0,5$, $4{,}76$ la $b = 1$ (statistica Kiefer--Vogelsang--Bunzel)
+    \item Bartlett: $2{,}23$ la $b = 0{,}1$, $3{,}47$ la $b = 0{,}5$, $4{,}76$ la $b = 1$ (statistica Kiefer--Vogelsang--Bunzel)
     \begin{itemize}
         \item Apropiate de aproximarea cubică raportată de \refKV{} pentru nucleul Bartlett
     \end{itemize}
-    \item QS: $2{,}38$ la $b = 0,1$ și $5{,}62$ la $b = 0,5$: QS cu $b$ mare este foarte zgomotos
+    \item QS: $2{,}38$ la $b = 0{,}1$ și $5{,}62$ la $b = 0{,}5$: QS cu $b$ mare este foarte zgomotos
     \item $b$ mai mare: deplasare mai mică a lui $\hat\Omega$, varianță mai mare, compensată de o valoare critică mai mare: mărime mai bună, putere mai mică
     \item Ce credeți? De ce tinde valoarea critică la 1,96 cînd $b \to 0$?
+    \begin{itemize}
+        \item Răspuns: cînd $b \to 0$, $Q_k(b) \to 1$ ($\hat\Omega$ devine consistent), deci $t \to_d W(1) \sim N(0,1)$: revine asimptotica standard
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1144,7 +1158,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \itemsize{\small}
 \begin{itemize}
     \item Estimatorii prin nucleu subponderează lagurile îndepărtate; Bartlett (Newey--West), Parzen și QS sînt întotdeauna nenegativi; nucleul trunchiat nu este
-    \item Lățimile Andrews (1991) sînt optime pentru eroarea pătratică medie a lui $\hat\Omega$ și se adaptează persistenței; regula practică nu
+    \item Lățimile \refAndrews{} sînt optime pentru eroarea pătratică medie a lui $\hat\Omega$ și se adaptează persistenței; regula practică nu
     \item Valorile critice fixed-$b$ țin cont de zgomotul din $\hat\Omega$; LLSW: NW cu $S = 1{,}3\sqrt{T}$ sau EWC cu $\nu = 0{,}4T^{2/3}$
 \end{itemize}
 \end{frame}
@@ -1160,7 +1174,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
     \item DGP: $x_t = \phi x_{t-1} + \varepsilon_t$, $\varepsilon_t \sim N(0,1)$ i.i.d., 200 de valori inițiale eliminate; $H_0: \mu = 0$ este adevărată
     \begin{itemize}
         \item $\phi$: coeficientul AR(1), adică persistența; valorile inițiale se elimină pentru ca seria să pornească din distribuția ei staționară
-        \item $\phi \in \{0; 0,3; 0,5; 0,7; 0,9\}$, $T \in \{100; 400\}$; 5\,000 de replicări (1\,000 pentru bootstrap, cu cîte 399 de reeșantionări); sămînța 2026
+        \item $\phi \in \{0; 0{,}3; 0{,}5; 0{,}7; 0{,}9\}$, $T \in \{100; 400\}$; 5\,000 de replicări (1\,000 pentru bootstrap, cu cîte 399 de reeșantionări); sămînța 2026
     \end{itemize}
     \item Șapte teste la nivelul nominal de 5\%
     \begin{itemize}
@@ -1169,7 +1183,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
     \end{itemize}
     \item Eroarea standard Monte Carlo a unei rate de respingere $p$ estimate din $R$ replicări: $\sqrt{p(1-p)/R}$
     \begin{itemize}
-        \item aproximativ $0,3$ puncte procentuale (pp) la $p = 5\%$ și $R = 5000$
+        \item aproximativ $0{,}3$ puncte procentuale (pp) la $p = 5\%$ și $R = 5000$
     \end{itemize}
     \item Același plan ca în secțiunile Monte Carlo din \refAndrews{} și \refKV: date AR(1), rate de respingere sub ipoteza nulă
 \end{itemize}
@@ -1214,15 +1228,15 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
 \begin{frame}{Interpretarea studiului Monte Carlo}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item Testul naiv: $27{,}3\%$ la $\phi = 0,5$ și $68{,}1\%$ la $\phi = 0,9$; mai multe date nu ajută ($66{,}2\%$ la $T = 400$)
+    \item Testul naiv: $27{,}3\%$ la $\phi = 0{,}5$ și $68{,}1\%$ la $\phi = 0{,}9$; mai multe date nu ajută ($66{,}2\%$ la $T = 400$)
     \begin{itemize}
         \item Distorsiunea este o proprietate a estimatorului, nu a mărimii eșantionului
     \end{itemize}
-    \item NW cu regula practică: $41{,}8\%$ la $\phi = 0,9$, $T = 100$; lățimile Andrews reduc excesul la jumătate; fixed-$b$ și EWC se apropie cel mai mult ($21{,}3\%$, $19{,}4\%$)
+    \item NW cu regula practică: $41{,}8\%$ la $\phi = 0{,}9$, $T = 100$; lățimile Andrews reduc excesul la jumătate; fixed-$b$ și EWC se apropie cel mai mult ($21{,}3\%$, $19{,}4\%$)
     \begin{itemize}
-        \item La $T = 400$ și $\phi = 0,5$: $6{,}0\%$ și $5{,}2\%$, practic exacte
+        \item La $T = 400$ și $\phi = 0{,}5$: $6{,}0\%$ și $5{,}2\%$, practic exacte
     \end{itemize}
-    \item Bootstrap-ul pe blocuri nu rezolvă totul: $30{,}8\%$ la $\phi = 0,9$, $T = 100$, între NW și fixed-$b$
+    \item Bootstrap-ul pe blocuri nu rezolvă totul: $30{,}8\%$ la $\phi = 0{,}9$, $T = 100$, între NW și fixed-$b$
     \item Seria noastră de inflație are $\hat\rho_1 = 0{,}98$: în afara domeniului în care vreunul dintre aceste teste este fiabil (mini-studiul de caz AI)
 \end{itemize}
 \end{frame}
@@ -1231,7 +1245,7 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
 \itemsize{\small}
 \begin{itemize}
     \item Raportați întotdeauna mărimea efectivă a procedurii folosite, la persistența datelor analizate
-    \item NW fixed-$b$ și EWC (LLSW 2018) domină alegerile clasice în privința mărimii, cu un cost modest în putere
+    \item NW fixed-$b$ și EWC (\refLLSW) domină alegerile clasice în privința mărimii, cu un cost modest în putere
     \item Un studiu Monte Carlo este un experiment: fixați sămînța, raportați $R$ și eroarea standard Monte Carlo
 \end{itemize}
 \end{frame}
@@ -1309,7 +1323,7 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
         \item Seria reeșantionată este staționară; metoda este mai puțin sensibilă la alegerea lui $1/p$ decît MBB la alegerea lui $l$
     \end{itemize}
     \item Eficiență: MBB și CBB au eroarea pătratică medie asimptotică mai mică pentru varianță decît bootstrap-ul staționar, la lungimile optime \refLahiri
-    \item Bootstrap-ul staționar stă la baza testului Reality Check (White 2000) și a testului SPA (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
+    \item Bootstrap-ul staționar stă la baza testului Reality Check \refWhite{} și a testului SPA (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
 \end{itemize}
 \end{frame}
 
@@ -1338,9 +1352,6 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
         \item termenul de deplasare $G$ raportat la termenul de varianță $D$, rata $T^{1/3}$: seriile persistente primesc blocuri mai lungi
     \end{itemize}
     \item Implementat în pachetul Python \texttt{arch} (\texttt{optimal\_block\_length})
-    \begin{itemize}
-        \item codul nostru dă aceleași lungimi ale blocurilor
-    \end{itemize}
     \item Datele noastre
     \begin{itemize}
         \item aproximativ 145 de zile pentru pătratele randamentelor S\&P 500, 25 de luni pentru inflație
@@ -1429,6 +1440,9 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
     \item Creșterea PIB: aproape constant în jurul lui 1 (și puțin sub 1 pentru blocuri lungi): nu există dependență de captat
     \item Blocuri foarte lungi: puține blocuri distincte, varianță zgomotoasă și deplasată în jos (deplasarea lui $\hat\gamma_j$ la laguri mari)
     \item Ce credeți? De ce curba inflației continuă să crească pînă cînd $l$ ajunge la aproximativ un sfert din eșantion?
+    \begin{itemize}
+        \item Răspuns: autocorelația inflației scade foarte lent (ratele anuale se suprapun, $\hat\rho_1 = 0{,}98$); doar blocurile foarte lungi o captează, înainte ca deplasarea în jos să domine
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1438,10 +1452,10 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
 \footnotesize
 \begin{tabular}{lrrrrrrr}
 \toprule
-Seria & $T$ & Media & $\hat\rho_1$ & naivă & NW-A & boot.\ staț. & $t_{naive}$ / $t_{EWC}$ \\
+Seria & $T$ & Media & $\hat\rho_1$ & naivă & NW-A & boot.\ staț. & $t_{\text{naiv}}$ / $t_{\text{EWC}}$ \\
 \midrule
-S\&P 500 de randamente & 6\,714 & 0{,}025 & \ensuremath{-}0{,}10 & 0{,}0148 & 0{,}0131 & 0{,}0129 & 1{,}67 / 2{,}07 \\
-S\&P 500 pătrate & 6\,714 & 1{,}472 & 0{,}31 & 0{,}064 & 0{,}152 & 0{,}292 & 23{,}06 / 6{,}71 \\
+S\&P 500, randamente & 6\,714 & 0{,}025 & \ensuremath{-}0{,}10 & 0{,}0148 & 0{,}0131 & 0{,}0129 & 1{,}67 / 2{,}07 \\
+S\&P 500, pătrate & 6\,714 & 1{,}472 & 0{,}31 & 0{,}064 & 0{,}152 & 0{,}292 & 23{,}06 / 6{,}71 \\
 randamente BET & 6\,670 & 0{,}064 & 0{,}11 & 0{,}0171 & 0{,}0188 & 0{,}0187 & 3{,}73 / 2{,}89 \\
 EUR/RON & 5\,352 & 0{,}007 & 0{,}17 & 0{,}0038 & 0{,}0040 & 0{,}0039 & 1{,}86 / 1{,}73 \\
 Creșterea PIB RO & 106 & 0{,}829 & \ensuremath{-}0{,}03 & 0{,}240 & 0{,}240 & 0{,}240 & 3{,}46 / 3{,}67 \\
@@ -1471,7 +1485,7 @@ Inflația RO & 248 & 4{,}799 & 0{,}98 & 0{,}218 & 1{,}131 & 0{,}957 & 22{,}05 / 
 \itemsize{\small}
 \begin{itemize}
     \item Bootstrap-ul i.i.d.\ reproduce eroarea standard naivă; reeșantionați în schimb blocuri
-    \item MBB (Künsch 1989) este, în esență, un estimator HAC Bartlett; CBB elimină deplasarea de capăt; bootstrap-ul staționar păstrează staționaritatea
+    \item MBB \refKunsch{} este, în esență, un estimator HAC Bartlett; CBB elimină deplasarea de capăt; bootstrap-ul staționar păstrează staționaritatea
     \item Lungimea blocului $\propto T^{1/3}$, aleasă prin Politis--White; wild bootstrap-ul tratează doar heteroscedasticitatea
 \end{itemize}
 \end{frame}
@@ -1526,7 +1540,7 @@ Inflația RO & 248 & 4{,}799 & 0{,}98 & 0{,}218 & 1{,}131 & 0{,}957 & 22{,}05 / 
 \quantlet{ATS\_ch0\_term\_spread}{\qlurl{ATS_ch0_term_spread}}
 \end{frame}
 
-\begin{frame}{O pantă, cinci erori standard}
+\begin{frame}{O pantă, șase erori standard}
 \itemsize{\footnotesize}
 \begin{center}
 \footnotesize
@@ -1534,11 +1548,11 @@ Inflația RO & 248 & 4{,}799 & 0{,}98 & 0{,}218 & 1{,}131 & 0{,}957 & 22{,}05 / 
 \toprule
 Eroarea standard & $\widehat{se}(\hat\beta_1)$ & $t$ & Valoarea critică \\
 \midrule
-MCMMP clasic & 0{,}11 & 4{,}72 & 1.96 \\
-White (doar heteroscedasticitate) & 0{,}10 & -- & 1.96 \\
-Hansen--Hodrick, 3 laguri & 0{,}20 & -- & 1.96 \\
-Newey--West, 3 laguri & 0{,}17 & 3{,}10 & 1.96 \\
-NW, Andrews ($S = 14$) & 0{,}23 & 2{,}25 & 1.96 \\
+MCMMP clasic & 0{,}11 & 4{,}72 & $1{,}96$ \\
+White (doar heteroscedasticitate) & 0{,}10 & -- & $1{,}96$ \\
+Hansen--Hodrick, 3 laguri & 0{,}20 & -- & $1{,}96$ \\
+Newey--West, 3 laguri & 0{,}17 & 3{,}10 & $1{,}96$ \\
+NW, Andrews ($S = 14$) & 0{,}23 & 2{,}25 & $1{,}96$ \\
 NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \bottomrule
 \end{tabular}
@@ -1571,7 +1585,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{frame}{Data snooping}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item \textbf{Data snooping}: refolosirea aceluiași set de date pentru a alege un model, o regulă sau o specificație, testat apoi pe aceleași date ca și cum ar fi fost ales dinainte
+    \item \textbf{Data snooping}: refolosirea aceluiași set de date pentru a alege un model, o regulă sau o specificație, urmată de testarea alegerii pe aceleași date, ca și cum ar fi fost făcută dinainte
     \begin{itemize}
         \item \refLM: sortarea portofoliilor după caracteristici despre care se știe deja că sînt legate de randamente deplasează testele de evaluare a activelor
         \item \refHLZ: peste 300 de factori de randament publicați; un factor nou are nevoie de $t > 3$, nu de $t > 2$
@@ -1579,7 +1593,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
     \item Ratele de eroare pentru $K$ teste
     \begin{itemize}
         \item FWER (rata de eroare la nivelul familiei de teste): probabilitatea a cel puțin unei respingeri false printre cele $K$ teste la nivelul $\alpha$
-        \item Bonferroni testează fiecare ipoteză la $\alpha/K$; Holm (descendent, pas cu pas) relaxează pragul treptat; ambele controlează FWER
+        \item Bonferroni testează fiecare ipoteză la $\alpha/K$; Holm (descendent, pas cu pas) compară p-value-urile ordonate $p_{(i)}$ cu $\alpha/(K - i + 1)$; ambele controlează FWER
         \item FDR (false discovery rate): proporția așteptată a respingerilor false printre respingeri, controlată de \refBH
     \end{itemize}
     \item În prognoză: multe modele, multe orizonturi, multe eșantioane
@@ -1606,13 +1620,16 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{itemize}
     \item Teste independente: FWER $64\%$ cu $K = 20$ și $99{,}4\%$ cu $K = 100$
     \begin{itemize}
-        \item Bonferroni ar testa fiecare ipoteză la $0,05/20 = 0,0025$
+        \item Bonferroni ar testa fiecare ipoteză la $0{,}05/20 = 0{,}0025$
     \end{itemize}
     \item Statistici corelate (reguli asemănătoare, eșantioane suprapuse): FWER $42\%$ ($K = 20$) și $78\%$ ($K = 100$) la corelația 0,5; $23\%$ la 0,9
     \begin{itemize}
         \item Bonferroni ignoră corelația și este conservator: bootstrap-ul maximului (slide-ul următor) o folosește
     \end{itemize}
     \item Ce credeți? Cu 50 de reguli de medie mobilă, cîte reguli „semnificative” vă așteptați să obțineți din întîmplare la 5\%?
+    \begin{itemize}
+        \item Răspuns: $50 \times 0{,}05 = 2{,}5$ dacă regulile ar fi independente; regulile corelate dau mai puține respingeri distincte, dar cel mai bun $t$ rămîne supraestimat
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1774,7 +1791,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{frame}{O întrebare deschisă: inferență validă pentru media unei serii aproape integrate}
 \itemsize{\small}
 \begin{itemize}
-    \item A fost inflația din România, în medie, la nivelul țintei BNR din 2013? Formal, $H_0: \mu = 2,5$ pentru rata anuală IAPC, 164 de luni pînă în august 2026
+    \item A fost inflația din România, în medie, la nivelul țintei BNR din 2013? Formal, $H_0: \mu = 2{,}5$ pentru rata anuală IAPC, 164 de luni pînă în august 2026
     \begin{itemize}
         \item $\hat\rho_1 = 0{,}99$: seria este aproape de o rădăcină unitară și suprapusă prin construcție
     \end{itemize}
@@ -1820,7 +1837,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{frame}{Interpretarea mini-studiului de caz}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item O propunere tipică a unui asistent AI: „NW cu $\lfloor 4(T/100)^{2/9}\rfloor$ laguri” dă $t = 2{,}69$ și respinge $\mu = 2,5$
+    \item O propunere tipică a unui asistent AI: „NW cu $\lfloor 4(T/100)^{2/9}\rfloor$ laguri” dă $t = 2{,}69$ și respinge $\mu = 2{,}5$
     \begin{itemize}
         \item Mărimea lui efectivă la această persistență: $79\%$ în loc de 5\%; testul naiv: $90\%$
     \end{itemize}
@@ -1868,7 +1885,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{frame}{Autoevaluare}
 \itemsize{\small}
 \begin{itemize}
-    \item Care este varianța de termen lung a unui MA(1) cu $\theta = -0,5$ și $\sigma^2 = 1$?
+    \item Care este varianța de termen lung a unui MA(1) cu $\theta = -0{,}5$ și $\sigma^2 = 1$?
     \item De ce poate nucleul trunchiat să dea o varianță negativă, iar nucleul Bartlett nu?
     \item Ce eroare standard ați folosi pentru media randamentelor zilnice S\&P 500?
     \item Ce eroare standard ați folosi pentru media pătratelor lor?

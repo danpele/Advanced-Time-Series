@@ -385,7 +385,7 @@ D.frame(T('Non-recursive short-run restrictions', 'Restricții nerecursive pe te
       T('government spending is predetermined within the quarter (decision lags): a zero restriction with an institutional argument', 'cheltuielile publice sînt predeterminate în trimestru (întîrzieri de decizie): o restricție zero cu un argument instituțional')]),
     T('Seminar 3, A2: one known elasticity identifies a $2\\times2$ system by instrumental variables', 'Seminarul 3, A2: o elasticitate cunoscută identifică un sistem $2\\times2$ prin variabile instrumentale')), 'small')
 
-D.frame(T('What the recursive assumption cannot do', 'Limitele ipotezei recursive'), items(
+D.frame(T('Limits of the recursive assumption', 'Limitele ipotezei recursive'), items(
     (T('Simultaneity: interest rates and asset prices react to each other within the day', 'Simultaneitatea: dobînzile și prețurile activelor reacționează unele la altele în aceeași zi'),
      [T('no ordering of stock prices and the policy rate is credible at a monthly frequency', 'nicio ordonare a prețurilor acțiunilor și a dobînzii de politică nu este credibilă la frecvență lunară')]),
     (T('Omitted information: the policy shock absorbs the Fed\'s forecasts', 'Informația omisă: șocul de politică absoarbe prognozele Fed'),
@@ -428,7 +428,7 @@ chart(T('Historical decomposition of the real price of oil', 'Descompunerea isto
     h='0.54\\textheight')
 
 interp(('the historical decomposition', 'descompunerii istorice'), [
-    T(r'2003--mid-2008: aggregate demand adds @{hd.c2003_2008.ad} log points, supply @{hd.c2003_2008.sup}: the boom was a global demand boom', r'2003--mijlocul lui 2008: cererea agregată adaugă @{hd.c2003_2008.ad} puncte logaritmice, oferta @{hd.c2003_2008.sup}: boom-ul a fost unul al cererii globale'),
+    T(r'2003--mid-2008: aggregate demand adds @{hd.c2003_2008.ad} log points, supply @{hd.c2003_2008.sup}: the boom was a global demand boom', r'2003--mijlocul lui 2008: cererea agregată adaugă @{hd.c2003_2008.ad} de puncte logaritmice, oferta @{hd.c2003_2008.sup}: boom-ul a fost unul al cererii globale'),
     T(r'Mid-2008 to early 2009: oil-specific demand @{hd.c2008_2009.os}, aggregate demand @{hd.c2008_2009.ad}; early 2020: oil-specific demand @{hd.c2020.os}', r'De la mijlocul lui 2008 la începutul lui 2009: cererea specifică @{hd.c2008_2009.os}, cererea agregată @{hd.c2008_2009.ad}; începutul lui 2020: cererea specifică @{hd.c2020.os}'),
     T(r'Mid-2021 to mid-2022: oil-specific demand @{hd.c2022.os}, supply @{hd.c2022.sup}: the model reads the 2022 surge as precautionary demand', r'De la mijlocul lui 2021 la mijlocul lui 2022: cererea specifică @{hd.c2022.os}, oferta @{hd.c2022.sup}: modelul citește saltul din 2022 drept cerere de precauție'),
     (T(r'Caveat: the zero restriction on the supply response is strong; \refBHb\ allow a small but non-zero elasticity and find a larger role for supply', r'Rezervă: restricția zero pentru răspunsul ofertei este puternică; \refBHb\ permit o elasticitate mică, dar nenulă, și găsesc un rol mai mare pentru ofertă'),
@@ -466,10 +466,10 @@ chart(T('Supply and demand shocks identified by a long-run restriction', 'Șocur
 interp(('the Blanchard--Quah responses', 'răspunsurilor Blanchard--Quah'), [
     T(r'Demand shock: output peaks at @{bq.dpeak}\% after @{bq.dpeakq} quarters and returns to zero by construction; unemployment falls by @{bq.dumin} pp', r'Șocul de cerere: producția atinge un maxim de @{bq.dpeak}\% după @{bq.dpeakq} trimestre și revine la zero prin construcție; șomajul scade cu @{bq.dumin} pp'),
     T(r'Supply shock: output rises permanently (@{bq.s40}\% after ten years, band [@{bq.s40lo}, @{bq.s40hi}]), unemployment first \emph{rises} (@{bq.su0} pp)', r'Șocul de ofertă: producția crește permanent (@{bq.s40}\% după zece ani, banda [@{bq.s40lo}, @{bq.s40hi}]), iar șomajul întîi \emph{crește} (@{bq.su0} pp)'),
-    T(r'Demand shocks explain @{bq.fe4}\% of the output-level variance at one year and @{bq.fe40}\% at ten years: as in the paper, demand dominates at business-cycle horizons', r'Șocurile de cerere explică @{bq.fe4}\% din varianța nivelului producției la un an și @{bq.fe40}\% la zece ani: ca în lucrare, cererea domină la orizonturile ciclului economic'),
+    T(r'Demand shocks explain @{bq.fe4}\% of the output-level variance at one year and @{bq.fe40}\% at ten years: in line with \refBQ, demand dominates at business-cycle horizons', r'Șocurile de cerere explică @{bq.fe4}\% din varianța nivelului producției la un an și @{bq.fe40}\% la zece ani: în acord cu \refBQ, cererea domină la orizonturile ciclului economic'),
     T('Seminar 3, B5: without the break and the trend, the shares change dramatically', 'Seminarul 3, B5: fără ruptură și fără trend, ponderile se schimbă radical')])
 
-D.frame(T('How reliable are long-run restrictions?', 'Cît de fiabile sînt restricțiile de termen lung?'), items(
+D.frame(T('Reliability of long-run restrictions', 'Fiabilitatea restricțiilor de termen lung'), items(
     (T(r'\refFL: the long-run multiplier $A(1)^{-1}$ is estimated imprecisely from finite samples', r'\refFL: multiplicatorul de termen lung $A(1)^{-1}$ se estimează imprecis din eșantioane finite'),
      [T('a shock with a tiny but permanent effect is indistinguishable from a transitory one: inference can be arbitrarily distorted', 'un șoc cu un efect permanent foarte mic nu se poate distinge de unul tranzitoriu: inferența poate fi distorsionată oricît de mult'),
       T('the near-unit-root behaviour of unemployment makes the problem worse', 'comportamentul de rădăcină aproape unitară al șomajului agravează problema')]),
@@ -567,7 +567,7 @@ D.frame(T('The proxy SVAR (1/2)', 'Modelul proxy SVAR (1/2)'), items(
     (T(r'An external variable $z_t$ (the proxy), correlated with the shock of interest $\varepsilon_{1t}$ and with no other shock', r'O variabilă externă $z_t$ (proxy), corelată cu șocul de interes $\varepsilon_{1t}$ și cu niciun alt șoc'),
      [T(r'\textbf{relevance}: $\E z_t\varepsilon_{1t} = \alpha \ne 0$; \textbf{exogeneity}: $\E z_t\varepsilon_{jt} = 0$ for $j \ne 1$', r'\textbf{relevanța}: $\E z_t\varepsilon_{1t} = \alpha \ne 0$; \textbf{exogenitatea}: $\E z_t\varepsilon_{jt} = 0$ pentru $j \ne 1$')]),
     (T(r'Then the covariance of the residuals with the proxy is proportional to the impact column $b_1$', r'Atunci covarianța reziduurilor cu proxy-ul este proporțională cu coloana de impact $b_1$'),
-     [r'$\E u_tz_t = B_0\E\varepsilon_tz_t = \alpha b_1$',
+     [T(r'$\E u_tz_t = B_0\E\varepsilon_tz_t = \alpha b_1$ (derivation in the Appendix)', r'$\E u_tz_t = B_0\E\varepsilon_tz_t = \alpha b_1$ (derivarea în Anexă)'),
       T(r'$b_1$: the first column of $B_0$, the impact effects of shock 1 on all $n$ variables', r'$b_1$: prima coloană a lui $B_0$, efectele la impact ale șocului 1 asupra tuturor celor $n$ variabile')])))
 
 D.frame(T('The proxy SVAR (2/2)', 'Modelul proxy SVAR (2/2)'), items(
@@ -598,7 +598,7 @@ chart(T('A monetary policy shock identified with FF4 surprises', 'Un șoc de pol
     h='0.52\\textheight')
 
 interp(('the proxy SVAR', 'modelului proxy SVAR'), [
-    T(r'The excess bond premium jumps by @{gk.ebp0} pp on impact (band [@{gk.ebp0lo}, @{gk.ebp0hi}]): monetary policy works through credit costs, as in the paper', r'Prima de risc excedentară crește cu @{gk.ebp0} pp la impact (banda [@{gk.ebp0lo}, @{gk.ebp0hi}]): politica monetară acționează prin costul creditului, ca în lucrare'),
+    T(r'The excess bond premium jumps by @{gk.ebp0} pp on impact (band [@{gk.ebp0lo}, @{gk.ebp0hi}]): monetary policy works through credit costs, in line with \refGK', r'Prima de risc excedentară crește cu @{gk.ebp0} pp la impact (banda [@{gk.ebp0lo}, @{gk.ebp0hi}]): politica monetară acționează prin costul creditului, în acord cu \refGK'),
     T(r'IP reaches @{gk.ipmin}\% after @{gk.iparg} months (band [@{gk.ipminlo}, @{gk.ipminhi}]); CPI is @{gk.cpi24}\% after two years (band [@{gk.cpi24lo}, @{gk.cpi24hi}]), with no price puzzle', r'IP ajunge la @{gk.ipmin}\% după @{gk.iparg} luni (banda [@{gk.ipminlo}, @{gk.ipminhi}]); IPC este @{gk.cpi24}\% după doi ani (banda [@{gk.cpi24lo}, @{gk.cpi24hi}]), fără anomalia prețurilor'),
     T(r'$F = @{gk.F}$ passes the rule of thumb $F > 10$, but the price response is imprecise: weak-instrument-robust bands are wider \refMSW', r'$F = @{gk.F}$ trece pragul empiric $F > 10$, dar răspunsul prețurilor este imprecis: benzile robuste la instrumente slabe sînt mai largi \refMSW')])
 
@@ -679,7 +679,7 @@ D.frame(T('Local projections', 'Proiecțiile locale'), items(
     T('Flexible: nonlinear terms, state dependence, panel data, cumulative outcomes all enter as regressors', 'Flexibile: termenii neliniari, dependența de stare, datele panel și variabilele cumulate intră toate ca regresori')), 'small')
 
 D.frame(T('LP and VAR estimate the same responses', 'LP și VAR estimează aceleași răspunsuri'), items(
-    (T(r'\refPW: in population, an LP with $p$ lags of all variables as controls and a VAR($p$) with the same ordering give \emph{identical} responses up to horizon $p$', r'\refPW: în populație, o LP cu $p$ laguri ale tuturor variabilelor drept controale și un VAR($p$) cu aceeași ordonare dau răspunsuri \emph{identice} pînă la orizontul $p$'),
+    (T(r'\refPW: in population, an LP with $p$ lags of all variables as controls and a VAR($p$) with the same ordering give \emph{identical} responses up to horizon $p$ (Appendix)', r'\refPW: în populație, o LP cu $p$ laguri ale tuturor variabilelor drept controale și un VAR($p$) cu aceeași ordonare dau răspunsuri \emph{identice} pînă la orizontul $p$ (Anexă)'),
      [T(r'with unrestricted lags ($p \to \infty$) they coincide at all horizons: the choice is about estimation, not identification', r'cu laguri nerestricționate ($p \to \infty$) coincid la toate orizonturile: alegerea privește estimarea, nu identificarea'),
       T(r'any VAR identification scheme (recursive, external instrument) has an LP counterpart, and vice versa', r'orice schemă de identificare VAR (recursivă, instrument extern) are un echivalent LP și invers')]),
     (T('In finite samples they differ: the VAR extrapolates the first $p$ autocovariances, the LP uses the raw $h$-step covariance', 'În eșantioane finite diferă: VAR-ul extrapolează primele $p$ autocovarianțe, LP folosește direct covarianța la $h$ pași'),
@@ -736,7 +736,7 @@ chart(T('Government spending multipliers by state of the economy', 'Multiplicato
 interp(('the state-dependent multipliers', 'multiplicatorilor dependenți de stare'), [
     T(r'Linear: @{rz.lin8} at two years (SE @{rz.lin8se}) and @{rz.lin16} at four years (SE @{rz.lin16se})', r'Liniar: @{rz.lin8} la doi ani (SE @{rz.lin8se}) și @{rz.lin16} la patru ani (SE @{rz.lin16se})'),
     T(r'High unemployment: @{rz.slack8} and @{rz.slack16}; low unemployment: @{rz.normal8} and @{rz.normal16}', r'Șomaj ridicat: @{rz.slack8} și @{rz.slack16}; șomaj scăzut: @{rz.normal8} și @{rz.normal16}'),
-    T('As in the paper: multipliers below one in both states and no significant difference between them', 'Ca în lucrare: multiplicatori sub unu în ambele stări și nicio diferență semnificativă între ele'),
+    T('In line with \\refRZ: multipliers below one in both states and no significant difference between them', 'În acord cu \\refRZ: multiplicatori sub unu în ambele stări și nicio diferență semnificativă între ele'),
     T('The case for LP here: a VAR would impose the same dynamics in both states unless the state transitions are modelled', 'Argumentul pentru LP aici: un VAR ar impune aceeași dinamică în ambele stări dacă tranzițiile între stări nu sînt modelate')])
 
 D.recap(('Local projections', 'proiecții locale'), [
@@ -786,15 +786,15 @@ interp(('the Romanian responses', 'răspunsurilor pentru România'), [
     T(r'Euribor shock: Romanian IP @{rv.ea.ip12}\% after 12 months (band [@{rv.ea.ip12.lo}, @{rv.ea.ip12.hi}]); HICP @{rv.ea.p12}\%; ROBOR @{rv.ea.r12} pp', r'Șocul Euribor: IP din România @{rv.ea.ip12}\% după 12 luni (banda [@{rv.ea.ip12.lo}, @{rv.ea.ip12.hi}]); IAPC @{rv.ea.p12}\%; ROBOR @{rv.ea.r12} pp'),
     T('Honest summary: the recursive VAR identifies the euro-area block credibly and the domestic policy shock poorly', 'Pe scurt: VAR-ul recursiv identifică credibil blocul zonei euro și slab șocul de politică internă')])
 
-D.frame(T('How much of Romania comes from the euro area?', 'Cît din evoluția României vine din zona euro?'), table(
-    'lcccc', T(r'\textbf{Variable}', r'\textbf{Variabila}') + ' & ' + T(r'\textbf{EA shocks, 12 m}', r'\textbf{șocuri ZE, 12 luni}') + ' & ' + T(r'\textbf{EA shocks, 36 m}', r'\textbf{șocuri ZE, 36 de luni}') + ' & ' + T(r'\textbf{ROBOR shock, 12 m}', r'\textbf{șoc ROBOR, 12 luni}') + ' & ' + T(r'\textbf{own shock, 12 m}', r'\textbf{șoc propriu, 12 luni}'),
+D.frame(T('The euro-area share of Romanian fluctuations', 'Contribuția zonei euro la fluctuațiile din România'), table(
+    'lrrrr', T(r'\textbf{Variable}', r'\textbf{Variabila}') + ' & ' + T(r'\textbf{EA shocks, 12 m}', r'\textbf{șocuri ZE, 12 luni}') + ' & ' + T(r'\textbf{EA shocks, 36 m}', r'\textbf{șocuri ZE, 36 de luni}') + ' & ' + T(r'\textbf{ROBOR shock, 12 m}', r'\textbf{șoc ROBOR, 12 luni}') + ' & ' + T(r'\textbf{own shock, 12 m}', r'\textbf{șoc propriu, 12 luni}'),
     [T('IP Romania', 'IP România') + r' & @{rv.fe.ip12.ea}\% & @{rv.fe.ip36.ea}\% & @{rv.fe.ip12.r_ro}\% & @{rv.fe.ip12.own}\%',
      T('HICP Romania', 'IAPC România') + r' & @{rv.fe.p12.ea}\% & @{rv.fe.p36.ea}\% & @{rv.fe.p12.r_ro}\% & @{rv.fe.p12.own}\%',
      r'ROBOR 3M & @{rv.fe.r12.ea}\% & @{rv.fe.r36.ea}\% & @{rv.fe.r12.r_ro}\% & --',
      r'EUR/RON & @{rv.fe.fx12.ea}\% & @{rv.fe.fx36.ea}\% & @{rv.fe.fx12.r_ro}\% & @{rv.fe.fx12.own}\%'],
     size='scriptsize') + items(
     T('Forecast error variance decomposition of the recursive VAR(2); EA shocks = the three euro-area shocks together', 'Descompunerea varianței erorii de prognoză din VAR(2) recursiv; șocuri ZE = cele trei șocuri ale zonei euro împreună'),
-    T(r'Euro-area shocks explain @{rv.fe.ip12.ea}\% of Romanian IP and @{rv.fe.p36.ea}\% of HICP at three years; the domestic rate shock explains less than a tenth of either', r'Șocurile zonei euro explică @{rv.fe.ip12.ea}\% din IP din România și @{rv.fe.p36.ea}\% din IAPC la trei ani; șocul dobînzii interne explică mai puțin de o zecime din fiecare'),
+    T(r'Euro-area shocks explain @{rv.fe.ip12.ea}\% of Romanian IP at one year and @{rv.fe.p36.ea}\% of HICP at three years; the domestic rate shock explains less than a tenth of either', r'Șocurile zonei euro explică @{rv.fe.ip12.ea}\% din IP din România la un an și @{rv.fe.p36.ea}\% din IAPC la trei ani; șocul dobînzii interne explică mai puțin de o zecime din fiecare'),
     T('The shares are as credible as the ordering; with a block-exogenous VAR they are a lower bound for external influence', 'Ponderile sînt la fel de credibile ca ordonarea; cu un VAR cu exogenitate pe blocuri ele sînt o limită inferioară a influenței externe')), 'small')
 
 chart(T('ECB policy shocks and Romania: local projections', 'Șocuri de politică BCE și România: proiecții locale'), 'ats_ch3_ro_lp', 'ATS_ch3_romania', [
@@ -843,14 +843,14 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
       T(r'\textbf{robustness and critique}: \aiprompt{Act as a hostile referee: list every way this identification of ECB spillovers could fail.}', r'\textbf{robustețe și critică}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră toate felurile în care această identificare a efectelor BCE ar putea eșua.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('The shock is dated correctly: announcement-day surprises are summed within the month, never shifted forward', 'Șocul este datat corect: surprizele din zilele anunțurilor se adună în interiorul lunii, nu se mută niciodată înainte'),
     T('Relevance is reported (first-stage $F$ with HAC variance) before any response is interpreted', 'Relevanța se raportează (statistica $F$ din prima etapă cu varianță HAC) înainte de interpretarea oricărui răspuns'),
     T('Lags, horizons, sample and the treatment of 2020 are fixed before the results; all variants are reported', 'Lagurile, orizonturile, eșantionul și tratarea anului 2020 sînt fixate înaintea rezultatelor; toate variantele sînt raportate'),
     T('An AI summary of a ``significant spillover\'\' is checked against the confidence set, not against the point estimate', 'Un rezumat AI despre un „efect de propagare semnificativ” se verifică pe mulțimea de încredere, nu pe estimația punctuală')), 'small')
 
-chart(T('Mini-case: how robust is one number?', 'Mini-studiu de caz: cît de robustă este o singură cifră?'), 'ats_ch3_ai_case', 'ATS_ch3_romania', [
+chart(T('Mini-case: the robustness of one number', 'Mini-studiu de caz: robustețea unei singure cifre'), 'ats_ch3_ai_case', 'ATS_ch3_romania', [
     T(r'Response of Romanian HICP after 12 months to a 25 bp Euribor shock: recursive VAR and recursive LP (90\% Newey--West bars), lag length $p$, samples ending in 2019 and in 2026', r'Răspunsul IAPC din România după 12 luni la un șoc Euribor de 25 bp: VAR recursiv și LP recursivă (bare Newey--West de 90\%), numărul de laguri $p$, eșantioane care se încheie în 2019 și în 2026'),
     T(r'@{ai.n} estimates range from @{ai.min}\% to @{ai.max}\%, @{ai.npos} of them positive: the sign depends on the lag length and on the post-2020 data; an AI assistant that reports one of them ``with confidence\'\' is wrong', r'Cele @{ai.n} de estimații variază între @{ai.min}\% și @{ai.max}\%, iar @{ai.npos} dintre ele sînt pozitive: semnul depinde de numărul de laguri și de datele de după 2020; un asistent AI care raportează una dintre ele „cu încredere” greșește')],
     h='0.5\\textheight')
@@ -858,7 +858,7 @@ chart(T('Mini-case: how robust is one number?', 'Mini-studiu de caz: cît de rob
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{Euro-area monetary spillovers to Romania}: replicate first, then extend', r'\textbf{Efectele politicii monetare din zona euro asupra României}: întîi replicare, apoi extindere'),
      [T(r'replicate: the proxy SVAR of \refGK\ (this lecture: $F = @{gk.F}$, the bond-premium jump) and the Romanian LP of this lecture', r'replicați: modelul proxy SVAR din \refGK\ (în acest curs: $F = @{gk.F}$, saltul primei de risc) și LP pentru România din acest curs'),
-      T('extend: daily ECB surprises aggregated to monthly with the Gertler--Karadi averaging; a quarterly GDP version; Anderson--Rubin sets; sign restrictions on the surprises (JK)', 'extindeți: surprizele zilnice BCE agregate lunar cu metoda de mediere Gertler--Karadi; o versiune trimestrială cu PIB; mulțimi Anderson--Rubin; restricții de semn pe surprize (JK)'),
+      T('extend: daily ECB surprises aggregated to monthly with the Gertler--Karadi averaging; a quarterly GDP version; Anderson--Rubin sets; sign restrictions on the surprises (\\refJK)', 'extindeți: surprizele zilnice BCE agregate lunar cu metoda de mediere Gertler--Karadi; o versiune trimestrială cu PIB; mulțimi Anderson--Rubin; restricții de semn pe surprize (\\refJK)'),
       T('pre-register: shock, outcomes, horizons 0--24, lag rule, the 2020 treatment and the Holm correction across outcomes', 'preînregistrați: șocul, variabilele de rezultat, orizonturile 0--24, regula pentru laguri, tratarea anului 2020 și corecția Holm pentru mai multe variabile')]),
     T(r'Deliverables follow the course rules: repository, report, AI\_USE.md, AI\_ERRORS.md, oral defence', r'Livrabilele urmează regulile cursului: repository, raport, AI\_USE.md, AI\_ERRORS.md, susținere orală')), 'small')
 
@@ -897,7 +897,7 @@ D.frame(T('Appendix: the long-run restriction in closed form', 'Anexă: restric�
     T(r'$[\Theta(1)]_{12} = 0$ makes $\Theta(1)$ lower triangular: $\Theta(1) = \mathrm{chol}(A(1)^{-1}\Sigma_uA(1)^{-1\prime})$, unique with a positive diagonal', r'$[\Theta(1)]_{12} = 0$ face $\Theta(1)$ inferior triunghiulară: $\Theta(1) = \mathrm{chol}(A(1)^{-1}\Sigma_uA(1)^{-1\prime})$, unică pentru o diagonală pozitivă'),
     T(r'Hence $B_0 = A(1)\Theta(1)$; check $B_0B_0\' = \Sigma_u$; signs are then normalised (supply raises output in the long run)', r'Deci $B_0 = A(1)\Theta(1)$; verificăm $B_0B_0\' = \Sigma_u$; semnele se normalizează apoi (oferta crește producția pe termen lung)')), 'small')
 
-D.frame(T('Appendix: how the proxy identifies $b_1$', 'Anexă: identificarea coloanei $b_1$ prin proxy'), items(
+D.frame(T('Appendix: identifying the column $b_1$ with a proxy', 'Anexă: identificarea coloanei $b_1$ prin proxy'), items(
     T(r'$u_t = B_0\varepsilon_t = b_1\varepsilon_{1t} + \sum_{j\ge2}b_j\varepsilon_{jt}$', r'$u_t = B_0\varepsilon_t = b_1\varepsilon_{1t} + \sum_{j\ge2}b_j\varepsilon_{jt}$'),
     T(r'$\E u_tz_t = b_1\E\varepsilon_{1t}z_t + \sum_{j\ge2}b_j\E\varepsilon_{jt}z_t = \alpha b_1$ by exogeneity', r'$\E u_tz_t = b_1\E\varepsilon_{1t}z_t + \sum_{j\ge2}b_j\E\varepsilon_{jt}z_t = \alpha b_1$ din exogenitate'),
     T(r'Relative impacts $b_{i1}/b_{11} = \E u_{it}z_t/\E u_{1t}z_t$ need $\alpha \ne 0$ (relevance); the scale of $b_1$ follows from $b_1\'\Sigma_u^{-1}b_1 = 1$', r'Impacturile relative $b_{i1}/b_{11} = \E u_{it}z_t/\E u_{1t}z_t$ cer $\alpha \ne 0$ (relevanța); scala lui $b_1$ rezultă din $b_1\'\Sigma_u^{-1}b_1 = 1$'),

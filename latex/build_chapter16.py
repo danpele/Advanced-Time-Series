@@ -269,8 +269,9 @@ D.frame(T('The question of the chapter and the route', 'Întrebarea capitolului 
         'datarea episoadelor, monitorizarea în timp real, evaluarea alarmelor timpurii; fundamentele față de prețuri (chirii)'),
       T('LPPLS as a competing detector; applications: dot-com, Shanghai 2015, Bitcoin, BET 2007, housing',
         'LPPLS ca detector alternativ; aplicații: dot-com, Shanghai 2015, Bitcoin, BET 2007, piața locuințelor')]),
-    T('We build on TSA, Chapter 13 (bubbles in history, PSY basics, LPPL with the Filimonov--Sornette calibration) and on Chapter 2 (unit roots, structural breaks); MFM, Chapter 17 applies the tests to markets',
-      'Pornim de la TSA, Capitolul 13 (bulele în istorie, elementele de bază PSY, LPPL cu calibrarea Filimonov--Sornette) și de la Capitolul 2 (rădăcini unitare, rupturi structurale); MFM, Capitolul 17 aplică testele pe piețe')), 'small')
+    (T('Prerequisites and continuation', 'Cunoștințe necesare și continuare'),
+     [T('TSA, Chapter 13: bubbles in history, PSY basics, LPPL with the Filimonov--Sornette calibration', 'TSA, Capitolul 13: bulele în istorie, elementele de bază PSY, LPPL cu calibrarea Filimonov--Sornette'),
+      T('Chapter 2: unit roots, structural breaks; MFM, Chapter 17 applies the tests to markets', 'Capitolul 2: rădăcini unitare, rupturi structurale; MFM, Capitolul 17 aplică testele pe piețe')])), 'small')
 
 D.frame(T('Self-study guide', 'Ghid de studiu individual'), items(
     (T(r'This chapter is for \textbf{self-study}: there is no seminar; every section ends with a recap', r'Acest capitol este pentru \textbf{studiu individual}: nu are seminar; fiecare secțiune se încheie cu o recapitulare'),
@@ -317,14 +318,16 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
 
 D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), two(
     ph('nasdaq', T('Nasdaq MarketSite, Times Square, 2021', 'Nasdaq MarketSite, Times Square, 2021'), h='0.4\\textheight'),
-    items((T('Known (TSA, Chapter 13): manias in history; the right-tailed ADF, SADF, GSADF and BSADF with Monte Carlo critical values; the LPPL equation, the two-step calibration, the confidence indicator',
-             'Cunoscut (TSA, Capitolul 13): maniile din istorie; ADF pe coada din dreapta, SADF, GSADF și BSADF cu valori critice Monte Carlo; ecuația LPPL, calibrarea în doi pași, indicatorul de încredere'), []),
+    items((T('Known (TSA, Chapter 13)', 'Cunoscut (TSA, Capitolul 13)'),
+           [T('manias in history; the right-tailed ADF, SADF, GSADF and BSADF with Monte Carlo critical values', 'maniile din istorie; ADF pe coada din dreapta, SADF, GSADF și BSADF cu valori critice Monte Carlo'),
+            T('the LPPL equation, the two-step calibration, the confidence indicator', 'ecuația LPPL, calibrarea în doi pași, indicatorul de încredere')]),
           (T('New: the research layer', 'Nou: nivelul de cercetare'),
            [T('why rational bubbles must explode and why they are hard to see', 'de ce bulele raționale trebuie să explodeze și de ce sînt greu de văzut'),
             T('the limit theory behind the tests, their size under changing volatility and across many dates', 'teoria asimptotică din spatele testelor, nivelul lor sub volatilitate variabilă și pe multe date'),
             T('how early, how often and how wrongly the detectors raise alarms', 'cît de devreme, cît de des și cît de greșit dau alarma detectorii')]),
-          T('Case studies: Phillips--Wu--Yu (2011), Phillips--Shi--Yu (2015), Phillips--Yu (2011), Homm--Breitung (2012), Harvey et al.\\ (2016), Sornette et al.\\ (2015), on our data',
-            'Studii de caz: Phillips--Wu--Yu (2011), Phillips--Shi--Yu (2015), Phillips--Yu (2011), Homm--Breitung (2012), Harvey et al.\\ (2016), Sornette et al.\\ (2015), pe datele noastre'))), 'footnotesize')
+          (T('Case studies, on our data', 'Studii de caz, pe datele noastre'),
+           [T(r'\refPWY; \refPSYa; \refPY', r'\refPWY; \refPSYa; \refPY'),
+            T(r'\refHB; \refHLST; \refSha', r'\refHB; \refHLST; \refSha')]))), 'footnotesize')
 
 # =============================================================================
 # 1. BULE RAȚIONALE
@@ -444,22 +447,31 @@ D.recap(('rational bubbles', 'bulele raționale'), [
 # =============================================================================
 D.section('Explosive autoregressions', 'Procese autoregresive explozive')
 
-D.frame(T('Three regimes of the AR(1) estimator', 'Trei regimuri ale estimatorului AR(1)'), '{\\renewcommand{\\arraystretch}{2.0}' + table(
-    'lll',
+D.frame(T('Three regimes of the AR(1) estimator (1/2)', 'Trei regimuri ale estimatorului AR(1) (1/2)'), '{\\renewcommand{\\arraystretch}{2.0}' + table(
+    '@{}lll@{}',
     T(r'\textbf{Root}', r'\textbf{Rădăcina}') + ' & ' + T(r'\textbf{Rate and limit of} $\hat\rho - \rho$', r'\textbf{Rata și limita lui} $\hat\rho - \rho$') + ' & ' + T(r'\textbf{Invariance}', r'\textbf{Invarianța}'),
     [T(r'$|\rho| < 1$', r'$|\rho| < 1$') + r' & $\sqrt n(\hat\rho - \rho) \Rightarrow N(0, 1 - \rho^2)$ & ' + T('yes (CLT)', 'da (CLT)'),
      T(r'$\rho = 1$', r'$\rho = 1$') + r' & $n(\hat\rho - 1) \Rightarrow \int_0^1 W\,dW \big/ \int_0^1 W^2$ & ' + T('yes (FCLT)', 'da (FCLT)'),
      T(r'$\rho = 1 + c/k_n$, $k_n \to \infty$, $k_n = o(n)$', r'$\rho = 1 + c/k_n$, $k_n \to \infty$, $k_n = o(n)$') + r' & $\dfrac{k_n\rho_n^{\,n}}{2c}(\hat\rho - \rho_n) \Rightarrow \mathcal C$ & ' + T('yes \\refPM', 'da \\refPM'),
      T(r'$|\rho| > 1$ fixed', r'$|\rho| > 1$ fix') + r' & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mathcal C$ & ' + T('only Gaussian errors \\refWhi; \\refAnd', 'doar erori gaussiene \\refWhi; \\refAnd')],
     size='footnotesize') + '}' + items(
-    (T(r'$y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS without intercept; $n$: sample size; $W$: a standard Brownian motion; $\mathcal C$: the standard Cauchy law',
-      r'$y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS fără termen liber; $n$: mărimea eșantionului; $W$: o mișcare browniană standard; $\mathcal C$: legea Cauchy standard'),
-     [T(r'mildly explosive: $c > 0$ and $k_n \to \infty$ more slowly than $n$ ($k_n = o(n)$, i.e.\ $k_n/n \to 0$); CLT/FCLT: (functional) central limit theorem; $\Rightarrow$: convergence in distribution',
-        r'ușor exploziv: $c > 0$, iar $k_n \to \infty$ mai lent decît $n$ ($k_n = o(n)$, adică $k_n/n \to 0$); CLT/FCLT: teorema limită centrală (funcțională); $\Rightarrow$: convergență în distribuție')]),
-    T(r'The rate grows from $\sqrt n$ to $n$ to the exponential $\rho^n$: the further from unity, the faster we learn $\rho$ (unit roots: Chapter 2 and \refHam, Chapter 17)',
-      r'Rata crește de la $\sqrt n$ la $n$ și la exponențialul $\rho^n$: cu cît sîntem mai departe de 1, cu atît învățăm mai repede $\rho$ (rădăcini unitare: Capitolul 2 și \refHam, capitolul 17)'),
-    T('Mildly explosive roots are the realistic case for bubbles: faster than any local-to-unity root $1 + c/n$, slower than any fixed explosive root',
-      'Rădăcinile ușor explozive sînt cazul realist pentru bule: mai rapide decît orice rădăcină locală la unitate $1 + c/n$, mai lente decît orice rădăcină explozivă fixă')), 'small')
+    (T(r'Model: $y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS without intercept',
+       r'Modelul: $y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS fără termen liber'),
+     [T(r'$n$: sample size; $W$: a standard Brownian motion; $\mathcal C$: the standard Cauchy law; $\Rightarrow$: convergence in distribution',
+        r'$n$: mărimea eșantionului; $W$: o mișcare browniană standard; $\mathcal C$: legea Cauchy standard; $\Rightarrow$: convergență în distribuție'),
+      T(r'CLT/FCLT: (functional) central limit theorem', r'CLT/FCLT: teorema limită centrală (funcțională)')])), 'small')
+
+D.frame(T('Three regimes of the AR(1) estimator (2/2)', 'Trei regimuri ale estimatorului AR(1) (2/2)'), items(
+    (T(r'Mildly explosive root: $\rho_n = 1 + c/k_n$', r'Rădăcină ușor explozivă: $\rho_n = 1 + c/k_n$'),
+     [T(r'$c > 0$, and $k_n \to \infty$ more slowly than $n$: $k_n = o(n)$, i.e.\ $k_n/n \to 0$', r'$c > 0$, iar $k_n \to \infty$ mai lent decît $n$: $k_n = o(n)$, adică $k_n/n \to 0$'),
+      T(r'the Cauchy limit is derived in the Appendix % applink: the mildly explosive Cauchy limit', r'limita Cauchy este derivată în Anexă % applink: limita Cauchy în cazul ușor exploziv')]),
+    (T(r'The rate grows from $\sqrt n$ to $n$ to the exponential $\rho^n$', r'Rata crește de la $\sqrt n$ la $n$ și la exponențialul $\rho^n$'),
+     [T(r'the further from unity, the faster we learn $\rho$', r'cu cît sîntem mai departe de 1, cu atît învățăm mai repede $\rho$'),
+      T(r'unit roots: Chapter 2 and \refHam, Chapter 17', r'rădăcini unitare: Capitolul 2 și \refHam, capitolul 17')]),
+    (T('Mildly explosive roots are the realistic case for bubbles', 'Rădăcinile ușor explozive sînt cazul realist pentru bule'),
+     [T('faster than any local-to-unity root $1 + c/n$', 'mai rapide decît orice rădăcină locală la unitate $1 + c/n$'),
+      T('slower than any fixed explosive root', 'mai lente decît orice rădăcină explozivă fixă'),
+      T('their limit theory is invariant to the error law, unlike the fixed explosive case', 'teoria lor asimptotică nu depinde de legea erorilor, spre deosebire de cazul exploziv fix')])), 'small')
 
 D.frame(T('Worked derivation: where the Cauchy law comes from', 'Derivare rezolvată: de unde vine legea Cauchy'), items(
     (T(r'$\hat\rho - \rho = \sum_{t} y_{t-1}u_t \big/ \sum_t y_{t-1}^2$ and $y_t = \sum_{j \le t}\rho^{t-j}u_j$', r'$\hat\rho - \rho = \sum_{t} y_{t-1}u_t \big/ \sum_t y_{t-1}^2$ și $y_t = \sum_{j \le t}\rho^{t-j}u_j$'), []),
@@ -467,9 +479,10 @@ D.frame(T('Worked derivation: where the Cauchy law comes from', 'Derivare rezolv
        r'Definim $Y_n = \sum_{j=1}^{n}\rho^{-j}u_j$ (dominat de \textbf{primele} șocuri) și $X_n = \sum_{j=1}^{n}\rho^{-(n-j)-1}u_j$ (dominat de \textbf{ultimele} șocuri)'),
      [T(r'then $\rho^{-n}y_n \approx Y_n$, $\rho^{-2n}\sum_t y_{t-1}^2 \approx Y_n^2/(\rho^2 - 1)$ and $\rho^{-n}\sum_t y_{t-1}u_t \approx X_nY_n$',
         r'atunci $\rho^{-n}y_n \approx Y_n$, $\rho^{-2n}\sum_t y_{t-1}^2 \approx Y_n^2/(\rho^2 - 1)$ și $\rho^{-n}\sum_t y_{t-1}u_t \approx X_nY_n$')]),
-    (T(r'Hence $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \approx \dfrac{X_n}{Y_n}$; $X_n$ and $Y_n$ use disjoint blocks of shocks asymptotically, so they are independent with equal variances $\sigma^2/(\rho^2 - 1)$',
-       r'Deci $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \approx \dfrac{X_n}{Y_n}$; $X_n$ și $Y_n$ folosesc asimptotic blocuri disjuncte de șocuri, deci sînt independente, cu dispersii egale $\sigma^2/(\rho^2 - 1)$'),
-     [T(r'\textbf{fixed} $\rho$: each sum is dominated by a few shocks; it is Gaussian only if the $u_j$ are Gaussian, so the ratio is Cauchy only then \refAnd',
+    (T(r'Hence $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \approx \dfrac{X_n}{Y_n}$',
+       r'Deci $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \approx \dfrac{X_n}{Y_n}$'),
+     [T(r'$X_n$ and $Y_n$ use disjoint blocks of shocks asymptotically: independent, with equal variances $\sigma^2/(\rho^2 - 1)$', r'$X_n$ și $Y_n$ folosesc asimptotic blocuri disjuncte de șocuri: independente, cu dispersii egale $\sigma^2/(\rho^2 - 1)$'),
+      T(r'\textbf{fixed} $\rho$: each sum is dominated by a few shocks; it is Gaussian only if the $u_j$ are Gaussian, so the ratio is Cauchy only then \refAnd',
         r'$\rho$ \textbf{fix}: fiecare sumă este dominată de cîteva șocuri; este gaussiană doar dacă $u_j$ sînt gaussiene, deci raportul este Cauchy doar atunci \refAnd'),
       T(r'\textbf{mildly explosive} $\rho_n$: about $k_n \to \infty$ shocks enter each sum with comparable weights, a CLT applies, and $X_n/Y_n \Rightarrow \mathcal C$ for any i.i.d.\ errors with finite variance \refPM',
         r'$\rho_n$ \textbf{ușor exploziv}: aproximativ $k_n \to \infty$ șocuri intră în fiecare sumă cu ponderi comparabile, se aplică o teoremă limită centrală, iar $X_n/Y_n \Rightarrow \mathcal C$ pentru orice erori i.i.d.\ cu dispersie finită \refPM')]),
@@ -668,8 +681,9 @@ chart(T('Monitoring the Nasdaq 100 and Bitcoin', 'Monitorizarea Nasdaq 100 și B
 interp(('the monitoring charts', 'graficelor de monitorizare'), [
     T(r'Nasdaq 100: the CUSUM alarm comes on @{mo.ndx.cus}, three months before the peak of @{mo.ndx.peak}; the first confirmed BSADF alarm after training comes on @{mo.ndx.bs}, more than four years earlier',
       r'Nasdaq 100: alarma CUSUM apare pe @{mo.ndx.cus}, cu trei luni înaintea maximului din @{mo.ndx.peak}; prima alarmă BSADF confirmată după antrenare apare pe @{mo.ndx.bs}, cu peste patru ani mai devreme'),
-    T(r'Bitcoin: CUSUM on @{mo.btc.cus}, at the top of the 2017 run-up; BSADF on @{mo.btc.bs}; the boundary widens with $\sqrt{t\ln t}$, so after 2018 the 2021 rally cannot reach it',
-      r'Bitcoin: CUSUM pe @{mo.btc.cus}, la vîrful creșterii din 2017; BSADF pe @{mo.btc.bs}; frontiera se lărgește ca $\sqrt{t\ln t}$, deci după 2018 creșterea din 2021 nu o mai poate atinge'),
+    (T(r'Bitcoin: CUSUM on @{mo.btc.cus}, at the top of the 2017 run-up; BSADF on @{mo.btc.bs}',
+       r'Bitcoin: CUSUM pe @{mo.btc.cus}, la vîrful creșterii din 2017; BSADF pe @{mo.btc.bs}'),
+     [T(r'the boundary widens with $\sqrt{t\ln t}$, so after 2018 the 2021 rally cannot reach it', r'frontiera se lărgește ca $\sqrt{t\ln t}$, deci după 2018 creșterea din 2021 nu o mai poate atinge')]),
     T('CUSUM detects a change in the mean return (persistent acceleration), not explosiveness as such; it is slow, but its size is controlled over the whole horizon',
       'CUSUM detectează o schimbare a randamentului mediu (o accelerare persistentă), nu explozivitatea ca atare; este lent, dar nivelul lui este controlat pe tot orizontul'),
     T('BSADF reacts early and often: an early alarm that is followed by years of further gains is costly to anyone who acts on it',
@@ -780,13 +794,15 @@ interp(('the Shanghai fit', 'ajustării pentru Shanghai'), [
     T('One success is an anecdote: the next section counts alarms over decades, with base rates', 'Un succes este o anecdotă: secțiunea următoare numără alarmele pe decenii, cu frecvențele de bază')])
 
 D.frame(T('Spectral views of log-periodicity and the critique', 'Abordări spectrale ale log-periodicității și critica'), items(
-    (T(r'Log-periodic oscillation $\cos(\omega\ln(t_c - t))$ is periodic in $\ln(t_c - t)$: test it with the Lomb periodogram of the detrended residual against $\ln(t_c - t)$ \refLom; nonparametric $(H, q)$-derivative analysis \refZS',
-       r'Oscilația log-periodică $\cos(\omega\ln(t_c - t))$ este periodică în $\ln(t_c - t)$: o testăm cu periodograma Lomb a reziduului fără tendință, în funcție de $\ln(t_c - t)$ \refLom; analiza neparametrică cu derivata $(H, q)$ \refZS'),
-     [T(r'in calendar time its instantaneous frequency is $\omega/[2\pi(t_c - t)]$: oscillations speed up towards $t_c$; the Hilbert transform of the residual gives this phase directly (Chapter 11 for the tools)',
+    (T(r'The oscillation $\cos(\omega\ln(t_c - t))$ is periodic in $\ln(t_c - t)$', r'Oscilația $\cos(\omega\ln(t_c - t))$ este periodică în $\ln(t_c - t)$'),
+     [T(r'test: the Lomb periodogram of the detrended residual against $\ln(t_c - t)$ \refLom', r'testul: periodograma Lomb a reziduului fără tendință, în funcție de $\ln(t_c - t)$ \refLom'),
+      T(r'nonparametric alternative: the $(H, q)$-derivative analysis \refZS', r'alternativa neparametrică: analiza cu derivata $(H, q)$ \refZS'),
+      T(r'in calendar time its instantaneous frequency is $\omega/[2\pi(t_c - t)]$: oscillations speed up towards $t_c$; the Hilbert transform of the residual gives this phase directly (Chapter 11 for the tools)',
         r'în timp calendaristic frecvența ei instantanee este $\omega/[2\pi(t_c - t)]$: oscilațiile se accelerează spre $t_c$; transformata Hilbert a reziduului dă direct această fază (instrumentele în Capitolul 11)')]),
-    (T(r'Critique: log-periodic peaks appear in noise after fitting and detrending \refFei; out-of-sample crash calls perform poorly \refBJ; estimation is fragile \refGF',
-       r'Critica: vîrfurile log-periodice apar și în zgomot după ajustare și eliminarea tendinței \refFei; prognozele de crah în afara eșantionului sînt slabe \refBJ; estimarea este fragilă \refGF'),
-     [T(r'replies on the stochastic formulation, filters and multi-window indicators: \refSWYZ', r'răspunsuri privind formularea stochastică, filtrele și indicatorii pe multe ferestre: \refSWYZ')]),
+    (T('Critique', 'Critica'),
+     [T(r'log-periodic peaks appear in noise after fitting and detrending \refFei', r'vîrfurile log-periodice apar și în zgomot după ajustare și eliminarea tendinței \refFei'),
+      T(r'out-of-sample crash calls perform poorly \refBJ; estimation is fragile \refGF', r'prognozele de crah în afara eșantionului sînt slabe \refBJ; estimarea este fragilă \refGF'),
+      T(r'replies on the stochastic formulation, filters and multi-window indicators: \refSWYZ', r'răspunsuri privind formularea stochastică, filtrele și indicatorii pe multe ferestre: \refSWYZ')]),
     T('A fair comparison with PSY uses the same events, dates and error measures: next section', 'O comparație corectă cu PSY folosește aceleași evenimente, date și măsuri de eroare: secțiunea următoare')), 'small')
 
 D.recap(('LPPLS', 'LPPLS'), [
@@ -864,8 +880,9 @@ D.recap(('the applications', 'aplicațiile'), [
       'Valorile critice wild bootstrap sînt mai mari decît cele Monte Carlo pe date reale; unele respingeri clasice nu rezistă'),
     T('Major peaks are usually preceded by alarms, but with long and variable leads; family-wise control removes most of them',
       'Maximele importante sînt de obicei precedate de alarme, dar cu avansuri lungi și variabile; controlul de familie elimină majoritatea lor'),
-    T('Over decades, precision must be read against the base rate: exuberance scores help for Bitcoin, where crashes follow run-ups, and fail for the S\\&P 500, where most pre-crash dates lie inside bear markets',
-      'Pe decenii, precizia trebuie citită față de frecvența de bază: scorurile de exuberanță ajută pentru Bitcoin, unde crahurile urmează creșterilor, și eșuează pentru S\\&P 500, unde majoritatea datelor dinaintea crahurilor se află în piețe în declin')])
+    (T('Over decades, precision must be read against the base rate', 'Pe decenii, precizia trebuie citită față de frecvența de bază'),
+     [T('exuberance scores help for Bitcoin, where crashes follow run-ups', 'scorurile de exuberanță ajută pentru Bitcoin, unde crahurile urmează creșterilor'),
+      T('they fail for the S\\&P 500, where most pre-crash dates lie inside bear markets', 'ele eșuează pentru S\\&P 500, unde majoritatea datelor dinaintea crahurilor se află în piețe în declin')])])
 
 # =============================================================================
 # 8. AI
@@ -873,15 +890,18 @@ D.recap(('the applications', 'aplicațiile'), [
 D.section('AI for scientific discovery', 'AI în descoperirea științifică')
 
 D.frame(T('An open question', 'O întrebare deschisă'), items(
-    (T('Do explosive-root and LPPLS alarms carry information about large falls beyond momentum and volatility, once base rates, overlapping horizons and the search over assets are accounted for?',
-       'Conțin alarmele bazate pe rădăcini explozive și pe LPPLS informație despre scăderile mari dincolo de momentum și volatilitate, după ce ținem seama de frecvențele de bază, de orizonturile suprapuse și de căutarea pe multe active?'),
+    (T('The question', 'Întrebarea'),
+     [T('do explosive-root and LPPLS alarms carry information about large falls beyond momentum and volatility?', 'conțin alarmele bazate pe rădăcini explozive și pe LPPLS informație despre scăderile mari dincolo de momentum și volatilitate?'),
+      T('once base rates, overlapping horizons and the search over assets are accounted for', 'după ce ținem seama de frecvențele de bază, de orizonturile suprapuse și de căutarea pe multe active')]),
+    (T('A testable form', 'O formă testabilă'),
      [T(r'formal: in a logit or probit of the event on lagged momentum, volatility and the alarm score, $H_0$: the alarm coefficient is zero, with block-bootstrap inference and a pre-registered panel of assets',
         r'formal: într-un model logit sau probit al evenimentului pe momentum, volatilitate și scorul alarmei (cu lag), $H_0$: coeficientul alarmei este zero, cu inferență block bootstrap și un panel de active preînregistrat'),
       T('falsified by a significant out-of-sample gain in a proper score (log score, Brier) over the momentum-volatility model, pooled across assets',
         'infirmată de un cîștig semnificativ în afara eșantionului într-o regulă de scor proprie (log score, Brier) față de modelul cu momentum și volatilitate, agregat pe active')]),
-    (T('Why it matters: regulators and investors read bubble indicators as warnings; most evidence comes from a few famous episodes chosen after the fact',
-       'De ce contează: autoritățile și investitorii citesc indicatorii de bulă ca avertismente; majoritatea dovezilor provin din cîteva episoade celebre, alese după ce s-au produs'),
-     [T(r'literature to start from: \refPS, \refAHLST, \refDS, \refBJ, \refHB', r'literatura de pornire: \refPS, \refAHLST, \refDS, \refBJ, \refHB')])), 'small')
+    (T('Why it matters', 'Miza'),
+     [T('regulators and investors read bubble indicators as warnings', 'autoritățile și investitorii citesc indicatorii de bulă ca avertismente'),
+      T('most evidence comes from a few famous episodes chosen after the fact', 'majoritatea dovezilor provin din cîteva episoade celebre, alese după ce s-au produs'),
+      T(r'literature to start from: \refPS, \refAHLST, \refDS, \refBJ, \refHB', r'literatura de pornire: \refPS, \refAHLST, \refDS, \refBJ, \refHB')])), 'small')
 
 D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un asistent AI'), items(
     (T('An AI assistant (an LLM such as Claude, ChatGPT, Gemini or Copilot) speeds up each step; Semantic Scholar and Elicit help with the literature',
@@ -994,8 +1014,11 @@ D.frame(T('Self-assessment: answers (2/2)', 'Autoevaluare: răspunsuri (2/2)'), 
 
 D.frame(T('Further reading and links', 'Lecturi suplimentare și legături'), two(
     ph('bvb', T('The Bucharest Stock Exchange Palace, March 1928', 'Palatul Bursei din București, martie 1928'), h='0.4\\textheight'),
-    items(T(r'Surveys: \refGur; \refGSY (bubbles and later returns); \refShi; \refKA', r'Sinteze: \refGur; \refGSY (bulele și randamentele ulterioare); \refShi; \refKA'),
-          T(r'Implementation: the R package \texttt{exuber} \refVPM; our Quantlets reproduce its statistics in Python', r'Implementare: pachetul R \texttt{exuber} \refVPM; Quantlet-urile noastre reproduc statisticile lui în Python'),
+    items((T('Surveys', 'Sinteze'),
+           [T(r'\refGur; \refShi; \refKA', r'\refGur; \refShi; \refKA'),
+            T(r'bubbles and later returns: \refGSY', r'bulele și randamentele ulterioare: \refGSY')]),
+          (T(r'Implementation: the R package \texttt{exuber} \refVPM', r'Implementare: pachetul R \texttt{exuber} \refVPM'),
+           [T('our Quantlets reproduce its statistics in Python', 'Quantlet-urile noastre reproduc statisticile lui în Python')]),
           T('Applications to markets, risk and policy: MFM, Chapter 17', 'Aplicații pe piețe, în risc și politici: MFM, Capitolul 17'),
           T(r'Further reading on the Bucharest Stock Exchange: \refPMM', r'Lectură suplimentară despre Bursa de Valori București: \refPMM'),
           T('The course ends here; the project defence is described in Chapter 15', 'Cursul se încheie aici; susținerea proiectelor este descrisă în Capitolul 15')), '0.34', '0.64'), 'small')

@@ -329,8 +329,8 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
      [T('breaks: Chow, sup-Wald (Andrews), Bai--Perron, monitoring (CUSUM, CSW), variance breaks (ICSS), unit roots with breaks', 'rupturi: Chow, sup-Wald (Andrews), Bai--Perron, monitorizare (CUSUM, CSW), rupturi în varianță (ICSS), rădăcini unitare cu rupturi'),
       T('forecasting under breaks: the choice of the estimation window', 'prognoza în prezența rupturilor: alegerea ferestrei de estimare'),
       T('nonlinear models: TAR/SETAR, STAR (LSTAR, ESTAR), nonlinearity tests, nonlinear forecasts', 'modele neliniare: TAR/SETAR, STAR (LSTAR, ESTAR), teste de neliniaritate, prognoze neliniare')]),
-    T('We build on TSA, Chapter 3 (Perron 1989, Zivot--Andrews) and on Chapters 0 and 1 (HAC, bootstrap, DM tests); Seminar 2 comes before this lecture',
-      'Pornim de la TSA, Capitolul 3 (Perron 1989, Zivot--Andrews) și de la Capitolele 0 și 1 (HAC, bootstrap, teste DM); Seminarul 2 are loc înaintea acestui curs')), 'small')
+    T('We build on TSA, Chapter 3 (\\refPer, \\refZA) and on Chapters 0 and 1 (HAC, bootstrap, DM tests); Seminar 2 comes before this lecture',
+      'Pornim de la TSA, Capitolul 3 (\\refPer, \\refZA) și de la Capitolele 0 și 1 (HAC, bootstrap, teste DM); Seminarul 2 are loc înaintea acestui curs')), 'small')
 
 D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
     T('Derive the Chow test and explain why searching over the break date changes its null distribution (the Davies problem)',
@@ -495,7 +495,7 @@ chart(T('The Great Moderation in US output growth', 'Marea Moderație în creșt
       'Sus: creșterea cu $\\pm 2$ abateri standard reziduale înainte și după ruptura estimată; jos: șirul statisticilor Wald pentru o ruptură în $\\E\\sqrt{\\pi/2}|e_t|$ (HAC), două eșantioane')], h='0.64\\textheight')
 
 interp(('the variance break', 'rupturii în varianță'), [
-    (T('MPQ sample ($T = @{mpq.p.n}$): sup-Wald @{mpq.p.sup} ($p$ @{mpq.p.psup}), exp @{mpq.p.exp}, ave @{mpq.p.ave}; date @{mpq.p.date}, as in the paper', 'Eșantionul MPQ ($T = @{mpq.p.n}$): sup-Wald @{mpq.p.sup} ($p$ @{mpq.p.psup}), exp @{mpq.p.exp}, ave @{mpq.p.ave}; data @{mpq.p.date}, ca în lucrare'),
+    (T('MPQ sample ($T = @{mpq.p.n}$): sup-Wald @{mpq.p.sup} ($p$ @{mpq.p.psup}), exp @{mpq.p.exp}, ave @{mpq.p.ave}; date @{mpq.p.date}, the date found by \\refMPQ', 'Eșantionul MPQ ($T = @{mpq.p.n}$): sup-Wald @{mpq.p.sup} ($p$ @{mpq.p.psup}), exp @{mpq.p.exp}, ave @{mpq.p.ave}; data @{mpq.p.date}, aceeași cu cea găsită de \\refMPQ'),
      [T('residual s.d. @{mpq.p.s1} before, @{mpq.p.s2} after: the variance falls by a factor of @{mpq.p.ratio}; no break in the mean equation (sup @{mpq.p.msup}, $p$ @{mpq.p.pmsup})', 'abaterea standard reziduală @{mpq.p.s1} înainte, @{mpq.p.s2} după: varianța scade de @{mpq.p.ratio} ori; nicio ruptură în ecuația mediei (sup @{mpq.p.msup}, $p$ @{mpq.p.pmsup})')]),
     T('To 2019: the break moves by one quarter (@{mpq.x.date}), variance ratio @{mpq.x.ratio}; the Great Moderation survived the 2008--2009 recession', 'Pînă în 2019: ruptura se mută cu un trimestru (@{mpq.x.date}), raportul varianțelor @{mpq.x.ratio}; Marea Moderație s-a menținut și după recesiunea din 2008--2009'),
     (T('To 2026: sup-Wald falls to @{mpq.e.sup} ($p$ @{mpq.e.psup}) and the ratio to @{mpq.e.ratio}: two outliers (@{mpq.mind}: @{mpq.min}\\%) dominate the post-break variance', 'Pînă în 2026: sup-Wald scade la @{mpq.e.sup} ($p$ @{mpq.e.psup}) și raportul la @{mpq.e.ratio}: două valori extreme (@{mpq.mind}: @{mpq.min}\\%) domină varianța de după ruptură'),
@@ -559,7 +559,7 @@ chart(T('Mean shifts in the US real interest rate', 'Schimbări de medie în rat
       'Roșu: mediile segmentelor partiției alese de BIC/LWZ; umbrit: intervale de 95\\% pentru date \\refBai, varianțe de termen lung diferite. Sus: datele originale; jos: reconstruite pînă în 2026')], h='0.64\\textheight')
 
 D.frame(T('Interpreting the Bai--Perron results', 'Interpretarea rezultatelor Bai--Perron'), table(
-    'lcccccc', T('\\textbf{$m$}', '\\textbf{$m$}') + ' & 0 & 1 & 2 & 3 & 4 & 5',
+    'lrrrrrr', T('\\textbf{$m$}', '\\textbf{$m$}') + ' & 0 & 1 & 2 & 3 & 4 & 5',
     ['SSR & @{bp.ssr0} & @{bp.ssr1} & @{bp.ssr2} & @{bp.ssr3} & -- & --',
      '$\\sup F_T(m)$ & -- & @{bp.F1} & @{bp.F2} & @{bp.F3} & @{bp.F4} & @{bp.F5}',
      T('5\\% value', 'valoarea de 5\\%') + ' & -- & @{cv.F1} & @{cv.F2} & @{cv.F3} & -- & --',
@@ -618,14 +618,14 @@ D.frame(T('CUSUM and MOSUM tests (2/2)', 'Testele CUSUM și MOSUM (2/2)'), items
      [T('MOSUM reacts faster to a break in the middle of the sample and to temporary changes', 'MOSUM reacționează mai repede la o ruptură în mijlocul eșantionului și la schimbări temporare')]),
     T('These are \\textbf{retrospective} tests: the whole sample is available when the test is run', 'Acestea sînt teste \\textbf{retrospective}: întregul eșantion este disponibil cînd se aplică testul')))
 
-D.frame(T('Monitoring: why repeated tests fail (1/2)', 'Monitorizarea: de ce eșuează testele repetate (1/2)'), items(
+D.frame(T('Monitoring: the failure of repeated tests (1/2)', 'Monitorizarea: eșecul testelor repetate (1/2)'), items(
     (T('A central bank estimates a model on $m$ historical observations and asks, at every new release, ``has it broken down?\'\'', 'O bancă centrală estimează un model pe $m$ observații istorice și întreabă, la fiecare nouă publicare, „s-a stricat?”'),
      [T('a 5\\% test repeated at $n = m + 1, m + 2, \\dots$ rejects a true $H_0$ eventually with probability 1: the law of the iterated logarithm', 'un test de 5\\% repetat la $n = m + 1, m + 2, \\dots$ respinge pînă la urmă o ipoteză nulă adevărată cu probabilitatea 1: legea logaritmului iterat')]),
     (T('\\refCSW: monitor the CUSUM of the new recursive residuals and stop the first time it crosses a widening boundary', '\\refCSW: monitorizăm CUSUM al noilor reziduuri recursive și ne oprim prima dată cînd depășește o frontieră care se lărgește'),
      ['$Q_n = \\hat\\sigma^{-1}\\sum_{t = m+1}^{n} w_t$, $\\quad$ ⟦alarm if||alarmă dacă⟧ $|Q_n| > \\sqrt{n\\,[a^2 + \\ln(n/m)]}$',
       T('$n$: the current sample size; $a$: a constant chosen to fix the false-alarm probability; the $\\ln(n/m)$ term widens the boundary as time passes', '$n$: dimensiunea curentă a eșantionului; $a$: o constantă aleasă pentru a fixa probabilitatea unei alarme false; termenul $\\ln(n/m)$ lărgește frontiera pe măsură ce trece timpul')])))
 
-D.frame(T('Monitoring: why repeated tests fail (2/2)', 'Monitorizarea: de ce eșuează testele repetate (2/2)'), items(
+D.frame(T('Monitoring: the failure of repeated tests (2/2)', 'Monitorizarea: eșecul testelor repetate (2/2)'), items(
     (T('The boundary comes from \\refRS:', 'Frontiera vine din \\refRS:'),
      ['$P\\{\\exists u \\ge 1: |W(u) - W(1)| \\ge \\sqrt{u(a^2 + \\ln u)}\\} = 2[1 - \\Phi(a) + a\\varphi(a)]$',
       T('$W$: a standard Brownian motion; $u = n/m$; $\\Phi$, $\\varphi$: the standard Normal distribution and density functions', '$W$: o mișcare browniană standard; $u = n/m$; $\\Phi$, $\\varphi$: funcția de repartiție și densitatea distribuției Normale standard'),
@@ -752,7 +752,7 @@ D.recap(('Forecasting under breaks', 'prognoza în prezența rupturilor'), [
 # =============================================================================
 D.section('Threshold autoregression', 'Autoregresia cu prag')
 
-D.frame(T('Why nonlinear dynamics', 'Motivația modelelor neliniare'), two(
+D.frame(T('Motivation for nonlinear models', 'Motivația modelelor neliniare'), two(
     ph('lynx', T('Canada lynx', 'Linx canadian'), h='0.36\\textheight'),
     items((T('Linear models are symmetric: a shock of $-1$ has the mirror effect of a shock of $+1$, at every state', 'Modelele liniare sînt simetrice: un șoc de $-1$ are efectul în oglindă al unui șoc de $+1$, în orice stare'),
            [T('business cycles: unemployment rises fast in recessions and falls slowly in expansions \\refNef', 'ciclurile economice: șomajul crește repede în recesiuni și scade lent în expansiuni \\refNef'),
@@ -822,7 +822,7 @@ chart(T('A threshold model for US unemployment', 'Un model cu prag pentru șomaj
       'Stînga: $\\mathrm{LR}^*(\\gamma)$ ajustat pentru heteroscedasticitate, $d = 12$; mulțimea de 95\\% este acolo unde curba se află sub 7,35. Dreapta: lunile din regimul cu șomaj în creștere ($q_{t-1} > \\hat\\gamma$)')], h='0.5\\textheight')
 
 interp(('the unemployment TAR', 'modelului TAR pentru șomaj'), [
-    (T('$\\hat\\gamma = @{ta.g}$ pp (paper: 0.302), regimes of @{ta.n1} and @{ta.n2} months, exactly the split of the paper; 95\\% set [@{ta.ci0}; @{ta.ci1}]', '$\\hat\\gamma = @{ta.g}$ pp (lucrarea: 0,302), regimuri de @{ta.n1} și @{ta.n2} de luni, exact împărțirea din lucrare; mulțimea de 95\\% [@{ta.ci0}; @{ta.ci1}]'),
+    (T('$\\hat\\gamma = @{ta.g}$ pp (paper: 0.302), regimes of @{ta.n1} and @{ta.n2} months, the same split as in \\refHb; 95\\% set [@{ta.ci0}, @{ta.ci1}]', '$\\hat\\gamma = @{ta.g}$ pp (lucrarea: 0,302), regimuri de @{ta.n1} și @{ta.n2} de luni, aceeași împărțire ca la \\refHb; mulțimea de 95\\% [@{ta.ci0}; @{ta.ci1}]'),
      [T('sup-Wald @{ta.W}, bootstrap $p$ @{ta.p}; linearity is rejected at 5\\% for @{ta.nsig} of the 11 delays', 'sup-Wald @{ta.W}, p-value bootstrap @{ta.p}; liniaritatea este respinsă la 5\\% pentru @{ta.nsig} din cele 11 laguri $d$')]),
     (T('Rising regime: intercept @{ta.b20}, AR(1) @{ta.b21}, AR(2) @{ta.b22}; other months: @{ta.b10}, @{ta.b11}, @{ta.b12}', 'Regimul de creștere: termen liber @{ta.b20}, AR(1) @{ta.b21}, AR(2) @{ta.b22}; celelalte luni: @{ta.b10}, @{ta.b11}, @{ta.b12}'),
      [T('increases feed on themselves; in expansions unemployment is close to a random walk with a slight downward drift', 'creșterile se autoalimentează; în expansiune șomajul este aproape un mers aleator cu o ușoară tendință descendentă')]),
@@ -859,7 +859,7 @@ D.frame(T('Testing linearity against STAR', 'Testarea liniarității față de S
     (T('Under $H_0$: $\\gamma = 0$, the parameters $c$ and $\\phi_2$ are not identified: replace $G$ by a third-order Taylor expansion around $\\gamma = 0$ \\refLST', 'Sub $H_0$: $\\gamma = 0$, parametrii $c$ și $\\phi_2$ nu sînt identificați: înlocuim $G$ printr-o dezvoltare Taylor de ordinul trei în jurul lui $\\gamma = 0$ \\refLST'),
      [T('auxiliary regression $\\hat\\varepsilon_t = \\beta_0\'\\mathbf x_t + \\beta_1\'\\tilde{\\mathbf x}_t s_t + \\beta_2\'\\tilde{\\mathbf x}_t s_t^2 + \\beta_3\'\\tilde{\\mathbf x}_t s_t^3 + v_t$', 'regresia auxiliară $\\hat\\varepsilon_t = \\beta_0\'\\mathbf x_t + \\beta_1\'\\tilde{\\mathbf x}_t s_t + \\beta_2\'\\tilde{\\mathbf x}_t s_t^2 + \\beta_3\'\\tilde{\\mathbf x}_t s_t^3 + v_t$'),
       T('$\\hat\\varepsilon_t$: the residuals of the linear AR; $\\tilde{\\mathbf x}_t$: $\\mathbf x_t$ without the constant; $\\beta_k$: the coefficients of the interactions with $s_t^k$; $v_t$: the error', '$\\hat\\varepsilon_t$: reziduurile AR-ului liniar; $\\tilde{\\mathbf x}_t$: $\\mathbf x_t$ fără constantă; $\\beta_k$: coeficienții interacțiunilor cu $s_t^k$; $v_t$: eroarea'),
-      T('LM3: $\\beta_1 = \\beta_2 = \\beta_3 = 0$, an $F$ test with $3p$ restrictions; repeat for each candidate $s_t$ and take the smallest $p$-value', 'LM3: $\\beta_1 = \\beta_2 = \\beta_3 = 0$, un test $F$ cu $3p$ restricții; repetăm pentru fiecare $s_t$ candidat și alegem cel mai mic p-value')]),
+      T('LM3: $\\beta_1 = \\beta_2 = \\beta_3 = 0$, an $F$ test with $3p$ restrictions; repeat for each candidate $s_t$ and take the smallest $p$-value (derivation in the Appendix)', 'LM3: $\\beta_1 = \\beta_2 = \\beta_3 = 0$, un test $F$ cu $3p$ restricții; repetăm pentru fiecare $s_t$ candidat și alegem cel mai mic p-value (derivarea în Anexă)')]),
     (T('\\textbf{Choice of the family} \\refTer: test $H_{04}$: $\\beta_3 = 0$, then $H_{03}$: $\\beta_2 = 0 \\mid \\beta_3 = 0$, then $H_{02}$: $\\beta_1 = 0 \\mid \\beta_2 = \\beta_3 = 0$', '\\textbf{Alegerea familiei} \\refTer: testăm $H_{04}$: $\\beta_3 = 0$, apoi $H_{03}$: $\\beta_2 = 0 \\mid \\beta_3 = 0$, apoi $H_{02}$: $\\beta_1 = 0 \\mid \\beta_2 = \\beta_3 = 0$'),
      [T('strongest rejection of $H_{03}$: ESTAR; of $H_{04}$ or $H_{02}$: LSTAR (an ESTAR has no cubic term in its expansion)', 'cea mai puternică respingere pentru $H_{03}$: ESTAR; pentru $H_{04}$ sau $H_{02}$: LSTAR (un ESTAR nu are termen cubic în dezvoltare)')]),
     T('Estimation by nonlinear least squares, linear parameters concentrated out; evaluation by LM tests of no remaining nonlinearity and parameter constancy \\refET', 'Estimarea prin cele mai mici pătrate neliniare, cu parametrii liniari concentrați; evaluarea prin teste LM pentru neliniaritate reziduală și constanța parametrilor \\refET')), 'small')
@@ -877,7 +877,7 @@ chart(T('An LSTAR for US unemployment', 'Un LSTAR pentru șomajul din SUA'), 'at
 
 interp(('the LSTAR', 'modelului LSTAR'), [
     (T('LM3 $p$-values: $d = 1$: @{ls.p1}, $d = 2$: @{ls.p2}, $d = 3$: @{ls.p3}; for $d = 2$: $H_{04}$ @{ls.p24}, $H_{03}$ @{ls.p23}, $H_{02}$ @{ls.p22}: LSTAR', 'P-value-urile LM3: $d = 1$: @{ls.p1}, $d = 2$: @{ls.p2}, $d = 3$: @{ls.p3}; pentru $d = 2$: $H_{04}$ @{ls.p24}, $H_{03}$ @{ls.p23}, $H_{02}$ @{ls.p22}: LSTAR'),
-     [T('as in the paper: weak evidence, strongest for $d = 2$, and it points to the logistic family', 'ca în lucrare: dovezi slabe, cele mai puternice pentru $d = 2$, care indică familia logistică')]),
+     [T('in line with \\refVDTF: weak evidence, strongest for $d = 2$, pointing to the logistic family', 'în acord cu \\refVDTF: dovezi slabe, cele mai puternice pentru $d = 2$, care indică familia logistică')]),
     (T('$\\hat\\gamma = @{ls.g}$, $\\hat c = @{ls.c}$, residual s.d.\\ ratio @{ls.ratio}; the regime switches when unemployment has risen by about 0.3 pp in a year ($G > 0.5$ in @{ls.share}\\% of months)', '$\\hat\\gamma = @{ls.g}$, $\\hat c = @{ls.c}$, raportul abaterilor standard reziduale @{ls.ratio}; regimul se schimbă cînd șomajul a crescut cu aproximativ 0,3 pp într-un an ($G > 0{,}5$ în @{ls.share}\\% din luni)'),
      [T('AIC prefers the LSTAR (@{ls.aics} against @{ls.aicl}); BIC the linear model (@{ls.bicl} against @{ls.bics}): 18 extra parameters without pruning', 'AIC preferă LSTAR (@{ls.aics} față de @{ls.aicl}); BIC, modelul liniar (@{ls.bicl} față de @{ls.bics}): 18 parametri în plus, fără eliminare')]),
     T('1990--1999, one step: RMSE @{ls.rs} (LSTAR) against @{ls.rl} (AR), HLN @{ls.dm}, $p$ @{ls.dmp}: better, not significantly', '1990--1999, un pas: RMSE @{ls.rs} (LSTAR) față de @{ls.rl} (AR), HLN @{ls.dm}, $p$ @{ls.dmp}: mai bun, dar nu semnificativ')], 'footnotesize')
@@ -885,14 +885,13 @@ interp(('the LSTAR', 'modelului LSTAR'), [
 D.frame(T('Real exchange rates and purchasing power parity', 'Cursurile reale și paritatea puterii de cumpărare'), two(
     ph('cassel', T('Gustav Cassel (1866--1945)', 'Gustav Cassel (1866--1945)'), h='0.24\\textheight') + '\\\\[1mm]'
     + ph('bretton', T('Bretton Woods, July 1944', 'Bretton Woods, iulie 1944'), h='0.15\\textheight'),
-    items((T('PPP (Cassel, 1918): the real exchange rate $q_t = s_t - p_t + p_t^*$ should be stationary', 'PPC (Cassel, 1918): cursul real $q_t = s_t - p_t + p_t^*$ ar trebui să fie staționar'),
+    items((T('Purchasing power parity, PPP (Cassel, 1918): the real exchange rate $q_t = s_t - p_t + p_t^*$ should be stationary', 'Paritatea puterii de cumpărare, PPC (Cassel, 1918): cursul real $q_t = s_t - p_t + p_t^*$ ar trebui să fie staționar'),
            [T('$s_t$: the log nominal rate (domestic per foreign currency); $p_t$, $p_t^*$: log domestic and foreign price levels', '$s_t$: logaritmul cursului nominal (moneda națională pentru o unitate de monedă străină); $p_t$, $p_t^*$: logaritmii nivelurilor prețurilor interne și externe'),
             T('after Bretton Woods ended (1973) unit-root tests rarely reject', 'după sfîrșitul sistemului Bretton Woods (1973), testele de rădăcină unitară resping rar'),
             T('first PPP puzzle: no mean reversion; second: half-lives of 3--5 years, too slow for nominal shocks', 'primul paradox PPC: nicio revenire la medie; al doilea: timpi de înjumătățire de 3--5 ani, prea lenți pentru șocuri nominale')]),
           (T('Transaction costs create a band of inaction: near parity $q_t$ is close to a random walk, far from it arbitrage pulls it back \\refMNP', 'Costurile de tranzacție creează o bandă de inacțiune: aproape de paritate $q_t$ este aproape un mers aleator, departe de ea arbitrajul îl trage înapoi \\refMNP'),
            [T('\\refTPS: ESTAR $q_t - \\mu = (q_{t-1} - \\mu)\\exp\\{-\\theta^2(q_{t-1} - \\mu)^2\\} + \\varepsilon_t$', '\\refTPS: ESTAR $q_t - \\mu = (q_{t-1} - \\mu)\\exp\\{-\\theta^2(q_{t-1} - \\mu)^2\\} + \\varepsilon_t$'),
-            T('$\\mu$: the equilibrium; near it the AR coefficient $\\exp\\{\\cdot\\}$ is close to 1 (random walk), far from it close to 0 (fast reversion); $\\theta^2$: the speed', '$\\mu$: echilibrul; aproape de el coeficientul AR $\\exp\\{\\cdot\\}$ este aproape de 1 (mers aleator), departe de el aproape de 0 (revenire rapidă); $\\theta^2$: viteza')]),
-          T('PPP: purchasing power parity', 'PPC (PPP): paritatea puterii de cumpărare')), '0.34', '0.64'), 'footnotesize')
+            T('$\\mu$: the equilibrium; near it the AR coefficient $\\exp\\{\\cdot\\}$ is close to 1 (random walk), far from it close to 0 (fast reversion); $\\theta^2$: the speed', '$\\mu$: echilibrul; aproape de el coeficientul AR $\\exp\\{\\cdot\\}$ este aproape de 1 (mers aleator), departe de el aproape de 0 (revenire rapidă); $\\theta^2$: viteza')])), '0.34', '0.64'), 'footnotesize')
 
 D.frame(T('Case study: Taylor, Peel and Sarno (2001)', 'Studiu de caz: Taylor, Peel și Sarno (2001)'), items(
     (T('The paper: monthly real dollar rates of sterling, mark, franc and yen, 1973M01--1996M12, IMF IFS data, $q(1973M01) = 0$; ESTAR with $p = d = 1$ and $\\beta_1 = -\\beta_1^* = 1$ (eq.\\ 8) \\refTPS', 'Lucrarea: cursurile reale lunare ale lirei sterline, mărcii, francului și yenului față de dolar, 1973M01--1996M12, date FMI IFS, $q(1973M01) = 0$; ESTAR cu $p = d = 1$ și $\\beta_1 = -\\beta_1^* = 1$ (ec.\\ 8) \\refTPS'),
@@ -910,7 +909,9 @@ interp(('the ESTAR', 'modelului ESTAR'), [
      [T('$\\theta^2$ and $s$ are close to the paper; $\\mu$ differs because the UK CPI of the paper (IFS) is not the series published today', '$\\theta^2$ și $s$ sînt apropiate de lucrare; $\\mu$ diferă pentru că IPC britanic din lucrare (IFS) nu este seria publicată astăzi')]),
     (T('Half-lives: 1\\% shock @{es.h01} months, 10\\% @{es.h10}, 40\\% @{es.h40}; linear AR(1): @{es.hlar} months; from equilibrium: @{es.e01} months for 1\\%', 'Timpi de înjumătățire: șoc de 1\\% @{es.h01} luni, 10\\% @{es.h10}, 40\\% @{es.h40}; AR(1) liniar: @{es.hlar} de luni; din echilibru: @{es.e01} de luni pentru 1\\%'),
      [T('large deviations die out fast: the second PPP puzzle is a feature of small shocks', 'abaterile mari se sting repede: al doilea paradox PPC este o trăsătură a șocurilor mici')]),
-    T('Dickey--Fuller: @{es.df} ($p$ @{es.dfp}); its power against our ESTAR is @{es.pow}\\%; KSS \\refKSS: @{es.kss} ($p$ @{es.ksp}) to 1996, @{es.kssx} ($p$ @{es.ksxp}) to 2026', 'Dickey--Fuller: @{es.df} ($p$ @{es.dfp}); puterea lui față de ESTAR-ul nostru este @{es.pow}\\%; KSS \\refKSS: @{es.kss} ($p$ @{es.ksp}) pînă în 1996, @{es.kssx} ($p$ @{es.ksxp}) pînă în 2026')], 'footnotesize')
+    T('Dickey--Fuller: @{es.df} ($p$ @{es.dfp}); its power against our ESTAR is @{es.pow}\\%', 'Dickey--Fuller: @{es.df} ($p$ @{es.dfp}); puterea lui față de ESTAR-ul nostru este @{es.pow}\\%'),
+    (T('KSS \\refKSS: @{es.kss} ($p$ @{es.ksp}) to 1996, @{es.kssx} ($p$ @{es.ksxp}) to 2026', 'KSS \\refKSS: @{es.kss} ($p$ @{es.ksp}) pînă în 1996, @{es.kssx} ($p$ @{es.ksxp}) pînă în 2026'),
+     [T('the $t$ statistic of $\\delta$ in $\\Delta q_t = \\delta q_{t-1}^3 + e_t$ (demeaned $q_t$): a unit-root test against a stationary ESTAR; reject in the left tail', 'statistica $t$ a lui $\\delta$ în $\\Delta q_t = \\delta q_{t-1}^3 + e_t$ ($q_t$ cu media scăzută): test de rădăcină unitară față de un ESTAR staționar; respingem în coada stîngă')])], 'footnotesize')
 
 D.recap(('Smooth transition', 'tranziția netedă'), [
     T('LSTAR: asymmetry between low and high states; ESTAR: small and large deviations', 'LSTAR: asimetrie între stările joase și înalte; ESTAR: abateri mici și mari'),
@@ -1000,7 +1001,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
       T('\\textbf{robustness and critique}: \\aiprompt{Act as a referee: list every way in which estimating breaks on the same data biases the test.}', '\\textbf{robustețe și critică}: \\aiprompt{Joacă rolul unui recenzent: enumeră toate felurile în care estimarea rupturilor pe aceleași date deplasează testul.}')]),
     T('Report: what was asked, what was kept, what was rejected (AI\\_USE.md, AI\\_ERRORS.md)', 'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\\_USE.md, AI\\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('The null distribution reproduces the whole procedure: breaks estimated on each simulated series, not fixed at the observed dates', 'Distribuția sub ipoteza nulă reproduce întreaga procedură: rupturile se estimează pe fiecare serie simulată, nu se fixează la datele observate'),
     T('The number of breaks, the trimming and the criterion (BIC) are fixed before seeing the test result', 'Numărul rupturilor, trunchierea și criteriul (BIC) sînt fixate înainte de a vedea rezultatul testului'),

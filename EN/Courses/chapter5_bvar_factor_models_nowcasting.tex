@@ -268,7 +268,11 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
     \begin{itemize}
         \item overfitting: in-sample fit improves, out-of-sample accuracy deteriorates
     \end{itemize}
-    \item Three remedies: (i) shrinkage (Bayesian priors, ridge, LASSO); (ii) dimension reduction (factors); (iii) variable selection
+    \item Three remedies
+    \begin{itemize}
+        \item shrinkage: Bayesian priors, ridge, LASSO
+        \item dimension reduction: factors; variable selection
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -279,7 +283,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item True model: stationary VAR(1) $A = 0.5I + (0.3/n)\mathbf{1}\mathbf{1}'$; estimated VAR(4), $T = 120$; one-step MSE of variable 1 relative to the true model; 200 replications
+    \item True model: stationary VAR(1) $A = 0.5I + (0.3/n)\mathbf{1}\mathbf{1}'$ ($\mathbf{1}$: a vector of ones); estimated VAR(4), $T = 120$; one-step MSE of variable 1 relative to the true model; 200 replications
 \end{itemize}
 \quantlet{ATS\_ch5\_bvar}{\qlurl{ATS_ch5_bvar}}
 \end{frame}
@@ -409,8 +413,9 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \begin{frame}{Gibbs sampling (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item When the joint posterior has no closed form but each \textbf{full conditional} does: draw $\theta_1\mid\theta_2, y$, then $\theta_2\mid\theta_1, y$, and repeat \refGG, \refGS
+    \item Use: the joint posterior has no closed form, but each \textbf{full conditional} has one \refGG, \refGS
     \begin{itemize}
+        \item draw $\theta_1\mid\theta_2, y$, then $\theta_2\mid\theta_1, y$, and repeat
         \item $\theta_1$, $\theta_2$: two blocks of parameters; full conditional: the distribution of one block given the other and the data
         \item the draws form a Markov chain whose stationary distribution is the posterior
         \item discard a burn-in, then average functions of the draws (ergodic theorem)
@@ -437,7 +442,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{MCMC diagnostics}
+\begin{frame}{MCMC diagnostics (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Effective sample size}: $\mathrm{ESS} = M/(1 + 2\sum_{k\ge1}\rho_k)$: the number of independent draws with the same precision
@@ -448,10 +453,25 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
     \item \textbf{$\widehat R$} \refGR: several chains from dispersed starts; $\widehat R = \sqrt{\hat V/W}$, $\hat V = \frac{n-1}{n}W + B/n$
     \begin{itemize}
         \item $n$: draws per chain; $W$: within-chain variance; $B$: $n\times$ the variance of the chain means; $\hat V$: the pooled variance estimate
-        \item $\widehat R \approx 1$: the chains agree; current practice: rank-normalised split-$\widehat R < 1.01$ \refVGS
+        \item $\widehat R \approx 1$: the chains agree
     \end{itemize}
-    \item \textbf{Geweke} $z$: compares the mean of the first 10\% and of the last 50\% of a chain, with spectral variances; $|z| > 2$ signals non-convergence
-    \item None of them proves convergence; each can reveal a failure
+\end{itemize}
+\end{frame}
+
+\begin{frame}{MCMC diagnostics (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item $\widehat R$ in current practice \refVGS
+    \begin{itemize}
+        \item rank-normalised, split chains; require $\widehat R < 1.01$
+    \end{itemize}
+    \item \textbf{Geweke} $z$: $z = (\bar\theta_A - \bar\theta_B)/\sqrt{\hat S_A(0)/n_A + \hat S_B(0)/n_B}$
+    \begin{itemize}
+        \item $\bar\theta_A$, $\bar\theta_B$: the means of the first 10\% and of the last 50\% of a chain; $n_A$, $n_B$: their lengths
+        \item $\hat S(0)$: the spectral density at frequency zero, which accounts for autocorrelation
+        \item $z \approx N(0, 1)$ after convergence; $|z| > 2$ signals non-convergence
+    \end{itemize}
+    \item None of the three proves convergence; each can reveal a failure
 \end{itemize}
 \end{frame}
 
@@ -504,8 +524,9 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
         \item prior means \refLit: $\E[(A_1)_{ii}] = \delta_i$, all other coefficients 0; $\delta_i = 1$ (random walk) for persistent series, 0 (white noise) otherwise
         \item prior variances \refBGR, eq.~(2): $\Var[(A_l)_{ij}] = \lambda^2/l^2$ if $j = i$, $\vartheta\lambda^2\sigma_i^2/(l^2\sigma_j^2)$ if $j \ne i$
     \end{itemize}
-    \item Hyperparameters: $\lambda$ overall tightness, $1/l^2$ lag decay, $\vartheta \in (0, 1]$ cross-variable shrinkage
+    \item Hyperparameters
     \begin{itemize}
+        \item $\lambda$: overall tightness; $1/l^2$: the decay with the lag; $\vartheta \in (0, 1]$: cross-variable shrinkage
         \item $\sigma_i^2$: residual variance of a univariate AR for $y_i$, so that $\sigma_i^2/\sigma_j^2$ fixes units
         \item $\lambda = 0$: posterior = prior; $\lambda \to \infty$: posterior mean = OLS
     \end{itemize}
@@ -525,7 +546,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
         \item $\mathrm{vec}$: stacks the columns; $\otimes$: Kronecker product; $B_0$: prior mean; $\Omega_0$ ($k\times k$): prior covariance across regressors
         \item $IW(\Psi, d)$: inverse Wishart with scale matrix $\Psi$ and $d$ degrees of freedom
     \end{itemize}
-    \item Posterior: the same families, with updated parameters
+    \item Posterior: the same families, with updated parameters (derivation: \atsapplink{atsapp1}{atssrc1}{Appendix})  % applink: natural conjugate posterior
     \begin{itemize}
         \item $\bar\Omega^{-1} = \Omega_0^{-1} + X'X$, $\bar B = \bar\Omega(\Omega_0^{-1}B_0 + X'Y)$: the precision-weighted average again
         \item $\Sigma\mid Y \sim IW(\bar\Psi, T + d)$, $\bar\Psi = \Psi + \hat U'\hat U + (\bar B - B_0)'\Omega_0^{-1}(\bar B - B_0)$, $\hat U = Y - X\bar B$
@@ -540,18 +561,26 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
     \begin{itemize}
         \item Minnesota moments with $\Omega_0 = \mathrm{diag}(\lambda^2/(l^2\sigma_j^2))$ and $\E\Sigma = \mathrm{diag}(\sigma_i^2)$ ($d = n + 2$, $\Psi = \mathrm{diag}(\sigma_i^2)$)
     \end{itemize}
-    \item Gain: one $k\times k$ inversion for all equations; exact draws without MCMC; a closed-form marginal likelihood (\atsapplink{atsapp1}{atssrc1}{appendix})
+    \item Gain: one $k\times k$ inversion for all equations; exact draws without MCMC; a closed-form marginal likelihood (\atsapplink{atsapp2}{atssrc2}{Appendix})  % applink: marginal likelihood in closed form
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Dummy observations}
+\begin{frame}{Dummy observations (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Theil mixed estimation: add $T_d$ artificial rows $(Y_d, X_d)$ and run OLS on $\binom{Y_d}{Y}$, $\binom{X_d}{X}$; each row states a prior belief as if it were data
+    \item Theil mixed estimation
     \begin{itemize}
+        \item add $T_d$ artificial rows $(Y_d, X_d)$ and run OLS on $\binom{Y_d}{Y}$, $\binom{X_d}{X}$
+        \item each row states a prior belief as if it were data
         \item equivalent to the NIW prior with $B_0 = (X_d'X_d)^{-1}X_d'Y_d$, $\Omega_0 = (X_d'X_d)^{-1}$ \refBGR, eq.~(5)
         \item Minnesota block: $Y_d = \mathrm{diag}(\delta_i\sigma_i)/\lambda$, $X_d = J_p\otimes\mathrm{diag}(\sigma_i)/\lambda$, $J_p = \mathrm{diag}(1, \dots, p)$
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Dummy observations (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item \textbf{Sum of coefficients} \refDLS: $Y_d = \mathrm{diag}(\bar y_i)/\mu$, $X_d = (\mathbf{1}_p'\otimes\mathrm{diag}(\bar y_i)/\mu,\ 0)$
     \begin{itemize}
         \item $\bar y_i$: the mean of the first $p$ observations of $y_i$; $\mathbf{1}_p$: a vector of $p$ ones; $\mu > 0$: the tightness of this prior
@@ -559,7 +588,9 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
     \end{itemize}
     \item \textbf{Dummy initial observation} \refSims, \refSZ: one row $y = \bar y'/\phi$, $x = (\bar y'/\phi, \dots, \bar y'/\phi, 1/\phi)$
     \begin{itemize}
-        \item $\bar y$: the vector of the $\bar y_i$; $\phi > 0$: its tightness; it pushes towards unit roots \emph{or} towards a stationary model whose mean is $\bar y$: allows cointegration (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter4_cointegration_vecm_ardl_panel.pdf}{Chapter 4})
+        \item $\bar y$: the vector of the $\bar y_i$; $\phi > 0$: its tightness
+        \item pushes towards unit roots \emph{or} towards a stationary model whose mean is $\bar y$
+        \item so it allows cointegration (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter4_cointegration_vecm_ardl_panel.pdf}{Chapter 4})
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -636,17 +667,26 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Two rules for one hyperparameter}
+\begin{frame}{Two rules for one hyperparameter (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{BGR fit rule}: choose $\lambda$ so that the in-sample one-step fit of the key variables equals that of a small OLS VAR \refBGR, Section~3
+    \item \textbf{BGR fit rule} \refBGR, Section~3
     \begin{itemize}
+        \item choose $\lambda$ so that the in-sample one-step fit of the key variables equals that of a small OLS VAR
         \item $\mathrm{Fit}(\lambda) = \frac13\sum_{i\in I}\mathrm{msfe}_i^{(\lambda)}/\mathrm{msfe}_i^{(0)}$ on 1960--1969; here the target is 0.43
         \item $I$: the three key variables; $\mathrm{msfe}_i^{(\lambda)}$: in-sample one-step mean squared error of variable $i$ with tightness $\lambda$; $\lambda = 0$: the prior mean alone
         \item our values: MEDIUM 0.158, LARGE 0.059 (BGR Table~1: 0.108 and 0.035 on their data set)
     \end{itemize}
-    \item \textbf{GLP marginal likelihood}: re-estimated on each window; on 10-year windows the median mode is 0.34 (SMALL) and 0.28 (MEDIUM)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Two rules for one hyperparameter (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{GLP marginal likelihood} \refGLP
     \begin{itemize}
+        \item the mode of $\lambda$ is re-estimated on each window
+        \item on 10-year windows the median mode is 0.34 (SMALL) and 0.28 (MEDIUM)
         \item 10\%--90\% range of the MEDIUM mode across windows: [0.23, 0.33]
     \end{itemize}
     \item The Python package \texttt{bvar} of the Bank of England implements the GLP optimisation for the conjugate model; the notebook compares it with our \texttt{numpy} code
@@ -670,16 +710,30 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \begin{frame}{Bańbura, Giannone and Reichlin (2010): the design}
 \itemsize{\small}
 \begin{itemize}
-    \item \refBGR: can a VAR with 131 variables forecast and identify shocks? Systems SMALL (employment, CPI, funds rate), MEDIUM (20), LARGE (all)
+    \item \refBGR
     \begin{itemize}
+        \item question: can a VAR with 131 variables forecast and identify shocks?
+        \item systems: SMALL (employment, CPI, funds rate), MEDIUM (20), LARGE (all)
         \item $p = 13$; rolling 10-year windows; posterior-mean point forecasts iterated to $h = 12$; benchmark: random walk with drift
         \item Minnesota NIW prior plus sum-of-coefficients with $\tau = 10\lambda$ (Section~3.3); $\lambda$ by the fit rule on 1960--1969
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Bańbura, Giannone and Reichlin (2010): our replication}
+\itemsize{\small}
+\begin{itemize}
     \item Our data: FRED-MD-format panel; LARGE = the 102 series observed over 1960--2026 (aggregates and components)
     \begin{itemize}
-        \item MEDIUM: the BGR list, with the S\&P 500, the effective exchange rate and nonborrowed reserves replaced by the Baa yield, the 3-month bill rate and building permits (not available for 1960--2026 or negative after 2008)
+        \item MEDIUM: the BGR list, with three substitutions
+        \item the S\&P 500, the effective exchange rate and nonborrowed reserves are replaced by the Baa yield, the 3-month bill rate and building permits
+        \item reason: not available for 1960--2026, or negative after 2008
     \end{itemize}
-    \item Evaluation: targets 1971--2003 (the paper), 2004--2019 and 2004--2026 (extensions); 678 forecast origins; GLP SMALL and MEDIUM added
+    \item Evaluation
+    \begin{itemize}
+        \item targets 1971--2003 (the paper), 2004--2019 and 2004--2026 (extensions)
+        \item 678 forecast origins; GLP SMALL and MEDIUM added
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -924,7 +978,7 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
 \quantlet{ATS\_ch5\_factors}{\qlurl{ATS_ch5_factors}}
 \end{frame}
 
-\begin{frame}{Interpreting the marginal R2}
+\begin{frame}{Interpreting the marginal $R^2$}
 \itemsize{\small}
 \begin{itemize}
     \item Factor 1 is real activity: $R^2$ 0.43 for output, 0.24 for labour; the best single series has 0.78
@@ -998,19 +1052,38 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item \refBBE: $\binom{F_t}{Y_t} = \Phi(L)\binom{F_{t-1}}{Y_{t-1}} + v_t$, $X_t = \Lambda^fF_t + \Lambda^yY_t + e_t$, $Y_t$ = funds rate
+    \item \refBBE
     \begin{itemize}
-        \item $F_t$: $K$ unobserved factors; $X_t$: the large panel; $\Lambda^f$, $\Lambda^y$: loadings; $\Phi(L)$: a lag polynomial; $v_t$, $e_t$: errors
-        \item the VAR sees the information of 100 series through $K$ factors; responses are available for every series in $X_t$
+        \item VAR: $\binom{F_t}{Y_t} = \Phi(L)\binom{F_{t-1}}{Y_{t-1}} + v_t$; panel: $X_t = \Lambda^fF_t + \Lambda^yY_t + e_t$
+        \item $Y_t$: the funds rate; $F_t$: $K$ unobserved factors; $X_t$: the large panel
+        \item $\Lambda^f$, $\Lambda^y$: loadings; $\Phi(L)$: a lag polynomial; $v_t$, $e_t$: errors
     \end{itemize}
-    \item Two-step estimation (Section III): principal components $\hat C_t$ of $X_t$; slow factors from slow-moving series; remove $Y_t$: $\hat F_t = \hat C_t - \hat b_Y Y_t$
+    \item Why it helps
     \begin{itemize}
-        \item $K = 3$, VAR(13), 1960:1--2001:8 (ours: $T = 500$, $N = 102$ balanced series, 76 slow); Cholesky with $Y_t$ last; 25 bp shock
+        \item the VAR sees the information of 100 series through $K$ factors
+        \item responses are available for every series in $X_t$
     \end{itemize}
-    \item Prices and money enter as monthly growth rates; responses are cumulated to levels
 \end{itemize}
 \end{column}
 \end{columns}
+\end{frame}
+
+\begin{frame}{FAVAR: estimation and our replication}
+\itemsize{\small}
+\begin{itemize}
+    \item Two-step estimation (Section III of the paper)
+    \begin{itemize}
+        \item principal components $\hat C_t$ of $X_t$; slow factors from slow-moving series
+        \item remove $Y_t$: $\hat F_t = \hat C_t - \hat b_YY_t$; $\hat b_Y$: the coefficient of $Y_t$ in a regression of $\hat C_t$ on the slow factors and $Y_t$
+        \item Cholesky identification with $Y_t$ last; a 25 bp shock
+    \end{itemize}
+    \item Specification
+    \begin{itemize}
+        \item paper: $K = 3$, VAR(13), 1960:1--2001:8
+        \item ours: $T = 500$, $N = 102$ balanced series, of which 76 slow
+        \item prices and money enter as monthly growth rates; responses are cumulated to levels
+    \end{itemize}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{FAVAR responses to a 25 bp monetary policy shock}
@@ -1040,19 +1113,40 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
 \section{Dynamic factor models in state-space form}
 %=============================================================================
 
-\begin{frame}{The dynamic factor model}
+\begin{frame}{The dynamic factor model (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Measurement: $x_t = \Lambda f_t + e_t$, $e_t \sim N(0, \Psi)$, $\Psi$ diagonal; transition: $f_t = A_1f_{t-1} + \dots + A_qf_{t-q} + u_t$, $u_t \sim N(0, Q)$
+    \item Measurement equation: $x_t = \Lambda f_t + e_t$, $e_t \sim N(0, \Psi)$
     \begin{itemize}
-        \item $x_t$: the $N$ observed series; $f_t$: the $r$ factors; $\Lambda$: loadings; $e_t$: idiosyncratic errors with diagonal covariance $\Psi$; $A_j$: factor VAR($q$) matrices; $Q$: covariance of the factor shocks $u_t$
-        \item a state-space model (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter10_state_space_kalman_markov_switching.pdf}{TSA, Chapter 10}; \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter6_state_space_models_bayesian_filtering.pdf}{Chapter 6}): state $s_t = (f_t', \dots, f_{t-m}')'$, $m \ge q - 1$ lags; Kalman filter and smoother
+        \item $x_t$: the $N$ observed series; $f_t$: the $r$ factors; $\Lambda$ ($N\times r$): the loadings
+        \item $e_t$: idiosyncratic errors with diagonal covariance $\Psi$
     \end{itemize}
-    \item \textbf{Two-step} \refDGRb: PCA for $\hat f_t$, OLS for $\Lambda$ and $\Psi$, a VAR on $\hat f_t$ for $A$ and $Q$, then the Kalman smoother re-estimates $f_t$
+    \item Transition equation: $f_t = A_1f_{t-1} + \dots + A_qf_{t-q} + u_t$, $u_t \sim N(0, Q)$
     \begin{itemize}
+        \item $A_j$: the factor VAR($q$) matrices; $Q$: the covariance of the factor shocks $u_t$
+    \end{itemize}
+    \item A state-space model (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter10_state_space_kalman_markov_switching.pdf}{TSA, Chapter 10}; \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter6_state_space_models_bayesian_filtering.pdf}{Chapter 6})
+    \begin{itemize}
+        \item state $s_t = (f_t', \dots, f_{t-m}')'$, with $m \ge q - 1$ lags
+        \item estimated by the Kalman filter and smoother
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The dynamic factor model (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Two-step estimation} \refDGRb
+    \begin{itemize}
+        \item PCA for $\hat f_t$; OLS for $\Lambda$ and $\Psi$; a VAR on $\hat f_t$ for $A$ and $Q$
+        \item then the Kalman smoother re-estimates $f_t$
         \item consistent for large $N$ and $T$ even though $\Psi$ diagonal is misspecified
     \end{itemize}
-    \item \textbf{Quasi-maximum likelihood by EM} \refDGRc, \refBM: E-step = Kalman smoother, M-step = regressions on smoothed moments; handles any pattern of missing data and idiosyncratic AR(1) terms
+    \item \textbf{Quasi-maximum likelihood by EM} \refDGRc, \refBM
+    \begin{itemize}
+        \item E-step: the Kalman smoother; M-step: regressions on the smoothed moments
+        \item handles any pattern of missing data and idiosyncratic AR(1) terms
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1239,20 +1333,31 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{News and revisions: Bańbura and Modugno (2014)}
+\begin{frame}{News and revisions: Bańbura and Modugno (2014) (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Information sets $\Omega_v \subset \Omega_{v+1}$; the new releases $x_j$, $j \in J_{v+1}$; the \textbf{news} is $I_j = x_j - \E[x_j\mid\Omega_v]$, not $x_j$
+    \item The \textbf{news} of a release: $I_j = x_j - \E[x_j\mid\Omega_v]$, not $x_j$ itself
     \begin{itemize}
-        \item with fixed parameters the revision of the nowcast of $y$ is a weighted sum of the news: $\E[y\mid\Omega_{v+1}] - \E[y\mid\Omega_v] = \E[yI']\E[II']^{-1}I = \sum_j w_jI_j$ \refBM
-        \item $I$: the vector of news $I_j$; $w_j$: the weight of release $j$
+        \item $\Omega_v \subset \Omega_{v+1}$: two successive information sets (data vintages)
+        \item $x_j$, $j \in J_{v+1}$: the releases that are new in $\Omega_{v+1}$
     \end{itemize}
+    \item With fixed parameters, the revision is a weighted sum of the news \refBM
+    \begin{itemize}
+        \item $\E[y\mid\Omega_{v+1}] - \E[y\mid\Omega_v] = \E[yI']\E[II']^{-1}I = \sum_j w_jI_j$
+        \item $y$: the target (GDP growth); $I$: the vector of news $I_j$; $w_j$: the weight of release $j$
+    \end{itemize}
+    \item A large release that was expected moves nothing; a small surprise in a heavily weighted series moves a lot; correlated releases share their weight
+\end{itemize}
+\end{frame}
+
+\begin{frame}{News and revisions: Bańbura and Modugno (2014) (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item In the DFM: $I_j = \lambda_j'(f_{t_j} - \hat f_{t_j\mid v}) + e_j$, so $\E[II'] = H P_{\mid v}H' + \Psi_J$ and $\E[yI'] = z_y'P_{\mid v}H'$
     \begin{itemize}
         \item $\lambda_j$: the loadings of release $j$; $t_j$: its reference month; $\hat f_{t_j\mid v}$: the factor estimate given $\Omega_v$; $H$: the stacked $\lambda_j'$; $\Psi_J$: their idiosyncratic variances; $z_y$: the loading of the target
         \item $P_{\mid v}$: the covariance of the stacked state given $\Omega_v$, from the Kalman filter
     \end{itemize}
-    \item A large release that was expected moves nothing; a small surprise in a heavily weighted series moves a lot; correlated releases share their weight
 \end{itemize}
 \end{frame}
 
@@ -1413,14 +1518,16 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
     \item Prior: $|\Sigma|^{-k/2}\exp\{-\frac12\mathrm{tr}[\Sigma^{-1}(B - B_0)'\Omega_0^{-1}(B - B_0)]\}\times|\Sigma|^{-(d + n + 1)/2}\exp\{-\frac12\mathrm{tr}(\Sigma^{-1}\Psi)\}$
     \item Complete the square in $B$: $(Y - XB)'(Y - XB) + (B - B_0)'\Omega_0^{-1}(B - B_0) = (B - \bar B)'\bar\Omega^{-1}(B - \bar B) + \hat U'\hat U + (\bar B - B_0)'\Omega_0^{-1}(\bar B - B_0)$
     \item Hence $B\mid\Sigma, Y \sim MN(\bar B, \bar\Omega, \Sigma)$ and $\Sigma\mid Y \sim IW(\bar\Psi, T + d)$: the same families as the prior
+    \item $MN(\bar B, \bar\Omega, \Sigma)$: the matrix normal distribution, i.e.\ $\mathrm{vec}(B) \sim N(\mathrm{vec}(\bar B), \Sigma\otimes\bar\Omega)$
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Appendix: the marginal likelihood in closed form}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Back}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
-    \item Integrating $B$ and $\Sigma$ out (GLP, appendix): $p(Y) = \pi^{-nT/2}\frac{\Gamma_n(\frac{T + d}2)}{\Gamma_n(\frac d2)}|\Omega_0|^{-\frac n2}|X'X + \Omega_0^{-1}|^{-\frac n2}|\Psi|^{\frac d2}|\bar\Psi|^{-\frac{T + d}2}$
+    \item Integrating $B$ and $\Sigma$ out (the online appendix of GLP): $p(Y) = \pi^{-nT/2}\frac{\Gamma_n(\frac{T + d}2)}{\Gamma_n(\frac d2)}|\Omega_0|^{-\frac n2}|X'X + \Omega_0^{-1}|^{-\frac n2}|\Psi|^{\frac d2}|\bar\Psi|^{-\frac{T + d}2}$
+    \item $\Gamma_n(a) = \pi^{n(n-1)/4}\prod_{j=1}^n\Gamma(a + (1 - j)/2)$: the multivariate gamma function
     \item $|\Omega_0|\,|X'X + \Omega_0^{-1}| = |I + \Omega_0X'X|$: the complexity penalty, growing with $\lambda$
     \item $|\bar\Psi|$: the fit term, falling with $\lambda$; the optimum balances the two
     \item With dummies: $\ln p(Y\mid\gamma) = \ln p(Y, Y_d\mid\gamma) - \ln p(Y_d\mid\gamma)$, each by the formula above

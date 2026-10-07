@@ -88,8 +88,8 @@
 \newcommand{\refXX}{\href{https://proceedings.mlr.press/v139/xu21h.html}{Xu și Xie (2021)}}
 \newcommand{\refXXb}{\href{https://doi.org/10.1109/TPAMI.2023.3272339}{Xu și Xie (2023)}}
 \newcommand{\refZaf}{\href{https://arxiv.org/abs/2202.07282}{Zaffran et al.\ (2022)}}
-\newcommand{\refCO}{\href{https://github.com/danpele/Conformal_Oracle}{Pele et al.\ (Conformal\_Oracle)}}
-\newcommand{\refTV}{\href{https://github.com/danpele/TSFM_VaR_CEE}{Pele et al.\ (TSFM\_VaR\_CEE)}}
+\newcommand{\refCO}{\href{https://github.com/danpele/Conformal_Oracle}{Pele et al., Conformal\_Oracle (GitHub)}}
+\newcommand{\refTV}{\href{https://github.com/danpele/TSFM_VaR_CEE}{Pele et al., TSFM\_VaR\_CEE (GitHub)}}
 
 \title[Analiza avansată a seriilor de timp și previziune]{Analiza avansată a seriilor de timp și previziune}
 \subtitle{Capitolul 13: Foundation models și predicție conformală}
@@ -207,7 +207,11 @@ MSCA Digital Finance}
         \item predicția conformală: interschimbabilitate, split conformal, CQR, limitele acoperirii condiționate
         \item date dependente: ponderi, EnbPI, ACI, PID conformal; diagnosticare; calibrarea intervalelor produse de foundation models și VaR
     \end{itemize}
-    \item Pornim de la \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol11_foundation_models_serii_timp.pdf}{TSA, Capitolul 11} (Chronos, TimesFM, Moirai, teste zero-shot, CRPS și WQL), de la \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1} (reguli de scor, DM, MCS), \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9} (backtesting VaR, ACI pentru VaR) și \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12} (arhitecturi deep); Seminarul 13 are loc înaintea acestui curs
+    \item Cunoștințe necesare; Seminarul 13 are loc înaintea acestui curs
+    \begin{itemize}
+        \item \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol11_foundation_models_serii_timp.pdf}{TSA, Capitolul 11}: Chronos, TimesFM, Moirai, teste zero-shot, CRPS și WQL
+        \item \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1} (reguli de scor, DM, MCS), \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9} (backtesting VaR, ACI pentru VaR), \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12} (arhitecturi deep)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -225,10 +229,15 @@ MSCA Digital Finance}
 \begin{frame}{Bibliografie, date și instrumente}
 \itemsize{\small}
 \begin{itemize}
-    \item Foundation models: \refAns; \refAnsB; \refDas; \refWoo; \refAue; benchmark-uri: \refAks; \refShc
+    \item Foundation models și benchmark-uri
     \begin{itemize}
-        \item Predicție conformală: \refVGSb; \refAB; \refRPC; \refBar; \refGC; \refACT; \refXX
-        \item Critică și evaluare: \refTan; \refHAB; sinteză despre practica prognozei: \refPet
+        \item modele: \refAns; \refAnsB; \refDas; \refWoo; \refAue
+        \item benchmark-uri: \refAks; \refShc; critică și evaluare: \refTan; \refHAB
+    \end{itemize}
+    \item Predicție conformală
+    \begin{itemize}
+        \item teorie: \refVGSb; \refAB; \refRPC; \refBar
+        \item serii de timp: \refGC; \refACT; \refXX; sinteză despre practica prognozei: \refPet
     \end{itemize}
     \item Quantlet-urile Python ale capitolului: \href{https://github.com/danpele/Advanced-Time-Series/tree/main/Quantlets/Ch_13}{Quantlets/Ch\_13}
     \begin{itemize}
@@ -282,14 +291,22 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
 \begin{frame}{Cunoscut din TSA și elemente noi}
 \itemsize{\small}
 \begin{itemize}
-    \item Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol11_foundation_models_serii_timp.pdf}{TSA, Capitolul 11}): folosirea zero-shot a modelelor Chronos, TimesFM, Moirai și Lag-Llama; scalarea prin medie și cuantizarea, pe scurt; pierderea pinball, CRPS, WQL, MASE; primele avertismente despre contaminare
+    \item Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol11_foundation_models_serii_timp.pdf}{TSA, Capitolul 11})
+    \begin{itemize}
+        \item folosirea zero-shot a modelelor Chronos, TimesFM, Moirai și Lag-Llama; scalarea prin medie și cuantizarea, pe scurt
+        \item pierderea pinball, CRPS, WQL, MASE; primele avertismente despre contaminare
+    \end{itemize}
     \item Nou: instrumentele de cercetare
     \begin{itemize}
         \item alegerile de proiectare și consecințele lor (limitele de domeniu, straturi de cuantile, patching, covariabile în context), dovezile de scalare
         \item benchmark-uri cu ferestre preînregistrate după lansarea modelelor, teste pe multe serii cu corecțiile Holm și BH
         \item teoria conformală cu demonstrații, eșecul ei sub dependență și metodele online care o corectează, cu diagnosticarea acoperirii
     \end{itemize}
-    \item Studii de caz: Ansari et al.\ (2024), Tan et al.\ (2024), Romano--Patterson--Candès (2019), Gibbs--Candès (2021), Barber et al.\ (2023), Angelopoulos--Candès--Tibshirani (2023), Xu--Xie (2021), cu designul din lucrări, pe datele noastre
+    \item Studii de caz: designul din lucrări, pe datele noastre
+    \begin{itemize}
+        \item foundation models: \refAns; \refTan
+        \item predicție conformală: \refRPC; \refGC; \refBar; \refACT; \refXX
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -354,9 +371,21 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
 \begin{frame}{Datele de preantrenare: volum și compoziție}
 \itemsize{\small}
 \begin{itemize}
-    \item Chronos \refAns: seturi de date publice plus două augmentări: \textbf{TSMixup} (combinații convexe de serii reale) și \textbf{KernelSynth} (serii extrase din procese gaussiene cu nuclee compuse aleatoare)
-    \item TimesFM \refDas: aproximativ $10^{11}$ momente de timp: Google Trends, accesări Wikipedia, serii sintetice și publice; Moirai \refWoo: LOTSA, peste 27 de miliarde de observații din nouă domenii
-    \item Toto \refCoh: metrici de observabilitate ale unui furnizor cloud, un corpus de 4--10 ori mai mare decît al modelelor anterioare; GIFT-Eval \refAks: un set de preantrenare \textbf{fără leakage} de circa 230 de miliarde de puncte
+    \item Chronos \refAns
+    \begin{itemize}
+        \item seturi de date publice plus două augmentări
+        \item \textbf{TSMixup}: combinații convexe de serii reale; \textbf{KernelSynth}: serii extrase din procese gaussiene cu nuclee compuse aleatoare
+    \end{itemize}
+    \item TimesFM \refDas; Moirai \refWoo
+    \begin{itemize}
+        \item TimesFM: aproximativ $10^{11}$ momente de timp: Google Trends, accesări Wikipedia, serii sintetice și publice
+        \item Moirai: LOTSA, peste 27 de miliarde de observații din nouă domenii
+    \end{itemize}
+    \item Toto \refCoh; GIFT-Eval \refAks
+    \begin{itemize}
+        \item Toto: metrici de observabilitate ale unui furnizor cloud, un corpus de 4--10 ori mai mare decît al modelelor anterioare
+        \item GIFT-Eval: un set de preantrenare \textbf{fără leakage} de circa 230 de miliarde de puncte
+    \end{itemize}
     \item Pentru noi compoziția contează mai mult decît volumul: seriile economice și financiare sînt o parte mică, de frecvență joasă, a oricărui corpus
 \end{itemize}
 \end{frame}
@@ -454,7 +483,11 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
     \begin{itemize}
         \item în afara distribuției: log-verosimilitatea se scalează asemănător în și în afara distribuției, dar arhitectura contează; ajustările care ajută în distribuție pot reduce scalabilitatea OOD \refYao
     \end{itemize}
-    \item O lege de scalare este o afirmație despre pierderea medie pe distribuția corpusului, nu despre o serie românească anume; modele mici (TiRex, 35 de milioane de parametri) le întrec pe cele mari în clasamentele publice \refAue
+    \item O lege de scalare privește pierderea medie pe distribuția corpusului
+    \begin{itemize}
+        \item ea nu spune nimic despre o serie românească anume
+        \item modele mici (TiRex, 35 de milioane de parametri) le întrec pe cele mari în clasamentele publice \refAue
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -525,46 +558,80 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Familia Chronos}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Chronos} \refAns: procedura de antrenare a modelelor de limbaj, nemodificată; prognoze prin eșantionarea traiectoriilor de token-uri
+    \item \textbf{Chronos} \refAns
     \begin{itemize}
+        \item procedura de antrenare a modelelor de limbaj, nemodificată; prognoze prin eșantionarea traiectoriilor de token-uri
         \item rezultate zero-shot comparabile cu cele ale modelelor antrenate pe datele-țintă (Benchmark II din lucrare)
     \end{itemize}
-    \item \textbf{Chronos-Bolt}: intrări sub formă de patch-uri, decodor direct de cuantile; mult mai rapid; context de pînă la 2048, 64 de pași; cuantile doar între 10\% și 90\%
+    \item \textbf{Chronos-Bolt}
     \begin{itemize}
+        \item intrări sub formă de patch-uri și un decodor direct de cuantile: mult mai rapid decît Chronos
+        \item context de pînă la 2048, 64 de pași; cuantile doar între 10\% și 90\%
         \item un interval de 95\% sau un VaR 1\% nu se pot citi din ieșirea lui: cererea este trunchiată la cel mai apropiat nivel antrenat
     \end{itemize}
-    \item \textbf{Chronos-2} \refAnsB: atenția de grup împarte informația între seriile unui grup (variabile, serii înrudite, covariabile); \textbf{învățare în context} a efectelor covariabilelor
+    \item \textbf{Chronos-2} \refAnsB
     \begin{itemize}
-        \item antrenat în mare parte pe structuri multivariate sintetice impuse unor serii univariate; context de 8192; 21 de cuantile de la 1\% la 99\%; scalare arcsinh
+        \item atenția de grup împarte informația între seriile unui grup (variabile, serii înrudite, covariabile)
+        \item \textbf{învățare în context} a efectelor covariabilelor, fără reestimare
+        \item antrenat în mare parte pe structuri multivariate sintetice impuse unor serii univariate
+        \item context de 8192; 21 de cuantile de la 1\% la 99\%; scalare arcsinh
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{TimesFM, Moirai, Lag-Llama, MOMENT}
+\begin{frame}{TimesFM, Moirai, Lag-Llama, MOMENT (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{TimesFM} \refDas: decoder-only, patch-uri; patch-ul de ieșire mai lung decît cel de intrare; antrenat pe multe frecvențe; versiunea 2.5 adaugă un strat de cuantile și contexte lungi
-    \item \textbf{Moirai} \refWoo: encoder mascat; mărimi de patch specifice frecvenței; atenția pe orice număr de variabile aplatizează intrările multivariate; ieșire sub formă de amestec (Student-$t$, log-normală, binomială negativă)
+    \item \textbf{TimesFM} \refDas
     \begin{itemize}
+        \item decoder-only, cu patch-uri; patch-ul de ieșire este mai lung decît cel de intrare
+        \item antrenat pe multe frecvențe; versiunea 2.5 adaugă un strat de cuantile și contexte lungi
+    \end{itemize}
+    \item \textbf{Moirai} \refWoo
+    \begin{itemize}
+        \item encoder mascat; mărimi de patch specifice frecvenței
+        \item atenția pe orice număr de variabile aplatizează intrările multivariate într-o singură secvență
+        \item ieșire sub formă de amestec: Student-$t$, log-normală, binomială negativă
         \item Moirai 2.0 \refLiu: o simplificare decoder-only, mai mică și mai bună pe GIFT-Eval
     \end{itemize}
-    \item \textbf{Lag-Llama} \refRas: un decodor de tip LLaMA ale cărui token-uri sînt vectori de valori cu lag, la multe laguri sezoniere; strat Student-$t$; puternic după fine-tuning
-    \item \textbf{MOMENT} \refGos: reconstrucție mascată pe Time series Pile; un singur encoder pentru prognoză, clasificare, detectarea anomaliilor și imputare
+\end{itemize}
+\end{frame}
+
+\begin{frame}{TimesFM, Moirai, Lag-Llama, MOMENT (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Lag-Llama} \refRas
+    \begin{itemize}
+        \item un decodor de tip LLaMA ale cărui token-uri sînt vectori de valori cu lag, la multe laguri sezoniere
+        \item strat de ieșire Student-$t$; puternic după fine-tuning
+    \end{itemize}
+    \item \textbf{MOMENT} \refGos
+    \begin{itemize}
+        \item preantrenat prin reconstrucție mascată pe Time series Pile
+        \item un singur encoder pentru prognoză, clasificare, detectarea anomaliilor și imputare
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Din nou recurente, observabilitate și un API închis}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{TiRex} \refAue: un xLSTM păstrează o stare de-a lungul contextului, ceea ce permite urmărirea stării pe orizonturi lungi
+    \item \textbf{TiRex} \refAue
     \begin{itemize}
+        \item un xLSTM păstrează o stare de-a lungul contextului, ceea ce permite urmărirea stării pe orizonturi lungi
         \item xLSTM: celulele recurente din \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12}, cu porți exponențiale și memorie matriceală
-        \item mascarea patch-urilor contigue (CPM) la antrenare: modelul învață să prognozeze cu patch-uri lipsă, adică mai mulți pași fără reacție
+        \item mascarea patch-urilor contigue (CPM) la antrenare: modelul învață să prognozeze mai mulți pași fără reacție
     \end{itemize}
-    \item \textbf{Toto} \refCoh: decoder-only pentru metrici multivariate de observabilitate; benchmark-ul BOOM (2807 serii); arată că alcătuirea pe domenii a corpusului determină rezultatele
-    \item \textbf{TimeGPT} \refGar: ponderi închise și corpus nedezvăluit, în spatele unui API cu plată
+    \item \textbf{Toto} \refCoh
     \begin{itemize}
-        \item contaminarea nu poate fi verificată; rezultatele nu sînt reproductibile dacă serviciul schimbă modelul; datele ies din instituția dumneavoastră
+        \item decoder-only, pentru metrici multivariate de observabilitate; benchmark-ul BOOM (2807 serii)
+        \item alcătuirea pe domenii a corpusului determină rezultatele
+    \end{itemize}
+    \item \textbf{TimeGPT} \refGar
+    \begin{itemize}
+        \item ponderi închise și un corpus nedezvăluit, în spatele unui API cu plată
+        \item contaminarea nu poate fi verificată; rezultatele nu sînt reproductibile dacă serviciul schimbă modelul
+        \item datele ies din instituția dumneavoastră
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -572,16 +639,25 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Zero-shot, fine-tuning, covariabile în context}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; fără antrenare, deci fără risc de supraajustare pe seria-țintă; singurele alegeri sînt $C$ și modelul
-    \item \textbf{Fine-tuning}: ponderile $\theta$ pornesc de la $\hat\theta$ și fac cîțiva pași de gradient pe datele-țintă (toate ponderile sau adaptoare precum LoRA)
+    \item \textbf{Zero-shot}: prognoza este $f_{\hat\theta}(y_{T-C+1:T})$
     \begin{itemize}
+        \item fără antrenare, deci fără risc de supraajustare pe seria-țintă; singurele alegeri sînt $C$ și modelul
+    \end{itemize}
+    \item \textbf{Fine-tuning}: ponderile pornesc de la $\hat\theta$ și fac cîțiva pași de gradient pe datele-țintă
+    \begin{itemize}
+        \item toate ponderile sau adaptoare de rang mic (LoRA) adăugate ponderilor înghețate
         \item cere o împărțire de validare care respectă timpul (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12}); poate uita distribuția a priori; pe serii economice scurte rareori merită
     \end{itemize}
-    \item \textbf{Covariabile în context} (Chronos-2): se transmit valorile trecute ale unei covariabile $x_t$ (de exemplu temperatura) și valorile viitoare ale regresorilor cunoscuți dinainte; modelul deduce efectul lor în timpul trecerii înainte
+    \item \textbf{Covariabile în context} (Chronos-2)
     \begin{itemize}
+        \item valorile trecute ale unei covariabile $x_t$ (de exemplu temperatura) și valorile viitoare ale regresorilor cunoscuți dinainte intră în context
+        \item modelul deduce efectul lor în timpul trecerii înainte, fără niciun parametru estimat
         \item învățarea încrucișată: prognoza în comun a unui lot de serii înrudite (toate cele 27 de țări UE la aceeași origine)
     \end{itemize}
-    \item Covariabilele viitoare cunoscute trebuie să fie chiar cunoscute la origine: prognoze meteo, nu vremea realizată, cu excepția cazului în care se urmărește o limită superioară
+    \item Covariabilele viitoare cunoscute trebuie să fie chiar cunoscute la origine
+    \begin{itemize}
+        \item prognoze meteo, nu vremea realizată, cu excepția cazului în care se urmărește o limită superioară
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -671,10 +747,16 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Leakage și contaminare}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Leakage-ul seriilor}: o serie de evaluare (sau o copie apropiată) se află în corpusul de preantrenare; Chronos separă din acest motiv rezultatele în domeniu (Benchmark I) de cele zero-shot (Benchmark II) \refAns
-    \item \textbf{Contaminarea temporală}: fereastra de test precede data-limită a antrenării; modelul poate să fi văzut rezultatele altor serii, corelate, din aceeași perioadă
+    \item \textbf{Leakage-ul seriilor}
     \begin{itemize}
-        \item LLM-urile reproduc valori economice exacte din perioada dinaintea datei-limită \refLTZ; un design cu două seturi de date împotriva contaminării, pentru prețurile electricității \refPE
+        \item o serie de evaluare (sau o copie apropiată) se află în corpusul de preantrenare
+        \item Chronos separă din acest motiv rezultatele în domeniu (Benchmark I) de cele zero-shot (Benchmark II) \refAns
+    \end{itemize}
+    \item \textbf{Contaminarea temporală}
+    \begin{itemize}
+        \item fereastra de test precede data-limită a antrenării: modelul poate să fi văzut rezultatele altor serii, corelate, din aceeași perioadă
+        \item LLM-urile reproduc valori economice exacte din perioada dinaintea datei-limită \refLTZ
+        \item un design cu două seturi de date împotriva contaminării, pentru prețurile electricității \refPE
     \end{itemize}
     \item Designuri care ajută
     \begin{itemize}
@@ -688,7 +770,11 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Testarea pe multe serii (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item O serie: DM cu corecția HLN \refDM, \refHLN; capacitatea condiționată \refGW; multe modele: MCS \refHLNa{} (toate în \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
+    \item O serie (toate în \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
+    \begin{itemize}
+        \item DM cu corecția HLN \refDM, \refHLN; capacitatea condiționată \refGW
+        \item multe modele: MCS \refHLNa
+    \end{itemize}
     \item $S$ serii testate separat, fiecare la nivelul de 5\%: sub ipoteza nulă se așteaptă aproximativ $0{,}05S$ respingeri false
     \begin{itemize}
         \item cu $S = 27$ de țări, aproximativ una sau două țări „semnificative” doar din întîmplare
@@ -887,7 +973,10 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
         \item memoria lentă a lui log RV (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol10_memorie_lunga_rough_volatility.pdf}{Capitolul 10}) este o structură pe care modelul o poate învăța din corpus
         \item cîștigul este mare pentru Bitcoin și mic pentru S\&P 500
     \end{itemize}
-    \item Studii recente ajung la verdicte mixte \refGoe, \refBri, \refRNW: cîștigurile depind de activ, de orizont și de funcția de pierdere, iar fine-tuning-ul sau preantrenarea pe date financiare contează adesea
+    \item Studii recente ajung la verdicte mixte \refGoe, \refBri, \refRNW
+    \begin{itemize}
+        \item cîștigurile depind de activ, de orizont și de funcția de pierdere; fine-tuning-ul sau preantrenarea pe date financiare contează adesea
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -950,9 +1039,21 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Reprogramarea unui LLM înghețat}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Time-LLM} \refJin: patch-urile seriei sînt proiectate pe prototipuri de text (embedding-uri de cuvinte), un prefix de prompt descrie sarcina și statisticile; LLM-ul rămîne înghețat, o proiecție citește prognoza
-    \item \textbf{One Fits All} (GPT4TS) \refZho: un GPT-2 înghețat, cu embedding-ul de intrare, normalizările de strat și stratul de ieșire antrenate, pentru prognoză, clasificare și detectarea anomaliilor
-    \item Afirmația: cunoașterea din limbaj se transferă la serii; testul afirmației este o ablație care elimină modelul de limbaj
+    \item \textbf{Time-LLM} \refJin
+    \begin{itemize}
+        \item patch-urile seriei sînt proiectate pe prototipuri de text (embedding-uri de cuvinte)
+        \item un prefix de prompt descrie sarcina și statisticile seriei
+        \item LLM-ul rămîne înghețat; o proiecție antrenată citește prognoza
+    \end{itemize}
+    \item \textbf{One Fits All} (GPT4TS) \refZho
+    \begin{itemize}
+        \item un GPT-2 înghețat; se antrenează doar embedding-ul de intrare, normalizările de strat și stratul de ieșire
+        \item un singur model pentru prognoză, clasificare și detectarea anomaliilor
+    \end{itemize}
+    \item Afirmația: cunoașterea din limbaj se transferă la serii
+    \begin{itemize}
+        \item testul afirmației este o ablație care elimină modelul de limbaj
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -966,16 +1067,26 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
     \begin{itemize}
         \item eliminarea LLM-ului; înlocuirea lui cu un strat de atenție; înlocuirea cu un bloc Transformer simplu
     \end{itemize}
-    \item Rezultat: nicio degradare, adesea o îmbunătățire; LLM-urile preantrenate nu sînt mai bune decît același model antrenat de la zero, nu modelează dependența secvențială, nu ajută cînd datele sînt puține
+    \item Rezultat: nicio degradare, adesea o îmbunătățire
+    \begin{itemize}
+        \item LLM-urile preantrenate nu sînt mai bune decît același model antrenat de la zero
+        \item nu modelează dependența secvențială și nu ajută cînd datele sînt puține
+    \end{itemize}
     \item Antrenarea și inferența costă cu ordine de mărime mai mult
 \end{itemize}
 \end{column}
 \begin{column}{0.42\textwidth}
 \begin{itemize}
     \item Metoda contează mai mult decît rezultatul
-    \item o afirmație despre arhitectură cere o ablație cu calcul și ajustare comparabile
-    \item foundation models antrenate pe serii (Chronos, TimesFM, TiRex) nu sînt vizate de această critică; LLM-urile folosite ca prognozatori sînt
-    \item LLM-urile rămîn utile în jurul prognozei: cod, literatură, critică (secțiunea 9)
+    \begin{itemize}
+        \item o afirmație despre arhitectură cere o ablație cu calcul și ajustare comparabile
+    \end{itemize}
+    \item Ce vizează critica
+    \begin{itemize}
+        \item LLM-urile folosite ca prognozatori sînt vizate
+        \item foundation models antrenate pe serii (Chronos, TimesFM, TiRex) nu sînt vizate
+        \item LLM-urile rămîn utile în jurul prognozei: cod, literatură, critică (secțiunea 9)
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -984,15 +1095,21 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Memorare și anticiparea viitorului}
 \itemsize{\small}
 \begin{itemize}
-    \item \refLTZ: LLM-urile reproduc cu mare precizie valori macroeconomice și de piață din perioada lor de antrenare, chiar și cînd li se cere să nu folosească informații viitoare
+    \item LLM-urile își amintesc perioada de antrenare \refLTZ
     \begin{itemize}
+        \item reproduc cu mare precizie valori macroeconomice și de piață din acea perioadă, chiar și cînd li se cere să nu folosească informații viitoare
         \item un backtest înainte de data-limită a antrenării măsoară memoria, nu capacitatea de prognoză
     \end{itemize}
-    \item Pentru foundation models pe serii de timp, aceeași logică se aplică seriilor publice din corpus (electricitate, trafic, M4)
+    \item Aceeași logică pentru foundation models pe serii de timp
     \begin{itemize}
-        \item dovezile noastre: ferestre de după toate lansările (secțiunea 4); cele mai puternice dovezi: prognoze live, preînregistrate
+        \item ea se aplică seriilor publice din corpus (electricitate, trafic, M4)
+        \item dovezile noastre: ferestre de după toate lansările (secțiunea 4)
+        \item cele mai puternice dovezi: prognoze live, preînregistrate
     \end{itemize}
-    \item O regulă practică: precizați data-limită de antrenare a fiecărui model și începutul ferestrei de evaluare în același tabel
+    \item O regulă practică
+    \begin{itemize}
+        \item precizați data-limită de antrenare a fiecărui model și începutul ferestrei de evaluare în același tabel
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1001,6 +1118,7 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{itemize}
     \item LLMTime și reprogramarea arată că modelele de text pot fi adaptate la serii; ablațiile arată că partea de limbaj rareori este cea care ajută
     \item Memorarea face ca evaluarea prognozelor LLM înainte de data-limită să nu fie validă
+    \item Pentru prognoză, foundation models antrenate pe serii sînt alegerea implicită; LLM-urile rămîn utile pentru cod, literatură și critică
 \end{itemize}
 \end{frame}
 
@@ -1020,9 +1138,19 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \end{column}
 \begin{column}{0.56\textwidth}
 \begin{itemize}
-    \item Vovk, Gammerman și Shafer \refVGS, \refVGSb: mulțimi de predicție valide în eșantioane finite doar sub interschimbabilitate, pentru orice model predictiv
-    \item Ideea: cît de „conformă” este o valoare candidat cu datele văzute, măsurat printr-un rang
-    \item Statistica modernă a adoptat-o ca înveliș în jurul metodelor de machine learning \refLei, \refAB
+    \item \refVGS; \refVGSb
+    \begin{itemize}
+        \item mulțimi de predicție valide în eșantioane finite
+        \item se presupune doar interschimbabilitatea, pentru orice model predictiv
+    \end{itemize}
+    \item Ideea
+    \begin{itemize}
+        \item cît de „conformă” este o valoare candidat cu datele văzute, măsurat printr-un rang
+    \end{itemize}
+    \item Statistica modernă \refLei; \refAB
+    \begin{itemize}
+        \item a adoptat-o ca înveliș în jurul metodelor de machine learning
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -1192,8 +1320,9 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Limitele acoperirii condiționate}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Imposibilitate} \refVov, \refLW, \refBarB: dacă $\hat C$ are acoperire condiționată $\ge 1 - \alpha$ în aproape orice $x$, pentru orice distribuție cu $X$ continuu, atunci lungimea lui așteptată este infinită
+    \item \textbf{Imposibilitate} \refVov; \refLW; \refBarB
     \begin{itemize}
+        \item dacă $\hat C$ are acoperire condiționată $\ge 1 - \alpha$ în aproape orice $x$, pentru orice distribuție cu $X$ continuu, lungimea lui așteptată este infinită
         \item nicio metodă nu poate certifica în eșantioane finite acoperirea în fiecare punct al unei covariabile continue fără ipoteze
     \end{itemize}
     \item Rezultate posibile
@@ -1349,7 +1478,7 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
     \begin{itemize}
         \item $\alpha_1$: nivelul de pornire; marginea scade ca $1/T$ și este mai strînsă pentru un $\gamma$ mai mare
     \end{itemize}
-    \item Ideea demonstrației (\atsapplink{atsapp1}{atssrc2}{Anexă})
+    \item Ideea demonstrației (\atsapplink{atsapp2}{atssrc2}{Anexă}) % applink: cele două garanții online
     \begin{itemize}
         \item $\alpha_t$ rămîne mereu în $[-\gamma, 1 + \gamma]$
         \item însumînd actualizările, $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; se împarte la $\gamma T$
@@ -1529,23 +1658,43 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \section{Calibrarea intervalelor produse de foundation models}
 %=============================================================================
 
-\begin{frame}{Nevoia de calibrare a cuantilelor foundation models}
+\begin{frame}{Nevoia de calibrare a cuantilelor foundation models (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Cuantilele preantrenate sînt calibrate pe distribuția corpusului, nu pe seria dumneavoastră
     \begin{itemize}
         \item calibrarea greșită este situația implicită, în ambele sensuri (benzi prea înguste sau prea largi)
     \end{itemize}
-    \item Majoritatea modelelor dau doar cuantile de 10\%--90\%: un interval de 95\% sau VaR 1\% cere extrapolare dincolo de nivelurile antrenate
-    \item Procedura: CQR online pe banda proprie de 10\%--90\% a modelului, iar ACI alege pragul pentru orice nivel-țintă (80\% sau 95\%) \[ S_t = \max\{\hat q_{0{,}1,t} - y_t,\; y_t - \hat q_{0{,}9,t}\}, \qquad \hat C_t = [\hat q_{0{,}1,t} - q_t,\; \hat q_{0{,}9,t} + q_t] \]
+    \item Majoritatea modelelor dau doar cuantilele de 10\%--90\%
     \begin{itemize}
-        \item $\hat q_{0{,}1,t}$, $\hat q_{0{,}9,t}$: cuantilele de 10\% și 90\% prognozate de model pentru perioada $t$; $q_t$: pragul ACI
+        \item un interval de 95\% sau un VaR 1\% cere extrapolare dincolo de nivelurile antrenate
     \end{itemize}
-    \item Varianta unilaterală pentru VaR: scorul $S_t = \hat q_{0{,}1,t} - y_t$, pragul $q_t$ la nivelul $\alpha$
+    \item Procedura: CQR online pe banda proprie de 10\%--90\% a modelului \[ S_t = \max\{\hat q_{0{,}1,t} - y_t,\; y_t - \hat q_{0{,}9,t}\}, \qquad \hat C_t = [\hat q_{0{,}1,t} - q_t,\; \hat q_{0{,}9,t} + q_t] \]
     \begin{itemize}
-        \item cuantila calibrată este $\hat q_{0{,}1,t} - q_t$, iar $\mathrm{VaR}_t = -(\hat q_{0{,}1,t} - q_t)$ (VaR ca pierdere pozitivă)
+        \item $\hat q_{0{,}1,t}$, $\hat q_{0{,}9,t}$: cuantilele de 10\% și 90\% prognozate de model pentru perioada $t$; $S_t$: scorul CQR
+        \item $q_t$: pragul ales de ACI pentru orice nivel-țintă (80\% sau 95\%)
     \end{itemize}
-    \item Lectură suplimentară despre recalibrarea conformală a VaR pentru foundation models: \refCO; \refTV
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Nevoia de calibrare a cuantilelor foundation models (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Varianta unilaterală pentru VaR
+    \begin{itemize}
+        \item scorul $S_t = \hat q_{0{,}1,t} - y_t$; pragul $q_t$ urmărit la nivelul $\alpha$
+        \item cuantila calibrată este $\hat q_{0{,}1,t} - q_t$
+        \item $\mathrm{VaR}_t = -(\hat q_{0{,}1,t} - q_t)$: VaR exprimat ca pierdere pozitivă
+    \end{itemize}
+    \item Ce schimbă deplasarea
+    \begin{itemize}
+        \item $q_t > 0$ coboară cuantila (un VaR mai mare); $q_t < 0$ o ridică
+        \item modelul însuși nu este reestimat: doar ieșirea lui este recalibrată
+    \end{itemize}
+    \item Lectură suplimentară
+    \begin{itemize}
+        \item recalibrarea conformală a VaR pentru foundation models: \refCO; \refTV
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1616,13 +1765,20 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{O întrebare deschisă}
 \itemsize{\small}
 \begin{itemize}
-    \item Întrec foundation models pentru serii de timp modelele econometrice de domeniu pe datele din Europa Centrală și de Est, într-o fereastră de după lansarea lor și cu corecție pentru testarea multiplă?
+    \item Întrebarea
+    \begin{itemize}
+        \item întrec foundation models pentru serii de timp modelele econometrice de domeniu pe datele din Europa Centrală și de Est?
+        \item într-o fereastră de după lansarea lor și cu corecție pentru testarea multiplă
+    \end{itemize}
+    \item O formă testabilă
     \begin{itemize}
         \item formal: $H_0$: pierderea așteptată egală (agregată pe serii preînregistrate) a celui mai bun foundation model și a celui mai bun model de domeniu, într-o fereastră care începe după lansarea tuturor modelelor
         \item infirmată de un test DM agregat la 5\% și de un MCS care exclude una dintre părți, pe serii și orizonturi fixate înainte de sosirea datelor
     \end{itemize}
-    \item De ce contează: băncile centrale și operatorii de rețea iau în calcul înlocuirea modelelor ajustate cu modele zero-shot; cîștigurile publicate provin adesea dintr-o alegere favorabilă a seriilor
+    \item Miza
     \begin{itemize}
+        \item băncile centrale și operatorii de rețea iau în calcul înlocuirea modelelor ajustate cu modele zero-shot
+        \item cîștigurile publicate provin adesea dintr-o alegere favorabilă a seriilor
         \item literatura de pornire: \refAks, \refShc, \refMey, \refPE, \refBri
     \end{itemize}
 \end{itemize}
@@ -1739,7 +1895,7 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \end{frame}
 
 \begin{frame}{Anexă: cele două garanții online}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Înapoi}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{ACI}: dacă $\alpha_t < 0$, atunci $q_t = +\infty$ și $\mathrm{err}_t = 0$, deci $\alpha_{t+1} = \alpha_t + \gamma\alpha > \alpha_t$; dacă $\alpha_t > 1$, $\mathrm{err}_t = 1$ și $\alpha_t$ scade
@@ -1843,8 +1999,8 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \itemsize{\tiny}
 \begin{itemize}
     \item Patton, A. J. (2011). Volatility forecast comparison using imperfect volatility proxies. \textit{Journal of Econometrics}, 160(1), 246--256. \href{https://doi.org/10.1016/j.jeconom.2010.03.034}{doi:10.1016/j.jeconom.2010.03.034}
-    \item Pele, D. T., et al. Conformal\_Oracle: conformal VaR recalibration for time series foundation models and classical models. GitHub repository (further reading). \href{https://github.com/danpele/Conformal_Oracle}{github.com}
-    \item Pele, D. T., et al. TSFM\_VaR\_CEE: benchmarking time-series foundation models for VaR and ES forecasting in Central and Eastern European markets. GitHub repository (further reading). \href{https://github.com/danpele/TSFM_VaR_CEE}{github.com}
+    \item Pele, D. T., et al. Conformal\_Oracle: conformal VaR recalibration for time series foundation models and classical models. GitHub repository. \href{https://github.com/danpele/Conformal_Oracle}{github.com}
+    \item Pele, D. T., et al. TSFM\_VaR\_CEE: benchmarking time-series foundation models for VaR and ES forecasting in Central and Eastern European markets. GitHub repository. \href{https://github.com/danpele/TSFM_VaR_CEE}{github.com}
     \item Petropoulos, F., Apiletti, D., Assimakopoulos, V., Babai, M. Z., et al.\ (2022). Forecasting: Theory and practice. \textit{International Journal of Forecasting}, 38(3), 705--871. \href{https://doi.org/10.1016/j.ijforecast.2021.11.001}{doi:10.1016/j.ijforecast.2021.11.001}
     \item Rahimikia, E., Ni, H., \& Wang, W. (2025). Re(Visiting) time series foundation models in finance. \textit{arXiv:2511.18578}. \href{https://arxiv.org/abs/2511.18578}{arXiv:2511.18578}
     \item Rasul, K., Ashok, A., Williams, A. R., Ghonia, H., Bhagwatkar, R., Khorasani, A., et al.\ (2023). Lag-Llama: Towards foundation models for probabilistic time series forecasting. \textit{arXiv:2310.08278}. \href{https://arxiv.org/abs/2310.08278}{arXiv:2310.08278}

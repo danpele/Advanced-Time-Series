@@ -211,8 +211,9 @@ MSCA Digital Finance}
 \begin{frame}{Întrebarea de azi și traseul}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Întrebarea}: cît de precis putem măsura, modela și prognoza o varianță care nu se observă niciodată și care dintre instrumentele noastre funcționează în continuare cînd datele sînt zgomotoase, au salturi sau au multe dimensiuni?
+    \item \textbf{Întrebarea}: cît de precis putem măsura, modela și prognoza o varianță care nu se observă niciodată?
     \begin{itemize}
+        \item și care dintre instrumentele noastre funcționează în continuare cînd datele sînt zgomotoase, au salturi sau au multe dimensiuni?
         \item două căi către volatilitate: un filtru parametric al randamentelor zilnice (GARCH) și o măsurare neparametrică din prețurile intraday (măsurile realizate); cercetarea actuală le combină
     \end{itemize}
     \item \textbf{Traseul} capitolului
@@ -222,7 +223,10 @@ MSCA Digital Finance}
         \item prognoza cu măsuri realizate: HAR, HARQ, Realized GARCH, HEAVY; funcții de pierdere robuste
         \item cazul multivariat: BEKK, DCC și cDCC, blestemul dimensionalității și DCC-NL, covarianța realizată
     \end{itemize}
-    \item Pornim de la \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol5_volatilitate_conditionata_garch.pdf}{TSA, Capitolul 5} (GARCH, GJR, EGARCH, curba de impact a știrilor, QLIKE) și \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol14_modele_garch_multivariate.pdf}{TSA, Capitolul 14} (bazele DCC); MFM, Capitolele 5--9 aplică aceste instrumente riscului de piață; Seminarul 8 are loc înaintea acestui curs
+    \item Pornim de la \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol5_volatilitate_conditionata_garch.pdf}{TSA, Capitolul 5} (GARCH, GJR, EGARCH, curba de impact a știrilor, QLIKE) și \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol14_modele_garch_multivariate.pdf}{TSA, Capitolul 14} (bazele DCC)
+    \begin{itemize}
+        \item MFM, Capitolele 5--9 aplică aceste instrumente riscului de piață; Seminarul 8 are loc înaintea acestui curs
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -240,8 +244,9 @@ MSCA Digital Finance}
 \begin{frame}{Bibliografie, date și instrumente}
 \itemsize{\small}
 \begin{itemize}
-    \item Bibliografia de bază: \refFZ; \refABDL; \refBNSa; \refBNHLSa; \refCor; \refHHS; \refEngD; \refPat
+    \item Bibliografia de bază: \refFZ; \refABDL; \refBNSa; \refBNHLSa
     \begin{itemize}
+        \item prognoza și cazul multivariat: \refCor; \refHHS; \refEngD; \refPat
         \item studii de caz: \refEGS\ (GARCH-MIDAS), \refBPQ\ (HARQ), \refHHS\ (Realized GARCH), \refELW\ (DCC-NL)
     \end{itemize}
     \item Quantlet-urile Python ale capitolului: \href{https://github.com/danpele/Advanced-Time-Series/tree/main/Quantlets/Ch_08}{Quantlets/Ch\_08}
@@ -844,11 +849,12 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
     \begin{itemize}
         \item $u_i$: zgomot i.i.d. cu varianța $\omega^2$, independent de $X$; surse: oscilația între bid și ask, discretizarea prețului, cotațiile stale (neactualizate)
     \end{itemize}
-    \item RV calculat din prețurile observate la $n$ intervale, $\mathrm{RV}^{(n)}_t$, este deplasat în sus, iar deplasarea crește cu $n$ (\atsapplink{atsapp2}{atssrc2}{Anexa})
+    \item RV calculat din prețurile observate la $n$ intervale, $\mathrm{RV}^{(n)}_t$, este deplasat în sus, iar deplasarea crește cu $n$
     \[ \E(\mathrm{RV}^{(n)}_t | X) = \mathrm{IV}_t + 2n\omega^2, \qquad \Var(\mathrm{RV}^{(n)}_t | X) \approx 4n\,\E u^4 \]
     \begin{itemize}
         \item fiecare randament observat conține $u_i - u_{i-1}$, cu varianța $2\omega^2$; însumat pe $n$ randamente, aceasta dă $2n\omega^2$
         \item RV diverge cînd $n \to \infty$: eșantionarea cît mai deasă nu este optimă
+        \item derivarea deplasării și a varianței: \atsapplink{atsapp2}{atssrc2}{Anexa}  % applink: deplasarea din zgomot a varianței realizate
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1655,14 +1661,36 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
 \quantlet{ATS\_ch8\_mgarch}{\qlurl{ATS_ch8_mgarch}}
 \end{frame}
 
-\begin{frame}{Interpretarea comparației GMV}
+\begin{frame}{Interpretarea comparației GMV (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Abaterea standard în afara eșantionului (\% anual): 1/N 25{,}05, eșantion 15{,}83, shrinkage liniar 15{,}99, shrinkage neliniar 15{,}81, DCC 18{,}35, DCC-NL 18{,}33
-    \item Cu $N/T = 17/1\,250$, covarianța de eșantion este deja precisă: shrinkage-ul neliniar schimbă puțin (15{,}81 față de 15{,}83); DCC-NL nu este mai bun decît DCC
-    \item Aici dinamica dăunează: DCC (cu varianțe GARCH, prognoze mediate pe perioada de deținere de 21 de zile) dă 18{,}35 față de 15{,}83; prognozele de varianță pe o lună pentru acțiuni individuale precum MSTR și TSLA sînt zgomotoase, iar GMV le amplifică erorile
-    \item Cu o fereastră de 250 de zile ($N/T$ de cinci ori mai mare), portofoliul GMV din eșantion are abaterea standard 15{,}24, iar cel cu shrinkage neliniar 15{,}21: doar cu 0{,}2\% mai mică, deși ETF-urile fac matricea de corelație aproape singulară (numărul de condiționare median 1146); fereastra mai scurtă reduce ea însăși riscul, o formă rudimentară de variație în timp
-    \item Studiul original folosește sute de acțiuni, unde $N/T$ este mare și cîștigurile DCC-NL sînt substanțiale; cu $N$-ul nostru, lecția este cînd contează shrinkage-ul, nu cît cîștigă
+    \item Cu $N/T = 17/1\,250$, covarianța de eșantion este deja precisă
+    \begin{itemize}
+        \item shrinkage-ul neliniar schimbă puțin (15{,}81 față de 15{,}83); DCC-NL nu este mai bun decît DCC
+    \end{itemize}
+    \item Aici dinamica dăunează: DCC dă 18{,}35 față de 15{,}83
+    \begin{itemize}
+        \item DCC folosește varianțe GARCH, cu prognoze mediate pe perioada de deținere de 21 de zile
+        \item prognozele de varianță pe o lună pentru acțiuni individuale precum MSTR și TSLA sînt zgomotoase, iar GMV le amplifică erorile
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Interpretarea comparației GMV (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item O fereastră de 250 de zile face $N/T$ de cinci ori mai mare
+    \begin{itemize}
+        \item abaterea standard a portofoliului GMV din eșantion este 15{,}24, cu shrinkage neliniar 15{,}21: doar cu 0{,}2\% mai mică
+        \item deși ETF-urile fac matricea de corelație aproape singulară (numărul de condiționare median 1146)
+        \item fereastra mai scurtă reduce ea însăși riscul: o formă rudimentară de variație în timp
+    \end{itemize}
+    \item Studiul original folosește sute de acțiuni, unde $N/T$ este mare
+    \begin{itemize}
+        \item acolo cîștigurile DCC-NL sînt substanțiale
+        \item cu $N$-ul nostru, lecția este cînd contează shrinkage-ul, nu cît cîștigă
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1781,7 +1809,9 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
     \item \textbf{Volatilitatea realizată a criptoactivelor: se transferă instrumentele de la acțiuni?}: întîi replicare, apoi extindere
     \begin{itemize}
         \item replicați: HAR și HARQ din acest curs pentru Bitcoin (raportul QLIKE 0{,}946) și Realized GARCH pentru S\&P 500 (persistența 0{,}968)
-        \item extindeți: zece monede din arhiva Binance; măsuri robuste la zgomot din date la o secundă; o corecție a sezonalității intraday înaintea testelor de salt; Realized GARCH cu realised kernel; data ETF-urilor spot (ianuarie 2024) ca ruptură naturală
+        \item extindeți: zece monede din arhiva Binance; măsuri robuste la zgomot din date la o secundă
+        \item extindeți testele: o corecție a sezonalității intraday înaintea testelor de salt; Realized GARCH cu realised kernel
+        \item folosiți data ETF-urilor spot (ianuarie 2024) ca ruptură naturală
         \item preînregistrați: activele, eșantionul, măsurile, modelele, ferestrele, funcțiile de pierdere, testele DM/MCS și grila de robustețe
     \end{itemize}
     \item Livrabilele urmează regulile cursului: repository, raport, AI\_USE.md, AI\_ERRORS.md, susținere orală

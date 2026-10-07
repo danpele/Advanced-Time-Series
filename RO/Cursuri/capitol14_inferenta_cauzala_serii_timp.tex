@@ -204,8 +204,12 @@ MSCA Digital Finance}
 \begin{itemize}
     \item Cauzalitate și serii de timp: \refGra; \refSims; \refRS; \refBoS; \refAJK; \refSW
     \begin{itemize}
-        \item Descoperire: \refSch; \refPCMCI; \refRunE; \refSug
-        \item Evaluarea politicilor: \refADHa; \refADHb; \refAba; \refASCM; \refSDID; \refCSA; \refCI; sinteza \refAI
+        \item descoperire: \refSch; \refPCMCI; \refRunE; \refSug
+    \end{itemize}
+    \item Evaluarea politicilor
+    \begin{itemize}
+        \item control sintetic: \refADHa; \refADHb; \refAba; \refASCM; \refSDID
+        \item DiD eșalonat și CausalImpact: \refCSA; \refCI; sinteza \refAI
     \end{itemize}
     \item Quantlet-urile Python ale capitolului: \href{https://github.com/danpele/Advanced-Time-Series/tree/main/Quantlets/Ch_14}{Quantlets/Ch\_14}
     \begin{itemize}
@@ -249,10 +253,21 @@ Prețuri zilnice ale indicilor și criptoactivelor; EUR/RON & EODHD; cursul de r
 \end{column}
 \begin{column}{0.62\textwidth}
 \begin{itemize}
-    \item \textbf{Modele cauzale structurale} \refPea: grafuri, operatorul $do(\cdot)$, condiții în care un efect cauzal este identificat din date observaționale
-    \item \textbf{Rezultate potențiale} \refRub, \refIR: $Y(1)$, $Y(0)$, mecanisme de alocare, designul înaintea analizei
-    \item \textbf{Seriile de timp} adaugă ordinea, dependența și o singură realizare: o țară, o istorie, un singur drum al tratamentului
-    \item Granger și PCMCI vorbesc limbajul grafurilor; controlul sintetic, DiD și CausalImpact vorbesc limbajul rezultatelor potențiale
+    \item \textbf{Modele cauzale structurale} \refPea
+    \begin{itemize}
+        \item grafuri și operatorul $do(\cdot)$: $do(X = x)$ fixează $X$ prin intervenție, în loc să îl observe
+        \item condiții în care un efect cauzal este identificat din date observaționale
+    \end{itemize}
+    \item \textbf{Rezultate potențiale} \refRub, \refIR
+    \begin{itemize}
+        \item $Y(1)$, $Y(0)$: rezultatele unei unități cu și fără tratament; doar unul dintre ele este observat
+        \item mecanisme de alocare; designul înaintea analizei
+    \end{itemize}
+    \item \textbf{Seriile de timp} adaugă ordinea, dependența și o singură realizare
+    \begin{itemize}
+        \item o țară, o istorie, un singur drum al tratamentului
+        \item Granger și PCMCI vorbesc limbajul grafurilor; controlul sintetic, DiD și CausalImpact vorbesc limbajul rezultatelor potențiale
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -336,20 +351,25 @@ Prețuri zilnice ale indicilor și criptoactivelor; EUR/RON & EODHD; cursul de r
 \begin{frame}{Cauzalitatea Granger privește predicția}
 \itemsize{\small}
 \begin{columns}[T]
-\begin{column}{0.34\textwidth}
+\begin{column}{0.36\textwidth}
 \centering
-\includegraphics[height=0.56\textheight]{ch1_granger_2008.jpg}\\[1mm]
+\includegraphics[height=0.44\textheight]{ch1_granger_2008.jpg}\\[1mm]
 \imgcap{Clive Granger, Premiul Nobel pentru economie 2003}
 \imgcredit{https://commons.wikimedia.org/wiki/File:Clive_Granger_by_Olaf_Storbeck.jpg}{Foto: Olaf Storbeck (2008); CC BY-SA 2.0; Wikimedia Commons}
 \end{column}
-\begin{column}{0.64\textwidth}
+\begin{column}{0.62\textwidth}
 \begin{itemize}
-    \item Patru moduri în care $x$ cauzează în sens Granger pe $y$ fără să îl cauzeze:
-    \item \textbf{un factor comun} cu întîrzieri diferite ($z$ omis)
-    \item \textbf{anticipări}: prețurile activelor se mișcă înaintea evenimentelor pe care le anticipează (prețurile acțiunilor „cauzează” PIB-ul; \refSims)
-    \item \textbf{momentul observării}: ore de închidere diferite, agregarea și eșantionarea transformă legături instantanee în legături cu lag
-    \item \textbf{erori de măsurare} în $y$, pe care $x$ ajută să le filtreze
-    \item Și invers: un efect real poate fi invizibil pentru test (neliniar, contemporan sau compensat de reacția politicii)
+    \item Patru moduri în care $x$ cauzează în sens Granger pe $y$ fără să îl cauzeze
+    \begin{itemize}
+        \item \textbf{un factor comun} $z$, omis, care ajunge la $x$ și la $y$ cu laguri diferite
+        \item \textbf{anticipări}: prețurile activelor se mișcă înaintea evenimentelor anticipate (acțiunile „cauzează” PIB-ul; \refSims)
+        \item \textbf{momentul observării}: ore de închidere diferite, agregarea și eșantionarea transformă legături instantanee în legături cu lag
+        \item \textbf{erori de măsurare} în $y$, pe care $x$ ajută să le filtreze
+    \end{itemize}
+    \item Și invers: un efect real poate fi invizibil pentru test
+    \begin{itemize}
+        \item neliniar, contemporan sau compensat de reacția politicii
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -734,9 +754,19 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \end{column}
 \begin{column}{0.58\textwidth}
 \begin{itemize}
-    \item \textbf{1 iulie 2025}: se încheie plafonarea prețului electricității pentru gospodării (în vigoare din 2022); plafonarea prețului gazelor continuă
-    \item \textbf{7 iulie 2025}: guvernul își asumă răspunderea în Parlament pentru un pachet fiscal (Legea 141/2025, publicată pe 25 iulie)
-    \item \textbf{1 august 2025}: cota standard de TVA 19\% $\to$ 21\%; cotele reduse 5\% și 9\% $\to$ 11\%; accize majorate
+    \item \textbf{1 iulie 2025}
+    \begin{itemize}
+        \item se încheie plafonarea prețului electricității pentru gospodării (în vigoare din 2022)
+        \item plafonarea prețului gazelor continuă
+    \end{itemize}
+    \item \textbf{7 iulie 2025}
+    \begin{itemize}
+        \item guvernul își asumă răspunderea în Parlament pentru un pachet fiscal (Legea 141/2025, publicată pe 25 iulie)
+    \end{itemize}
+    \item \textbf{1 august 2025}
+    \begin{itemize}
+        \item cota standard de TVA 19\% $\to$ 21\%; cotele reduse 5\% și 9\% $\to$ 11\%; accize majorate
+    \end{itemize}
     \item Momentul singur nu le poate separa; IAPC la cote de taxare constante poate izola partea fiscală
     \item Întrebarea: cît au adăugat cele două măsuri la inflația din România în anul următor?
 \end{itemize}
@@ -850,8 +880,9 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
     \end{itemize}
     \item $V = \mathrm{diag}(v)$: importanța fiecărui predictor
     \begin{itemize}
-        \item aleasă pentru a minimiza MSPE al rezultatului în perioada anterioară (optimizare imbricată, \refADHs) sau prin validare încrucișată pe o perioadă de antrenare și una de validare \refADHb
-        \item MSPE: eroarea pătratică medie de predicție; cu toate rezultatele anterioare în $X$, covariatele nu primesc nicio pondere \refKKPS
+        \item aleasă pentru a minimiza în perioada anterioară $\mathrm{MSPE} = \frac{1}{T_0}\sum_{t \le T_0}(Y_{1t} - \sum_j w_j^*(V)Y_{jt})^2$ (optimizare imbricată, \refADHs)
+        \item MSPE: eroarea pătratică medie de predicție a rezultatului; alternativa: validarea încrucișată pe o perioadă de antrenare și una de validare \refADHb
+        \item cu toate rezultatele anterioare în $X$, covariatele nu primesc nicio pondere \refKKPS
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -876,11 +907,26 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \begin{frame}{Condiții de aplicabilitate}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Înfășurătoarea convexă}: unitatea tratată trebuie să se afle în domeniul donatorilor; altfel nicio combinație convexă nu o reproduce \refAba
-    \item \textbf{Grupul donatorilor}: unități cu structură asemănătoare, neafectate de tratament (fără efecte de propagare) și fără șocuri mari proprii după $T_0$
-    \item \textbf{Nicio anticipare}: efectele nu trebuie să înceapă înainte de $T_0$; mutați $T_0$ la anunț dacă este nevoie
-    \item \textbf{Perioadă anterioară lungă}, cu potrivire bună; \textbf{deplasarea de interpolare}: un amestec de donatori foarte diferiți poate să nu semene cu unitatea tratată chiar dacă mediile coincid
-    \item Raportați: ponderile, echilibrul predictorilor, RMSPE în perioada anterioară, distribuția placebo, omiterea pe rînd a donatorilor
+    \item \textbf{Înfășurătoarea convexă} \refAba
+    \begin{itemize}
+        \item unitatea tratată trebuie să se afle în domeniul donatorilor; altfel nicio combinație convexă nu o reproduce
+    \end{itemize}
+    \item \textbf{Grupul donatorilor}
+    \begin{itemize}
+        \item unități cu structură asemănătoare, neafectate de tratament (fără efecte de propagare), fără șocuri mari proprii după $T_0$
+    \end{itemize}
+    \item \textbf{Nicio anticipare}
+    \begin{itemize}
+        \item efectele nu trebuie să înceapă înainte de $T_0$; mutați $T_0$ la anunț dacă este nevoie
+    \end{itemize}
+    \item \textbf{Perioadă anterioară lungă}, cu potrivire bună
+    \begin{itemize}
+        \item \textbf{deplasarea de interpolare}: un amestec de donatori foarte diferiți poate să nu semene cu unitatea tratată chiar dacă mediile coincid
+    \end{itemize}
+    \item Raportați
+    \begin{itemize}
+        \item ponderile, echilibrul predictorilor, RMSPE în perioada anterioară, distribuția placebo, omiterea pe rînd a donatorilor
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -892,9 +938,10 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
         \item RMSPE: rădăcina erorii pătratice medii de predicție a controlului sintetic, înainte (pre) și după (post) $T_0$; un $r_j$ mare: o diferență mare după tratament, relativ la potrivirea anterioară
         \item $\#\{\cdot\}$: numărul de unități; cel mai mic p-value posibil este $1/(J + 1)$; exact doar dacă tratamentul este atribuit aleator între unități, altfel o ordonare descriptivă \refFiP
     \end{itemize}
-    \item \textbf{Placebo în timp}: un $T_0$ fictiv în perioada anterioară nu trebuie să dea niciun efect
+    \item \textbf{Alte verificări de robustețe}
     \begin{itemize}
-        \item \textbf{omiterea pe rînd}: se elimină fiecare donator cu pondere pozitivă și se reestimează
+        \item placebo în timp: un $T_0$ fictiv în perioada anterioară nu trebuie să dea niciun efect
+        \item omiterea pe rînd: se elimină fiecare donator cu pondere pozitivă și se reestimează
     \end{itemize}
     \item \textbf{Inferența conformală} \refCWZ: se testează $H_0$: $\tau_{1t} = \tau_0$ permutînd reziduurile în timp
     \begin{itemize}
@@ -914,10 +961,24 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{itemize}
-    \item \refADHb: a scăzut reunificarea din 1990 PIB-ul pe locuitor al Germaniei de Vest?
-    \item Datele \refADHd: Germania de Vest și 16 țări OCDE, 1960--2003; predictori: PIB pe locuitor, deschiderea comercială, inflația, ponderea industriei, școlarizarea, rata investițiilor
-    \item $V$ prin validare încrucișată: predictori de antrenare 1971--1980, rezultate de validare 1981--1990; ponderile din predictorii 1981--1990 cu acest $V$ (secțiunea 4 și codul de replicare)
-    \item Erată (2026): rezultatul este PIB-ul pe locuitor în USD PPC \textit{curenți}, nu în USD 2002 cum este etichetat în articol
+    \item \refADHb
+    \begin{itemize}
+        \item a scăzut reunificarea din 1990 PIB-ul pe locuitor al Germaniei de Vest?
+    \end{itemize}
+    \item Datele \refADHd
+    \begin{itemize}
+        \item Germania de Vest și 16 țări OCDE, 1960--2003
+        \item predictori: PIB pe locuitor, deschiderea comercială, inflația, ponderea industriei, școlarizarea, rata investițiilor
+    \end{itemize}
+    \item $V$ prin validare încrucișată (secțiunea 4 și codul de replicare)
+    \begin{itemize}
+        \item predictori de antrenare 1971--1980, rezultate de validare 1981--1990
+        \item ponderile finale din predictorii 1981--1990 cu acest $V$
+    \end{itemize}
+    \item Erată (2026)
+    \begin{itemize}
+        \item rezultatul este PIB-ul pe locuitor în USD PPC \textit{curenți}, nu în USD 2002 cum este etichetat în articol
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -929,7 +990,7 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \begin{column}{0.38\textwidth}
 \begin{center}
 \footnotesize
-\begin{tabular}{lcc}
+\begin{tabular}{lrr}
 \toprule
 \textbf{Donator} & \textbf{replicare} & \textbf{ADH, tabelul 1} \\
 \midrule
@@ -945,8 +1006,8 @@ Elveția & 0{,}11 & 0{,}11 \\
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{center}
-\scriptsize
-\begin{tabular}{lccc}
+\footnotesize
+\begin{tabular}{lrrr}
 \toprule
 \textbf{Predictor} & \textbf{Germania de Vest} & \textbf{sintetic} & \textbf{media OCDE} \\
 \midrule
@@ -1015,18 +1076,33 @@ Rata investițiilor & 27{,}0 & 27{,}0 & 25{,}9 \\
 \begin{frame}{Studiu de caz: dublura Brexit}
 \itemsize{\small}
 \begin{columns}[T]
-\begin{column}{0.4\textwidth}
+\begin{column}{0.3\textwidth}
 \centering
-\includegraphics[height=0.40\textheight]{ch14_brexit_count_2016.jpg}\\[1mm]
+\includegraphics[height=0.32\textheight]{ch14_brexit_count_2016.jpg}\\[1mm]
 \imgcap{Numărarea voturilor la referendumul privind UE, 23 iunie 2016}
 \imgcredit{https://commons.wikimedia.org/wiki/File:At_the_Brexit_referendum_count_in_Borehamwood_(28176894300).jpg}{Foto: Steve Bowbrick (2016); CC BY 2.0; Wikimedia Commons}
 \end{column}
-\begin{column}{0.58\textwidth}
+\begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item \refBMSS: referendumul din 23 iunie 2016 ca experiment natural; rezultatul: PIB-ul real al Regatului Unit
-    \item Secțiunea 2.1: 23 de donatori OCDE, PIB real trimestrial normalizat la 1 în 1995, perioada anterioară T1 1995 -- T2 2016, plus mediile a șase covariate; ponderile publicate (tabelul 2): Statele Unite 0{,}51; Italia 0{,}17; Noua Zeelandă 0{,}14; Ungaria 0{,}11; Germania 0{,}05
-    \item Rezultatul publicat: producția Regatului Unit cu 2,4\% sub dublură la sfîrșitul lui 2018; semnificativ după testul de instabilitate la sfîrșitul eșantionului al lui \refAnd
-    \item Replicarea noastră: aceiași donatori și aceeași fereastră, ediția curentă a datelor OCDE (pînă în T2 2026), doar traiectoria PIB (fără covariate)
+    \item \refBMSS
+    \begin{itemize}
+        \item referendumul din 23 iunie 2016 ca experiment natural; rezultatul: PIB-ul real al Regatului Unit
+    \end{itemize}
+    \item Designul (secțiunea 2.1)
+    \begin{itemize}
+        \item 23 de donatori OCDE; PIB real trimestrial, normalizat la 1 în 1995
+        \item perioada anterioară T1 1995 -- T2 2016; mediile a șase covariate
+        \item ponderile publicate (tabelul 2): Statele Unite 0{,}51; Italia 0{,}17; Noua Zeelandă 0{,}14; Ungaria 0{,}11; Germania 0{,}05
+    \end{itemize}
+    \item Rezultatul publicat
+    \begin{itemize}
+        \item producția Regatului Unit cu 2,4\% sub dublură la sfîrșitul lui 2018
+        \item semnificativ după testul de instabilitate la sfîrșitul eșantionului al lui \refAnd
+    \end{itemize}
+    \item Replicarea noastră
+    \begin{itemize}
+        \item aceiași donatori și aceeași fereastră; ediția curentă a datelor OCDE (pînă în T2 2026); doar traiectoria PIB (fără covariate)
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -1323,18 +1399,32 @@ SDID & -- & 2{,}62 & 2{,}75 ($se$ 0{,}70) & 0{,}26 \\
 \begin{frame}{Studiu de caz: ETF-urile spot pe Bitcoin din SUA}
 \itemsize{\small}
 \begin{columns}[T]
-\begin{column}{0.36\textwidth}
+\begin{column}{0.34\textwidth}
 \centering
 \includegraphics[height=0.40\textheight]{ch14_bitcoin_atm_2016.jpg}\\[1mm]
 \imgcap{Un bancomat Bitcoin, Praga}
 \imgcredit{https://commons.wikimedia.org/wiki/File:Bitcoin_ATM_Prague.jpg}{Foto: Perituss (2016); CC0; Wikimedia Commons}
 \end{column}
-\begin{column}{0.62\textwidth}
+\begin{column}{0.64\textwidth}
 \begin{itemize}
-    \item \textbf{10 ianuarie 2024}: SEC aprobă unsprezece ETP-uri spot pe Bitcoin \refSEC; tranzacționarea începe pe 11 ianuarie
-    \item A schimbat aprobarea volatilitatea Bitcoin (cererea instituțională, arbitrajul între spot și ETF)?
-    \item Rezultatul: logaritmul varianței realizate săptămînale a Bitcoin; serii de control: aceeași măsură pentru S\&P 500, Nasdaq 100, aur și EUR/USD; perioada anterioară ianuarie 2023 -- 7 ianuarie 2024 (53 de săptămîni), după: 25 de săptămîni pînă în iunie 2024
-    \item Anticipare: BlackRock a depus cererea pe 15 iunie 2023; o instanță a decis în favoarea Grayscale pe 29 august 2023 (liniile punctate)
+    \item \textbf{10 ianuarie 2024} \refSEC
+    \begin{itemize}
+        \item SEC aprobă unsprezece ETP-uri (produse tranzacționate la bursă) spot pe Bitcoin; tranzacționarea începe pe 11 ianuarie
+    \end{itemize}
+    \item Întrebarea
+    \begin{itemize}
+        \item a schimbat aprobarea volatilitatea Bitcoin (cererea instituțională, arbitrajul între spot și ETF)?
+    \end{itemize}
+    \item Designul
+    \begin{itemize}
+        \item rezultatul: logaritmul varianței realizate săptămînale a Bitcoin
+        \item serii de control: aceeași măsură pentru S\&P 500, Nasdaq 100, aur și EUR/USD
+        \item perioada anterioară ianuarie 2023 -- 7 ianuarie 2024 (53 de săptămîni); după: 25 de săptămîni pînă în iunie 2024
+    \end{itemize}
+    \item Anticipare (liniile punctate)
+    \begin{itemize}
+        \item BlackRock a depus cererea pe 15 iunie 2023; o instanță a decis în favoarea Grayscale pe 29 august 2023
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -1487,13 +1577,20 @@ SVAR, LP, DML & la fel de bun ca aleator, dat trecutul sau un instrument & dovez
 \begin{frame}{O întrebare deschisă}
 \itemsize{\small}
 \begin{itemize}
-    \item Cît din creșterea inflației din România în 2025--2026 a fost cauzată de încheierea plafonării electricității și de majorarea TVA și cît de robust este răspunsul la alegerea metodei?
+    \item Întrebarea
+    \begin{itemize}
+        \item cît din creșterea inflației din România în 2025--2026 a fost cauzată de încheierea plafonării electricității și de majorarea TVA?
+        \item cît de robust este răspunsul la alegerea metodei?
+    \end{itemize}
+    \item O formă testabilă
     \begin{itemize}
         \item formal: $H_0$: diferența medie pe iulie 2025 -- iunie 2026 este zero; afirmația „între 2 și 3,5 pp” trebuie să fie valabilă pentru orice estimator preînregistrat cu potrivire anterioară bună
         \item infirmată dacă o specificație rezonabilă dă mai puțin de 2 pp sau dacă o țară placebo egalează România
     \end{itemize}
-    \item Miza: politica monetară trebuie să distingă efectele unice asupra nivelului prețurilor de inflația persistentă; efectele de runda a doua determină deciziile privind dobînzile
+    \item Miza
     \begin{itemize}
+        \item politica monetară trebuie să distingă efectele unice asupra nivelului prețurilor de inflația persistentă
+        \item efectele de runda a doua determină deciziile privind dobînzile
         \item literatura de pornire: \refADHb, \refASCM, \refSDID, \refBMKW
     \end{itemize}
 \end{itemize}
@@ -1543,7 +1640,8 @@ SVAR, LP, DML & la fel de bun ca aleator, dat trecutul sau un instrument & dovez
     \item \textbf{Transmiterea taxelor în Europa Centrală și de Est cu controale sintetice}: întîi replicare, apoi extindere
     \begin{itemize}
         \item replicați: \refADHb{} (tabelul 1, figurile 2--5) cu datele publice, apoi estimația pentru România din acest capitol
-        \item extindeți: IAPC pe grupe de produse (alimente, energie, servicii) pentru a măsura transmiterea pe cote de TVA; alte episoade (Ungaria 2012, adoptarea euro în Croația în 2023); intervale conformale \refCWZ
+        \item extindeți: IAPC pe grupe de produse (alimente, energie, servicii) pentru a măsura transmiterea pe cote de TVA
+        \item alte episoade (Ungaria 2012, adoptarea euro în Croația în 2023); intervale conformale \refCWZ
         \item preînregistrați: donatorii și excluderile, ferestrele, estimatorii, testele placebo, regula de robustețe
     \end{itemize}
     \item Livrabilele urmează regulile cursului: repository, raport, AI\_USE.md, AI\_ERRORS.md, susținere orală

@@ -546,6 +546,7 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
     \begin{itemize}
         \item with a non-homogeneous score, volatile days dominate the average loss and the DM test (heteroskedastic loss differences)
         \item FZ0 ranks forecasts in \% and in basis points identically; its value can be negative (EUR/RON)
+        \item proof of consistency and of homogeneity: \atsapplink{atsapp2}{atssrc2}{Appendix}  % applink: FZ0, consistency and homogeneity
     \end{itemize}
     \item Iso-expected-loss contours are convex under mild conditions, which helps numerical minimisation \refPZC
 \end{itemize}
@@ -640,7 +641,8 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
     \item \refKB: the $\alpha$-quantile of $y_t$ given $x_t$ is modelled as $x_t'\beta$ and estimated by minimising the pinball loss
     \[ \hat\beta(\alpha) = \arg\min_\beta \sum_t \rho_\alpha(y_t - x_t'\beta), \qquad \rho_\alpha(u) = u\,(\alpha - \mathbf 1\{u < 0\}) \]
     \begin{itemize}
-        \item $x_t$: vector of regressors; $\rho_\alpha$: the check (pinball) function, slope $\alpha$ for positive residuals and $\alpha - 1$ for negative ones; the problem is a linear program
+        \item $x_t$: vector of regressors; $\rho_\alpha$: the check (pinball) function; the problem is a linear program
+        \item $\rho_\alpha$ has slope $\alpha$ for positive residuals and $\alpha - 1$ for negative ones
         \item first-order condition: $\sum_t x_t(\mathbf 1\{y_t \le x_t'\hat\beta\} - \alpha) \approx 0$, the identification function
     \end{itemize}
 \end{itemize}
@@ -768,16 +770,17 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
 
 \begin{frame}{Estimates, standard errors and DQ tests}
 \itemsize{\footnotesize}
+\setlength{\tabcolsep}{3pt}
 \begin{center}
-\tiny
-\begin{tabular}{lccccc>{\raggedright\arraybackslash}p{1.25cm}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}p{1.5cm}}
+\scriptsize
+\begin{tabular}{lrrrrrrrr}
 \toprule
-\textbf{Model} & $\beta_1$ & $\beta_2$ & $\beta_3$ & $\beta_4$ & RQ$\times10^2$ & hits in sample (\%) & hits out of sample (\%) & DQ out of sample ($p$) \\
+\textbf{Model} & $\beta_1$ & $\beta_2$ & $\beta_3$ & $\beta_4$ & RQ$\times10^2$ & \shortstack[r]{hits in\\sample (\%)} & \shortstack[r]{hits out of\\sample (\%)} & \shortstack[r]{DQ out of\\sample ($p$)} \\
 \midrule
-SAV & 0.359 (0.217) & 0.702 (0.118) & 0.604 (0.243) & -- & 3.305 & 1.00 & 1.4 & 14.4 (0.025) \\
-AS & 0.264 (0.137) & 0.805 (0.080) & 0.044 (0.185) & 0.616 (0.149) & 3.220 & 1.00 & 1.2 & 15.8 (0.015) \\
-IG & 0.942 (0.467) & 0.674 (0.105) & 1.429 (0.702) & -- & 3.267 & 1.00 & 1.2 & 2.3 (0.891) \\
-ADAPT & 1.190 (0.069) & -- & -- & -- & 4.044 & 0.90 & 0.8 & 27.5 ($<$0.001) \\
+SAV & 0.359 (0.217) & 0.702 (0.118) & 0.604 (0.243) & -- & 3.305 & 1.0 & 1.4 & 14.4 (0.025) \\
+AS & 0.264 (0.137) & 0.805 (0.080) & 0.044 (0.185) & 0.616 (0.149) & 3.220 & 1.0 & 1.2 & 15.8 (0.015) \\
+IG & 0.942 (0.467) & 0.674 (0.105) & 1.429 (0.702) & -- & 3.267 & 1.0 & 1.2 & 2.3 (0.891) \\
+ADAPT & 1.190 (0.069) & -- & -- & -- & 4.044 & 0.9 & 0.8 & 27.5 ($<$0.001) \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -1356,7 +1359,11 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \begin{frame}{Multi-day forecasts and their backtests}
 \itemsize{\small}
 \begin{itemize}
-    \item FHS: GJR-GARCH(1,1) by QML on a rolling 2000-day window (re-estimated every 250 days); 2000 paths of 10 days with bootstrapped standardised residuals \refBoll, \refGJR
+    \item FHS: GJR-GARCH(1,1) by QML \refBoll, \refGJR
+    \begin{itemize}
+        \item rolling 2000-day window, re-estimated every 250 days
+        \item 2000 paths of 10 days with bootstrapped standardised residuals
+    \end{itemize}
     \item Backtesting 10-day VaR
     \begin{itemize}
         \item daily 10-day forecasts overlap: hits are MA(9) even under $H_0$; counting them as independent inflates the size (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}, overlapping observations)
@@ -1692,15 +1699,17 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \hypertarget{atsapp1}{}\atsappback{atssrc1}{Back}
 \itemsize{\small}
 \begin{itemize}
-    \item $\E_F S(x, Y) = \int_{-\infty}^x(1 - \alpha)(G(x) - G(y))\,dF(y) + \int_x^\infty \alpha(G(y) - G(x))\,dF(y)$
-    \item Differentiate (Leibniz; the boundary terms vanish): $\dfrac{d}{dx}\E_F S(x, Y) = G'(x)\big[(1 - \alpha)F(x) - \alpha(1 - F(x))\big] = G'(x)(F(x) - \alpha)$
+    \item The expected GPL score of a report $x$ under $Y \sim F$
+    \[ \E_F S(x, Y) = \int_{-\infty}^x(1 - \alpha)(G(x) - G(y))\,dF(y) + \int_x^\infty \alpha(G(y) - G(x))\,dF(y) \]
+    \item Differentiate (Leibniz; the boundary terms vanish)
+    \[ \frac{d}{dx}\E_F S(x, Y) = G'(x)\big[(1 - \alpha)F(x) - \alpha(1 - F(x))\big] = G'(x)(F(x) - \alpha) \]
     \item $G' \ge 0$: the derivative is $\le 0$ for $x < q_\alpha$ and $\ge 0$ for $x > q_\alpha$, so $q_\alpha$ minimises; strictly if $G$ is strictly increasing and $F$ has a unique $\alpha$-quantile
     \item The same computation with $G(x) = x$ is the first-order condition of quantile regression
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Appendix: FZ0, consistency and homogeneity}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Back}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item Fix $e$; in $v$, FZ0 is $-\frac{1}{\alpha e}\big[\mathbf 1\{y \le v\}(v - y) - \alpha v\big]$ plus terms free of $v$: since $-1/(\alpha e) > 0$, a positive multiple of the pinball loss, minimised at $q_\alpha$

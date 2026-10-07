@@ -75,6 +75,12 @@ def two(left, right, wl='0.4', wr='0.58'):
 # =============================================================================
 # CIFRE
 # =============================================================================
+def de(k):
+    """RO: the numeral with 'de' when it is >= 20 (29 de trimestre); 'trimestre' is not in ats_build.RO_NOUNS."""
+    k = int(k)
+    return f'{k} de' if k >= 20 and (k % 100 >= 20 or k % 100 == 0) else str(k)
+
+
 def put(key, x, d=2):
     P(key, x, d)
 
@@ -128,6 +134,7 @@ put('ht.p2001', ht['p2001max'], 2)
 put('ht.p2020', ht['p2020'], 2)
 V.raw('ht.T', str(ht['T']))
 V.raw('ht.nrec', str(ht['nrec']))
+V.raw('ht.nrec.ro', de(ht['nrec']))
 put('ht.last', ht['last'], 3)
 V.raw('ht.lastq', quarter(ht['lastq']))
 rt = N['realtime']
@@ -138,10 +145,11 @@ for k, v in rt['signals'].items():
     put(f'rt.{k}.max', v['maxp'], 2)
 V.raw('rt.false', str(rt['false']))
 em = N['em']
-V.raw('em.groups', '; '.join(f'{n(g_, 2)} ({c_})' for g_, c_ in zip(em['groups'], em['counts'])))
+V.raw('em.groups', '; '.join(f'{n(g_, 2)} ({c_})'.replace('⁅-', '⁅\\ensuremath{-}') for g_, c_ in zip(em['groups'], em['counts'])))
 V.raw('em.ng', str(len(em['groups'])))
 put('em.top', max(em['groups']), 2)
 V.raw('em.n', str(em['n']))
+V.raw('em.n.ro', de(em['n']))
 V.raw('em.itmed', str(int(em['iters_med'])))
 V.raw('em.itmax', str(em['iters_max']))
 put('em.sm', em['sm_llf'], 2)
@@ -151,6 +159,7 @@ put('em.dg.s2', dg['sig2'][1], 2)
 V.raw('em.dg.p', '$<10^{-9}$')
 put('em.dg.mu', dg['beta'][0], 2)
 V.raw('em.dg.n', str(dg['n_hi']))
+V.raw('em.dg.n.ro', de(dg['n_hi']))
 lr = N['lrtest']
 put('lr.LR', lr['LR'], 1)
 put('lr.p', lr['p'], 3)
@@ -210,6 +219,7 @@ put('mv.ll', mv['loglik'], 1)
 put('mv.lll', mv['ll_lin'], 1)
 V.raw('mv.T', str(mv['T']))
 V.raw('mv.k', str(mv['npar']))
+V.raw('mv.k.ro', de(mv['npar']))
 mg = N['msgarch']
 lo_, hi_ = mg['lo'], mg['hi']
 put('mg.gp', mg['garch']['pers'][0], 3)
@@ -315,9 +325,9 @@ fc = N['forecast']
 for k in ('rmse_ar', 'rmse_ms', 'ls_ar', 'ls_ms', 'dm', 'p_dm', 'qps_lowmean', 'qps_const', 'cum_pre08', 'cum_post08', 'ks_ar', 'ks_ms'):
     put(f'fc.{k}', fc[k], 3 if k in ('rmse_ar', 'rmse_ms', 'ls_ar', 'ls_ms', 'qps_lowmean', 'qps_const') else 2)
 V.raw('fc.n', str(fc['n']))
-for k_ in ('ks_ar', 'ks_ms'):
-    if fc[k_] < 0.001:
-        V.raw(f'fc.{k_}', '$<0.001$')
+V.raw('fc.n.ro', de(fc['n']))
+for k_ in ('ks_ar', 'ks_ms'):   # '$p < 0.001$' or '$p = 0.01$'
+    V.raw(f'fc.{k_}', '$p < ⁅0.001⁆$' if fc[k_] < 0.001 else '$p = ' + n(fc[k_], 2) + '$')
 ai = N['ai']
 put('ai.qmin', ai['qmin'], 3)
 put('ai.qmax', ai['qmax'], 3)
@@ -465,7 +475,8 @@ D.frame(T('Numerics and cost', 'Aspecte numerice și cost'), items(
 D.frame(T('The Kim smoother, derived', 'Netezitorul Kim, derivat'), items(
     (T(r'Goal: $\hat\xi_{t|T}$, the regime probabilities given the whole sample \refKim', r'Scopul: $\hat\xi_{t|T}$, probabilitățile regimurilor date fiind toate datele \refKim'),
      [T(r'key step: $\Pr(S_t = i \mid S_{t+1} = j, Y_T) = \Pr(S_t = i \mid S_{t+1} = j, Y_t)$: given $S_{t+1}$, future $y$ carry no extra information on $S_t$', r'pasul-cheie: $\Pr(S_t = i \mid S_{t+1} = j, Y_T) = \Pr(S_t = i \mid S_{t+1} = j, Y_t)$: dat fiind $S_{t+1}$, valorile viitoare ale lui $y$ nu aduc informație suplimentară despre $S_t$'),
-      T(r'exact for MSI/MSIH/MSM on the expanded state; an approximation only when the state also has a continuous part (Kim 1994, Chapter 6)', r'exact pentru MSI/MSIH/MSM pe starea extinsă; aproximare doar cînd starea are și o parte continuă (Kim 1994, Capitolul 6)')]),
+      T(r'exact for MSI/MSIH/MSM on the expanded state; an approximation only when the state also has a continuous part (Kim 1994, Chapter 6)', r'exact pentru MSI/MSIH/MSM pe starea extinsă; aproximare doar cînd starea are și o parte continuă (Kim 1994, Capitolul 6)'),
+      T(r'proof of the key step: Appendix  % applink: Kim smoother, the Markov step', r'demonstrația pasului-cheie: Anexa  % applink: netezitorul Kim, pasul Markov')]),
     (T(r'Bayes on the pair: $\Pr(S_t = i, S_{t+1} = j \mid Y_T) = \dfrac{\hat\xi_{i,t|t}\,p_{ij}}{\hat\xi_{j,t+1|t}}\,\hat\xi_{j,t+1|T}$', r'Bayes pentru pereche: $\Pr(S_t = i, S_{t+1} = j \mid Y_T) = \dfrac{\hat\xi_{i,t|t}\,p_{ij}}{\hat\xi_{j,t+1|t}}\,\hat\xi_{j,t+1|T}$'),
      [T(r'sum over $j$: $\hat\xi_{t|T} = \hat\xi_{t|t}\odot\left[\mathbf{P}(\hat\xi_{t+1|T}\oslash\hat\xi_{t+1|t})\right]$, backwards from $\hat\xi_{T|T}$; $\oslash$: element-wise division', r'sumăm după $j$: $\hat\xi_{t|T} = \hat\xi_{t|t}\odot\left[\mathbf{P}(\hat\xi_{t+1|T}\oslash\hat\xi_{t+1|t})\right]$, înapoi de la $\hat\xi_{T|T}$; $\oslash$: împărțirea element cu element')]),
     T(r'The joint probabilities of $(S_t, S_{t+1})$ are the E-step of EM; sampling instead of summing gives FFBS (Section 7)', r'Probabilitățile comune ale perechii $(S_t, S_{t+1})$ sînt pasul E al algoritmului EM; eșantionarea în locul sumării dă FFBS (secțiunea 7)')), 'small')
@@ -503,7 +514,8 @@ D.frame(T('EM: the M-step in closed form', 'EM: pasul M în formă închisă'), 
     T(r'Switching coefficients (MSIAH): weighted least squares $\beta_j^{(m+1)} = (X\'W_jX)^{-1}X\'W_jy$, $W_j = \mathrm{diag}(\hat\xi_{j,t|T})$; $X$: rows $x_t\'$ (constant and lags), $y$: the observations; each date weighs by its probability of being in regime $j$', r'Coeficienți care comută (MSIAH): cele mai mici pătrate ponderate $\beta_j^{(m+1)} = (X\'W_jX)^{-1}X\'W_jy$, $W_j = \mathrm{diag}(\hat\xi_{j,t|T})$; $X$: liniile $x_t\'$ (constanta și lagurile), $y$: observațiile; fiecare dată contează cu probabilitatea de a fi în regimul $j$'),
     T(r'Variances: $\sigma_j^{2(m+1)} = \sum_t\hat\xi_{j,t|T}(y_t - x_t\'\beta_j)^2/\sum_t\hat\xi_{j,t|T}$; MS-VAR: the same with matrices', r'Varianțele: $\sigma_j^{2(m+1)} = \sum_t\hat\xi_{j,t|T}(y_t - x_t\'\beta_j)^2/\sum_t\hat\xi_{j,t|T}$; MS-VAR: același lucru cu matrice'),
     T(r'Common coefficients (MSIH-AR): one stacked weighted regression with weights $\hat\xi_{j,t|T}/\sigma_j^2$ (a conditional M-step, ECM)', r'Coeficienți comuni (MSIH-AR): o singură regresie ponderată stivuită, cu ponderile $\hat\xi_{j,t|T}/\sigma_j^2$ (un pas M condiționat, ECM)'),
-    T(r'MSM-AR: $\mu$ and $\phi$ enter as products, so no closed form: numerical maximisation (or EM with a numerical M-step)', r'MSM-AR: $\mu$ și $\phi$ apar ca produse, deci nu există formă închisă: maximizare numerică (sau EM cu un pas M numeric)')), 'small')
+    T(r'MSM-AR: $\mu$ and $\phi$ enter as products, so no closed form: numerical maximisation (or EM with a numerical M-step)', r'MSM-AR: $\mu$ și $\phi$ apar ca produse, deci nu există formă închisă: maximizare numerică (sau EM cu un pas M numeric)'),
+    T(r'Derivation of the M-step for $\mathbf{P}$ and of the monotonicity of EM: Appendix  % applink: EM for the Markov chain', r'Derivarea pasului M pentru $\mathbf{P}$ și a monotoniei EM: Anexa  % applink: EM pentru lanțul Markov')), 'small')
 
 D.frame(T('EM and numerical ML in practice', 'EM și verosimilitatea maximă numerică în practică'), items(
     (T('EM never lowers the likelihood, is robust far from the optimum, but slow near it (linear convergence)', 'EM nu scade niciodată verosimilitatea, este robust departe de optim, dar lent în apropierea lui (convergență liniară)'),
@@ -514,14 +526,14 @@ D.frame(T('EM and numerical ML in practice', 'EM și verosimilitatea maximă num
      [T(r'remedies: a lower bound on $\sigma_j/\sigma_k$ \refHath, priors (Section 7), or reject regimes that last one period', r'remedii: o limită inferioară pentru $\sigma_j/\sigma_k$ \refHath, distribuții a priori (secțiunea 7) sau respingerea regimurilor care durează o singură perioadă')]),
     T('Standard errors near the boundary ($p_{ii} \\approx 1$) are unreliable: report profile likelihoods or bootstrap intervals', 'Erorile standard lîngă frontieră ($p_{ii} \\approx 1$) nu sînt de încredere: raportați verosimilitatea de profil sau intervale bootstrap')), 'small')
 
-chart(T('EM from @{em.n} starting values', 'EM din @{em.n} puncte de pornire'), 'ats_ch7_em', 'ATS_ch7_estimation', [
+chart(T('EM from @{em.n} starting values', 'EM din @{em.n.ro} puncte de pornire'), 'ats_ch7_em', 'ATS_ch7_estimation', [
     T(r'MSIH(2)-AR(1) on Hamilton\'s GNP data: switching intercept and variance, common AR(1) coefficient; random starting values; log scale for iterations',
       r'MSIH(2)-AR(1) pe datele PNB ale lui Hamilton: termen liber și varianță care comută, coeficient AR(1) comun; puncte de pornire aleatoare; scară logaritmică pentru iterații')],
     h='0.5\\textheight')
 
 interp(('the EM paths', 'traiectoriilor EM'), [
     T(r'@{em.ng} limits (log-likelihood, number of starts): @{em.groups}; median @{em.itmed} iterations, at most @{em.itmax}', r'@{em.ng} limite (log-verosimilitatea, numărul de puncte de pornire): @{em.groups}; în mediană @{em.itmed} de iterații, cel mult @{em.itmax}'),
-    T(r'The highest (@{em.top}) is \textbf{degenerate}: a regime with $\sigma^2 = @{em.dg.s}$, $p_{11}$ @{em.dg.p} and mean @{em.dg.mu}, used by @{em.dg.n} isolated quarters', r'Cea mai înaltă (@{em.top}) este \textbf{degenerată}: un regim cu $\sigma^2 = @{em.dg.s}$, $p_{11}$ @{em.dg.p} și media @{em.dg.mu}, folosit de @{em.dg.n} trimestre izolate'),
+    T(r'The highest (@{em.top}) is \textbf{degenerate}: a regime with $\sigma^2 = @{em.dg.s}$, $p_{11}$ @{em.dg.p} and mean @{em.dg.mu}, used by @{em.dg.n} isolated quarters', r'Cea mai înaltă (@{em.top}) este \textbf{degenerată}: un regim cu $\sigma^2 = @{em.dg.s}$, $p_{11}$ @{em.dg.p} și media @{em.dg.mu}, folosit de @{em.dg.n.ro} trimestre izolate'),
     T(r'\texttt{statsmodels} (20 random searches) reports @{em.sm}, a third local maximum that none of our starts reached', r'\texttt{statsmodels} (20 de căutări aleatoare) raportează @{em.sm}, un al treilea maxim local, pe care niciunul dintre punctele noastre de pornire nu l-a atins'),
     T('Lesson: report the starting-value design, all local maxima, and why the chosen one is economically meaningful', 'Lecția: raportați schema punctelor de pornire, toate maximele locale și motivul pentru care cel ales are sens economic')])
 
@@ -555,8 +567,11 @@ D.frame(T('Solutions in the literature', 'Soluțiile din literatură'), items(
     (T(r'\refHan: treat the likelihood as an empirical process in the nuisance parameters and bound the standardised LR; conservative, heavy to compute', r'\refHan: tratează verosimilitatea ca un proces empiric în parametrii de perturbare și mărginește LR standardizat; conservator, greu de calculat'),
      [T(r'applied to Hamilton\'s GNP model: no evidence against one regime at conventional levels', r'aplicat modelului PNB al lui Hamilton: nicio dovadă împotriva unui singur regim la nivelurile uzuale')]),
     T(r'\refGar: the asymptotic null distribution of the sup-LR for MS models with switching mean (and variance), with tabulated critical values', r'\refGar: distribuția asimptotică sub $H_0$ a statisticii sup-LR pentru modele cu medie (și varianță) care comută, cu valori critice tabelate'),
-    T(r'\refCW: quasi-LR against a two-component mixture (an i.i.d.\ switch has the same null behaviour); \refCHP: an optimal test against Markov switching that needs only the null model (score-type, second-order terms)', r'\refCW: quasi-LR față de un amestec cu două componente (o comutare i.i.d.\ are același comportament sub $H_0$); \refCHP: un test optim față de schimbarea de regim de tip Markov care cere doar modelul nul (de tip scor, cu termeni de ordinul doi)'),
-    T(r'Practice: \textbf{parametric bootstrap} of the LR: simulate from the estimated null, re-estimate both models (with several starts) on each sample, $p = (1 + \#\{LR^* \ge LR\})/(B + 1)$; $LR^*$: the $B$ bootstrap statistics, $\#$: their count above $LR$', r'În practică: \textbf{bootstrap parametric} al LR: simulăm din modelul nul estimat, reestimăm ambele modele (cu mai multe puncte de pornire) pe fiecare eșantion, $p = (1 + \#\{LR^* \ge LR\})/(B + 1)$; $LR^*$: cele $B$ statistici bootstrap, $\#$: numărul celor mai mari decît $LR$'),
+    T(r'\refCW: quasi-LR against a two-component mixture (an i.i.d.\ switch has the same null behaviour)', r'\refCW: quasi-LR față de un amestec cu două componente (o comutare i.i.d.\ are același comportament sub $H_0$)'),
+    T(r'\refCHP: an optimal score-type test against Markov switching that needs only the null model', r'\refCHP: un test optim de tip scor față de schimbarea de regim de tip Markov, care cere doar modelul nul'),
+    (T(r'Practice: \textbf{parametric bootstrap} of the LR', r'În practică: \textbf{bootstrap parametric} al LR'),
+     [T('simulate from the estimated null; re-estimate both models (with several starts) on each sample', 'simulăm din modelul nul estimat; reestimăm ambele modele (cu mai multe puncte de pornire) pe fiecare eșantion'),
+      T(r'$p = (1 + \#\{LR^* \ge LR\})/(B + 1)$; $LR^*$: the $B$ bootstrap statistics; $\#$: their count above $LR$', r'$p = (1 + \#\{LR^* \ge LR\})/(B + 1)$; $LR^*$: cele $B$ statistici bootstrap; $\#$: numărul celor mai mari decît $LR$')]),
     T(r'Selection rather than testing: AIC, BIC, HQ, or Bayes factors through the marginal likelihood \refChibA', r'Selecție în loc de testare: AIC, BIC, HQ sau factori Bayes prin verosimilitatea marginală \refChibA')), 'small')
 
 chart(T('The bootstrap null distribution of the LR statistic', 'Distribuția bootstrap a statisticii LR sub ipoteza nulă'), 'ats_ch7_lrtest', 'ATS_ch7_estimation', [
@@ -606,7 +621,7 @@ chart(T('Hamilton\'s regimes then and now', 'Regimurile lui Hamilton atunci și 
 interp(('the replication', 'replicării'), [
     T(r'On his data, the regime tracks the NBER: QPS @{hq.qps} and @{hq.conc}\% concordance (probability above 0.5 against the NBER quarters) \refDR, \refHP', r'Pe datele lui, regimul urmărește datările NBER: QPS @{hq.qps} și concordanță de @{hq.conc}\% (probabilitate peste 0,5 comparată cu trimestrele NBER) \refDR, \refHP'),
     T(r'On today\'s data the low regime changes nature: mean @{ht.mu0}\%, $p_{00} = @{ht.p00}$ (duration @{ht.d0} quarters): single sharp falls, not recessions', r'Pe datele de azi, regimul scăzut își schimbă natura: media @{ht.mu0}\%, $p_{00} = @{ht.p00}$ (durata @{ht.d0} trimestre): căderi bruște izolate, nu recesiuni'),
-    T(r'It catches 2008Q4 (@{ht.p2008}) and 2020Q2 (@{ht.p2020}) but not 2001 (at most @{ht.p2001}); QPS @{ht.qps} on @{ht.nrec} NBER quarters', r'Prinde T4 2008 (@{ht.p2008}) și T2 2020 (@{ht.p2020}), dar nu 2001 (cel mult @{ht.p2001}); QPS @{ht.qps} pe @{ht.nrec} trimestre NBER'),
+    T(r'It catches 2008Q4 (@{ht.p2008}) and 2020Q2 (@{ht.p2020}) but not 2001 (at most @{ht.p2001}); QPS @{ht.qps} on @{ht.nrec} NBER quarters', r'Prinde T4 2008 (@{ht.p2008}) și T2 2020 (@{ht.p2020}), dar nu 2001 (cel mult @{ht.p2001}); QPS @{ht.qps} pe @{ht.nrec.ro} trimestre NBER'),
     T('After 1984 recessions are rarer and milder (the Great Moderation): a fixed two-mean model loses its grip; this motivates TVTP, MSIH and three regimes', 'După 1984 recesiunile sînt mai rare și mai blînde (Marea Moderație): un model fix cu două medii își pierde puterea; de aici TVTP, MSIH și trei regimuri')])
 
 chart(T('Dating in pseudo real time', 'Datarea în pseudo timp real'), 'ats_ch7_realtime', 'ATS_ch7_hamilton', [
@@ -675,13 +690,17 @@ D.frame(T('MS-VAR and regime-dependent responses', 'MS-VAR și răspunsuri depen
 
 chart(T('A two-regime VAR for output and unemployment', 'Un VAR cu două regimuri pentru producție și șomaj'), 'ats_ch7_msvar', 'ATS_ch7_msvar', [
     T(r'MSIAH(2)-VAR(1) for US GDP growth and the change of the unemployment rate, 1960Q1--2019Q4 ($T = @{mv.T}$, @{mv.k} parameters), EM from 12 starts; Cholesky order: output first; responses scaled to a 1 pp output shock',
-      r'MSIAH(2)-VAR(1) pentru creșterea PIB-ului SUA și variația ratei șomajului, T1 1960--T4 2019 ($T = @{mv.T}$, @{mv.k} parametri), EM din 12 puncte de pornire; ordinea Cholesky: producția prima; răspunsuri scalate la un șoc de producție de 1 pp')],
+      r'MSIAH(2)-VAR(1) pentru creșterea PIB-ului SUA și variația ratei șomajului, T1 1960--T4 2019 ($T = @{mv.T}$, @{mv.k.ro} parametri), EM din 12 puncte de pornire; ordinea Cholesky: producția prima; răspunsuri scalate la un șoc de producție de 1 pp')],
     h='0.5\\textheight')
 
 interp(('the MS-VAR', 'modelului MS-VAR'), [
-    T(r'The regimes are calm and volatile: output shock s.d.\ @{mv.sy0} against @{mv.sy1} pp, durations @{mv.d0} and @{mv.d1} quarters; the volatile regime holds @{mv.pre}\% of quarters before 1984, @{mv.post}\% after, and @{mv.rec}\% of NBER quarters', r'Regimurile sînt calm și volatil: abaterea standard a șocului de producție @{mv.sy0} față de @{mv.sy1} pp, durate de @{mv.d0} și @{mv.d1} trimestre; regimul volatil acoperă @{mv.pre}\% din trimestre înainte de 1984, @{mv.post}\% după și @{mv.rec}\% din trimestrele NBER'),
+    (T('The regimes are calm and volatile', 'Regimurile sînt calm și volatil'),
+     [T(r'output shock s.d.\ @{mv.sy0} against @{mv.sy1} pp; durations @{mv.d0} and @{mv.d1} quarters', r'abaterea standard a șocului de producție @{mv.sy0} față de @{mv.sy1} pp; durate de @{mv.d0} și @{mv.d1} trimestre'),
+      T(r'the volatile regime holds @{mv.pre}\% of quarters before 1984, @{mv.post}\% after, and @{mv.rec}\% of NBER quarters', r'regimul volatil acoperă @{mv.pre}\% din trimestre înainte de 1984, @{mv.post}\% după și @{mv.rec}\% din trimestrele NBER')]),
     T(r'Unemployment 12 quarters after a 1 pp output shock: @{mv.u12lo} pp (calm), @{mv.u12hi} pp (volatile), @{mv.u12lin} pp (linear VAR)', r'Șomajul la 12 trimestre după un șoc de producție de 1 pp: @{mv.u12lo} pp (calm), @{mv.u12hi} pp (volatil), @{mv.u12lin} pp (VAR liniar)'),
-    T(r'Okun\'s law is regime-dependent: in the calm regime output surprises barely move unemployment (correlation of shocks @{mv.c0}, against @{mv.c1}); a linear VAR averages two transmissions', r'Legea lui Okun depinde de regim: în regimul calm surprizele de producție aproape nu mișcă șomajul (corelația șocurilor @{mv.c0}, față de @{mv.c1}); un VAR liniar face media a două transmisii'),
+    (T(r'Okun\'s law is regime-dependent', r'Legea lui Okun depinde de regim'),
+     [T(r'in the calm regime output surprises barely move unemployment (correlation of shocks @{mv.c0}, against @{mv.c1})', r'în regimul calm surprizele de producție aproape nu mișcă șomajul (corelația șocurilor @{mv.c0}, față de @{mv.c1})'),
+      T('a linear VAR averages two transmissions', 'un VAR liniar face media a două transmisii')]),
     T(r'$\ln L$: @{mv.ll} (MS-VAR) against @{mv.lll} (linear VAR); regime-dependent responses assume the regime persists over the horizon', r'$\ln L$: @{mv.ll} (MS-VAR) față de @{mv.lll} (VAR liniar); răspunsurile dependente de regim presupun că regimul persistă pe orizont')])
 
 # =============================================================================
@@ -697,8 +716,10 @@ D.frame(T('Regimes in volatility', 'Regimuri în volatilitate'), two(
           T('Chapter 8 develops realised measures and multivariate GARCH; here: what regimes do to GARCH', 'Capitolul 8 dezvoltă măsurile realizate și GARCH multivariat; aici: ce fac regimurile cu GARCH')), '0.3', '0.68'), 'footnotesize')
 
 D.frame(T('The path-dependence problem', 'Problema dependenței de traiectorie'), items(
-    (T(r'Naive MS-GARCH: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$, with $h_{t-1}$ itself regime-dependent; $h_t$: conditional variance; $\varepsilon_{t-1}$: last return shock; $\omega$, $\alpha$, $\beta$: GARCH parameters of the regime', r'MS-GARCH naiv: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$, cu $h_{t-1}$ dependent la rîndul lui de regim; $h_t$: varianța condiționată; $\varepsilon_{t-1}$: ultimul șoc al randamentului; $\omega$, $\alpha$, $\beta$: parametrii GARCH ai regimului'),
-     [T(r'$h_t$ depends on the whole path $(S_1, \dots, S_t)$: $K^t$ histories, so the Hamilton filter cannot be applied ($2^{100} \approx 10^{30}$)', r'$h_t$ depinde de întreaga traiectorie $(S_1, \dots, S_t)$: $K^t$ istorii, deci filtrul Hamilton nu se poate aplica ($2^{100} \approx 10^{30}$)')]),
+    (T(r'Naive MS-GARCH: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$', r'MS-GARCH naiv: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$'),
+     [T(r'$h_t$: the conditional variance; $\varepsilon_{t-1}$: the last return shock; $\omega$, $\alpha$, $\beta$: the GARCH parameters of the regime', r'$h_t$: varianța condiționată; $\varepsilon_{t-1}$: ultimul șoc al randamentului; $\omega$, $\alpha$, $\beta$: parametrii GARCH ai regimului'),
+      T(r'$h_{t-1}$ is itself regime-dependent', r'$h_{t-1}$ depinde la rîndul lui de regim'),
+      T(r'$h_t$ depends on the whole path $(S_1, \dots, S_t)$: $K^t$ histories, so the Hamilton filter cannot be applied ($2^{100} \approx 10^{30}$)', r'$h_t$ depinde de întreaga traiectorie $(S_1, \dots, S_t)$: $K^t$ istorii, deci filtrul Hamilton nu se poate aplica ($2^{100} \approx 10^{30}$)')]),
     (T(r'\refGray: collapse the past into $h_{t-1} = \E[\varepsilon_{t-1}^2 \mid Y_{t-2}]$, the variance of the mixture: $h_{j,t} = \omega_j + \alpha_j\varepsilon_{t-1}^2 + \beta_j h_{t-1}$', r'\refGray: comprimă trecutul în $h_{t-1} = \E[\varepsilon_{t-1}^2 \mid Y_{t-2}]$, varianța amestecului: $h_{j,t} = \omega_j + \alpha_j\varepsilon_{t-1}^2 + \beta_j h_{t-1}$'),
      [T(r'\refKla: condition on $S_t$ as well, using $\Pr(S_{t-1} \mid S_t, Y_{t-1})$', r'\refKla: condiționează și pe $S_t$, folosind $\Pr(S_{t-1} \mid S_t, Y_{t-1})$')]),
     (T(r'\refHMP: $K$ GARCH processes run in parallel, $h_{j,t} = \omega_j + \alpha_j\varepsilon_{t-1}^2 + \beta_j h_{j,t-1}$; the chain picks one', r'\refHMP: $K$ procese GARCH rulează în paralel, $h_{j,t} = \omega_j + \alpha_j\varepsilon_{t-1}^2 + \beta_j h_{j,t-1}$; lanțul îl alege pe unul'),
@@ -713,7 +734,7 @@ D.frame(T('S\\&P 500: GARCH against MS-GARCH', 'S\\&P 500: GARCH comparat cu MS-
     T(r'Daily log returns (\%), January 2000 -- September 2026, $T = @{mg.T}$; Normal innovations, common mean; numerical ML in numpy from several starting values',
       r'Randamente logaritmice zilnice (\%), ianuarie 2000 -- septembrie 2026, $T = @{mg.T}$; inovații Normale, medie comună; verosimilitate maximă numerică în numpy din mai multe puncte de pornire'),
     T(r'HMP regimes: average conditional volatility while in the regime @{mg.vlo}\% and @{mg.vhi}\% per year; expected durations @{mg.dlo} and @{mg.dhi} days',
-      r'Regimurile HMP: volatilitatea condiționată medie cît timp regimul este activ @{mg.vlo}\% și @{mg.vhi}\% pe an; durate așteptate de @{mg.dlo} și @{mg.dhi} de zile')), 'small')
+      r'Regimurile HMP: volatilitatea condiționată medie cît timp regimul este activ @{mg.vlo}\% și @{mg.vhi}\% pe an; durate așteptate de @{mg.dlo} și @{mg.dhi} zile')), 'small')
 
 chart(T('Conditional volatility and the high-volatility regime', 'Volatilitatea condiționată și regimul de volatilitate ridicată'), 'ats_ch7_msgarch', 'ATS_ch7_msgarch', [
     T('Top: annualised conditional volatility, GARCH(1,1) and MS-GARCH (HMP, mixture variance); bottom: filtered probability of the high-volatility regime', 'Sus: volatilitatea condiționată anualizată, GARCH(1,1) și MS-GARCH (HMP, varianța amestecului); jos: probabilitatea filtrată a regimului de volatilitate ridicată')],
@@ -753,8 +774,9 @@ interp(('the equity regimes', 'regimurilor pieței de acțiuni'), [
     T('The BET has its own turbulent episodes (local politics, the 2007--2009 crash), not only imported ones', 'BET are episoade agitate proprii (politică internă, prăbușirea din 2007--2009), nu doar importate')])
 
 D.frame(T('Regimes and asset allocation, briefly', 'Regimuri și alocarea activelor, pe scurt'), items(
-    (T(r'\refAB: with regime switching, optimal portfolios depend on the current regime probabilities; home bias and the value of international diversification change across regimes', r'\refAB: cu schimbare de regim, portofoliile optime depind de probabilitățile curente ale regimurilor; preferința pentru piața internă și valoarea diversificării internaționale se schimbă de la un regim la altul'),
-     []),
+    (T(r'\refAB', r'\refAB'),
+     [T('with regime switching, optimal portfolios depend on the current regime probabilities', 'cu schimbare de regim, portofoliile optime depind de probabilitățile curente ale regimurilor'),
+      T('home bias and the value of international diversification change across regimes', 'preferința pentru piața internă și valoarea diversificării internaționale se schimbă de la un regim la altul')]),
     (T(r'Mean-variance weight of equity against cash, risk aversion $\gamma = @{bb.gamma}$: $w = \mu/(\gamma\sigma^2)$; $\mu$, $\sigma^2$: weekly mean and variance of the return in the regime', r'Ponderea acțiunilor față de numerar în portofoliul medie--varianță, cu aversiunea la risc $\gamma = @{bb.gamma}$: $w = \mu/(\gamma\sigma^2)$; $\mu$, $\sigma^2$: media și varianța săptămînale ale randamentului în regim'),
      [T(r'S\&P 500: @{bb.sp500.w0} in the calm regime, @{bb.sp500.w1} in the turbulent one, @{bb.sp500.wc} with constant moments', r'S\&P 500: @{bb.sp500.w0} în regimul calm, @{bb.sp500.w1} în cel agitat, @{bb.sp500.wc} cu momente constante'),
       T(r'with one-step mixture moments the weight moves between @{bb.sp500.wmin} and @{bb.sp500.wmax}', r'cu momentele amestecului la un pas, ponderea se mișcă între @{bb.sp500.wmin} și @{bb.sp500.wmax}')]),
@@ -806,8 +828,10 @@ D.recap(('Bayesian estimation', 'estimarea bayesiană'), [
 D.section('Regimes, long memory and breaks', 'Regimuri, memorie lungă și rupturi')
 
 D.frame(T('Rare switches look like long memory', 'Comutările rare arată ca memoria lungă'), items(
-    (T(r'\refDI: $y_t = \mu_{S_t} + \varepsilon_t$ with $p_{ii} = 1 - c/T^\delta$ ($c, \delta > 0$: switches become rarer as $T$ grows): the variance of partial sums grows like that of an I($d$) process, $d > 0$', r'\refDI: $y_t = \mu_{S_t} + \varepsilon_t$ cu $p_{ii} = 1 - c/T^\delta$ ($c, \delta > 0$: comutările devin mai rare cînd $T$ crește): varianța sumelor parțiale crește ca la un proces I($d$), $d > 0$'),
-     [T(r'the autocorrelations $\propto\lambda^k$ with $\lambda \to 1$ decay so slowly that, in any finite sample, they look hyperbolic', r'autocorelațiile $\propto\lambda^k$, cu $\lambda \to 1$, scad atît de lent încît, în orice eșantion finit, par hiperbolice')]),
+    (T(r'\refDI: $y_t = \mu_{S_t} + \varepsilon_t$ with $p_{ii} = 1 - c/T^\delta$', r'\refDI: $y_t = \mu_{S_t} + \varepsilon_t$ cu $p_{ii} = 1 - c/T^\delta$'),
+     [T(r'$c, \delta > 0$: switches become rarer as $T$ grows', r'$c, \delta > 0$: comutările devin mai rare cînd $T$ crește'),
+      T(r'the variance of partial sums grows like that of an I($d$) process, $d > 0$', r'varianța sumelor parțiale crește ca la un proces I($d$), $d > 0$'),
+      T(r'the autocorrelations $\propto\lambda^k$ with $\lambda \to 1$ decay so slowly that, in any finite sample, they look hyperbolic', r'autocorelațiile $\propto\lambda^k$, cu $\lambda \to 1$, scad atît de lent încît, în orice eșantion finit, par hiperbolice')]),
     (T('Consequences', 'Consecințe'),
      [T('a significant GPH or local Whittle estimate (Chapter 10) does not discriminate fractional integration from occasional breaks or regimes', 'o estimație GPH sau Whittle locală semnificativă (Capitolul 10) nu deosebește integrarea fracționară de rupturile ocazionale sau de regimuri'),
       T('the same holds for GARCH persistence (previous section) and for unit-root tests with breaks (Chapter 2)', 'același lucru este valabil pentru persistența GARCH (secțiunea anterioară) și pentru testele de rădăcină unitară cu rupturi (Capitolul 2)')]),
@@ -839,7 +863,9 @@ interp(('the inflation regimes', 'regimurilor inflației'), [
     T(r'Regime levels $\nu_j/(1 - \phi)$: @{ri.l0}\%, @{ri.l1}\% and @{ri.l2}\%; shock s.d.\ @{ri.s0}, @{ri.s1} and @{ri.s2} pp; $\phi = @{ri.phi}$: after 2001 the two lower regimes differ mainly in volatility', r'Nivelurile regimurilor $\nu_j/(1 - \phi)$: @{ri.l0}\%, @{ri.l1}\% și @{ri.l2}\%; abaterea standard a șocurilor @{ri.s0}; @{ri.s1} și @{ri.s2} pp; $\phi = @{ri.phi}$: după 2001 cele două regimuri inferioare diferă mai ales prin volatilitate'),
     T(r'The volatile regime returns in the 2010 VAT increase, in 2022 and in 2025; filtered probabilities in @{ri.lastd} (inflation @{ri.last}\%): @{ri.lp0}, @{ri.lp1}, @{ri.lp2}', r'Regimul volatil revine la creșterea TVA din 2010, în 2022 și în 2025; probabilitățile filtrate în @{ri.lastd} (inflația @{ri.last}\%): @{ri.lp0}; @{ri.lp1}; @{ri.lp2}'),
     T(r'BIC prefers change points: 3 segments @{ri.bic.CP3}, 4 segments @{ri.bic.CP4}, Markov switching @{ri.bic.MS3}; the change points of the 4-segment model: @{ri.breaks}', r'BIC preferă punctele de schimbare: 3 segmente @{ri.bic.CP3}, 4 segmente @{ri.bic.CP4}, schimbare de regim @{ri.bic.MS3}; punctele de schimbare ale modelului cu 4 segmente: @{ri.breaks}'),
-    T(r'Reading: disinflation was a one-way process; after 2000 a single, very persistent segment absorbs the 2022 and 2025 surges as shocks; whether they are a recurrent regime is decided out of sample', r'Interpretare: dezinflația a fost un proces într-un singur sens; după 2000 un singur segment, foarte persistent, absoarbe creșterile din 2022 și 2025 ca șocuri; dacă ele sînt un regim recurent se decide în afara eșantionului')])
+    (T('Reading: disinflation was a one-way process', 'Interpretare: dezinflația a fost un proces într-un singur sens'),
+     [T('after 2000 a single, very persistent segment absorbs the 2022 and 2025 surges as shocks', 'după 2000 un singur segment, foarte persistent, absoarbe creșterile din 2022 și 2025 ca șocuri'),
+      T('whether they are a recurrent regime is decided out of sample', 'dacă ele sînt un regim recurent se decide în afara eșantionului')])])
 
 D.recap(('Regimes, memory and breaks', 'regimuri, memorie și rupturi'), [
     T('Rare switches mimic long memory: memory tests cannot tell them apart', 'Comutările rare imită memoria lungă: testele de memorie nu le pot deosebi'),
@@ -885,13 +911,13 @@ D.frame(T('Forecasts from a switching model', 'Prognozele unui model cu schimbar
 
 chart(T('US GDP: one-step density forecasts, 1990--2019', 'PIB-ul SUA: prognoze de densitate la un pas, 1990--2019'), 'ats_ch7_forecast', 'ATS_ch7_forecast', [
     T(r'Expanding window from 1947Q2, @{fc.n} quarters, AR(1) re-estimated each quarter, MSIH(2)-AR(1) every 4 quarters (EM, warm start); left: cumulative log-score difference; right: PIT histograms (dashed: uniform)',
-      r'Fereastră extinsă din T2 1947, @{fc.n} trimestre, AR(1) reestimat în fiecare trimestru, MSIH(2)-AR(1) la fiecare 4 trimestre (EM, pornind de la soluția anterioară); stînga: diferența cumulată a scorurilor logaritmice; dreapta: histogramele PIT (linia întreruptă: uniformă)')],
+      r'Fereastră extinsă din T2 1947, @{fc.n.ro} trimestre, AR(1) reestimat în fiecare trimestru, MSIH(2)-AR(1) la fiecare 4 trimestre (EM, pornind de la soluția anterioară); stînga: diferența cumulată a scorurilor logaritmice; dreapta: histogramele PIT (linia întreruptă: uniformă)')],
     h='0.5\\textheight')
 
 interp(('the forecast comparison', 'comparației prognozelor'), [
     T(r'RMSE: AR(1) @{fc.rmse_ar}, MSIH(2)-AR(1) @{fc.rmse_ms}: the point forecasts are almost the same, as Clements and Krolzig found', r'RMSE: AR(1) @{fc.rmse_ar}, MSIH(2)-AR(1) @{fc.rmse_ms}: prognozele punctuale sînt aproape identice, cum au găsit Clements și Krolzig'),
     T(r'Mean log score: @{fc.ls_ar} against @{fc.ls_ms}; Diebold--Mariano on the difference @{fc.dm} ($p = @{fc.p_dm}$)', r'Scorul logaritmic mediu: @{fc.ls_ar} față de @{fc.ls_ms}; Diebold--Mariano pe diferență @{fc.dm} ($p = @{fc.p_dm}$)'),
-    T(r'The gain comes from the variance regime: the AR(1) density is too wide after 1984 (PIT piled in the middle, KS $p$ = @{fc.ks_ar}); the MS density is closer to uniform but not calibrated either (KS $p$ = @{fc.ks_ms})', r'Cîștigul vine din regimul de varianță: densitatea AR(1) este prea largă după 1984 (PIT concentrat la mijloc, KS $p$ = @{fc.ks_ar}); densitatea MS este mai aproape de uniformă, dar nici ea nu este calibrată (KS $p$ = @{fc.ks_ms})'),
+    T(r'The gain comes from the variance regime: the AR(1) density is too wide after 1984 (PIT piled in the middle, KS @{fc.ks_ar}); the MS density is closer to uniform but not calibrated either (KS @{fc.ks_ms})', r'Cîștigul vine din regimul de varianță: densitatea AR(1) este prea largă după 1984 (PIT concentrat la mijloc, KS @{fc.ks_ar}); densitatea MS este mai aproape de uniformă, dar nici ea nu este calibrată (KS @{fc.ks_ms})'),
     T(r'Cumulative log-score gain before 2008: @{fc.cum_pre08}; from 2008: @{fc.cum_post08}: the regime model pays in calm times and loses in the crisis', r'Cîștigul cumulat de scor logaritmic înainte de 2008: @{fc.cum_pre08}; din 2008: @{fc.cum_post08}: modelul cu regimuri cîștigă în perioadele calme și pierde în criză')])
 
 D.recap(('Forecasting', 'prognoza'), [
@@ -923,14 +949,15 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('The likelihood is the global maximum among many starts, and the chosen regime is not degenerate', 'Verosimilitatea este maximul global dintre multe puncte de pornire, iar regimul ales nu este degenerat'),
     T('Real-time claims use filtered probabilities and data vintages, never smoothed probabilities', 'Afirmațiile despre timpul real folosesc probabilități filtrate și ediții ale datelor, niciodată probabilități netezite'),
-    T('The number of regimes is tested by bootstrap or chosen by a criterion fixed in advance, not by a $\\chi^2$ count', 'Numărul de regimurilor se testează prin bootstrap sau se alege printr-un criteriu fixat dinainte, nu prin numărarea gradelor de libertate ale unui $\\chi^2$'),
+    T('The number of regimes is tested by bootstrap or chosen by a criterion fixed in advance, not by a $\\chi^2$ count', 'Numărul de regimuri se testează prin bootstrap sau se alege printr-un criteriu fixat dinainte, nu prin numărarea gradelor de libertate ale unui $\\chi^2$'),
     T('The meaning of each regime is checked against external events, not assumed from its label', 'Semnificația fiecărui regim se verifică față de evenimente externe, nu se presupune din eticheta lui')), 'small')
 
 chart(T('Mini-case: how robust is a recession dating?', 'Mini studiu de caz: cît de robustă este o datare a recesiunilor?'), 'ats_ch7_ai_case', 'ATS_ch7_hamilton', [
     T(r'US GDP growth: four specifications $\times$ three sample starts, all ending in 2019Q4; QPS of the smoothed low-mean-regime probability against the NBER quarters, 1985--2019',
       r'Creșterea PIB-ului SUA: patru specificații $\times$ trei începuturi ale eșantionului, toate pînă în T4 2019; QPS al probabilității netezite a regimului cu media scăzută față de trimestrele NBER, 1985--2019'),
-    T(r'QPS from @{ai.qmin} to @{ai.qmax} (a constant probability scores @{ai.qc}); @{ai.nf} variants flag most quarters (their low-mean regime is the Great Moderation); @{ai.both} of @{ai.n} dates both 2001 and 2008 without false alarms: an AI summary that reports one variant as ``the\'\' dating is wrong',
-      r'QPS între @{ai.qmin} și @{ai.qmax} (o probabilitate constantă are scorul @{ai.qc}); @{ai.nf} variante semnalează majoritatea trimestrelor (regimul lor cu media scăzută este Marea Moderație); @{ai.both} din @{ai.n} datează atît 2001, cît și 2008 fără alarme false: un rezumat AI care raportează o singură variantă drept „datarea” greșește')],
+    (T(r'QPS from @{ai.qmin} to @{ai.qmax} (a constant probability scores @{ai.qc})', r'QPS între @{ai.qmin} și @{ai.qmax} (o probabilitate constantă are scorul @{ai.qc})'),
+     [T(r'@{ai.nf} variants flag most quarters: their low-mean regime is the Great Moderation', r'@{ai.nf} variante semnalează majoritatea trimestrelor: regimul lor cu media scăzută este Marea Moderație'),
+      T(r'@{ai.both} of @{ai.n} dates both 2001 and 2008 without false alarms: an AI summary that reports one variant as ``the\'\' dating is wrong', r'@{ai.both} din @{ai.n} datează atît 2001, cît și 2008 fără alarme false: un rezumat AI care raportează o singură variantă drept „datarea” greșește')])],
     h='0.46\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(

@@ -387,6 +387,7 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
     \begin{itemize}
         \item pasul-cheie: $\Pr(S_t = i \mid S_{t+1} = j, Y_T) = \Pr(S_t = i \mid S_{t+1} = j, Y_t)$: dat fiind $S_{t+1}$, valorile viitoare ale lui $y$ nu aduc informație suplimentară despre $S_t$
         \item exact pentru MSI/MSIH/MSM pe starea extinsă; aproximare doar cînd starea are și o parte continuă (Kim 1994, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6})
+        \item demonstrația pasului-cheie: \atsapplink{atsapp2}{atssrc1}{Anexa}  % applink: netezitorul Kim, pasul Markov
     \end{itemize}
     \item Bayes pentru pereche: $\Pr(S_t = i, S_{t+1} = j \mid Y_T) = \dfrac{\hat\xi_{i,t|t}\,p_{ij}}{\hat\xi_{j,t+1|t}}\,\hat\xi_{j,t+1|T}$
     \begin{itemize}
@@ -451,6 +452,7 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
     \item Varianțele: $\sigma_j^{2(m+1)} = \sum_t\hat\xi_{j,t|T}(y_t - x_t'\beta_j)^2/\sum_t\hat\xi_{j,t|T}$; MS-VAR: același lucru cu matrice
     \item Coeficienți comuni (MSIH-AR): o singură regresie ponderată stivuită, cu ponderile $\hat\xi_{j,t|T}/\sigma_j^2$ (un pas M condiționat, ECM)
     \item MSM-AR: $\mu$ și $\phi$ apar ca produse, deci nu există formă închisă: maximizare numerică (sau EM cu un pas M numeric)
+    \item Derivarea pasului M pentru $\mathbf{P}$ și a monotoniei EM: \atsapplink{atsapp1}{atssrc2}{Anexa}  % applink: EM pentru lanțul Markov
 \end{itemize}
 \end{frame}
 
@@ -473,7 +475,7 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
 \end{itemize}
 \end{frame}
 
-\begin{frame}{EM din 30 puncte de pornire}
+\begin{frame}{EM din 30 de puncte de pornire}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.5\textheight,keepaspectratio]{ats_ch7_em.pdf}
@@ -488,8 +490,8 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
 \begin{frame}{Interpretarea traiectoriilor EM}
 \itemsize{\small}
 \begin{itemize}
-    \item 2 limite (log-verosimilitatea, numărul de puncte de pornire): \ensuremath{-}186{,}48 (20); -183{,}76 (10); în mediană 159 de iterații, cel mult 216
-    \item Cea mai înaltă (\ensuremath{-}183{,}76) este \textbf{degenerată}: un regim cu $\sigma^2 = 0{,}049$, $p_{11}$ $<10^{-9}$ și media 1{,}11, folosit de 29 trimestre izolate
+    \item 2 limite (log-verosimilitatea, numărul de puncte de pornire): \ensuremath{-}186{,}48 (20); \ensuremath{-}183{,}76 (10); în mediană 159 de iterații, cel mult 216
+    \item Cea mai înaltă (\ensuremath{-}183{,}76) este \textbf{degenerată}: un regim cu $\sigma^2 = 0{,}049$, $p_{11}$ $<10^{-9}$ și media 1{,}11, folosit de 29 de trimestre izolate
     \item \texttt{statsmodels} (20 de căutări aleatoare) raportează \ensuremath{-}185{,}73, un al treilea maxim local, pe care niciunul dintre punctele noastre de pornire nu l-a atins
     \item Lecția: raportați schema punctelor de pornire, toate maximele locale și motivul pentru care cel ales are sens economic
 \end{itemize}
@@ -547,8 +549,13 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
         \item aplicat modelului PNB al lui Hamilton: nicio dovadă împotriva unui singur regim la nivelurile uzuale
     \end{itemize}
     \item \refGar: distribuția asimptotică sub $H_0$ a statisticii sup-LR pentru modele cu medie (și varianță) care comută, cu valori critice tabelate
-    \item \refCW: quasi-LR față de un amestec cu două componente (o comutare i.i.d.\ are același comportament sub $H_0$); \refCHP: un test optim față de schimbarea de regim de tip Markov care cere doar modelul nul (de tip scor, cu termeni de ordinul doi)
-    \item În practică: \textbf{bootstrap parametric} al LR: simulăm din modelul nul estimat, reestimăm ambele modele (cu mai multe puncte de pornire) pe fiecare eșantion, $p = (1 + \#\{LR^* \ge LR\})/(B + 1)$; $LR^*$: cele $B$ statistici bootstrap, $\#$: numărul celor mai mari decît $LR$
+    \item \refCW: quasi-LR față de un amestec cu două componente (o comutare i.i.d.\ are același comportament sub $H_0$)
+    \item \refCHP: un test optim de tip scor față de schimbarea de regim de tip Markov, care cere doar modelul nul
+    \item În practică: \textbf{bootstrap parametric} al LR
+    \begin{itemize}
+        \item simulăm din modelul nul estimat; reestimăm ambele modele (cu mai multe puncte de pornire) pe fiecare eșantion
+        \item $p = (1 + \#\{LR^* \ge LR\})/(B + 1)$; $LR^*$: cele $B$ statistici bootstrap; $\#$: numărul celor mai mari decît $LR$
+    \end{itemize}
     \item Selecție în loc de testare: AIC, BIC, HQ sau factori Bayes prin verosimilitatea marginală \refChibA
 \end{itemize}
 \end{frame}
@@ -647,7 +654,7 @@ statsmodels & 1{,}164 & \ensuremath{-}0{,}359 & 0{,}013 & \ensuremath{-}0{,}058 
 \begin{itemize}
     \item Pe datele lui, regimul urmărește datările NBER: QPS 0{,}179 și concordanță de 89\% (probabilitate peste 0,5 comparată cu trimestrele NBER) \refDR, \refHP
     \item Pe datele de azi, regimul scăzut își schimbă natura: media \ensuremath{-}1{,}22\%, $p_{00} = 0{,}26$ (durata 1{,}4 trimestre): căderi bruște izolate, nu recesiuni
-    \item Prinde T4 2008 (0{,}95) și T2 2020 (1{,}00), dar nu 2001 (cel mult 0{,}01); QPS 0{,}229 pe 37 trimestre NBER
+    \item Prinde T4 2008 (0{,}95) și T2 2020 (1{,}00), dar nu 2001 (cel mult 0{,}01); QPS 0{,}229 pe 37 de trimestre NBER
     \item După 1984 recesiunile sînt mai rare și mai blînde (Marea Moderație): un model fix cu două medii își pierde puterea; de aici TVTP, MSIH și trei regimuri
 \end{itemize}
 \end{frame}
@@ -777,7 +784,7 @@ tranziții constante & & 2{,}77 & $p_{00} = 0{,}983$ & $p_{11} = 0{,}14$ & \ensu
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item MSIAH(2)-VAR(1) pentru creșterea PIB-ului SUA și variația ratei șomajului, T1 1960--T4 2019 ($T = 239$, 20 parametri), EM din 12 puncte de pornire; ordinea Cholesky: producția prima; răspunsuri scalate la un șoc de producție de 1 pp
+    \item MSIAH(2)-VAR(1) pentru creșterea PIB-ului SUA și variația ratei șomajului, T1 1960--T4 2019 ($T = 239$, 20 de parametri), EM din 12 puncte de pornire; ordinea Cholesky: producția prima; răspunsuri scalate la un șoc de producție de 1 pp
 \end{itemize}
 \quantlet{ATS\_ch7\_msvar}{\qlurl{ATS_ch7_msvar}}
 \end{frame}
@@ -785,9 +792,17 @@ tranziții constante & & 2{,}77 & $p_{00} = 0{,}983$ & $p_{11} = 0{,}14$ & \ensu
 \begin{frame}{Interpretarea modelului MS-VAR}
 \itemsize{\small}
 \begin{itemize}
-    \item Regimurile sînt calm și volatil: abaterea standard a șocului de producție 0{,}42 față de 1{,}02 pp, durate de 21{,}8 și 14{,}3 trimestre; regimul volatil acoperă 83\% din trimestre înainte de 1984, 17\% după și 100\% din trimestrele NBER
+    \item Regimurile sînt calm și volatil
+    \begin{itemize}
+        \item abaterea standard a șocului de producție 0{,}42 față de 1{,}02 pp; durate de 21{,}8 și 14{,}3 trimestre
+        \item regimul volatil acoperă 83\% din trimestre înainte de 1984, 17\% după și 100\% din trimestrele NBER
+    \end{itemize}
     \item Șomajul la 12 trimestre după un șoc de producție de 1 pp: \ensuremath{-}0{,}06 pp (calm), \ensuremath{-}0{,}83 pp (volatil), \ensuremath{-}0{,}65 pp (VAR liniar)
-    \item Legea lui Okun depinde de regim: în regimul calm surprizele de producție aproape nu mișcă șomajul (corelația șocurilor \ensuremath{-}0{,}15, față de \ensuremath{-}0{,}69); un VAR liniar face media a două transmisii
+    \item Legea lui Okun depinde de regim
+    \begin{itemize}
+        \item în regimul calm surprizele de producție aproape nu mișcă șomajul (corelația șocurilor \ensuremath{-}0{,}15, față de \ensuremath{-}0{,}69)
+        \item un VAR liniar face media a două transmisii
+    \end{itemize}
     \item $\ln L$: \ensuremath{-}166{,}8 (MS-VAR) față de \ensuremath{-}222{,}0 (VAR liniar); răspunsurile dependente de regim presupun că regimul persistă pe orizont
 \end{itemize}
 \end{frame}
@@ -820,8 +835,10 @@ tranziții constante & & 2{,}77 & $p_{00} = 0{,}983$ & $p_{11} = 0{,}14$ & \ensu
 \begin{frame}{Problema dependenței de traiectorie}
 \itemsize{\small}
 \begin{itemize}
-    \item MS-GARCH naiv: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$, cu $h_{t-1}$ dependent la rîndul lui de regim; $h_t$: varianța condiționată; $\varepsilon_{t-1}$: ultimul șoc al randamentului; $\omega$, $\alpha$, $\beta$: parametrii GARCH ai regimului
+    \item MS-GARCH naiv: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$
     \begin{itemize}
+        \item $h_t$: varianța condiționată; $\varepsilon_{t-1}$: ultimul șoc al randamentului; $\omega$, $\alpha$, $\beta$: parametrii GARCH ai regimului
+        \item $h_{t-1}$ depinde la rîndul lui de regim
         \item $h_t$ depinde de întreaga traiectorie $(S_1, \dots, S_t)$: $K^t$ istorii, deci filtrul Hamilton nu se poate aplica ($2^{100} \approx 10^{30}$)
     \end{itemize}
     \item \refGray: comprimă trecutul în $h_{t-1} = \E[\varepsilon_{t-1}^2 \mid Y_{t-2}]$, varianța amestecului: $h_{j,t} = \omega_j + \alpha_j\varepsilon_{t-1}^2 + \beta_j h_{t-1}$
@@ -851,7 +868,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \end{center}
 \begin{itemize}
     \item Randamente logaritmice zilnice (\%), ianuarie 2000 -- septembrie 2026, $T = 6\,714$; inovații Normale, medie comună; verosimilitate maximă numerică în numpy din mai multe puncte de pornire
-    \item Regimurile HMP: volatilitatea condiționată medie cît timp regimul este activ 13{,}1\% și 27{,}6\% pe an; durate așteptate de 24 și 13 de zile
+    \item Regimurile HMP: volatilitatea condiționată medie cît timp regimul este activ 13{,}1\% și 27{,}6\% pe an; durate așteptate de 24 și 13 zile
 \end{itemize}
 \end{frame}
 
@@ -936,7 +953,11 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \begin{frame}{Regimuri și alocarea activelor, pe scurt}
 \itemsize{\small}
 \begin{itemize}
-    \item \refAB: cu schimbare de regim, portofoliile optime depind de probabilitățile curente ale regimurilor; preferința pentru piața internă și valoarea diversificării internaționale se schimbă de la un regim la altul
+    \item \refAB
+    \begin{itemize}
+        \item cu schimbare de regim, portofoliile optime depind de probabilitățile curente ale regimurilor
+        \item preferința pentru piața internă și valoarea diversificării internaționale se schimbă de la un regim la altul
+    \end{itemize}
     \item Ponderea acțiunilor față de numerar în portofoliul medie--varianță, cu aversiunea la risc $\gamma = 5$: $w = \mu/(\gamma\sigma^2)$; $\mu$, $\sigma^2$: media și varianța săptămînale ale randamentului în regim
     \begin{itemize}
         \item S\&P 500: 2{,}79 în regimul calm, \ensuremath{-}0{,}51 în cel agitat, 0{,}39 cu momente constante
@@ -1025,8 +1046,10 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \begin{frame}{Comutările rare arată ca memoria lungă}
 \itemsize{\small}
 \begin{itemize}
-    \item \refDI: $y_t = \mu_{S_t} + \varepsilon_t$ cu $p_{ii} = 1 - c/T^\delta$ ($c, \delta > 0$: comutările devin mai rare cînd $T$ crește): varianța sumelor parțiale crește ca la un proces I($d$), $d > 0$
+    \item \refDI: $y_t = \mu_{S_t} + \varepsilon_t$ cu $p_{ii} = 1 - c/T^\delta$
     \begin{itemize}
+        \item $c, \delta > 0$: comutările devin mai rare cînd $T$ crește
+        \item varianța sumelor parțiale crește ca la un proces I($d$), $d > 0$
         \item autocorelațiile $\propto\lambda^k$, cu $\lambda \to 1$, scad atît de lent încît, în orice eșantion finit, par hiperbolice
     \end{itemize}
     \item Consecințe
@@ -1092,7 +1115,11 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
     \item Nivelurile regimurilor $\nu_j/(1 - \phi)$: 68{,}7\%, 17{,}8\% și 2{,}9\%; abaterea standard a șocurilor 10{,}58; 1{,}70 și 0{,}45 pp; $\phi = 0{,}971$: după 2001 cele două regimuri inferioare diferă mai ales prin volatilitate
     \item Regimul volatil revine la creșterea TVA din 2010, în 2022 și în 2025; probabilitățile filtrate în august 2026 (inflația 6{,}1\%): 0{,}00; 0{,}93; 0{,}07
     \item BIC preferă punctele de schimbare: 3 segmente 887{,}0, 4 segmente 897{,}5, schimbare de regim 934{,}1; punctele de schimbare ale modelului cu 4 segmente: aprilie 1998, martie 1999, septembrie 2000
-    \item Interpretare: dezinflația a fost un proces într-un singur sens; după 2000 un singur segment, foarte persistent, absoarbe creșterile din 2022 și 2025 ca șocuri; dacă ele sînt un regim recurent se decide în afara eșantionului
+    \item Interpretare: dezinflația a fost un proces într-un singur sens
+    \begin{itemize}
+        \item după 2000 un singur segment, foarte persistent, absoarbe creșterile din 2022 și 2025 ca șocuri
+        \item dacă ele sînt un regim recurent se decide în afara eșantionului
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1180,7 +1207,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Fereastră extinsă din T2 1947, 120 trimestre, AR(1) reestimat în fiecare trimestru, MSIH(2)-AR(1) la fiecare 4 trimestre (EM, pornind de la soluția anterioară); stînga: diferența cumulată a scorurilor logaritmice; dreapta: histogramele PIT (linia întreruptă: uniformă)
+    \item Fereastră extinsă din T2 1947, 120 de trimestre, AR(1) reestimat în fiecare trimestru, MSIH(2)-AR(1) la fiecare 4 trimestre (EM, pornind de la soluția anterioară); stînga: diferența cumulată a scorurilor logaritmice; dreapta: histogramele PIT (linia întreruptă: uniformă)
 \end{itemize}
 \quantlet{ATS\_ch7\_forecast}{\qlurl{ATS_ch7_forecast}}
 \end{frame}
@@ -1190,7 +1217,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \begin{itemize}
     \item RMSE: AR(1) 0{,}554, MSIH(2)-AR(1) 0{,}558: prognozele punctuale sînt aproape identice, cum au găsit Clements și Krolzig
     \item Scorul logaritmic mediu: \ensuremath{-}1{,}028 față de \ensuremath{-}0{,}890; Diebold--Mariano pe diferență 1{,}16 ($p = 0{,}24$)
-    \item Cîștigul vine din regimul de varianță: densitatea AR(1) este prea largă după 1984 (PIT concentrat la mijloc, KS $p$ = $<0{,}001$); densitatea MS este mai aproape de uniformă, dar nici ea nu este calibrată (KS $p$ = 0{,}01)
+    \item Cîștigul vine din regimul de varianță: densitatea AR(1) este prea largă după 1984 (PIT concentrat la mijloc, KS $p < 0{,}001$); densitatea MS este mai aproape de uniformă, dar nici ea nu este calibrată (KS $p = 0{,}01$)
     \item Cîștigul cumulat de scor logaritmic înainte de 2008: 17{,}72; din 2008: \ensuremath{-}1{,}10: modelul cu regimuri cîștigă în perioadele calme și pierde în criză
 \end{itemize}
 \end{frame}
@@ -1244,7 +1271,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
     \item Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)
     \item Verosimilitatea este maximul global dintre multe puncte de pornire, iar regimul ales nu este degenerat
     \item Afirmațiile despre timpul real folosesc probabilități filtrate și ediții ale datelor, niciodată probabilități netezite
-    \item Numărul de regimurilor se testează prin bootstrap sau se alege printr-un criteriu fixat dinainte, nu prin numărarea gradelor de libertate ale unui $\chi^2$
+    \item Numărul de regimuri se testează prin bootstrap sau se alege printr-un criteriu fixat dinainte, nu prin numărarea gradelor de libertate ale unui $\chi^2$
     \item Semnificația fiecărui regim se verifică față de evenimente externe, nu se presupune din eticheta lui
 \end{itemize}
 \end{frame}
@@ -1257,7 +1284,11 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \vspace{-0.25cm}
 \begin{itemize}
     \item Creșterea PIB-ului SUA: patru specificații $\times$ trei începuturi ale eșantionului, toate pînă în T4 2019; QPS al probabilității netezite a regimului cu media scăzută față de trimestrele NBER, 1985--2019
-    \item QPS între 0{,}034 și 1{,}846 (o probabilitate constantă are scorul 0{,}145); 4 variante semnalează majoritatea trimestrelor (regimul lor cu media scăzută este Marea Moderație); 1 din 12 datează atît 2001, cît și 2008 fără alarme false: un rezumat AI care raportează o singură variantă drept „datarea” greșește
+    \item QPS între 0{,}034 și 1{,}846 (o probabilitate constantă are scorul 0{,}145)
+    \begin{itemize}
+        \item 4 variante semnalează majoritatea trimestrelor: regimul lor cu media scăzută este Marea Moderație
+        \item 1 din 12 datează atît 2001, cît și 2008 fără alarme false: un rezumat AI care raportează o singură variantă drept „datarea” greșește
+    \end{itemize}
 \end{itemize}
 \quantlet{ATS\_ch7\_hamilton}{\qlurl{ATS_ch7_hamilton}}
 \end{frame}
@@ -1322,6 +1353,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 %=============================================================================
 
 \begin{frame}{Anexă: EM pentru lanțul Markov, pas cu pas}
+\hypertarget{atsapp1}{}\atsappback{atssrc2}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Log-verosimilitatea așteptată a datelor complete: $Q(\theta \mid \theta^{(m)}) = \sum_j\hat\xi_{j,1|T}\ln\rho_j + \sum_{t\ge2}\sum_{i,j}\hat\xi_{ij,t|T}\ln p_{ij} + \sum_t\sum_j\hat\xi_{j,t|T}\ln\eta_{jt}$
@@ -1332,6 +1364,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \end{frame}
 
 \begin{frame}{Anexă: netezitorul Kim, pasul Markov}
+\hypertarget{atsapp2}{}\atsappback{atssrc1}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item $\Pr(S_t = i \mid S_{t+1} = j, Y_T) = \dfrac{f(y_{t+1:T} \mid S_t = i, S_{t+1} = j, Y_t)\Pr(S_t = i \mid S_{t+1} = j, Y_t)}{f(y_{t+1:T} \mid S_{t+1} = j, Y_t)}$

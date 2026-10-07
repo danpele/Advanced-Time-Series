@@ -347,8 +347,9 @@ D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), i
         'inferență asupra co-mișcării: praguri pentru coerență, erorile fazei, corelația dinamică, cauzalitatea pe frecvențe'),
       T('filters judged by their gain; time--frequency analysis with significance tests that control false discoveries',
         'filtre judecate după cîștig; analiză timp--frecvență cu teste de semnificație care controlează descoperirile false')]),
-    T('Case studies: Thomson (1982), Croux--Forni--Reichlin (2001), Breitung--Candelon (2006), Baxter--King (1999), Cogley--Nason (1995), Hamilton (2018), Torrence--Compo (1998), Grinsted et al.\\ (2004), with the specifications of the papers, on our data',
-      'Studii de caz: Thomson (1982), Croux--Forni--Reichlin (2001), Breitung--Candelon (2006), Baxter--King (1999), Cogley--Nason (1995), Hamilton (2018), Torrence--Compo (1998), Grinsted et al.\\ (2004), cu specificațiile din lucrări, pe datele noastre')), 'small')
+    (T('Case studies, with the specifications of the papers, on our data', 'Studii de caz, cu specificațiile din lucrări, pe datele noastre'),
+     [T(r'spectral: \refTho; \refCFR; \refBC', r'spectrale: \refTho; \refCFR; \refBC'),
+      T(r'filters and wavelets: \refBK; \refCN; \refHam; \refTC; \refGMJ', r'filtre și wavelets: \refBK; \refCN; \refHam; \refTC; \refGMJ')])), 'small')
 
 # =============================================================================
 # 1. REPREZENTAREA SPECTRALĂ
@@ -385,8 +386,11 @@ D.frame(T('Cramér\'s representation', 'Reprezentarea lui Cramér'), two(
               r'$dZ(\omega)$: amplitudinea aleatoare la frecvența $\omega$; $Z$ are \textbf{creșteri ortogonale}: $\E[dZ(\omega)\overline{dZ(\lambda)}] = 0$ pentru $\omega \ne \lambda$, $\E|dZ(\omega)|^2 = dF(\omega)$')]),
           T('Random amplitudes at different frequencies are uncorrelated: the frequency components can be studied one by one',
             'Amplitudinile aleatoare de la frecvențe diferite sînt necorelate: componentele de frecvență se pot studia separat'),
-          T(r'The discrete Fourier transform (DFT) $d(\omega_j) = n^{-1/2}\sum_t x_te^{-i\omega_jt}$ at $\omega_j = 2\pi j/n$ is the sample analogue of $dZ(\omega_j)$: nearly uncorrelated across Fourier frequencies',
-            r'Transformata Fourier discretă (DFT) $d(\omega_j) = n^{-1/2}\sum_t x_te^{-i\omega_jt}$ în $\omega_j = 2\pi j/n$ este analogul de eșantion al lui $dZ(\omega_j)$: aproape necorelată între frecvențele Fourier')), '0.32', '0.66'), 'small')
+          (T(r'The discrete Fourier transform (DFT) at the Fourier frequencies $\omega_j = 2\pi j/n$',
+             r'Transformata Fourier discretă (DFT) în frecvențele Fourier $\omega_j = 2\pi j/n$') + r'''
+    \[ d(\omega_j) = n^{-1/2}\sum_{t=1}^n x_te^{-i\omega_jt} \]''',
+           [T(r'the sample analogue of $dZ(\omega_j)$: nearly uncorrelated across Fourier frequencies',
+              r'analogul de eșantion al lui $dZ(\omega_j)$: aproape necorelată între frecvențele Fourier')])), '0.32', '0.66'), 'small')
 
 D.frame(T('Linear filters in the frequency domain', 'Filtre liniare în domeniul frecvenței'), items(
     (T(r'A linear filter multiplies each frequency component by the \textbf{transfer function} $A(\omega)$', r'Un filtru liniar înmulțește fiecare componentă de frecvență cu \textbf{funcția de transfer} $A(\omega)$'
@@ -452,8 +456,9 @@ D.frame(T('Why the periodogram is not enough', 'Limitele periodogramei'), items(
     \[ X_t = \sum_j\psi_j\varepsilon_{t-j} \ \Rightarrow\ I(\omega_j) \Rightarrow f(\omega_j)\,\frac{\chi^2_2}{2} \]''',
      [T(r'$\psi_j$: weights with $\sum_j|j|^{1/2}|\psi_j| < \infty$; $\varepsilon_t$: i.i.d. innovations; $f > 0$; asymptotically independent over fixed Fourier frequencies $\omega_j$',
         r'$\psi_j$: ponderi cu $\sum_j|j|^{1/2}|\psi_j| < \infty$; $\varepsilon_t$: inovații i.i.d.; $f > 0$; asimptotic independente pe frecvențe Fourier $\omega_j$ fixate'),
-      T(r'$\E I(\omega_j) \to f(\omega_j)$ but $\Var I(\omega_j) \to f(\omega_j)^2$: \textbf{inconsistent}, the variance does not fall with $n$', r'$\E I(\omega_j) \to f(\omega_j)$, dar $\Var I(\omega_j) \to f(\omega_j)^2$: \textbf{inconsistentă}, varianța nu scade cu $n$')]),
-    (T(r'Leakage: the mean periodogram is the true spectrum smoothed by the Fejér kernel $F_n$', r'Scurgerea spectrală (leakage): media periodogramei este spectrul adevărat netezit cu nucleul Fejér $F_n$'
+      T(r'$\E I(\omega_j) \to f(\omega_j)$ but $\Var I(\omega_j) \to f(\omega_j)^2$: \textbf{inconsistent}, the variance does not fall with $n$', r'$\E I(\omega_j) \to f(\omega_j)$, dar $\Var I(\omega_j) \to f(\omega_j)^2$: \textbf{inconsistentă}, varianța nu scade cu $n$'),
+      T('derivation for white noise and for a linear process: Appendix  % applink: the distribution of the periodogram', 'derivarea pentru zgomot alb și pentru un proces liniar: Anexa  % applink: distribuția periodogramei')]),
+    (T(r'Leakage: the mean periodogram is the true spectrum smoothed by the Fejér kernel $F_n$', r'Leakage-ul spectral: media periodogramei este spectrul adevărat netezit cu nucleul Fejér $F_n$'
        ) + r'''
     \[ \E I(\omega) = \int F_n(\omega - \lambda)f(\lambda)\,d\lambda \]''',
      [T(r'the side lobes of $F_n$ decay only like $1/(n\omega^2)$, so power \textbf{leaks} from strong to weak frequencies', r'lobii laterali ai lui $F_n$ scad doar ca $1/(n\omega^2)$, deci puterea se \textbf{scurge} de la frecvențele puternice spre cele slabe')]),
@@ -488,10 +493,11 @@ chart(T('Lag windows and spectral windows', 'Ferestre de laguri și ferestre spe
     h='0.5\\textheight')
 
 interp(('the windows', 'ferestrelor'), [
-    T(r'A narrow $W_M$ means low bias and high variance; Parzen is the widest at $M = 10$ (its $\int k^2 = 0.54$ is the smallest), QS the narrowest',
-      r'O fereastră $W_M$ îngustă înseamnă deplasare mică și varianță mare; Parzen este cea mai largă la $M = 10$ ($\int k^2 = 0{,}54$ este cel mai mic), QS cea mai îngustă'),
+    (T(r'A narrow $W_M$ means low bias and high variance', r'O fereastră $W_M$ îngustă înseamnă deplasare mică și varianță mare'),
+     [T(r'at $M = 10$, Parzen is the widest (its $\int k^2 = 0.54$ is the smallest) and QS the narrowest',
+        r'la $M = 10$, Parzen este cea mai largă ($\int k^2 = 0{,}54$ este cel mai mic), iar QS cea mai îngustă')]),
     T('Bartlett has side lobes (leakage through the window itself); Tukey--Hanning has negative weights',
-      'Bartlett are lobi laterali (scurgere prin fereastra însăși); Tukey--Hanning are ponderi negative'),
+      'Bartlett are lobi laterali (leakage prin fereastra însăși); Tukey--Hanning are ponderi negative'),
     T('Comparing kernels at the same $M$ is misleading: compare them at the same variance (the same equivalent degrees of freedom)',
       'Compararea nucleelor la același $M$ este înșelătoare: comparați-le la aceeași varianță (același număr echivalent de grade de libertate)'),
     T('The QS kernel is optimal in MSE among kernels with non-negative estimates \\refAnd',
@@ -558,41 +564,41 @@ D.frame(T('Multitaper estimation (1/2): Slepian tapers', 'Estimarea multitaper (
         r'$\hat S_k$ sînt aproape necorelate: $2K\hat f^{\mathrm{mt}}/f \approx \chi^2_{2K}$; varianța $f^2/K$, deplasarea controlată de concentrarea taper-elor')])), 'small')
 
 D.frame(T('Multitaper estimation (2/2): adaptive weights', 'Estimarea multitaper (2/2): ponderi adaptive'), items(
-    (T(r'\textbf{Adaptive weights} \refPWa: down-weight leaky tapers where $f$ is small', r'\textbf{Ponderi adaptive} \refPWa: se reduce ponderea taper-elor cu scurgeri acolo unde $f$ este mic'
+    (T(r'\textbf{Adaptive weights} \refPWa: down-weight leaky tapers where $f$ is small', r'\textbf{Ponderi adaptive} \refPWa: se reduce ponderea taper-elor cu leakage mare acolo unde $f$ este mic'
        ) + r'''
     \[ d_k(\omega) = \frac{\sqrt{\lambda_k}\,f(\omega)}{\lambda_kf(\omega) + (1 - \lambda_k)\sigma^2} \]''',
      [T(r'$\sigma^2$: the variance of the series; $1 - \lambda_k$: the leakage of taper $k$; the weights depend on the unknown $f$, so they are iterated from $\hat f^{\mathrm{mt}}$',
-        r'$\sigma^2$: varianța seriei; $1 - \lambda_k$: scurgerea taper-ului $k$; ponderile depind de $f$ necunoscut, deci se iterează pornind de la $\hat f^{\mathrm{mt}}$')]),
+        r'$\sigma^2$: varianța seriei; $1 - \lambda_k$: leakage-ul taper-ului $k$; ponderile depind de $f$ necunoscut, deci se iterează pornind de la $\hat f^{\mathrm{mt}}$')]),
     T(r'Alternatives with the same logic: sine tapers \refRS; Welch\'s averaging of tapered segments \refWel',
       r'Alternative cu aceeași logică: taper-ele sinus \refRS; medierea Welch a segmentelor ponderate \refWel')), 'small')
 
 chart(T('Slepian tapers', 'Taper-ele Slepian'), 'ats_ch11_dpss', 'ATS_ch11_spectral_estimation', [
     T(r'$n = 512$, $NW = 4$: the first four tapers and the leakage $1 - \lambda_k$ of the first ten (blue: $k < 2NW - 1$)',
-      r'$n = 512$, $NW = 4$: primele patru taper-e și scurgerea $1 - \lambda_k$ a primelor zece (albastru: $k < 2NW - 1$)')],
+      r'$n = 512$, $NW = 4$: primele patru taper-e și leakage-ul $1 - \lambda_k$ a primelor zece (albastru: $k < 2NW - 1$)')],
     h='0.48\\textheight')
 
 interp(('the tapers', 'taper-elor'), [
     T('Taper $k$ has $k$ zero crossings: higher tapers weight the ends of the sample, so together they use all the data',
       'Taper-ul $k$ are $k$ treceri prin zero: taper-ele de ordin mare ponderează capetele eșantionului, deci împreună folosesc toate datele'),
     T(r'Leakage grows fast with $k$: $\lambda_6 = @{dp.l6}$, but $\lambda_7 = @{dp.l7}$ and $\lambda_8 = @{dp.l8}$; beyond $2NW - 1$ the tapers are useless',
-      r'Scurgerea crește repede cu $k$: $\lambda_6 = @{dp.l6}$, dar $\lambda_7 = @{dp.l7}$ și $\lambda_8 = @{dp.l8}$; dincolo de $2NW - 1$ taper-ele nu mai sînt utile'),
+      r'Leakage-ul crește repede cu $k$: $\lambda_6 = @{dp.l6}$, dar $\lambda_7 = @{dp.l7}$ și $\lambda_8 = @{dp.l8}$; dincolo de $2NW - 1$ taper-ele nu mai sînt utile'),
     T('The single Hann taper throws away the ends; multitapering recovers that information as extra degrees of freedom',
       'Un singur taper Hann aruncă extremitățile; estimarea multitaper recuperează această informație ca grade de libertate suplimentare'),
     T('$NW$ is the only tuning choice: it fixes the resolution $2W = 2NW/n$ and the variance $f^2/K$ together',
       '$NW$ este singura alegere de calibrare: fixează împreună rezoluția $2W = 2NW/n$ și varianța $f^2/K$')])
 
-chart(T('Leakage on a spectrum with a high dynamic range', 'Scurgerea spectrală pe un spectru cu domeniu dinamic mare'), 'ats_ch11_leakage', 'ATS_ch11_spectral_estimation', [
+chart(T('Leakage on a spectrum with a high dynamic range', 'Leakage-ul spectral pe un spectru cu domeniu dinamic mare'), 'ats_ch11_leakage', 'ATS_ch11_spectral_estimation', [
     T(r'The AR(4) of Percival and Walden (1993), $n = 1024$, range of @{lk.range} dB between peak and trough; one simulated path (median leakage of 21)',
-      r'Modelul AR(4) al lui Percival și Walden (1993), $n = 1024$, @{lk.range} dB între vîrf și minim; o traiectorie simulată (cu scurgerea mediană din 21)')],
+      r'Modelul AR(4) al lui Percival și Walden (1993), $n = 1024$, @{lk.range} dB între vîrf și minim; o traiectorie simulată (cu leakage-ul median din 21)')],
     h='0.5\\textheight')
 
-interp(('leakage', 'scurgerii'), [
+interp(('leakage', 'leakage-ului'), [
     T(r'Mean bias at frequencies above 0.3 cycles (@{lk.reps} simulations): periodogram +@{lk.raw} dB, Hann taper @{lk.hann} dB, multitaper +@{lk.mt} dB, adaptive multitaper @{lk.mta} dB',
       r'Deplasarea medie la frecvențe peste 0,3 cicluri (@{lk.reps} de simulări): periodograma +@{lk.raw} dB, taper Hann @{lk.hann} dB, multitaper +@{lk.mt} dB, multitaper adaptiv @{lk.mta} dB'),
     T('The raw periodogram fills the trough with power leaked from the peaks: averaging it more would not help, the bias is in each ordinate',
       'Periodograma brută umple minimul cu putere scursă din vîrfuri: o mediere suplimentară nu ar ajuta, deplasarea este în fiecare ordonată'),
     T('With equal weights the leaky high-order tapers still contaminate the trough; the adaptive weights remove it',
-      'Cu ponderi egale, taper-ele de ordin mare, care au scurgeri, contaminează încă minimul; ponderile adaptive o elimină'),
+      'Cu ponderi egale, taper-ele de ordin mare, care au leakage mare, contaminează încă minimul; ponderile adaptive o elimină'),
     T('Economic data rarely have 60 dB ranges, but spectra of levels with a unit-root-like peak at zero do: taper or prewhiten before estimating',
       'Datele economice au rareori domenii de 60 dB, dar spectrele nivelurilor, cu un vîrf în zero ca la o rădăcină unitară, le au: aplicați un taper sau o prealbire înainte de estimare')])
 
@@ -661,9 +667,9 @@ interp(('the F test', 'testului F'), [
     T(r'The annual harmonic is weak because Romanian seasonality is not a pure sinusoid: its power sits at the higher harmonics', r'Armonica anuală este slabă deoarece sezonalitatea românească nu este o sinusoidă pură: puterea ei se află în armonicile superioare')])
 
 D.recap(('Spectral estimation theory', 'teoria estimării spectrale'), [
-    T('The periodogram is unbiased in the limit but inconsistent and leaky; smoothing buys consistency, tapering buys low bias', 'Periodograma este asimptotic nedeplasată, dar inconsistentă și cu scurgeri; netezirea aduce consistență, iar taper-ul aduce deplasare mică'),
+    T('The periodogram is unbiased in the limit but inconsistent and leaky; smoothing buys consistency, tapering buys low bias', 'Periodograma este asimptotic nedeplasată, dar inconsistentă și afectată de leakage; netezirea aduce consistență, iar taper-ul aduce deplasare mică'),
     T('Bandwidth is a bias--variance choice with $M^* \\propto n^{1/(2q+1)}$; peaks need narrow windows', 'Lățimea de bandă este o alegere deplasare--varianță cu $M^* \\propto n^{1/(2q+1)}$; vîrfurile cer ferestre înguste'),
-    T('Multitaper: $\\chi^2_{2K}$ bands that hold, adaptive weights against leakage, and an F test for lines', 'Multitaper: benzi $\\chi^2_{2K}$ care își respectă nivelul, ponderi adaptive împotriva scurgerii și un test F pentru linii')])
+    T('Multitaper: $\\chi^2_{2K}$ bands that hold, adaptive weights against leakage, and an F test for lines', 'Multitaper: benzi $\\chi^2_{2K}$ care își respectă nivelul, ponderi adaptive împotriva leakage-ului și un test F pentru linii')])
 
 # =============================================================================
 # 3. DOUĂ SERII
@@ -676,8 +682,8 @@ D.frame(T('Coherence, phase and gain (1/2): coherence', 'Coerența, faza și cî
     \[ \kappa^2_{xy}(\omega) = \frac{|f_{xy}(\omega)|^2}{f_x(\omega)f_y(\omega)} \in [0, 1] \]''',
      [T(r'$f_x$, $f_y$: the two spectra; $f_{xy}$: the cross-spectrum; $\kappa^2 = 1$: $y$ is an exact linear filter of $x$ at frequency $\omega$; $\kappa^2 = 0$: no linear relation at that frequency',
         r'$f_x$, $f_y$: cele două spectre; $f_{xy}$: spectrul încrucișat; $\kappa^2 = 1$: $y$ este exact un filtru liniar al lui $x$ la frecvența $\omega$; $\kappa^2 = 0$: nicio relație liniară la acea frecvență'),
-      T(r'invariant to filtering each series by an invertible filter: coherence does not depend on how the series are transformed (Appendix)',
-        r'invariantă la filtrarea fiecărei serii cu un filtru inversabil: coerența nu depinde de felul în care sînt transformate seriile (Anexa)')]),
+      T(r'invariant to filtering each series by an invertible filter: coherence does not depend on how the series are transformed (Appendix)  % applink: two filter facts',
+        r'invariantă la filtrarea fiecărei serii cu un filtru inversabil: coerența nu depinde de felul în care sînt transformate seriile (Anexa)  % applink: două proprietăți ale filtrelor')]),
     T(r'\textbf{Gain} $|f_{xy}(\omega)|/f_x(\omega)$: the regression coefficient of $y$ on $x$ at frequency $\omega$',
       r'\textbf{Cîștigul} $|f_{xy}(\omega)|/f_x(\omega)$: coeficientul de regresie al lui $y$ pe $x$ la frecvența $\omega$')), 'small')
 
@@ -891,8 +897,9 @@ D.frame(T('Measuring business-cycle synchronisation', 'Măsurarea sincronizării
      [T(r'$S_{xt} = 1$ if $x$ is in expansion (here: cycle above trend), 0 otherwise; under independence $\E C = p_xp_y + (1 - p_x)(1 - p_y)$, $p_x$, $p_y$: shares of expansion periods',
         r'$S_{xt} = 1$ dacă $x$ este în expansiune (aici: ciclul peste tendință), 0 altfel; sub independență $\E C = p_xp_y + (1 - p_x)(1 - p_y)$, $p_x$, $p_y$: ponderile perioadelor de expansiune')]),
     (T(r'Dynamic correlation over the business-cycle band \refCFR, which needs no filter', r'Corelația dinamică pe banda ciclului economic \refCFR, care nu cere niciun filtru'), []),
-    T(r'Evidence for Central and Eastern Europe: a meta-analysis of 35 publications finds that some countries already had high correlations with the euro area and that the estimation method changes the correlation significantly \refFK',
-      r'Evidența pentru Europa Centrală și de Est: o meta-analiză a 35 de publicații arată că unele țări aveau deja corelații mari cu zona euro și că metoda de estimare schimbă semnificativ corelația \refFK')), 'small')
+    (T(r'Evidence for Central and Eastern Europe: a meta-analysis of 35 publications \refFK', r'Evidența pentru Europa Centrală și de Est: o meta-analiză a 35 de publicații \refFK'),
+     [T('some countries already had high correlations with the euro area', 'unele țări aveau deja corelații mari cu zona euro'),
+      T('the estimation method changes the correlation significantly', 'metoda de estimare schimbă semnificativ corelația')])), 'small')
 
 chart(T('Romania and the euro area: synchronisation over time', 'România și zona euro: sincronizarea în timp'), 'ats_ch11_sync', 'ATS_ch11_filters', [
     T(r'Baxter--King cycles of real GDP, @{sy.start} -- @{sy.end}, and their rolling 20-quarter correlation',
@@ -1030,7 +1037,7 @@ chart(T('Wavelet filters and the Morlet wavelet', 'Filtre wavelet și wavelet-ul
 
 interp(('the wavelet filters', 'filtrelor wavelet'), [
     T('Each MODWT level is an approximate band-pass filter for one octave; the bands overlap, so leakage between neighbouring levels is part of the design',
-      'Fiecare nivel MODWT este un filtru trece-bandă aproximativ pentru o octavă; benzile se suprapun, deci scurgerea între niveluri vecine face parte din construcție'),
+      'Fiecare nivel MODWT este un filtru trece-bandă aproximativ pentru o octavă; benzile se suprapun, deci leakage-ul între niveluri vecine face parte din construcție'),
     T('The bandwidth grows with frequency: fine frequency resolution for long cycles, fine time resolution for short ones',
       'Lățimea benzii crește cu frecvența: rezoluție fină în frecvență pentru ciclurile lungi, rezoluție fină în timp pentru cele scurte'),
     T(r'Morlet is complex: its modulus gives amplitude, its argument gives phase; Fourier period $= 1.033\times$ scale for $\omega_0 = 6$',
@@ -1295,7 +1302,7 @@ D.section('Wrap-up', 'Încheiere')
 
 D.frame(T('Key takeaways', 'Idei de reținut'), items(
     T('The spectrum decomposes variance by frequency; filters act on it through their squared gain', 'Spectrul descompune varianța pe frecvențe; filtrele acționează asupra lui prin pătratul cîștigului'),
-    T('Estimation is a bias--variance choice; multitaper gives low leakage, stable variance and honest bands', 'Estimarea este o alegere deplasare--varianță; multitaper dă scurgere mică, varianță stabilă și benzi corecte'),
+    T('Estimation is a bias--variance choice; multitaper gives low leakage, stable variance and honest bands', 'Estimarea este o alegere deplasare--varianță; multitaper dă leakage mic, varianță stabilă și benzi corecte'),
     T('Coherence, phase, dynamic correlation and Breitung--Candelon tests describe co-movement and causality by frequency', 'Coerența, faza, corelația dinamică și testele Breitung--Candelon descriu co-mișcarea și cauzalitatea pe frecvențe'),
     T('A business cycle is whatever the filter\'s gain lets through; HP adds spurious cycles and fails in real time', 'Un ciclu economic este ceea ce lasă să treacă cîștigul filtrului; HP adaugă cicluri false și eșuează în timp real'),
     T('Wavelets localise variance and co-movement in time and scale; significance needs Monte Carlo and areawise thinking', 'Wavelets localizează varianța și co-mișcarea în timp și pe scale; semnificația cere Monte Carlo și o judecată pe arii')), 'small')
@@ -1309,7 +1316,7 @@ D.frame(T('Self-assessment', 'Autoevaluare'), cols(
         T('Why is the MODWT preferred to the DWT for wavelet variance?', 'De ce este preferată MODWT față de DWT pentru varianța wavelet?'))),
     block(T('Next: Chapter 12', 'Urmează: Capitolul 12'), items(
         T('Machine learning and deep learning for time series', 'Machine learning și deep learning pentru serii de timp'),
-        T('global models, leakage-free validation, deep architectures', 'modele globale, validare fără scurgere de informație, arhitecturi deep'))),
+        T('global models, leakage-free validation, deep architectures', 'modele globale, validare fără leakage, arhitecturi deep'))),
     '0.56', '0.40'), 'small')
 
 # =============================================================================

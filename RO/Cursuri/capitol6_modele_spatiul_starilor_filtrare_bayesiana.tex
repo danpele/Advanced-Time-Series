@@ -139,7 +139,6 @@ MSCA Digital Finance}
 \begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{HP}: Hodrick–Prescott (filter) — filtrul Hodrick–Prescott
     \item \textbf{IAPC}: Indicele armonizat al prețurilor de consum
-    \item \textbf{IC}: Interval de încredere
     \item \textbf{IG}: inverse gamma (distribution) — distribuția inverse gamma
     \item \textbf{IMA}: Integrated Moving Average (model) — model integrat de medie mobilă
     \item \textbf{INDPRO}: Industrial production index (FRED series code) — indicele producției industriale (codul seriei în FRED)
@@ -150,11 +149,11 @@ MSCA Digital Finance}
     \item \textbf{MCMC}: Markov Chain Monte Carlo (metode Monte Carlo cu lanțuri Markov)
     \item \textbf{ML}: Machine Learning (învățare automată)
     \item \textbf{MNZ}: Morley–Nelson–Zivot (2003) — Morley–Nelson–Zivot (2003)
+    \item \textbf{OLS}: Ordinary Least Squares (metoda celor mai mici pătrate)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{OLS}: Ordinary Least Squares (metoda celor mai mici pătrate)
     \item \textbf{PAYEMS}: Total nonfarm payroll employment (FRED series code) — numărul total de salariați din afara agriculturii (codul seriei în FRED)
     \item \textbf{PIB}: Produsul intern brut
     \item \textbf{PMMH}: Particle Marginal Metropolis–Hastings (algoritmul Metropolis–Hastings marginal cu filtru de particule)
@@ -167,6 +166,7 @@ MSCA Digital Finance}
     \item \textbf{TVA}: Taxa pe valoarea adăugată
     \item \textbf{TVP}: Time-Varying Parameter(s) — parametri variabili în timp
     \item \textbf{TVP-VAR}: Time-Varying-Parameter Vector AutoRegression (model VAR cu parametri variabili în timp)
+    \item \textbf{TVP-VAR-SV}: TVP-VAR with Stochastic Volatility (model VAR cu parametri variabili în timp și volatilitate stochastică)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -176,7 +176,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{TVP-VAR-SV}: TVP-VAR with Stochastic Volatility (model VAR cu parametri variabili în timp și volatilitate stochastică)
     \item \textbf{UC}: Unobserved Components (model) — model cu componente neobservate
     \item \textbf{UC-SV}: Unobserved Components model with Stochastic Volatility (Stock–Watson 2007) — model cu componente neobservate și volatilitate stochastică (Stock–Watson 2007)
     \item \textbf{UC-UR}: UC model with correlated trend and cycle shocks (Morley–Nelson–Zivot 2003) — model UC cu șocuri corelate ale trendului și ciclului (Morley–Nelson–Zivot 2003)
@@ -369,27 +368,41 @@ producția industrială, numărul de salariați, venitul real fără transferuri
 \itemsize{\small}
 \begin{itemize}
     \item Netezitorul stărilor \refDK: $r_{t-1} = Z_t'F_t^{-1}v_t + L_t'r_t$, $\quad N_{t-1} = Z_t'F_t^{-1}Z_t + L_t'N_tL_t$, $\quad r_n = 0$, $N_n = 0$
-    \item $r_{t-1}$: o sumă ponderată a inovațiilor de după $t$; $N_{t-1} = \Var(r_{t-1})$; atunci $\hat\alpha_t = a_t + P_tr_{t-1}$, $\quad V_t = P_t - P_tN_{t-1}P_t$
-    \item $r_{t-1}$ este o sumă ponderată a inovațiilor viitoare: $\hat\alpha_t$ corectează $a_t$ cu tot ce aflăm după momentul $t$
+    \item Starea netezită: $\hat\alpha_t = a_t + P_tr_{t-1}$, $\quad V_t = P_t - P_tN_{t-1}P_t$
+    \begin{itemize}
+        \item $r_{t-1}$: o sumă ponderată a inovațiilor de la $t$ încolo; $N_{t-1} = \Var(r_{t-1})$
+        \item $\hat\alpha_t$ corectează $a_t$ cu tot ce aflăm de la momentul $t$ încolo
+    \end{itemize}
     \item Netezitorul perturbațiilor: $\hat\varepsilon_t = H_t(F_t^{-1}v_t - K_t'r_t)$, $\hat\eta_t = Q_tR_t'r_t$: reziduuri auxiliare pentru valori extreme și rupturi și scorul verosimilității
     \item Derivarea folosește aceeași lemă, acum condiționînd pe $v_t, \dots, v_n$, care sînt independente (\atsapplink{atsapp1}{atssrc1}{Anexa})
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Inițializarea difuză}
-\itemsize{\footnotesize}
+\begin{frame}{Inițializarea difuză (1/2)}
+\itemsize{\small}
 \begin{itemize}
     \item Mersurile aleatoare, trendurile și coeficienții de regresie nu au distribuție staționară: $P_1 = \kappa P_\infty + P_*$, $\kappa \to \infty$
     \begin{itemize}
         \item „big kappa” ($\kappa = 10^6$--$10^7$) este o aproximare cu două defecte: verosimilitatea conține termeni $-\frac12\ln\kappa$, iar erorile de rotunjire cresc cu $\kappa$
     \end{itemize}
-    \item Filtrul difuz exact \refKoo, \refAK, \refdJa: dezvoltăm $P_t = \kappa P_{\infty,t} + P_{*,t} + O(\kappa^{-1})$ și păstrăm ambele părți cît timp $P_{\infty,t} \ne 0$
+    \item Filtrul difuz exact \refKoo, \refAK, \refdJa
+    \begin{itemize}
+        \item dezvoltăm $P_t = \kappa P_{\infty,t} + P_{*,t} + O(\kappa^{-1})$ și păstrăm ambele părți cît timp $P_{\infty,t} \ne 0$
+        \item $P_{\infty,t}$ ajunge la zero după $d$ pași ($d$ = numărul elementelor difuze, dacă sînt identificate)
+        \item apoi preia filtrul obișnuit
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Inițializarea difuză (2/2)}
+\itemsize{\footnotesize}
+\begin{itemize}
+    \item Recursiile difuze exacte
     \begin{itemize}
         \item $F_{\infty,t}$, $F_{*,t}$: părțile difuză și finită ale lui $F_t$; $K^{(0)}_t$, $K^{(1)}_t$: cîștigurile corespunzătoare; $L^{(0)}_t = T_t - K^{(0)}_tZ_t$, $L^{(1)}_t = -K^{(1)}_tZ_t$
         \item $y_t$ univariat, $F_{\infty,t} = Z_tP_{\infty,t}Z_t' > 0$: $K^{(0)}_t = T_tP_{\infty,t}Z_t'/F_{\infty,t}$, $K^{(1)}_t = T_t(P_{*,t}Z_t' - P_{\infty,t}Z_t'F_{*,t}/F_{\infty,t})/F_{\infty,t}$
         \item $a_{t+1} = c_t + T_ta_t + K^{(0)}_tv_t$; $P_{\infty,t+1} = T_tP_{\infty,t}L^{(0)\prime}_t$; $P_{*,t+1} = T_tP_{\infty,t}L^{(1)\prime}_t + T_tP_{*,t}L^{(0)\prime}_t + R_tQ_tR_t'$
     \end{itemize}
-    \item $P_{\infty,t}$ ajunge la zero după $d$ pași ($d$ = numărul elementelor difuze, dacă sînt identificate); apoi preia filtrul obișnuit
     \item Netezitorul are recursii difuze corespunzătoare pentru $r^{(0)}, r^{(1)}, N^{(0)}, N^{(1)}, N^{(2)}$ \refDK, secțiunea 5.3; în Quantlet ambele sînt comparate cu \texttt{statsmodels}
 \end{itemize}
 \end{frame}
@@ -487,8 +500,10 @@ producția industrială, numărul de salariați, venitul real fără transferuri
     \begin{itemize}
         \item scorul în $q = 0$ este adesea negativ, pentru că un trend neted se potrivește datelor mai bine decît unul care rătăcește puțin
     \end{itemize}
-    \item Consecințe: IC calculat din hessiană nu este valid; testul LR pentru $q = 0$ nu este $\chi^2_1$, nici măcar $\frac12\chi^2_0 + \frac12\chi^2_1$, pentru că modelul sub alternativă este nestaționar
+    \item Consecințele
     \begin{itemize}
+        \item intervalul de încredere calculat din hessiană nu este valid
+        \item testul LR pentru $q = 0$ nu este $\chi^2_1$, nici măcar $\frac12\chi^2_0 + \frac12\chi^2_1$: modelul sub alternativă este nestaționar
         \item remedii: estimarea median-nedeplasată a varianței coeficienților \refSWa; bootstrap parametric pentru statistica LR (secțiunea TVP); distribuții a priori care țin $q$ departe de zero
     \end{itemize}
     \item Aceeași problemă apare în regresiile TVP (este coeficientul constant?) și în modelele UC (este trendul determinist?)
@@ -576,7 +591,7 @@ producția industrială, numărul de salariați, venitul real fără transferuri
         \item 2. rulăm o singură dată netezitorul stărilor pe $y - y^+$ (termeni liberi nuli): $\hat\alpha(y - y^+) = \hat\alpha(y) - \hat\alpha(y^+)$
         \item 3. $\tilde\alpha = \alpha^+ + \hat\alpha(y) - \hat\alpha(y^+)$ este o extragere din $p(\alpha | Y_n)$
     \end{itemize}
-    \item Este nevoie doar de netezitorul mediei: fără inversarea lui $P_{t|t}$, fără probleme de singularitate, stările difuze sînt tratate de netezitorul difuz exact
+    \item Este nevoie doar de netezitorul mediei: fără inversarea lui $P_{t|t}$, fără probleme de singularitate, stările difuze sînt tratate de netezitorul difuz exact (demonstrația: \atsapplink{atsapp2}{atssrc2}{Anexa})  % applink: exactitatea simulation smoother
     \item Precursor: simulation smoother-ul perturbațiilor din \refdJS; aceeași idee pentru perturbațiile $\varepsilon_t, \eta_t$
 \end{itemize}
 \end{frame}
@@ -584,7 +599,11 @@ producția industrială, numărul de salariați, venitul real fără transferuri
 \begin{frame}{Eșantionarea pe baza matricei de precizie}
 \itemsize{\small}
 \begin{itemize}
-    \item Scriem modelul matriceal: $y = X\alpha + \varepsilon$, $H\alpha = \eta$, cu $H$ o matrice de diferențe în bandă: $\alpha | y \sim N(\hat\alpha, K^{-1})$, $K = H'\Sigma_\eta^{-1}H + X'\Sigma_\varepsilon^{-1}X$ \refCJ
+    \item Scriem modelul matriceal \refCJ: $y = X\alpha + \varepsilon$, $D\alpha = \eta$
+    \begin{itemize}
+        \item $D$: o matrice de diferențe în bandă (diferențe de ordinul întîi pentru un mers aleator)
+        \item atunci $\alpha | y \sim N(\hat\alpha, K^{-1})$, cu $K = D'\Sigma_\eta^{-1}D + X'\Sigma_\varepsilon^{-1}X$
+    \end{itemize}
     \item $K$ este în bandă (tridiagonală pentru un mers aleator): un singur factor Cholesky în bandă $K = U'U$ costă $O(n)$
     \begin{itemize}
         \item $\alpha$, $y$: toate stările și observațiile așezate una sub alta; $X$: matricea bloc-diagonală a lui $Z_t$; $\Sigma_\varepsilon$, $\Sigma_\eta$: covarianțele zgomotelor; $K$: precizia a posteriori (inversa covarianței)
@@ -687,24 +706,31 @@ producția industrială, numărul de salariați, venitul real fără transferuri
 \end{columns}
 \end{frame}
 
-\begin{frame}{Volatilitatea stochastică nu este GARCH}
+\begin{frame}{Volatilitatea stochastică nu este GARCH (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item GARCH \refBol: $\sigma^2_t = \omega + \alpha y^2_{t-1} + \beta\sigma^2_{t-1}$ ($\omega > 0$, $\alpha, \beta \ge 0$) este cunoscut la $t-1$ (măsurabil în raport cu randamentele trecute): o singură sursă de aleatoriu
+    \item GARCH \refBol: $\sigma^2_t = \omega + \alpha y^2_{t-1} + \beta\sigma^2_{t-1}$, $\omega > 0$, $\alpha, \beta \ge 0$
     \begin{itemize}
+        \item $\sigma^2_t$ este cunoscută la $t-1$ (o funcție de randamentele trecute): o singură sursă de aleatoriu
         \item verosimilitatea este un produs de densități cunoscute: o singură trecere, ML exact
     \end{itemize}
     \item SV: $h_t$ are propriul șoc $\eta_t$; chiar cu toate randamentele trecute, varianța de azi este incertă
     \begin{itemize}
         \item $p(y_{1:n} | \psi) = \int\prod_t N(y_t; 0, e^{h_t})\,p(h_{1:n} | \psi)\,dh_{1:n}$: o integrală $n$-dimensională fără formă închisă
     \end{itemize}
+    \item Compararea pe scala verosimilității este posibilă doar după calculul integralei: filtrul de particule (secțiunea următoare) sau eșantionarea prin importanță \refKSC
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Volatilitatea stochastică nu este GARCH (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Momentele, cu $\sigma^2_h = \sigma^2_\eta/(1 - \phi^2)$ varianța necondiționată a lui $h_t$
     \begin{itemize}
         \item kurtosis-ul lui $y_t$: $3\exp(\sigma^2_h) > 3$ chiar cu $\epsilon_t$ gaussian: cozile groase provin din varianța aleatoare
         \item $\Corr(y^2_t, y^2_{t-k}) = (e^{\sigma^2_h\phi^k} - 1)/(3e^{\sigma^2_h} - 1)$: volatility clustering care scade odată cu $\phi^k$
     \end{itemize}
     \item Efectul de levier intră prin $\Corr(\epsilon_t, \eta_t) = \rho < 0$ \refOCSN; GARCH are nevoie de un termen asimetric pentru același efect
-    \item Compararea pe scala verosimilității este posibilă doar după calculul integralei: filtrul de particule (secțiunea următoare) sau eșantionarea prin importanță \refKSC
 \end{itemize}
 \end{frame}
 
@@ -864,8 +890,12 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \begin{frame}{Filtrul Kalman unscented}
 \itemsize{\small}
 \begin{itemize}
-    \item Transformarea unscented \refJU: reprezentăm $N(m, P)$ ($n$ dimensiuni) prin $2n + 1$ puncte sigma $\mathcal X_0 = m$, $\mathcal X_{\pm i} = m \pm (\sqrt{(n + \lambda)P})_i$
-    \item Ponderile $w_0 = \lambda/(n + \lambda)$, $w_{\pm i} = 1/(2(n + \lambda))$; trecem fiecare punct prin $g$ și calculăm medii și covarianțe ponderate; $\lambda$: un parametru de împrăștiere, $(\sqrt{A})_i$: coloana $i$ a unei rădăcini pătrate a matricei
+    \item Transformarea unscented \refJU: $N(m, P)$ în $n$ dimensiuni este reprezentată prin $2n + 1$ puncte sigma
+    \begin{itemize}
+        \item $\mathcal X_0 = m$, $\mathcal X_{\pm i} = m \pm (\sqrt{(n + \lambda)P})_i$; $(\sqrt{A})_i$: coloana $i$ a unei rădăcini pătrate a matricei
+        \item ponderile $w_0 = \lambda/(n + \lambda)$, $w_{\pm i} = 1/(2(n + \lambda))$; $\lambda$: un parametru de împrăștiere
+        \item trecem fiecare punct prin $g$ și calculăm medii și covarianțe ponderate
+    \end{itemize}
     \item Exactă pentru medie pînă la ordinul doi al dezvoltării Taylor a lui $g$ (EKF: ordinul întîi); nu sînt necesari iacobieni
     \item UKF: aplicăm transformarea în pasul de predicție și în cel de actualizare; cost similar cu EKF
     \item Rămîne gaussian la fiecare pas: densitățile de filtrare multimodale sau cu cozi groase cer particule
@@ -906,7 +936,12 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \begin{column}{0.68\textwidth}
 \begin{itemize}
     \item Reprezentăm $p(x_t | Y_t)$ prin particule $x^{(i)}_t$ cu ponderi $W^{(i)}_t$, $i = 1, \dots, N$; metoda Monte Carlo provine de la Ulam și Metropolis (1949)
-    \item Filtrul bootstrap \refGSS, \refKit: (1) propagăm $x^{(i)}_t \sim f(\cdot | x^{(i)}_{t-1})$; (2) ponderăm $w^{(i)}_t = g(y_t | x^{(i)}_t)$; (3) reeșantionăm $N$ particule cu probabilitățile $W^{(i)}_t \propto w^{(i)}_t$
+    \item Filtrul bootstrap \refGSS, \refKit
+    \begin{itemize}
+        \item propagăm: $x^{(i)}_t \sim f(\cdot | x^{(i)}_{t-1})$
+        \item ponderăm: $w^{(i)}_t = g(y_t | x^{(i)}_t)$
+        \item reeșantionăm $N$ particule cu probabilitățile $W^{(i)}_t \propto w^{(i)}_t$
+    \end{itemize}
     \item Fără reeșantionare ponderile degenerează (o singură particulă preia toată ponderea); mărimea efectivă a eșantionului $\mathrm{ESS}_t = 1/\sum_i(W^{(i)}_t)^2$
     \item Reeșantionarea sistematică: o singură variabilă uniformă $U$, punctele $(U + i - 1)/N$ pe ponderile cumulate: varianță mai mică decît reeșantionarea multinomială
 \end{itemize}
@@ -918,8 +953,9 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \itemsize{\small}
 \begin{itemize}
     \item $\hat p(y_t | Y_{t-1}) = \frac1N\sum_i w^{(i)}_t$ și $\hat L(\psi) = \prod_t\hat p(y_t | Y_{t-1})$
-    \item $\E\hat L(\psi) = L(\psi)$ exact, pentru orice $N \ge 1$ \refDM: nedeplasat pe scala nivelului
+    \item $\E\hat L(\psi) = L(\psi)$ exact, pentru orice $N \ge 1$ \refDM{} (\atsapplink{atsapp3}{atssrc3}{Anexa})  % applink: nedeplasarea verosimilității
     \begin{itemize}
+        \item $\hat L$ este nedeplasat pe scala nivelului
         \item nu și pe scala logaritmică: dacă $\ln\hat L \approx N(\ln L - \tau^2/2, \tau^2)$, atunci $\E\ln\hat L = \ln L - \tau^2/2$; $\tau^2 = \Var\ln\hat L$
     \end{itemize}
     \item $\Var\ln\hat L$ crește aproximativ liniar în $n$ și scade ca $1/N$: un eșantion de două ori mai lung cere de două ori mai multe particule
@@ -954,12 +990,14 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \itemsize{\small}
 \begin{itemize}
     \item Slăbiciunea filtrului bootstrap: particulele sînt propagate fără a ține cont de $y_t$; o valoare extremă lasă puține particule cu pondere
-    \item APF \refPS: privim înainte de propagare. Prima etapă: reeșantionăm $x^{(i)}_{t-1}$ cu ponderi $\propto W^{(i)}_{t-1}\,g(y_t | \mu^{(i)}_t)$, $\mu^{(i)}_t = \E(x_t | x^{(i)}_{t-1})$
+    \item APF \refPS: privim înainte de propagare
     \begin{itemize}
+        \item prima etapă: reeșantionăm $x^{(i)}_{t-1}$ cu ponderi $\propto W^{(i)}_{t-1}\,g(y_t | \mu^{(i)}_t)$, $\mu^{(i)}_t = \E(x_t | x^{(i)}_{t-1})$
         \item a doua etapă: propagăm, apoi ponderăm cu $g(y_t | x^{(i)}_t)/g(y_t | \mu^{(k_i)}_t)$ pentru a corecta privirea înainte
+        \item $k_i$: indicele particulei alese în prima etapă
     \end{itemize}
     \item Cazul complet adaptat: ponderi în prima etapă $p(y_t | x_{t-1})$ și propunerea $p(x_t | x_{t-1}, y_t)$: ponderile din etapa a doua sînt egale (optim local)
-    \item Estimația verosimilității rămîne nedeplasată: $\hat p(y_t | Y_{t-1}) = \big(\sum_iW^{(i)}_{t-1}g(y_t | \mu^{(i)}_t)\big)\cdot\frac1N\sum_i\omega^{(i)}_t$
+    \item Estimația verosimilității rămîne nedeplasată: $\hat p(y_t | Y_{t-1}) = \big(\sum_iW^{(i)}_{t-1}g(y_t | \mu^{(i)}_t)\big)\cdot\frac1N\sum_i\omega^{(i)}_t$; $\omega^{(i)}_t$: ponderile din etapa a doua
 \end{itemize}
 \end{frame}
 
@@ -989,9 +1027,16 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \itemsize{\small}
 \begin{itemize}
     \item Ideea pseudo-marginală \refAR: rulăm Metropolis--Hastings cu o estimație nedeplasată și pozitivă $\hat L(\psi)$ în locul lui $L(\psi)$; lanțul are ca țintă tot distribuția a posteriori exactă $p(\psi | Y_n)$
-    \item PMMH \refADH: propunem $\psi'$ din densitatea de propunere $q(\cdot | \psi)$; rulăm un filtru de particule pentru $\hat L(\psi')$; acceptăm cu probabilitatea $\min\{1, \hat L(\psi')p(\psi')q(\psi | \psi') / [\hat L(\psi)p(\psi)q(\psi' | \psi)]\}$; păstrăm $\hat L$ al punctului curent
-    \item Alegerea lui $N$: prea puține particule blochează lanțul; prea multe irosesc timpul. Ținta: $\Var(\ln\hat L) \approx 1$--$2$ la media a posteriori \refPSGK, \refDPDK
+    \item PMMH \refADH
     \begin{itemize}
+        \item propunem $\psi'$ din densitatea de propunere $q(\cdot | \psi)$; rulăm un filtru de particule pentru $\hat L(\psi')$
+        \item acceptăm cu probabilitatea $\min\{1, \hat L(\psi')p(\psi')q(\psi | \psi') / [\hat L(\psi)p(\psi)q(\psi' | \psi)]\}$; $p(\cdot)$: distribuția a priori
+        \item păstrăm $\hat L$ al punctului curent (nu îl recalculăm)
+    \end{itemize}
+    \item Alegerea lui $N$ \refPSGK, \refDPDK
+    \begin{itemize}
+        \item prea puține particule blochează lanțul; prea multe irosesc timpul
+        \item ținta: $\Var(\ln\hat L) \approx 1$--$2$ la media a posteriori
         \item particle Gibbs (SMC condiționat) eșantionează și traiectoria stării; util atunci cînd nu există o structură condiționat gaussiană
     \end{itemize}
     \item Funcționează pentru orice model pe care îl puteți simula și a cărui densitate de măsurare o puteți evalua: SV cu salturi, modele DSGE, modele UC neliniare
@@ -1037,7 +1082,11 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \begin{frame}{O regresie TVP în forma în spațiul stărilor}
 \itemsize{\small}
 \begin{itemize}
-    \item $y_t = c_t + b_tx_t + D_t'\gamma + \varepsilon_t$, $\quad c_{t+1} = c_t + \eta_{c,t}$, $\quad b_{t+1} = b_t + \eta_{b,t}$: starea $\alpha_t = (c_t, b_t, \gamma')'$, $Z_t = (1, x_t, D_t')$; $c_t$, $b_t$: termenul liber și panta, mersuri aleatoare cu varianțele $\sigma^2_c$, $\sigma^2_b$; $D_t$: variabile dummy cu $\gamma$ fix
+    \item $y_t = c_t + b_tx_t + D_t'\gamma + \varepsilon_t$, $\quad c_{t+1} = c_t + \eta_{c,t}$, $\quad b_{t+1} = b_t + \eta_{b,t}$
+    \begin{itemize}
+        \item $c_t$, $b_t$: termenul liber și panta, mersuri aleatoare cu varianțele $\sigma^2_c$, $\sigma^2_b$; $D_t$: variabile dummy cu $\gamma$ fix
+        \item starea $\alpha_t = (c_t, b_t, \gamma')'$; $Z_t = (1, x_t, D_t')$
+    \end{itemize}
     \item Coeficienții ficși ($\gamma$, aici variabile dummy sezoniere trimestriale) sînt stări cu varianță zero și start difuz: $d$ = numărul stărilor = 5
     \begin{itemize}
         \item cu $\sigma^2_c = \sigma^2_b = 0$, netezitorul dă estimațiile OLS (cele mai mici pătrate recursive)
@@ -1081,7 +1130,12 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item \refCSa, \refCSb, \refPri: $y_t = X_t'\beta_t + A_t^{-1}\Sigma_t\epsilon_t$; $\beta_t$, elementele libere $a_t$ ale matricei inferior triunghiulare $A_t$ și $\ln\sigma_{j,t}$ urmează mersuri aleatoare; $X_t$: lagurile; $\Sigma_t = \mathrm{diag}(\sigma_{j,t})$; $\epsilon_t \sim N(0, I)$
+    \item \refCSa, \refCSb, \refPri: $y_t = X_t'\beta_t + A_t^{-1}\Sigma_t\epsilon_t$
+    \begin{itemize}
+        \item $X_t$: lagurile; $\beta_t$: coeficienții; $\epsilon_t \sim N(0, I)$
+        \item $A_t$: inferior triunghiulară, cu elementele libere $a_t$; $\Sigma_t = \mathrm{diag}(\sigma_{j,t})$
+        \item $\beta_t$, $a_t$ și $\ln\sigma_{j,t}$ urmează mersuri aleatoare
+    \end{itemize}
     \item Întrebarea: s-a schimbat politica monetară a SUA (coeficienți care derivă) sau s-au micșorat șocurile (volatilități în scădere) după 1980?
     \item Răspunsul din \refPri: reacția sistematică a politicii monetare s-a schimbat, dar aceste schimbări explică puțin din anii 1970; varianța șocurilor care nu țin de politica monetară contează mai mult
     \item Fără volatilitate stochastică, scăderea varianțelor șocurilor este atribuită greșit schimbării coeficienților
@@ -1120,20 +1174,32 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \section{Modele cu factori dinamici în forma în spațiul stărilor}
 %=============================================================================
 
-\begin{frame}{DFM ca model în spațiul stărilor}
+\begin{frame}{DFM ca model în spațiul stărilor (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $x_{it} = \lambda_i'f_t + e_{it}$, $\quad f_t = \Phi f_{t-1} + u_t$, $\quad e_{it} = \rho_ie_{i,t-1} + \nu_{it}$: starea $(f_t', f_{t-1}', e_t')'$, $Z = (\Lambda, 0, I)$
+    \item $x_{it} = \lambda_i'f_t + e_{it}$, $\quad f_t = \Phi f_{t-1} + u_t$, $\quad e_{it} = \rho_ie_{i,t-1} + \nu_{it}$
     \begin{itemize}
-        \item $f_t$: factorii, un VAR(1) cu matricea $\Phi$; $\lambda_i$: ponderile factoriale ale seriei $i$, așezate în $\Lambda$; $e_{it}$: erori idiosincratice AR(1) cu coeficienții $\rho_i$; $u_t$, $\nu_{it}$: șocurile
+        \item $f_t$: factorii, un VAR(1) cu matricea $\Phi$; $\lambda_i$: ponderile factoriale ale seriei $i$, așezate în $\Lambda$
+        \item $e_{it}$: erori idiosincratice AR(1) cu coeficienții $\rho_i$; $u_t$, $\nu_{it}$: șocurile
+        \item starea $(f_t', f_{t-1}', e_t')'$; matricea de măsurare $Z = (\Lambda, 0, I)$
     \end{itemize}
-    \item Estimarea:
+    \item Frecvențele mixte \refMM
+    \begin{itemize}
+        \item o rată de creștere trimestrială este o sumă ponderată a stărilor lunare
+        \item filtrul sare pur și simplu peste lunile lipsă
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{DFM ca model în spațiul stărilor (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Estimarea
     \begin{itemize}
         \item în doi pași \refDGR: componentele principale dau $\Lambda$, $\Phi$, $\Sigma_e$; apoi netezitorul Kalman reestimează $f_t$ pe panelul complet; consistent cînd $N, T \to \infty$
         \item ML prin EM \refSS, \refBM: pasul E este netezitorul, sînt permise structuri arbitrare de date lipsă
         \item $N$ mare: comprimăm cele $N$ observații într-un vector de dimensiune $r$ înainte de filtrare \refJK; costul nu mai crește ca $N^3$
     \end{itemize}
-    \item Frecvențele mixte: o rată de creștere trimestrială este o sumă ponderată a stărilor lunare \refMM; filtrul sare pur și simplu peste lunile lipsă
     \item Nowcasting \refGRS: ragged edge, descompunerea pe știri și evaluarea în timp real se află în \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol5_bvar_modele_factoriale_nowcasting.pdf}{Capitolul 5}; această secțiune arată mecanismul în spațiul stărilor
 \end{itemize}
 \end{frame}
@@ -1168,8 +1234,9 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \begin{frame}{Trei definiții ale ciclului}
 \itemsize{\small}
 \begin{itemize}
-    \item Beveridge--Nelson \refBN: trendul = prognoza pe orizont lung fără drift, $\tau^{BN}_t = y_t + \sum_{j\ge1}\E_t(\Delta y_{t+j} - \mu)$; ciclul $c^{BN}_t = y_t - \tau^{BN}_t$
+    \item Beveridge--Nelson \refBN: trendul = prognoza pe orizont lung fără drift
     \begin{itemize}
+        \item $\tau^{BN}_t = y_t + \sum_{j\ge1}\E_t(\Delta y_{t+j} - \mu)$; ciclul $c^{BN}_t = y_t - \tau^{BN}_t$
         \item $\E_t$: speranța condiționată de datele pînă la $t$; $\mu$: creșterea medie; trendul este nivelul la care se așteaptă să ajungă $y$ după ce creșterea previzibilă s-a stins
         \item pentru un AR(1) în creștere: $c^{BN}_t = -\frac{\phi}{1 - \phi}(\Delta y_t - \mu)$; unilateral, depinde de modelul ARMA ales; versiuni fiabile: \refKMW
     \end{itemize}
@@ -1182,8 +1249,9 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \begin{frame}{Componente neobservate cu șocuri corelate}
 \itemsize{\small}
 \begin{itemize}
-    \item \refMNZ: $y_t = \tau_t + c_t$, $\tau_t = \mu + \tau_{t-1} + \eta_t$, $c_t = \phi_1c_{t-1} + \phi_2c_{t-2} + \varepsilon_t$, $\Corr(\eta_t, \varepsilon_t) = \rho$ (UC-UR)
+    \item \refMNZ, modelul UC-UR
     \begin{itemize}
+        \item $y_t = \tau_t + c_t$, $\tau_t = \mu + \tau_{t-1} + \eta_t$, $c_t = \phi_1c_{t-1} + \phi_2c_{t-2} + \varepsilon_t$, $\Corr(\eta_t, \varepsilon_t) = \rho$
         \item $\tau_t$: trendul stochastic cu driftul $\mu$ și șocurile $\eta_t$ (abaterea standard $\sigma_\eta$); $c_t$: un ciclu AR(2) cu șocurile $\varepsilon_t$ (abaterea standard $\sigma_\varepsilon$); $\rho$: corelația celor două șocuri
     \end{itemize}
     \item Modelul UC0 al lui Clark impune $\rho = 0$; cu un ciclu AR(2), $\rho$ este identificat: forma redusă este un ARIMA(2,1,2), cu tot atîția parametri cît UC-UR
@@ -1248,7 +1316,7 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
 \end{columns}
 \end{frame}
 
-\begin{frame}{Output gap-ul al României}
+\begin{frame}{Output gap-ul României}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.52\textheight,keepaspectratio]{ats_ch6_ro_gap.pdf}
@@ -1274,7 +1342,7 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
 \itemsize{\small}
 \begin{itemize}
     \item BN, UC și Hamilton definesc ciclul diferit; MNZ arată că BN și UC coincid odată ce șocurile trendului și ale ciclului pot fi corelate
-    \item În eșantioane scurte și volatile (România) corelația nu este identificată, iar specificarea trendului decide lagul
+    \item În eșantioane scurte și volatile (România) corelația nu este identificată, iar specificarea trendului decide output gap-ul
     \item Raportați estimațiile filtrate și netezite: output gap-ul de la finalul eșantionului este cifra cea mai puțin fiabilă
 \end{itemize}
 \end{frame}
@@ -1501,8 +1569,8 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Anexă: de ce este exact simulation smoother-ul Durbin--Koopman}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Înapoi}
+\begin{frame}{Anexă: exactitatea simulation smoother-ului Durbin--Koopman}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Modelul gaussian: $\alpha | y \sim N(\hat\alpha(y), V)$, cu $V$ independent de $y$, iar $\hat\alpha(y)$ liniar în $y$ (afin, cu termenii liberi)
@@ -1513,7 +1581,7 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
 \end{frame}
 
 \begin{frame}{Anexă: nedeplasarea verosimilității din filtrul de particule}
-\hypertarget{atsapp3}{}\atsappback{atssrc1}{Înapoi}
+\hypertarget{atsapp3}{}\atsappback{atssrc3}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Filtrul bootstrap, un pas: $\E[\frac1N\sum_iw^{(i)}_t\,|\,\mathcal F_{t-1}] = \int g(y_t | x)\,\hat p_{N}(x | Y_{t-1})\,dx$, unde $\hat p_N$ este legea predictivă empirică a particulelor

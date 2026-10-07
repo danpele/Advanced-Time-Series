@@ -381,7 +381,7 @@ EU-27 household consumption, disposable income, consumption deflator, population
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The Granger representation theorem (1/2)}
+\begin{frame}{The Granger representation theorem (1/3)}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.30\textwidth}
@@ -393,33 +393,49 @@ EU-27 household consumption, disposable income, consumption deflator, population
 \begin{column}{0.68\textwidth}
 \begin{itemize}
     \item The theorem writes a cointegrated VAR as random-walk trends plus stationary deviations
+    \item VAR in levels: $y_t = \sum_{i=1}^{p}A_iy_{t-i} + \Phi D_t + \varepsilon_t$
+    \begin{itemize}
+        \item $A_i$ ($n\times n$): its lag matrices; $A(z) = I - \sum_{i=1}^{p}A_iz^i$: its characteristic polynomial
+        \item $\Pi = -A(1)$, $\Gamma_i = -\sum_{j>i}A_j$: the VECM matrices; $\Gamma = I - \sum_i\Gamma_i$
+    \end{itemize}
     \item Conditions
     \begin{itemize}
-        \item the roots of $|A(z)| = 0$ satisfy $|z| > 1$ or $z = 1$
-        \item $\mathrm{rank}\,\Pi = r$
-        \item $\alpha_\perp'\Gamma\beta_\perp$ has full rank, $\Gamma = I - \sum_i\Gamma_i$
+        \item the roots of $|A(z)| = 0$ satisfy $|z| > 1$ or $z = 1$ (no explosive or seasonal roots)
+        \item $\mathrm{rank}\,\Pi = r$, so $\Pi = \alpha\beta'$
+        \item $\alpha_\perp'\Gamma\beta_\perp$ has full rank $n - r$
+        \item $\alpha_\perp$, $\beta_\perp$ ($n\times(n - r)$): orthogonal complements, $\alpha'\alpha_\perp = 0$, $\beta'\beta_\perp = 0$
     \end{itemize}
-    \item Then \[ y_t = C\sum_{i=1}^{t}(\varepsilon_i + \Phi D_i) + C^*(L)(\varepsilon_t + \Phi D_t) + A_0 \] with $C = \beta_\perp(\alpha_\perp'\Gamma\beta_\perp)^{-1}\alpha_\perp'$
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{The Granger representation theorem (2/2)}
+\begin{frame}{The Granger representation theorem (2/3)}
 \itemsize{\small}
 \begin{itemize}
+    \item Under these conditions $y_t$ is I(1), $\beta'y_t$ is I(0), and \[ y_t = C\sum_{i=1}^{t}(\varepsilon_i + \Phi D_i) + C^*(L)(\varepsilon_t + \Phi D_t) + A_0 \]
     \item Notation
     \begin{itemize}
-        \item $A(z) = I - \sum_{i=1}^{p}A_iz^i$: the characteristic polynomial of the VAR in levels, $y_t = \sum_i A_iy_{t-i} + \dots$; the root condition excludes explosive and seasonal roots
-        \item $\alpha_\perp$, $\beta_\perp$ ($n\times(n - r)$, full rank): orthogonal complements, $\alpha'\alpha_\perp = 0$, $\beta'\beta_\perp = 0$
-        \item $C$: the long-run impact matrix; $C^*(L)$: a lag polynomial with summable coefficients (the stationary part); $A_0$: depends on initial values, $\beta'A_0 = 0$
+        \item $C = \beta_\perp(\alpha_\perp'\Gamma\beta_\perp)^{-1}\alpha_\perp'$: the long-run impact matrix, of rank $n - r$ (derivation: \atsapplink{atsapp2}{atssrc2}{Appendix})  % applink: long-run impact matrix
+        \item $C^*(L) = \sum_{j\ge 0}C_j^*L^j$: a polynomial in the lag operator $L$ ($Ly_t = y_{t-1}$) with summable coefficients, the stationary part
+        \item $A_0$: a constant that depends on the initial values, with $\beta'A_0 = 0$
     \end{itemize}
+    \item First term: random walks plus deterministic trends; second term: stationary deviations from them
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The Granger representation theorem (3/3)}
+\itemsize{\small}
+\begin{itemize}
     \item Interpretation
     \begin{itemize}
         \item $\beta'C = 0$: the relations do not contain the stochastic trends
         \item $C\alpha = 0$: an equilibrium error has no permanent effect
         \item common trends: the $n - r$ random walks $\alpha_\perp'\sum_i\varepsilon_i$
-        \item $\alpha_\perp'\Gamma\beta_\perp$ singular means I(2) (see the I(2) section)
+    \end{itemize}
+    \item If $\alpha_\perp'\Gamma\beta_\perp$ is singular, the theorem fails
+    \begin{itemize}
+        \item $C$ does not exist and some trends are I(2) (see the I(2) section)
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -525,18 +541,45 @@ $n - r$ & case 1 & case 2 & case 3 & case 4 & case 5 \\
 \section{Small samples: corrections and the bootstrap}
 %=============================================================================
 
-\begin{frame}{Over-rejection of the asymptotic test}
+\begin{frame}{Over-rejection of the asymptotic test (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item The trace statistic estimates $n^2(p - 1)$ short-run parameters plus the deterministic terms; with $T = 100$ and $n = 3$, $p = 4$ this is a large share of the information
-    \item The distortion grows with persistent short-run dynamics ($\Gamma_i$ near the unit circle) and with roots of the stationary part near one
-    \item Three remedies
+    \item The VECM spends many parameters on the short run
     \begin{itemize}
-        \item \textbf{Reinsel--Ahn}: multiply the statistic by $(T - np)/T$ \refRA; simple, often too conservative
-        \item \textbf{Bartlett correction}: $LR_{tr}/(1 + a(\theta)/T)$ with $\E LR_{tr} \approx f\,(1 + a(\theta)/T)$ \refJohG; $f$: the mean of the limit distribution; $a(\theta)$: an analytic function of the parameters $\theta$, estimated by plug-in
-        \item \textbf{Bootstrap}: simulate the null distribution from the model estimated under $H(r)$ \refSwe, \refCRT
+        \item $n^2(p - 1)$ elements of $\Gamma_1, \dots, \Gamma_{p-1}$, plus the deterministic terms
+        \item with $T = 100$, $n = 3$ and $p = 4$: 27 short-run parameters, a large share of the information
     \end{itemize}
-    \item Conditional heteroskedasticity leaves the limit distribution unchanged but worsens the finite-sample size \refCRTa: use the wild bootstrap
+    \item The distortion grows with persistence
+    \begin{itemize}
+        \item persistent short-run dynamics: roots of the stationary part close to the unit circle
+        \item the asymptotic test then finds too many cointegrating relations
+    \end{itemize}
+    \item Conditional heteroskedasticity \refCRTa
+    \begin{itemize}
+        \item leaves the limit distribution unchanged
+        \item but worsens the finite-sample size: use the wild bootstrap
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Over-rejection of the asymptotic test (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Reinsel--Ahn} \refRA
+    \begin{itemize}
+        \item multiply the statistic by $(T - np)/T$: a degrees-of-freedom correction
+        \item simple, often too conservative
+    \end{itemize}
+    \item \textbf{Bartlett correction} \refJohG
+    \begin{itemize}
+        \item $\E LR_{tr} \approx f\,(1 + a(\theta)/T)$; the corrected statistic is $LR_{tr}/(1 + a(\theta)/T)$
+        \item $f$: the mean of the limit distribution; $\theta$: the VECM parameters
+        \item $a(\theta)$: an analytic function of $\theta$, evaluated at the estimates
+    \end{itemize}
+    \item \textbf{Bootstrap} \refSwe, \refCRT
+    \begin{itemize}
+        \item simulate the null distribution from the model estimated under $H(r)$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -825,13 +868,23 @@ ROBOR weakly exogenous (zero row of $\alpha$) & 0.57 & 2 & 0.752 \\
 \begin{frame}{When the I(1) model is not enough}
 \itemsize{\small}
 \begin{itemize}
-    \item If $\alpha_\perp'\Gamma\beta_\perp$ has reduced rank $s < n - r$, the Granger representation fails: some common trends are I(2), $y_t$ contains $\sum\sum\varepsilon$
-    \item Typical candidates: nominal price levels and nominal money in periods of changing inflation; inflation is then I(1)
-    \item I(2) model: two reduced-rank conditions, $\Pi = \alpha\beta'$ and $\alpha_\perp'\Gamma\beta_\perp = \xi\eta'$; ML and rank tests in \refJohF, applied guidance in \refJus
+    \item If $\alpha_\perp'\Gamma\beta_\perp$ has reduced rank $s < n - r$, the Granger representation fails
     \begin{itemize}
-        \item polynomial cointegration: $\beta'y_t + \delta'\Delta y_t \sim$ I(0), e.g.\ real money plus a multiple of inflation
+        \item some common trends are I(2): $y_t$ contains double sums $\sum_{j\le t}\sum_{i\le j}\varepsilon_i$
+        \item typical candidates: nominal prices and nominal money when inflation changes; inflation is then I(1)
     \end{itemize}
-    \item Practical check: test $\Delta y_t$ for a unit root; if the I(1) VECM has a root near one in the stationary part, suspect I(2); the usual fix is to model real (deflated) variables
+    \item The I(2) model \refJohF, \refJus
+    \begin{itemize}
+        \item two reduced-rank conditions: $\Pi = \alpha\beta'$ and $\alpha_\perp'\Gamma\beta_\perp = \xi\eta'$
+        \item $\xi$, $\eta$ ($(n - r)\times s$, full rank): the factors of the second reduced-rank matrix
+        \item polynomial cointegration: $\beta'y_t + \delta'\Delta y_t \sim$ I(0); $\delta$ ($n\times r$): the weights of the differences
+        \item example: real money plus a multiple of inflation
+    \end{itemize}
+    \item Practical check
+    \begin{itemize}
+        \item test $\Delta y_t$ for a unit root; a root near one in the stationary part of the I(1) VECM is a warning
+        \item the usual fix: model real (deflated) variables and inflation
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -891,18 +944,41 @@ ROBOR weakly exogenous (zero row of $\alpha$) & 0.57 & 2 & 0.752 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Case study: King, Plosser, Stock and Watson (1991)}
+\begin{frame}{Case study: King, Plosser, Stock and Watson (1991) (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refKPSW: in a real business-cycle model with a stochastic productivity trend, consumption, investment and output share one trend: the great ratios $c - y$ and $i - y$ are stationary
+    \item \refKPSW
     \begin{itemize}
-        \item $n = 3$, $r = 2$, $\beta = \begin{pmatrix}1 & 0\\ 0 & 1\\ -1 & -1\end{pmatrix}$ imposed; one permanent ``balanced-growth'' shock
-        \item question: how much of the business cycle does the permanent shock explain?
+        \item a real business-cycle model with a stochastic productivity trend
+        \item consumption, investment and output share one common trend
+        \item the great ratios $c - y$ and $i - y$ are stationary ($c$, $i$, $y$: logarithms per capita)
     \end{itemize}
-    \item Our replication: US quarterly 1949Q1--1988Q4 (the paper's sample), $T = 160$; $c$: nondurables and services, $i$: fixed investment, $y$: GDP, per capita, deflated by the GDP deflator
+    \item In VECM terms
     \begin{itemize}
-        \item VAR($2$) in levels (all criteria), case 3; trace: 45.8, 19.4, 1.4 against 95\% quantiles 29.8, 15.5, 3.9: $r = 2$
-        \item the exact great ratios are rejected: $LR = 16.6$, $\chi^2(2)$, $p = $<$\,0.001$; with a restricted trend (case 4) they are not: $LR = 0.50$, $p = 0.778$
+        \item $n = 3$, $r = 2$, $\beta = \begin{pmatrix}1 & 0\\ 0 & 1\\ -1 & -1\end{pmatrix}$ imposed for $(c, i, y)$
+        \item $k = n - r = 1$: one permanent ``balanced-growth'' shock
+    \end{itemize}
+    \item Question: how much of the business cycle does the permanent shock explain?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Case study: King, Plosser, Stock and Watson (1991) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Our replication: US quarterly data, 1949Q1--1988Q4 (the paper's sample), $T = 160$
+    \begin{itemize}
+        \item $c$: nondurables and services; $i$: fixed investment; $y$: GDP
+        \item all per capita, deflated by the GDP deflator
+    \end{itemize}
+    \item Rank
+    \begin{itemize}
+        \item VAR($2$) in levels (all criteria), case 3
+        \item trace: 45.8, 19.4, 1.4 against 95\% quantiles 29.8, 15.5, 3.9: $r = 2$
+    \end{itemize}
+    \item Test of $\beta = \beta_0$ (the exact great ratios)
+    \begin{itemize}
+        \item case 3: rejected, $LR = 16.6$, $\chi^2(2)$, $p < 0.001$
+        \item with a restricted trend (case 4): not rejected, $LR = 0.50$, $p = 0.778$
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -996,19 +1072,42 @@ great ratios, case 3, 1949--2025 & 28\% & 20\% & 20\% & 29\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The bounds test}
+\begin{frame}{The bounds test (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $H_0$: no level relationship, $\pi_{yy} = 0$ and $\pi_{yx} = 0$; Wald $F$ (and $t$ on $\pi_{yy}$ to exclude the degenerate case $\pi_{yy} = 0 \ne \pi_{yx}$)
-    \item The null distribution depends on the integration order of $x_t$: lower bound if all of $x_t$ is I(0), upper bound if all is I(1)
+    \item $H_0$: no level relationship, $\pi_{yy} = 0$ and $\pi_{yx} = 0$
     \begin{itemize}
-        \item $F$ above the upper bound: reject (a level relationship); below the lower bound: do not reject; between: inconclusive, then the order of integration matters
+        \item $F$: the Wald statistic of these $k + 1$ restrictions, divided by $k + 1$
+        \item $t$: the $t$ ratio of $\hat\pi_{yy}$; it excludes the degenerate case $\pi_{yy} = 0 \ne \pi_{yx}$
     \end{itemize}
-    \item Five cases (as in Johansen): I none; II restricted intercept; III unrestricted intercept; IV unrestricted intercept, restricted trend; V unrestricted intercept and trend
+    \item The null distribution depends on the integration order of $x_t$
     \begin{itemize}
+        \item lower bound: all of $x_t$ is I(0); upper bound: all of $x_t$ is I(1)
+    \end{itemize}
+    \item Decision
+    \begin{itemize}
+        \item $F$ above the upper bound: reject, there is a level relationship
+        \item $F$ below the lower bound: do not reject
+        \item between the bounds: inconclusive, the order of integration of $x_t$ matters
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The bounds test (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Five cases, as in Johansen
+    \begin{itemize}
+        \item I: no deterministic terms; II: restricted intercept
+        \item III: unrestricted intercept; IV: unrestricted intercept, restricted trend
+        \item V: unrestricted intercept and trend
         \item in cases II and IV the restricted terms are part of $H_0$; the $t$-bounds exist for cases I, III, V
     \end{itemize}
-    \item Simulated 5\% bounds ($T = 1000$, 10\,000 replications), $k = 1$: case II [3.58; 4.14], case III [4.97; 5.71]; $t$, case III: [\ensuremath{-}2.86; \ensuremath{-}3.22]
+    \item Simulated 5\% bounds, $k = 1$ ($T = 1000$, 10\,000 replications)
+    \begin{itemize}
+        \item $F$: case II [3.58; 4.14], case III [4.97; 5.71]
+        \item $t$, case III: [\ensuremath{-}2.86; \ensuremath{-}3.22]
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1043,7 +1142,11 @@ Structural use & multipliers of $x$ on $y$ & common trends, identified shocks \\
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item Rule: estimate the VECM first when you can; if a variable is weakly exogenous and the relation is unique, the ARDL is efficient and simpler; if feedback is present, ARDL estimates are inconsistent
+    \item Rule: estimate the VECM first when you can
+    \begin{itemize}
+        \item weakly exogenous regressors and a unique relation: the ARDL is efficient and simpler
+        \item feedback from $y_t$ to $x_t$: the ARDL estimates are inconsistent
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1083,18 +1186,37 @@ Structural use & multipliers of $x$ on $y$ & common trends, identified shocks \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Two related tools}
+\begin{frame}{Two related tools (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Toda--Yamamoto causality} \refTY: in a VAR of possibly integrated or cointegrated variables, fit $p + d_{\max}$ lags in levels and test only the first $p$; $d_{\max}$: the highest suspected order of integration
+    \item \textbf{Toda--Yamamoto causality} \refTY
     \begin{itemize}
-        \item the Wald statistic is asymptotically $\chi^2(p)$ whatever the integration and cointegration properties; the price: lower power than a correctly specified VECM
+        \item a VAR of possibly integrated or cointegrated variables
+        \item fit $p + d_{\max}$ lags in levels and test only the first $p$; $d_{\max}$: the highest suspected order of integration
+        \item the Wald statistic is asymptotically $\chi^2(p)$ whatever the integration and cointegration properties
+        \item the price: lower power than a correctly specified VECM
     \end{itemize}
-    \item \textbf{Nonlinear ARDL} \refSYG: split $x_t$ into partial sums of increases $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$ and decreases $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$
+    \item \textbf{Nonlinear ARDL} \refSYG
+    \begin{itemize}
+        \item partial sums of increases: $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$
+        \item partial sums of decreases: $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$, so that $x_t = x_0 + x_t^+ + x_t^-$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Two related tools (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Nonlinear ARDL: $x_t^+$ and $x_t^-$ as two regressors
     \begin{itemize}
         \item $x_t^+$ and $x_t^-$ enter the ARDL as two regressors, with long-run coefficients $\theta^+$, $\theta^-$ and short-run coefficients $\omega_j^+$, $\omega_j^-$
-        \item long-run asymmetry: $\theta^+ \ne \theta^-$; short-run asymmetry: different $\omega_j^\pm$; Wald tests, bounds with $k = 2$
-        \item classic use: retail fuel prices rise fast with oil and fall slowly (``rockets and feathers'') \refBac; Seminar 4 tests it for Romania
+        \item long-run asymmetry: $\theta^+ \ne \theta^-$; short-run asymmetry: different $\omega_j^+$ and $\omega_j^-$
+        \item both tested by Wald tests; the bounds test uses $k = 2$
+    \end{itemize}
+    \item Classic use: ``rockets and feathers'' \refBac
+    \begin{itemize}
+        \item retail fuel prices rise fast with oil and fall slowly
+        \item Seminar 4 tests it for Romania
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1125,10 +1247,22 @@ Structural use & multipliers of $x$ on $y$ & common trends, identified shocks \\
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item Country series are short (20--30 years of annual data): a single-country rank or bounds test has little power; $N$ countries add information
-    \item Asymptotics in two dimensions: sequential ($T \to \infty$, then $N \to \infty$) or joint with $N/T \to 0$; a panel regression of I(1) series estimates a long-run average relation even without cointegration \refPM, \refKao
-    \item Two new problems: \textbf{heterogeneity} (dynamics differ across countries) and \textbf{cross-section dependence} (common shocks: the 2009 recession, COVID-19, the euro)
-    \item First-generation tests assume independent units; second-generation tests model the dependence \refBrP
+    \item The gain: $N$ countries add information
+    \begin{itemize}
+        \item country series are short: 20--30 years of annual data
+        \item a single-country rank or bounds test has little power
+    \end{itemize}
+    \item Asymptotics in two dimensions \refPM, \refKao
+    \begin{itemize}
+        \item sequential ($T \to \infty$, then $N \to \infty$) or joint, with $N/T \to 0$
+        \item a panel regression of I(1) series estimates an average long-run relation even without cointegration
+    \end{itemize}
+    \item Two new problems
+    \begin{itemize}
+        \item \textbf{heterogeneity}: the dynamics differ across countries
+        \item \textbf{cross-section dependence}: common shocks (2009, COVID-19, the euro)
+        \item first-generation tests assume independent units; second-generation tests model the dependence \refBrP
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -1142,9 +1276,29 @@ Structural use & multipliers of $x$ on $y$ & common trends, identified shocks \\
         \item $\hat\rho_{ij}$: the correlation over time between the residuals (or demeaned series) of units $i$ and $j$; $N$: number of units; $T$: number of periods
         \item reading: $CD \approx 0$ under the null; $|CD| > 1.96$ rejects it at 5\%
     \end{itemize}
-    \item The null is \emph{weak} dependence \refPesC: correlation that vanishes on average as $N$ grows; a common factor with non-zero mean loadings gives $|CD| \to \infty$
-    \item Valid for fixed $T$ and large $N$, also in dynamic and unit-root panels; positive and negative correlations can offset each other, so report the mean $|\hat\rho_{ij}|$ as well
-    \item EU-27, $T = 22$ (2001--2022): CD = 50.3 for consumption growth (mean $|\hat\rho| = 0.59$), 25.7 for income growth, 62.4 for inflation: strong dependence everywhere
+    \item The null is \emph{weak} dependence \refPesC
+    \begin{itemize}
+        \item correlation that vanishes on average as $N$ grows
+        \item a common factor with non-zero mean loadings gives $|CD| \to \infty$
+        \item valid for fixed $T$ and large $N$, also in dynamic and unit-root panels
+        \item positive and negative correlations can offset each other: report the mean $|\hat\rho_{ij}|$ as well
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cross-section dependence in EU-27 data}
+\itemsize{\small}
+\begin{itemize}
+    \item EU-27, $T = 22$ (2001--2022)
+    \begin{itemize}
+        \item consumption growth: CD = 50.3, mean $|\hat\rho_{ij}| = 0.59$
+        \item income growth: CD = 25.7; inflation: CD = 62.4
+    \end{itemize}
+    \item Interpretation
+    \begin{itemize}
+        \item every statistic is far above 1.96: strong dependence everywhere
+        \item first-generation panel tests are not reliable for these data
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1220,40 +1374,63 @@ inflation (constant) & \ensuremath{-}10.10 (0.003) & \ensuremath{-}1.82 (0.038) 
 \begin{itemize}
     \item Westerlund statistics
     \begin{itemize}
-        \item group statistics: $G_t$, the mean of the $N$ $t$-ratios of $\hat\alpha_i$, and $G_a$, the mean of the scaled $\hat\alpha_i$; $H_1$: some countries adjust
-        \item panel statistics $P_t$, $P_a$: the same with a common $\alpha$; $H_1$: all countries adjust
+        \item group: $G_t = N^{-1}\sum_i\hat\alpha_i/\mathrm{SE}(\hat\alpha_i)$, $G_a = N^{-1}\sum_i T\hat\alpha_i/\hat\alpha_i(1)$; $H_1$: some countries adjust
+        \item $\hat\alpha_i(1) = 1 - \sum_j\hat a_{ij}$: scales $\hat\alpha_i$ to the long-run adjustment
+        \item panel: $P_t$, $P_a$, the same ratios for a common $\alpha$; $H_1$: all countries adjust
         \item bootstrap critical values under cross-section dependence
     \end{itemize}
-    \item EU-27, $c$ on $y$ and $\pi$: Pedroni group ADF \ensuremath{-}3.05 (5\% critical value \ensuremath{-}2.73, $p = $<$\,0.001$); Westerlund $G_t$ \ensuremath{-}1.66 (\ensuremath{-}2.18, $p = 0.714$); null distributions simulated
-    \item The two families disagree: the residual-based test rejects, the ECM test does not; with $T = 22$ and strong dependence, neither verdict is secure
+    \item EU-27, $c$ on $y$ and $\pi$ (null distributions simulated)
+    \begin{itemize}
+        \item Pedroni group ADF (the mean of the country ADF $t$-ratios of $\hat e_{it}$): \ensuremath{-}3.05, 5\% critical value \ensuremath{-}2.73, $p < 0.001$
+        \item Westerlund $G_t$: \ensuremath{-}1.66, 5\% critical value \ensuremath{-}2.18, $p = 0.714$
+    \end{itemize}
+    \item The two families disagree
+    \begin{itemize}
+        \item the residual-based test rejects, the ECM test does not
+        \item with $T = 22$ and strong dependence, neither verdict is secure
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Estimators of the long-run relation (1/2)}
+\begin{frame}{Estimators of the long-run relation (1/3)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Panel FMOLS/DOLS}: fully modified OLS \refPH\ or leads and lags of $\Delta x$ \refSai, \refSWa, per country and averaged (group mean) \refPedB
-    \item \textbf{Mean group (MG)} \refPSm: estimate each country's ARDL and average the long-run coefficients $\hat\theta_i$
+    \item \textbf{Panel FMOLS/DOLS} \refPedB
     \begin{itemize}
+        \item FMOLS: fully modified OLS, corrected for endogeneity and serial correlation \refPH
+        \item DOLS: OLS with leads and lags of $\Delta x$ \refSai, \refSWa
+        \item estimated per country and averaged (group mean)
+    \end{itemize}
+    \item \textbf{Mean group (MG)} \refPSm
+    \begin{itemize}
+        \item estimate each country's ARDL and average the long-run coefficients: $\hat\theta_{MG} = N^{-1}\sum_i\hat\theta_i$
         \item consistent under full heterogeneity; SE $= s_\theta/\sqrt N$, $s_\theta$: the cross-country standard deviation of $\hat\theta_i$
         \item pooled fixed effects with common slopes are inconsistent when the true slopes differ, even for large $T$; for small $T$ the Nickell bias adds \refNic
     \end{itemize}
-    \item \textbf{CCE} \refPesA: $y_{it} = \alpha_i + \beta_i'x_{it} + \gamma_i'f_t + e_{it}$; add $\bar y_t, \bar x_t$ to each regression
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimators of the long-run relation (2/3)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{CCE} \refPesA
     \begin{itemize}
+        \item model: $y_{it} = \alpha_i + \beta_i'x_{it} + \gamma_i'f_t + e_{it}$
+        \item estimation: add the cross-section averages $\bar y_t, \bar x_t$ to each regression
         \item $f_t$: unobserved common factors; $\gamma_i$: the country loadings on them; the averages $\bar y_t, \bar x_t$ absorb $f_t$
         \item valid with non-stationary factors \refKPY; dynamic version CS-ARDL \refCP
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Estimators of the long-run relation (2/2)}
+\begin{frame}{Estimators of the long-run relation (3/3)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Pooled mean group (PMG)} \refPSSa: a common long run inside country-specific ECMs \[ \Delta y_{it} = \phi_i(y_{i,t-1} - \theta'x_{i,t-1}) + \sum_j\lambda_{ij}\Delta y_{i,t-j} + \sum_j\delta_{ij}'\Delta x_{i,t-j} + \mu_i + \varepsilon_{it} \]
     \begin{itemize}
         \item $\theta$: the long-run coefficients, common to all countries; $\phi_i$: the country speed of adjustment, $\phi_i < 0$ required
         \item $\lambda_{ij}$, $\delta_{ij}$, $\mu_i$, $\sigma_i^2 = \Var\varepsilon_{it}$: short run, intercept and error variance, all country-specific
-        \item ML: maximise $-\sum_i\tfrac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ over $\theta$; $T_i$: the sample length of country $i$
+        \item ML: maximise $-\sum_i\tfrac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ over $\theta$; $T_i$: the sample length of country $i$ (derivation: \atsapplink{atsapp3}{atssrc3}{Appendix})  % applink: PMG likelihood
     \end{itemize}
     \item Hausman test of $\theta_{MG} = \theta_{PMG}$
     \begin{itemize}
@@ -1266,8 +1443,10 @@ inflation (constant) & \ensuremath{-}10.10 (0.003) & \ensuremath{-}1.82 (0.038) 
 \begin{frame}{Case study: Pesaran, Shin and Smith (1999)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refPSSa\ estimate consumption functions for OECD countries: ARDL in log real per capita consumption, log real per capita disposable income and inflation, annual data
+    \item \refPSSa
     \begin{itemize}
+        \item consumption functions for OECD countries, annual data
+        \item ARDL in log real per capita consumption, log real per capita disposable income and inflation
         \item they compare MG, PMG and dynamic fixed effects and use Hausman tests to decide whether the long-run income and inflation effects can be pooled
         \item their argument: theory (permanent income) restricts the long run; adjustment speeds, habits and credit constraints differ across countries
     \end{itemize}
@@ -1474,8 +1653,8 @@ CCEMG & 0.73 (0.05) & 0.10 (0.10) & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Appendix: why $C = \beta_\perp(\alpha_\perp'\Gamma\beta_\perp)^{-1}\alpha_\perp'$}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Back}
+\begin{frame}{Appendix: deriving the long-run impact matrix $C$}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item Multiply the VECM by $\alpha_\perp'$: $\alpha_\perp'\Delta y_t = \alpha_\perp'\sum_i\Gamma_i\Delta y_{t-i} + \alpha_\perp'\varepsilon_t$; summing gives $\alpha_\perp'\Gamma y_t \approx \alpha_\perp'\sum_{s\le t}\varepsilon_s$ up to stationary terms
@@ -1486,11 +1665,16 @@ CCEMG & 0.73 (0.05) & 0.10 (0.10) & -- \\
 \end{frame}
 
 \begin{frame}{Appendix: the PMG likelihood}
-\hypertarget{atsapp3}{}\atsappback{atssrc1}{Back}
+\hypertarget{atsapp3}{}\atsappback{atssrc3}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item $\ell(\theta, \phi, \sigma^2) = -\sum_{i=1}^N\frac{T_i}{2}\ln(2\pi\sigma_i^2) - \sum_{i=1}^N\frac{1}{2\sigma_i^2}(\Delta y_i - \phi_i\xi_i(\theta))'H_i(\Delta y_i - \phi_i\xi_i(\theta))$
-    \item $\xi_i(\theta) = y_{i,-1} - X_{i,-1}\theta$; $H_i$ projects out the country's short-run regressors and intercept
+    \item Notation
+    \begin{itemize}
+        \item $\Delta y_i$, $y_{i,-1}$ ($T_i\times 1$), $X_{i,-1}$ ($T_i\times k$): the changes, the lagged levels of $y$ and of $x$ for country $i$
+        \item $\xi_i(\theta) = y_{i,-1} - X_{i,-1}\theta$: the equilibrium error of country $i$
+        \item $H_i = I - W_i(W_i'W_i)^{-1}W_i'$; $W_i$: the country's short-run regressors and intercept, which $H_i$ projects out
+    \end{itemize}
     \item Given $\theta$, $\phi_i$ and $\sigma_i^2$ are country OLS; the concentrated likelihood $-\sum_i\frac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ is maximised over $\theta$ (back-substitution or Newton)
     \item $\hat\theta_{PMG}$ is consistent and asymptotically normal if $\phi_i < 0$ for all $i$ and the long run is homogeneous; the I(0)/I(1) status of $x$ does not matter, as in ARDL
 \end{itemize}

@@ -265,7 +265,11 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
     \item Hurst studied centuries of Nile levels to size the reservoirs above Aswan \refHur
     \item The adjusted range of cumulated inflows grew like $n^H$ with $H \approx 0.7$, not $n^{1/2}$: the \textbf{Hurst effect}
     \item Wet years follow wet years in long runs: dependence that no finite ARMA reproduces
-    \item Explained by fractional Gaussian noise \refMVN\ and by fractional differencing \refGJ, \refHos
+    \item Two explanations followed
+    \begin{itemize}
+        \item fractional Gaussian noise \refMVN
+        \item fractional differencing \refGJ, \refHos
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -563,6 +567,7 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
     \item No distributional assumption beyond a linear process with martingale-difference innovations
     \begin{itemize}
         \item efficiency relative to GPH: $(\pi^2/24)/(1/4) = \pi^2/6 \approx 1.64$
+        \item derivation step by step: \atsapplink{atsapp1}{atssrc1}{Appendix}  % applink: the variance of local Whittle
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1157,6 +1162,7 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
     \[ m(q, \Delta) = K_q\nu^q\Delta^{\zeta_q}, \qquad \zeta_q = qH \]
     \begin{itemize}
         \item $\nu$: volatility of volatility; $K_q = \E|Z|^q$, $Z \sim N(0, 1)$; $\zeta_q$: scaling exponent, linear in $q$ with slope $H$
+        \item derivation and deviations from this scaling: \atsapplink{atsapp2}{atssrc2}{Appendix}  % applink: scaling of fBm moments
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1208,8 +1214,10 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
     \begin{itemize}
         \item GJR show that local Whittle and similar estimators applied to RFSV simulations return the ``long-memory'' values found in the literature
     \end{itemize}
-    \item Pricing: rough Bergomi \refBFG\ and rough Heston \refER\ fit the term structure of the implied-volatility skew, $\propto \tau^{H-1/2}$ ($\tau$: option maturity), with few parameters; option-based estimates also give small $H$ \refLMPR
+    \item Pricing: rough Bergomi \refBFG\ and rough Heston \refER
     \begin{itemize}
+        \item both fit the term structure of the implied-volatility skew, $\propto \tau^{H-1/2}$ ($\tau$: option maturity), with few parameters
+        \item option-based estimates also give small $H$ \refLMPR
         \item the pricing side belongs to MFM; here we test the time-series claim
     \end{itemize}
 \end{itemize}
@@ -1551,6 +1559,7 @@ $h = 22$ & 1.002 & 0.969 & 0.968 & 0.982 & 0.986 & 1.027 \\
 %=============================================================================
 
 \begin{frame}{Appendix: the variance of local Whittle}
+\hypertarget{atsapp1}{}\atsappback{atssrc1}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item Expand $R'(\hat d) = 0$ around $d$: $\sqrt m(\hat d - d) = -\sqrt m\,R'(d)/R''(\bar d)$
@@ -1561,6 +1570,7 @@ $h = 22$ & 1.002 & 0.969 & 0.968 & 0.982 & 0.986 & 1.027 \\
 \end{frame}
 
 \begin{frame}{Appendix: scaling of fBm moments}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item $W^H_{t+\Delta} - W^H_t \sim N(0, \Delta^{2H})$, so $\E|W^H_{t+\Delta} - W^H_t|^q = \Delta^{qH}\E|Z|^q$, $\E|Z|^q = 2^{q/2}\Gamma\big(\tfrac{q+1}{2}\big)/\sqrt\pi$
