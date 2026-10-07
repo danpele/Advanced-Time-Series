@@ -353,10 +353,10 @@ window.ATS_DATA.quizzes['cointegration-panel'] = {
                     "$c - i$ și $c + i - y$",
                     "un singur vector $(1, 1, -1)$",
                     "primele diferențe ale celor trei serii",
-                    "raporturile mari $c - y$ și $i - y$"
+                    "rapoartele de echilibru (great ratios) $c - y$ și $i - y$"
                 ],
                 "correctExplanation": "Creșterea echilibrată implică rapoarte staționare consum–producție și investiții–producție, lăsînd un singur trend comun (al productivității).",
-                "incorrectExplanation": "Modelul are două relații, nu una; relațiile sînt raporturile mari; primele diferențe nu sînt vectori de cointegrare."
+                "incorrectExplanation": "Modelul are două relații, nu una; relațiile sînt rapoartele de echilibru (great ratios); primele diferențe nu sînt vectori de cointegrare."
             }
         },
         {

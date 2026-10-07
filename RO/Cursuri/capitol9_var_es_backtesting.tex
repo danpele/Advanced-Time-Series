@@ -116,11 +116,11 @@ MSCA Digital Finance}
     \item \textbf{EVT}: Extreme Value Theory (teoria valorilor extreme)
     \item \textbf{EWMA}: Exponentially Weighted Moving Average (medie mobilă ponderată exponențial)
     \item \textbf{FHS}: Filtered Historical Simulation (simulare istorică filtrată)
-    \item \textbf{FRTB}: Fundamental Review of the Trading Book (Basel) — revizuirea fundamentală a portofoliului de tranzacționare (Basel)
     \item \textbf{FZ}: Fissler–Ziegel (class of scoring functions for VaR and ES) — clasa Fissler–Ziegel de funcții de scor pentru VaR și ES
     \item \textbf{FZ-1F}: One-factor GAS model for VaR and ES (label of Patton, Ziegel and Chen) — model GAS cu un factor pentru VaR și ES (eticheta lui Patton, Ziegel și Chen)
     \item \textbf{FZ-2F}: Two-factor GAS model for VaR and ES (label of Patton, Ziegel and Chen) — model GAS cu doi factori pentru VaR și ES (eticheta lui Patton, Ziegel și Chen)
     \item \textbf{FZ0}: Zero-homogeneous Fissler–Ziegel loss (Patton, Ziegel and Chen) — pierderea Fissler–Ziegel omogenă de grad zero (Patton, Ziegel și Chen)
+    \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity (heteroscedasticitate condiționată autoregresivă generalizată)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -130,7 +130,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity (heteroscedasticitate condiționată autoregresivă generalizată)
     \item \textbf{GARCH-EDF}: GARCH with innovations from the empirical distribution function (GARCH cu inovații din funcția de repartiție empirică)
     \item \textbf{GARCH-FZ}: GARCH model estimated by FZ0 minimisation (model GARCH estimat prin minimizarea pierderii FZ0)
     \item \textbf{GARCH-N}: GARCH with Normal innovations (GARCH cu inovații din distribuția Normală)
@@ -143,11 +142,11 @@ MSCA Digital Finance}
     \item \textbf{GCH-FZ}: GARCH model estimated by FZ0 minimisation (table label) — model GARCH estimat prin minimizarea pierderii FZ0 (etichetă de tabel)
     \item \textbf{GCH-N}: ARMA-GARCH with Normal innovations (ARMA-GARCH cu inovații din distribuția Normală)
     \item \textbf{GJR}: Glosten–Jagannathan–Runkle (asymmetric GARCH) — modelul GARCH asimetric Glosten–Jagannathan–Runkle
+    \item \textbf{GJR-GARCH}: Glosten–Jagannathan–Runkle GARCH (GARCH asimetric Glosten–Jagannathan–Runkle)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{GJR-GARCH}: Glosten–Jagannathan–Runkle GARCH (GARCH asimetric Glosten–Jagannathan–Runkle)
     \item \textbf{GM}: General Motors (stock) — acțiunea General Motors
     \item \textbf{GPL}: Generalised Piecewise Linear (scoring function) — funcție de scor liniară pe porțiuni generalizată
     \item \textbf{GW}: Giacomini–White (test of conditional predictive ability) — testul Giacomini–White de capacitate predictivă condiționată
@@ -160,6 +159,7 @@ MSCA Digital Finance}
     \item \textbf{LR}: Likelihood Ratio (test) — testul raportului de verosimilitate
     \item \textbf{MA}: Moving Average (medie mobilă)
     \item \textbf{MAR33}: Basel Framework, chapter MAR33 (internal models, capital requirements) — Cadrul Basel, capitolul MAR33 (modele interne, cerințe de capital)
+    \item \textbf{MCS}: Model Confidence Set (mulțimea de încredere a modelelor)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -169,7 +169,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{MCS}: Model Confidence Set (mulțimea de încredere a modelelor)
     \item \textbf{MFM}: Modelling Financial Markets (Modelarea piețelor financiare, cursul de master)
     \item \textbf{MSE}: Mean Squared Error (eroarea pătratică medie)
     \item \textbf{PIT}: Probability Integral Transform (transformarea integrală de probabilitate)
@@ -182,13 +181,13 @@ MSCA Digital Finance}
     \item \textbf{RW-125}: Rolling Window of 125 days (historical simulation) — fereastră mobilă de 125 de zile (simulare istorică)
     \item \textbf{RW-250}: Rolling Window of 250 days (historical simulation) — fereastră mobilă de 250 de zile (simulare istorică)
     \item \textbf{RW-500}: Rolling Window of 500 days (historical simulation) — fereastră mobilă de 500 de zile (simulare istorică)
+    \item \textbf{SAV}: Symmetric Absolute Value (CAViaR specification) — specificația CAViaR cu valoare absolută simetrică
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{SAV}: Symmetric Absolute Value (CAViaR specification) — specificația CAViaR cu valoare absolută simetrică
-    \item \textbf{SUA}: Statele Unite ale Americii
     \item \textbf{TSA}: Time Series Analysis (Serii de timp, cursul de licență)
+    \item \textbf{VAR}: Vector AutoRegression (model vector autoregresiv)
     \item \textbf{VIX}: CBOE Volatility IndeX (indicele de volatilitate CBOE)
     \item \textbf{WIG20}: Warszawski Indeks Giełdowy 20 (indicele celor mai mari 20 de companii de la Bursa din Varșovia)
 \end{itemize}
@@ -323,32 +322,66 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{VaR și ES ca funcționale}
+\begin{frame}{VaR și ES ca funcționale (1/2): definiții}
 \itemsize{\small}
 \begin{itemize}
-    \item Randamentul $Y$ cu distribuția $F$; nivelul $\alpha$ (VaR 1\%: $\alpha = 0{,}01$); cuantila $q_\alpha(F) = \inf\{y: F(y) \ge \alpha\}$
+    \item VaR este o cuantilă a distribuției randamentelor, cu semn schimbat
+    \[ q_\alpha(F) = \inf\{y: F(y) \ge \alpha\}, \qquad \mathrm{VaR}_\alpha(F) = -q_\alpha(F) \]
     \begin{itemize}
-        \item $\mathrm{VaR}_\alpha(F) = -q_\alpha(F)$; rata de depășire țintă $\Pr(Y < -\mathrm{VaR}_\alpha) = \alpha$
+        \item $Y$: randamentul, cu funcția de repartiție $F$; $\alpha$: nivelul, adică rata de depășire țintă (VaR 1\%: $\alpha = 0{,}01$)
+        \item $q_\alpha(F)$: cel mai mic $y$ cu $F(y) \ge \alpha$; un VaR corect este depășit cu probabilitatea $\Pr(Y < -\mathrm{VaR}_\alpha) = \alpha$
     \end{itemize}
-    \item $\mathrm{ES}_\alpha(F) = -\dfrac{1}{\alpha}\displaystyle\int_0^\alpha q_u(F)\,du$ \refAT; pentru $F$ continuă: $\mathrm{ES}_\alpha = -\E[Y \mid Y \le q_\alpha]$
+    \item ES este media cuantilelor de sub nivelul $\alpha$, cu semn schimbat \refAT
+    \[ \mathrm{ES}_\alpha(F) = -\frac{1}{\alpha}\int_0^\alpha q_u(F)\,du \]
     \begin{itemize}
+        \item pentru $F$ continuă: $\mathrm{ES}_\alpha = -\E[Y \mid Y \le q_\alpha]$, media randamentelor din cea mai proastă fracțiune $\alpha$ a zilelor, cu semn schimbat
         \item ES este coerent (subaditiv) \refADEH; VaR nu este; ES cere $\E|Y| < \infty$
     \end{itemize}
-    \item În formule lucrăm cu perechea pe scala randamentelor $(v, e) = (q_\alpha, -\mathrm{ES}_\alpha)$, ambele negative: $e \le v < 0$
-    \item Ambele sînt \textbf{funcționale} $\mathrm T(F)$: o prognoză a lor este o prognoză punctuală a distribuției predictive, ca în \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Prognoze condiționate de risc: trei căi}
+\begin{frame}{VaR și ES ca funcționale (2/2): convenții}
 \itemsize{\small}
 \begin{itemize}
-    \item Ținta: $(v_t, e_t) = \mathrm T(F_{t|t-1})$, unde $F_{t|t-1}$ este distribuția lui $Y_t$ condiționată de $\mathcal F_{t-1}$
-    \item \textbf{Poziție--scală}: $Y_t = \mu_t + \sigma_t\eta_t$, $\eta_t$ i.i.d.\ $\Rightarrow v_t = \mu_t + \sigma_t q_\alpha(\eta)$, $e_t = \mu_t + \sigma_t\E[\eta \mid \eta \le q_\alpha(\eta)]$
+    \item În formule lucrăm pe scala randamentelor cu perechea $(v, e) = (q_\alpha, -\mathrm{ES}_\alpha)$
     \begin{itemize}
-        \item GARCH cu inovații din distribuția Normală, t asimetrică \refHan\ sau empirice (EDF); raportul $e_t/v_t$ este atunci constant în timp
+        \item $v$: cuantila de nivel $\alpha$ a randamentelor; $e$: media randamentelor dincolo de ea; pentru nivelurile uzuale ambele sînt negative, iar $e \le v < 0$
     \end{itemize}
-    \item \textbf{Dinamica directă a cuantilei}: $v_t = v(\mathcal F_{t-1}; \beta)$ estimat prin pierderea cuantilică, fără distribuție \refEM
-    \item \textbf{Semiparametric comun}: $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$ estimat printr-o pierdere Fissler--Ziegel \refPZC, \refDB
+    \item Ambele sînt \textbf{funcționale} $\mathrm T(F)$: aplicații de la o distribuție la un număr
+    \begin{itemize}
+        \item o prognoză a lor este o prognoză punctuală a distribuției predictive, ca în \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Prognoze condiționate de risc: trei căi (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Ținta: funcționala distribuției condiționate
+    \[ (v_t, e_t) = \mathrm T(F_{t|t-1}) \]
+    \begin{itemize}
+        \item $F_{t|t-1}$: distribuția randamentului $Y_t$ condiționată de $\mathcal F_{t-1}$, informația pînă în ziua $t-1$
+    \end{itemize}
+    \item \textbf{Poziție--scală}: randamentul este o medie plus produsul dintre volatilitate și un șoc i.i.d.
+    \[ Y_t = \mu_t + \sigma_t\eta_t \ \Rightarrow\ v_t = \mu_t + \sigma_t\,q_\alpha(\eta), \qquad e_t = \mu_t + \sigma_t\,\E[\eta \mid \eta \le q_\alpha(\eta)] \]
+    \begin{itemize}
+        \item $\mu_t$, $\sigma_t$: media și volatilitatea condiționate (ARMA, GARCH); $q_\alpha(\eta)$: cuantila distribuției șocului
+        \item GARCH cu inovații din distribuția Normală, t asimetrică \refHan\ sau empirice (EDF); raportul $e_t/v_t$ este constant în timp cînd $\mu_t = 0$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Prognoze condiționate de risc: trei căi (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Dinamica directă a cuantilei} \refEM: $v_t = v(\mathcal F_{t-1}; \beta)$
+    \begin{itemize}
+        \item $v(\cdot; \beta)$: o recursie cu parametrii $\beta$, estimată prin pierderea cuantilică (pinball), fără o distribuție
+    \end{itemize}
+    \item \textbf{Semiparametric comun}: $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$
+    \begin{itemize}
+        \item două recursii cu parametrii $\theta$, estimate printr-o pierdere Fissler--Ziegel \refPZC, \refDB
+    \end{itemize}
     \item Fiecare cale produce o prognoză punctuală a unei funcționale; funcția de scor din secțiunea următoare le face comparabile
 \end{itemize}
 \end{frame}
@@ -389,17 +422,30 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
 \section{Elicitabilitate și funcții de scor}
 %=============================================================================
 
-\begin{frame}{Consistență, elicitabilitate, identificare}
+\begin{frame}{Consistență, elicitabilitate, identificare (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item O funcție de scor $S(x, y)$ este \textbf{consistentă} pentru $\mathrm T$ pe o clasă $\mathcal F$ dacă $\E_F S(\mathrm T(F), Y) \le \E_F S(x, Y)$ pentru orice $x$ și $F \in \mathcal F$; \textbf{strict} dacă egalitatea impune $x = \mathrm T(F)$ \refGn
+    \item O funcție de scor $S(x, y)$ atribuie o pierdere prognozei $x$ cînd se observă $y$; ea este \textbf{consistentă} pentru $\mathrm T$ pe o clasă $\mathcal F$ dacă \refGn
+    \[ \E_F S(\mathrm T(F), Y) \le \E_F S(x, Y) \quad \text{pentru orice } x \text{ și } F \in \mathcal F \]
     \begin{itemize}
-        \item $\mathrm T$ este \textbf{elicitabilă} dacă există o funcție $S$ strict consistentă (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
+        \item $\E_F$: media cînd $Y \sim F$; valoarea adevărată a funcționalei are cea mai mică pierdere așteptată
+        \item \textbf{strict} consistentă: egalitatea impune $x = \mathrm T(F)$; $\mathrm T$ este \textbf{elicitabilă} dacă există o funcție $S$ strict consistentă (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
     \end{itemize}
-    \item \textbf{Funcție de identificare}: $V(x, y)$ cu $\E_F V(x, Y) = 0 \iff x = \mathrm T(F)$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Consistență, elicitabilitate, identificare (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Funcție de identificare}: o funcție $V(x, y)$ a cărei medie este zero exact în valoarea adevărată
+    \[ \E_F V(x, Y) = 0 \iff x = \mathrm T(F) \]
     \begin{itemize}
-        \item cuantila: $V(x, y) = \mathbf 1\{y \le x\} - \alpha$; media: $V(x, y) = x - y$
-        \item Principiul lui Osband: $\partial_x\E_F S(x, Y) = h(x)\,\E_F V(x, Y)$, $h > 0$; scorurile sînt funcții de identificare integrate \refFZ
+        \item cuantila: $V(x, y) = \mathbf 1\{y \le x\} - \alpha$, cu $\mathbf 1\{\cdot\}$ indicatorul (1 dacă este adevărat, 0 altfel); media: $V(x, y) = x - y$
+    \end{itemize}
+    \item Principiul lui Osband: panta scorului așteptat este un multiplu pozitiv al funcției de identificare așteptate \refFZ
+    \[ \partial_x\E_F S(x, Y) = h(x)\,\E_F V(x, Y), \qquad h > 0 \]
+    \begin{itemize}
+        \item scorurile sînt funcții de identificare integrate
     \end{itemize}
     \item Funcțiile de identificare dau \textbf{backtesting} (este prognoza calibrată?); funcțiile de scor dau \textbf{comparații} (care prognoză este mai bună?) \refNZ
 \end{itemize}
@@ -408,13 +454,11 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
 \begin{frame}{Cuantilele: toate scorurile consistente}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Teoremă} \refGn: în condiții slabe, $S$ este consistentă pentru $q_\alpha$ dacă și numai dacă $S(x, y) = (\mathbf 1\{y \le x\} - \alpha)(G(x) - G(y))$, cu $G$ nedescrescătoare (liniară pe porțiuni generalizată, GPL)
+    \item \textbf{Teoremă} \refGn: în condiții slabe, $S$ este consistentă pentru $q_\alpha$ dacă și numai dacă este liniară pe porțiuni generalizată (GPL)
+    \[ S(x, y) = (\mathbf 1\{y \le x\} - \alpha)\big(G(x) - G(y)\big), \qquad G \text{ nedescrescătoare} \]
     \begin{itemize}
-        \item $G(x) = x$: pierderea pinball; $G$ strict crescătoare dă consistența strictă
-    \end{itemize}
-    \item Motivul: $\partial_x\E_F S(x, Y) = G'(x)\,(F(x) - \alpha)$, negativă sub $q_\alpha$, pozitivă deasupra (\atsapplink{atsapp1}{atssrc1}{Anexă})
-    \begin{itemize}
-        \item $G(x) = \ln x$ pentru variabile pozitive dă un scor independent de scală (omogen de grad zero)
+        \item $G(x) = x$: pierderea pinball; $G$ strict crescătoare dă consistența strictă; $G(x) = \ln x$ pentru variabile pozitive dă un scor independent de scală (omogen de grad zero)
+        \item motivul: $\partial_x\E_F S(x, Y) = G'(x)\,(F(x) - \alpha)$, negativă sub $q_\alpha$, pozitivă deasupra (\atsapplink{atsapp1}{atssrc1}{Anexă})
     \end{itemize}
     \item Funcții $G$ diferite dau aceeași prognoză optimă, dar pot ordona diferit două prognoze greșite: alegerea lui $G$ este o decizie de modelare
     \item Expectilele (pierdere pătratică asimetrică) sînt singurele măsuri de risc coerente și elicitabile \refZie; \refTayA\ le folosește pentru VaR și ES
@@ -424,9 +468,10 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
 \begin{frame}{ES nu este elicitabil}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Condiție necesară} \refGn: dacă $\mathrm T$ este elicitabilă, mulțimile ei de nivel $\{F: \mathrm T(F) = t\}$ sînt convexe
+    \item \textbf{Condiție necesară} \refGn: dacă $\mathrm T$ este elicitabilă, mulțimile ei de nivel sînt convexe
     \begin{itemize}
-        \item demonstrație: dacă $\E_{F_0}S(t, Y) \le \E_{F_0}S(x, Y)$ și la fel pentru $F_1$, inegalitatea rămîne pentru $\lambda F_0 + (1 - \lambda)F_1$ (media este liniară în $F$)
+        \item mulțimea de nivel: $\{F: \mathrm T(F) = t\}$, toate distribuțiile cu aceeași valoare $t$ a funcționalei; convexă: închisă la amestecuri $\lambda F_0 + (1 - \lambda)F_1$, $\lambda \in [0, 1]$
+        \item demonstrație: dacă $\E_{F_0}S(t, Y) \le \E_{F_0}S(x, Y)$ și la fel pentru $F_1$, inegalitatea rămîne pentru amestec, deoarece media este liniară în $F$
     \end{itemize}
     \item Cuantilele trec testul: dacă $F_0(t) = F_1(t) = \alpha$, orice amestec are $F_\lambda(t) = \alpha$
     \item ES nu trece: amestecul schimbă cuantila, deci schimbă partea din fiecare componentă care intră în media cozii \refWeb
@@ -459,17 +504,30 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Elicitabilitatea comună: clasa Fissler--Ziegel}
+\begin{frame}{Elicitabilitatea comună: clasa Fissler--Ziegel (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Teoremă} \refFZ, în forma din \refPZC, ec.~(4): pentru $e \le v$,
+    \item \textbf{Teoremă} \refFZ, în forma din \refPZC, ec.~(4): pentru $e \le v$, pierderea
+    \[ S(v, e, y) = (\mathbf 1\{y \le v\} - \alpha)\big(G_1(v) - G_1(y)\big) + G_2(e)\Big(v - e + \frac{1}{\alpha}\mathbf 1\{y \le v\}(y - v)\Big) - \mathcal G_2(e) \]
     \begin{itemize}
-        \item $S(v, e, y) = (\mathbf 1\{y \le v\} - \alpha)\big(G_1(v) - G_1(y)\big) + G_2(e)\Big(v - e + \tfrac{1}{\alpha}\mathbf 1\{y \le v\}(y - v)\Big) - \mathcal G_2(e)$
-        \item este consistentă pentru $(q_\alpha, -\mathrm{ES}_\alpha)$ dacă $G_1$ este nedescrescătoare și $\mathcal G_2' = G_2$ este pozitivă și crescătoare; strict consistentă în condiții slabe
+        \item este consistentă pentru $(q_\alpha, -\mathrm{ES}_\alpha)$ dacă $G_1$ este nedescrescătoare, iar $G_2 = \mathcal G_2'$ este pozitivă și crescătoare; strict consistentă în condiții slabe
     \end{itemize}
-    \item Funcția de identificare a perechii: $V_1 = \mathbf 1\{y \le v\} - \alpha$, $V_2 = e - v + \tfrac{1}{\alpha}\mathbf 1\{y \le v\}(v - y)$
+    \item Interpretarea celor două părți
     \begin{itemize}
-        \item $\E V_2 = 0$ la cuantila corectă este formula Acerbi--Tasche: ES este media cozii doar împreună cu cuantila corectă
+        \item primul termen: un scor GPL pentru cuantila $v$ (slide-urile anterioare); $G_1$: orice funcție nedescrescătoare
+        \item partea a doua: un scor de tip Bregman pentru $e$, evaluat față de media cozii implicată de $v$; $\mathcal G_2$: o primitivă a lui $G_2$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Elicitabilitatea comună: clasa Fissler--Ziegel (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Funcția de identificare a perechii: o componentă pentru cuantilă și una pentru media cozii
+    \[ V_1 = \mathbf 1\{y \le v\} - \alpha, \qquad V_2 = e - v + \frac{1}{\alpha}\mathbf 1\{y \le v\}(v - y) \]
+    \begin{itemize}
+        \item $\E V_1 = 0$: $v$ este cuantila de nivel $\alpha$; $\E V_2 = 0$ la cuantila corectă este formula Acerbi--Tasche
+        \item ES este media cozii doar împreună cu cuantila corectă
     \end{itemize}
     \item Consecință \refFZG: ES poate fi \textbf{comparat} prin pereche; backtesting-ul clasic al ES cere în continuare mai mult decît ES (secțiunea 5)
 \end{itemize}
@@ -478,9 +536,10 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
 \begin{frame}{FZ0: membrul omogen de grad zero}
 \itemsize{\small}
 \begin{itemize}
-    \item \refPZC, Propoziția 1: cu $v, e < 0$, \textbf{diferențele} de pierdere sînt invariante la rescalarea lui $Y$ dacă și numai dacă $G_1 = 0$, $G_2(e) = -1/e$:
+    \item \refPZC, Propoziția 1: cu $v, e < 0$, \textbf{diferențele} de pierdere sînt invariante la rescalarea lui $Y$ dacă și numai dacă $G_1 = 0$ și $G_2(e) = -1/e$
+    \[ L_{\mathrm{FZ0}}(y, v, e; \alpha) = -\frac{1}{\alpha e}\mathbf 1\{y \le v\}(v - y) + \frac{v}{e} + \ln(-e) - 1 \]
     \begin{itemize}
-        \item $L_{\mathrm{FZ0}}(y, v, e; \alpha) = -\dfrac{1}{\alpha e}\mathbf 1\{y \le v\}(v - y) + \dfrac{v}{e} + \ln(-e) - 1$
+        \item primul termen: pozitiv doar în zilele cu depășire ($y \le v$), proporțional cu mărimea depășirii; $v/e \in (0, 1]$; $\ln(-e)$ penalizează un ES exagerat
         \item partea de VaR seamănă cu pierderea pinball; partea de ES seamănă cu QLIKE (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol8_volatilitate_avansata.pdf}{Capitolul 8})
     \end{itemize}
     \item De ce contează omogenitatea de grad zero pentru serii de timp
@@ -518,11 +577,11 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
 \itemsize{\small}
 \begin{itemize}
     \item \refEGJK: orice scor GPL pentru cuantile este un amestec de \textbf{scoruri elementare}
+    \[ S_\theta(x, y) = (\mathbf 1\{y < x\} - \alpha)\big(\mathbf 1\{\theta < x\} - \mathbf 1\{\theta < y\}\big), \qquad S(x, y) = \int S_\theta(x, y)\,dH(\theta) \]
     \begin{itemize}
-        \item $S_\theta(x, y) = (\mathbf 1\{y < x\} - \alpha)\big(\mathbf 1\{\theta < x\} - \mathbf 1\{\theta < y\}\big)$, $\quad S(x, y) = \int S_\theta(x, y)\,dH(\theta)$
-        \item $S_\theta$ este pierderea unei decizii binare cu pragul $\theta$; $H$ nedescrescătoare corespunde lui $G$
+        \item $\theta$: un prag; $S_\theta$: pierderea unei decizii binare „este randamentul sub $\theta$?”; $H$: o pondere nedescrescătoare pe praguri, care corespunde lui $G$
     \end{itemize}
-    \item \textbf{Diagrama Murphy}: media $\bar S_\theta$ a fiecărei prognoze în funcție de $\theta$
+    \item \textbf{Diagrama Murphy}: media $\bar S_\theta$ a fiecărei prognoze, reprezentată în funcție de $\theta$
     \begin{itemize}
         \item prognoza A domină B pentru orice scor consistent dacă și numai dacă curba ei este dedesubt pentru orice $\theta$
         \item curbe care se intersectează: ordonarea depinde de $G$, adică de pragurile care contează pentru utilizator
@@ -538,7 +597,7 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item S\&P 500, în afara eșantionului 2000--2016 (designul PZC); scorurile elementare medii ale celor trei prognoze VaR 2,5\% în funcție de pragul $\theta$
+    \item S\&P 500, în afara eșantionului 2000--2016 (schema PZC); scorurile elementare medii ale celor trei prognoze VaR 2,5\% în funcție de pragul $\theta$
 \end{itemize}
 \quantlet{ATS\_ch9\_scoring}{\qlurl{ATS_ch9_scoring}}
 \end{frame}
@@ -567,7 +626,7 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
 \section{Regresia cuantilică și CAViaR}
 %=============================================================================
 
-\begin{frame}{Regresia cuantilică ca M-estimare}
+\begin{frame}{Regresia cuantilică ca M-estimare (1/2)}
 \itemsize{\small}
 \begin{columns}[T]
 \begin{column}{0.27\textwidth}
@@ -578,77 +637,115 @@ VIX & închideri zilnice EODHD & regresor în regresia comună (VaR, ES) \\
 \end{column}
 \begin{column}{0.71\textwidth}
 \begin{itemize}
-    \item \refKB: $\hat\beta(\alpha) = \arg\min_\beta \sum_t \rho_\alpha(y_t - x_t'\beta)$, o problemă de programare liniară
+    \item \refKB: cuantila de nivel $\alpha$ a lui $y_t$ condiționat de $x_t$ este modelată ca $x_t'\beta$ și estimată prin minimizarea pierderii pinball
+    \[ \hat\beta(\alpha) = \arg\min_\beta \sum_t \rho_\alpha(y_t - x_t'\beta), \qquad \rho_\alpha(u) = u\,(\alpha - \mathbf 1\{u < 0\}) \]
     \begin{itemize}
+        \item $x_t$: vectorul regresorilor; $\rho_\alpha$: funcția pinball, cu panta $\alpha$ pentru reziduuri pozitive și $\alpha - 1$ pentru reziduuri negative; problema este una de programare liniară
         \item condiția de ordinul întîi: $\sum_t x_t(\mathbf 1\{y_t \le x_t'\hat\beta\} - \alpha) \approx 0$, funcția de identificare
     \end{itemize}
-    \item $\sqrt T(\hat\beta - \beta) \to N\big(0, \alpha(1 - \alpha)D^{-1}\Omega D^{-1}\big)$, $\Omega = \E[x_tx_t']$, $D = \E[f_t(q_t)x_tx_t']$ \refKoe
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Regresia cuantilică ca M-estimare (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Distribuția asimptotică \refKoe: un sandwich în care apare densitatea în cuantilă
+    \[ \sqrt T(\hat\beta - \beta) \to N\big(0, \alpha(1 - \alpha)D^{-1}\Omega D^{-1}\big), \qquad \Omega = \E[x_tx_t'], \qquad D = \E[f_t(q_t)x_tx_t'] \]
     \begin{itemize}
-        \item densitatea condiționată în cuantilă (inversul „sparsity”) intră în $D$: se estimează cu un nucleu și o lățime de bandă
+        \item $f_t(q_t)$: densitatea condiționată a lui $y_t$ în cuantila adevărată $q_t$; inversul ei se numește „sparsity”
+        \item puține observații în jurul cuantilei ($f_t$ mic) înseamnă un $\hat\beta$ imprecis; $f_t$ se estimează cu un kernel și o lățime de bandă
     \end{itemize}
     \item Serii de timp: autoregresia cuantilică \refKX\ permite coeficienților AR să varieze între cuantile; CAViaR face cuantila însăși autoregresivă
 \end{itemize}
-\end{column}
-\end{columns}
 \end{frame}
 
 \begin{frame}{CAViaR: cele patru specificații}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{columns}[T]
-\begin{column}{0.3\textwidth}
+\begin{column}{0.26\textwidth}
 \centering
-\includegraphics[height=0.38\textheight]{ch9_engle_2022.jpg}\\[1mm]
+\includegraphics[height=0.32\textheight]{ch9_engle_2022.jpg}\\[1mm]
 \imgcap{Robert Engle, 2022}
 \imgcredit{https://commons.wikimedia.org/wiki/File:0603-Kraneshares_KRBN-RobertEngle-JonDemske-13.jpg}{Foto: Jon Demske (2022); CC BY-SA 4.0; Wikimedia Commons}
 \end{column}
-\begin{column}{0.68\textwidth}
+\begin{column}{0.72\textwidth}
 \begin{itemize}
-    \item \refEM, scrise pentru $\mathrm{VaR}_t = -q_t(\alpha) > 0$:
-    \item \textbf{SAV}: $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3|y_{t-1}|$
-    \item \textbf{AS}: $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3(y_{t-1})^+ + \beta_4(y_{t-1})^-$
-    \item \textbf{IG}: $\mathrm{VaR}_t = (\beta_1 + \beta_2\mathrm{VaR}_{t-1}^2 + \beta_3y_{t-1}^2)^{1/2}$ (un GARCH(1,1) cu inovații i.i.d.)
-    \item \textbf{Adaptiv}: $\mathrm{VaR}_t = \mathrm{VaR}_{t-1} + \beta_1\big([1 + e^{G(y_{t-1} + \mathrm{VaR}_{t-1})}]^{-1} - \alpha\big)$, $G = 10$: crește după o depășire, scade lent în rest
-    \item $\beta_2$ este persistența cozii; nu se presupune nicio distribuție
+    \item \refEM, scrise pentru $\mathrm{VaR}_t = -q_t(\alpha) > 0$; $y_{t-1}$: randamentul de ieri; $\beta_j$: parametri:
+    \item \textbf{SAV} (valoare absolută simetrică): $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3|y_{t-1}|$
+    \begin{itemize}
+        \item $\beta_2$: persistența cozii; $\beta_3$: reacția la mărimea randamentului de ieri
+    \end{itemize}
+    \item \textbf{AS} (pantă asimetrică): $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3(y_{t-1})^+ + \beta_4(y_{t-1})^-$
+    \begin{itemize}
+        \item $(y)^+ = \max(y, 0)$, $(y)^- = -\min(y, 0)$: cîștigurile și pierderile intră separat; $\beta_4 > \beta_3$ înseamnă efect de levier
+    \end{itemize}
+    \item \textbf{IG} (GARCH indirect): $\mathrm{VaR}_t = (\beta_1 + \beta_2\mathrm{VaR}_{t-1}^2 + \beta_3y_{t-1}^2)^{1/2}$, un GARCH(1,1) cu inovații i.i.d.
+    \item \textbf{Adaptiv}: $\mathrm{VaR}_t = \mathrm{VaR}_{t-1} + \beta_1\big([1 + e^{G(y_{t-1} + \mathrm{VaR}_{t-1})}]^{-1} - \alpha\big)$
+    \begin{itemize}
+        \item paranteza este un indicator neted al depășirii ($G = 10$): VaR crește după o depășire și scade lent în rest; niciuna dintre cele patru specificații nu presupune o distribuție
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Estimare și inferență}
+\begin{frame}{Estimare și inferență (1/2): criteriul}
 \itemsize{\small}
 \begin{itemize}
-    \item Criteriul de regresie cuantilică: $\hat\beta = \arg\min_\beta T^{-1}\sum_t \rho_\alpha\big(y_t + \mathrm{VaR}_t(\beta)\big)$; nediferențiabil și neconvex în $\beta$
+    \item Criteriul de regresie cuantilică: pierderea pinball medie a traiectoriei cuantilei implicate
+    \[ \hat\beta = \arg\min_\beta \frac1T\sum_t \rho_\alpha\big(y_t + \mathrm{VaR}_t(\beta)\big) \]
     \begin{itemize}
-        \item Procedura EM (secțiunea empirică): $\mathrm{VaR}_1$ = cuantila empirică din primele 300 de zile; $10^4$ vectori aleatori, cei mai buni 10 rafinați alternînd pași simplex și cvasi-Newton
+        \item $\mathrm{VaR}_t(\beta)$: traiectoria generată de recursie cu parametrii $\beta$; criteriul este nediferențiabil și neconvex în $\beta$
     \end{itemize}
-    \item Consistență și $\sqrt T(\hat\beta - \beta) \to N(0, \alpha(1 - \alpha)D^{-1}AD^{-1})$, $A = \E[\nabla q_t\nabla q_t']$, $D = \E[f_t(q_t)\nabla q_t\nabla q_t']$
+    \item Procedura EM (secțiunea empirică)
     \begin{itemize}
-        \item $\hat D = (2T\hat c)^{-1}\sum_t\mathbf 1\{|y_t - \hat q_t| < \hat c\}\nabla\hat q_t\nabla\hat q_t'$; luăm $\hat c$ din regula Hall--Sheather pe scala reziduurilor \refKoe
+        \item $\mathrm{VaR}_1$: cuantila empirică din primele 300 de zile; $10^4$ vectori de parametri aleatori, cei mai buni 10 rafinați alternînd pași simplex și cvasi-Newton
     \end{itemize}
-    \item Gradienții $\nabla q_t$ urmează propria recursie (sau derivarea numerică a traiectoriei): modelul dinamic este un M-estimator recursiv
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimare și inferență (2/2): covarianța}
+\itemsize{\small}
+\begin{itemize}
+    \item Consistență și normalitate asimptotică, cu o covarianță de tip sandwich
+    \[ \sqrt T(\hat\beta - \beta) \to N\big(0, \alpha(1 - \alpha)D^{-1}AD^{-1}\big), \qquad A = \E[\nabla q_t\nabla q_t'], \qquad D = \E[f_t(q_t)\nabla q_t\nabla q_t'] \]
+    \begin{itemize}
+        \item $\nabla q_t = \partial q_t(\beta)/\partial\beta$: gradientul traiectoriei cuantilei, care urmează propria recursie (sau derivarea numerică a traiectoriei)
+        \item $f_t(q_t)$: densitatea condiționată a lui $y_t$ în cuantilă, ca în regresia cuantilică
+    \end{itemize}
+    \item Estimatorul lui $D$: se numără reziduurile aflate la cel mult $\hat c$ de zero
+    \[ \hat D = \frac{1}{2T\hat c}\sum_t\mathbf 1\{|y_t - \hat q_t| < \hat c\}\,\nabla\hat q_t\nabla\hat q_t' \]
+    \begin{itemize}
+        \item $\hat c$: lățimea de bandă, din regula Hall--Sheather pe scala reziduurilor \refKoe; modelul dinamic este un M-estimator recursiv
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Testul dinamic pe cuantile (DQ)}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{itemize}
-    \item $\mathrm{Hit}_t = \mathbf 1\{y_t < q_t\} - \alpha$: sub specificarea corectă este o diferență de martingală, $\E[\mathrm{Hit}_t \mid \mathcal F_{t-1}] = 0$
+    \item Sub specificarea corectă, șirul depășirilor este o diferență de martingal
+    \[ \mathrm{Hit}_t = \mathbf 1\{y_t < q_t\} - \alpha, \qquad \E[\mathrm{Hit}_t \mid \mathcal F_{t-1}] = 0 \]
     \begin{itemize}
         \item regresăm $\mathrm{Hit}_t$ pe $X_t$ = (1, $\mathrm{Hit}_{t-1}, \dots, \mathrm{Hit}_{t-4}$, $q_t$), toate din $\mathcal F_{t-1}$ \refEM
     \end{itemize}
-    \item În afara eșantionului: $\mathrm{DQ} = \dfrac{\mathrm{Hit}'X(X'X)^{-1}X'\mathrm{Hit}}{\alpha(1 - \alpha)} \to \chi^2_6$
+    \item Statistica în afara eșantionului: un test Wald că toți coeficienții regresiei sînt zero
+    \[ \mathrm{DQ} = \frac{\mathrm{Hit}'X(X'X)^{-1}X'\mathrm{Hit}}{\alpha(1 - \alpha)} \to \chi^2_6 \]
     \begin{itemize}
+        \item $\mathrm{Hit}$: vectorul depășirilor; $X$: matricea cu rîndurile $X_t$; 6 = numărul regresorilor; un DQ mare respinge calibrarea
         \item în eșantion, $\beta$ estimat face depășirile ortogonale pe gradienți: covarianța cere corecția derivată de EM
     \end{itemize}
-    \item Testele Kupiec (doar constanta) și Christoffersen (o depășire întîrziată) sînt cazuri particulare; regresorul VaR adaugă putere împotriva erorilor care depind de nivel
-    \item Cu $\alpha = 1\%$ și cîteva sute de zile, aproximarea $\chi^2$ este slabă (secțiunea 5): raportați valori $p$ simulate sau exacte cînd se poate
+    \item Testele Kupiec (doar constanta) și Christoffersen (primul lag al depășirilor) sînt cazuri particulare; regresorul VaR adaugă putere împotriva erorilor care depind de nivel
+    \item Cu $\alpha = 1\%$ și cîteva sute de zile, aproximarea $\chi^2$ este slabă (secțiunea 5): raportați p-value-uri simulate sau exacte cînd se poate
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Studiu de caz: Engle și Manganelli (2004) pe datele de azi}
 \itemsize{\small}
 \begin{itemize}
-    \item Designul din secțiunea empirică a lucrării EM: 3\,392 de randamente zilnice, primele 2\,892 pentru estimare, ultimele 500 în afara eșantionului; VaR 1\% și 5\%
+    \item Schema din secțiunea empirică a lucrării EM: 3\,392 de randamente zilnice, primele 2\,892 pentru estimare, ultimele 500 în afara eșantionului; VaR 1\% și 5\%
     \begin{itemize}
         \item EM au folosit 1986--1999 (GM, IBM, S\&P 500); noi folosim S\&P 500 de la 25 martie 2013 la 18 septembrie 2026, în afara eșantionului din 20 septembrie 2024
     \end{itemize}
@@ -685,7 +782,7 @@ ADAPT & 1{,}190 (0{,}069) & -- & -- & -- & 4{,}044 & 0{,}90 & 0{,}8 & 27{,}5 ($<
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item Erorile standard din covarianța asimptotică EM; RQ: criteriul minimizat în eșantion; DQ în afara eșantionului cu patru depășiri întîrziate și VaR, $\chi^2_6$; 500 de zile dau 5 depășiri așteptate
+    \item Erorile standard din covarianța asimptotică EM; RQ: criteriul minimizat în eșantion; DQ în afara eșantionului cu patru laguri ale depășirilor și VaR, $\chi^2_6$; 500 de zile dau 5 depășiri așteptate
     \item Pierderea pinball medie în afara eșantionului ($\times10^2$): SAV 3{,}87, AS 3{,}66, IG 3{,}66, adaptiv 4{,}42
 \end{itemize}
 \end{frame}
@@ -740,9 +837,11 @@ ADAPT & 1{,}190 (0{,}069) & -- & -- & -- & 4{,}044 & 0{,}90 & 0{,}8 & 27{,}5 ($<
 \begin{frame}{M-estimarea cu pierderea FZ0}
 \itemsize{\small}
 \begin{itemize}
-    \item Modelul $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$; estimatorul $\hat\theta = \arg\min_\theta T^{-1}\sum_t L_{\mathrm{FZ0}}(y_t, v_t(\theta), e_t(\theta); \alpha)$ \refPZC
+    \item Un model dinamic pentru pereche, estimat prin minimizarea pierderii FZ0 medii \refPZC
+    \[ (v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta), \qquad \hat\theta = \arg\min_\theta \frac1T\sum_t L_{\mathrm{FZ0}}\big(y_t, v_t(\theta), e_t(\theta); \alpha\big) \]
     \begin{itemize}
-        \item consistența rezultă din consistența strictă a FZ0 și din identificarea lui $\theta$; normalitatea asimptotică ca la CAViaR, cu o covarianță de tip sandwich
+        \item $\theta$: parametrii celor două recursii; consistența rezultă din consistența strictă a FZ0 și din identificarea lui $\theta$
+        \item normalitatea asimptotică este ca la CAViaR, cu o covarianță de tip sandwich
     \end{itemize}
     \item De ce nu verosimilitate maximă?
     \begin{itemize}
@@ -756,25 +855,35 @@ ADAPT & 1{,}190 (0{,}069) & -- & -- & -- & 4{,}044 & 0{,}90 & 0{,}8 & 27{,}5 ($<
 \begin{frame}{Modelul GAS cu doi factori}
 \itemsize{\small}
 \begin{itemize}
-    \item \refPZC, ec.~(9)--(16): $\begin{pmatrix} v_{t+1} \\ e_{t+1}\end{pmatrix} = w + B\begin{pmatrix} v_t \\ e_t\end{pmatrix} + A\lambda_t$, $B$ diagonală, $A$ o matrice $2\times2$
+    \item \refPZC, ec.~(9)--(16): perechea urmează un VAR(1) determinat de scorul scalat al FZ0 (generalised autoregressive score, GAS)
+    \[ \begin{pmatrix} v_{t+1} \\ e_{t+1}\end{pmatrix} = w + B\begin{pmatrix} v_t \\ e_t\end{pmatrix} + A\lambda_t \]
     \begin{itemize}
-        \item variabilele de impuls din scorul FZ0: $\lambda_{v,t} = -v_t(\mathbf 1\{y_t \le v_t\} - \alpha)$, $\lambda_{e,t} = \tfrac{1}{\alpha}\mathbf 1\{y_t \le v_t\}y_t - e_t$
-        \item ambele sînt funcții de identificare: medie condiționată nulă sub specificarea corectă
+        \item $w$: vectorul termenilor liberi; $B$: matrice diagonală $2\times2$ de persistență; $A$: matricea $2\times2$ a reacțiilor la variabilele de impuls $\lambda_t = (\lambda_{v,t}, \lambda_{e,t})'$
     \end{itemize}
-    \item Hessiana se scalează cu $f_t(v_t) \approx k_\alpha/v_t$ (exact pentru randamente de tip poziție--scală), deci nu se estimează nicio densitate
-    \item Opt parametri; în zilele fără depășire $\lambda_{e,t} = -e_t$, iar ambele măsuri de risc scad determinist spre mediile lor
+    \item Variabilele de impuls, din scorul FZ0
+    \[ \lambda_{v,t} = -v_t\big(\mathbf 1\{y_t \le v_t\} - \alpha\big), \qquad \lambda_{e,t} = \frac{1}{\alpha}\mathbf 1\{y_t \le v_t\}\,y_t - e_t \]
+    \begin{itemize}
+        \item ambele sînt funcții de identificare: medie condiționată nulă sub specificarea corectă
+        \item hessiana se scalează cu $f_t(v_t) \approx k_\alpha/v_t$, $k_\alpha$ o constantă (exact pentru randamente de tip poziție--scală), deci nu se estimează nicio densitate
+        \item opt parametri; în zilele fără depășire $\lambda_{e,t} = -e_t$, iar ambele măsuri de risc scad determinist spre mediile lor
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Modelele cu un factor, GARCH-FZ și Hybrid}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{itemize}
-    \item \textbf{GAS-1F}, ec.~(20): $v_t = a e^{\kappa_t}$, $e_t = b e^{\kappa_t}$, $b < a < 0$, $\kappa_t = \beta\kappa_{t-1} + \gamma\,\dfrac{-1}{e_{t-1}}\Big(\tfrac{1}{\alpha}\mathbf 1\{y_{t-1} \le v_{t-1}\}y_{t-1} - e_{t-1}\Big)$
+    \item \textbf{GAS-1F}, ec.~(20): o singură log-scală latentă $\kappa_t$ multiplică ambele măsuri de risc
+    \[ v_t = a\,e^{\kappa_t}, \quad e_t = b\,e^{\kappa_t}, \quad \kappa_t = \beta\kappa_{t-1} + \gamma\,\frac{-1}{e_{t-1}}\Big(\frac{1}{\alpha}\mathbf 1\{y_{t-1} \le v_{t-1}\}y_{t-1} - e_{t-1}\Big) \]
     \begin{itemize}
-        \item o singură log-scală latentă; termenul liber $\omega$ nu este identificat împreună cu $(a, b)$ și se fixează la 0
+        \item $b < a < 0$: VaR și ES pentru $\kappa_t = 0$; $\beta$: persistența log-scalei; $\gamma$: reacția la variabila de impuls a ES
+        \item termenul liber $\omega$ nu este identificat împreună cu $(a, b)$ și se fixează la 0
     \end{itemize}
-    \item \textbf{GARCH-FZ}, ec.~(25)--(26): $\kappa_t^2 = 1 + \beta\kappa_{t-1}^2 + \gamma y_{t-1}^2$, $(v_t, e_t) = (a, b)\kappa_t$: un GARCH ajustat pentru coadă
-    \item \textbf{Hybrid}, ec.~(27): GAS-1F plus $\delta\ln|y_{t-1}|$: reacționează în fiecare zi, mai puternic în zilele cu depășiri
+    \item \textbf{GARCH-FZ}, ec.~(25)--(26): $\kappa_t^2 = 1 + \beta\kappa_{t-1}^2 + \gamma y_{t-1}^2$, $(v_t, e_t) = (a, b)\kappa_t$: un GARCH a cărui scală $\kappa_t$ este ajustată pentru coadă
+    \item \textbf{Hybrid}, ec.~(27): GAS-1F plus $\delta\ln|y_{t-1}|$ în recursia lui $\kappa_t$
+    \begin{itemize}
+        \item reacționează în fiecare zi prin $\delta$, mai puternic în zilele cu depășiri
+    \end{itemize}
     \item În toate trei raportul $e_t/v_t = b/a$ este constant: forma cozii este fixă, doar scala ei se mișcă
 \end{itemize}
 \end{frame}
@@ -783,8 +892,10 @@ ADAPT & 1{,}190 (0{,}069) & -- & -- & -- & 4{,}044 & 0{,}90 & 0{,}8 & 27{,}5 ($<
 \itemsize{\small}
 \begin{itemize}
     \item Funcția obiectiv FZ0 este discontinuă în $\theta$ (prin $\mathbf 1\{y_t \le v_t(\theta)\}$), iar recursia propagă fiecare salt
-    \item Anexa C a lucrării \refPZC: înlocuim indicatorul cu $\Gamma(y, v; \tau) = [1 + e^{\tau(y - v)}]^{-1}$ în pierdere și în variabila de impuls
+    \item Anexa C a lucrării \refPZC: indicatorul se înlocuiește cu o aproximare logistică în pierdere și în variabila de impuls
+    \[ \Gamma(y, v; \tau) = \frac{1}{1 + e^{\tau(y - v)}} \]
     \begin{itemize}
+        \item $\tau > 0$: parametrul de netezire; cînd $\tau \to \infty$, $\Gamma \to \mathbf 1\{y \le v\}$
         \item cvasi-Newton cu $\tau = 5$, apoi $\tau = 20$, apoi pierderea exactă cu metoda simplex, fiecare pas pornind din cel anterior
     \end{itemize}
     \item Valorile noastre de pornire: parametri dinamici aleatori, cu $(a, b)$ potriviți la VaR și ES din eșantion; cei mai buni patru sînt rafinați
@@ -835,7 +946,7 @@ ADAPT & 1{,}190 (0{,}069) & -- & -- & -- & 4{,}044 & 0{,}90 & 0{,}8 & 27{,}5 ($<
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Bare: datele și codul nostru, același design; romburi: valorile tipărite în PZC, Tabelul 8 ($\alpha$ = 5\%) și Tabelul S5 ($\alpha$ = 2,5\%)
+    \item Bare: datele și codul nostru, aceeași schemă; romburi: valorile tipărite în PZC, Tabelul 8 ($\alpha$ = 5\%) și Tabelul S5 ($\alpha$ = 2,5\%)
 \end{itemize}
 \quantlet{ATS\_ch9\_pzc}{\qlurl{ATS_ch9_pzc}}
 \end{frame}
@@ -901,8 +1012,10 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \begin{frame}{Regresia comună (VaR, ES)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refDB: $q_\alpha(Y_t \mid x_t) = x_t'\beta$, $-\mathrm{ES}_\alpha(Y_t \mid x_t) = x_t'\gamma$, estimate împreună prin minimizarea unei pierderi Fissler--Ziegel
+    \item \refDB: ambele funcționale sînt liniare în covariabile
+    \[ q_\alpha(Y_t \mid x_t) = x_t'\beta, \qquad -\mathrm{ES}_\alpha(Y_t \mid x_t) = x_t'\gamma \]
     \begin{itemize}
+        \item $x_t$: covariabile cunoscute la $t-1$; $\beta$, $\gamma$: efectele asupra cuantilei și asupra mediei cozii; estimate împreună prin minimizarea unei pierderi Fissler--Ziegel
         \item M-estimator: consistent și asimptotic normal pentru orice membru al clasei; alegerea lui $(G_1, G_2)$ afectează doar eficiența
     \end{itemize}
     \item Utilizări
@@ -930,7 +1043,7 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \itemsize{\small}
 \begin{itemize}
     \item Cuantila: $0{,}499 \ensuremath{-}0{,}135\,\mathrm{VIX}$ (erori standard 0{,}150; 0{,}009); media cozii: $0{,}524 \ensuremath{-}0{,}170\,\mathrm{VIX}$ (erori standard 0{,}245; 0{,}015)
-    \item Un punct de VIX coboară cuantila de 2,5\% cu 0{,}14 și media cozii cu 0{,}17 puncte procentuale: coada se deschide de 1{,}25 ori mai repede în ES
+    \item Un punct de VIX coboară cuantila de 2,5\% cu 0{,}14 și media cozii cu 0{,}17 puncte procentuale: coada se lărgește de 1{,}25 ori mai repede în ES
     \item Partea de cuantilă este apropiată de regresia cuantilică ($0{,}560$, $\ensuremath{-}0{,}139$); rata de depășire în eșantion 2{,}50\%; testele PZC nu resping ($p$ = 0{,}978; 0{,}744)
     \item VIX este o prognoză de piață a volatilității: regresia arată că piața opțiunilor evaluează coada stîngă aproape liniar
 \end{itemize}
@@ -940,7 +1053,7 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \itemsize{\small}
 \begin{itemize}
     \item Minimizarea FZ0 estimează perechea din coadă fără o distribuție
-    \item Variabilele de impuls GAS sînt funcții de identificare: modelul se corectează doar cînd vorbește coada
+    \item Variabilele de impuls GAS sînt funcții de identificare: modelul se corectează doar cînd coada aduce informație nouă (în zilele cu depășiri)
     \item Ordonarea PZC se replică; rezultatele testelor de adecvare nu; regresia comună leagă coada de covariabile
 \end{itemize}
 \end{frame}
@@ -953,9 +1066,10 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \begin{frame}{Recapitulare: numărarea depășirilor}
 \itemsize{\small}
 \begin{itemize}
-    \item Depășirile $I_t = \mathbf 1\{y_t < v_t\}$; VaR corect $\Rightarrow I_t$ i.i.d.\ Bernoulli($\alpha$) (\atschlink{https://danpele.github.io/MFM/RO/Cursuri/capitol8_backtesting_risc.pdf}{MFM, Capitolul 8})
+    \item Depășirile $I_t = \mathbf 1\{y_t < v_t\}$; un VaR corect face ca $I_t$ să fie i.i.d.\ Bernoulli($\alpha$) (\atschlink{https://danpele.github.io/MFM/RO/Cursuri/capitol8_backtesting_risc.pdf}{MFM, Capitolul 8})
     \begin{itemize}
-        \item \refKup: acoperirea necondiționată, LR $\sim \chi^2_1$; \refChr: independența depășirilor consecutive și acoperirea condiționată, $\chi^2_2$
+        \item \refKup: acoperirea necondiționată, statistica raportului de verosimilitate LR $\sim \chi^2_1$ (este rata depășirilor egală cu $\alpha$?)
+        \item \refChr: independența depășirilor consecutive și acoperirea condiționată (ambele împreună), $\chi^2_2$
         \item Semaforul Basel \refBCBS: verde pînă la 4 depășiri ale VaR 1\% în 250 de zile, galben 5--9, roșu de la 10
     \end{itemize}
     \item Ce nu vede numărarea
@@ -970,31 +1084,35 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \begin{frame}{Calibrarea condiționată}
 \itemsize{\small}
 \begin{itemize}
-    \item O prognoză $x_t$ a lui $\mathrm T$ este \textbf{calibrată condiționat} dacă $\E[V(x_t, Y_t) \mid \mathcal F_{t-1}] = 0$, unde $V$ este funcția de identificare \refNZ
+    \item O prognoză $x_t$ a lui $\mathrm T$ este \textbf{calibrată condiționat} dacă funcția ei de identificare $V$ are media condiționată zero \refNZ
+    \[ \E[V(x_t, Y_t) \mid \mathcal F_{t-1}] = 0 \ \Rightarrow\ \E[h_{t-1}V(x_t, Y_t)] = 0 \]
     \begin{itemize}
-        \item pentru orice instrumente $h_{t-1} \in \mathcal F_{t-1}$: $\E[h_{t-1}V(x_t, Y_t)] = 0$, un test de momente (Wald, $\chi^2$)
+        \item $h_{t-1}$: orice instrument cunoscut la $t-1$ (constanta, laguri ale depășirilor, prognoza însăși); un test de momente (Wald, $\chi^2$)
     \end{itemize}
-    \item PZC, ec.~(40)--(41): reziduurile generalizate standardizate $\lambda^s_{v,t} = \mathbf 1\{y_t \le v_t\} - \alpha$ și $\lambda^s_{e,t} = \dfrac{\mathbf 1\{y_t \le v_t\}y_t}{\alpha e_t} - 1$
+    \item PZC, ec.~(40)--(41): reziduurile generalizate standardizate
+    \[ \lambda^s_{v,t} = \mathbf 1\{y_t \le v_t\} - \alpha, \qquad \lambda^s_{e,t} = \frac{\mathbf 1\{y_t \le v_t\}\,y_t}{\alpha e_t} - 1 \]
     \begin{itemize}
-        \item regresăm fiecare pe (1, propriul decalaj, $v_t$ sau $e_t$) și testăm că toți cei trei coeficienți sînt zero; folosim covarianța White (HC0)
+        \item regresăm fiecare pe (1, propriul lag de ordinul întîi, $v_t$ sau $e_t$) și testăm că toți cei trei coeficienți sînt zero; folosim covarianța White (HC0)
+        \item DQ este cazul particular pentru VaR; regresia pentru ES testează ES doar împreună cu VaR, cum prevede elicitabilitatea
     \end{itemize}
-    \item DQ este cazul particular pentru VaR; regresia pentru ES testează ES doar împreună cu VaR, cum prevede elicitabilitatea
-    \item Puterea vine din instrumente: depășirile întîrziate detectează gruparea, nivelul prognozei detectează erorile de scală
+    \item Puterea vine din instrumente: lagurile depășirilor detectează gruparea, nivelul prognozei detectează erorile de scală
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Teste pe baza duratelor}
 \itemsize{\small}
 \begin{itemize}
-    \item \refCP: pentru un VaR corect, duratele $d_i$ dintre depășiri sînt geometrice, fără memorie, cu media $1/\alpha$
+    \item \refCP: pentru un VaR corect, duratele $d_i$ (zilele dintre două depășiri consecutive) sînt geometrice, fără memorie, cu media $1/\alpha$
     \begin{itemize}
-        \item alternativa: hazardul Weibull $\lambda(d) = a^b b\,d^{b-1}$; $b < 1$ înseamnă hazard descrescător, adică depășirile se grupează
+        \item alternativa: hazardul Weibull $\lambda(d) = a^b b\,d^{b-1}$, probabilitatea unei depășiri după $d$ zile liniștite; $a > 0$: scala, $b > 0$: forma
+        \item $b = 1$: hazard constant (fără memorie, ca sub $H_0$); $b < 1$: hazard descrescător, adică depășirile se grupează
     \end{itemize}
     \item Verosimilitatea cu cenzurare: primul și ultimul interval sînt incomplete și intră prin funcția de supraviețuire $S(d) = e^{-(ad)^b}$
+    \[ \mathrm{LR} = 2\big[\ln L(\hat a, \hat b) - \ln L(\tilde a, 1)\big] \to \chi^2_1 \]
     \begin{itemize}
-        \item $\mathrm{LR} = 2[\ln L(\hat a, \hat b) - \ln L(\tilde a, 1)] \to \chi^2_1$; pentru eșantioane mici se recomandă valori $p$ prin simulare
+        \item $(\hat a, \hat b)$: estimațiile nerestricționate; $\tilde a$: estimația sub $b = 1$; pentru eșantioane mici se recomandă p-value-uri obținute prin simulare
     \end{itemize}
-    \item Duratele văd gruparea la orice distanță, nu doar în zile consecutive, ca testul lui Christoffersen
+    \item Duratele surprind gruparea la orice distanță, nu doar în zile consecutive, ca testul lui Christoffersen
 \end{itemize}
 \end{frame}
 
@@ -1029,7 +1147,7 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \textbf{Testul} & \textbf{Statistica} & \textbf{Date necesare} \\
 \midrule
 \refMF{} & media lui $(y_t - e_t)/\sigma_t$ în zilele cu depășiri, bootstrap & $v_t$, $e_t$, $\sigma_t$ \\
-\refAS\ $Z_2$ & $1 - \frac{1}{T\alpha}\sum_t \frac{y_tI_t}{e_t}$ & $v_t$, $e_t$ și distribuția prognozată (valoare $p$ simulată) \\
+\refAS\ $Z_2$ & $1 - \frac{1}{T\alpha}\sum_t \frac{y_tI_t}{e_t}$ & $v_t$, $e_t$ și distribuția prognozată (p-value simulat) \\
 \refDE{} & depășirile cumulate $H_t = \frac{1}{\alpha}(\alpha - u_t)\mathbf 1\{u_t \le \alpha\}$ & PIT $u_t = F_{t|t-1}(y_t)$ \\
 \refKLM{} & test multinomial pentru mai multe niveluri VaR & PIT sau VaR la mai multe niveluri \\
 \refPZC, \refBD{} & regresie pe $(v_t, e_t)$ & $v_t$, $e_t$ \\
@@ -1037,6 +1155,7 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \end{tabular}
 \end{center}
 \begin{itemize}
+    \item $\sigma_t$: volatilitatea prognozată; $I_t$: indicatorul depășirii; $u_t = F_{t|t-1}(y_t)$: transformarea integrală de probabilitate (PIT), uniformă pe $[0, 1]$ dacă distribuția prognozată este corectă
     \item Doar testele prin regresie nu folosesc nimic în plus față de perechea (VaR, ES): celelalte testează o distribuție, pe care ES singur nu o furnizează
 \end{itemize}
 \end{frame}
@@ -1044,9 +1163,10 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \begin{frame}{Riscul de estimare în backtesting}
 \itemsize{\small}
 \begin{itemize}
-    \item Testele presupun că VaR este cunoscut; în practică $\hat v_t = v_t(\hat\theta_R)$, cu $\hat\theta_R$ estimat pe $R$ zile și testat pe $P$ zile \refEO
+    \item Testele presupun că VaR este cunoscut; în practică $\hat v_t = v_t(\hat\theta_R)$, estimat pe $R$ zile și testat pe următoarele $P$ zile \refEO
+    \[ \frac{1}{\sqrt P}\sum_t(\hat I_t - \alpha) = \frac{1}{\sqrt P}\sum_t(I_t - \alpha) + \underbrace{\sqrt{P/R}\cdot\E[f_t(v_t)\nabla v_t']\,\sqrt R(\hat\theta_R - \theta)}_{\text{termenul de estimare}} \]
     \begin{itemize}
-        \item $P^{-1/2}\sum_t(\hat I_t - \alpha) = P^{-1/2}\sum_t(I_t - \alpha) + \underbrace{\sqrt{P/R}\cdot\E[f_t(v_t)\nabla v_t']\sqrt R(\hat\theta_R - \theta)}_{\text{termenul de estimare}}$
+        \item $\hat I_t$, $I_t$: depășirile VaR estimat și ale VaR adevărat; $f_t(v_t)$: densitatea condiționată în VaR; $\nabla v_t$: gradientul VaR în raport cu $\theta$
     \end{itemize}
     \item Termenul de estimare dispare doar dacă $P/R \to 0$; cu o fereastră fixă crește odată cu eșantionul de test
     \begin{itemize}
@@ -1131,7 +1251,7 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Designul comparației}
+\begin{frame}{Schema comparației}
 \itemsize{\small}
 \begin{itemize}
     \item Cele zece modele PZC, $\alpha$ = 2,5\%, pierderi FZ0 în afara eșantionului: S\&P 500 și DAX din 2000, BET din 2010, EUR/RON din iulie 2015, Bitcoin din 2020
@@ -1174,7 +1294,7 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Valorile $p$ MCS (pierderea FZ0, $\alpha$ = 2,5\%); verde: în MCS de 90\%
+    \item P-value-urile MCS (pierderea FZ0, $\alpha$ = 2,5\%); verde: în MCS de 90\%
 \end{itemize}
 \quantlet{ATS\_ch9\_comparison}{\qlurl{ATS_ch9_comparison}}
 \end{frame}
@@ -1203,18 +1323,32 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \section{Orizontul: riscul pe mai multe perioade}
 %=============================================================================
 
-\begin{frame}{Limitele regulii rădăcinii pătrate a timpului}
+\begin{frame}{Limitele regulii rădăcinii pătrate a timpului (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $\mathrm{VaR}^{(h)} = \sqrt h\,\mathrm{VaR}^{(1)}$ este valabilă pentru randamente i.i.d.\ din distribuția Normală cu media zero (legi stabile: $h^{1/\gamma}$)
+    \item Regula scalează VaR pe o zi la $h$ zile
+    \[ \mathrm{VaR}^{(h)} = \sqrt h\,\mathrm{VaR}^{(1)} \]
     \begin{itemize}
-        \item cozi groase care nu sînt stabile: suma pe $h$ zile este mai apropiată de distribuția Normală decît randamentul zilnic, deci $\sqrt h$ supraestimează cuantila la orizonturi lungi \refDZ
+        \item $\mathrm{VaR}^{(h)}$: VaR al randamentului pe $h$ zile, $\sum_{k=1}^h y_{t+k}$; exactă pentru randamente i.i.d.\ din distribuția Normală cu media zero
+        \item pentru legi stabile i.i.d.\ cu indicele $\gamma \in (0, 2]$, factorul este $h^{1/\gamma}$ ($\gamma = 2$: cazul distribuției Normale)
     \end{itemize}
-    \item Volatility clustering: $\mathrm{Var}_t(\sum_{k=1}^h y_{t+k}) = \sum_{k=0}^{h-1}\big[\bar\sigma^2 + (\alpha + \beta)^k(\sigma_{t+1}^2 - \bar\sigma^2)\big]$ pentru GARCH(1,1)
+    \item Cozi groase care nu sînt stabile: suma pe $h$ zile este mai apropiată de distribuția Normală decît randamentul zilnic
     \begin{itemize}
-        \item în perioade calme $\sqrt h$ subestimează riscul, în crize îl supraestimează: revenirea volatilității la medie
+        \item deci $\sqrt h$ supraestimează cuantila la orizonturi lungi \refDZ
     \end{itemize}
     \item Efectul de levier (GJR) face pierderile pe mai multe zile mai asimetrice decît cele zilnice: coada stîngă a sumei este mai groasă decît coada zilnică scalată
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Limitele regulii rădăcinii pătrate a timpului (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Volatility clustering: pentru GARCH(1,1), varianța randamentului pe $h$ zile depinde de volatilitatea de azi
+    \[ \mathrm{Var}_t\Big(\sum_{k=1}^h y_{t+k}\Big) = \sum_{k=0}^{h-1}\big[\bar\sigma^2 + (\alpha + \beta)^k(\sigma_{t+1}^2 - \bar\sigma^2)\big] \]
+    \begin{itemize}
+        \item $\bar\sigma^2 = \omega/(1 - \alpha - \beta)$: varianța necondiționată; $\sigma^2_{t+1}$: varianța prognozată pentru mîine; $\alpha + \beta$: persistența
+        \item în perioade calme ($\sigma^2_{t+1} < \bar\sigma^2$), $\sqrt h$ subestimează riscul, în crize îl supraestimează: revenirea volatilității la medie
+    \end{itemize}
     \item Remedii: simularea distribuției pe $h$ zile (FHS) sau prognoza directă a cuantilei pe $h$ zile (regresie cuantilică pe randamentele pe $h$ zile)
 \end{itemize}
 \end{frame}
@@ -1271,8 +1405,10 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \begin{frame}{Riscul de model al modelelor de risc}
 \itemsize{\small}
 \begin{itemize}
-    \item \refDJVZ: \textbf{raportul de risc} $\mathrm{RR}_t = \max_m\mathrm{VaR}_{m,t}/\min_m\mathrm{VaR}_{m,t}$ între modele standard: dezacordul la care trebuie să se aștepte un supraveghetor
+    \item \refDJVZ: \textbf{raportul de risc} între modele standard măsoară dezacordul la care trebuie să se aștepte un supraveghetor
+    \[ \mathrm{RR}_t = \frac{\max_m\mathrm{VaR}_{m,t}}{\min_m\mathrm{VaR}_{m,t}} \ge 1 \]
     \begin{itemize}
+        \item $\mathrm{VaR}_{m,t}$: prognoza modelului $m$ pentru ziua $t$; $\mathrm{RR}_t = 1$: toate modelele sînt de acord; 2: modelul cel mai prudent cere de două ori capitalul celui mai puțin prudent
         \item ei găsesc raportul cel mai mare tocmai în crize, cînd cifrele de risc contează cel mai mult
     \end{itemize}
     \item \refBDKM: \textbf{risk models-at-risk}: cuantificăm riscul de model al unei prognoze VaR și ajustăm prognoza pentru erorile de estimare și de specificare
@@ -1334,7 +1470,7 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
     \item Lățimea intervalului raportată la prognoză: mediana 13\%, între 8\% și 19\%
     \item Iunie 2020: ES 4{,}49\% cu intervalul [4{,}06; 4{,}72]: două mii de zile de date lasă totuși o bandă de cîteva zecimi de procent
     \item Riscul de estimare este mic față de riscul de model (rapoarte de risc în jur de 2): alegerea modelului contează mai mult decît precizia lui
-    \item Regulile de capital care multiplică o prognoză punctuală le ignoră pe amîndouă: raportarea intervalului este minimul onest
+    \item Regulile de capital care multiplică o prognoză punctuală le ignoră pe amîndouă: raportarea intervalului este minimul necesar
 \end{itemize}
 \end{frame}
 
@@ -1355,11 +1491,14 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \begin{frame}{Extremele seriilor dependente}
 \itemsize{\small}
 \begin{itemize}
-    \item Pentru o serie staționară, $\Pr(\max_{t \le n} X_t \le u_n) \approx F(u_n)^{n\theta}$, $\theta \in (0, 1]$ fiind \textbf{indicele extremal} \refEKM
+    \item Pentru o serie staționară, dependența schimbă legea maximului doar printr-un număr, \textbf{indicele extremal} $\theta$ \refEKM
+    \[ \Pr\Big(\max_{t \le n} X_t \le u_n\Big) \approx F(u_n)^{n\theta}, \qquad \theta \in (0, 1] \]
     \begin{itemize}
+        \item $X_t$: pierderea zilnică; $F$: distribuția ei marginală; $u_n$: un prag ridicat care crește cu mărimea eșantionului $n$
         \item $1/\theta$ = mărimea medie a unui grup de depășiri; $\theta = 1$: extremele nu se grupează
     \end{itemize}
-    \item Estimatorul pe intervale \refFS: din distanțele $T_i$ dintre depășiri, $\hat\theta = \min\Big(1, \dfrac{2\big(\sum(T_i - 1)\big)^2}{(N - 1)\sum(T_i - 1)(T_i - 2)}\Big)$ (cînd $\max T_i > 2$)
+    \item Estimatorul pe intervale \refFS, din distanțele $T_i$ dintre cele $N$ depășiri (cînd $\max T_i > 2$)
+    \[ \hat\theta = \min\Big(1, \frac{2\big(\sum_i(T_i - 1)\big)^2}{(N - 1)\sum_i(T_i - 1)(T_i - 2)}\Big) \]
     \item \refMF: estimăm GARCH, aplicăm EVT reziduurilor standardizate; metoda funcționează dacă filtrarea elimină gruparea ($\theta$ aproape de 1 după filtrare)
 \end{itemize}
 \end{frame}
@@ -1381,7 +1520,7 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \begin{itemize}
     \item Pierderi brute: $\hat\theta$ = 0{,}30 (S\&P 500), 0{,}32 (BET), 0{,}13 (EUR/RON): extremele vin în grupuri de două pînă la opt zile
     \item După filtrare: 0{,}92; 0{,}85; 0{,}98 pentru S\&P 500, DAX și Bitcoin: GARCH elimină cea mai mare parte a grupării, cum presupun McNeil și Frey
-    \item EUR/RON rămîne grupat (0{,}39) și BET parțial (0{,}82): un curs administrat și o piață mică au o dependență pe care GARCH nu o surprinde
+    \item EUR/RON rămîne grupat (0{,}39) și BET parțial (0{,}82): un curs în regim de managed float și o piață mică au o dependență pe care GARCH nu o surprinde
     \item Cu parametri ficși din eșantion, filtrul este imperfect după perioada de estimare: o parte din gruparea rămasă este derivă
 \end{itemize}
 \end{frame}
@@ -1390,9 +1529,11 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \itemsize{\small}
 \begin{itemize}
     \item Cuantilele conformale split garantează acoperirea sub interschimbabilitate (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol13_foundation_models_conformal.pdf}{Capitolul 13}); randamentele nu sînt interschimbabile, deci garanția nu mai este valabilă
-    \item \textbf{Inferența conformală adaptivă} \refGC: prognozăm la nivelul $\alpha_t$ și actualizăm $\alpha_{t+1} = \alpha_t + \gamma(\alpha - \mathrm{err}_t)$, $\mathrm{err}_t = \mathbf 1\{y_t < q_t(\alpha_t)\}$
+    \item \textbf{Inferența conformală adaptivă} (ACI) \refGC: se prognozează la un nivel de lucru $\alpha_t$, corectat după fiecare zi
+    \[ \alpha_{t+1} = \alpha_t + \gamma(\alpha - \mathrm{err}_t), \qquad \mathrm{err}_t = \mathbf 1\{y_t < q_t(\alpha_t)\} \]
     \begin{itemize}
-        \item garanție deterministă: $\big|T^{-1}\sum_t\mathrm{err}_t - \alpha\big| \le \dfrac{\max(\alpha_1, 1 - \alpha_1) + \gamma}{\gamma T}$ pentru \textbf{orice} șir de randamente
+        \item $q_t(\alpha_t)$: cuantila modelului la nivelul $\alpha_t$; $\gamma > 0$: mărimea pasului; după o depășire $\alpha_{t+1}$ scade (VaR crește), după o zi liniștită crește ușor
+        \item garanție deterministă: $\big|T^{-1}\sum_t\mathrm{err}_t - \alpha\big| \le \dfrac{\max(\alpha_1, 1 - \alpha_1) + \gamma}{\gamma T}$ pentru \textbf{orice} șir de randamente ($\alpha_1$: nivelul inițial)
         \item doar frecvența pe termen lung: nici calibrare condiționată, nici vreo afirmație despre ES
     \end{itemize}
     \item Lectură suplimentară: recalibrarea conformală a cuantilelor extreme sub dependență \refCO
@@ -1417,14 +1558,14 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
     \item BET: GARCH-N are depășiri în 2{,}36\% din 2\,675 de zile (Kupiec $p$ $<$0{,}001); cu ACI 1{,}08\% ($p$ = 0{,}666), acoperire condiționată $p$ = 0{,}662
     \item Bitcoin: de la 1{,}28\% la 1{,}02\%; rata mobilă nu se netezește: maximul crește de la 3{,}2\% la 4{,}8\% după o supracorecție
     \item ACI corectează frecvența, nu dinamica: nivelul adaptat poate coborî sub zero (VaR devine atunci infinit) după un șir de zile liniștite
-    \item Un înveliș util pentru numărătoarea supraveghetorului; pentru DQ și pentru ES este în continuare nevoie de un model calibrat
+    \item O corecție utilă pentru numărătoarea supraveghetorului; pentru DQ și pentru ES este în continuare nevoie de un model calibrat
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Recapitulare: extreme și calibrare conformală}
 \itemsize{\small}
 \begin{itemize}
-    \item Extremele se grupează; filtrarea elimină cea mai mare parte a grupării pe piețele lichide, nu și pentru cursurile administrate
+    \item Extremele se grupează; filtrarea elimină cea mai mare parte a grupării pe piețele lichide, nu și pentru cursurile în regim de managed float
     \item ACI garantează frecvența pe termen lung a depășirilor pentru orice date, nimic mai mult
     \item Ambele sînt corecții ale unui model, nu înlocuitori ai lui
 \end{itemize}
@@ -1438,12 +1579,12 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \begin{frame}{O întrebare deschisă}
 \itemsize{\small}
 \begin{itemize}
-    \item Bat modelele semiparametrice (VaR, ES) modelele de tip poziție--scală în afara eșantionului atunci cînd estimarea se repetă și este avantajul concentrat în crize?
+    \item Sînt modelele semiparametrice (VaR, ES) mai bune decît modelele de tip poziție--scală în afara eșantionului atunci cînd estimarea se repetă? Este avantajul concentrat în crize?
     \begin{itemize}
         \item formal: $H_0$: pierdere FZ0 așteptată egală pentru GAS-1F și GARCH-EDF cu reestimare mobilă, pe active, perioade și niveluri preînregistrate
         \item infirmată de o statistică GW semnificativă în ferestrele de criză preînregistrate, robustă pentru $\alpha$ = 1\%, 2,5\%, 5\%
     \end{itemize}
-    \item De ce contează: Basel cere modele ES; evidența PZC provine din parametri ficși și patru indici
+    \item Miza: Basel cere modele ES; evidența PZC provine din parametri ficși și patru indici
     \begin{itemize}
         \item literatura de pornire: \refPZC, \refTayB, \refNZ, \refDB
     \end{itemize}
@@ -1456,7 +1597,7 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
     \item Un asistent AI (un LLM precum Claude, ChatGPT, Gemini sau Copilot) accelerează fiecare etapă; Semantic Scholar și Elicit ajută la literatură
     \begin{itemize}
         \item \textbf{literatura}: \aiprompt{Listează articole recenzate din 2017 încoace care compară modele dinamice pentru ES în afara eșantionului cu pierderi FZ; dă DOI-urile.} Apoi verificați fiecare DOI pe Crossref
-        \item \textbf{ipoteza}: \aiprompt{În ce procese generatoare ar trebui ca un model GAS cu un factor să bată GARCH cu inovații empirice pentru ES 2,5\%?}
+        \item \textbf{ipoteza}: \aiprompt{În ce procese generatoare ar trebui ca un model GAS cu un factor să fie mai bun decît GARCH cu inovații empirice pentru ES 2,5\%?}
         \item \textbf{cod și replicare}: cereți recursia GAS-1F, apoi reproduceți întîi o cifră publicată (PZC, Tabelul 8: 0{,}853)
         \item \textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră felurile în care o ordonare FZ0 poate fi un artefact al eșantionului, al nivelului sau al valorilor de pornire.}
     \end{itemize}
@@ -1493,9 +1634,9 @@ Hybrid & 0{,}869 & 0{,}869 & 1{,}051 & 1{,}034 & $<$0{,}001 & $<$0{,}001 \\
 \begin{itemize}
     \item \textbf{Modele ES pentru piețele din Europa Centrală și de Est cu reestimare mobilă}: întîi replicare, apoi extindere
     \begin{itemize}
-        \item replicați: Tabelele 8 și S5 din PZC pentru S\&P 500 (GAS-1F 0{,}853 și 1{,}032) și designul EM cu VaR 1\%
-        \item extindeți: BET, WIG20, BUX, PX și EUR/RON; reestimare mobilă; regresii comune (VaR, ES) cu VIX și dobînda BNR; ACI ca înveliș
-        \item preînregistrați: eșantioanele, nivelurile, modelele, ferestrele, perioadele de criză și designul MCS
+        \item replicați: Tabelele 8 și S5 din PZC pentru S\&P 500 (GAS-1F 0{,}853 și 1{,}032) și schema EM cu VaR 1\%
+        \item extindeți: BET, WIG20, BUX, PX și EUR/RON; reestimare mobilă; regresii comune (VaR, ES) cu VIX și dobînda BNR; ACI ca strat de corecție
+        \item preînregistrați: eșantioanele, nivelurile, modelele, ferestrele, perioadele de criză și schema MCS
     \end{itemize}
     \item Livrabilele urmează regulile cursului: repository, raport, AI\_USE.md, AI\_ERRORS.md, susținere orală
 \end{itemize}

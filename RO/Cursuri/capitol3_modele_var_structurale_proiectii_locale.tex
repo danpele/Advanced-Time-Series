@@ -132,15 +132,17 @@ MSCA Digital Finance}
     \item \textbf{LP}: Local Projection (proiecție locală)
     \item \textbf{LP-IV}: Local Projection with Instrumental Variables (proiecție locală cu variabile instrumentale)
     \item \textbf{MA}: Moving Average (medie mobilă)
+    \item \textbf{MCMMP}: Metoda celor mai mici pătrate
     \item \textbf{MSE}: Mean Squared Error (eroarea pătratică medie)
     \item \textbf{OLS}: Ordinary Least Squares (metoda celor mai mici pătrate)
     \item \textbf{PIB}: Produsul intern brut
     \item \textbf{PNB}: Produsul național brut
-    \item \textbf{RMSE}: Root Mean Squared Error (rădăcina erorii pătratice medii)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{QR}: Quick Response (code) — cod de răspuns rapid
+    \item \textbf{RMSE}: Root Mean Squared Error (rădăcina erorii pătratice medii)
     \item \textbf{ROBOR}: Romanian Interbank Offer Rate (rata dobînzii interbancare la care se oferă depozite în lei)
     \item \textbf{RZ}: Ramey–Zubairy (state-dependent multipliers, 2018) — multiplicatorii dependenți de stare Ramey–Zubairy (2018)
     \item \textbf{SE}: Standard Error (eroare standard)
@@ -181,7 +183,7 @@ MSCA Digital Finance}
     \item Identificați șocuri prin restricții pe termen scurt, pe termen lung, de semn, narative și prin heteroscedasticitate și spuneți ce presupune fiecare despre economie
     \item Estimați un proxy SVAR cu un instrument extern, verificați relevanța instrumentului și folosiți o inferență valabilă și cu instrumente slabe
     \item Construiți benzi bootstrap pentru răspunsurile la impuls (pe reziduuri, wild, pe blocuri; corecția deplasării Kilian) și interpretați-le corect
-    \item Estimați proiecții locale, LP-IV și LP dependente de stare cu inferență HAC sau cu decalaje suplimentare și alegeți între LP și VAR după compromisul deplasare--varianță
+    \item Estimați proiecții locale, LP-IV și LP dependente de stare cu inferență HAC sau cu lag augmentation (laguri suplimentare) și alegeți între LP și VAR după compromisul deplasare--varianță
 \end{itemize}
 \end{frame}
 
@@ -252,30 +254,44 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \section{Problema identificării}
 %=============================================================================
 
-\begin{frame}{Forma redusă și forma structurală}
+\begin{frame}{Forma redusă și forma structurală (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Forma redusă (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol6_modele_var_cauzalitate_granger.pdf}{TSA, Capitolul 6}): $y_t = \nu + A_1y_{t-1} + \dots + A_py_{t-p} + u_t$, $\E u_tu_t' = \Sigma_u$
     \begin{itemize}
+        \item $y_t$: vectorul celor $n$ variabile; $\nu$: termenii liberi; $A_i$: matrice $n \times n$ de coeficienți; $\Sigma_u$: matricea de covarianță a lui $u_t$
         \item $u_t$ sînt erorile de prognoză la un pas: ele amestecă toate șocurile economice din perioada $t$
     \end{itemize}
     \item Forma structurală: $u_t = B_0\varepsilon_t$, cu șocurile structurale $\varepsilon_t$ necorelate între ele, $\E\varepsilon_t\varepsilon_t' = I_n$
     \begin{itemize}
-        \item echivalent $B_0^{-1}y_t = B_0^{-1}\nu + B_0^{-1}A_1y_{t-1} + \dots + \varepsilon_t$: relații contemporane între variabile
+        \item $B_0$: matricea de impact $n \times n$, coloana $j$ = efectul la impact al șocului $j$; $I_n$: matricea unitate (șocuri de varianță 1)
         \item un \textbf{șoc} este primitiv, exogen, necorelat cu celelalte șocuri și are sens economic \refRam
     \end{itemize}
-    \item Răspunsurile structurale la impuls: $\Theta_h = \Phi_hB_0$, cu $\Phi_h$ coeficienții MA ai formei reduse
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Forma redusă și forma structurală (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Ecuațiile structurale echivalente: înmulțim cu $B_0^{-1}$
     \begin{itemize}
+        \item $B_0^{-1}y_t = B_0^{-1}\nu + B_0^{-1}A_1y_{t-1} + \dots + \varepsilon_t$
+        \item elementele din afara diagonalei lui $B_0^{-1}$ sînt relațiile contemporane dintre variabile
+    \end{itemize}
+    \item Răspunsurile structurale la impuls: $\Theta_h = \Phi_hB_0$
+    \begin{itemize}
+        \item $\Phi_h$: coeficienții MA ai formei reduse, $y_t = \mu + \sum_h\Phi_hu_{t-h}$, $\Phi_0 = I_n$
         \item elementul $(i, j)$ al $\Theta_h$: efectul unui șoc $j$ de o abatere standard asupra variabilei $i$ după $h$ perioade
     \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Numărătoarea: datele nu determină $B_0$}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{itemize}
     \item Datele identifică $\Sigma_u = B_0B_0'$: $n(n + 1)/2$ momente distincte; $B_0$ are $n^2$ necunoscute
     \begin{itemize}
+        \item $n$: numărul variabilelor; $\Sigma_u$ este simetrică, deci are $n(n + 1)/2$ elemente distincte
         \item condiția de ordin: cel puțin $n(n - 1)/2$ restricții (3 pentru $n = 3$, 28 pentru $n = 8$)
         \item trebuie să fie îndeplinită și condiția de rang, local \refRWZ: numărătoarea este necesară, nu suficientă
     \end{itemize}
@@ -284,7 +300,10 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
         \item cele două modele descriu datele la fel de bine și implică răspunsuri la impuls diferite
         \item identificarea = o regulă care alege un singur $Q$ (identificare punctuală) sau o mulțime de matrice $Q$ (identificare pe mulțimi)
     \end{itemize}
-    \item O parametrizare utilă: $B_0 = PQ$ cu $P$ factorul Cholesky al lui $\Sigma_u$; orice schemă de identificare este o alegere a lui $Q$
+    \item O parametrizare utilă: $B_0 = PQ$ cu $P$ factorul Cholesky al lui $\Sigma_u$
+    \begin{itemize}
+        \item $P$: matricea inferior triunghiulară cu $PP' = \Sigma_u$; orice schemă de identificare este o alegere a lui $Q$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -322,7 +341,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{frame}{Identificarea recursivă}
 \itemsize{\small}
 \begin{itemize}
-    \item $B_0 = P$ inferior triunghiulară: variabila $i$ nu răspunde în aceeași perioadă la șocurile ordonate după ea
+    \item $B_0 = P$ inferior triunghiulară (zerouri deasupra diagonalei): variabila $i$ nu răspunde în aceeași perioadă la șocurile ordonate după ea
     \begin{itemize}
         \item exact $n(n - 1)/2$ zerouri: identificare exactă; ordonarea este ipoteza (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol6_modele_var_cauzalitate_granger.pdf}{TSA, Capitolul 6} a arătat că ea contează)
     \end{itemize}
@@ -367,7 +386,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item Producția industrială scade lent: minimum \ensuremath{-}0{,}27\% după 21 de luni (banda [\ensuremath{-}0{,}35; \ensuremath{-}0{,}05]); șomajul crește cu cel mult 0{,}07 pp
     \begin{itemize}
-        \item forma de cocoașă și întîrzierea sînt clasicele „decalaje lungi și variabile” ale politicii monetare
+        \item forma de cocoașă și întîrzierea sînt clasicele „laguri lungi și variabile” (long and variable lags) ale politicii monetare
     \end{itemize}
     \item Prețurile cresc întîi ușor (0{,}033\% după 2 luni), apoi scad la \ensuremath{-}0{,}28\% după patru ani
     \begin{itemize}
@@ -382,13 +401,15 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item \textbf{Modelul AB} \refLut, \refKL: $Au_t = B\varepsilon_t$; zerouri și valori cunoscute oriunde în $A$ și $B$
     \begin{itemize}
-        \item estimat prin verosimilitate maximă: maximizăm $-\frac T2\ln|A^{-1}BB'A^{-1\prime}| - \frac T2\mathrm{tr}[(A^{-1}BB'A^{-1\prime})^{-1}\hat\Sigma_u]$
+        \item $A$: relațiile contemporane dintre componentele lui $u_t$; $B$: impactul șocurilor; atunci $\Sigma_u = A^{-1}BB'A^{-1\prime}$
+        \item estimat prin verosimilitate maximă: maximizăm $-\frac T2\ln|\Sigma_u(A, B)| - \frac T2\mathrm{tr}[\Sigma_u(A, B)^{-1}\hat\Sigma_u]$
+        \item $|\cdot|$: determinantul; $\mathrm{tr}$: urma matricei; $\hat\Sigma_u$: matricea de covarianță a reziduurilor formei reduse
         \item restricțiile de supraidentificare se testează cu un test al raportului de verosimilitate față de modelul exact identificat
     \end{itemize}
     \item \textbf{Blanchard--Perotti} \refBP: răspunsul automat al taxelor la producție este o elasticitate \emph{externă} (din legislația fiscală)
     \begin{itemize}
         \item cu această elasticitate fixată, inovația taxelor ajustată ciclic este un instrument pentru coeficienții rămași
-        \item cheltuielile publice sînt predeterminate în trimestru (decalaje de decizie): o restricție zero cu un argument instituțional
+        \item cheltuielile publice sînt predeterminate în trimestru (întîrzieri de decizie): o restricție zero cu un argument instituțional
     \end{itemize}
     \item Seminarul 3, A2: o elasticitate cunoscută identifică un sistem $2\times2$ prin variabile instrumentale
 \end{itemize}
@@ -417,7 +438,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item Cholesky = ipoteze despre momentul reacției; pentru răspunsurile unui șoc contează doar poziția variabilei lui
     \item CEE: producția scade cu o întîrziere de aproximativ 21 de luni; anomalia prețurilor rămîne
-    \item Schemele nerecursive folosesc cunoștințe instituționale (elasticități fiscale, decalaje de decizie) și pot fi supraidentificate și testate
+    \item Schemele nerecursive folosesc cunoștințe instituționale (elasticități fiscale, întîrzieri de decizie) și pot fi supraidentificate și testate
     \item Zerourile pe termen scurt sînt cel mai puțin credibile exact acolo unde contează mai mult: pe piețele rapide
 \end{itemize}
 \end{frame}
@@ -507,15 +528,28 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \section{Restricții pe termen lung}
 %=============================================================================
 
-\begin{frame}{Blanchard și Quah: multiplicatorul de termen lung}
+\begin{frame}{Blanchard și Quah: multiplicatorul de termen lung (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Pentru $y_t = (\Delta\text{producție}_t, u_t)'$, răspunsul cumulat al producției este $\Theta(1) = \sum_h\Theta_h = (I - A_1 - \dots - A_p)^{-1}B_0 = A(1)^{-1}B_0$
+    \item Pentru $y_t = (\Delta\text{producție}_t, u_t)'$ răspunsurile cumulate sînt
     \begin{itemize}
-        \item restricția \refBQ: șocurile de cerere nu au efect pe termen lung asupra nivelului producției, $[\Theta(1)]_{12} = 0$
+        \item $\Theta(1) = \sum_h\Theta_h = (I - A_1 - \dots - A_p)^{-1}B_0 = A(1)^{-1}B_0$
+        \item aici $u_t$ este rata șomajului; $A(1) = I - A_1 - \dots - A_p$: polinomul VAR evaluat în 1; primul rînd al $\Theta(1)$ este efectul de termen lung asupra \emph{nivelului} producției
     \end{itemize}
-    \item Algoritmul: $\Theta(1)\Theta(1)' = A(1)^{-1}\Sigma_uA(1)^{-1\prime}$; luăm factorul lui Cholesky $L$, apoi $B_0 = A(1)L$
+    \item Restricția \refBQ: șocurile de cerere nu au efect pe termen lung asupra nivelului producției
     \begin{itemize}
+        \item $[\Theta(1)]_{12} = 0$
+        \item $[\cdot]_{12}$: elementul din rîndul 1 (producția) și coloana 2 (șocul de cerere)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Blanchard și Quah: multiplicatorul de termen lung (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Algoritmul: $\Theta(1)\Theta(1)' = A(1)^{-1}\Sigma_uA(1)^{-1\prime}$ este cunoscut din forma redusă
+    \begin{itemize}
+        \item luăm factorul Cholesky inferior triunghiular $L$ (zeroul din poziția $(1,2)$), apoi $B_0 = A(1)L$
         \item zeroul este pus pe matricea de termen lung, nu pe matricea de impact; derivarea în \atsapplink{atsapp1}{atssrc1}{Anexă} și în Seminarul 3, A3
     \end{itemize}
     \item Interpretare: „oferta” = toate șocurile cu efecte permanente (tehnologie, oferta de muncă); \refGali\ folosește aceeași idee pentru șocurile tehnologice și orele lucrate
@@ -564,7 +598,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
         \item un șoc cu un efect permanent foarte mic nu se poate distinge de unul tranzitoriu: inferența poate fi distorsionată oricît de mult
         \item comportamentul de rădăcină aproape unitară al șomajului agravează problema
     \end{itemize}
-    \item Rezultatele depind de tratarea frecvențelor joase: rupturi în creșterea medie, trenduri, numărul de decalaje
+    \item Rezultatele depind de tratarea frecvențelor joase: rupturi în creșterea medie, trenduri, numărul de laguri
     \begin{itemize}
         \item \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2} testează astfel de rupturi; \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol4_cointegrare_vecm_ardl_panel.pdf}{Capitolul 4} tratează cointegrarea, unde restricțiile de termen lung devin restricții asupra VECM
     \end{itemize}
@@ -586,14 +620,25 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \section{Restricții de semn și identificarea pe mulțimi}
 %=============================================================================
 
-\begin{frame}{Identificarea prin semne}
+\begin{frame}{Identificarea prin semne (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Restricționăm doar \textbf{semnele} unor răspunsuri pe anumite orizonturi: un șoc monetar contracționist crește dobînda și scade prețurile \refUhl
     \begin{itemize}
         \item răspunsul de interes (producția) rămîne nerestricționat: o procedură „agnostică”
     \end{itemize}
-    \item Algoritmul \refRWZ: extragem $X$ cu elemente i.i.d.\ $N(0, 1)$, $X = QR$, normalizăm semnele lui $\mathrm{diag}(R)$; $Q$ este uniformă Haar pe grupul ortogonal
+    \item Algoritmul \refRWZ: extragem o rotație aleatoare $Q$
+    \begin{itemize}
+        \item extragem $X$ ($n \times n$) cu elemente i.i.d.\ $N(0, 1)$ și calculăm descompunerea QR $X = QR$ ($Q$ ortogonală, $R$ superior triunghiulară)
+        \item normalizăm semnele lui $\mathrm{diag}(R)$ să fie pozitive: atunci $Q$ este uniformă (Haar) pe mulțimea matricelor ortogonale
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Identificarea prin semne (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Acceptăm sau respingem rotația
     \begin{itemize}
         \item calculăm $\Theta_h = \Phi_hPQ$ și păstrăm $Q$ dacă toate semnele sînt respectate; repetăm pentru extrageri ale lui $(A, \Sigma_u)$ din distribuția a posteriori
         \item restricțiile zero împreună cu semne cer algoritmul cu eșantionare de importanță din \refARW
@@ -672,7 +717,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
     \end{itemize}
     \item Distribuția a priori Haar este informativă pentru răspunsuri \refBHa; \refGKi\ propun Bayes robust: raportați intervalul mediilor a posteriori peste toate distribuțiile a priori pentru $Q$
     \begin{itemize}
-        \item banda robustă este mai largă și onestă: separă ce spun datele de ce spune distribuția a priori
+        \item banda robustă este mai largă și mai prudentă: separă ce spun datele de ce spune distribuția a priori
     \end{itemize}
     \item Restrîngeți mulțimea cu mai multă informație: mai multe semne, zerouri \refARW, evenimente narative, limite pentru elasticități \refBHb
 \end{itemize}
@@ -709,6 +754,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item Dacă varianțele șocurilor structurale se schimbă între regimuri, iar $B_0$ rămîne fix: $\Sigma_1 = B_0B_0'$, $\Sigma_2 = B_0\Lambda B_0'$, $\Lambda$ diagonală \refRig
     \begin{itemize}
+        \item $\Sigma_1, \Sigma_2$: matricele de covarianță ale formei reduse în cele două regimuri; $\Lambda = \mathrm{diag}(\lambda_1, \dots, \lambda_n)$: varianțele relative ale șocurilor în regimul 2
         \item atunci $\Sigma_1^{-1}\Sigma_2 = B_0^{-1\prime}\Lambda B_0'$: coloanele lui $B_0$ rezultă dintr-o descompunere în valori proprii, unică dacă $\lambda_i$ sînt distincte
         \item regimuri: date cunoscute (crize, anunțuri de politică) sau estimate (Markov switching, GARCH) \refLL
     \end{itemize}
@@ -725,7 +771,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item Semnele dau o mulțime de modele; raportați mulțimea, nu doar mediana a posteriori
     \item Uhlig: cu prețurile, dobînzile și rezervele restricționate, producția poate evolua în orice sens
-    \item Distribuția a priori Haar contează; Bayes robust și restricțiile narative întăresc concluziile oneste
+    \item Distribuția a priori Haar contează; Bayes robust și restricțiile narative fac concluziile mai precise, fără a le exagera
     \item Heteroscedasticitatea identifică statistic; economia dă încă numele șocurilor
 \end{itemize}
 \end{frame}
@@ -735,16 +781,32 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \section{Instrumente externe}
 %=============================================================================
 
-\begin{frame}{Modelul proxy SVAR}
+\begin{frame}{Modelul proxy SVAR (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item O variabilă externă $z_t$ (proxy) cu \textbf{relevanță} $\E z_t\varepsilon_{1t} = \alpha \ne 0$ și \textbf{exogenitate} $\E z_t\varepsilon_{jt} = 0$, $j \ne 1$
+    \item O variabilă externă $z_t$ (proxy), corelată cu șocul de interes $\varepsilon_{1t}$ și cu niciun alt șoc
     \begin{itemize}
-        \item atunci $\E u_tz_t = B_0\E\varepsilon_tz_t = \alpha b_1$: covarianța reziduurilor cu proxy-ul este proporțională cu coloana de impact $b_1$
+        \item \textbf{relevanța}: $\E z_t\varepsilon_{1t} = \alpha \ne 0$; \textbf{exogenitatea}: $\E z_t\varepsilon_{jt} = 0$ pentru $j \ne 1$
     \end{itemize}
-    \item Normalizăm $b_{11} = 1$ (sau o creștere a dobînzii de 25 bp): $b_{i1}/b_{11} = \E(u_{it}z_t)/\E(u_{1t}z_t)$, o regresie 2SLS a lui $u_{it}$ pe $u_{1t}$ cu instrumentul $z_t$ \refSWb, \refMR
+    \item Atunci covarianța reziduurilor cu proxy-ul este proporțională cu coloana de impact $b_1$
     \begin{itemize}
-        \item răspunsurile $\Theta_{h,\cdot1} = \Phi_hb_1$; proxy-ul poate fi zgomotos, scurt sau disponibil doar pe un subeșantion
+        \item $\E u_tz_t = B_0\E\varepsilon_tz_t = \alpha b_1$
+        \item $b_1$: prima coloană a lui $B_0$, efectele la impact ale șocului 1 asupra tuturor celor $n$ variabile
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Modelul proxy SVAR (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Normalizăm $b_{11} = 1$ (sau o creștere a dobînzii de 25 bp) și estimăm impacturile relative \refSWb, \refMR
+    \begin{itemize}
+        \item $b_{i1}/b_{11} = \E(u_{it}z_t)/\E(u_{1t}z_t)$
+        \item $b_{i1}$: impactul asupra variabilei $i$; numeric, o regresie 2SLS a lui $u_{it}$ pe $u_{1t}$ cu instrumentul $z_t$
+    \end{itemize}
+    \item Răspunsurile $\Theta_{h,\cdot1} = \Phi_hb_1$: prima coloană a lui $\Theta_h$
+    \begin{itemize}
+        \item proxy-ul poate fi zgomotos, scurt sau disponibil doar pe un subeșantion
     \end{itemize}
     \item Se identifică o singură coloană a lui $B_0$, fără nicio restricție zero
 \end{itemize}
@@ -807,6 +869,10 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item Instrumente slabe: cînd $\alpha$ este mic, raportul $\E(u_iz)/\E(u_1z)$ se estimează prost, iar benzile prin metoda delta au acoperire prea mică
     \begin{itemize}
+        \item statistica $F$ din prima etapă: statistica $F$ a regresiei lui $u_{1t}$ pe $z_t$; măsoară tăria instrumentului
+    \end{itemize}
+    \item Remedii
+    \begin{itemize}
         \item \refMSW: mulțimi de încredere de tip Anderson--Rubin, valabile pentru orice tărie a instrumentului; pot fi nemărginite
         \item raportați statistica $F$ din prima etapă cu varianță HAC; regula $F > 10$ este o euristică, nu un test
     \end{itemize}
@@ -838,7 +904,8 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item $\hat\Theta_h = g(\hat\beta, \hat\sigma)$ este o funcție netedă de estimațiile VAR: $\sqrt T(\hat\Theta_h - \Theta_h) \to N(0, G\Sigma G')$ \refLut
     \begin{itemize}
-        \item $G = \partial g/\partial(\beta, \sigma)$ în formă închisă; rapid, dar cu benzi simetrice
+        \item $\hat\beta$: coeficienții VAR; $\hat\sigma$: elementele distincte ale lui $\hat\Sigma_u$; $\Sigma$: covarianța lor asimptotică comună
+        \item $G = \partial g/\partial(\beta, \sigma)$: jacobianul, în formă închisă; rapid, dar benzile sînt simetrice
     \end{itemize}
     \item Eșuează exact unde avem cea mai mare nevoie de ea
     \begin{itemize}
@@ -873,6 +940,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item \refKilA: (1) estimăm prin bootstrap deplasarea $\hat b = \bar A^* - \hat A$; (2) corectăm $\tilde A = \hat A - \hat b$, micșorînd corecția dacă $\tilde A$ nu este staționar; (3) aplicăm din nou bootstrap-ul pornind de la $\tilde A$ și corectăm fiecare replicare
     \begin{itemize}
+        \item $\hat A$: estimația MCMMP a coeficienților VAR; $\bar A^*$: media estimațiilor bootstrap; $\tilde A$: estimația corectată pentru deplasare
         \item „bootstrap după bootstrap” recentrează distribuția acolo unde deplasarea OLS este mare: serii persistente, eșantioane scurte
     \end{itemize}
     \item VAR-ul petrolului: deplasarea absolută medie 0{,}009 pe coeficient; cea mai mare rădăcină 0{,}994 înainte și 0{,}9999 după corecția (micșorată)
@@ -890,6 +958,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
     \begin{itemize}
         \item întrebările despre \emph{formă} („producția scade doi ani”) cer benzi simultane \refMOPa
         \item banda sup-$t$: înmulțim erorile standard punctuale cu cuantila $1 - \alpha$ a lui $\max_h|t_h|$ din bootstrap
+        \item $t_h$: răspunsul bootstrap la orizontul $h$ minus estimația, împărțit la eroarea lui standard; $\max_h|t_h|$: cea mai mare abatere pe întreaga traiectorie
     \end{itemize}
     \item Benzile bayesiene (cuantile a posteriori) răspund la o altă întrebare: afirmații probabilistice date fiind distribuțiile a priori
     \begin{itemize}
@@ -919,12 +988,13 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item \refJorda: o regresie pentru fiecare orizont, $y_{i,t+h} = \mu_h + \beta_hx_t + \gamma_h'w_t + \xi_{t+h}$, $h = 0, 1, \dots, H$
     \begin{itemize}
+        \item $y_{i,t+h}$: variabila $i$, la $h$ perioade după șoc; $\mu_h$: un termen liber; $\xi_{t+h}$: eroarea de proiecție; $H$: orizontul maxim
         \item $x_t$: șocul (sau variabila de politică cu controalele $w_t$ care o fac practic aleatoare); $\hat\beta_h$ este răspunsul la impuls
         \item nicio iterare a unui model: o dinamică greșit specificată nu se acumulează de la un orizont la altul
     \end{itemize}
-    \item Eroarea $\xi_{t+h}$ este autocorelată (cel puțin MA($h - 1$)): erori standard HAC cu $h + 1$ decalaje, sau
+    \item Eroarea $\xi_{t+h}$ este autocorelată (cel puțin MA($h - 1$)): erori standard HAC cu $h + 1$ laguri, sau
     \begin{itemize}
-        \item \textbf{decalaje suplimentare} \refMOPb: adăugăm încă un decalaj al controalelor și folosim erori Eicker--Huber--White; valid uniform după persistență, chiar lîngă o rădăcină unitară
+        \item \textbf{lag augmentation} (laguri suplimentare) \refMOPb: adăugăm încă un lag al controalelor și folosim erori Eicker--Huber--White; valid uniform după persistență, chiar lîngă o rădăcină unitară
     \end{itemize}
     \item Flexibile: termenii neliniari, dependența de stare, datele panel și variabilele cumulate intră toate ca regresori
 \end{itemize}
@@ -933,9 +1003,9 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{frame}{LP și VAR estimează aceleași răspunsuri}
 \itemsize{\small}
 \begin{itemize}
-    \item \refPW: în populație, o LP cu $p$ decalaje ale tuturor variabilelor drept controale și un VAR($p$) cu aceeași ordonare dau răspunsuri \emph{identice} pînă la orizontul $p$
+    \item \refPW: în populație, o LP cu $p$ laguri ale tuturor variabilelor drept controale și un VAR($p$) cu aceeași ordonare dau răspunsuri \emph{identice} pînă la orizontul $p$
     \begin{itemize}
-        \item cu decalaje nerestricționate ($p \to \infty$) coincid la toate orizonturile: alegerea privește estimarea, nu identificarea
+        \item cu laguri nerestricționate ($p \to \infty$) coincid la toate orizonturile: alegerea privește estimarea, nu identificarea
         \item orice schemă de identificare VAR (recursivă, instrument extern) are un echivalent LP și invers
     \end{itemize}
     \item În eșantioane finite diferă: VAR-ul extrapolează primele $p$ autocovarianțe, LP folosește direct covarianța la $h$ pași
@@ -952,7 +1022,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item DGP: $x_t = 0{,}5x_{t-1} + e_t$, $y_t = 0{,}6y_{t-1} + \sum_{j=0}^{11}\psi_je_{t-j} + u_t$ ($\psi_j$ în formă de cocoașă), $T = 240$, 500 de replicări; un VAR(2) este greșit specificat
+    \item DGP: $x_t = 0{,}5x_{t-1} + e_t$, $y_t = 0{,}6y_{t-1} + \sum_{j=0}^{11}\psi_je_{t-j} + u_t$ ($\psi_j$ în formă de cocoașă), $T = 240$, 500 de replicări; $e_t, u_t$: zgomote albe independente; un VAR(2) este greșit specificat
 \end{itemize}
 \quantlet{ATS\_ch3\_lp\_vs\_var}{\qlurl{ATS_ch3_lp_vs_var}}
 \end{frame}
@@ -966,7 +1036,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
     \end{itemize}
     \item La $h = 16$: abaterea standard 0{,}11 (VAR(2)) față de 0{,}27 (LP(2)); RMSE 0{,}17 față de 0{,}28: VAR-ul deplasat cîștigă
     \item Lecția generală din \refLPW\ (mii de DGP): LP are deplasare mică și varianță mare; VAR (și VAR-urile cu shrinkage) au MSE mai mic, cu excepția cazului în care analistul ține aproape doar la deplasare
-    \item Un VAR(12) lung se comportă ca LP: puține decalaje = mai multă deplasare, mai puțină varianță
+    \item Un VAR(12) lung se comportă ca LP: puține laguri = mai multă deplasare, mai puțină varianță
 \end{itemize}
 \end{frame}
 
@@ -976,12 +1046,13 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
     \item \refSWc: $y_{i,t+h} = \theta_{h,i}\,y_{1t} + \gamma'w_t + \xi_{t+h}$, cu $y_{1t}$ (dobînda de politică) instrumentată prin $z_t$
     \begin{itemize}
         \item $\theta_{h,i}$ = răspunsul lui $y_i$ după $h$ perioade la un șoc care crește $y_1$ cu o unitate la impact
-        \item condiții: relevanța, exogenitatea contemporană și \textbf{exogenitatea pe decalaje și avansuri} $\E z_t\varepsilon_{t+j} = 0$ pentru $j \ne 0$, dat fiind $w_t$
+        \item condiții: relevanța, exogenitatea contemporană și \textbf{exogenitatea lead-lag} $\E z_t\varepsilon_{t+j} = 0$ pentru $j \ne 0$, dat fiind $w_t$
+        \item exogenitatea lead-lag: instrumentul nu este legat de șocurile trecute și viitoare, nu doar de cele curente
     \end{itemize}
     \item Aceeași informație de identificare ca proxy SVAR; alt estimator
     \begin{itemize}
         \item proxy SVAR cere inversabilitatea șocului; LP-IV nu, dar plătește prin varianță
-        \item LP-IV cumulat dă multiplicatori: $\sum_{j\le h}y_{t+j}$ pe $\sum_{j\le h}g_{t+j}$, instrumentat prin $z_t$ \refRZ
+        \item LP-IV cumulat dă multiplicatori: $\sum_{j\le h}y_{t+j}$ pe $\sum_{j\le h}g_{t+j}$, instrumentat prin $z_t$ \refRZ; $y$: producția, $g$: cheltuielile publice
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -993,7 +1064,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item LP-IV cu FF4 ca instrument pentru randamentul la 1 an, 2 decalaje ale tuturor variabilelor și ale instrumentului drept controale, origini 1990:1--2012:6 ($T = 270$) \refRam; linia întreruptă: proxy SVAR
+    \item LP-IV cu FF4 ca instrument pentru randamentul la 1 an, 2 laguri ale tuturor variabilelor și ale instrumentului drept controale, origini 1990:1--2012:6 ($T = 270$) \refRam; linia întreruptă: proxy SVAR
 \end{itemize}
 \quantlet{ATS\_ch3\_lp\_vs\_var}{\qlurl{ATS_ch3_lp_vs_var}}
 \end{frame}
@@ -1010,18 +1081,30 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Proiecții locale dependente de stare}
+\begin{frame}{Proiecții locale dependente de stare (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Interacționăm totul cu un indicator de stare decalat $I_{t-1}$: $y_{t+h} = I_{t-1}[\alpha_{A,h} + \beta_{A,h}x_t + \dots] + (1 - I_{t-1})[\alpha_{B,h} + \beta_{B,h}x_t + \dots] + \xi_{t+h}$
+    \item Interacționăm totul cu indicatorul de stare din perioada anterioară, $I_{t-1}$:
+    \begin{itemize}
+        \item $y_{t+h} = I_{t-1}[\alpha_{A,h} + \beta_{A,h}x_t + \dots] + (1 - I_{t-1})[\alpha_{B,h} + \beta_{B,h}x_t + \dots] + \xi_{t+h}$
+        \item $I_{t-1} = 1$ în starea A (de exemplu subutilizare), 0 în starea B; $\beta_{A,h}$, $\beta_{B,h}$: răspunsurile la orizontul $h$ în fiecare stare; $\alpha$: termeni liberi specifici stării
+    \end{itemize}
+    \item Ce măsoară LP aici
     \begin{itemize}
         \item starea se poate schimba după șoc: LP măsoară răspunsul mediu dată fiind starea inițială, inclusiv tranzițiile
         \item nu este nevoie să modelăm dinamica stării, spre deosebire de un VAR cu prag sau cu tranziție netedă (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2})
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Proiecții locale dependente de stare (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Studiu de caz \refRZ: sînt multiplicatorii cheltuielilor publice mai mari în perioadele de subutilizare a resurselor?
     \begin{itemize}
-        \item date trimestriale SUA 1889--2015; șocul de știri militare (Ramey) scalat la PIB-ul potențial; subutilizare = șomaj $\ge 6{,}5\%$ în $t - 1$ (36\% dintre trimestre)
-        \item LP-IV cumulat al producției pe cheltuielile publice, 4 decalaje ale știrilor, producției și cheltuielilor, Newey--West cu $h + 1$ decalaje
+        \item date trimestriale SUA 1889--2015; șocul de știri militare (Ramey) scalat la PIB-ul potențial
+        \item subutilizare = șomaj $\ge 6{,}5\%$ în $t - 1$ (36\% dintre trimestre)
+        \item LP-IV cumulat al producției pe cheltuielile publice, 4 laguri ale știrilor, producției și cheltuielilor, Newey--West cu $h + 1$ laguri
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1051,7 +1134,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{frame}{Recapitulare: proiecții locale}
 \itemsize{\small}
 \begin{itemize}
-    \item LP = o regresie pe orizont; inferență HAC sau cu decalaje suplimentare
+    \item LP = o regresie pe orizont; inferență HAC sau cu lag augmentation
     \item LP și VAR țintesc aceleași răspunsuri; eșantioanele finite schimbă deplasare pe varianță
     \item LP-IV folosește instrumente externe fără inversabilitate, cu un cost în precizie
     \item Dependența de stare este naturală în LP: RZ găsesc multiplicatori sub unu și în perioade de subutilizare, și în perioade normale
@@ -1074,7 +1157,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \end{column}
 \begin{column}{0.62\textwidth}
 \begin{itemize}
-    \item BNR țintește inflația din august 2005 (ținta 2,5\% $\pm$ 1 pp din 2013), cu un curs de schimb flotant administrat al leului
+    \item BNR țintește inflația din august 2005 (ținta 2,5\% $\pm$ 1 pp din 2013), în regim de managed float al leului
     \begin{itemize}
         \item dobînda interbancară ROBOR 3M transmite dobînda de politică monetară și condițiile de lichiditate; o folosim ca indicator de politică
     \end{itemize}
@@ -1116,12 +1199,12 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
 \begin{itemize}
     \item $y_t$ = (IP ZE, IAPC ZE, Euribor 3M, IP RO, IAPC RO, ROBOR 3M, EUR/RON), logaritmi $\times 100$ cu excepția dobînzilor; termen liber și variabile dummy lunare (IAPC nu este ajustat sezonier)
     \begin{itemize}
-        \item numărul de decalaje: BIC și HQ aleg 2, AIC 6; folosim 2 ($T = 250$); cea mai mare rădăcină 1{,}006: niveluri, rădăcină aproape unitară, fără corecția deplasării
+        \item numărul de laguri: BIC și HQ aleg 2, AIC 6; folosim 2 ($T = 250$); cea mai mare rădăcină 1{,}006: niveluri, rădăcină aproape unitară, fără corecția deplasării
     \end{itemize}
     \item Identificarea (Cholesky, în această ordine): zona euro nu reacționează la România în aceeași lună; ROBOR reacționează în aceeași lună la activitatea și prețurile din România; cursul de schimb reacționează la toate
     \begin{itemize}
         \item restricția zero pentru zona euro este credibilă (România este mică); poziția ROBOR înaintea EUR/RON este discutabilă
-        \item un VAR cu exogenitate pe blocuri ar anula și efectele decalate ale României asupra zonei euro (Seminarul 3, B2 discută ordonările)
+        \item un VAR cu exogenitate pe blocuri ar anula și efectele cu lag ale României asupra zonei euro (Seminarul 3, B2 discută ordonările)
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1146,7 +1229,7 @@ IP, IAPC, dobînzi la 3 luni (RO, ZE); EUR/RON & Eurostat; cursul de referință
         \item o anomalie a prețurilor și una a cursului de schimb (depreciere după o înăsprire): inovația ROBOR conține încă reacția BNR la inflație și la presiunea asupra leului
     \end{itemize}
     \item Șocul Euribor: IP din România \ensuremath{-}0{,}50\% după 12 luni (banda [\ensuremath{-}0{,}77; 0{,}07]); IAPC \ensuremath{-}0{,}10\%; ROBOR 0{,}16 pp
-    \item Rezumat onest: VAR-ul recursiv identifică credibil blocul zonei euro și slab șocul de politică internă
+    \item Pe scurt: VAR-ul recursiv identifică credibil blocul zonei euro și slab șocul de politică internă
 \end{itemize}
 \end{frame}
 
@@ -1179,7 +1262,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Șocul: șocul pur de politică monetară din \refJK\ (actualizarea autorilor, o abatere standard = 3{,}2 bp); 3 decalaje ale tuturor variabilelor și ale șocului (decalaje suplimentare), variabile dummy lunare; origini 2005:8--2025:10
+    \item Șocul: șocul pur de politică monetară din \refJK\ (actualizarea autorilor, o abatere standard = 3{,}2 bp); 3 laguri ale tuturor variabilelor și ale șocului (lag augmentation), variabile dummy lunare; origini 2005:8--2025:10
 \end{itemize}
 \quantlet{ATS\_ch3\_romania}{\qlurl{ATS_ch3_romania}}
 \end{frame}
@@ -1192,7 +1275,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
         \item mediile lunare diluează o surpriză din ziua anunțului: șocul este un instrument slab pentru dobînzile lunare din zona euro
     \end{itemize}
     \item IAPC din România: \ensuremath{-}0{,}02\% după 12 luni (SE 0{,}15), 0{,}37\% după 24 (SE 0{,}25); EUR/RON \ensuremath{-}0{,}31\% după 6 luni (SE 0{,}17)
-    \item Concluzia onestă: cu un șoc extern slab și 20 de ani de date, efectele de propagare asupra prețurilor din România nu sînt determinate; o mulțime robustă la instrumente slabe este largă (Seminarul 3, C1)
+    \item Concluzia prudentă: cu un șoc extern slab și 20 de ani de date, efectele de propagare asupra prețurilor din România nu sînt determinate; o mulțime robustă la instrumente slabe este largă (Seminarul 3, C1)
 \end{itemize}
 \end{frame}
 
@@ -1266,20 +1349,20 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
     \item Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)
     \item Șocul este datat corect: surprizele din zilele anunțurilor se adună în interiorul lunii, nu se mută niciodată înainte
     \item Relevanța se raportează (statistica $F$ din prima etapă cu varianță HAC) înainte de interpretarea oricărui răspuns
-    \item Decalajele, orizonturile, eșantionul și tratarea anului 2020 sînt fixate înaintea rezultatelor; toate variantele sînt raportate
+    \item Lagurile, orizonturile, eșantionul și tratarea anului 2020 sînt fixate înaintea rezultatelor; toate variantele sînt raportate
     \item Un rezumat AI despre un „efect de propagare semnificativ” se verifică pe mulțimea de încredere, nu pe estimația punctuală
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Mini studiu de caz: cît de robustă este o singură cifră?}
+\begin{frame}{Mini-studiu de caz: cît de robustă este o singură cifră?}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.5\textheight,keepaspectratio]{ats_ch3_ai_case.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Răspunsul IAPC din România după 12 luni la un șoc Euribor de 25 bp: VAR recursiv și LP recursivă (bare Newey--West de 90\%), numărul de decalaje $p$, eșantioane care se încheie în 2019 și în 2026
-    \item Cele 24 de estimații variază între \ensuremath{-}0{,}81\% și 0{,}44\%, iar 7 dintre ele sînt pozitive: semnul depinde de numărul de decalaje și de datele de după 2020; un asistent AI care raportează una dintre ele „cu încredere” greșește
+    \item Răspunsul IAPC din România după 12 luni la un șoc Euribor de 25 bp: VAR recursiv și LP recursivă (bare Newey--West de 90\%), numărul de laguri $p$, eșantioane care se încheie în 2019 și în 2026
+    \item Cele 24 de estimații variază între \ensuremath{-}0{,}81\% și 0{,}44\%, iar 7 dintre ele sînt pozitive: semnul depinde de numărul de laguri și de datele de după 2020; un asistent AI care raportează una dintre ele „cu încredere” greșește
 \end{itemize}
 \quantlet{ATS\_ch3\_romania}{\qlurl{ATS_ch3_romania}}
 \end{frame}
@@ -1291,7 +1374,7 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
     \begin{itemize}
         \item replicați: modelul proxy SVAR din \refGK\ (în acest curs: $F = 17{,}7$, saltul primei de risc) și LP pentru România din acest curs
         \item extindeți: surprizele zilnice BCE agregate lunar cu metoda de mediere Gertler--Karadi; o versiune trimestrială cu PIB; mulțimi Anderson--Rubin; restricții de semn pe surprize (JK)
-        \item preînregistrați: șocul, variabilele de rezultat, orizonturile 0--24, regula pentru decalaje, tratarea anului 2020 și corecția Holm pentru mai multe variabile
+        \item preînregistrați: șocul, variabilele de rezultat, orizonturile 0--24, regula pentru laguri, tratarea anului 2020 și corecția Holm pentru mai multe variabile
     \end{itemize}
     \item Livrabilele urmează regulile cursului: repository, raport, AI\_USE.md, AI\_ERRORS.md, susținere orală
 \end{itemize}
@@ -1306,8 +1389,8 @@ EUR/RON & 25\% & 23\% & 6\% & 58\% \\
 \itemsize{\small}
 \begin{itemize}
     \item Un VAR structural este o formă redusă plus o ipoteză de identificare; ipoteza este partea economică
-    \item Zerourile (pe termen scurt sau lung), semnele, restricțiile narative, heteroscedasticitatea și instrumentele cumpără fiecare identificarea cu o altă ipoteză
-    \item Identificarea pe mulțimi este onestă: raportați mulțimea și rolul distribuției a priori
+    \item Zerourile (pe termen scurt sau lung), semnele, restricțiile narative, heteroscedasticitatea și instrumentele obțin fiecare identificarea pe baza unei alte ipoteze
+    \item Identificarea pe mulțimi nu promite mai mult decît dau datele: raportați mulțimea și rolul distribuției a priori
     \item Inferența: bootstrap potrivit cazului, corecția deplasării, benzi simultane, mulțimi robuste la instrumente slabe
     \item LP și VAR estimează aceleași răspunsuri; alegeți după deplasare și varianță și folosiți LP pentru dependența de stare
 \end{itemize}

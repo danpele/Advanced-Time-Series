@@ -213,7 +213,7 @@ MSCA Digital Finance}
 \begin{itemize}
     \item \textbf{Întrebarea}: cît de precis putem măsura, modela și prognoza o varianță care nu se observă niciodată și care dintre instrumentele noastre funcționează în continuare cînd datele sînt zgomotoase, au salturi sau au multe dimensiuni?
     \begin{itemize}
-        \item două căi către volatilitate: un filtru parametric al randamentelor zilnice (GARCH) și o măsurare neparametrică din prețurile intraday (măsurile realizate); frontiera le combină
+        \item două căi către volatilitate: un filtru parametric al randamentelor zilnice (GARCH) și o măsurare neparametrică din prețurile intraday (măsurile realizate); cercetarea actuală le combină
     \end{itemize}
     \item \textbf{Traseul} capitolului
     \begin{itemize}
@@ -269,7 +269,7 @@ producția industrială și IPP pentru bunuri finite ale SUA (lunar) & FRED (IND
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item Biblioteca Oxford-Man s-a încheiat în februarie 2022 (copie arhivată, citată conform condițiilor ei); datele Binance la un minut extind măsurile realizate pînă la 18 septembrie 2026; o simulare calibrată oferă teoriei un adevăr cunoscut
+    \item Biblioteca Oxford-Man nu mai este actualizată din februarie 2022 (copie arhivată, citată conform condițiilor ei); datele Binance la un minut extind măsurile realizate pînă la 18 septembrie 2026; o simulare calibrată oferă teoriei un adevăr cunoscut
     \item RV: varianța realizată; BV: variația bipower; IPP (PPI): indicele prețurilor producției
 \end{itemize}
 \end{frame}
@@ -314,47 +314,112 @@ producția industrială și IPP pentru bunuri finite ale SUA (lunar) & FRED (IND
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Cvasi-verosimilitatea gaussiană}
+\begin{frame}{Cvasi-verosimilitatea gaussiană (1/2): modelul}
 \itemsize{\small}
 \begin{itemize}
-    \item Modelul: $\varepsilon_t = \sigma_t(\theta_0)\eta_t$, $\eta_t$ i.i.d., $\E\eta_t = 0$, $\E\eta_t^2 = 1$, lege necunoscută; $\sigma^2_t(\theta) = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1}(\theta)$
-    \item QMLE: $\hat\theta = \arg\max_\theta \sum_{t=1}^T \ell_t(\theta)$, $\ell_t(\theta) = -\frac12\left(\ln\sigma^2_t(\theta) + \varepsilon_t^2/\sigma^2_t(\theta)\right)$: verosimilitatea gaussiană folosită ca ecuație de estimare
+    \item Șocul randamentului este produsul dintre volatilitate și un șoc standardizat; varianța urmează recursia GARCH(1,1)
+    \[ \varepsilon_t = \sigma_t(\theta_0)\,\eta_t, \qquad \sigma^2_t(\theta) = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1}(\theta) \]
+    \item Notațiile
     \begin{itemize}
-        \item scorul: $s_t(\theta) = \frac12\left(\frac{\varepsilon_t^2}{\sigma_t^2} - 1\right)\frac{1}{\sigma^2_t}\frac{\partial\sigma^2_t}{\partial\theta}$; în $\theta_0$, $\E(s_t | \mathcal F_{t-1}) = 0$ pentru că $\E(\eta_t^2 - 1) = 0$
+        \item $\varepsilon_t$: randamentul centrat al zilei $t$; $\sigma^2_t(\theta)$: varianța lui condiționată de trecutul $\mathcal F_{t-1}$ (informația pînă în ziua $t-1$)
+        \item $\eta_t$: șoc standardizat i.i.d., $\E\eta_t = 0$, $\E\eta_t^2 = 1$; legea lui (distribuția Normală, Student-$t$, asimetrică) este necunoscută
+        \item $\theta = (\omega, \alpha, \beta)$, cu valoarea adevărată $\theta_0$: $\omega > 0$ fixează nivelul, $\alpha \ge 0$ reacția la pătratul șocului de ieri, $\beta \ge 0$ persistența varianței de ieri
+    \end{itemize}
+    \item Recursia pornește de la un $\sigma^2_1$ arbitrar; efectul valorii de start dispare geometric cînd $\beta < 1$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cvasi-verosimilitatea gaussiană (2/2): estimatorul și scorul}
+\itemsize{\small}
+\begin{itemize}
+    \item QMLE: se maximizează log-verosimilitatea gaussiană, folosită ca ecuație de estimare chiar dacă $\eta_t$ nu este gaussian
+    \[ \hat\theta = \arg\max_\theta \sum_{t=1}^T \ell_t(\theta), \qquad \ell_t(\theta) = -\frac12\Big(\ln\sigma^2_t(\theta) + \frac{\varepsilon_t^2}{\sigma^2_t(\theta)}\Big) \]
+    \begin{itemize}
+        \item $\ell_t$: log-densitatea gaussiană a zilei $t$, fără constantă; $T$: numărul de zile; $\hat\theta$: valoarea estimată
+    \end{itemize}
+    \item Scorul, adică gradientul lui $\ell_t$, are media condiționată zero în valoarea adevărată
+    \[ s_t(\theta) = \frac{\partial\ell_t}{\partial\theta} = \frac12\Big(\frac{\varepsilon_t^2}{\sigma_t^2} - 1\Big)\frac{1}{\sigma^2_t}\frac{\partial\sigma^2_t}{\partial\theta} \]
+    \begin{itemize}
+        \item în $\theta_0$, $\varepsilon_t^2/\sigma_t^2 = \eta_t^2$, deci $\E(s_t | \mathcal F_{t-1}) = 0$, pentru că $\E\eta_t^2 = 1$
         \item doar varianța condiționată trebuie să fie corect specificată; forma legii lui $\eta_t$ nu se folosește niciodată
     \end{itemize}
-    \item Scorul este o diferență de martingal: o TLC pentru martingale dă normalitatea asimptotică fără independența lui $\varepsilon_t$
-    \item Recursia pornește de la un $\sigma^2_1$ arbitrar; efectul startului dispare geometric cînd $\beta < 1$
+    \item Scorul este o diferență de martingal (media condiționată de trecut este zero)
+    \begin{itemize}
+        \item o TLC pentru martingale dă normalitatea asimptotică fără independența lui $\varepsilon_t$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Consistența și normalitatea asimptotică}
-\itemsize{\footnotesize}
-\begin{itemize}
-    \item GARCH(1,1) este strict staționar dacă și numai dacă $\E\ln(\alpha_0\eta_t^2 + \beta_0) < 0$: condiție mai slabă decît $\alpha_0 + \beta_0 < 1$; $\E\varepsilon_t^2$ poate fi infinită
-    \begin{itemize}
-        \item \refLH, \refLum: GARCH(1,1), inclusiv IGARCH; \refBHK, \refFZa: GARCH($p,q$) sub staționaritate strictă
-    \end{itemize}
-    \item Consistența \refFZa: staționaritate strictă, $\theta_0$ într-o mulțime compactă, identificabilitate ($\eta_t^2$ nedegenerat); nu este nevoie de niciun moment al lui $\varepsilon_t$
-    \begin{itemize}
-        \item normalitatea asimptotică adaugă $\theta_0$ interior și $\kappa_\eta = \E\eta_t^4 < \infty$: $\sqrt T(\hat\theta - \theta_0) \to N\left(0, (\kappa_\eta - 1)J^{-1}\right)$, $J = \E\left[\frac{1}{\sigma^4_t}\frac{\partial\sigma^2_t}{\partial\theta}\frac{\partial\sigma^2_t}{\partial\theta'}\right]$
-    \end{itemize}
-    \item Chiar și GARCH exploziv ($\E\ln(\alpha_0\eta^2 + \beta_0) > 0$): $(\hat\alpha, \hat\beta)$ rămîn consistenți și asimptotic normali, $\omega$ nu este identificat \refJR
-    \item Frontiera: dacă $\alpha_0 = 0$, limita este proiecția unui vector normal pe un con; de aceea \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol5_volatilitate_conditionata_garch.pdf}{TSA, Capitolul 5} testează efectele ARCH unilateral
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Sandwich-ul și erorile standard Bollerslev--Wooldridge}
+\begin{frame}{Consistența și normalitatea asimptotică (1/2): staționaritatea și consistența}
 \itemsize{\small}
 \begin{itemize}
-    \item Rezultatul general QML: $\sqrt T(\hat\theta - \theta_0) \to N(0, A^{-1}B\,A^{-1})$, $A = -\E\,\partial^2\ell_t/\partial\theta\partial\theta'$, $B = \E\,s_ts_t'$
-    \item Pentru GARCH: $A = \frac12J$ și $B = \frac{\kappa_\eta - 1}{4}J$, deci $A^{-1}B\,A^{-1} = (\kappa_\eta - 1)J^{-1}$ (\atsapplink{atsapp1}{atssrc1}{Anexa})
+    \item GARCH(1,1) este strict staționar dacă și numai dacă logaritmul multiplicatorului zilnic al varianței are media negativă
+    \[ \E\ln(\alpha_0\eta_t^2 + \beta_0) < 0 \]
     \begin{itemize}
-        \item erorile standard doar din hessiană presupun $\kappa_\eta = 3$ și dau $2J^{-1}$: prea mici cu factorul $\sqrt{(\kappa_\eta - 1)/2}$
-        \item erorile standard din produsul exterior al scorurilor (OPG) folosesc $B^{-1} = \frac{4}{\kappa_\eta - 1}J^{-1}$: și mai mici cînd $\kappa_\eta > 3$
+        \item $\alpha_0\eta_t^2 + \beta_0$: factorul cu care un șoc al varianței este transmis de la o zi la următoarea; $\alpha_0, \beta_0$: valorile adevărate
+        \item prin inegalitatea lui Jensen, condiția este mai slabă decît $\alpha_0 + \beta_0 < 1$ (varianță finită): IGARCH ($\alpha_0 + \beta_0 = 1$) este strict staționar, iar $\E\varepsilon_t^2$ poate fi infinită
+        \item \refLH, \refLum: GARCH(1,1), inclusiv IGARCH; \refBHK, \refFZa: GARCH($p,q$) sub staționaritate strictă
     \end{itemize}
-    \item \refBW: estimăm $A$ prin hessiana observată și $B$ prin $\frac1T\sum\hat s_t\hat s_t'$; valabile oricare ar fi legea lui $\eta_t$ (cu $\kappa_\eta < \infty$)
-    \item Testele Wald și de tip scor robuste folosesc sandwich-ul; statistica cvasi-LR nu mai este $\chi^2$, ci o sumă ponderată de variabile $\chi^2_1$
+    \item Consistența lui $\hat\theta$ \refFZa
+    \begin{itemize}
+        \item condiții: staționaritate strictă, $\theta_0$ într-o mulțime compactă de parametri, identificabilitate ($\eta_t^2$ nu este o constantă)
+        \item nu este nevoie de niciun moment al lui $\varepsilon_t$
+    \end{itemize}
+    \item Chiar și pentru GARCH exploziv ($\E\ln(\alpha_0\eta^2 + \beta_0) > 0$), $(\hat\alpha, \hat\beta)$ rămîn consistenți și asimptotic normali, iar $\omega$ nu este identificat \refJR
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Consistența și normalitatea asimptotică (2/2): legea limită}
+\itemsize{\small}
+\begin{itemize}
+    \item Dacă $\theta_0$ este interior mulțimii parametrilor și $\eta_t$ are momentul de ordinul patru finit, estimatorul este asimptotic normal
+    \[ \sqrt T(\hat\theta - \theta_0) \to N\big(0, (\kappa_\eta - 1)J^{-1}\big), \qquad J = \E\Big[\frac{1}{\sigma^4_t}\frac{\partial\sigma^2_t}{\partial\theta}\frac{\partial\sigma^2_t}{\partial\theta'}\Big] \]
+    \begin{itemize}
+        \item $\kappa_\eta = \E\eta_t^4$: kurtosis-ul șocului ($3$ pentru distribuția Normală); $\kappa_\eta - 1 = \Var(\eta_t^2)$
+        \item $J$: o matrice $3 \times 3$, media produsului exterior al sensibilităților relative $\sigma_t^{-2}\partial\sigma^2_t/\partial\theta$; $\to$: convergența în distribuție cînd $T \to \infty$
+        \item interpretare: varianța de eșantionare a lui $\hat\theta$ crește liniar cu kurtosis-ul șocurilor
+    \end{itemize}
+    \item Frontiera: dacă $\alpha_0 = 0$, $\theta_0$ nu este interior, iar limita este proiecția unui vector normal pe un con
+    \begin{itemize}
+        \item de aceea \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol5_volatilitate_conditionata_garch.pdf}{TSA, Capitolul 5} testează efectele ARCH unilateral
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Sandwich-ul și erorile standard Bollerslev--Wooldridge (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Rezultatul general QML: varianța asimptotică este un „sandwich” format din două matrice
+    \[ \sqrt T(\hat\theta - \theta_0) \to N(0, A^{-1}B\,A^{-1}), \qquad A = -\E\frac{\partial^2\ell_t}{\partial\theta\,\partial\theta'}, \qquad B = \E\,s_ts_t' \]
+    \begin{itemize}
+        \item $A$: hessiana negativă așteptată (curbura log-verosimilității); $B$: varianța scorului $s_t$
+        \item dacă verosimilitatea este cea adevărată, $A = B$ (egalitatea informațională), iar varianța devine $A^{-1}$; sub QML, $A \ne B$
+    \end{itemize}
+    \item Pentru GARCH, ambele matrice sînt proporționale cu $J$ (\atsapplink{atsapp1}{atssrc1}{Anexa})
+    \[ A = \tfrac12J, \qquad B = \tfrac{\kappa_\eta - 1}{4}J, \qquad A^{-1}B\,A^{-1} = (\kappa_\eta - 1)J^{-1} \]
+    \begin{itemize}
+        \item sandwich-ul regăsește legea limită de pe slide-ul anterior, pentru orice lege a lui $\eta_t$ cu $\kappa_\eta < \infty$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Sandwich-ul și erorile standard Bollerslev--Wooldridge (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Trei moduri de a calcula erorile standard
+    \begin{itemize}
+        \item doar din hessiană: $A^{-1} = 2J^{-1}$, corect doar dacă $\kappa_\eta = 3$; prea mici cu factorul $\sqrt{(\kappa_\eta - 1)/2}$ cînd $\kappa_\eta > 3$
+        \item din produsul exterior al scorurilor (OPG): $B^{-1} = \frac{4}{\kappa_\eta - 1}J^{-1}$, și mai mici cînd $\kappa_\eta > 3$
+        \item sandwich \refBW: $\hat A^{-1}\hat B\hat A^{-1}$, valabil oricare ar fi legea lui $\eta_t$ (cu $\kappa_\eta < \infty$)
+    \end{itemize}
+    \item Estimațiile folosite de Bollerslev și Wooldridge
+    \begin{itemize}
+        \item $\hat A$: hessiana observată a lui $-\frac1T\sum_t\ell_t$ în $\hat\theta$; $\hat B = \frac1T\sum_t\hat s_t\hat s_t'$, cu $\hat s_t = s_t(\hat\theta)$ scorul estimat
+    \end{itemize}
+    \item Testele Wald și de tip scor robuste folosesc sandwich-ul
+    \begin{itemize}
+        \item statistica raportului de cvasi-verosimilitate (cvasi-LR) nu mai are distribuția $\chi^2$, ci este o sumă ponderată de variabile $\chi^2_1$ (hi-pătrat cu un grad de libertate)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -387,7 +452,7 @@ producția industrială și IPP pentru bunuri finite ale SUA (lunar) & FRED (IND
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item QML gaussian pentru GARCH(1,1), randamente zilnice 2010--2026; bare: eroarea standard sandwich împărțită la eroarea standard din hessiană; etichete: coeficientul de boltire $\hat\kappa_\eta$ al reziduurilor standardizate
+    \item QML gaussian pentru GARCH(1,1), randamente zilnice 2010--2026; bare: eroarea standard sandwich împărțită la eroarea standard din hessiană; etichete: kurtosis-ul $\hat\kappa_\eta$ al reziduurilor standardizate
 \end{itemize}
 \quantlet{ATS\_ch8\_qmle}{\qlurl{ATS_ch8_qmle}}
 \end{frame}
@@ -396,7 +461,7 @@ producția industrială și IPP pentru bunuri finite ale SUA (lunar) & FRED (IND
 \itemsize{\small}
 \begin{itemize}
     \item S\&P 500: $\hat\alpha = 0{,}154$, cu eroarea standard 0{,}013 (hessiană) față de 0{,}018 (sandwich); $\hat\kappa_\eta = 5{,}0$, factorul teoretic 1{,}42
-    \item BET: $\hat\kappa_\eta = 12{,}2$, eroarea standard sandwich a lui $\hat\alpha$ este de 3{,}36 ori mai mare; EUR/RON (curs administrat): de 2{,}71 ori, $\hat\kappa_\eta = 61{,}8$
+    \item BET: $\hat\kappa_\eta = 12{,}2$, eroarea standard sandwich a lui $\hat\alpha$ este de 3{,}36 ori mai mare; EUR/RON (managed float): de 2{,}71 ori, $\hat\kappa_\eta = 61{,}8$
     \item Rapoartele urmează doar aproximativ $\sqrt{(\hat\kappa_\eta - 1)/2}$: în date, $\eta_t$ nu este i.i.d., iar sandwich-ul nu are nevoie de această ipoteză
     \item ML Student-$t$ crește log-verosimilitatea cu 124{,}4 (S\&P 500) și 233{,}0 (BET), dar este consistent doar dacă forma $t$ este corectă; QML are nevoie doar de ecuația varianței
 \end{itemize}
@@ -419,26 +484,50 @@ producția industrială și IPP pentru bunuri finite ale SUA (lunar) & FRED (IND
 \begin{frame}{GARCH cu variabile exogene}
 \itemsize{\small}
 \begin{itemize}
-    \item GARCH-X: $\sigma^2_t = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1} + \pi'x_{t-1}$, cu $x_{t-1} \ge 0$ și $\pi \ge 0$ pentru pozitivitate (sau o specificare în logaritmi)
+    \item GARCH-X: valoarea de ieri a unei variabile observate intră în ecuația varianței
+    \[ \sigma^2_t = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1} + \pi'x_{t-1} \]
+    \begin{itemize}
+        \item $x_{t-1}$: vectorul variabilelor exogene cunoscute la sfîrșitul zilei $t-1$; $\pi$: coeficienții lor ($\pi'x$: suma ponderată)
+        \item pozitivitatea lui $\sigma^2_t$: $x_{t-1} \ge 0$ și $\pi \ge 0$ sau o specificare în logaritmi
+    \end{itemize}
     \item Candidați pentru $x_t$: o măsură realizată (duce la HEAVY și Realized GARCH, mai jos), VIX, un indice macroeconomic sau de incertitudine a politicilor, volumul tranzacțiilor
     \begin{itemize}
-        \item teoria QML se păstrează dacă $x_t$ este staționar și ergodic, iar dinamica lui nu trebuie modelată pentru prognoze cu un pas
+        \item teoria QML se păstrează dacă $x_t$ este staționar și ergodic; dinamica lui nu trebuie modelată pentru prognoze cu un pas
         \item prognozele cu mai mulți pași au nevoie de un model pentru $x_t$: exact acest lucru adaugă Realized GARCH și HEAVY
     \end{itemize}
     \item O variabilă lentă (o serie macroeconomică lunară) nu poate intra în recursia zilnică la frecvența ei: este nevoie de o structură pe componente (slide-urile următoare)
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Component GARCH al lui Engle și Lee}
+\begin{frame}{Component GARCH al lui Engle și Lee (1/2): modelul}
 \itemsize{\small}
 \begin{itemize}
-    \item \refEL: $\sigma^2_t = q_t + \alpha(\varepsilon^2_{t-1} - q_{t-1}) + \beta(\sigma^2_{t-1} - q_{t-1})$, $\quad q_t = \omega + \rho q_{t-1} + \phi(\varepsilon^2_{t-1} - \sigma^2_{t-1})$
-    \item $q_t$: un nivel de termen lung care se mișcă lent (persistența $\rho$, apropiată de 1); $\sigma^2_t - q_t$: o abatere tranzitorie (persistența $\alpha + \beta < \rho$)
+    \item \refEL: varianța este suma dintre un nivel de termen lung $q_t$, care se mișcă lent, și o abatere tranzitorie de la acest nivel
+    \[ \sigma^2_t = q_t + \alpha(\varepsilon^2_{t-1} - q_{t-1}) + \beta(\sigma^2_{t-1} - q_{t-1}) \]
+    \[ q_t = \omega + \rho q_{t-1} + \phi(\varepsilon^2_{t-1} - \sigma^2_{t-1}) \]
     \begin{itemize}
-        \item ambele sînt antrenate de același șoc $\varepsilon^2_{t-1} - \sigma^2_{t-1}$: modelul este un GARCH(2,2) restricționat
+        \item $q_t$: componenta de termen lung (permanentă); $\rho$: persistența ei, apropiată de 1; $\omega$: termenul ei liber
+        \item $\sigma^2_t - q_t$: componenta tranzitorie; $\alpha$, $\beta$: reacția și persistența ei, cu $\alpha + \beta < \rho$
+        \item $\varepsilon^2_{t-1} - \sigma^2_{t-1}$: surpriza de varianță de ieri (cu media zero); $\phi$: cît din această surpriză mută nivelul de termen lung
     \end{itemize}
-    \item Timpul de înjumătățire al unui șoc pentru fiecare componentă: $\ln 0{,}5/\ln\rho$ și $\ln 0{,}5/\ln(\alpha + \beta)$ zile; GARCH(1,1) impune un singur timp de înjumătățire
-    \item Două exponențiale aproximează, pe un interval finit de decalaje, o autocorelație a pătratelor randamentelor care scade lent (hiperbolic); memoria lungă propriu-zisă: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol10_memorie_lunga_rough_volatility.pdf}{Capitolul 10}
+    \item Ambele componente sînt determinate de același șoc: modelul este un GARCH(2,2) restricționat
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Component GARCH al lui Engle și Lee (2/2): două viteze}
+\itemsize{\small}
+\begin{itemize}
+    \item Timpul de înjumătățire: numărul de zile după care jumătate dintr-un șoc al unei componente a dispărut
+    \[ \mathrm{HL}_q = \frac{\ln(1/2)}{\ln\rho}, \qquad \mathrm{HL}_{\sigma - q} = \frac{\ln(1/2)}{\ln(\alpha + \beta)} \]
+    \begin{itemize}
+        \item $\mathrm{HL}_q$: timpul de înjumătățire al componentei de termen lung; $\mathrm{HL}_{\sigma - q}$: al componentei tranzitorii
+        \item o persistență $\rho = 0{,}99$ dă aproximativ 69 de zile; $\alpha + \beta = 0{,}9$ dă aproximativ 6,6 zile
+        \item GARCH(1,1) impune un singur timp de înjumătățire, $\ln 0{,}5/\ln(\alpha + \beta)$
+    \end{itemize}
+    \item Două exponențiale aproximează, pe un interval finit de laguri, o autocorelație a pătratelor randamentelor care scade lent (hiperbolic)
+    \begin{itemize}
+        \item memoria lungă propriu-zisă: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol10_memorie_lunga_rough_volatility.pdf}{Capitolul 10}
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -464,7 +553,7 @@ producția industrială și IPP pentru bunuri finite ale SUA (lunar) & FRED (IND
 \end{itemize}
 \end{frame}
 
-\begin{frame}{GARCH-MIDAS: o componentă de termen lung determinată macroeconomic}
+\begin{frame}{GARCH-MIDAS (1/3): o componentă de termen lung determinată macroeconomic}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.3\textwidth}
@@ -475,28 +564,52 @@ producția industrială și IPP pentru bunuri finite ale SUA (lunar) & FRED (IND
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item \refEGS: ziua $i$ din luna $t$: $r_{i,t} = \mu + \sqrt{\tau_tg_{i,t}}\,\eta_{i,t}$
-    \item termen scurt, GARCH cu media 1: $g_{i,t} = (1 - \alpha - \beta) + \alpha\frac{(r_{i-1,t} - \mu)^2}{\tau_t} + \beta g_{i-1,t}$
-    \item termen lung, MIDAS într-un regresor lunar: $\ln\tau_t = m + \theta\sum_{k=1}^K\varphi_k(w)X_{t-k}$
-    \item ponderi beta restricționate să scadă: $\varphi_k(w) \propto (1 - k/K)^{w - 1}$, $w \ge 1$ \refGSV
-    \item $X$: varianța realizată din lunile anterioare (în nivel, $\tau_t = m + \theta\sum\varphi_kRV_{t-k}$) sau date macroeconomice: creșterea producției industriale, inflația IPP
+    \item \refEGS: varianța zilnică este produsul dintre un nivel lunar $\tau_t$ și un factor zilnic $g_{i,t}$
+    \[ r_{i,t} = \mu + \sqrt{\tau_t\,g_{i,t}}\;\eta_{i,t} \]
+    \begin{itemize}
+        \item $r_{i,t}$: randamentul zilei $i$ din luna $t$; $\mu$: randamentul mediu; $\eta_{i,t}$: șoc i.i.d. cu media 0 și varianța 1
+    \end{itemize}
+    \item Termenul scurt: un GARCH(1,1) cu media 1, rescalat cu $\tau_t$
+    \[ g_{i,t} = (1 - \alpha - \beta) + \alpha\frac{(r_{i-1,t} - \mu)^2}{\tau_t} + \beta g_{i-1,t} \]
+    \begin{itemize}
+        \item $\alpha$, $\beta$: reacția și persistența componentei zilnice, ca în GARCH(1,1)
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{GARCH-MIDAS: identificare, estimare și raportul de varianță}
+\begin{frame}{GARCH-MIDAS (2/3): componenta de termen lung}
+\itemsize{\small}
+\begin{itemize}
+    \item Termenul lung: o regresie MIDAS (mixed-data sampling, eșantionare cu frecvențe mixte) a lui $\ln\tau_t$ pe $K$ laguri ale unei variabile lunare
+    \[ \ln\tau_t = m + \theta\sum_{k=1}^K\varphi_k(w)\,X_{t-k}, \qquad \varphi_k(w) \propto (1 - k/K)^{w - 1} \]
+    \begin{itemize}
+        \item $X_{t-k}$: factorul lunar de acum $k$ luni; $m$: termenul liber; $\theta$: efectul factorului (semnul arată dacă este prociclic sau anticiclic)
+        \item $\varphi_k(w)$: ponderi beta pe laguri, normalizate să însumeze 1 și restricționate să scadă \refGSV; $w \ge 1$: cu cît $w$ este mai mare, cu atît scad mai repede; $w = 1$: ponderi egale
+    \end{itemize}
+    \item Alegeri pentru $X$
+    \begin{itemize}
+        \item varianța realizată din lunile anterioare, în nivel: $\tau_t = m + \theta\sum_k\varphi_k(w)\mathrm{RV}_{t-k}$, cu $\mathrm{RV}_{t-k}$ suma pătratelor randamentelor zilnice din luna $t-k$
+        \item date macroeconomice: creșterea producției industriale, inflația IPP
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{GARCH-MIDAS (3/3): identificare, estimare și raportul de varianță}
 \itemsize{\small}
 \begin{itemize}
     \item $\tau_t$ este constant în cadrul lunii, iar $\E g_{i,t} = 1$: descompunerea este identificată prin frecvențele diferite, fără un filtru pentru o variabilă latentă
     \begin{itemize}
         \item QML gaussian pentru toți parametrii $(\mu, \alpha, \beta, m, \theta, w)$ într-un singur pas; erori standard sandwich
     \end{itemize}
-    \item Raportul de varianță $\mathrm{VR} = \Var(\ln\tau_t)/\Var(\ln\tau_tg_{i,t})$: ponderea variației logaritmului volatilității explicată de componenta de termen lung
+    \item Raportul de varianță: ponderea variației logaritmului volatilității explicată de componenta de termen lung
+    \[ \mathrm{VR} = \frac{\Var(\ln\tau_t)}{\Var(\ln(\tau_t\,g_{i,t}))} \in [0, 1] \]
     \begin{itemize}
+        \item VR apropiat de 0: componenta de termen lung este aproape constantă; apropiat de 1: ea preia cea mai mare parte a variației
         \item o variabilă macroeconomică poate fi semnificativă ($\hat\theta \ne 0$) și totuși să explice puțin din volatilitatea zilnică (VR mic)
     \end{itemize}
-    \item Inferența asupra lui $w$ este nestandard cînd $\theta = 0$ (neidentificat) și la frontiera $w = 1$ (ponderi egale)
+    \item Inferența asupra lui $w$ este nestandard cînd $\theta = 0$ ($w$ nu este atunci identificat) și la frontiera $w = 1$
     \item Extensii: ponderi nerestricționate, mai mulți regresori, o a doua componentă (zilnică) \refCK; prognozele de peste o lună folosesc doar partea de termen lung
 \end{itemize}
 \end{frame}
@@ -508,7 +621,7 @@ producția industrială și IPP pentru bunuri finite ale SUA (lunar) & FRED (IND
     \begin{itemize}
         \item eșantionul lor de randamente ale acțiunilor din SUA este mult mai lung decît al nostru; componenta lor de termen lung de referință este o varianță realizată pe ferestre fixe
     \end{itemize}
-    \item \textbf{Replicarea noastră}: randamentele zilnice ale S\&P 500, eșantion comun din 04.01.1993, $T = 8\,482$; $K = 36$ de decalaje lunare; ponderi beta restricționate
+    \item \textbf{Replicarea noastră}: randamentele zilnice ale S\&P 500, eșantion comun din 04.01.1993, $T = 8\,482$; $K = 36$ laguri lunare; ponderi beta restricționate
     \begin{itemize}
         \item trei factori de termen lung: varianța realizată lunară (suma pătratelor randamentelor zilnice), creșterea producției industriale (FRED INDPRO), inflația IPP (FRED WPSFD49207)
         \item toate modelele comparate cu GARCH(1,1) pe aceleași zile; QML cu erori standard sandwich
@@ -573,43 +686,88 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
 \section{Măsuri realizate: teorie, zgomot și kernel-uri}
 %=============================================================================
 
-\begin{frame}{Prețurile ca semimartingale Itô}
+\begin{frame}{Prețurile ca semimartingale Itô (1/2): modelul}
 \itemsize{\small}
 \begin{itemize}
-    \item Logaritmul prețului în ziua $t$, $s \in [0, 1]$: $dX_s = \mu_s\,ds + \sigma_s\,dW_s + dJ_s$, cu $\sigma_s$ volatilitatea instantanee stochastică și $J$ un proces de salturi cu activitate finită
-    \item Variația pătratică: $\mathrm{QV}_t = \mathrm{IV}_t + \sum_{s \le 1}(\Delta J_s)^2$, varianța integrată $\mathrm{IV}_t = \int_0^1\sigma^2_s\,ds$
+    \item În cursul zilei $t$, logaritmul prețului se modifică printr-un drift, o componentă browniană scalată cu volatilitatea instantanee și salturi
+    \[ dX_s = \mu_s\,ds + \sigma_s\,dW_s + dJ_s, \qquad s \in [0, 1] \]
     \begin{itemize}
-        \item fără salturi și cu $\sigma$ independent de $W$: $r_t | \mathrm{IV}_t \sim N(\int\mu, \mathrm{IV}_t)$: IV este varianța relevantă pentru randamentul zilnic
+        \item $X_s$: logaritmul prețului la momentul intraday $s$ (ziua este rescalată la $[0, 1]$); $\mu_s$: drift-ul; $W_s$: mișcarea browniană standard
+        \item $\sigma_s$: volatilitatea instantanee (spot), stochastică; $J_s$: un proces de salturi cu un număr finit de salturi pe zi, $\Delta J_s$: saltul din momentul $s$
     \end{itemize}
-    \item Varianța realizată din $n$ randamente intraday $r_{t,i} = X_{i/n} - X_{(i-1)/n}$: $\mathrm{RV}_t = \sum_{i=1}^n r_{t,i}^2 \to \mathrm{QV}_t$ în probabilitate cînd $n \to \infty$
-    \item Drift-ul nu contează la limită (este $O(1/n)$ pe interval): volatilitatea devine observabilă \emph{ex post}, fără model \refABDL, \refBNSa
+    \item Variația pătratică a zilei: partea de difuzie plus pătratele salturilor
+    \[ \mathrm{QV}_t = \mathrm{IV}_t + \sum_{s \le 1}(\Delta J_s)^2, \qquad \mathrm{IV}_t = \int_0^1\sigma^2_s\,ds \]
+    \begin{itemize}
+        \item $\mathrm{IV}_t$: varianța integrată, media varianței instantanee pe parcursul zilei
+        \item fără salturi și cu $\sigma$ independent de $W$: $r_t | \mathrm{IV}_t \sim N(\int_0^1\mu_s\,ds, \mathrm{IV}_t)$, deci IV este varianța relevantă pentru randamentul zilnic $r_t$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Teorema limită centrală pentru varianța realizată}
+\begin{frame}{Prețurile ca semimartingale Itô (2/2): varianța realizată}
 \itemsize{\small}
 \begin{itemize}
-    \item \refBNSa: fără salturi, $\sqrt n(\mathrm{RV}_t - \mathrm{IV}_t) \to MN(0, 2\,\mathrm{IQ}_t)$ stabil în lege, cuarticitatea integrată $\mathrm{IQ}_t = \int_0^1\sigma^4_s\,ds$
+    \item Varianța realizată: suma pătratelor celor $n$ randamente intraday ale zilei
+    \[ \mathrm{RV}_t = \sum_{i=1}^n r_{t,i}^2, \qquad r_{t,i} = X_{i/n} - X_{(i-1)/n} \]
     \begin{itemize}
-        \item mixt normală: normală dată traiectoria lui $\sigma$; convergența \emph{stabilă} permite împărțirea la $\sqrt{\mathrm{IQ}_t}$, aleator și estimat consistent
+        \item $n$: numărul intervalelor intraday (78 de randamente la 5 minute într-o ședință de 6,5 ore); $r_{t,i}$: randamentul logaritmic din intervalul $i$
+        \item $\mathrm{RV}_t \to \mathrm{QV}_t$ în probabilitate cînd $n \to \infty$: RV măsoară variația totală (difuzie plus salturi)
     \end{itemize}
-    \item Varianta fezabilă: $\widehat{\mathrm{IQ}}_t = \frac n3\sum_i r_{t,i}^4$ (cuarticitatea realizată RQ), deci $\frac{\mathrm{RV}_t - \mathrm{IV}_t}{\sqrt{\frac23\sum_ir_{t,i}^4}} \to N(0, 1)$
-    \item Versiunea în logaritmi (metoda delta): $\ln\mathrm{RV}_t \pm 1{,}96\sqrt{\frac23\sum_ir_{t,i}^4}/\mathrm{RV}_t$; mai bună în eșantioane finite, niciodată negativă
-    \item Rata $\sqrt n$: cu randamente la 5 minute într-o zi de 6,5 ore ($n = 78$), eroarea relativă este de aproximativ $\sqrt{2/78} \approx 16\%$ cînd volatilitatea este constantă în cursul zilei
-    \item Eroarea de măsurare $\mathrm{RV}_t - \mathrm{IV}_t$ este heteroscedastică (crește cu $\mathrm{IQ}_t$): pe acest fapt se bazează HARQ, mai jos
+    \item Drift-ul nu contează la limită: este $O(1/n)$ pe interval, în timp ce partea browniană este $O(n^{-1/2})$
+    \begin{itemize}
+        \item volatilitatea devine observabilă \emph{ex post}, fără model \refABDL, \refBNSa
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Teorema limită centrală pentru varianța realizată (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \refBNSa: fără salturi, eroarea lui RV scade cu rata $\sqrt n$ și este mixt normală
+    \[ \sqrt n\,(\mathrm{RV}_t - \mathrm{IV}_t) \to MN(0, 2\,\mathrm{IQ}_t), \qquad \mathrm{IQ}_t = \int_0^1\sigma^4_s\,ds \]
+    \begin{itemize}
+        \item $\mathrm{IQ}_t$: cuarticitatea integrată, media zilnică a lui $\sigma^4_s$; ea stabilește mărimea erorii
+        \item $MN$ (mixt normală): normală condiționat de traiectoria lui $\sigma$, cu o varianță aleatoare $2\,\mathrm{IQ}_t$
+        \item convergența este \emph{stabilă} în lege: putem împărți la $\sqrt{\mathrm{IQ}_t}$, aleator și estimat consistent, fără a schimba limita
+    \end{itemize}
+    \item Rata $\sqrt n$: cu $n = 78$ și volatilitate constantă în cursul zilei, eroarea relativă este de aproximativ $\sqrt{2/78} \approx 16\%$
+    \begin{itemize}
+        \item eroarea de măsurare $\mathrm{RV}_t - \mathrm{IV}_t$ este heteroscedastică (crește cu $\mathrm{IQ}_t$): pe acest fapt se bazează HARQ, mai jos
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Teorema limită centrală pentru varianța realizată (2/2): intervale fezabile}
+\itemsize{\small}
+\begin{itemize}
+    \item Varianta fezabilă: estimăm IQ prin cuarticitatea realizată RQ, apoi studentizăm
+    \[ \widehat{\mathrm{IQ}}_t = \mathrm{RQ}_t = \frac n3\sum_{i=1}^n r_{t,i}^4, \qquad \frac{\mathrm{RV}_t - \mathrm{IV}_t}{\sqrt{\frac23\sum_i r_{t,i}^4}} \to N(0, 1) \]
+    \begin{itemize}
+        \item factorul $\frac n3$ face RQ nedeplasat la volatilitate constantă, deoarece $\E Z^4 = 3$ pentru $Z \sim N(0, 1)$
+        \item interval de 95\% pentru $\mathrm{IV}_t$: $\mathrm{RV}_t \pm 1{,}96\sqrt{\frac23\sum_i r_{t,i}^4}$; poate conține valori negative
+    \end{itemize}
+    \item Versiunea în logaritmi (metoda delta): un interval pentru $\ln\mathrm{IV}_t$
+    \[ \ln\mathrm{RV}_t \pm 1{,}96\,\frac{\sqrt{\frac23\sum_i r_{t,i}^4}}{\mathrm{RV}_t} \]
+    \begin{itemize}
+        \item după exponențiere nu conține niciodată valori negative și are o acoperire mai bună în eșantioane finite
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{O piață simulată cu adevărul cunoscut}
 \itemsize{\small}
 \begin{itemize}
-    \item Grilă la o secundă, $n = 23\,400$ de secunde pe zi; $\ln\sigma^2_s = c + f^{(1)}_s + f^{(2)}_s$, doi factori AR(1) gaussieni cu timpi de înjumătățire de 60 de zile și 2 zile
+    \item Grilă la o secundă, $n = 23\,400$ de secunde pe zi; logaritmul varianței instantanee este suma a doi factori AR(1) gaussieni
+    \[ \ln\sigma^2_s = c + f^{(1)}_s + f^{(2)}_s \]
     \begin{itemize}
-        \item abaterile standard staționare 0,75 și 0,45, media IV = 1 (\%$^2$ pe zi): media este cea a realised kernel-ului pentru S\&P 500 din 2000--2022
-        \item efectul de levier: corelația $-0{,}6$ între șocurile prețului și șocurile factorului rapid
+        \item $c$: constanta care fixează media; $f^{(1)}$: factorul lent (timp de înjumătățire de 60 de zile, abaterea standard staționară 0,75); $f^{(2)}$: factorul rapid (2 zile, abaterea standard 0,45)
+        \item media IV = 1 (\%$^2$ pe zi), media realised kernel-ului pentru S\&P 500 în 2000--2022; efectul de levier: corelația $-0{,}6$ între șocurile prețului și șocurile factorului rapid
     \end{itemize}
     \item Salturi: proces Poisson cu 0,08 salturi pe zi, mărimi $N(0, 0{,}8^2)$ (\%): salturile reprezintă aproximativ 5{,}6\% din variația pătratică
-    \item Zgomot: observăm $Y_s = X_s + u_s$, $u_s$ i.i.d. $N(0, \omega^2)$, $\omega = 0{,}004\%$, deci $2n\omega^2 = 0{,}75$ la o secundă
+    \item Zgomot: observăm $Y_s = X_s + u_s$, cu $u_s$ i.i.d. $N(0, \omega^2)$ și $\omega = 0{,}004\%$
+    \begin{itemize}
+        \item $Y_s$: logaritmul prețului observat; $X_s$: logaritmul prețului eficient; $u_s$: zgomotul de microstructură, cu abaterea standard $\omega$; la o secundă, $2n\omega^2 = 0{,}75$ (slide-urile următoare)
+    \end{itemize}
     \item Fiecare estimator de mai jos este comparat cu IV sau QV adevărate din aceeași zi simulată
 \end{itemize}
 \end{frame}
@@ -678,16 +836,35 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Zgomotul de microstructură}
+\begin{frame}{Zgomotul de microstructură (1/2): deplasarea lui RV}
 \itemsize{\small}
 \begin{itemize}
-    \item Logaritmul prețului observat $Y_{i/n} = X_{i/n} + u_i$: oscilația între bid și ask, discretizarea prețului, cotații învechite; $u_i$ i.i.d. cu varianța $\omega^2$, independent de $X$
-    \item Atunci $\E(\mathrm{RV}^{(n)}_t | X) = \mathrm{IV}_t + 2n\omega^2$ și $\Var(\mathrm{RV}^{(n)}_t | X) \approx 4n\E u^4$: RV diverge cînd $n \to \infty$ (\atsapplink{atsapp2}{atssrc2}{Anexa})
+    \item Logaritmul prețului observat este prețul eficient plus un termen de zgomot
+    \[ Y_{i/n} = X_{i/n} + u_i \]
     \begin{itemize}
-        \item consecință: $\hat\omega^2 = \mathrm{RV}^{(n)}_t/(2n)$ la frecvența cea mai mare estimează varianța zgomotului
+        \item $u_i$: zgomot i.i.d. cu varianța $\omega^2$, independent de $X$; surse: oscilația între bid și ask, discretizarea prețului, cotațiile stale (neactualizate)
+    \end{itemize}
+    \item RV calculat din prețurile observate la $n$ intervale, $\mathrm{RV}^{(n)}_t$, este deplasat în sus, iar deplasarea crește cu $n$ (\atsapplink{atsapp2}{atssrc2}{Anexa})
+    \[ \E(\mathrm{RV}^{(n)}_t | X) = \mathrm{IV}_t + 2n\omega^2, \qquad \Var(\mathrm{RV}^{(n)}_t | X) \approx 4n\,\E u^4 \]
+    \begin{itemize}
+        \item fiecare randament observat conține $u_i - u_{i-1}$, cu varianța $2\omega^2$; însumat pe $n$ randamente, aceasta dă $2n\omega^2$
+        \item RV diverge cînd $n \to \infty$: eșantionarea cît mai deasă nu este optimă
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Zgomotul de microstructură (2/2): diagnostice}
+\itemsize{\small}
+\begin{itemize}
+    \item Două consecințe ale zgomotului i.i.d.
+    \begin{itemize}
+        \item $\hat\omega^2 = \mathrm{RV}^{(n)}_t/(2n)$, la frecvența cea mai mare, estimează varianța zgomotului, deoarece acolo $2n\omega^2$ domină IV
         \item randamentele prețului observat au autocovarianța de ordinul întîi $-\omega^2$: autocorelația negativă este amprenta zgomotului i.i.d.
     \end{itemize}
-    \item Signature plot: media $\mathrm{RV}^{(n)}$ în funcție de intervalul de eșantionare; o zonă plată arată unde zgomotul nu mai contează
+    \item Signature plot: media $\mathrm{RV}^{(n)}$ în funcție de intervalul de eșantionare
+    \begin{itemize}
+        \item o zonă plată arată intervalele la care zgomotul nu mai contează
+    \end{itemize}
     \item Zgomotul real nu este i.i.d.: este autocorelat și corelat cu prețul eficient, mai ales în datele de cotații \refHLc
 \end{itemize}
 \end{frame}
@@ -695,27 +872,50 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
 \begin{frame}{Eșantionarea rară optimă}
 \itemsize{\small}
 \begin{itemize}
-    \item Eroarea pătratică medie a lui $\mathrm{RV}^{(n)}$ pentru IV: $\mathrm{MSE}(n) \approx \frac{2\,\mathrm{IQ}}{n} + (2n\omega^2)^2 + 4n\E u^4 + \dots$: varianța scade, deplasarea crește cu $n$
-    \item Minimizînd primii doi termeni: $n^* \approx \left(\mathrm{IQ}/(4\omega^4)\right)^{1/3}$ \refBR: grila optimă este mai rară cînd zgomotul este mare față de volatilitate
+    \item Eroarea pătratică medie (MSE) a lui $\mathrm{RV}^{(n)}$ ca estimator al lui IV: varianța de eșantionare scade, deplasarea din zgomot crește cu $n$
+    \[ \mathrm{MSE}(n) \approx \underbrace{\frac{2\,\mathrm{IQ}}{n}}_{\text{varianța}} + \underbrace{(2n\omega^2)^2}_{\text{deplasarea}^2} + 4n\,\E u^4 + \dots \]
+    \item Minimizarea primilor doi termeni dă numărul optim de intervale \refBR
+    \[ n^* \approx \Big(\frac{\mathrm{IQ}}{4\omega^4}\Big)^{1/3} \]
     \begin{itemize}
+        \item grila optimă este mai rară cînd zgomotul ($\omega^2$) este mare față de volatilitate ($\mathrm{IQ}$)
         \item exemplu (Seminarul 8, A3): IV = IQ = 1, $\omega^2 = 1{,}6\times10^{-5}$ dă $n^* \approx 990$, un randament la fiecare 24 de secunde
     \end{itemize}
-    \item Rata celui mai bun RV rar este doar $n^{1/6}$, iar majoritatea datelor sînt aruncate: de aici estimatorii care folosesc toate observațiile
+    \item Cel mai bun RV rar converge doar cu rata $n^{1/6}$ și renunță la majoritatea datelor: de aici estimatorii care folosesc toate observațiile
     \item Subeșantionarea: media RV pe cele $K$ grile decalate (cu start în secunda $0, 1, \dots, K-1$); aceeași deplasare, varianță mai mică
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Două scale de timp și realised kernels}
+\begin{frame}{Două scale de timp și realised kernels (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item RV cu două scale \refZMA: $\mathrm{TSRV} = \overline{\mathrm{RV}}^{(K)} - \frac{\bar n}{n}\mathrm{RV}^{(n)}$, $\bar n = (n - K + 1)/K$: scala rapidă estimează deplasarea din zgomot a celei lente; rata $n^{1/6}$
-    \item Realised kernel \refBNHLSa: $\mathrm{RK}_t = \gamma_0 + \sum_{h=1}^H k\left(\frac{h}{H+1}\right)(\gamma_h + \gamma_{-h})$, $\gamma_h = \sum_i r_{t,i}r_{t,i-h}$
+    \item RV cu două scale \refZMA: scala rapidă estimează deplasarea din zgomot a celei lente și o elimină
+    \[ \mathrm{TSRV} = \overline{\mathrm{RV}}^{(K)} - \frac{\bar n}{n}\,\mathrm{RV}^{(n)}, \qquad \bar n = \frac{n - K + 1}{K} \]
     \begin{itemize}
-        \item autocovarianțele $\gamma_h$ elimină deplasarea din zgomot (aceeași idee ca la estimarea HAC a varianței, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}); ponderea Parzen $k(x) = 1 - 6x^2 + 6x^3$ pentru $x \le \frac12$, $2(1-x)^3$ pentru $x \le 1$
-        \item nenegativ prin construcție; rata $n^{1/5}$ cu $H = c^*\xi^{4/5}n^{3/5}$, $\xi^2 = \omega^2/\sqrt{\mathrm{IQ}}$, $c^* = 3{,}51$ pentru Parzen \refBNHLSb
+        \item $\overline{\mathrm{RV}}^{(K)}$: RV subeșantionat pe $K$ grile rare decalate (scala lentă), fiecare cu aproximativ $\bar n$ randamente; $\mathrm{RV}^{(n)}$: RV pe toate cele $n$ randamente (scala rapidă)
+        \item deplasarea scalei lente este $2\bar n\omega^2 = \frac{\bar n}{n}\cdot 2n\omega^2$: corecția o scade; rata $n^{1/6}$
+    \end{itemize}
+    \item Pre-averaging \refJLMPV: mediem randamentele pe blocuri înainte de ridicarea la pătrat
+    \begin{itemize}
+        \item rata $n^{1/4}$, cea optimă în prezența zgomotului; în practică, apropiat de realised kernel
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Două scale de timp și realised kernels (2/2): realised kernel-ul}
+\itemsize{\small}
+\begin{itemize}
+    \item Realised kernel \refBNHLSa: RV plus autocovarianțele realizate, ponderate
+    \[ \mathrm{RK}_t = \gamma_0 + \sum_{h=1}^H k\Big(\frac{h}{H+1}\Big)(\gamma_h + \gamma_{-h}), \qquad \gamma_h = \sum_i r_{t,i}\,r_{t,i-h} \]
+    \begin{itemize}
+        \item $\gamma_h$: autocovarianța realizată la lagul $h$ ($\gamma_0 = \mathrm{RV}$); $H$: lățimea de bandă, numărul de laguri folosite; $k(\cdot)$: funcția de ponderare, cu $k(0) = 1$, $k(1) = 0$
+        \item ponderile Parzen: $k(x) = 1 - 6x^2 + 6x^3$ pentru $x \le \frac12$ și $2(1-x)^3$ pentru $\frac12 < x \le 1$
+        \item $\gamma_1$ negativ creat de zgomot anulează deplasarea $2n\omega^2$: aceeași idee ca la estimarea HAC a varianței (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0})
+    \end{itemize}
+    \item Proprietăți
+    \begin{itemize}
+        \item nenegativ prin construcție; rata $n^{1/5}$ cu $H = c^*\xi^{4/5}n^{3/5}$, unde $\xi^2 = \omega^2/\sqrt{\mathrm{IQ}}$ este raportul zgomot/semnal, iar $c^* = 3{,}51$ pentru Parzen \refBNHLSb
         \item corectează și zgomotul cu dependență serială pe distanțe scurte, de orice semn
     \end{itemize}
-    \item Pre-averaging \refJLMPV: mediem randamentele pe blocuri înainte de ridicarea la pătrat; rata $n^{1/4}$, cea optimă; în practică, apropiat de RK
 \end{itemize}
 \end{frame}
 
@@ -777,31 +977,66 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
 \section{Salturi: variația bipower și teste}
 %=============================================================================
 
-\begin{frame}{Variația bipower}
+\begin{frame}{Variația bipower (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refBNSb: $\mathrm{BV}_t = \mu_1^{-2}\frac{n}{n-1}\sum_{i=2}^n\lvert r_{t,i}\rvert\lvert r_{t,i-1}\rvert$, $\mu_1 = \E|Z| = \sqrt{2/\pi}$; $\mathrm{BV}_t \to \mathrm{IV}_t$ chiar și cu salturi (cu activitate finită)
+    \item \refBNSb: suma produselor valorilor absolute ale randamentelor adiacente, rescalată
+    \[ \mathrm{BV}_t = \mu_1^{-2}\,\frac{n}{n-1}\sum_{i=2}^n\lvert r_{t,i}\rvert\,\lvert r_{t,i-1}\rvert, \qquad \mu_1 = \E|Z| = \sqrt{2/\pi} \]
     \begin{itemize}
-        \item un salt intră doar în două produse, fiecare înmulțit cu un randament de ordinul $n^{-1/2}$: contribuția lui dispare
+        \item $Z \sim N(0, 1)$; $\mu_1^{-2}$ face $\mathrm{BV}_t$ consistent pentru $\mathrm{IV}_t$; $\frac{n}{n-1}$ corectează pentru cele $n-1$ produse
+        \item $\mathrm{BV}_t \to \mathrm{IV}_t$ chiar și cu salturi (cu activitate finită): un salt intră doar în două produse, fiecare înmulțit cu un randament de ordinul $n^{-1/2}$
     \end{itemize}
-    \item Deci $\mathrm{RV}_t - \mathrm{BV}_t \to \sum(\Delta J)^2$: o estimație neparametrică a variației din salturi a zilei
-    \item Cuarticitatea robustă la salturi: tripower $\mathrm{TQ}_t = n\mu_{4/3}^{-3}\frac{n}{n-2}\sum_i\prod_{j=0}^2|r_{t,i-j}|^{4/3}$, $\mu_{4/3} = \E|Z|^{4/3}$
-    \item Trunchierea prin vecinii cei mai apropiați (MedRV, MinRV) \refADS: deplasare mai mică în eșantioane finite din cauza unui salt și a randamentelor nule
-    \item RV cu prag (trunchiat) elimină randamentele peste $c\,n^{-\varpi}$, $\varpi \in (0, \frac12)$: o altă cale către IV
+    \item Deci $\mathrm{RV}_t - \mathrm{BV}_t \to \sum_{s \le 1}(\Delta J_s)^2$: o estimație neparametrică a variației din salturi a zilei
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testarea salturilor}
+\begin{frame}{Variația bipower (2/2): estimatori înrudiți}
 \itemsize{\small}
 \begin{itemize}
-    \item \refBNSc: fără salturi, $\sqrt n(\mathrm{RV}_t - \mathrm{BV}_t) \to MN\left(0, \vartheta\,\mathrm{IQ}_t\right)$, $\vartheta = \mu_1^{-4} + 2\mu_1^{-2} - 5 = \frac{\pi^2}{4} + \pi - 5 \approx 0{,}609$
-    \item Statistica raport \refHT: $z_t = \frac{(\mathrm{RV}_t - \mathrm{BV}_t)/\mathrm{RV}_t}{\sqrt{\frac{\vartheta}{n}\max\left(1, \mathrm{TQ}_t/\mathrm{BV}_t^2\right)}} \to N(0, 1)$; test unilateral, respingem pentru $z_t$ mare
+    \item Cuarticitatea robustă la salturi: cuarticitatea tripower
+    \[ \mathrm{TQ}_t = n\,\mu_{4/3}^{-3}\,\frac{n}{n-2}\sum_{i=3}^n\prod_{j=0}^2|r_{t,i-j}|^{4/3}, \qquad \mu_{4/3} = \E|Z|^{4/3} \]
     \begin{itemize}
+        \item produse a trei valori absolute ale randamentelor adiacente, fiecare la puterea $4/3$; $\mathrm{TQ}_t \to \mathrm{IQ}_t$ chiar și cu salturi (RQ, nu)
+    \end{itemize}
+    \item Trunchierea prin vecinii cei mai apropiați (MedRV, MinRV) \refADS: deplasare mai mică în eșantioane finite din cauza unui salt și a randamentelor nule
+    \item RV cu prag (trunchiat): se elimină randamentele peste $c\,n^{-\varpi}$
+    \begin{itemize}
+        \item $c > 0$: o constantă (un multiplu al volatilității locale); $\varpi \in (0, \frac12)$: pragul scade mai lent decît un randament de difuzie, deci sînt eliminate doar salturile
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testarea salturilor (1/2): statistica raport}
+\itemsize{\small}
+\begin{itemize}
+    \item \refBNSc: fără salturi, diferența RV $-$ BV este și ea mixt normală
+    \[ \sqrt n(\mathrm{RV}_t - \mathrm{BV}_t) \to MN(0, \vartheta\,\mathrm{IQ}_t), \qquad \vartheta = \mu_1^{-4} + 2\mu_1^{-2} - 5 = \frac{\pi^2}{4} + \pi - 5 \approx 0{,}609 \]
+    \begin{itemize}
+        \item $\vartheta$: o constantă care măsoară cu cît este BV mai puțin eficient decît RV
+    \end{itemize}
+    \item Statistica raport \refHT: contribuția relativă a salturilor, studentizată
+    \[ z_t = \frac{(\mathrm{RV}_t - \mathrm{BV}_t)/\mathrm{RV}_t}{\sqrt{\frac{\vartheta}{n}\max\big(1, \mathrm{TQ}_t/\mathrm{BV}_t^2\big)}} \to N(0, 1) \]
+    \begin{itemize}
+        \item test unilateral: respingem ipoteza „niciun salt în ziua $t$” pentru $z_t$ mare
         \item forma de raport și ajustarea prin max dau cea mai bună mărime a testului în simulările lor; $\mathrm{TQ}_t/\mathrm{BV}_t^2 \ge 1$ prin Jensen cînd volatilitatea variază în cursul zilei
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testarea salturilor (2/2): aplicarea practică}
+\itemsize{\small}
+\begin{itemize}
     \item Un test zilnic răspunde la întrebarea „a existat un salt azi?”; localizarea lui în cursul zilei cere un test pe fiecare randament standardizat cu BV local \refLM
-    \item Testare multiplă: la nivelul $\alpha$ pe $T$ zile ne așteptăm la $\alpha T$ zile cu salturi false; folosiți un $\alpha$ mic (0,1\%) sau o corecție de tip FWER sau FDR (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
-    \item Separarea părților continuă și de salt: $C_t = \mathrm{RV}_t - J_t$, $J_t = \mathbb 1(z_t > z_{1-\alpha})(\mathrm{RV}_t - \mathrm{BV}_t)$ \refABD
+    \item Testare multiplă: la nivelul $\alpha$, pe $T$ zile ne așteptăm la $\alpha T$ zile cu salturi false
+    \begin{itemize}
+        \item folosiți un $\alpha$ mic (0,1\%) sau o corecție de tip FWER sau FDR (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
+    \end{itemize}
+    \item Separarea părților continuă și de salt ale lui RV \refABD
+    \[ J_t = \mathbb 1(z_t > z_{1-\alpha})\,(\mathrm{RV}_t - \mathrm{BV}_t), \qquad C_t = \mathrm{RV}_t - J_t \]
+    \begin{itemize}
+        \item $\mathbb 1(\cdot)$: indicatorul, 1 dacă testul respinge și 0 altfel; $z_{1-\alpha}$: cuantila $1-\alpha$ a distribuției $N(0, 1)$
+        \item $J_t$: partea de salt, nenulă doar în zilele semnificative; $C_t$: partea continuă
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -863,16 +1098,40 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
 \section{Prognoza varianței realizate: HAR și HARQ}
 %=============================================================================
 
-\begin{frame}{Modelul HAR al lui Corsi}
+\begin{frame}{Modelul HAR al lui Corsi (1/2): regresia}
 \itemsize{\small}
 \begin{itemize}
-    \item \refCor: $\mathrm{RV}_{t+1} = \beta_0 + \beta_d\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1}$, $\mathrm{RV}^{(w)}_t = \frac15\sum_{j=0}^4\mathrm{RV}_{t-j}$, $\mathrm{RV}^{(m)}_t = \frac1{22}\sum_{j=0}^{21}\mathrm{RV}_{t-j}$
-    \item Ipoteza pieței eterogene: participanții cu orizont zilnic, săptămînal și lunar reacționează la volatilitate la propriul orizont; cascada produce autocorelații care scad lent
+    \item \refCor: RV de mîine este o funcție liniară de mediile zilnică, săptămînală și lunară ale RV din trecut
+    \[ \mathrm{RV}_{t+1} = \beta_0 + \beta_d\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1} \]
+    \[ \mathrm{RV}^{(w)}_t = \frac15\sum_{j=0}^4\mathrm{RV}_{t-j}, \qquad \mathrm{RV}^{(m)}_t = \frac1{22}\sum_{j=0}^{21}\mathrm{RV}_{t-j} \]
     \begin{itemize}
-        \item statistic: un AR(22) cu 19 restricții liniare (coeficienți în trepte); memorie scurtă, dar imită memoria lungă pe orizontul unei luni
+        \item $\mathrm{RV}^{(w)}_t$, $\mathrm{RV}^{(m)}_t$: mediile pe ultimele 5 zile de tranzacționare (o săptămînă) și pe ultimele 22 (o lună)
+        \item $\beta_d, \beta_w, \beta_m \ge 0$: ponderile celor trei orizonturi; $\beta_0$: termenul liber; $u_{t+1}$: eroarea de prognoză, cu media zero
+        \item $\beta_d + \beta_w + \beta_m$: persistența; cu cît este mai aproape de 1, cu atît volatilitatea revine mai lent la medie
     \end{itemize}
-    \item OLS este consistent; erorile sînt heteroscedastice și, pentru ținte pe mai multe zile, suprapuse: folosiți erorile standard Newey--West \refNW
-    \item Variante: log-HAR (pe $\ln\mathrm{RV}$, erori aproape gaussiene; prognoza lui RV cere $\exp(\hat\mu + \frac12\hat\sigma^2_u)$), HAR pe $\sqrt{\mathrm{RV}}$, ținte pe $h$ zile
+    \item Ipoteza pieței eterogene: participanții cu orizont zilnic, săptămînal și lunar reacționează la volatilitate la propriul orizont
+    \begin{itemize}
+        \item cascada produce autocorelații care scad lent
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Modelul HAR al lui Corsi (2/2): estimare și variante}
+\itemsize{\small}
+\begin{itemize}
+    \item Statistic, HAR este un AR(22) cu 19 restricții liniare (coeficienți în trepte)
+    \begin{itemize}
+        \item memorie scurtă, dar imită memoria lungă pe orizontul unei luni
+    \end{itemize}
+    \item OLS este consistent; erorile sînt heteroscedastice și, pentru ținte pe mai multe zile, suprapuse
+    \begin{itemize}
+        \item folosiți erorile standard Newey--West \refNW\ (HAC)
+    \end{itemize}
+    \item Variante
+    \begin{itemize}
+        \item log-HAR: aceeași regresie pe $\ln\mathrm{RV}$, cu erori aproape gaussiene; prognoza lui RV este $\exp(\hat\mu + \frac12\hat\sigma^2_u)$, cu $\hat\mu$ valoarea ajustată în logaritmi și $\hat\sigma^2_u$ varianța reziduurilor
+        \item HAR pe $\sqrt{\mathrm{RV}}$; ținte pe $h$ zile (RV mediu pe următoarele $h$ zile)
+    \end{itemize}
     \item Extensii: părțile continuă și de salt, HAR-CJ \refABD; semivarianțele pozitivă și negativă \refPS; volatilitatea implicită; termeni de levier
 \end{itemize}
 \end{frame}
@@ -899,15 +1158,24 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Designul prognozei}
+\begin{frame}{Schema de prognoză}
 \itemsize{\small}
 \begin{itemize}
-    \item Un pas înainte, fereastră mobilă de 1\,000 de zile, reestimare zilnică; ținta $\mathrm{RV}_{t+1}$; funcțiile de pierdere QLIKE $= \frac{\mathrm{RV}}{f} - \ln\frac{\mathrm{RV}}{f} - 1$ și MSE (robuste, vezi mai jos)
-    \item Filtrul de plauzibilitate („insanity filter”) \refBPQ: o prognoză din afara intervalului RV din eșantionul de estimare este înlocuită cu media din eșantion; face parte din metodă și trebuie raportat
+    \item Un pas înainte, fereastră mobilă de 1\,000 de zile, reestimare zilnică; ținta $\mathrm{RV}_{t+1}$
+    \item Funcțiile de pierdere: MSE $= (\mathrm{RV} - f)^2$ și QLIKE, ambele robuste la zgomotul din RV (vezi mai jos)
+    \[ \mathrm{QLIKE} = \frac{\mathrm{RV}}{f} - \ln\frac{\mathrm{RV}}{f} - 1 \ge 0 \]
+    \begin{itemize}
+        \item $f$: prognoza varianței; QLIKE este 0 cînd $f = \mathrm{RV}$ și penalizează subestimarea mai mult decît supraestimarea
+    \end{itemize}
+    \item Filtrul de plauzibilitate („insanity filter”) \refBPQ: o prognoză din afara intervalului RV din eșantionul de estimare este înlocuită cu media din eșantion
     \begin{itemize}
         \item prognozele liniare de tip HAR pot fi negative după un vîrf; QLIKE nu mai este atunci definită
+        \item filtrul face parte din metodă și trebuie raportat
     \end{itemize}
-    \item Statistici $t$ Diebold--Mariano \refDM\ pentru diferența pierderilor față de HAR (Newey--West, negativ = mai bun decît HAR); mai multe modele: setul de modele de încredere \refHLN, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}
+    \item Statistica $t$ Diebold--Mariano \refDM\ pentru diferența pierderilor față de HAR
+    \begin{itemize}
+        \item varianță Newey--West; negativă = mai bun decît HAR, sub $-1{,}96$ semnificativ la 5\%; mai multe modele: setul de modele de încredere \refHLN, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}
+    \end{itemize}
     \item Modele: HAR, HAR-CJ (partea continuă și partea de salt, din BV), log-HAR; pentru Bitcoin și Ether și HARQ
 \end{itemize}
 \end{frame}
@@ -934,17 +1202,38 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{HARQ: exploatarea erorii de măsurare}
+\begin{frame}{HARQ (1/2): eroarea de măsurare a lui RV}
 \itemsize{\small}
 \begin{itemize}
-    \item $\mathrm{RV}_t = \mathrm{IV}_t + e_t$, cu $\Var(e_t | \mathrm{IQ}_t) \approx 2\mathrm{IQ}_t/n$: regresorul HAR este măsurat cu o eroare a cărei varianță se schimbă în fiecare zi
-    \item Erori în variabile: într-un AR(1) pentru IV cu coeficientul $\phi$, panta OLS pe RV tinde către $\phi\lambda$, $\lambda = \Var(\mathrm{IV})/(\Var(\mathrm{IV}) + \E\Var(e))$ (\atsapplink{atsapp2}{atssrc3}{Anexa})
+    \item RV este IV latent plus o eroare de măsurare a cărei varianță se schimbă în fiecare zi
+    \[ \mathrm{RV}_t = \mathrm{IV}_t + e_t, \qquad \Var(e_t | \mathrm{IQ}_t) \approx \frac{2\,\mathrm{IQ}_t}{n} \]
     \begin{itemize}
+        \item $e_t$: eroarea de măsurare din ziua $t$; în zilele volatile ($\mathrm{IQ}_t$ mare), RV este mai puțin precis
+    \end{itemize}
+    \item Erori în variabile: într-un AR(1) pentru IV cu coeficientul $\phi$, panta OLS pe RV este atenuată (\atsapplink{atsapp3}{atssrc3}{Anexa})
+    \[ \mathrm{plim}\,\hat\phi = \phi\lambda, \qquad \lambda = \frac{\Var(\mathrm{IV})}{\Var(\mathrm{IV}) + \E\Var(e)} \in (0, 1) \]
+    \begin{itemize}
+        \item $\lambda$: raportul de fiabilitate, ponderea semnalului în varianța lui RV
         \item un singur $\beta_d$ constant este un compromis: prea mare în zilele zgomotoase, prea mic în zilele precise
     \end{itemize}
-    \item \refBPQ: $\mathrm{RV}_{t+1} = \beta_0 + (\beta_d + \beta_{dQ}\sqrt{\mathrm{RQ}_t})\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1}$, cu $\beta_{dQ} < 0$ așteptat
-    \item Un singur parametru în plus, tot OLS; $\sqrt{\mathrm{RQ}_t}$ centrat, astfel încît $\beta_d$ să fie ponderea unei zile cu precizie medie
-    \item Lucrarea originală: futures pe S\&P 500 și 27 de acțiuni din Dow Jones, cîștiguri față de HAR în eșantion și în afara lui; replicarea noastră o extinde la Bitcoin și Ether, 2018--2026, unde RQ este disponibil din datele noastre la un minut
+\end{itemize}
+\end{frame}
+
+\begin{frame}{HARQ (2/2): o pondere care depinde de precizie}
+\itemsize{\small}
+\begin{itemize}
+    \item \refBPQ: ponderea RV de ieri variază cu precizia lui estimată
+    \[ \mathrm{RV}_{t+1} = \beta_0 + \big(\beta_d + \beta_{dQ}\sqrt{\mathrm{RQ}_t}\big)\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1} \]
+    \begin{itemize}
+        \item $\mathrm{RQ}_t$: cuarticitatea realizată, estimația lui $\mathrm{IQ}_t$; $\sqrt{\mathrm{RQ}_t}$ este proporțional cu abaterea standard a lui $e_t$
+        \item ne așteptăm la $\beta_{dQ} < 0$: cu cît RV de ieri este mai puțin precis, cu atît ponderea lui este mai mică
+        \item $\sqrt{\mathrm{RQ}_t}$ este centrat, astfel încît $\beta_d$ este ponderea unei zile cu precizie medie
+    \end{itemize}
+    \item Un singur parametru în plus, tot OLS
+    \item Lucrarea originală: futures pe S\&P 500 și 27 de acțiuni din Dow Jones, cîștiguri față de HAR în eșantion și în afara lui
+    \begin{itemize}
+        \item replicarea noastră o extinde la Bitcoin și Ether, 2018--2026, unde RQ este disponibil din datele noastre la un minut
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -984,26 +1273,51 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
 \section{Realized GARCH și HEAVY}
 %=============================================================================
 
-\begin{frame}{Realized GARCH}
+\begin{frame}{Realized GARCH (1/2): cele trei ecuații}
+\itemsize{\footnotesize}
+\begin{itemize}
+    \item \refHHS, forma log-liniară: o ecuație a randamentului, o ecuație GARCH determinată de măsura realizată și o ecuație de măsurare
+    \[ r_t = \sqrt{h_t}\,z_t, \qquad \ln h_t = \omega + \beta\ln h_{t-1} + \gamma\ln x_{t-1} \]
+    \[ \ln x_t = \xi + \varphi\ln h_t + \tau(z_t) + u_t \]
+    \begin{itemize}
+        \item $h_t$: varianța condiționată a randamentului $r_t$; $z_t$: șoc standardizat i.i.d.; $x_t$: măsura realizată din ziua $t$ (aici realised kernel-ul RK)
+        \item $\beta$: persistența lui $\ln h_t$; $\gamma$: ponderea măsurii realizate de ieri (variabila de știri care înlocuiește $\varepsilon^2_{t-1}$)
+        \item $u_t$: eroarea de măsurare, i.i.d. $N(0, \sigma^2_u)$, independentă de $z_t$
+    \end{itemize}
+    \item Ecuația de măsurare: $x_t$ este un semnal zgomotos, posibil deplasat, al lui $h_t$
+    \begin{itemize}
+        \item $\varphi = 1$: $x_t$ proporțional cu $h_t$; $\xi$ preia diferența de scală (măsura deschidere--închidere față de varianța închidere--închidere)
+        \item funcția de levier $\tau(z) = \tau_1z + \tau_2(z^2 - 1)$: cu $\tau_1 < 0$, randamentele negative cresc următoarea măsură realizată (impactul știrilor, \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol5_volatilitate_conditionata_garch.pdf}{TSA, Capitolul 5})
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Realized GARCH (2/2): forma redusă și estimarea}
 \itemsize{\small}
 \begin{itemize}
-    \item \refHHS, forma log-liniară: $r_t = \sqrt{h_t}z_t$; $\ln h_t = \omega + \beta\ln h_{t-1} + \gamma\ln x_{t-1}$; $\ln x_t = \xi + \varphi\ln h_t + \tau(z_t) + u_t$
-    \item Ecuația de măsurare: măsura realizată $x_t$ (RK) este un semnal zgomotos, posibil deplasat, al lui $h_t$; $\varphi = 1$ înseamnă proporționalitate, iar $\xi$ preia scala (deschidere--închidere față de închidere--închidere)
+    \item Înlocuind ecuația de măsurare în ecuația GARCH: $\ln h_t$ este un AR(1)
+    \[ \ln h_t = (\omega + \gamma\xi) + \pi\ln h_{t-1} + \gamma\big(\tau(z_{t-1}) + u_{t-1}\big), \qquad \pi = \beta + \varphi\gamma \]
     \begin{itemize}
-        \item funcția de levier $\tau(z) = \tau_1z + \tau_2(z^2 - 1)$: randamentele negative cresc următoarea măsură realizată (impactul știrilor, \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol5_volatilitate_conditionata_garch.pdf}{TSA, Capitolul 5})
+        \item $\pi$: persistența logaritmului varianței; prognozele cu mai mulți pași decurg din ea, pentru că $x_t$ are propria ecuație
     \end{itemize}
-    \item Forma redusă: $\ln h_t$ este un AR(1) cu persistența $\pi = \beta + \varphi\gamma$; prognozele cu mai mulți pași decurg din ea, pentru că $x_t$ are propria ecuație
-    \item QML comun: $\ell = -\frac12\sum_t\left[\ln h_t + z_t^2 + \ln\sigma^2_u + u_t^2/\sigma^2_u\right]$; comparația cu GARCH se face doar prin verosimilitatea parțială a lui $r_t$
+    \item QML comun: log-verosimilitatea însumează o parte pentru randamente și o parte pentru măsurare
+    \[ \ell = -\frac12\sum_t\Big[\underbrace{\ln h_t + z_t^2}_{r_t} + \underbrace{\ln\sigma^2_u + u_t^2/\sigma^2_u}_{x_t}\Big] \]
+    \begin{itemize}
+        \item comparația cu GARCH se face doar prin verosimilitatea parțială a lui $r_t$ (prima parte), deoarece GARCH nu modelează $x_t$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{HEAVY și familia modelelor cu măsuri realizate}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{itemize}
-    \item HEAVY \refSS: $\Var(r_t | \mathcal F_{t-1}) = h_t = \omega + \alpha\mathrm{RM}_{t-1} + \beta h_{t-1}$ și $\E(\mathrm{RM}_t | \mathcal F_{t-1}) = \mu_t = \omega_R + \alpha_R\mathrm{RM}_{t-1} + \beta_R\mu_{t-1}$
-    \item Două ecuații separate, fiecare estimată prin QML; „momentum”: după un șoc, $h_t$ continuă să crească pînă cînd $\mu_t$ îl ajunge din urmă
+    \item HEAVY \refSS: două ecuații de tip GARCH, una pentru varianța randamentului și una pentru media măsurii realizate
+    \[ h_t = \Var(r_t | \mathcal F_{t-1}) = \omega + \alpha\mathrm{RM}_{t-1} + \beta h_{t-1} \]
+    \[ \mu_t = \E(\mathrm{RM}_t | \mathcal F_{t-1}) = \omega_R + \alpha_R\mathrm{RM}_{t-1} + \beta_R\mu_{t-1} \]
     \begin{itemize}
-        \item cînd măsura realizată intră în ecuația varianței, pătratul randamentului de obicei nu mai adaugă nimic ($\varepsilon^2_{t-1}$ primește coeficient zero)
+        \item $\mathrm{RM}_t$: măsura realizată din ziua $t$; $(\omega, \alpha, \beta)$ și $(\omega_R, \alpha_R, \beta_R)$: parametrii celor două ecuații
+        \item fiecare ecuație se estimează separat prin QML; „momentum”: după un șoc, $h_t$ continuă să crească pînă cînd $\mu_t$ îl ajunge din urmă
+        \item cînd măsura realizată intră în ecuația varianței, pătratul randamentului de obicei nu mai adaugă nimic ($\varepsilon^2_{t-1}$ primește coeficientul zero)
     \end{itemize}
     \item Realized EGARCH \refHH: mai multe măsuri realizate și un efect de levier mai bogat; există versiuni de tip score-driven pentru cozi groase
     \item Comparativ cu HAR: randamentele și măsurile realizate sînt modelate împreună, deci sînt disponibile prognoze de densitate și de VaR/ES (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9})
@@ -1066,17 +1380,38 @@ $\omega$ & $\beta$ & $\gamma$ & $\xi$ & $\varphi$ & $\tau_1$ & $\tau_2$ & $\sigm
 \section{Evaluarea prognozelor de volatilitate față de o țintă zgomotoasă}
 %=============================================================================
 
-\begin{frame}{Problema proxy-ului și funcțiile de pierdere robuste}
+\begin{frame}{Problema proxy-ului și funcțiile de pierdere robuste (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Nu observăm niciodată $\sigma^2_t$; comparăm o prognoză $h_t$ cu un proxy $\hat\sigma^2_t$ (pătratul randamentului, RV, RK), cu $\E(\hat\sigma^2_t | \mathcal F_{t-1}) = \sigma^2_t$
-    \item O funcție de pierdere este \emph{robustă} \refPat\ dacă ordinea prognozelor după $\E L(\hat\sigma^2_t, h_t)$ este aceeași cu ordinea după $\E L(\sigma^2_t, h_t)$ pentru orice proxy nedeplasat \refHLb
+    \item Nu observăm niciodată $\sigma^2_t$: o prognoză $h_t$ este comparată cu un proxy $\hat\sigma^2_t$ (pătratul randamentului, RV, RK)
     \begin{itemize}
-        \item condiția necesară și suficientă: $L(\hat\sigma^2, h) = \tilde C(h) + B(\hat\sigma^2) + C(h)(\hat\sigma^2 - h)$, $C' < 0$ (o formă Bregman: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}, funcții de scor consistente pentru medie)
+        \item proxy-ul este nedeplasat condiționat, $\E(\hat\sigma^2_t | \mathcal F_{t-1}) = \sigma^2_t$, dar zgomotos
     \end{itemize}
-    \item Robuste: MSE $= (\hat\sigma^2 - h)^2$ și QLIKE $= \hat\sigma^2/h - \ln(\hat\sigma^2/h) - 1$ (membrii de grad 2 și de grad 0 ai familiei omogene robuste); QLIKE penalizează mai mult subestimarea
-    \item Nerobuste: MAE, MSE pe logaritmi, MSE pe abateri standard: cu un proxy zgomotos, ele recompensează prognozele deplasate în jos
-    \item Exemplu: cu $\hat\sigma^2 = r^2$, optimul MSE-log este $h^* = \exp(\E\ln r^2) = 0{,}28\,\sigma^2$, deoarece $\E\ln\chi^2_1 = -1{,}27$
+    \item O funcție de pierdere $L$ este \emph{robustă} \refPat\ dacă ordinea prognozelor după $\E L(\hat\sigma^2_t, h_t)$ coincide cu ordinea după $\E L(\sigma^2_t, h_t)$, pentru orice proxy nedeplasat \refHLb
+    \item Condiția necesară și suficientă: o formă Bregman (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}, funcții de scor consistente pentru medie)
+    \[ L(\hat\sigma^2, h) = \tilde C(h) + B(\hat\sigma^2) + C(h)(\hat\sigma^2 - h), \qquad C'(h) < 0 \]
+    \begin{itemize}
+        \item $C$: o funcție descrescătoare de prognoză; $\tilde C$: primitiva ei, $\tilde C' = C$; $B$: orice funcție doar de proxy (nu influențează ordinea)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Problema proxy-ului și funcțiile de pierdere robuste (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Robuste: MSE și QLIKE, membrii de grad 2 și de grad 0 ai familiei omogene robuste
+    \[ \mathrm{MSE} = (\hat\sigma^2 - h)^2, \qquad \mathrm{QLIKE} = \frac{\hat\sigma^2}{h} - \ln\frac{\hat\sigma^2}{h} - 1 \]
+    \begin{itemize}
+        \item gradul: cum se scalează pierderea cînd proxy-ul și prognoza sînt înmulțite cu aceeași constantă; QLIKE (grad 0) nu depinde de scală și penalizează mai mult subestimarea
+    \end{itemize}
+    \item Nerobuste: MAE $= |\hat\sigma^2 - h|$, MSE pe logaritmi $(\ln\hat\sigma^2 - \ln h)^2$, MSE pe abateri standard
+    \begin{itemize}
+        \item cu un proxy zgomotos, ele recompensează prognozele deplasate în jos
+    \end{itemize}
+    \item Exemplu: cu $\hat\sigma^2 = r^2$, optimul MSE-log este $h^* = \exp(\E\ln r^2) = 0{,}28\,\sigma^2$
+    \begin{itemize}
+        \item pentru că $r^2 = \sigma^2\chi^2_1$ pentru un randament gaussian, iar $\E\ln\chi^2_1 = -1{,}27$: MSE-log preferă o prognoză mult sub valoarea adevărată
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1138,16 +1473,38 @@ $\omega$ & $\beta$ & $\gamma$ & $\xi$ & $\varphi$ & $\tau_1$ & $\tau_2$ & $\sigm
 \section{GARCH multivariat și matrice de covarianță mari}
 %=============================================================================
 
-\begin{frame}{De la o varianță la o matrice de covarianță}
+\begin{frame}{De la o varianță la o matrice de covarianță (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $\varepsilon_t = H_t^{1/2}\eta_t$, $\eta_t$ i.i.d. $(0, I_N)$; $H_t$ trebuie să fie simetrică și pozitiv definită pentru orice $t$ și orice valoare a parametrilor
-    \item VEC: $\mathrm{vech}(H_t) = c + A\,\mathrm{vech}(\varepsilon_{t-1}\varepsilon_{t-1}') + B\,\mathrm{vech}(H_{t-1})$: general, dar pozitivitatea este greu de impus
-    \item BEKK \refEK: $H_t = CC' + A'\varepsilon_{t-1}\varepsilon_{t-1}'A + B'H_{t-1}B$: pozitiv definită prin construcție; versiunile diagonală și scalară restricționează $A$, $B$
+    \item Vectorul celor $N$ șocuri ale randamentelor este produsul dintre o rădăcină pătrată matriceală a covarianței condiționate și un vector standardizat
+    \[ \varepsilon_t = H_t^{1/2}\eta_t, \qquad \eta_t \ \text{i.i.d.}\ (0, I_N) \]
     \begin{itemize}
+        \item $H_t = \Var(\varepsilon_t | \mathcal F_{t-1})$: matricea de covarianță condiționată, $N \times N$; $I_N$: matricea identitate
+        \item $H_t$ trebuie să fie simetrică și pozitiv definită pentru orice $t$ și orice valoare a parametrilor
+    \end{itemize}
+    \item VEC: fiecare element al lui $H_t$ depinde de toate pătratele și produsele încrucișate din trecut
+    \[ \mathrm{vech}(H_t) = c + A\,\mathrm{vech}(\varepsilon_{t-1}\varepsilon_{t-1}') + B\,\mathrm{vech}(H_{t-1}) \]
+    \begin{itemize}
+        \item $\mathrm{vech}$: așază într-un vector cele $N(N+1)/2$ elemente distincte ale unei matrice simetrice; $c$: vector, $A$, $B$: matrice pătrate de această dimensiune
+        \item general, dar pozitivitatea este greu de impus
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{De la o varianță la o matrice de covarianță (2/2): BEKK, CCC și DCC}
+\itemsize{\small}
+\begin{itemize}
+    \item BEKK \refEK: formele pătratice garantează caracterul pozitiv definit
+    \[ H_t = CC' + A'\varepsilon_{t-1}\varepsilon_{t-1}'A + B'H_{t-1}B \]
+    \begin{itemize}
+        \item $C$: matrice inferior triunghiulară $N \times N$; $A$, $B$: matrice $N \times N$; versiunile diagonală și scalară restricționează $A$, $B$
         \item identificarea: $(A, B)$ și $(-A, -B)$ dau aceeași $H_t$; se fixează semnul unui element
     \end{itemize}
-    \item CCC \refBolC: $H_t = D_tRD_t$, $D_t = \mathrm{diag}(\sigma_{1t}, \dots, \sigma_{Nt})$ din GARCH univariate; DCC \refEngD\ permite variația lui $R$: $H_t = D_tR_tD_t$
+    \item CCC \refBolC\ și DCC \refEngD: varianțele din GARCH univariate, corelațiile modelate separat
+    \[ H_t = D_tRD_t\ \ (\text{CCC}), \qquad H_t = D_tR_tD_t\ \ (\text{DCC}), \qquad D_t = \mathrm{diag}(\sigma_{1t}, \dots, \sigma_{Nt}) \]
+    \begin{itemize}
+        \item $\sigma_{it}$: abaterea standard condiționată a activului $i$, din propriul GARCH; $R$: matricea de corelație constantă; $R_t$: matricea de corelație variabilă în timp
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1179,7 +1536,7 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
 \begin{itemize}
     \item QML gaussian este estimatorul standard; consistența și normalitatea asimptotică: VEC și BEKK \refCL, \refHP; CCC cu medii ARMA \refLMc
     \item Condițiile sînt mai puternice decît în cazul univariat (momente de ordinul 6 sau 8 pentru BEKK în primele rezultate); sandwich-ul din secțiunea univariată se păstrează
-    \item DCC se estimează în doi pași \refES: (1) GARCH univariat pentru fiecare serie; (2) QML pentru partea de corelație, dați reziduurile standardizate $z_t = D_t^{-1}\varepsilon_t$
+    \item DCC se estimează în doi pași \refES: (1) GARCH univariat pentru fiecare serie; (2) QML pentru partea de corelație, condiționat de reziduurile standardizate $z_t = D_t^{-1}\varepsilon_t$
     \begin{itemize}
         \item erorile standard din pasul al doilea trebuie să țină seama de primul pas (o corecție de tip GMM); erorile standard naive din pasul al doilea sînt prea mici
     \end{itemize}
@@ -1187,7 +1544,7 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{DCC și versiunea corectată cDCC}
+\begin{frame}{DCC și versiunea corectată cDCC (1/2): DCC}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.3\textwidth}
@@ -1198,13 +1555,34 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item DCC: $Q_t = (1 - a - b)S + az_{t-1}z_{t-1}' + bQ_{t-1}$, $R_t = \mathrm{diag}(Q_t)^{-1/2}Q_t\,\mathrm{diag}(Q_t)^{-1/2}$, $S$ = corelația de eșantion a lui $z_t$
-    \item \refAie: $\E(z_tz_t' | \mathcal F_{t-1}) = R_t \ne Q_t$, deci în general $\E Q_t \ne \E z_tz_t'$: estimatorul prin momente al lui $S$ este inconsistent, la fel și $(\hat a, \hat b)$
-    \item cDCC: înlocuim $z_{t-1}$ cu $z^*_{t-1} = \mathrm{diag}(Q_{t-1})^{1/2}z_{t-1}$; atunci $\E(z^*_tz^{*\prime}_t | \mathcal F_{t-1}) = Q_t$, iar $S = \E z^*_tz^{*\prime}_t$ este o țintă validă
-    \item ținta cDCC depinde de $(a, b)$: se estimează iterativ, în interiorul verosimilității
+    \item DCC: o recursie de tip GARCH(1,1) pentru o matrice de cvasi-corelație $Q_t$, rescalată apoi într-o matrice de corelație
+    \[ Q_t = (1 - a - b)S + a\,z_{t-1}z_{t-1}' + b\,Q_{t-1} \]
+    \[ R_t = \mathrm{diag}(Q_t)^{-1/2}\,Q_t\,\mathrm{diag}(Q_t)^{-1/2} \]
+    \begin{itemize}
+        \item $z_t = D_t^{-1}\varepsilon_t$: reziduurile standardizate ale modelelor GARCH univariate; $S$: matricea lor de corelație de eșantion (ținta)
+        \item $a \ge 0$: reacția corelațiilor la co-mișcarea de ieri; $b \ge 0$: persistența; $a + b < 1$
+        \item $\mathrm{diag}(Q_t)$: matricea diagonală formată din elementele de pe diagonala lui $Q_t$; rescalarea pune valoarea 1 pe diagonala lui $R_t$
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
+\end{frame}
+
+\begin{frame}{DCC și versiunea corectată cDCC (2/2): cDCC}
+\itemsize{\small}
+\begin{itemize}
+    \item \refAie: ținta DCC este estimată inconsistent
+    \begin{itemize}
+        \item $\E(z_tz_t' | \mathcal F_{t-1}) = R_t \ne Q_t$, deci în general $\E Q_t \ne \E z_tz_t'$
+        \item estimatorul prin momente al lui $S$ este inconsistent, la fel și $(\hat a, \hat b)$
+    \end{itemize}
+    \item cDCC: reziduurile sînt rescalate cu diagonala lui $Q_{t-1}$ înainte de a intra în recursie
+    \[ z^*_{t-1} = \mathrm{diag}(Q_{t-1})^{1/2}z_{t-1}, \qquad Q_t = (1 - a - b)S + a\,z^*_{t-1}z^{*\prime}_{t-1} + b\,Q_{t-1} \]
+    \begin{itemize}
+        \item atunci $\E(z^*_tz^{*\prime}_t | \mathcal F_{t-1}) = Q_t$, iar $S = \E z^*_tz^{*\prime}_t$ este o țintă validă
+        \item ținta cDCC depinde de $(a, b)$: se estimează iterativ, în interiorul verosimilității
+    \end{itemize}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{DCC față de cDCC: o simulare}
@@ -1225,23 +1603,43 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
     \item Estimațiile medii: DCC $\hat a = 0{,}0478$, $\hat b = 0{,}9307$; cDCC $\hat a = 0{,}0486$, $\hat b = 0{,}9288$ (valorile adevărate 0,05 și 0,93)
     \item RMSE pentru $\hat a$: 0{,}0090 (DCC) și 0{,}0086 (cDCC); pentru $\hat b$: 0{,}0135 și 0{,}0129: inconsistența este reală, dar mică la aceste niveluri de persistență
     \item Eroarea de eșantionare domină deplasarea la două mii de observații; diferența contează mai mult pentru țintă în sisteme mari și pentru inferența asupra lui $(a, b)$
-    \item O demonstrație a inconsistenței nu spune cît de mare este deplasarea: simulați-o în propriul design înainte de a alege estimatorul
+    \item O demonstrație a inconsistenței nu spune cît de mare este deplasarea: simulați-o în propria configurație înainte de a alege estimatorul
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Matrice de covarianță mari: shrinkage și DCC-NL}
+\begin{frame}{Matrice de covarianță mari: shrinkage și DCC-NL (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Cînd $N/T$ nu este mic, valorile proprii ale unei covarianțe de eșantion sînt prea dispersate: cele mai mari, prea mari, cele mai mici, prea mici; inversa ei amplifică eroarea
+    \item Cînd $N/T$ nu este mic, valorile proprii ale unei covarianțe de eșantion $S$ sînt prea dispersate
     \begin{itemize}
-        \item un portofoliu GMV $w = \Sigma^{-1}\mathbf 1/\mathbf 1'\Sigma^{-1}\mathbf 1$ pune ponderi mari pe valorile proprii cele mai mici, cel mai mult subestimate
+        \item $N$: numărul de active; $T$: numărul de observații; cele mai mari valori proprii sînt prea mari, cele mai mici, prea mici; inversa $S^{-1}$ amplifică eroarea
     \end{itemize}
-    \item Shrinkage liniar \refLWa: $\hat\Sigma = \delta\mu I + (1 - \delta)S$, cu $\delta$ estimat; shrinkage neliniar \refLWb: păstrăm vectorii proprii ai lui $S$ și înlocuim fiecare valoare proprie $\lambda_i$ cu $d(\lambda_i)$, o formulă analitică de tip kernel
+    \item Portofoliul de varianță minimă globală (GMV): ponderile cu cea mai mică varianță care însumează 1
+    \[ w = \frac{\Sigma^{-1}\mathbf 1}{\mathbf 1'\Sigma^{-1}\mathbf 1} \]
+    \begin{itemize}
+        \item $\Sigma$: matricea de covarianță a randamentelor; $\mathbf 1$: vectorul cu toate elementele egale cu 1
+        \item pune ponderi mari pe direcțiile cu valorile proprii cele mai mici, cel mai mult subestimate
+        \item depinde doar de $\Sigma$, deci riscul lui realizat măsoară calitatea prognozei covarianței fără zgomotul randamentelor așteptate
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Matrice de covarianță mari: shrinkage și DCC-NL (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Shrinkage liniar \refLWa: o medie ponderată între $S$ și o matrice identitate scalată
+    \[ \hat\Sigma = \delta\,\mu I + (1 - \delta)\,S \]
+    \begin{itemize}
+        \item $\mu$: media valorilor proprii ale lui $S$; $\delta \in [0, 1]$: intensitatea shrinkage-ului, estimată din date (mai mare cînd $N/T$ este mai mare)
+    \end{itemize}
+    \item Shrinkage neliniar \refLWb: se păstrează vectorii proprii ai lui $S$ și se înlocuiește fiecare valoare proprie $\lambda_i$ cu $d(\lambda_i)$
+    \begin{itemize}
+        \item $d(\cdot)$: o formulă analitică de tip kernel care ridică valorile proprii mici și le coboară pe cele mari, cu intensități diferite
+    \end{itemize}
     \item DCC-NL \refELW: în DCC, ținta $S$ a reziduurilor standardizate este ea însăși o covarianță de eșantion mare: o înlocuim cu versiunea ei cu shrinkage neliniar
     \begin{itemize}
         \item verosimilitate compusă pentru $(a, b)$, GARCH univariat pentru varianțe; evaluat prin abaterea standard în afara eșantionului a portofoliilor GMV
     \end{itemize}
-    \item De ce GMV: depinde doar de $\Sigma$, deci riscul lui realizat măsoară calitatea prognozei covarianței fără zgomotul randamentelor așteptate
 \end{itemize}
 \end{frame}
 
@@ -1271,13 +1669,20 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
 \begin{frame}{Covarianța realizată}
 \itemsize{\small}
 \begin{itemize}
-    \item $\mathrm{RCov}_t = \sum_i r_{t,i}r_{t,i}' \to \int_0^1\Sigma_s\,ds$ (plus salturile comune); cu prețuri sincrone și fără zgomot, moștenește TLC a lui RV
+    \item RV multivariat: suma produselor exterioare ale vectorilor de randamente intraday
+    \[ \mathrm{RCov}_t = \sum_{i=1}^n r_{t,i}\,r_{t,i}' \to \int_0^1\Sigma_s\,ds \]
+    \begin{itemize}
+        \item $r_{t,i}$: vectorul $N \times 1$ al randamentelor intraday; $\Sigma_s$: matricea de covarianță instantanee; la limită se adaugă salturile comune; cu prețuri sincrone și fără zgomot, moștenește TLC a lui RV
+    \end{itemize}
     \item Tranzacționarea asincronă: prețurile „previous-tick” creează randamente nule pentru activul care nu a fost tranzacționat; covarianțele se apropie de zero cînd intervalul scade (efectul Epps)
     \begin{itemize}
         \item eșantionarea la timpul de reîmprospătare (toate activele au fost tranzacționate) și realised kernel-ul multivariat \refBNHLSc: consistent și pozitiv semidefinit
     \end{itemize}
     \item Prognoza: HAR pe elementele factorului Cholesky al lui $\mathrm{RCov}_t$ păstrează prognozele pozitiv definite \refCV; HEAVY și Realized GARCH au versiuni multivariate
-    \item Evaluarea prognozelor de covarianță: QLIKE matriceal $\ln|H_t| + \mathrm{tr}(H_t^{-1}\Sigma_t)$ și MSE Frobenius sînt robuste la proxy-uri matriceale zgomotoase \refLRV
+    \item Evaluarea prognozelor de covarianță $H_t$ față de un proxy matriceal $\Sigma_t$: funcții de pierdere robuste \refLRV
+    \begin{itemize}
+        \item QLIKE matriceal $\ln|H_t| + \mathrm{tr}(H_t^{-1}\Sigma_t)$, cu $|\cdot|$ determinantul și $\mathrm{tr}$ urma; MSE Frobenius, suma pătratelor erorilor pe elemente
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1307,7 +1712,7 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
 \itemsize{\small}
 \begin{itemize}
     \item BEKK garantează pozitivitatea cu un cost pătratic în parametri; DCC separă varianțele de corelații și funcționează pentru $N$ mare
-    \item cDCC corectează inconsistența țintei DCC; în design-uri moderate, diferența este mică
+    \item cDCC corectează inconsistența țintei DCC; în configurații moderate, diferența este mică
     \item În dimensiune mare, ținta are nevoie de shrinkage (DCC-NL); evaluați prin riscul GMV sau prin funcții de pierdere matriceale robuste
 \end{itemize}
 \end{frame}
@@ -1320,7 +1725,7 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
 \begin{frame}{O întrebare deschisă}
 \itemsize{\small}
 \begin{itemize}
-    \item Îmbunătățește exploatarea erorii de măsurare a varianței realizate (HARQ) prognozele de volatilitate în mod robust sau doar pentru anumite alegeri de design?
+    \item Îmbunătățește exploatarea erorii de măsurare a varianței realizate (HARQ) prognozele de volatilitate în mod robust sau doar pentru anumite alegeri de specificare?
     \begin{itemize}
         \item formal: raportul QLIKE HARQ/HAR și statistica DM pe o grilă preînregistrată (fereastră, filtru, măsură realizată, activ); infirmată dacă raportul depășește 1 sau testul DM este nesemnificativ în majoritatea celulelor
         \item măsura preciziei (RQ) este ea însăși zgomotoasă și cu cozi groase, deci cîștigul poate fi fragil
@@ -1392,7 +1797,7 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
 \itemsize{\small}
 \begin{itemize}
     \item QML gaussian are nevoie doar de ecuația varianței; cu cozi groase, folosiți erorile standard sandwich
-    \item Volatilitatea are componente rapide și lente; factorii macroeconomici ai celei lente au nevoie de eșantioane lungi și de rapoarte de varianță raportate onest
+    \item Volatilitatea are componente rapide și lente; factorii macroeconomici ai celei lente au nevoie de eșantioane lungi și de rapoarte de varianță raportate fără selecție
     \item Măsurile realizate fac volatilitatea observabilă, cu o eroare cunoscută; zgomotul și salturile decid estimatorul
     \item La un pas, HAR, HARQ și Realized GARCH depășesc modelele care folosesc doar randamentele; evaluați cu QLIKE sau MSE
     \item În multe dimensiuni, ținta de corelație are nevoie de shrinkage (DCC-NL); dacă dinamica ajută trebuie verificat în afara eșantionului
@@ -1448,12 +1853,12 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
     \item $\tilde r_i = Y_{i/n} - Y_{(i-1)/n} = r_i + u_i - u_{i-1}$, cu $u$ i.i.d. $(0, \omega^2)$, independent de $X$
     \item $\sum_i\tilde r_i^2 = \sum_ir_i^2 + 2\sum_ir_i(u_i - u_{i-1}) + \sum_i(u_i - u_{i-1})^2$; termenul mixt are media zero, ultimul are media $2n\omega^2$
     \item $\Cov(\tilde r_i, \tilde r_{i-1}) = -\omega^2$: autocorelație negativă de ordinul întîi; realised kernel-ul adaugă $2\gamma_1 \approx -2n\omega^2$ și elimină deplasarea
-    \item Randamentele autocorelate pozitiv (ajustarea treptată a prețului, prețuri învechite) dau $\gamma_1 > 0$ și un signature plot care crește cu intervalul; kernel-ul corectează ambele semne
+    \item Randamentele autocorelate pozitiv (ajustarea treptată a prețului, prețuri stale (neactualizate)) dau $\gamma_1 > 0$ și un signature plot care crește cu intervalul; kernel-ul corectează ambele semne
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Anexă: atenuarea și HARQ}
-\hypertarget{atsapp3}{}\atsappback{atssrc1}{Înapoi}
+\hypertarget{atsapp3}{}\atsappback{atssrc3}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item $\mathrm{IV}_{t+1} = c + \phi\,\mathrm{IV}_t + v_{t+1}$, observăm $\mathrm{RV}_t = \mathrm{IV}_t + e_t$, $e_t$ necorelat cu $\mathrm{IV}_t$ și $v_{t+1}$

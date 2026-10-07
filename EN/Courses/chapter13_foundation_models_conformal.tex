@@ -299,19 +299,38 @@ BET, S\&P 500, NVIDIA, daily & EODHD daily closes & 2000 -- 2026 \\
 \section{Pretraining for time series}
 %=============================================================================
 
-\begin{frame}{A foundation model as an amortised forecaster}
+\begin{frame}{A foundation model as an amortised forecaster (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Pretraining}: $\hat\theta = \arg\min_\theta \sum_{s \in \mathcal D_{\mathrm{pre}}}\sum_t \ell\big(y^{(s)}_{t+1:t+H}, f_\theta(y^{(s)}_{t-C+1:t})\big)$ over a corpus $\mathcal D_{\mathrm{pre}}$ of many series
+    \item \textbf{Pretraining}: one network is fitted once, by minimising the forecast loss summed over all series and all origins of a large corpus \[ \hat\theta = \arg\min_\theta \sum_{s \in \mathcal D_{\mathrm{pre}}}\sum_t \ell\big(y^{(s)}_{t+1:t+H},\; f_\theta(y^{(s)}_{t-C+1:t})\big) \]
+    \item Notation
     \begin{itemize}
-        \item $C$: context length; $H$: horizon; $\ell$: a scoring rule (cross-entropy, pinball, negative log-likelihood)
-        \item the term \textbf{foundation model} \refBom: trained once on broad data, then adapted to many tasks
+        \item $\mathcal D_{\mathrm{pre}}$: the pretraining corpus, a collection of many series; $s$ indexes the series, $t$ the forecast origin
+        \item $y^{(s)}_{t-C+1:t}$: the last $C$ values of series $s$ (the \textbf{context}); $y^{(s)}_{t+1:t+H}$: its next $H$ values (the \textbf{horizon})
+        \item $f_\theta$: the network with weights $\theta$; it maps a context to a forecast of the next $H$ values (a distribution or a set of quantiles)
+        \item $\ell$: a scoring rule (cross-entropy, pinball, negative log-likelihood); $\hat\theta$: the estimated weights
     \end{itemize}
-    \item \textbf{Zero-shot} use: $\hat\theta$ fixed, the forecast for a new series is $f_{\hat\theta}(y_{T-C+1:T})$; no parameter is estimated on the target
+    \item The term \textbf{foundation model} \refBom: trained once on broad data, then adapted to many tasks
+\end{itemize}
+\end{frame}
+
+\begin{frame}{A foundation model as an amortised forecaster (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Zero-shot} use: the weights stay at $\hat\theta$ and the forecast for a new series $y_1, \dots, y_T$ is the network applied to its last $C$ values \[ \hat y_{T+1:T+H} = f_{\hat\theta}(y_{T-C+1:T}) \]
     \begin{itemize}
-        \item the network performs the estimation step inside its forward pass: inference is amortised over the corpus
+        \item $T$: the last observed period of the target series; no parameter is estimated on it
     \end{itemize}
-    \item A global model of \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12} is trained on the series of one data set; a foundation model on many data sets, frequencies and domains
+    \item \textbf{Amortised inference}
+    \begin{itemize}
+        \item a classical model is re-estimated on every new series; here the network performs the estimation step inside its forward pass
+        \item the cost of estimation is paid once, during pretraining, and shared by every later forecast
+    \end{itemize}
+    \item Global model and foundation model
+    \begin{itemize}
+        \item a global model of \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12} is trained on the series of one data set
+        \item a foundation model is trained on many data sets, frequencies and domains
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -343,16 +362,40 @@ BET, S\&P 500, NVIDIA, daily & EODHD daily closes & 2000 -- 2026 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Tokenisation: from real values to a vocabulary}
+\begin{frame}{Tokenisation: from real values to a vocabulary (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Chronos \refAns: \textbf{mean scaling} $\tilde x_t = x_t/s$, $s = \frac1C\sum_{t \le C}|x_t|$ (context only), then \textbf{uniform bins} on $[-15, 15]$; 4096 tokens including special ones
+    \item Chronos \refAns, step 1, \textbf{mean scaling}: every value of the context is divided by the mean absolute value of the context \[ \tilde x_t = x_t / s, \qquad s = \frac1C\sum_{t = 1}^{C}|x_t| \]
     \begin{itemize}
-        \item the model is a language model (T5) trained with \textbf{cross-entropy}: the forecast is a categorical distribution over bins, sampled autoregressively
+        \item $x_1, \dots, x_C$: the context values; $s$: the scale, computed on the context only; $\tilde x_t$: the scaled value, close to 1 in absolute value on average
+    \end{itemize}
+    \item Step 2, \textbf{uniform bins}: the interval $[-15, 15]$ is covered by equally spaced bins, one token per bin; with the special tokens the vocabulary has 4096 tokens
+    \begin{itemize}
+        \item each scaled value is replaced by the token of the bin that contains it
+    \end{itemize}
+    \item Step 3: a language model (T5) trained with \textbf{cross-entropy} predicts the next token
+    \begin{itemize}
+        \item the forecast is a categorical distribution over bins, sampled autoregressively (one token at a time)
         \item no notion of distance between tokens: neighbouring bins are as different as distant ones, unless the data teach otherwise
     \end{itemize}
-    \item Consequences: resolution $30s/4092$; values above $15s$ cannot be predicted; scale-invariant by construction
-    \item LLMTime \refGru: digits as text tokens; Lag-Llama \refRas: lagged values as features; patch models: no vocabulary at all
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Tokenisation: from real values to a vocabulary (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Resolution}: neighbouring bin centres are $30/4092$ apart on the scaled axis, i.e.\ $30s/4092$ in the units of the series
+    \begin{itemize}
+        \item $30 = 15 - (-15)$ is the length of the covered range; the quantisation error is at most half of this spacing
+    \end{itemize}
+    \item \textbf{Hard range}: a value above $15s$ (or below $-15s$) has no token and cannot be predicted
+    \item \textbf{Scale invariance}: multiplying the series by $c > 0$ multiplies $s$ by $c$ and leaves the tokens unchanged
+    \item Other input representations
+    \begin{itemize}
+        \item LLMTime \refGru: the digits of each value as text tokens
+        \item Lag-Llama \refRas: lagged values as features
+        \item patch models: no vocabulary at all (next slides)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -380,23 +423,34 @@ BET, S\&P 500, NVIDIA, daily & EODHD daily closes & 2000 -- 2026 \\
 \begin{frame}{Patching and the output head}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Patching} \refNie: split the context into patches of $P$ consecutive values, embed each patch as one token; attention costs $O((C/P)^2)$ instead of $O(C^2)$
+    \item \textbf{Patching} \refNie: the context is split into patches of $P$ consecutive values and each patch becomes one input token
     \begin{itemize}
-        \item TimesFM \refDas: input patches of 32, output patches of 128 (fewer autoregressive steps); Chronos-Bolt and Chronos-2: patches of 16; Moirai \refWoo: several patch sizes by frequency
+        \item $P$: the patch length; a context of $C$ values gives $C/P$ tokens
+        \item attention compares every pair of tokens, so its cost grows as $O((C/P)^2)$ instead of $O(C^2)$; $O(\cdot)$: order of magnitude
+        \item TimesFM \refDas: input patches of 32, output patches of 128 (fewer autoregressive steps); Chronos-Bolt and Chronos-2: patches of 16; Moirai \refWoo: several sizes by frequency
     \end{itemize}
     \item Output heads
     \begin{itemize}
-        \item categorical over bins (Chronos); \textbf{quantile head} trained by the pinball loss (Chronos-Bolt: 10\%--90\%; Chronos-2: 1\%--99\%; TimesFM 2.5, TiRex: deciles)
+        \item categorical over bins (Chronos)
+        \item \textbf{quantile head} trained by the pinball loss (Chronos-Bolt: 10\%--90\%; Chronos-2: 1\%--99\%; TimesFM 2.5, TiRex: deciles)
         \item parametric: Student-$t$ (Lag-Llama \refRas), a mixture of distributions (Moirai)
     \end{itemize}
-    \item Direct multi-step quantiles (one pass for $H$ steps) avoid error accumulation but give marginal, not joint, predictive distributions: path functionals (a maximum, a sum) need care
+    \item \textbf{Direct multi-step quantiles}: one pass gives the quantiles of all $H$ steps
+    \begin{itemize}
+        \item no accumulation of errors from step to step
+        \item but the output is the marginal distribution of each step, not their joint distribution: a path functional (a maximum, a sum over the horizon) cannot be read from it
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Scaling laws}
 \itemsize{\small}
 \begin{itemize}
-    \item Language models \refKap, \refHof: test loss falls as a power law, $L(N) \approx (N_c/N)^{\alpha_N}$, in the number of parameters $N$, data and compute, over orders of magnitude
+    \item Language models \refKap, \refHof: the test loss falls as a power law of the model size, and similarly of the data size and of the compute, over several orders of magnitude \[ L(N) \approx (N_c/N)^{\alpha_N} \]
+    \begin{itemize}
+        \item $L(N)$: test loss of a model with $N$ parameters; $N_c$: a fitted scale constant; $\alpha_N > 0$: the fitted exponent
+        \item reading: doubling $N$ multiplies the loss by $2^{-\alpha_N}$; on a log--log plot the relation is a straight line of slope $-\alpha_N$
+    \end{itemize}
     \item Time series: decoder-only Transformers show the same power laws in parameters, data and compute \refEdw; the look-back length interacts with data size \refShi
     \begin{itemize}
         \item out-of-distribution: the log-likelihood scales similarly in and out of distribution, but architecture matters; tweaks that help in distribution can reduce OOD scalability \refYao
@@ -412,7 +466,8 @@ BET, S\&P 500, NVIDIA, daily & EODHD daily closes & 2000 -- 2026 \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Losses relative to the task baseline: Romanian load (MAE / expert ARX, 2025--2026), EU inflation (MAE / random walk, $h = 12$, geometric mean over 27 countries), Bitcoin log RV (MSE / HAR); parameters counted in the loaded checkpoints
+    \item Losses relative to the baseline of each task: Romanian load (MAE / expert ARX, 2025--2026), EU inflation (MAE / random walk, $h = 12$, geometric mean over 27 countries), Bitcoin log RV (MSE / HAR)
+    \item Parameters counted in the loaded checkpoints; a value below 1 means the model beats the baseline
 \end{itemize}
 \quantlet{ATS\_ch13\_pretraining}{\qlurl{ATS_ch13_pretraining}}
 \end{frame}
@@ -422,7 +477,11 @@ BET, S\&P 500, NVIDIA, daily & EODHD daily closes & 2000 -- 2026 \\
 \begin{itemize}
     \item Chronos-Bolt family (9--205 M parameters): load 1.143 $\to$ 1.034, inflation 1.086 $\to$ 1.034, Bitcoin 0.800 $\to$ 0.690
     \item Across families size is not the ranking: Chronos-2 (119 M) 0.951 on load; TiRex (35 M) 1.078; TimesFM 2.5 (231 M) 1.121
-    \item Within the Chronos-Bolt family the loss falls with size on all three tasks (one exception: mini on inflation); across families architecture, corpus and training recipe change together, so three tasks are not a scaling study
+    \item Within the Chronos-Bolt family the loss falls with size on all three tasks (one exception: mini on inflation)
+    \begin{itemize}
+        \item across families, architecture, corpus and training procedure change together
+        \item so three tasks are not a scaling study
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -467,7 +526,10 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{The Chronos family}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Chronos} \refAns: language-model recipe without changes; forecasts by sampling token paths; zero-shot results comparable to models trained on the target data (their Benchmark II)
+    \item \textbf{Chronos} \refAns: the training procedure of language models, unchanged; forecasts by sampling token paths
+    \begin{itemize}
+        \item zero-shot results comparable to models trained on the target data (their Benchmark II)
+    \end{itemize}
     \item \textbf{Chronos-Bolt}: patch inputs, a direct quantile decoder; much faster; context up to 2048, 64 steps; quantiles only between 10\% and 90\%
     \begin{itemize}
         \item a 95\% interval or a VaR 1\% cannot be read from its output: the request is clipped to the nearest trained level
@@ -495,8 +557,9 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{Recurrent again, observability, and a closed API}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{TiRex} \refAue: an xLSTM (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12} recurrent cells with exponential gating and matrix memory) keeps a state across the context: state tracking for long horizons
+    \item \textbf{TiRex} \refAue: an xLSTM keeps a state across the context, which allows state tracking over long horizons
     \begin{itemize}
+        \item xLSTM: the recurrent cells of \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12} with exponential gating and a matrix memory
         \item contiguous patch masking (CPM) in training: the model learns to forecast with missing patches, i.e.\ several steps without feedback
     \end{itemize}
     \item \textbf{Toto} \refCoh: decoder-only for multivariate observability metrics; the BOOM benchmark (2807 series); shows that domain composition of the corpus drives results
@@ -510,12 +573,12 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{Zero-shot, fine-tuning, in-context covariates}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; no training, no tuning risk; the only choices are $C$ and the model
-    \item \textbf{Fine-tuning}: $\theta$ initialised at $\hat\theta$, a few gradient steps on the target data (all weights, or adapters such as LoRA)
+    \item \textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; no training, hence no risk of overfitting the target; the only choices are $C$ and the model
+    \item \textbf{Fine-tuning}: the weights $\theta$ start at $\hat\theta$ and take a few gradient steps on the target data (all weights, or adapters such as LoRA)
     \begin{itemize}
         \item needs a validation split respecting time (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12}); can forget the prior; with short economic series it rarely pays
     \end{itemize}
-    \item \textbf{In-context covariates} (Chronos-2): pass past values of $x_t$ and future values of known regressors; the model infers their effect inside the forward pass
+    \item \textbf{In-context covariates} (Chronos-2): pass past values of a covariate $x_t$ (e.g.\ temperature) and future values of regressors known in advance; the model infers their effect inside the forward pass
     \begin{itemize}
         \item cross-learning: forecasting a batch of related series jointly (all 27 EU countries at one origin)
     \end{itemize}
@@ -538,9 +601,10 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{Interpreting the four forecasts}
 \itemsize{\small}
 \begin{itemize}
-    \item Load: the daily and weekly shapes are continued with narrow bands: shape transfer at its best
+    \item Load: the daily and weekly shapes are continued with narrow bands: the most favourable case for shape transfer
     \item Inflation: a smooth path towards the recent level with bands that widen with the horizon: close to what an AR model with persistence would give
-    \item Log RV of Bitcoin: a weekly pattern (lower variance at weekends) around a level set by the context; returns: a flat median and a symmetric band, i.e.\ an unconditional distribution
+    \item Log RV of Bitcoin: a weekly pattern (lower variance at weekends) around a level set by the context
+    \item Returns: a flat median and a symmetric band, i.e.\ an unconditional distribution
     \item Return bands from the 1\% and 99\% quantiles: Chronos-2 VaR 1\% for the next day is 3.90 (\% of value); Section 8 checks whether such numbers are calibrated
 \end{itemize}
 \end{frame}
@@ -569,18 +633,39 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Aggregating scores across series}
+\begin{frame}{Aggregating scores across series (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Scale-free scores: MASE $= \frac{1}{H}\sum_h|y_{T+h} - \hat y_{T+h}| \big/ \frac{1}{T-m}\sum_t|y_t - y_{t-m}|$ \refHK; WQL $= 2\sum_{t,\tau}\rho_\tau(y_t - \hat q_{\tau,t})\big/\sum_t|y_t|$
+    \item \textbf{MASE} \refHK: the mean absolute forecast error divided by the in-sample mean absolute error of the seasonal naive forecast \[ \mathrm{MASE} = \frac{\frac{1}{H}\sum_{h=1}^{H}|y_{T+h} - \hat y_{T+h}|}{\frac{1}{T-m}\sum_{t=m+1}^{T}|y_t - y_{t-m}|} \]
     \begin{itemize}
-        \item $\rho_\tau(u) = u(\tau - \mathbf 1\{u < 0\})$ (pinball); the average over $\tau$ approximates the CRPS (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
+        \item $\hat y_{T+h}$: the forecast $h$ steps after the origin $T$; $m$: the seasonal period (1 without seasonality)
+        \item MASE $< 1$: better than the naive forecast in sample; free of the units of $y$
     \end{itemize}
-    \item Relative scores $r_s = L_s(\text{model})/L_s(\text{baseline})$ combined by the \textbf{geometric mean} \refFW: invariant to the choice of baseline in rankings, symmetric in gains and losses
+    \item \textbf{WQL} (weighted quantile loss): the pinball losses of the forecast quantiles, summed and divided by the total absolute level of the series \[ \mathrm{WQL} = \frac{2\sum_{t}\sum_{\tau}\rho_\tau(y_t - \hat q_{\tau,t})}{\sum_t|y_t|}, \qquad \rho_\tau(u) = u\big(\tau - \mathbf 1\{u < 0\}\big) \]
     \begin{itemize}
-        \item skill score $1 - \bar r_{\mathrm{geo}}$; win rate: share of series on which a model beats another
+        \item $\hat q_{\tau,t}$: the forecast quantile of level $\tau \in (0, 1)$ for period $t$; $\mathbf 1\{\cdot\}$: 1 if the condition holds, 0 otherwise
+        \item $\rho_\tau$: the pinball loss; its average over $\tau$ approximates the CRPS (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}); WQL $= 0$ only for perfect quantiles
     \end{itemize}
-    \item The arithmetic mean of ratios rewards the baseline's weak series; the mean of raw errors is dominated by the series with the largest scale
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Aggregating scores across series (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Relative score} of series $s$: the loss of the model divided by the loss of a baseline on the same series \[ r_s = \frac{L_s(\text{model})}{L_s(\text{baseline})}, \qquad \bar r_{\mathrm{geo}} = \Big(\prod_{s=1}^{S} r_s\Big)^{1/S} \]
+    \begin{itemize}
+        \item $L_s$: a loss (MAE, MASE, WQL) on series $s$; $S$: the number of series; $r_s < 1$: the model beats the baseline on series $s$
+    \end{itemize}
+    \item \textbf{Geometric mean} $\bar r_{\mathrm{geo}}$ \refFW: the rankings do not depend on the choice of baseline, and a gain and a loss of the same ratio cancel
+    \begin{itemize}
+        \item \textbf{skill score} $1 - \bar r_{\mathrm{geo}}$: the average proportional gain over the baseline (0: no gain)
+        \item \textbf{win rate}: the share of series on which a model beats another
+    \end{itemize}
+    \item Two aggregations to avoid
+    \begin{itemize}
+        \item the arithmetic mean of ratios: dominated by the series on which the baseline is weak
+        \item the mean of raw errors: dominated by the series with the largest scale
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -601,16 +686,38 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testing across many series}
+\begin{frame}{Testing across many series (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item One series: DM with HLN correction \refDM, \refHLN; conditional ability \refGW; many models: MCS \refHLNa{} (all in \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
-    \item $S$ series tested separately: at 5\% each, about $0.05S$ false rejections are expected under the null
+    \item $S$ series tested separately, each at level 5\%: under the null hypothesis about $0.05S$ false rejections are expected
     \begin{itemize}
-        \item \textbf{Holm} \refHol{} (FWER): order $p_{(1)} \le \dots \le p_{(S)}$, reject while $p_{(k)} \le \alpha/(S - k + 1)$
-        \item \textbf{Benjamini--Hochberg} \refBH{} (FDR): reject the $k^*$ smallest, $k^* = \max\{k: p_{(k)} \le k\alpha/S\}$; valid under independence or positive dependence
+        \item with $S = 27$ countries, about one or two ``significant countries by chance alone
     \end{itemize}
-    \item Pooled tests: average the loss differential across series at each origin, then one DM test with HAC variance: the cross-sectional correlation is kept in the time dimension
+    \item Two error rates for a family of tests
+    \begin{itemize}
+        \item \textbf{FWER} (family-wise error rate): the probability of at least one false rejection
+        \item \textbf{FDR} (false discovery rate): the expected share of false rejections among all rejections
+    \end{itemize}
+    \item Notation: $p_{(1)} \le \dots \le p_{(S)}$ are the $S$ p-values sorted increasingly; $\alpha$: the target level of the family (e.g.\ 5\%)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testing across many series (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Holm} \refHol, controls the FWER: go up the sorted list and reject while \[ p_{(k)} \le \frac{\alpha}{S - k + 1}, \qquad k = 1, 2, \dots \]
+    \begin{itemize}
+        \item the smallest p-value faces the Bonferroni threshold $\alpha/S$, the next ones gradually looser thresholds; stop at the first failure
+    \end{itemize}
+    \item \textbf{Benjamini--Hochberg} \refBH, controls the FDR: reject the $k^*$ smallest p-values, with \[ k^* = \max\{k: p_{(k)} \le k\alpha/S\} \]
+    \begin{itemize}
+        \item more rejections than Holm; valid under independence or positive dependence between the tests
+    \end{itemize}
+    \item \textbf{Pooled test}: average the loss differential across series at each origin, then run one DM test with HAC variance
+    \begin{itemize}
+        \item the correlation between series stays in the averaged time series, so the HAC variance accounts for it
+    \end{itemize}
     \item Ranks over many data sets: Friedman and Nemenyi tests \refDem; they ignore the size of differences and assume independent data sets
 \end{itemize}
 \end{frame}
@@ -726,7 +833,11 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
     \item From June 2021: 12 months later inflation was 13.0\%; Chronos-2 median 3.8\% (80\%: 1.5 -- 6.6), AR 3.7\%
     \item From November 2022, near the peak (14.6\% in November 2022): outcome 6.9\%; Chronos-2 16.5\%, AR 13.7\%
     \item From August 2025: outcome 6.3\%; Chronos-2 11.4\%, AR 9.0\%; the latest observation is 6.3\% (August 2026)
-    \item Both methods extrapolate persistence; turning points come from information outside the series (energy prices, the end of the price caps, the VAT increase of August 2025, whose effect on annual inflation lasts exactly 12 months): known in advance, hence natural covariates
+    \item Both methods extrapolate persistence; turning points come from information outside the series
+    \begin{itemize}
+        \item energy prices, the end of the price caps, the VAT increase of August 2025 (its effect on annual inflation lasts exactly 12 months)
+        \item these are known in advance, hence natural covariates
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -747,7 +858,10 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{itemize}
     \item 23 of 27 statistics are negative; 2 are significant at 5\% without correction (1 in favour of Chronos-2, 1 in favour of AR)
     \item With Holm: 0 rejections; with Benjamini--Hochberg: 0; Romania: $t = 2.88$, $p$ = 0.005
-    \item Pooled over the 27 countries (average loss differential at each origin, HAC variance): $t = \ensuremath{-}1.35$, $p$ = 0.180; the bootstrap intervals of the previous chart treat countries as independent and look sharper than they are
+    \item Pooled over the 27 countries (average loss differential at each origin, HAC variance): $t = \ensuremath{-}1.35$, $p$ = 0.180
+    \begin{itemize}
+        \item the bootstrap intervals of the previous chart treat countries as independent and look sharper than they are
+    \end{itemize}
     \item A paper that reports the countries where its model wins at 5\% reports noise; the pooled test and the multiplicity-adjusted counts are the honest summary
 \end{itemize}
 \end{frame}
@@ -769,7 +883,11 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{itemize}
     \item Bitcoin, QLIKE relative to HAR: Chronos-2 0.825, TimesFM 0.800, TiRex 0.824, Bolt 0.864; MCS (10\%): \{Chronos-2, TimesFM 2.5, TiRex\}
     \item S\&P 500: Chronos-2 0.963, TimesFM 0.968, TiRex 0.956, Bolt 1.004; MCS (10\%): \{Chronos-2, TimesFM 2.5, TiRex\}
-    \item Three of the four zero-shot models beat HAR on both assets and HAR is outside both MCS: the slowly decaying memory of log RV (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter10_long_memory_rough_volatility.pdf}{Chapter 10}) is a shape a corpus can teach; the gain is large for Bitcoin, small for the S\&P 500
+    \item Three of the four zero-shot models beat HAR on both assets, and HAR is outside both MCS
+    \begin{itemize}
+        \item the slowly decaying memory of log RV (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter10_long_memory_rough_volatility.pdf}{Chapter 10}) is a shape a model can learn from a corpus
+        \item the gain is large for Bitcoin, small for the S\&P 500
+    \end{itemize}
     \item Recent studies reach mixed verdicts \refGoe, \refBri, \refRNW: gains depend on the asset, the horizon and the loss, and fine-tuning or pretraining on financial data often matters
 \end{itemize}
 \end{frame}
@@ -791,7 +909,10 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{itemize}
     \item Load, Chronos-2: 0.952 before, 0.950 after; TimesFM: 1.133, 1.112; the earlier window (January--October 2025) precedes both releases
     \item Bitcoin, Chronos-2: 0.886 (2021 -- 24 November 2024) and 0.631 (after); TiRex: 0.874, 0.658; post-release windows have 334 and 322 days
-    \item No deterioration after the releases (for Bitcoin the ratios are even lower): no evidence of contamination here; but the absence of a drop does not prove absence of leakage, and markets change between windows
+    \item No deterioration after the releases (for Bitcoin the ratios are even lower): no evidence of contamination here
+    \begin{itemize}
+        \item but the absence of a drop does not prove the absence of leakage, and markets change between windows
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -817,7 +938,12 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
     \begin{itemize}
         \item digit-by-digit probabilities define a hierarchical (multi-bin) density over continuous values; repeated sampling gives quantiles
     \end{itemize}
-    \item Findings of the paper: competitive zero-shot on some benchmarks; tokenisation of numbers matters (a newer model could do worse because of how it splits digits); alignment (RLHF) hurts calibration
+    \item Findings of the paper
+    \begin{itemize}
+        \item competitive zero-shot on some benchmarks
+        \item the tokenisation of numbers matters: a newer model could do worse because of how it splits digits
+        \item alignment (RLHF) hurts calibration
+    \end{itemize}
     \item Costs: thousands of tokens per series and many samples per forecast; the context window limits the history; the LLM may have memorised the data
 \end{itemize}
 \end{frame}
@@ -903,33 +1029,80 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \end{columns}
 \end{frame}
 
-\begin{frame}{Exchangeability and the target guarantee}
+\begin{frame}{Exchangeability and the target guarantee (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $Z_1, \dots, Z_{n+1}$, $Z_i = (X_i, Y_i)$, are \textbf{exchangeable} if $(Z_{\pi(1)}, \dots, Z_{\pi(n+1)}) \overset{d}{=} (Z_1, \dots, Z_{n+1})$ for every permutation $\pi$
+    \item Data: $n$ calibration points and one test point, $Z_i = (X_i, Y_i)$, $i = 1, \dots, n + 1$
     \begin{itemize}
-        \item i.i.d.\ implies exchangeable; draws without replacement are exchangeable but dependent; a stationary AR(1) is not exchangeable
+        \item $X_i$: the predictors (features, lags, a model forecast); $Y_i$: the value to be covered; $Z_{n+1}$: the test point, whose $Y_{n+1}$ is unknown
     \end{itemize}
-    \item \textbf{Marginal coverage}: $\Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha$, the probability taken over the calibration data and the test point together
+    \item \textbf{Exchangeability}: any reordering of the points has the same joint distribution \[ (Z_{\pi(1)}, \dots, Z_{\pi(n+1)}) \overset{d}{=} (Z_1, \dots, Z_{n+1}) \quad \text{for every permutation} \ \pi \]
     \begin{itemize}
-        \item not \textbf{conditional} coverage $\Pr\{Y \in \hat C(x) \mid X = x\} \ge 1 - \alpha$ for every $x$, and not coverage given the calibration sample
+        \item $\pi$: a permutation (reordering) of $\{1, \dots, n + 1\}$; $\overset{d}{=}$: equal in distribution
     \end{itemize}
-    \item A \textbf{nonconformity score} $s(x, y)$: large when $y$ is unusual given $x$, e.g.\ $|y - \hat\mu(x)|$, $|y - \hat\mu(x)|/\hat\sigma(x)$, or the CQR score below
+    \item Examples
+    \begin{itemize}
+        \item i.i.d.\ data are exchangeable
+        \item draws without replacement are exchangeable but dependent
+        \item a stationary AR(1) $y_t = \phi y_{t-1} + \varepsilon_t$, $0 < |\phi| < 1$, is not: $\mathrm{corr}(y_1, y_2) = \phi \ne \phi^2 = \mathrm{corr}(y_1, y_3)$, so swapping $y_2$ and $y_3$ changes the joint law
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Split conformal prediction}
+\begin{frame}{Exchangeability and the target guarantee (2/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Fit $\hat\mu$ on a training set; compute $S_i = s(X_i, Y_i)$ on $n$ calibration points \refPap, \refLei
+    \item \textbf{Marginal coverage}: the prediction set contains the test value with probability at least $1 - \alpha$ \[ \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha \]
     \begin{itemize}
-        \item $\hat q = S_{(k)}$, $k = \lceil (n + 1)(1 - \alpha) \rceil$ (the $k$-th smallest; $+\infty$ if $k > n$); $\hat C(x) = \{y: s(x, y) \le \hat q\}$
+        \item $\hat C(x)$: the prediction set (usually an interval) built from the calibration data; $\alpha$: the allowed miss rate, e.g.\ 0.1 for a 90\% interval
+        \item the probability is taken over the calibration data and the test point together
     \end{itemize}
-    \item \textbf{Theorem}: if $(X_i, Y_i)_{i \le n+1}$ are exchangeable, $\Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha$; with no ties, also $\le 1 - \alpha + 1/(n + 1)$
+    \item What it is not
     \begin{itemize}
-        \item proof: given $\hat\mu$, the scores $S_1, \dots, S_{n+1}$ are exchangeable, so the rank of $S_{n+1}$ is uniform on $\{1, \dots, n + 1\}$; $Y_{n+1} \in \hat C \iff$ rank $\le k$, probability $k/(n + 1) \ge 1 - \alpha$ (\atsapplink{atsapp1}{atssrc1}{Appendix})
+        \item \textbf{conditional} coverage, $\Pr\{Y \in \hat C(x) \mid X = x\} \ge 1 - \alpha$ for every value $x$
+        \item coverage given one particular calibration sample
     \end{itemize}
-    \item No assumption on the model or on the distribution: a bad model gives wide, not invalid, intervals
+    \item A \textbf{nonconformity score} $s(x, y)$: a number that is large when $y$ is unusual given $x$
+    \begin{itemize}
+        \item examples: $|y - \hat\mu(x)|$, $|y - \hat\mu(x)|/\hat\sigma(x)$, or the CQR score below
+        \item $\hat\mu(x)$: a point forecast of $y$ given $x$; $\hat\sigma(x)$: a forecast of its spread (e.g.\ a GARCH volatility)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Split conformal prediction (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Step 1: fit a forecasting model $\hat\mu$ on a training set \refPap, \refLei
+    \item Step 2: compute the scores of the $n$ calibration points, which were not used in step 1 \[ S_i = s(X_i, Y_i), \qquad i = 1, \dots, n \]
+    \item Step 3: the threshold $\hat q$ is the $k$-th smallest calibration score \[ \hat q = S_{(k)}, \qquad k = \lceil (n + 1)(1 - \alpha) \rceil \]
+    \begin{itemize}
+        \item $S_{(k)}$: the $k$-th order statistic of $S_1, \dots, S_n$; $\lceil\cdot\rceil$: rounding up to an integer; $\hat q = +\infty$ if $k > n$
+        \item example: $n = 99$, $\alpha = 0.1$ gives $k = 90$, the 90th smallest of the 99 scores
+    \end{itemize}
+    \item Step 4: the prediction set keeps every candidate value whose score does not exceed the threshold \[ \hat C(x) = \{y: s(x, y) \le \hat q\} \]
+    \begin{itemize}
+        \item with $s(x, y) = |y - \hat\mu(x)|$: the interval $\hat\mu(x) \pm \hat q$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Split conformal prediction (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Theorem}: if the points $(X_i, Y_i)$, $i = 1, \dots, n + 1$, are exchangeable, then \[ 1 - \alpha \le \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \le 1 - \alpha + \frac{1}{n + 1} \]
+    \begin{itemize}
+        \item the upper bound requires no ties among the scores (continuous scores)
+    \end{itemize}
+    \item Idea of the proof (\atsapplink{atsapp1}{atssrc1}{Appendix})
+    \begin{itemize}
+        \item given $\hat\mu$, the scores $S_1, \dots, S_{n+1}$ are exchangeable, so the rank of $S_{n+1}$ among them is uniform on $\{1, \dots, n + 1\}$
+        \item $Y_{n+1} \in \hat C(X_{n+1})$ exactly when this rank is at most $k$, which has probability $k/(n + 1) \ge 1 - \alpha$
+    \end{itemize}
+    \item No assumption on the model or on the distribution
+    \begin{itemize}
+        \item a bad model gives wide intervals, not invalid ones
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -941,6 +1114,7 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \vspace{-0.25cm}
 \begin{itemize}
     \item Coverage $F(\hat q)$ of the next point for 4000 calibration sets of $n = 50$ and $n = 500$ scores, $\alpha = 0.1$, and the exact law Beta($k$, $n + 1 - k$)
+    \item $F$: the distribution function of the scores, so $F(\hat q) = \Pr\{S_{n+1} \le \hat q \mid \text{calibration set}\}$ is the coverage obtained with one given calibration set
 \end{itemize}
 \quantlet{ATS\_ch13\_conformal\_basics}{\qlurl{ATS_ch13_conformal_basics}}
 \end{frame}
@@ -950,12 +1124,15 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{itemize}
     \item Mean coverage 0.902 ($n = 50$) and 0.900 ($n = 500$), as the theory gives (0.902, 0.900): the marginal guarantee holds on average over calibration sets
     \item One calibration set is one draw: s.d.\ 0.041 and 0.014; with $n = 50$, 26\% of the sets give coverage below 0.88, with $n = 500$ only 7\%
-    \item Since $F(\hat q) \sim$ Beta($k$, $n + 1 - k$), choosing $n$ is a sample-size calculation: the s.d.\ is about $\sqrt{\alpha(1 - \alpha)/n}$
+    \item Since $F(\hat q) \sim$ Beta($k$, $n + 1 - k$), choosing $n$ is a sample-size calculation
+    \begin{itemize}
+        \item the standard deviation of the realised coverage is about $\sqrt{\alpha(1 - \alpha)/n}$: quadrupling $n$ halves it
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Conformalized quantile regression}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.32\textwidth}
 \centering
@@ -965,11 +1142,23 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \end{column}
 \begin{column}{0.66\textwidth}
 \begin{itemize}
-    \item \refRPC: fit quantile regressions \refKB{} $\hat q_{\alpha/2}(x)$, $\hat q_{1-\alpha/2}(x)$ on the training set
-    \item Score $s(x, y) = \max\{\hat q_{\alpha/2}(x) - y,\; y - \hat q_{1-\alpha/2}(x)\}$: negative inside the band
-    \item $\hat C(x) = [\hat q_{\alpha/2}(x) - \hat q,\; \hat q_{1-\alpha/2}(x) + \hat q]$: the band is shifted outwards (or inwards if $\hat q < 0$)
-    \item Marginal coverage by the split theorem; the width adapts to heteroskedasticity through the quantile models
-    \item The same score calibrates the quantiles of any foundation model (Section 8)
+    \item \refRPC: fit two quantile regressions \refKB{} on the training set
+    \begin{itemize}
+        \item $\hat q_{\alpha/2}(x)$, $\hat q_{1-\alpha/2}(x)$: the estimated lower and upper conditional quantiles of $Y$ given $X = x$
+    \end{itemize}
+    \item \textbf{CQR score}: the signed distance of $y$ outside the band \[ s(x, y) = \max\{\hat q_{\alpha/2}(x) - y,\; y - \hat q_{1-\alpha/2}(x)\} \]
+    \begin{itemize}
+        \item negative inside the band, positive outside
+    \end{itemize}
+    \item \textbf{Interval}: the band widened on both sides by the conformal threshold $\hat q$ of these scores \[ \hat C(x) = [\hat q_{\alpha/2}(x) - \hat q,\; \hat q_{1-\alpha/2}(x) + \hat q] \]
+    \begin{itemize}
+        \item $\hat q < 0$: the band was too wide and is narrowed
+    \end{itemize}
+    \item Properties
+    \begin{itemize}
+        \item marginal coverage by the split theorem; the width adapts to heteroskedasticity through the quantile models
+        \item the same score calibrates the quantiles of any foundation model (Section 8)
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -978,11 +1167,13 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{CQR on the design of Romano, Patterson and Candès}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.48\textheight,keepaspectratio]{ats_ch13_cqr.pdf}
+\includegraphics[width=0.97\textwidth,height=0.44\textheight,keepaspectratio]{ats_ch13_cqr.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item $Y = \mathrm{Pois}(\sin^2 X + 0.1) + 0.03X\varepsilon_1 + 25\cdot\mathbf 1\{U < 0.01\}\varepsilon_2$, $X \sim U[0, 5]$ (their Figure 1); 1000 training and 1000 calibration points; gradient boosting for the mean and for the 5\% and 95\% quantiles
+    \item Simulated data (their Figure 1): $Y = \mathrm{Pois}(\sin^2 X + 0.1) + 0.03X\varepsilon_1 + 25\cdot\mathbf 1\{U < 0.01\}\varepsilon_2$, $X \sim U[0, 5]$
+    \item $\mathrm{Pois}(\lambda)$: a Poisson draw with mean $\lambda$; $\varepsilon_1, \varepsilon_2$: standard Normal noise; $U \sim U[0, 1]$, so 1\% of the points get a large outlier; noise grows with $X$
+    \item 1000 training and 1000 calibration points; gradient boosting for the mean and for the 5\% and 95\% quantiles
 \end{itemize}
 \quantlet{ATS\_ch13\_conformal\_basics}{\qlurl{ATS_ch13_conformal_basics}}
 \end{frame}
@@ -992,7 +1183,10 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{itemize}
     \item Test coverage: split conformal 0.918, CQR 0.915, the raw quantile models 0.883; mean width 2.84, 2.20 and 2.17
     \item The raw quantile regressions undercover; CQR repairs them at almost no extra width, while the constant-width split band is 29\% wider
-    \item By $X$ bins both stay within a few points of 90\% (worst bins: CQR 0.892, split 0.896); the gain of CQR is in width: narrow where $Y$ is concentrated, wide where the Poisson noise is large
+    \item By $X$ bins both stay within a few points of 90\% (worst bins: CQR 0.892, split 0.896)
+    \begin{itemize}
+        \item the gain of CQR is in width: narrow where $Y$ is concentrated, wide where the Poisson noise is large
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1003,8 +1197,17 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
     \begin{itemize}
         \item no finite-sample method can certify coverage at each point of a continuous covariate without assumptions
     \end{itemize}
-    \item What is achievable: coverage within a finite set of groups (Mondrian conformal: calibrate separately by group); approximate conditional coverage under smoothness; coverage conditional on the calibration set with high probability (Beta law)
-    \item For time series the relevant condition is the past: $\Pr\{Y_t \in \hat C_t \mid \mathcal F_{t-1}\}$; a VaR backtest (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9}) tests exactly this property for one-sided sets
+    \item What is achievable
+    \begin{itemize}
+        \item coverage within each of a finite set of groups (Mondrian conformal: calibrate separately by group)
+        \item approximate conditional coverage under smoothness assumptions
+        \item coverage conditional on the calibration set, with high probability (Beta law)
+    \end{itemize}
+    \item For time series the relevant condition is the past: the target is $\Pr\{Y_t \in \hat C_t \mid \mathcal F_{t-1}\} = 1 - \alpha$
+    \begin{itemize}
+        \item $\mathcal F_{t-1}$: the information available at $t - 1$; $\hat C_t$: the set built at $t - 1$ for period $t$
+        \item a VaR backtest (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9}) tests exactly this property for one-sided sets
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1026,38 +1229,70 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \itemsize{\small}
 \begin{itemize}
     \item Time series violate exchangeability three ways: serial dependence, changing volatility, structural change; the last two break coverage most
-    \item \textbf{Stationary and mixing}: split conformal remains approximately valid, with a coverage gap controlled by $\beta$-mixing coefficients and the calibration size \refOli
+    \item \textbf{Stationary and mixing}: split conformal remains approximately valid \refOli
     \begin{itemize}
+        \item the coverage gap shrinks with the calibration size and with the $\beta$-mixing coefficients, which measure how fast the dependence between distant observations dies out
         \item block permutations restore exactness under weaker conditions \refCWZ
     \end{itemize}
-    \item \textbf{Non-stationary}: no static method can work; the threshold must move with the data: weights (Barber et al.), refitting (EnbPI), feedback on errors (ACI, PID)
-    \item A common online frame: scores $S_t = s(X_t, Y_t)$ computed from out-of-sample forecasts; at $t$ choose a threshold $q_t$ from $S_1, \dots, S_{t-1}$; miss $\mathrm{err}_t = \mathbf 1\{S_t > q_t\}$
+    \item \textbf{Non-stationary}: no static method can work; the threshold must move with the data
+    \begin{itemize}
+        \item weights (Barber et al.), refitting (EnbPI), feedback on errors (ACI, PID)
+    \end{itemize}
+    \item \textbf{A common online frame} for the next slides
+    \begin{itemize}
+        \item $S_t = s(X_t, Y_t)$: the score of period $t$, computed from an out-of-sample forecast
+        \item $q_t$: the threshold used at $t$, chosen from the past scores $S_1, \dots, S_{t-1}$; the set is $\hat C_t = \{y: s(X_t, y) \le q_t\}$
+        \item $\mathrm{err}_t = \mathbf 1\{S_t > q_t\}$: the miss indicator, 1 if $Y_t$ falls outside $\hat C_t$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Conformal prediction beyond exchangeability}
+\begin{frame}{Conformal prediction beyond exchangeability (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refBar: fixed weights $w_i \in [0, 1]$, chosen before seeing the data; $\hat q$ = the $(1 - \alpha)$ quantile of $\sum_i \tilde w_i\delta_{S_i} + \tilde w_{n+1}\delta_{+\infty}$, $\tilde w_i = w_i/(1 + \sum_j w_j)$, $w_{n+1} = 1$
+    \item \refBar: each calibration score gets a fixed weight $w_i \in [0, 1]$, chosen before seeing the data; the test point gets weight $w_{n+1} = 1$
     \begin{itemize}
-        \item \textbf{Theorem}: coverage $\ge 1 - \alpha - \sum_i \tilde w_i\, d_{\mathrm{TV}}(Z, Z^i)$, where $Z^i$ swaps the test point with point $i$
+        \item normalised weights $\tilde w_i = w_i/(1 + \sum_{j=1}^n w_j)$, $i = 1, \dots, n + 1$; they sum to 1
     \end{itemize}
-    \item Under exchangeability the gap is zero; under drift, $d_{\mathrm{TV}}$ is small for recent points, so geometric weights $w_i = \rho^{n+1-i}$ keep it small
+    \item The threshold $\hat q$ is the $(1 - \alpha)$ quantile of the weighted distribution of the scores, with the test point placed at $+\infty$ \[ \hat q = Q_{1-\alpha}\Big(\sum_{i=1}^n \tilde w_i\,\delta_{S_i} + \tilde w_{n+1}\,\delta_{+\infty}\Big) \]
     \begin{itemize}
-        \item effective sample size $\approx 1/(1 - \rho)$: $\rho = 0.99$ uses about 100 recent scores; robustness against variance of the threshold
+        \item $\delta_a$: a unit point mass at $a$; $Q_{1-\alpha}(\cdot)$: the $(1 - \alpha)$ quantile of a distribution
+        \item with all $w_i = 1$ this is the split conformal threshold
     \end{itemize}
-    \item Covariate shift with known likelihood ratio: weights $w(x) = dP_{\mathrm{test}}/dP_{\mathrm{train}}$ give exact coverage \refTBCR
+    \item \textbf{Covariate shift} with a known likelihood ratio: the weights $w(x) = dP_{\mathrm{test}}/dP_{\mathrm{train}}$ give exact coverage \refTBCR
+    \begin{itemize}
+        \item $dP_{\mathrm{test}}/dP_{\mathrm{train}}$: the ratio of the densities of $X$ in the test and in the training population
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conformal prediction beyond exchangeability (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Theorem} \refBar: the coverage loss is bounded by the weighted distance from exchangeability \[ \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha - \sum_{i=1}^n \tilde w_i\, d_{\mathrm{TV}}(Z, Z^i) \]
+    \begin{itemize}
+        \item $Z = (Z_1, \dots, Z_{n+1})$: the data; $Z^i$: the same data with the test point and point $i$ swapped
+        \item $d_{\mathrm{TV}}$: the total variation distance between two distributions, in $[0, 1]$; 0 when they coincide
+    \end{itemize}
+    \item Under exchangeability every $d_{\mathrm{TV}}(Z, Z^i) = 0$ and the gap vanishes
+    \item Under slow drift, $d_{\mathrm{TV}}$ is small for recent points: give them the largest weights
+    \begin{itemize}
+        \item geometric weights $w_i = \rho^{n+1-i}$, $\rho \in (0, 1)$: the weight halves every $\ln 2/|\ln\rho|$ steps
+        \item effective sample size $\approx 1/(1 - \rho)$: $\rho = 0.99$ uses about 100 recent scores
+        \item a smaller $\rho$ adapts faster but makes the threshold more variable
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Weighted conformal under changepoints}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.48\textheight,keepaspectratio]{ats_ch13_weighted.pdf}
+\includegraphics[width=0.97\textwidth,height=0.42\textheight,keepaspectratio]{ats_ch13_weighted.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item $Y_t = X_t'\beta_t + \varepsilon_t$, $X_t \sim N(0, I_4)$, $\beta$ changes at $t = 500$ and $t = 1500$; least squares on all past data; prequential absolute residuals as scores; coverage averaged over 200 runs (20-step moving average)
+    \item Simulated regression $Y_t = X_t'\beta_t + \varepsilon_t$: $X_t \sim N(0, I_4)$, four independent standard Normal regressors ($I_4$: the $4 \times 4$ identity matrix); $\varepsilon_t$: Normal noise; the coefficient vector $\beta_t$ changes at $t = 500$ and $t = 1500$
+    \item Least squares on all past data; scores: absolute one-step-ahead residuals (prequential: each computed before $Y_t$ is used); coverage averaged over 200 runs (20-step moving average)
 \end{itemize}
 \quantlet{ATS\_ch13\_conformal\_time}{\qlurl{ATS_ch13_conformal_time}}
 \end{frame}
@@ -1074,39 +1309,69 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{EnbPI: ensembles without data splitting}
 \itemsize{\small}
 \begin{itemize}
-    \item \refXX, \refXXb: fit $B$ models on bootstrap samples (blocks, to respect dependence) of the training period
+    \item \refXX, \refXXb: fit $B$ models on $B$ bootstrap samples of the training period (blocks of consecutive observations, to respect dependence)
     \begin{itemize}
         \item leave-one-out residuals: for point $i$, aggregate only the models whose bootstrap sample excluded $i$
-        \item interval at $t$: $\hat f(x_t) \pm$ the $(1 - \alpha)$ quantile of the last $T$ absolute residuals; after $y_t$ is observed, its residual enters the window and the oldest leaves
+    \end{itemize}
+    \item Interval at $t$: the ensemble forecast plus or minus a quantile of recent absolute residuals \[ \hat C_t = \hat f(x_t) \pm Q_{1-\alpha}\big(|e_{t-W}|, \dots, |e_{t-1}|\big) \]
+    \begin{itemize}
+        \item $\hat f(x_t)$: the aggregated forecast of the $B$ models given the predictors $x_t$; $e_s$: the residual of period $s$; $W$: the window length
+        \item after $y_t$ is observed, its residual enters the window and the oldest one leaves
     \end{itemize}
     \item No refitting at each step, no calibration split: efficient for long streams
     \item Guarantee: asymptotic, conditional coverage if the errors are stationary and strongly mixing and the ensemble is consistent; designed for energy series (solar and wind)
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Adaptive conformal inference}
+\begin{frame}{Adaptive conformal inference (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refGC: use level $\alpha_t$ at time $t$, $q_t$ = the conformal $(1 - \alpha_t)$ quantile of recent scores, then $\alpha_{t+1} = \alpha_t + \gamma(\alpha - \mathrm{err}_t)$
+    \item \refGC: the nominal level is replaced by a working level $\alpha_t$ that is updated after every observation
     \begin{itemize}
-        \item a miss lowers $\alpha_t$ (wider sets); a hit raises it; $\alpha_t \le 0$ gives $q_t = +\infty$ (the whole line), $\alpha_t \ge 1$ the empty set
+        \item $q_t$: the conformal $(1 - \alpha_t)$ quantile of the recent scores; $\alpha$: the target miss rate (e.g.\ 0.1)
     \end{itemize}
-    \item \textbf{Theorem}: for any sequence of data, $\Big|\frac1T\sum_{t=1}^T\mathrm{err}_t - \alpha\Big| \le \frac{\max\{\alpha_1, 1 - \alpha_1\} + \gamma}{\gamma T}$
+    \item \textbf{Update}: after observing $Y_t$, move the working level against the last error \[ \alpha_{t+1} = \alpha_t + \gamma\,(\alpha - \mathrm{err}_t) \]
     \begin{itemize}
-        \item proof: $\alpha_t$ stays in $[-\gamma, 1 + \gamma]$ and $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; divide by $\gamma T$
+        \item $\gamma > 0$: the step size; $\mathrm{err}_t \in \{0, 1\}$: the miss indicator of the previous slides
     \end{itemize}
-    \item Long-run frequency, not conditional coverage: an adversary-proof average. Choosing $\gamma$ adaptively: AgACI \refZaf, DtACI \refGCb; ACI for VaR: \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9}
+    \item Reading the update
+    \begin{itemize}
+        \item a miss ($\mathrm{err}_t = 1$) lowers $\alpha_t$ by $\gamma(1 - \alpha)$: the next set is wider
+        \item a hit ($\mathrm{err}_t = 0$) raises $\alpha_t$ by $\gamma\alpha$: the next set is narrower
+        \item $\alpha_t \le 0$ gives $q_t = +\infty$ (the whole real line); $\alpha_t \ge 1$ gives the empty set
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Adaptive conformal inference (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Theorem} \refGC: for any sequence of data, the miss rate over $T$ periods is close to $\alpha$ \[ \Big|\frac1T\sum_{t=1}^T\mathrm{err}_t - \alpha\Big| \le \frac{\max\{\alpha_1, 1 - \alpha_1\} + \gamma}{\gamma T} \]
+    \begin{itemize}
+        \item $\alpha_1$: the starting level; the bound falls as $1/T$, and is tighter for a larger $\gamma$
+    \end{itemize}
+    \item Idea of the proof (\atsapplink{atsapp1}{atssrc2}{Appendix})
+    \begin{itemize}
+        \item $\alpha_t$ always stays in $[-\gamma, 1 + \gamma]$
+        \item summing the updates, $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; divide by $\gamma T$
+    \end{itemize}
+    \item A long-run frequency, not conditional coverage
+    \begin{itemize}
+        \item the guarantee holds even for an adversarially chosen sequence
+        \item choosing $\gamma$ adaptively: AgACI \refZaf, DtACI \refGCb; ACI for VaR: \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9}
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{ACI on stock-market volatility}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.46\textheight,keepaspectratio]{ats_ch13_aci.pdf}
+\includegraphics[width=0.97\textwidth,height=0.42\textheight,keepaspectratio]{ats_ch13_aci.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Design of \refGC: $V_t = r_t^2$, $\hat\sigma_t^2$ from a GARCH(1,1) fitted on the previous 1250 days, score $|V_t - \hat\sigma_t^2|/\hat\sigma_t^2$, $\alpha = 0.1$, $\gamma = 0.005$; local coverage over 500 days; evaluation from 15 December 2009
+    \item Design of \refGC: the target is $V_t = r_t^2$, the squared daily return; $\hat\sigma_t^2$: its GARCH(1,1) forecast, fitted on the previous 1250 days
+    \item Score $|V_t - \hat\sigma_t^2|/\hat\sigma_t^2$ (relative error of the variance forecast), $\alpha = 0.1$, $\gamma = 0.005$; local coverage over 500 days; evaluation from 15 December 2009
 \end{itemize}
 \quantlet{ATS\_ch13\_conformal\_time}{\qlurl{ATS_ch13_conformal_time}}
 \end{frame}
@@ -1114,9 +1379,19 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{Interpreting ACI on volatility}
 \itemsize{\small}
 \begin{itemize}
+    \item Three thresholds compared
+    \begin{itemize}
+        \item static: split conformal calibrated once, on the first 1250 scores
+        \item rolling: split conformal on the last 1250 scores, with the fixed level $\alpha$
+        \item ACI: the same rolling window, with the level $\alpha_t$
+    \end{itemize}
     \item Overall coverage, S\&P 500: static 0.918, rolling 0.903, ACI 0.901; BET: 0.928, 0.903, 0.899; NVIDIA: 0.882, 0.900, 0.901
     \item Local coverage of the static method ranges from 0.884 to 0.962 (S\&P 500); ACI stays within 0.870 -- 0.928
-    \item Christoffersen conditional coverage of the misses (S\&P 500): static $p$ $<$ 0.001, ACI $p$ = 0.968: a calibration fixed on 2005--2009 is too wide afterwards; updating restores both the frequency and the independence of misses
+    \item Christoffersen conditional coverage of the misses (S\&P 500): static $p$ $<$ 0.001, ACI $p$ = 0.968
+    \begin{itemize}
+        \item a calibration fixed on 2005--2009 is too wide afterwards
+        \item updating restores both the frequency and the independence of misses
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1141,16 +1416,38 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Conformal PID control}
+\begin{frame}{Conformal PID control (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refACT: \textbf{quantile tracking} (P): $q_{t+1} = q_t + \eta(\mathrm{err}_t - \alpha)$, i.e.\ online gradient descent on the pinball loss of the score
+    \item \refACT, \textbf{quantile tracking} (the P term): the threshold itself is updated after every observation \[ q_{t+1} = q_t + \eta\,(\mathrm{err}_t - \alpha) \]
     \begin{itemize}
-        \item \textbf{Proposition}: if $S_t \in [0, B]$, then $\big|\frac1T\sum_t(\mathrm{err}_t - \alpha)\big| \le (B + \eta)/(\eta T)$: the threshold moves on the scale of the scores, not of $\alpha$
+        \item $\eta > 0$: the step size, in the units of the scores; a miss raises the threshold by $\eta(1 - \alpha)$, a hit lowers it by $\eta\alpha$
+        \item this is online gradient descent on the pinball loss of the score at level $1 - \alpha$
     \end{itemize}
-    \item \textbf{Integrator} (I): add $r_t\big(\sum_{i \le t}(\mathrm{err}_i - \alpha)\big)$, $r_t(x) = K_I\tan\big(x\log t/(tC_{\mathrm{sat}})\big)$: reacts to accumulated coverage error, saturates to keep the guarantee
-    \item \textbf{Scorecaster} (D-like): a model that forecasts the next score from its past (seasonality, trends in the errors) and is added to the threshold
-    \item ACI is the special case that tracks the level instead of the quantile; PID borrows its vocabulary from control engineering: proportional, integral, derivative
+    \item \textbf{Proposition}: if the scores lie in $[0, B]$, the miss rate is close to $\alpha$ for any sequence \[ \Big|\frac1T\sum_{t=1}^T(\mathrm{err}_t - \alpha)\Big| \le \frac{B + \eta}{\eta T} \]
+    \begin{itemize}
+        \item $B$: an upper bound of the scores; the threshold moves on the scale of the scores, not of $\alpha$ as in ACI
+    \end{itemize}
+    \item ACI is the special case that tracks the level instead of the quantile
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conformal PID control (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Integrator} (the I term): adds a correction driven by the accumulated coverage error \[ r_t\Big(\sum_{i \le t}(\mathrm{err}_i - \alpha)\Big), \qquad r_t(x) = K_I\tan\big(x\log t/(tC_{\mathrm{sat}})\big) \]
+    \begin{itemize}
+        \item $\sum_{i \le t}(\mathrm{err}_i - \alpha)$: misses in excess of the target, accumulated up to $t$
+        \item $K_I > 0$: the gain of the integrator; $C_{\mathrm{sat}} > 0$: the saturation constant; the $\tan$ grows without bound near its pole, which keeps the long-run guarantee
+    \end{itemize}
+    \item \textbf{Scorecaster} (a D-like term): a model that forecasts the next score from its past and is added to the threshold
+    \begin{itemize}
+        \item it anticipates predictable patterns in the errors: seasonality, trends
+    \end{itemize}
+    \item The name comes from control theory
+    \begin{itemize}
+        \item proportional (react to the last error), integral (to the accumulated error), derivative (to the expected change)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1179,12 +1476,21 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{Coverage diagnostics}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Unconditional}: miss rate and Kupiec \refKup; \textbf{independence} of misses: Christoffersen \refChr{} (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9})
+    \item \textbf{Frequency and independence} of the misses (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9})
     \begin{itemize}
+        \item miss rate and the Kupiec test \refKup{} (is the rate equal to $\alpha$?); Christoffersen test \refChr{} (are misses independent over time?)
         \item regression check in the spirit of the DQ test \refEM: regress $\mathrm{err}_t - \alpha$ on lagged misses and on the predicted width
     \end{itemize}
-    \item \textbf{Local}: rolling coverage; coverage by bins of a variable known at the origin (predicted volatility, hour, regime): the empirical counterpart of conditional coverage
-    \item \textbf{Sharpness}: mean width and the interval score $W + \frac{2}{\alpha}(\ell - y)\mathbf 1\{y < \ell\} + \frac{2}{\alpha}(y - u)\mathbf 1\{y > u\}$ \refWin, \refGR, a proper score for central intervals
+    \item \textbf{Local coverage}: the empirical counterpart of conditional coverage
+    \begin{itemize}
+        \item coverage over rolling windows
+        \item coverage by classes of a variable known at the origin (predicted volatility, hour, regime)
+    \end{itemize}
+    \item \textbf{Sharpness}: the mean width, and the \textbf{interval score} \refWin, \refGR, which adds a penalty for every miss \[ \mathrm{IS} = (u - \ell) + \frac{2}{\alpha}(\ell - y)\mathbf 1\{y < \ell\} + \frac{2}{\alpha}(y - u)\mathbf 1\{y > u\} \]
+    \begin{itemize}
+        \item $[\ell, u]$: the central $(1 - \alpha)$ interval; $u - \ell$: its width; $y$: the outcome; lower is better
+        \item a proper scoring rule: it rewards narrow intervals only if they keep the nominal coverage
+    \end{itemize}
     \item Report all three: a method that is valid but twice as wide is not a better method
 \end{itemize}
 \end{frame}
@@ -1227,11 +1533,18 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{frame}{The need to calibrate foundation-model quantiles}
 \itemsize{\small}
 \begin{itemize}
-    \item Pretrained quantiles are calibrated on the corpus distribution, not on your series: miscalibration is the default, in either direction
-    \item Most models output only 10\%--90\%: a 95\% interval or VaR 1\% requires extrapolation beyond the trained levels
-    \item Recipe: online CQR on the model's own band, score $S_t = \max\{\hat q_{0.1,t} - y_t, y_t - \hat q_{0.9,t}\}$; ACI chooses the threshold for any target level ($80\%$ or $95\%$)
+    \item Pretrained quantiles are calibrated on the corpus distribution, not on your series
     \begin{itemize}
-        \item one-sided version for VaR: $S_t = \hat q_{0.1,t} - y_t$, threshold at level $\alpha$; the VaR is $-(\hat q_{0.1,t} - q_t)$
+        \item miscalibration is the default, in either direction (bands too narrow or too wide)
+    \end{itemize}
+    \item Most models output only 10\%--90\%: a 95\% interval or VaR 1\% requires extrapolation beyond the trained levels
+    \item Procedure: online CQR on the model's own 10\%--90\% band, with ACI choosing the threshold for any target level (80\% or 95\%) \[ S_t = \max\{\hat q_{0.1,t} - y_t,\; y_t - \hat q_{0.9,t}\}, \qquad \hat C_t = [\hat q_{0.1,t} - q_t,\; \hat q_{0.9,t} + q_t] \]
+    \begin{itemize}
+        \item $\hat q_{0.1,t}$, $\hat q_{0.9,t}$: the 10\% and 90\% quantiles forecast by the model for period $t$; $q_t$: the ACI threshold
+    \end{itemize}
+    \item One-sided version for VaR: score $S_t = \hat q_{0.1,t} - y_t$, threshold $q_t$ at level $\alpha$
+    \begin{itemize}
+        \item the calibrated quantile is $\hat q_{0.1,t} - q_t$ and $\mathrm{VaR}_t = -(\hat q_{0.1,t} - q_t)$ (VaR as a positive loss)
     \end{itemize}
     \item Further reading on conformal VaR recalibration of foundation models: \refCO; \refTV
 \end{itemize}
@@ -1254,7 +1567,11 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{itemize}
     \item Raw 80\% bands: load 75--81\%, Bitcoin 77--81\%, inflation 76--85\%, BET returns 72--78\% across the four models
     \item After online CQR: 80\% intervals cover 79--81\%, 95\% intervals 94.5--95.4\% in every task
-    \item Raw bands miss in both directions (too narrow: Chronos-2 on load; too wide: TimesFM on inflation); the conformal step widens or narrows them, with a mean width between 0.90 and 1.24 times the raw width, and reaches 95\% from models that output only deciles
+    \item Raw bands are miscalibrated in both directions: too narrow (Chronos-2 on load), too wide (TimesFM on inflation)
+    \begin{itemize}
+        \item the conformal step widens or narrows them: mean width between 0.90 and 1.24 times the raw width
+        \item and it reaches 95\% from models that output only deciles
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1275,7 +1592,11 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \begin{itemize}
     \item BET, VaR 1\%: GARCH-$t$ 1.31\% (Kupiec $p$ = 0.170), Chronos-2 raw 1.22\% ($p$ = 0.331), Chronos-2 + ACI 1.03\% ($p$ = 0.893), TimesFM + conformal 1.08\%
     \item S\&P 500: GARCH-$t$ 1.66\% (Kupiec $p$ = 0.007), Chronos-2 raw 1.56\% ($p$ = 0.021), + ACI 1.06\% ($p$ = 0.802, Christoffersen $p$ = 0.454)
-    \item Calibration fixes the exceedance rate of every model; it does not add tail information: the conformally extended deciles have a larger quantile loss than GARCH-$t$ (BET, Chronos-Bolt: DM $t = 2.70$), while Chronos-2, trained on 1\% quantiles, does not ($t = 0.10$)
+    \item Calibration fixes the exceedance rate of every model, but it does not add information about the tail
+    \begin{itemize}
+        \item the conformally extended deciles have a larger quantile loss than GARCH-$t$ (BET, Chronos-Bolt: DM $t = 2.70$)
+        \item Chronos-2, trained on 1\% quantiles, does not ($t = 0.10$)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1329,7 +1650,7 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
     \item Release dates and training cutoffs of every model, from the model cards, against the start of the evaluation window
     \item Quantile levels actually produced by each model (a request for 1\% may silently return 10\%)
     \item Baselines tuned with the same care; the context available to every model is the same
-    \item Multiplicity: number of series, horizons and models tested; the pooled test and adjusted $p$-values reported
+    \item Multiplicity: number of series, horizons and models tested; the pooled test and adjusted p-values reported
 \end{itemize}
 \end{frame}
 
@@ -1341,7 +1662,8 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \vspace{-0.25cm}
 \begin{itemize}
     \item DM--HLN statistics of Chronos-2 against AR($p$) at $h = 12$ on 2000 random benchmarks of 5 EU countries and 3 years of origins, and on the full panel
-    \item 11.2\% of the random benchmarks declare Chronos-2 significantly better and 2.1\% significantly worse; the full panel gives $t = \ensuremath{-}1.35$ ($p$ = 0.180). An AI summary of one such paper as evidence for (or against) foundation models is wrong; only the pre-registered panel answers
+    \item 11.2\% of the random benchmarks declare Chronos-2 significantly better and 2.1\% significantly worse; the full panel gives $t = \ensuremath{-}1.35$ ($p$ = 0.180)
+    \item An AI summary that presents one such paper as evidence for (or against) foundation models is wrong; only the pre-registered panel answers the question
 \end{itemize}
 \quantlet{ATS\_ch13\_benchmark}{\qlurl{ATS_ch13_benchmark}}
 \end{frame}

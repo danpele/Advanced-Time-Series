@@ -115,11 +115,11 @@ MSCA Digital Finance}
     \item \textbf{EVT}: Extreme Value Theory
     \item \textbf{EWMA}: Exponentially Weighted Moving Average
     \item \textbf{FHS}: Filtered Historical Simulation
-    \item \textbf{FRTB}: Fundamental Review of the Trading Book (Basel)
     \item \textbf{FZ}: Fissler–Ziegel (class of scoring functions for VaR and ES)
     \item \textbf{FZ-1F}: One-factor GAS model for VaR and ES (label of Patton, Ziegel and Chen)
     \item \textbf{FZ-2F}: Two-factor GAS model for VaR and ES (label of Patton, Ziegel and Chen)
     \item \textbf{FZ0}: Zero-homogeneous Fissler–Ziegel loss (Patton, Ziegel and Chen)
+    \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity
 \end{itemize}
 \end{column}
 \end{columns}
@@ -129,7 +129,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity
     \item \textbf{GARCH-EDF}: GARCH with innovations from the empirical distribution function
     \item \textbf{GARCH-FZ}: GARCH model estimated by FZ0 minimisation
     \item \textbf{GARCH-N}: GARCH with Normal innovations
@@ -142,11 +141,11 @@ MSCA Digital Finance}
     \item \textbf{GCH-FZ}: GARCH model estimated by FZ0 minimisation (table label)
     \item \textbf{GCH-N}: ARMA-GARCH with Normal innovations
     \item \textbf{GJR}: Glosten–Jagannathan–Runkle (asymmetric GARCH)
+    \item \textbf{GJR-GARCH}: Glosten–Jagannathan–Runkle GARCH
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{GJR-GARCH}: Glosten–Jagannathan–Runkle GARCH
     \item \textbf{GM}: General Motors (stock)
     \item \textbf{GPL}: Generalised Piecewise Linear (scoring function)
     \item \textbf{GW}: Giacomini–White (test of conditional predictive ability)
@@ -159,6 +158,7 @@ MSCA Digital Finance}
     \item \textbf{LR}: Likelihood Ratio (test)
     \item \textbf{MA}: Moving Average
     \item \textbf{MAR33}: Basel Framework, chapter MAR33 (internal models, capital requirements)
+    \item \textbf{MCS}: Model Confidence Set
 \end{itemize}
 \end{column}
 \end{columns}
@@ -168,7 +168,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{MCS}: Model Confidence Set
     \item \textbf{MFM}: Modelling Financial Markets
     \item \textbf{MLE}: Maximum Likelihood Estimation
     \item \textbf{MSE}: Mean Squared Error
@@ -181,14 +180,14 @@ MSCA Digital Finance}
     \item \textbf{RW}: Random Walk
     \item \textbf{RW-125}: Rolling Window of 125 days (historical simulation)
     \item \textbf{RW-250}: Rolling Window of 250 days (historical simulation)
+    \item \textbf{RW-500}: Rolling Window of 500 days (historical simulation)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{RW-500}: Rolling Window of 500 days (historical simulation)
     \item \textbf{SAV}: Symmetric Absolute Value (CAViaR specification)
     \item \textbf{TSA}: Time Series Analysis
-    \item \textbf{US}: United States
+    \item \textbf{VAR}: Vector AutoRegression
     \item \textbf{VIX}: CBOE Volatility IndeX
     \item \textbf{WIG20}: Warszawski Indeks Giełdowy 20 (the Warsaw Stock Exchange index of the 20 largest companies)
 \end{itemize}
@@ -323,32 +322,66 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{VaR and ES as functionals}
+\begin{frame}{VaR and ES as functionals (1/2): definitions}
 \itemsize{\small}
 \begin{itemize}
-    \item Return $Y$ with distribution $F$; level $\alpha$ (VaR 1\%: $\alpha = 0.01$); quantile $q_\alpha(F) = \inf\{y: F(y) \ge \alpha\}$
+    \item VaR is minus a quantile of the return distribution
+    \[ q_\alpha(F) = \inf\{y: F(y) \ge \alpha\}, \qquad \mathrm{VaR}_\alpha(F) = -q_\alpha(F) \]
     \begin{itemize}
-        \item $\mathrm{VaR}_\alpha(F) = -q_\alpha(F)$; target hit rate $\Pr(Y < -\mathrm{VaR}_\alpha) = \alpha$
+        \item $Y$: the return, with distribution function $F$; $\alpha$: the level, i.e.\ the target hit rate (VaR 1\%: $\alpha = 0.01$)
+        \item $q_\alpha(F)$: the smallest $y$ with $F(y) \ge \alpha$; a correct VaR is exceeded with probability $\Pr(Y < -\mathrm{VaR}_\alpha) = \alpha$
     \end{itemize}
-    \item $\mathrm{ES}_\alpha(F) = -\dfrac{1}{\alpha}\displaystyle\int_0^\alpha q_u(F)\,du$ \refAT; for continuous $F$: $\mathrm{ES}_\alpha = -\E[Y \mid Y \le q_\alpha]$
+    \item ES is minus the average of the quantiles below level $\alpha$ \refAT
+    \[ \mathrm{ES}_\alpha(F) = -\frac{1}{\alpha}\int_0^\alpha q_u(F)\,du \]
     \begin{itemize}
+        \item for continuous $F$: $\mathrm{ES}_\alpha = -\E[Y \mid Y \le q_\alpha]$, minus the mean return on the worst $\alpha$ share of days
         \item ES is coherent (subadditive) \refADEH; VaR is not; ES needs $\E|Y| < \infty$
     \end{itemize}
-    \item In formulas we work with the return-scale pair $(v, e) = (q_\alpha, -\mathrm{ES}_\alpha)$, both negative: $e \le v < 0$
-    \item Both are \textbf{functionals} $\mathrm T(F)$: a forecast of them is a point forecast of the predictive distribution, as in \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Conditional risk forecasts: three routes}
+\begin{frame}{VaR and ES as functionals (2/2): conventions}
 \itemsize{\small}
 \begin{itemize}
-    \item Target: $(v_t, e_t) = \mathrm T(F_{t|t-1})$, with $F_{t|t-1}$ the distribution of $Y_t$ given $\mathcal F_{t-1}$
-    \item \textbf{Location--scale}: $Y_t = \mu_t + \sigma_t\eta_t$, $\eta_t$ i.i.d.\ $\Rightarrow v_t = \mu_t + \sigma_t q_\alpha(\eta)$, $e_t = \mu_t + \sigma_t\E[\eta \mid \eta \le q_\alpha(\eta)]$
+    \item In formulas we work on the return scale with the pair $(v, e) = (q_\alpha, -\mathrm{ES}_\alpha)$
     \begin{itemize}
-        \item GARCH with Normal, skewed-t \refHan\ or empirical (EDF) innovations; the ratio $e_t/v_t$ is then constant over time
+        \item $v$: the $\alpha$-quantile of returns; $e$: the mean return beyond it; for the usual levels both are negative and $e \le v < 0$
     \end{itemize}
-    \item \textbf{Direct quantile dynamics}: $v_t = v(\mathcal F_{t-1}; \beta)$ estimated by quantile loss, no distribution \refEM
-    \item \textbf{Joint semiparametric}: $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$ estimated by a Fissler--Ziegel loss \refPZC, \refDB
+    \item Both are \textbf{functionals} $\mathrm T(F)$: maps from a distribution to a number
+    \begin{itemize}
+        \item a forecast of them is a point forecast of the predictive distribution, as in \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conditional risk forecasts: three routes (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Target: the functional of the conditional distribution
+    \[ (v_t, e_t) = \mathrm T(F_{t|t-1}) \]
+    \begin{itemize}
+        \item $F_{t|t-1}$: distribution of the return $Y_t$ given $\mathcal F_{t-1}$, the information up to day $t-1$
+    \end{itemize}
+    \item \textbf{Location--scale}: the return is a mean plus a volatility times an i.i.d. shock
+    \[ Y_t = \mu_t + \sigma_t\eta_t \ \Rightarrow\ v_t = \mu_t + \sigma_t\,q_\alpha(\eta), \qquad e_t = \mu_t + \sigma_t\,\E[\eta \mid \eta \le q_\alpha(\eta)] \]
+    \begin{itemize}
+        \item $\mu_t$, $\sigma_t$: conditional mean and volatility (ARMA, GARCH); $q_\alpha(\eta)$: quantile of the shock distribution
+        \item GARCH with Normal, skewed-t \refHan\ or empirical (EDF) innovations; the ratio $e_t/v_t$ is constant over time when $\mu_t = 0$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conditional risk forecasts: three routes (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Direct quantile dynamics} \refEM: $v_t = v(\mathcal F_{t-1}; \beta)$
+    \begin{itemize}
+        \item $v(\cdot; \beta)$: a recursion with parameters $\beta$, estimated by the quantile (pinball) loss, without a distribution
+    \end{itemize}
+    \item \textbf{Joint semiparametric}: $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$
+    \begin{itemize}
+        \item two recursions with parameters $\theta$, estimated by a Fissler--Ziegel loss \refPZC, \refDB
+    \end{itemize}
     \item Every route produces a point forecast of a functional; the scoring function of the next section is what makes them comparable
 \end{itemize}
 \end{frame}
@@ -389,17 +422,30 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
 \section{Elicitability and scoring functions}
 %=============================================================================
 
-\begin{frame}{Consistency, elicitability, identification}
+\begin{frame}{Consistency, elicitability, identification (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item A scoring function $S(x, y)$ is \textbf{consistent} for $\mathrm T$ on a class $\mathcal F$ if $\E_F S(\mathrm T(F), Y) \le \E_F S(x, Y)$ for all $x$, $F \in \mathcal F$; \textbf{strictly} if equality forces $x = \mathrm T(F)$ \refGn
+    \item A scoring function $S(x, y)$ assigns a loss to the forecast $x$ when $y$ is observed; it is \textbf{consistent} for $\mathrm T$ on a class $\mathcal F$ if \refGn
+    \[ \E_F S(\mathrm T(F), Y) \le \E_F S(x, Y) \quad \text{for all } x \text{ and } F \in \mathcal F \]
     \begin{itemize}
-        \item $\mathrm T$ is \textbf{elicitable} if a strictly consistent $S$ exists (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
+        \item $\E_F$: expectation when $Y \sim F$; the true functional value has the smallest expected loss
+        \item \textbf{strictly} consistent: equality forces $x = \mathrm T(F)$; $\mathrm T$ is \textbf{elicitable} if a strictly consistent $S$ exists (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
     \end{itemize}
-    \item \textbf{Identification function}: $V(x, y)$ with $\E_F V(x, Y) = 0 \iff x = \mathrm T(F)$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Consistency, elicitability, identification (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Identification function}: a function $V(x, y)$ whose mean is zero exactly at the true value
+    \[ \E_F V(x, Y) = 0 \iff x = \mathrm T(F) \]
     \begin{itemize}
-        \item quantile: $V(x, y) = \mathbf 1\{y \le x\} - \alpha$; mean: $V(x, y) = x - y$
-        \item Osband's principle: $\partial_x\E_F S(x, Y) = h(x)\,\E_F V(x, Y)$, $h > 0$; scores are integrated identification functions \refFZ
+        \item quantile: $V(x, y) = \mathbf 1\{y \le x\} - \alpha$, with $\mathbf 1\{\cdot\}$ the indicator (1 if true, 0 otherwise); mean: $V(x, y) = x - y$
+    \end{itemize}
+    \item Osband's principle: the slope of the expected score is a positive multiple of the expected identification function \refFZ
+    \[ \partial_x\E_F S(x, Y) = h(x)\,\E_F V(x, Y), \qquad h > 0 \]
+    \begin{itemize}
+        \item scores are integrated identification functions
     \end{itemize}
     \item Identification functions give \textbf{backtests} (is the forecast calibrated?); scoring functions give \textbf{comparisons} (which forecast is better?) \refNZ
 \end{itemize}
@@ -408,13 +454,11 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
 \begin{frame}{Quantiles: all consistent scores}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Theorem} \refGn: under mild conditions, $S$ is consistent for $q_\alpha$ iff $S(x, y) = (\mathbf 1\{y \le x\} - \alpha)(G(x) - G(y))$ with $G$ non-decreasing (generalised piecewise linear, GPL)
+    \item \textbf{Theorem} \refGn: under mild conditions, $S$ is consistent for $q_\alpha$ if and only if it is generalised piecewise linear (GPL)
+    \[ S(x, y) = (\mathbf 1\{y \le x\} - \alpha)\big(G(x) - G(y)\big), \qquad G \text{ non-decreasing} \]
     \begin{itemize}
-        \item $G(x) = x$: the pinball loss; $G$ strictly increasing gives strict consistency
-    \end{itemize}
-    \item Why: $\partial_x\E_F S(x, Y) = G'(x)\,(F(x) - \alpha)$, negative below $q_\alpha$, positive above (\atsapplink{atsapp1}{atssrc1}{Appendix})
-    \begin{itemize}
-        \item $G(x) = \ln x$ on positive variables gives a scale-free (zero-homogeneous) score
+        \item $G(x) = x$: the pinball loss; $G$ strictly increasing gives strict consistency; $G(x) = \ln x$ for positive variables gives a scale-free (zero-homogeneous) score
+        \item why: $\partial_x\E_F S(x, Y) = G'(x)\,(F(x) - \alpha)$, negative below $q_\alpha$, positive above (\atsapplink{atsapp1}{atssrc1}{Appendix})
     \end{itemize}
     \item Different $G$ give the same optimal forecast but can rank two misspecified forecasts differently: the choice of $G$ is a modelling choice
     \item Expectiles (asymmetric squared loss) are the only elicitable coherent risk measures \refZie; \refTayA\ uses them for VaR and ES
@@ -424,9 +468,10 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
 \begin{frame}{ES is not elicitable}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Necessary condition} \refGn: if $\mathrm T$ is elicitable, its level sets $\{F: \mathrm T(F) = t\}$ are convex
+    \item \textbf{Necessary condition} \refGn: if $\mathrm T$ is elicitable, its level sets are convex
     \begin{itemize}
-        \item proof: if $\E_{F_0}S(t, Y) \le \E_{F_0}S(x, Y)$ and the same for $F_1$, the inequality holds for $\lambda F_0 + (1 - \lambda)F_1$ (expectations are linear in $F$)
+        \item level set: $\{F: \mathrm T(F) = t\}$, all distributions with the same functional value $t$; convex: closed under mixtures $\lambda F_0 + (1 - \lambda)F_1$, $\lambda \in [0, 1]$
+        \item proof: if $\E_{F_0}S(t, Y) \le \E_{F_0}S(x, Y)$ and the same for $F_1$, the inequality holds for the mixture, because expectations are linear in $F$
     \end{itemize}
     \item Quantiles pass: if $F_0(t) = F_1(t) = \alpha$, then every mixture has $F_\lambda(t) = \alpha$
     \item ES fails: the mixture changes the quantile, so it changes which part of each component enters the tail mean \refWeb
@@ -459,17 +504,30 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Joint elicitability: the Fissler--Ziegel class}
+\begin{frame}{Joint elicitability: the Fissler--Ziegel class (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Theorem} \refFZ, in the form of \refPZC, eq.~(4): for $e \le v$,
+    \item \textbf{Theorem} \refFZ, in the form of \refPZC, eq.~(4): for $e \le v$, the loss
+    \[ S(v, e, y) = (\mathbf 1\{y \le v\} - \alpha)\big(G_1(v) - G_1(y)\big) + G_2(e)\Big(v - e + \frac{1}{\alpha}\mathbf 1\{y \le v\}(y - v)\Big) - \mathcal G_2(e) \]
     \begin{itemize}
-        \item $S(v, e, y) = (\mathbf 1\{y \le v\} - \alpha)\big(G_1(v) - G_1(y)\big) + G_2(e)\Big(v - e + \tfrac{1}{\alpha}\mathbf 1\{y \le v\}(y - v)\Big) - \mathcal G_2(e)$
-        \item is consistent for $(q_\alpha, -\mathrm{ES}_\alpha)$ if $G_1$ is non-decreasing and $\mathcal G_2' = G_2$ is positive and increasing; strictly so under mild conditions
+        \item is consistent for $(q_\alpha, -\mathrm{ES}_\alpha)$ if $G_1$ is non-decreasing and $G_2 = \mathcal G_2'$ is positive and increasing; strictly so under mild conditions
     \end{itemize}
-    \item Identification function of the pair: $V_1 = \mathbf 1\{y \le v\} - \alpha$, $V_2 = e - v + \tfrac{1}{\alpha}\mathbf 1\{y \le v\}(v - y)$
+    \item Reading the two parts
     \begin{itemize}
-        \item $\E V_2 = 0$ at the true quantile is the Acerbi--Tasche formula: ES is the tail mean only together with the right quantile
+        \item first term: a GPL quantile score for $v$ (previous slides); $G_1$: any non-decreasing function
+        \item second part: a Bregman-type score for $e$, evaluated against the tail mean implied by $v$; $\mathcal G_2$: an antiderivative of $G_2$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Joint elicitability: the Fissler--Ziegel class (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Identification function of the pair: one component for the quantile, one for the tail mean
+    \[ V_1 = \mathbf 1\{y \le v\} - \alpha, \qquad V_2 = e - v + \frac{1}{\alpha}\mathbf 1\{y \le v\}(v - y) \]
+    \begin{itemize}
+        \item $\E V_1 = 0$: $v$ is the $\alpha$-quantile; $\E V_2 = 0$ at the true quantile is the Acerbi--Tasche formula
+        \item ES is the tail mean only together with the right quantile
     \end{itemize}
     \item Consequence \refFZG: ES can be \textbf{compared} through the pair; traditional ES backtests still need more than ES (Section 5)
 \end{itemize}
@@ -478,9 +536,10 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
 \begin{frame}{FZ0: the zero-homogeneous member}
 \itemsize{\small}
 \begin{itemize}
-    \item \refPZC, Proposition 1: with $v, e < 0$, loss \textbf{differences} are invariant to rescaling $Y$ iff $G_1 = 0$, $G_2(e) = -1/e$:
+    \item \refPZC, Proposition 1: with $v, e < 0$, loss \textbf{differences} are invariant to rescaling $Y$ if and only if $G_1 = 0$ and $G_2(e) = -1/e$
+    \[ L_{\mathrm{FZ0}}(y, v, e; \alpha) = -\frac{1}{\alpha e}\mathbf 1\{y \le v\}(v - y) + \frac{v}{e} + \ln(-e) - 1 \]
     \begin{itemize}
-        \item $L_{\mathrm{FZ0}}(y, v, e; \alpha) = -\dfrac{1}{\alpha e}\mathbf 1\{y \le v\}(v - y) + \dfrac{v}{e} + \ln(-e) - 1$
+        \item first term: positive only on hit days ($y \le v$), proportional to the size of the hit; $v/e \in (0, 1]$; $\ln(-e)$ penalises an exaggerated ES
         \item the VaR part resembles the pinball loss; the ES part resembles QLIKE (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter8_advanced_volatility.pdf}{Chapter 8})
     \end{itemize}
     \item Why zero homogeneity matters for time series
@@ -518,13 +577,13 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
 \itemsize{\small}
 \begin{itemize}
     \item \refEGJK: every GPL quantile score is a mixture of \textbf{elementary scores}
+    \[ S_\theta(x, y) = (\mathbf 1\{y < x\} - \alpha)\big(\mathbf 1\{\theta < x\} - \mathbf 1\{\theta < y\}\big), \qquad S(x, y) = \int S_\theta(x, y)\,dH(\theta) \]
     \begin{itemize}
-        \item $S_\theta(x, y) = (\mathbf 1\{y < x\} - \alpha)\big(\mathbf 1\{\theta < x\} - \mathbf 1\{\theta < y\}\big)$, $\quad S(x, y) = \int S_\theta(x, y)\,dH(\theta)$
-        \item $S_\theta$ is the loss of a binary decision with threshold $\theta$; $H$ non-decreasing corresponds to $G$
+        \item $\theta$: a threshold; $S_\theta$: the loss of a binary decision ``is the return below $\theta$?''; $H$: a non-decreasing weight over thresholds, corresponding to $G$
     \end{itemize}
-    \item \textbf{Murphy diagram}: the average $\bar S_\theta$ of each forecast against $\theta$
+    \item \textbf{Murphy diagram}: the average $\bar S_\theta$ of each forecast, plotted against $\theta$
     \begin{itemize}
-        \item forecast A dominates B for every consistent score iff its curve is below for all $\theta$
+        \item forecast A dominates B for every consistent score if and only if its curve is below for all $\theta$
         \item crossing curves: the ranking depends on $G$, i.e.\ on which thresholds the user cares about
     \end{itemize}
     \item A check on the pinball ranking that costs one line of code
@@ -567,7 +626,7 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
 \section{Quantile regression and CAViaR}
 %=============================================================================
 
-\begin{frame}{Quantile regression as M-estimation}
+\begin{frame}{Quantile regression as M-estimation (1/2)}
 \itemsize{\small}
 \begin{columns}[T]
 \begin{column}{0.27\textwidth}
@@ -578,70 +637,108 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
 \end{column}
 \begin{column}{0.71\textwidth}
 \begin{itemize}
-    \item \refKB: $\hat\beta(\alpha) = \arg\min_\beta \sum_t \rho_\alpha(y_t - x_t'\beta)$, a linear program
+    \item \refKB: the $\alpha$-quantile of $y_t$ given $x_t$ is modelled as $x_t'\beta$ and estimated by minimising the pinball loss
+    \[ \hat\beta(\alpha) = \arg\min_\beta \sum_t \rho_\alpha(y_t - x_t'\beta), \qquad \rho_\alpha(u) = u\,(\alpha - \mathbf 1\{u < 0\}) \]
     \begin{itemize}
+        \item $x_t$: vector of regressors; $\rho_\alpha$: the check (pinball) function, slope $\alpha$ for positive residuals and $\alpha - 1$ for negative ones; the problem is a linear program
         \item first-order condition: $\sum_t x_t(\mathbf 1\{y_t \le x_t'\hat\beta\} - \alpha) \approx 0$, the identification function
     \end{itemize}
-    \item $\sqrt T(\hat\beta - \beta) \to N\big(0, \alpha(1 - \alpha)D^{-1}\Omega D^{-1}\big)$, $\Omega = \E[x_tx_t']$, $D = \E[f_t(q_t)x_tx_t']$ \refKoe
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quantile regression as M-estimation (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Asymptotic distribution \refKoe: a sandwich in which the density at the quantile appears
+    \[ \sqrt T(\hat\beta - \beta) \to N\big(0, \alpha(1 - \alpha)D^{-1}\Omega D^{-1}\big), \qquad \Omega = \E[x_tx_t'], \qquad D = \E[f_t(q_t)x_tx_t'] \]
     \begin{itemize}
-        \item the conditional density at the quantile (the ``sparsity'') enters $D$: estimate it with a kernel and a bandwidth
+        \item $f_t(q_t)$: conditional density of $y_t$ at its true quantile $q_t$; its inverse is called the ``sparsity''
+        \item few observations near the quantile (small $f_t$) mean an imprecise $\hat\beta$; $f_t$ is estimated with a kernel and a bandwidth
     \end{itemize}
     \item Time series: quantile autoregression \refKX\ lets AR coefficients vary across quantiles; CAViaR makes the quantile itself autoregressive
 \end{itemize}
-\end{column}
-\end{columns}
 \end{frame}
 
 \begin{frame}{CAViaR: the four specifications}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{columns}[T]
-\begin{column}{0.3\textwidth}
+\begin{column}{0.26\textwidth}
 \centering
-\includegraphics[height=0.38\textheight]{ch9_engle_2022.jpg}\\[1mm]
+\includegraphics[height=0.32\textheight]{ch9_engle_2022.jpg}\\[1mm]
 \imgcap{Robert Engle, 2022}
 \imgcredit{https://commons.wikimedia.org/wiki/File:0603-Kraneshares_KRBN-RobertEngle-JonDemske-13.jpg}{Photo: Jon Demske (2022); CC BY-SA 4.0; Wikimedia Commons}
 \end{column}
-\begin{column}{0.68\textwidth}
+\begin{column}{0.72\textwidth}
 \begin{itemize}
-    \item \refEM, written for $\mathrm{VaR}_t = -q_t(\alpha) > 0$:
-    \item \textbf{SAV}: $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3|y_{t-1}|$
-    \item \textbf{AS}: $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3(y_{t-1})^+ + \beta_4(y_{t-1})^-$
-    \item \textbf{IG}: $\mathrm{VaR}_t = (\beta_1 + \beta_2\mathrm{VaR}_{t-1}^2 + \beta_3y_{t-1}^2)^{1/2}$ (a GARCH(1,1) with i.i.d.\ innovations)
-    \item \textbf{Adaptive}: $\mathrm{VaR}_t = \mathrm{VaR}_{t-1} + \beta_1\big([1 + e^{G(y_{t-1} + \mathrm{VaR}_{t-1})}]^{-1} - \alpha\big)$, $G = 10$: raise after a hit, lower slowly otherwise
-    \item $\beta_2$ is the persistence of the tail; no distribution is assumed
+    \item \refEM, written for $\mathrm{VaR}_t = -q_t(\alpha) > 0$; $y_{t-1}$: yesterday's return; $\beta_j$: parameters:
+    \item \textbf{SAV} (symmetric absolute value): $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3|y_{t-1}|$
+    \begin{itemize}
+        \item $\beta_2$: the persistence of the tail; $\beta_3$: the reaction to the size of yesterday's return
+    \end{itemize}
+    \item \textbf{AS} (asymmetric slope): $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3(y_{t-1})^+ + \beta_4(y_{t-1})^-$
+    \begin{itemize}
+        \item $(y)^+ = \max(y, 0)$, $(y)^- = -\min(y, 0)$: gains and losses enter separately; $\beta_4 > \beta_3$ is a leverage effect
+    \end{itemize}
+    \item \textbf{IG} (indirect GARCH): $\mathrm{VaR}_t = (\beta_1 + \beta_2\mathrm{VaR}_{t-1}^2 + \beta_3y_{t-1}^2)^{1/2}$, a GARCH(1,1) with i.i.d.\ innovations
+    \item \textbf{Adaptive}: $\mathrm{VaR}_t = \mathrm{VaR}_{t-1} + \beta_1\big([1 + e^{G(y_{t-1} + \mathrm{VaR}_{t-1})}]^{-1} - \alpha\big)$
+    \begin{itemize}
+        \item the bracket is a smooth hit indicator ($G = 10$): VaR rises after a hit and falls slowly otherwise; no distribution is assumed in any of the four
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Estimation and inference}
+\begin{frame}{Estimation and inference (1/2): the criterion}
 \itemsize{\small}
 \begin{itemize}
-    \item Regression-quantile criterion: $\hat\beta = \arg\min_\beta T^{-1}\sum_t \rho_\alpha\big(y_t + \mathrm{VaR}_t(\beta)\big)$; non-differentiable and non-convex in $\beta$
+    \item Regression-quantile criterion: the average pinball loss of the implied quantile path
+    \[ \hat\beta = \arg\min_\beta \frac1T\sum_t \rho_\alpha\big(y_t + \mathrm{VaR}_t(\beta)\big) \]
     \begin{itemize}
-        \item EM procedure (empirical section): $\mathrm{VaR}_1$ = the empirical quantile of the first 300 days; $10^4$ random vectors, the 10 best refined by alternating simplex and quasi-Newton steps
+        \item $\mathrm{VaR}_t(\beta)$: the path generated by the recursion with parameters $\beta$; the criterion is non-differentiable and non-convex in $\beta$
     \end{itemize}
-    \item Consistency and $\sqrt T(\hat\beta - \beta) \to N(0, \alpha(1 - \alpha)D^{-1}AD^{-1})$, $A = \E[\nabla q_t\nabla q_t']$, $D = \E[f_t(q_t)\nabla q_t\nabla q_t']$
+    \item EM procedure (empirical section)
     \begin{itemize}
-        \item $\hat D = (2T\hat c)^{-1}\sum_t\mathbf 1\{|y_t - \hat q_t| < \hat c\}\nabla\hat q_t\nabla\hat q_t'$; we take $\hat c$ from the Hall--Sheather rule on the residual scale \refKoe
+        \item $\mathrm{VaR}_1$: the empirical quantile of the first 300 days; $10^4$ random parameter vectors, the 10 best refined by alternating simplex and quasi-Newton steps
     \end{itemize}
-    \item Gradients $\nabla q_t$ follow their own recursion (or numerical differentiation of the path): the dynamic model is a recursive M-estimator
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimation and inference (2/2): the covariance}
+\itemsize{\small}
+\begin{itemize}
+    \item Consistency and asymptotic normality, with a sandwich covariance
+    \[ \sqrt T(\hat\beta - \beta) \to N\big(0, \alpha(1 - \alpha)D^{-1}AD^{-1}\big), \qquad A = \E[\nabla q_t\nabla q_t'], \qquad D = \E[f_t(q_t)\nabla q_t\nabla q_t'] \]
+    \begin{itemize}
+        \item $\nabla q_t = \partial q_t(\beta)/\partial\beta$: gradient of the quantile path, which follows its own recursion (or numerical differentiation of the path)
+        \item $f_t(q_t)$: conditional density of $y_t$ at the quantile, as in quantile regression
+    \end{itemize}
+    \item Estimator of $D$: count the residuals within $\hat c$ of zero
+    \[ \hat D = \frac{1}{2T\hat c}\sum_t\mathbf 1\{|y_t - \hat q_t| < \hat c\}\,\nabla\hat q_t\nabla\hat q_t' \]
+    \begin{itemize}
+        \item $\hat c$: bandwidth, from the Hall--Sheather rule on the residual scale \refKoe; the dynamic model is a recursive M-estimator
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{The dynamic quantile (DQ) test}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{itemize}
-    \item $\mathrm{Hit}_t = \mathbf 1\{y_t < q_t\} - \alpha$: under correct specification a martingale difference, $\E[\mathrm{Hit}_t \mid \mathcal F_{t-1}] = 0$
+    \item The hit sequence is a martingale difference under correct specification
+    \[ \mathrm{Hit}_t = \mathbf 1\{y_t < q_t\} - \alpha, \qquad \E[\mathrm{Hit}_t \mid \mathcal F_{t-1}] = 0 \]
     \begin{itemize}
         \item regress $\mathrm{Hit}_t$ on $X_t$ = (1, $\mathrm{Hit}_{t-1}, \dots, \mathrm{Hit}_{t-4}$, $q_t$), all in $\mathcal F_{t-1}$ \refEM
     \end{itemize}
-    \item Out of sample: $\mathrm{DQ} = \dfrac{\mathrm{Hit}'X(X'X)^{-1}X'\mathrm{Hit}}{\alpha(1 - \alpha)} \to \chi^2_6$
+    \item Out-of-sample statistic: a Wald test that all regression coefficients are zero
+    \[ \mathrm{DQ} = \frac{\mathrm{Hit}'X(X'X)^{-1}X'\mathrm{Hit}}{\alpha(1 - \alpha)} \to \chi^2_6 \]
     \begin{itemize}
+        \item $\mathrm{Hit}$: vector of hits; $X$: matrix with rows $X_t$; 6 = number of regressors; a large DQ rejects calibration
         \item in sample the estimated $\beta$ makes the hits orthogonal to the gradients: the covariance needs the correction derived by EM
     \end{itemize}
-    \item Kupiec (constant only) and Christoffersen (one lagged hit) are special cases; the VaR regressor adds power against level-dependent misspecification
-    \item With $\alpha = 1\%$ and a few hundred days the $\chi^2$ approximation is poor (Section 5): report simulated or exact $p$-values when possible
+    \item Kupiec (constant only) and Christoffersen (the first lag of the hits) are special cases; the VaR regressor adds power against level-dependent misspecification
+    \item With $\alpha = 1\%$ and a few hundred days the $\chi^2$ approximation is poor (Section 5): report simulated or exact p-values when possible
 \end{itemize}
 \end{frame}
 
@@ -740,9 +837,11 @@ ADAPT & 1.190 (0.069) & -- & -- & -- & 4.044 & 0.90 & 0.8 & 27.5 ($<$0.001) \\
 \begin{frame}{M-estimation with the FZ0 loss}
 \itemsize{\small}
 \begin{itemize}
-    \item Model $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$; estimator $\hat\theta = \arg\min_\theta T^{-1}\sum_t L_{\mathrm{FZ0}}(y_t, v_t(\theta), e_t(\theta); \alpha)$ \refPZC
+    \item A dynamic model for the pair, estimated by minimising the average FZ0 loss \refPZC
+    \[ (v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta), \qquad \hat\theta = \arg\min_\theta \frac1T\sum_t L_{\mathrm{FZ0}}\big(y_t, v_t(\theta), e_t(\theta); \alpha\big) \]
     \begin{itemize}
-        \item consistency follows from the strict consistency of FZ0 and identification of $\theta$; asymptotic normality as for CAViaR, with a sandwich covariance
+        \item $\theta$: parameters of the two recursions; consistency follows from the strict consistency of FZ0 and the identification of $\theta$
+        \item asymptotic normality as for CAViaR, with a sandwich covariance
     \end{itemize}
     \item Why not maximum likelihood?
     \begin{itemize}
@@ -756,25 +855,35 @@ ADAPT & 1.190 (0.069) & -- & -- & -- & 4.044 & 0.90 & 0.8 & 27.5 ($<$0.001) \\
 \begin{frame}{The two-factor GAS model}
 \itemsize{\small}
 \begin{itemize}
-    \item \refPZC, eq.~(9)--(16): $\begin{pmatrix} v_{t+1} \\ e_{t+1}\end{pmatrix} = w + B\begin{pmatrix} v_t \\ e_t\end{pmatrix} + A\lambda_t$, $B$ diagonal, $A$ a $2\times2$ matrix
+    \item \refPZC, eq.~(9)--(16): the pair follows a VAR(1) driven by the scaled score of FZ0 (generalised autoregressive score, GAS)
+    \[ \begin{pmatrix} v_{t+1} \\ e_{t+1}\end{pmatrix} = w + B\begin{pmatrix} v_t \\ e_t\end{pmatrix} + A\lambda_t \]
     \begin{itemize}
-        \item forcing variables from the FZ0 score: $\lambda_{v,t} = -v_t(\mathbf 1\{y_t \le v_t\} - \alpha)$, $\lambda_{e,t} = \tfrac{1}{\alpha}\mathbf 1\{y_t \le v_t\}y_t - e_t$
-        \item both are identification functions: zero conditional mean under correct specification
+        \item $w$: intercept vector; $B$: diagonal $2\times2$ persistence matrix; $A$: $2\times2$ matrix of reactions to the forcing variables $\lambda_t = (\lambda_{v,t}, \lambda_{e,t})'$
     \end{itemize}
-    \item The Hessian is scaled with $f_t(v_t) \approx k_\alpha/v_t$ (exact for location--scale returns), so no density is estimated
-    \item Eight parameters; on non-hit days $\lambda_{e,t} = -e_t$ and both risk measures decay deterministically towards their means
+    \item Forcing variables from the FZ0 score
+    \[ \lambda_{v,t} = -v_t\big(\mathbf 1\{y_t \le v_t\} - \alpha\big), \qquad \lambda_{e,t} = \frac{1}{\alpha}\mathbf 1\{y_t \le v_t\}\,y_t - e_t \]
+    \begin{itemize}
+        \item both are identification functions: zero conditional mean under correct specification
+        \item the Hessian is scaled with $f_t(v_t) \approx k_\alpha/v_t$, $k_\alpha$ a constant (exact for location--scale returns), so no density is estimated
+        \item eight parameters; on non-hit days $\lambda_{e,t} = -e_t$ and both risk measures decay deterministically towards their means
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{One-factor, GARCH-FZ and Hybrid models}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{itemize}
-    \item \textbf{GAS-1F}, eq.~(20): $v_t = a e^{\kappa_t}$, $e_t = b e^{\kappa_t}$, $b < a < 0$, $\kappa_t = \beta\kappa_{t-1} + \gamma\,\dfrac{-1}{e_{t-1}}\Big(\tfrac{1}{\alpha}\mathbf 1\{y_{t-1} \le v_{t-1}\}y_{t-1} - e_{t-1}\Big)$
+    \item \textbf{GAS-1F}, eq.~(20): one latent log-scale $\kappa_t$ multiplies both risk measures
+    \[ v_t = a\,e^{\kappa_t}, \quad e_t = b\,e^{\kappa_t}, \quad \kappa_t = \beta\kappa_{t-1} + \gamma\,\frac{-1}{e_{t-1}}\Big(\frac{1}{\alpha}\mathbf 1\{y_{t-1} \le v_{t-1}\}y_{t-1} - e_{t-1}\Big) \]
     \begin{itemize}
-        \item one latent log-scale; the intercept $\omega$ is not identified with $(a, b)$ and is fixed at 0
+        \item $b < a < 0$: VaR and ES at $\kappa_t = 0$; $\beta$: persistence of the log-scale; $\gamma$: reaction to the ES forcing variable
+        \item the intercept $\omega$ is not identified together with $(a, b)$ and is fixed at 0
     \end{itemize}
-    \item \textbf{GARCH-FZ}, eq.~(25)--(26): $\kappa_t^2 = 1 + \beta\kappa_{t-1}^2 + \gamma y_{t-1}^2$, $(v_t, e_t) = (a, b)\kappa_t$: a GARCH tuned to the tail
-    \item \textbf{Hybrid}, eq.~(27): GAS-1F plus $\delta\ln|y_{t-1}|$: reacts every day, more strongly on hit days
+    \item \textbf{GARCH-FZ}, eq.~(25)--(26): $\kappa_t^2 = 1 + \beta\kappa_{t-1}^2 + \gamma y_{t-1}^2$, $(v_t, e_t) = (a, b)\kappa_t$: a GARCH whose scale $\kappa_t$ is fitted to the tail
+    \item \textbf{Hybrid}, eq.~(27): GAS-1F plus $\delta\ln|y_{t-1}|$ in the recursion of $\kappa_t$
+    \begin{itemize}
+        \item reacts every day through $\delta$, more strongly on hit days
+    \end{itemize}
     \item In all three the ratio $e_t/v_t = b/a$ is constant: the shape of the tail is fixed, only its scale moves
 \end{itemize}
 \end{frame}
@@ -783,8 +892,10 @@ ADAPT & 1.190 (0.069) & -- & -- & -- & 4.044 & 0.90 & 0.8 & 27.5 ($<$0.001) \\
 \itemsize{\small}
 \begin{itemize}
     \item The FZ0 objective is discontinuous in $\theta$ (through $\mathbf 1\{y_t \le v_t(\theta)\}$) and the recursion propagates every jump
-    \item Appendix C of the paper \refPZC: replace the indicator by $\Gamma(y, v; \tau) = [1 + e^{\tau(y - v)}]^{-1}$ in the loss and in the forcing variable
+    \item Appendix C of the paper \refPZC: replace the indicator by a logistic approximation in the loss and in the forcing variable
+    \[ \Gamma(y, v; \tau) = \frac{1}{1 + e^{\tau(y - v)}} \]
     \begin{itemize}
+        \item $\tau > 0$: smoothing parameter; as $\tau \to \infty$, $\Gamma \to \mathbf 1\{y \le v\}$
         \item quasi-Newton with $\tau = 5$, then $\tau = 20$, then the exact loss with the simplex method, each step starting from the previous one
     \end{itemize}
     \item Our starting values: random dynamic parameters with $(a, b)$ matched to the in-sample VaR and ES; the four best are refined
@@ -901,8 +1012,10 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \begin{frame}{Joint (VaR, ES) regression}
 \itemsize{\small}
 \begin{itemize}
-    \item \refDB: $q_\alpha(Y_t \mid x_t) = x_t'\beta$, $-\mathrm{ES}_\alpha(Y_t \mid x_t) = x_t'\gamma$, estimated jointly by minimising a Fissler--Ziegel loss
+    \item \refDB: both functionals are linear in the covariates
+    \[ q_\alpha(Y_t \mid x_t) = x_t'\beta, \qquad -\mathrm{ES}_\alpha(Y_t \mid x_t) = x_t'\gamma \]
     \begin{itemize}
+        \item $x_t$: covariates known at $t-1$; $\beta$, $\gamma$: the effects on the quantile and on the tail mean; estimated jointly by minimising a Fissler--Ziegel loss
         \item M-estimator: consistent and asymptotically normal for any member of the class; the choice of $(G_1, G_2)$ affects only efficiency
     \end{itemize}
     \item Uses
@@ -953,9 +1066,10 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \begin{frame}{Recap: counting hits}
 \itemsize{\small}
 \begin{itemize}
-    \item Hits $I_t = \mathbf 1\{y_t < v_t\}$; correct VaR $\Rightarrow I_t$ i.i.d.\ Bernoulli($\alpha$) (\atschlink{https://danpele.github.io/MFM/EN/Courses/chapter8_backtesting_risk.pdf}{MFM, Chapter 8})
+    \item Hits $I_t = \mathbf 1\{y_t < v_t\}$; a correct VaR makes $I_t$ i.i.d.\ Bernoulli($\alpha$) (\atschlink{https://danpele.github.io/MFM/EN/Courses/chapter8_backtesting_risk.pdf}{MFM, Chapter 8})
     \begin{itemize}
-        \item \refKup: unconditional coverage, LR $\sim \chi^2_1$; \refChr: independence of consecutive hits and conditional coverage, $\chi^2_2$
+        \item \refKup: unconditional coverage, likelihood-ratio statistic LR $\sim \chi^2_1$ (is the hit rate $\alpha$?)
+        \item \refChr: independence of consecutive hits, and conditional coverage (both together), $\chi^2_2$
         \item Basel traffic light \refBCBS: green up to 4 hits of VaR 1\% in 250 days, yellow 5--9, red from 10
     \end{itemize}
     \item What counting misses
@@ -970,15 +1084,17 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \begin{frame}{Conditional calibration}
 \itemsize{\small}
 \begin{itemize}
-    \item A forecast $x_t$ of $\mathrm T$ is \textbf{conditionally calibrated} if $\E[V(x_t, Y_t) \mid \mathcal F_{t-1}] = 0$, with $V$ the identification function \refNZ
+    \item A forecast $x_t$ of $\mathrm T$ is \textbf{conditionally calibrated} if its identification function $V$ has conditional mean zero \refNZ
+    \[ \E[V(x_t, Y_t) \mid \mathcal F_{t-1}] = 0 \ \Rightarrow\ \E[h_{t-1}V(x_t, Y_t)] = 0 \]
     \begin{itemize}
-        \item for any instruments $h_{t-1} \in \mathcal F_{t-1}$: $\E[h_{t-1}V(x_t, Y_t)] = 0$, a moment test (Wald, $\chi^2$)
+        \item $h_{t-1}$: any instrument known at $t-1$ (constant, lagged hits, the forecast itself); a moment test (Wald, $\chi^2$)
     \end{itemize}
-    \item PZC, eq.~(40)--(41): standardised generalised residuals $\lambda^s_{v,t} = \mathbf 1\{y_t \le v_t\} - \alpha$ and $\lambda^s_{e,t} = \dfrac{\mathbf 1\{y_t \le v_t\}y_t}{\alpha e_t} - 1$
+    \item PZC, eq.~(40)--(41): standardised generalised residuals
+    \[ \lambda^s_{v,t} = \mathbf 1\{y_t \le v_t\} - \alpha, \qquad \lambda^s_{e,t} = \frac{\mathbf 1\{y_t \le v_t\}\,y_t}{\alpha e_t} - 1 \]
     \begin{itemize}
-        \item regress each on (1, its own lag, $v_t$ or $e_t$) and test that all three coefficients are zero; we use a White (HC0) covariance
+        \item regress each on (1, its own first lag, $v_t$ or $e_t$) and test that all three coefficients are zero; we use a White (HC0) covariance
+        \item DQ is the special case for VaR; the ES regression tests ES only jointly with VaR, as elicitability predicts
     \end{itemize}
-    \item DQ is the special case for VaR; the ES regression tests ES only jointly with VaR, as elicitability predicts
     \item Power comes from the instruments: lagged hits detect clustering, the forecast level detects scale errors
 \end{itemize}
 \end{frame}
@@ -986,13 +1102,15 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \begin{frame}{Duration-based backtests}
 \itemsize{\small}
 \begin{itemize}
-    \item \refCP: under a correct VaR the durations $d_i$ between hits are geometric, memoryless, mean $1/\alpha$
+    \item \refCP: under a correct VaR the durations $d_i$ (days between consecutive hits) are geometric, memoryless, with mean $1/\alpha$
     \begin{itemize}
-        \item alternative: Weibull hazard $\lambda(d) = a^b b\,d^{b-1}$; $b < 1$ is a decreasing hazard, i.e.\ hits cluster
+        \item alternative: Weibull hazard $\lambda(d) = a^b b\,d^{b-1}$, the probability of a hit after $d$ quiet days; $a > 0$: scale, $b > 0$: shape
+        \item $b = 1$: constant hazard (no memory, as under $H_0$); $b < 1$: decreasing hazard, i.e.\ hits cluster
     \end{itemize}
-    \item Likelihood with censoring: the first and last spells are incomplete, they enter through the survival function $S(d) = e^{-(ad)^b}$
+    \item Likelihood with censoring: the first and last spells are incomplete and enter through the survival function $S(d) = e^{-(ad)^b}$
+    \[ \mathrm{LR} = 2\big[\ln L(\hat a, \hat b) - \ln L(\tilde a, 1)\big] \to \chi^2_1 \]
     \begin{itemize}
-        \item $\mathrm{LR} = 2[\ln L(\hat a, \hat b) - \ln L(\tilde a, 1)] \to \chi^2_1$; small-sample $p$-values by simulation are advisable
+        \item $(\hat a, \hat b)$: unrestricted estimates; $\tilde a$: estimate under $b = 1$; small-sample p-values by simulation are advisable
     \end{itemize}
     \item Durations see clustering at any distance, not only on consecutive days as Christoffersen's test does
 \end{itemize}
@@ -1037,6 +1155,7 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \end{tabular}
 \end{center}
 \begin{itemize}
+    \item $\sigma_t$: forecast volatility; $I_t$: hit indicator; $u_t = F_{t|t-1}(y_t)$: probability integral transform (PIT), uniform on $[0, 1]$ under a correct forecast distribution
     \item Only the regression tests use nothing beyond the pair (VaR, ES): the others are tests of a distribution, which ES alone does not supply
 \end{itemize}
 \end{frame}
@@ -1044,9 +1163,10 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \begin{frame}{Estimation risk in backtests}
 \itemsize{\small}
 \begin{itemize}
-    \item Backtests assume the VaR is known; in practice $\hat v_t = v_t(\hat\theta_R)$, with $\hat\theta_R$ estimated on $R$ days and tested on $P$ days \refEO
+    \item Backtests assume the VaR is known; in practice $\hat v_t = v_t(\hat\theta_R)$, estimated on $R$ days and tested on the next $P$ days \refEO
+    \[ \frac{1}{\sqrt P}\sum_t(\hat I_t - \alpha) = \frac{1}{\sqrt P}\sum_t(I_t - \alpha) + \underbrace{\sqrt{P/R}\cdot\E[f_t(v_t)\nabla v_t']\,\sqrt R(\hat\theta_R - \theta)}_{\text{estimation term}} \]
     \begin{itemize}
-        \item $P^{-1/2}\sum_t(\hat I_t - \alpha) = P^{-1/2}\sum_t(I_t - \alpha) + \underbrace{\sqrt{P/R}\cdot\E[f_t(v_t)\nabla v_t']\sqrt R(\hat\theta_R - \theta)}_{\text{estimation term}}$
+        \item $\hat I_t$, $I_t$: hits of the estimated and of the true VaR; $f_t(v_t)$: conditional density at the VaR; $\nabla v_t$: gradient of the VaR in $\theta$
     \end{itemize}
     \item The estimation term vanishes only if $P/R \to 0$; with a fixed window it grows with the test sample
     \begin{itemize}
@@ -1203,18 +1323,32 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \section{The horizon: multi-period risk}
 %=============================================================================
 
-\begin{frame}{Why the square-root-of-time rule fails}
+\begin{frame}{Why the square-root-of-time rule fails (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $\mathrm{VaR}^{(h)} = \sqrt h\,\mathrm{VaR}^{(1)}$ holds for i.i.d.\ Normal returns with zero mean (stable laws: $h^{1/\gamma}$)
+    \item The rule scales the one-day VaR to $h$ days
+    \[ \mathrm{VaR}^{(h)} = \sqrt h\,\mathrm{VaR}^{(1)} \]
     \begin{itemize}
-        \item fat tails that are not stable: the $h$-day sum is closer to Normal than the daily return, so $\sqrt h$ overstates the quantile at long horizons \refDZ
+        \item $\mathrm{VaR}^{(h)}$: VaR of the $h$-day return $\sum_{k=1}^h y_{t+k}$; exact for i.i.d.\ returns from the Normal distribution with zero mean
+        \item for i.i.d.\ stable laws with index $\gamma \in (0, 2]$ the factor is $h^{1/\gamma}$ ($\gamma = 2$: the Normal case)
     \end{itemize}
-    \item Volatility clustering: $\mathrm{Var}_t(\sum_{k=1}^h y_{t+k}) = \sum_{k=0}^{h-1}\big[\bar\sigma^2 + (\alpha + \beta)^k(\sigma_{t+1}^2 - \bar\sigma^2)\big]$ for GARCH(1,1)
+    \item Fat tails that are not stable: the $h$-day sum is closer to Normal than the daily return
     \begin{itemize}
-        \item in calm times $\sqrt h$ understates risk, in crises it overstates it: mean reversion of volatility
+        \item so $\sqrt h$ overstates the quantile at long horizons \refDZ
     \end{itemize}
     \item Leverage (GJR) makes multi-day losses more skewed than daily ones: the left tail of the sum is thicker than the scaled daily tail
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Why the square-root-of-time rule fails (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Volatility clustering: for GARCH(1,1) the variance of the $h$-day return depends on today's volatility
+    \[ \mathrm{Var}_t\Big(\sum_{k=1}^h y_{t+k}\Big) = \sum_{k=0}^{h-1}\big[\bar\sigma^2 + (\alpha + \beta)^k(\sigma_{t+1}^2 - \bar\sigma^2)\big] \]
+    \begin{itemize}
+        \item $\bar\sigma^2 = \omega/(1 - \alpha - \beta)$: unconditional variance; $\sigma^2_{t+1}$: tomorrow's forecast variance; $\alpha + \beta$: persistence
+        \item in calm times ($\sigma^2_{t+1} < \bar\sigma^2$) $\sqrt h$ understates risk, in crises it overstates it: mean reversion of volatility
+    \end{itemize}
     \item Remedies: simulate the $h$-day distribution (FHS), or forecast the $h$-day quantile directly (quantile regression on $h$-day returns)
 \end{itemize}
 \end{frame}
@@ -1271,8 +1405,10 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \begin{frame}{Model risk of risk models}
 \itemsize{\small}
 \begin{itemize}
-    \item \refDJVZ: \textbf{risk ratio} $\mathrm{RR}_t = \max_m\mathrm{VaR}_{m,t}/\min_m\mathrm{VaR}_{m,t}$ across standard models: the disagreement a regulator should expect
+    \item \refDJVZ: the \textbf{risk ratio} across standard models measures the disagreement a regulator should expect
+    \[ \mathrm{RR}_t = \frac{\max_m\mathrm{VaR}_{m,t}}{\min_m\mathrm{VaR}_{m,t}} \ge 1 \]
     \begin{itemize}
+        \item $\mathrm{VaR}_{m,t}$: the forecast of model $m$ for day $t$; $\mathrm{RR}_t = 1$: all models agree; 2: the most prudent model asks for twice the capital of the least prudent
         \item they find the ratio largest exactly in crises, when risk numbers matter most
     \end{itemize}
     \item \refBDKM: \textbf{risk models-at-risk}: quantify the model risk of a VaR forecast and adjust the forecast for estimation and specification errors
@@ -1355,11 +1491,14 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \begin{frame}{Extremes of dependent series}
 \itemsize{\small}
 \begin{itemize}
-    \item For a stationary series, $\Pr(\max_{t \le n} X_t \le u_n) \approx F(u_n)^{n\theta}$, $\theta \in (0, 1]$ the \textbf{extremal index} \refEKM
+    \item For a stationary series, dependence changes the law of the maximum only through one number, the \textbf{extremal index} $\theta$ \refEKM
+    \[ \Pr\Big(\max_{t \le n} X_t \le u_n\Big) \approx F(u_n)^{n\theta}, \qquad \theta \in (0, 1] \]
     \begin{itemize}
+        \item $X_t$: the daily loss; $F$: its marginal distribution; $u_n$: a high threshold that grows with the sample size $n$
         \item $1/\theta$ = mean cluster size of exceedances; $\theta = 1$: no clustering of extremes
     \end{itemize}
-    \item Intervals estimator \refFS: from the gaps $T_i$ between exceedances, $\hat\theta = \min\Big(1, \dfrac{2\big(\sum(T_i - 1)\big)^2}{(N - 1)\sum(T_i - 1)(T_i - 2)}\Big)$ (when $\max T_i > 2$)
+    \item Intervals estimator \refFS, from the gaps $T_i$ between the $N$ exceedances (when $\max T_i > 2$)
+    \[ \hat\theta = \min\Big(1, \frac{2\big(\sum_i(T_i - 1)\big)^2}{(N - 1)\sum_i(T_i - 1)(T_i - 2)}\Big) \]
     \item \refMF: fit GARCH, apply EVT to the standardised residuals; it works if filtering removes the clustering ($\theta$ near 1 after filtering)
 \end{itemize}
 \end{frame}
@@ -1390,9 +1529,11 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \itemsize{\small}
 \begin{itemize}
     \item Split conformal quantiles guarantee coverage under exchangeability (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter13_foundation_models_conformal.pdf}{Chapter 13}); returns are not exchangeable, so the guarantee fails
-    \item \textbf{Adaptive conformal inference} \refGC: forecast at level $\alpha_t$ and update $\alpha_{t+1} = \alpha_t + \gamma(\alpha - \mathrm{err}_t)$, $\mathrm{err}_t = \mathbf 1\{y_t < q_t(\alpha_t)\}$
+    \item \textbf{Adaptive conformal inference} (ACI) \refGC: forecast at a working level $\alpha_t$ and correct it after each day
+    \[ \alpha_{t+1} = \alpha_t + \gamma(\alpha - \mathrm{err}_t), \qquad \mathrm{err}_t = \mathbf 1\{y_t < q_t(\alpha_t)\} \]
     \begin{itemize}
-        \item deterministic guarantee: $\big|T^{-1}\sum_t\mathrm{err}_t - \alpha\big| \le \dfrac{\max(\alpha_1, 1 - \alpha_1) + \gamma}{\gamma T}$ for \textbf{any} sequence of returns
+        \item $q_t(\alpha_t)$: the model's quantile at level $\alpha_t$; $\gamma > 0$: step size; after a hit $\alpha_{t+1}$ falls (VaR rises), after a quiet day it rises slightly
+        \item deterministic guarantee: $\big|T^{-1}\sum_t\mathrm{err}_t - \alpha\big| \le \dfrac{\max(\alpha_1, 1 - \alpha_1) + \gamma}{\gamma T}$ for \textbf{any} sequence of returns ($\alpha_1$: the starting level)
         \item long-run frequency only: no conditional calibration, no statement about ES
     \end{itemize}
     \item Further reading: conformal recalibration of extreme tail quantiles under dependence \refCO

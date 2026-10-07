@@ -186,7 +186,7 @@ window.ATS_DATA.quizzes['refresher'] = {
             },
             "ro": {
                 "title": "Newey–West de mînă",
-                "text": "Cu $\\hat\\gamma_0 = 1$, $\\hat\\gamma_1 = 0,5$, $\\hat\\gamma_2 = 0,2$ și $L = 2$ decalaje, cît este estimarea Newey–West $\\hat\\Omega$?",
+                "text": "Cu $\\hat\\gamma_0 = 1$, $\\hat\\gamma_1 = 0,5$, $\\hat\\gamma_2 = 0,2$ și $L = 2$ laguri, cît este estimarea Newey–West $\\hat\\Omega$?",
                 "options": [
                     "$1 + 2(\\tfrac23 \\cdot 0,5 + \\tfrac13 \\cdot 0,2) \\approx 1,80$",
                     "$1 + 2(0,5 + 0,2) = 2,40$",
@@ -212,16 +212,16 @@ window.ATS_DATA.quizzes['refresher'] = {
                 "incorrectExplanation": "Few lags do not guarantee a positive sum (the truncated kernel with one lag can be negative), sample autocovariances can be negative, and consistency is an asymptotic property."
             },
             "ro": {
-                "title": "Pozitiv semidefinire",
+                "title": "Caracterul pozitiv semidefinit",
                 "text": "De ce estimatorul Newey–West (Bartlett) nu este niciodată negativ?",
                 "options": [
-                    "Pentru că folosește puține decalaje",
+                    "Pentru că folosește puține laguri",
                     "Pentru că autocovarianțele de selecție sînt întotdeauna pozitive",
                     "Este egal cu o sumă scalată de pătrate ale unor sume mobile ale datelor",
                     "Pentru că este consistent"
                 ],
                 "correctExplanation": "$\\hat\\Omega_{NW} = \\frac{1}{(L+1)T}\\sum_t s_t^2$, cu $s_t$ o sumă mobilă de $L+1$ observații: o sumă de pătrate este nenegativă.",
-                "incorrectExplanation": "Puține decalaje nu garantează o sumă pozitivă (nucleul trunchiat cu un decalaj poate fi negativ), autocovarianțele de selecție pot fi negative, iar consistența este o proprietate asimptotică."
+                "incorrectExplanation": "Puține laguri nu garantează o sumă pozitivă (nucleul trunchiat cu un singur lag poate fi negativ), autocovarianțele de selecție pot fi negative, iar consistența este o proprietate asimptotică."
             }
         },
         {
@@ -302,7 +302,7 @@ window.ATS_DATA.quizzes['refresher'] = {
                     "Erori standard White (1980) cu valori critice normale"
                 ],
                 "correctExplanation": "LLSW aleg lățimea de bandă pentru test (mărime–putere), cu valori critice care țin cont de zgomotul din $\\hat\\Omega$.",
-                "incorrectExplanation": "Regula practică cu valori critice normale respinge prea des sub persistență; nucleul trunchiat cu toate decalajele este degenerat; erorile White ignoră autocorelația."
+                "incorrectExplanation": "Regula practică cu valori critice normale respinge prea des sub persistență; nucleul trunchiat cu toate lagurile este degenerat; erorile White ignoră autocorelația."
             }
         },
         {
@@ -375,7 +375,7 @@ window.ATS_DATA.quizzes['refresher'] = {
             },
             "ro": {
                 "title": "Bootstrap i.i.d.",
-                "text": "Ce estimează bootstrap i.i.d. al lui Efron pentru media de selecție cînd datele sînt autocorelate?",
+                "text": "Ce estimează bootstrap-ul i.i.d. al lui Efron pentru media de selecție cînd datele sînt autocorelate?",
                 "options": [
                     "Varianța de termen lung $\\Omega/T$",
                     "Zero",
@@ -383,7 +383,7 @@ window.ATS_DATA.quizzes['refresher'] = {
                     "$\\hat\\gamma_0/T$, varianța naivă, nu varianța de termen lung"
                 ],
                 "correctExplanation": "Reeșantionarea observațiilor individuale distruge dependența: $\\Var^*(\\bar x^*) = \\hat\\gamma_0/T$ (Singh 1981 arată inconsistența).",
-                "incorrectExplanation": "Bootstrap i.i.d. reproduce eroarea standard naivă; pentru a capta $\\Omega$ trebuie reeșantionate blocuri."
+                "incorrectExplanation": "Bootstrap-ul i.i.d. reproduce eroarea standard naivă; pentru a capta $\\Omega$ trebuie reeșantionate blocuri."
             }
         },
         {
@@ -402,15 +402,15 @@ window.ATS_DATA.quizzes['refresher'] = {
             },
             "ro": {
                 "title": "Blocuri mobile și Bartlett",
-                "text": "Asimptotic, varianța mediei bootstrap pe blocuri mobile cu lungimea blocului $l$ se comportă ca:",
+                "text": "Asimptotic, varianța mediei în bootstrap-ul pe blocuri mobile cu lungimea blocului $l$ se comportă ca:",
                 "options": [
                     "O estimare cu nucleu trunchiat și $L = l$",
                     "O estimare Bartlett (Newey–West) cu lățimea de bandă $S = l$",
                     "Varianța naivă $\\hat\\gamma_0/T$",
                     "O estimare spectrală pătratică"
                 ],
-                "correctExplanation": "Fiecare bloc de lungime $l$ contribuie cu autocovarianțele pînă la decalajul $l-1$, cu ponderile $1 - |j|/l$: ponderile Bartlett (Künsch 1989).",
-                "incorrectExplanation": "Într-un bloc, decalajul $j$ apare de $l - j$ ori, deci ponderile scad liniar; nu sînt constante (trunchiate) și nu sînt QS."
+                "correctExplanation": "Fiecare bloc de lungime $l$ contribuie cu autocovarianțele pînă la lagul $l-1$, cu ponderile $1 - |j|/l$: ponderile Bartlett (Künsch 1989).",
+                "incorrectExplanation": "Într-un bloc, lagul $j$ apare de $l - j$ ori, deci ponderile scad liniar; nu sînt constante (trunchiate) și nu sînt QS."
             }
         },
         {
@@ -429,7 +429,7 @@ window.ATS_DATA.quizzes['refresher'] = {
             },
             "ro": {
                 "title": "Blocuri circulare",
-                "text": "Care este principalul avantaj al bootstrap-ului circular pe blocuri față de bootstrap pe blocuri mobile?",
+                "text": "Care este principalul avantaj al bootstrap-ului circular pe blocuri față de bootstrap-ul pe blocuri mobile?",
                 "options": [
                     "Fiecare observație aparține aceluiași număr de blocuri, deci $E^*\\bar x^* = \\bar x$",
                     "Nu necesită o lungime a blocului",
@@ -456,7 +456,7 @@ window.ATS_DATA.quizzes['refresher'] = {
             },
             "ro": {
                 "title": "Bootstrap staționar",
-                "text": "În bootstrap staționar al lui Politis și Romano (1994), lungimile blocurilor sînt:",
+                "text": "În bootstrap-ul staționar al lui Politis și Romano (1994), lungimile blocurilor sînt:",
                 "options": [
                     "geometrice cu media $1/p$, deci seria reeșantionată este staționară",
                     "fixe și egale cu $T^{1/3}$",
@@ -464,7 +464,7 @@ window.ATS_DATA.quizzes['refresher'] = {
                     "alese astfel încît să maximizeze varianța bootstrap"
                 ],
                 "correctExplanation": "La fiecare pas blocul continuă cu probabilitatea $1-p$ sau reîncepe într-un punct aleator cu probabilitatea $p$; cu înfășurare, reeșantionarea este staționară condiționat de date.",
-                "incorrectExplanation": "Blocurile fixe definesc bootstrap pe blocuri mobile și cel circular; lungimea blocului se alege pentru a minimiza eroarea pătratică medie (Politis–White), nu pentru a maximiza varianța."
+                "incorrectExplanation": "Blocurile fixe definesc bootstrap-ul pe blocuri mobile și cel circular; lungimea blocului se alege pentru a minimiza eroarea pătratică medie (Politis–White), nu pentru a maximiza varianța."
             }
         },
         {
@@ -483,7 +483,7 @@ window.ATS_DATA.quizzes['refresher'] = {
             },
             "ro": {
                 "title": "Wild bootstrap",
-                "text": "Pentru ce problemă NU este valid wild bootstrap (reziduuri înmulțite cu semne i.i.d.)?",
+                "text": "Pentru ce problemă NU este valid wild bootstrap-ul (reziduuri înmulțite cu semne i.i.d.)?",
                 "options": [
                     "Un AR(1) cu erori GARCH",
                     "O regresie transversală cu erori heteroscedastice",
@@ -491,7 +491,7 @@ window.ATS_DATA.quizzes['refresher'] = {
                     "O regresie ale cărei scoruri sînt o secvență de diferențe de martingală"
                 ],
                 "correctExplanation": "Suprapunerea creează erori MA(3); multiplicatorii i.i.d. distrug această autocorelație, deci varianța bootstrap este prea mică.",
-                "incorrectExplanation": "Wild bootstrap păstrează heteroscedasticitatea și este valid cînd scorurile sînt necorelate: erori de tip GARCH (Gonçalves și Kilian 2004), date transversale, diferențe de martingală."
+                "incorrectExplanation": "Wild bootstrap-ul păstrează heteroscedasticitatea și este valid cînd scorurile sînt necorelate: erori de tip GARCH (Gonçalves și Kilian 2004), date transversale, diferențe de martingală."
             }
         },
         {
@@ -517,8 +517,8 @@ window.ATS_DATA.quizzes['refresher'] = {
                     "un mers aleator",
                     "MA(3)"
                 ],
-                "correctExplanation": "Variabilele dependente consecutive au trei trimestre comune, deci $u_t$ și $u_{t-j}$ sînt corelate pentru $j \\le 3$ și necorelate dincolo de acest decalaj: un MA($h-1$).",
-                "incorrectExplanation": "Suprapunerea creează o medie mobilă de ordinul $h - 1 = 3$; nu este zgomot alb, iar corelația se oprește după decalajul 3, în loc să scadă geometric."
+                "correctExplanation": "Variabilele dependente consecutive au trei trimestre comune, deci $u_t$ și $u_{t-j}$ sînt corelate pentru $j \\le 3$ și necorelate dincolo de acest lag: un MA($h-1$).",
+                "incorrectExplanation": "Suprapunerea creează o medie mobilă de ordinul $h - 1 = 3$; nu este zgomot alb, iar corelația se oprește după lagul 3, în loc să scadă geometric."
             }
         },
         {
@@ -542,7 +542,7 @@ window.ATS_DATA.quizzes['refresher'] = {
                     "Pentru că lățimea de bandă Newey–West a fost prea mică",
                     "Statistica $t$ diverge sub o rădăcină unitară: problema este regresia, nu eroarea standard",
                     "Pentru că erorile sînt heteroscedastice",
-                    "HAC o rezolvă cu suficiente decalaje"
+                    "HAC o rezolvă cu suficiente laguri"
                 ],
                 "correctExplanation": "Phillips (1986): într-o regresie falsă statistica $t$ diverge cu viteza $\\sqrt{T}$; reziduurile sînt I(1), deci nu există un $\\Omega$ finit de estimat. Diferențierea readuce mărimea corectă.",
                 "incorrectExplanation": "Lățimi de bandă mai mari reduc, dar nu pot elimina respingerile excesive, pentru că reziduurile au o rădăcină unitară; heteroscedasticitatea nu este problema."
@@ -594,9 +594,9 @@ window.ATS_DATA.quizzes['refresher'] = {
                 "text": "În testul Reality Check al lui White (2000), cum se obține distribuția sub ipoteza nulă a lui $\\max_k \\sqrt{n}\\,\\bar f_k$?",
                 "options": [
                     "Din distribuția Normală standard",
-                    "Prin bootstrap staționar al întregului vector al diferențelor de performanță, recentrat în mediile de selecție",
-                    "Prin ajustarea Bonferroni a fiecărei valori $p$",
-                    "Printr-un bootstrap i.i.d. al fiecărei reguli separat"
+                    "Prin bootstrap-ul staționar al întregului vector al diferențelor de performanță, recentrat în mediile de selecție",
+                    "Prin ajustarea Bonferroni a fiecărui p-value",
+                    "Printr-un bootstrap i.i.d. aplicat separat fiecărei reguli"
                 ],
                 "correctExplanation": "Reeșantionarea comună a vectorului $f_t$ păstrează corelația dintre reguli și în timp; recentrarea impune ipoteza nulă cea mai puțin favorabilă, $E f_k = 0$.",
                 "incorrectExplanation": "Maximul unor statistici corelate nu urmează distribuția Normală; Bonferroni ignoră corelația; reeșantionarea separată a fiecărei reguli distruge dependența dintre reguli pe care testul o folosește."
@@ -618,7 +618,7 @@ window.ATS_DATA.quizzes['refresher'] = {
             },
             "ro": {
                 "title": "Găsiți eroarea din răspunsul AI",
-                "text": "Un asistent AI a scris: „(i) Erorile standard Newey–West sînt întotdeauna mai mari decît cele MCMMP; (ii) bootstrap circular pe blocuri elimină deplasarea de capăt a bootstrap-ului pe blocuri mobile; (iii) pentru prognoze suprapuse pe $h$ pași, erorile sînt MA($h-1$).” Ce afirmație este greșită?",
+                "text": "Un asistent AI a scris: „(i) Erorile standard Newey–West sînt întotdeauna mai mari decît cele MCMMP; (ii) bootstrap-ul circular pe blocuri elimină deplasarea de capăt a bootstrap-ului pe blocuri mobile; (iii) pentru prognoze suprapuse pe $h$ pași, erorile sînt MA($h-1$).” Ce afirmație este greșită?",
                 "options": [
                     "(i)",
                     "(ii)",
@@ -645,7 +645,7 @@ window.ATS_DATA.quizzes['refresher'] = {
             },
             "ro": {
                 "title": "Găsiți eroarea din răspunsul AI (2)",
-                "text": "Rugat să testeze dacă inflația din România a fost în medie 2,5% din 2013 (rate anuale lunare, $\\hat\\rho_1 \\approx 0,99$), un asistent AI a propus un test $t$ Newey–West cu $\\lfloor 4(T/100)^{2/9}\\rfloor$ decalaje și valori critice normale. Care este problema principală?",
+                "text": "Rugat să testeze dacă inflația din România a fost în medie 2,5% din 2013 (rate anuale lunare, $\\hat\\rho_1 \\approx 0,99$), un asistent AI a propus un test $t$ Newey–West cu $\\lfloor 4(T/100)^{2/9}\\rfloor$ laguri și valori critice normale. Care este problema principală?",
                 "options": [
                     "Newey–West nu poate fi folosit pentru medii",
                     "Testul ar trebui să folosească mediana în loc de medie",

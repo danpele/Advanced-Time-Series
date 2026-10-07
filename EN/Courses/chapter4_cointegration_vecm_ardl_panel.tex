@@ -92,14 +92,13 @@ MSCA Digital Finance}
 \end{frame}
 }
 % BEGIN-ACRONYMS (generat de latex/acronyms.py; nu editati manual)
-\begin{frame}{Acronyms used in this material (1/3)}
+\begin{frame}{Acronyms used in this material (1/2)}
 \setbeamertemplate{itemize/enumerate body begin}{\tiny}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{ADF}: Augmented Dickey–Fuller (test)
     \item \textbf{AI}: Artificial Intelligence
-    \item \textbf{AIC}: Akaike Information Criterion
     \item \textbf{AR}: AutoRegressive (model); in event studies: Abnormal Return
     \item \textbf{ARDL}: AutoRegressive Distributed Lag (model)
     \item \textbf{B230RC0Q173SBEA}: US resident population, quarterly (FRED series code)
@@ -109,16 +108,13 @@ MSCA Digital Finance}
     \item \textbf{CCE}: Common Correlated Effects (estimator)
     \item \textbf{CCEMG}: Common Correlated Effects Mean Group
     \item \textbf{CD}: Cross-section Dependence (test of Pesaran)
-    \item \textbf{CEE}: Central and Eastern Europe
+    \item \textbf{CIPS}: Cross-sectionally augmented IPS (test)
+    \item \textbf{CS-ARDL}: Cross-Sectionally augmented ARDL
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{CIPS}: Cross-sectionally augmented IPS (test)
-    \item \textbf{COVID-19}: COronaVIrus Disease 2019
-    \item \textbf{CS-ARDL}: Cross-Sectionally augmented ARDL
     \item \textbf{DOLS}: Dynamic Ordinary Least Squares
-    \item \textbf{ECB}: European Central Bank
     \item \textbf{ECM}: Error Correction Model
     \item \textbf{EU}: European Union
     \item \textbf{EU-27}: the 27 member states of the European Union
@@ -127,32 +123,25 @@ MSCA Digital Finance}
     \item \textbf{FMOLS}: Fully Modified Ordinary Least Squares
     \item \textbf{FPI}: Fixed Private Investment (FRED series code)
     \item \textbf{FRED}: Federal Reserve Economic Data
-\end{itemize}
-\end{column}
-\end{columns}
-\end{frame}
-\begin{frame}{Acronyms used in this material (2/3)}
-\setbeamertemplate{itemize/enumerate body begin}{\tiny}
-\begin{columns}[T]
-\begin{column}{0.49\textwidth}
-\begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity
     \item \textbf{GDP}: Gross Domestic Product
     \item \textbf{GDPDEF}: GDP implicit price deflator (FRED series code)
     \item \textbf{GMM}: Generalized Method of Moments
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+\begin{frame}{Acronyms used in this material (2/2)}
+\setbeamertemplate{itemize/enumerate body begin}{\tiny}
+\begin{columns}[T]
+\begin{column}{0.49\textwidth}
+\begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{HICP}: Harmonised Index of Consumer Prices
-    \item \textbf{HQ}: Hannan–Quinn (information criterion)
-    \item \textbf{IFS}: International Financial Statistics (IMF)
     \item \textbf{IMF}: International Monetary Fund
     \item \textbf{IPS}: Im–Pesaran–Shin (panel unit-root test)
-    \item \textbf{KPSW}: King–Plosser–Stock–Watson (common-trends model, 1991)
     \item \textbf{LLC}: Levin–Lin–Chu (panel unit-root test)
     \item \textbf{LLM}: Large Language Model
     \item \textbf{LR}: Likelihood Ratio (test)
-\end{itemize}
-\end{column}
-\begin{column}{0.49\textwidth}
-\begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{MG}: Mean Group (estimator)
     \item \textbf{ML}: Machine Learning
     \item \textbf{NARDL}: Nonlinear AutoRegressive Distributed Lag (model)
@@ -160,29 +149,21 @@ MSCA Digital Finance}
     \item \textbf{OECD}: Organisation for Economic Co-operation and Development
     \item \textbf{OLS}: Ordinary Least Squares
     \item \textbf{PCESV}: Personal Consumption Expenditures: SerVices (FRED series code)
+\end{itemize}
+\end{column}
+\begin{column}{0.49\textwidth}
+\begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{PCND}: Personal Consumption expenditures: NonDurable goods (FRED series code)
     \item \textbf{PMG}: Pooled Mean Group (estimator)
     \item \textbf{PPP}: Purchasing Power Parity
     \item \textbf{PSS}: Pesaran–Shin–Smith
-    \item \textbf{RA}: Reinsel–Ahn (small-sample correction)
     \item \textbf{ROBOR}: Romanian Interbank Offer Rate
-\end{itemize}
-\end{column}
-\end{columns}
-\end{frame}
-\begin{frame}{Acronyms used in this material (3/3)}
-\setbeamertemplate{itemize/enumerate body begin}{\tiny}
-\begin{columns}[T]
-\begin{column}{0.49\textwidth}
-\begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{SE}: Standard Error
     \item \textbf{TSA}: Time Series Analysis
     \item \textbf{US}: United States
     \item \textbf{VAR}: Vector AutoRegression
     \item \textbf{VECM}: Vector Error Correction Model
 \end{itemize}
-\end{column}
-\begin{column}{0.49\textwidth}
 \end{column}
 \end{columns}
 \end{frame}
@@ -292,30 +273,59 @@ EU-27 household consumption, disposable income, consumption deflator, population
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The VECM and the hypothesis $H(r)$}
+\begin{frame}{The VECM and the hypothesis $H(r)$ (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $\Delta y_t = \Pi y_{t-1} + \sum_{i=1}^{p-1}\Gamma_i\Delta y_{t-i} + \Phi D_t + \varepsilon_t$, $\varepsilon_t \sim$ i.i.d. $N(0, \Omega)$, $y_t \in \R^n$
-    \item $H(r)$: $\Pi = \alpha\beta'$ with $\alpha, \beta$ of dimension $n\times r$; the models are nested, $H(0) \subset H(1) \subset \dots \subset H(n)$
+    \item The VECM: this month's change of each variable responds to last month's levels, to past changes and to deterministic terms \[ \Delta y_t = \Pi y_{t-1} + \sum_{i=1}^{p-1}\Gamma_i\Delta y_{t-i} + \Phi D_t + \varepsilon_t \]
+    \item Notation
+    \begin{itemize}
+        \item $y_t \in \R^n$: the vector of the $n$ I(1) variables; $\Delta y_t = y_t - y_{t-1}$: their changes
+        \item $\Pi$ ($n\times n$): the long-run (levels) matrix; $\Gamma_i$ ($n\times n$): the short-run matrices; $p$: the lag order of the VAR in levels
+        \item $D_t$: deterministic terms (constant, trend, dummies) with coefficients $\Phi$
+        \item $\varepsilon_t \sim$ i.i.d. $N(0, \Omega)$: the innovations, with covariance matrix $\Omega$
+    \end{itemize}
+    \item Gaussian likelihood conditional on the first $p$ observations: the estimator is ML, the tests are likelihood ratios \refJohA, \refJohB
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The VECM and the hypothesis $H(r)$ (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item $H(r)$: $\Pi$ has rank at most $r$, so it factors as $\Pi = \alpha\beta'$ with $\alpha, \beta$ of dimension $n\times r$
+    \begin{itemize}
+        \item $r$: the number of cointegrating relations, $0 \le r \le n$
+        \item $\beta$: its columns are the $r$ cointegrating vectors; $\beta'y_t$ is stationary (the long run)
+        \item $\alpha$: the adjustment (loading) coefficients; $\alpha_{ij}$ is the response of $\Delta y_{i,t}$ to the deviation $\beta_j'y_{t-1}$
+    \end{itemize}
+    \item The models are nested: $H(0) \subset H(1) \subset \dots \subset H(n)$
     \begin{itemize}
         \item $H(n)$: unrestricted VAR in levels; $H(0)$: VAR in differences
-        \item only $\Pi$ is identified: $\alpha\beta' = (\alpha\xi)(\beta\xi^{-1\prime})'$ for any invertible $r\times r$ matrix $\xi$
     \end{itemize}
-    \item $\beta$: the $r$ cointegrating relations (the long run); $\alpha$: the adjustment (loading) coefficients; $\Gamma_i$: short-run dynamics
-    \item Gaussian likelihood conditional on the first $p$ observations: the estimator is ML, the tests are likelihood ratios \refJohA, \refJohB
+    \item Only $\Pi$ is identified, not $\alpha$ and $\beta$ separately: $\alpha\beta' = (\alpha\xi)(\beta\xi^{-1\prime})'$
+    \begin{itemize}
+        \item $\xi$: any invertible $r\times r$ matrix; $\xi^{-1\prime}$: the transpose of its inverse
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Step 1: concentrating out the short run}
 \itemsize{\small}
 \begin{itemize}
-    \item Regress $\Delta y_t$ and $y_{t-1}$ on $Z_{2t} = (\Delta y_{t-1}', \dots, \Delta y_{t-p+1}', D_t')'$; keep the residuals $R_{0t}$ and $R_{1t}$ (Frisch--Waugh)
+    \item Regress $\Delta y_t$ and $y_{t-1}$ on $Z_{2t} = (\Delta y_{t-1}', \dots, \Delta y_{t-p+1}', D_t')'$ and keep the residuals (Frisch--Waugh)
+    \begin{itemize}
+        \item $Z_{2t}$: all short-run regressors (lagged changes and deterministic terms)
+        \item $R_{0t}$, $R_{1t}$: the residuals of $\Delta y_t$ and of $y_{t-1}$, i.e.\ both purged of the short run
+    \end{itemize}
     \item The concentrated model is a regression with a reduced-rank coefficient: $R_{0t} = \alpha\beta'R_{1t} + \hat\varepsilon_t$
     \item Moment matrices $S_{ij} = T^{-1}\sum_t R_{it}R_{jt}'$, $i, j \in \{0, 1\}$
-    \item For fixed $\beta$, OLS of $R_{0t}$ on $\beta'R_{1t}$:
+    \begin{itemize}
+        \item $T$: the number of observations used; $S_{00}$, $S_{11}$: the covariance matrices of $R_{0t}$, $R_{1t}$; $S_{01} = S_{10}'$: their cross-covariance
+    \end{itemize}
+    \item For fixed $\beta$, OLS of $R_{0t}$ on $\beta'R_{1t}$ gives $\alpha$ and $\Omega$ in closed form:
     \begin{itemize}
         \item $\hat\alpha(\beta) = S_{01}\beta(\beta'S_{11}\beta)^{-1}$, $\hat\Omega(\beta) = S_{00} - S_{01}\beta(\beta'S_{11}\beta)^{-1}\beta'S_{10}$
-        \item $L_{\max}^{-2/T}(\beta) \propto |\hat\Omega(\beta)|$: what remains is a problem in $\beta$ alone
+        \item $L_{\max}(\beta)$: the likelihood maximised over all parameters except $\beta$; $L_{\max}^{-2/T}(\beta) \propto |\hat\Omega(\beta)|$ ($|\cdot|$: determinant)
+        \item what remains is a problem in $\beta$ alone: minimise $|\hat\Omega(\beta)|$
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -324,28 +334,54 @@ EU-27 household consumption, disposable income, consumption deflator, population
 \itemsize{\small}
 \begin{itemize}
     \item Determinant identity: $|\hat\Omega(\beta)| = |S_{00}|\,\dfrac{|\beta'(S_{11} - S_{10}S_{00}^{-1}S_{01})\beta|}{|\beta'S_{11}\beta|}$
-    \item Minimising this ratio of quadratic forms is the generalised eigenvalue problem $|\lambda S_{11} - S_{10}S_{00}^{-1}S_{01}| = 0$, $1 > \hat\lambda_1 > \dots > \hat\lambda_n > 0$
-    \item $\hat\beta$ = the eigenvectors $\hat v_1, \dots, \hat v_r$, normalised by $\hat\beta'S_{11}\hat\beta = I_r$; then $L_{\max}^{-2/T} = |S_{00}|\prod_{i=1}^r(1 - \hat\lambda_i)$
+    \item Minimising this ratio of quadratic forms is the generalised eigenvalue problem $|\lambda S_{11} - S_{10}S_{00}^{-1}S_{01}| = 0$
+    \begin{itemize}
+        \item its $n$ roots, ordered, are the eigenvalues $1 > \hat\lambda_1 > \dots > \hat\lambda_n > 0$; $\hat v_i$: the eigenvector of $\hat\lambda_i$
+    \end{itemize}
+    \item $\hat\beta$ = the eigenvectors $\hat v_1, \dots, \hat v_r$ of the $r$ largest eigenvalues; then $L_{\max}^{-2/T} = |S_{00}|\prod_{i=1}^r(1 - \hat\lambda_i)$
+    \begin{itemize}
+        \item normalisation $\hat\beta'S_{11}\hat\beta = I_r$ ($I_r$: the $r\times r$ identity matrix)
+    \end{itemize}
     \item $\hat\lambda_i$ are the squared canonical correlations between $R_{0t}$ and $R_{1t}$: large $\hat\lambda_i$ = a linear combination of levels that predicts the changes
     \item One eigen-decomposition gives the ML estimates for every $r$ at once (proof: \atsapplink{atsapp1}{atssrc1}{Appendix})
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Likelihood ratio tests of the rank}
+\begin{frame}{Likelihood ratio tests of the rank (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Trace}: $H(r)$ against $H(n)$: $LR_{tr}(r) = -T\sum_{i=r+1}^{n}\ln(1 - \hat\lambda_i)$
-    \item \textbf{Maximum eigenvalue}: $H(r)$ against $H(r + 1)$: $LR_{\max}(r) = -T\ln(1 - \hat\lambda_{r+1})$
-    \item Limit under $H(r)$: $LR_{tr} \Rightarrow \mathrm{tr}\{\int_0^1 (dB)F'(\int_0^1 FF'du)^{-1}\int_0^1 F(dB)'\}$, $B$ an $(n - r)$-dimensional standard Brownian motion
     \begin{itemize}
-        \item $F = B$ corrected for the deterministic terms of the case; the limit depends only on $n - r$ and the case, not on $\alpha, \beta, \Gamma_i, \Omega$
-        \item a multivariate Dickey--Fuller distribution: quantiles by simulation \refOL, \refMHM
+        \item sums the $n - r$ smallest eigenvalues, those that $H(r)$ sets to zero
+        \item $\hat\lambda_i \approx 0$ gives $-\ln(1 - \hat\lambda_i) \approx 0$: a small statistic supports $H(r)$; large values reject it
+    \end{itemize}
+    \item \textbf{Maximum eigenvalue}: $H(r)$ against $H(r + 1)$: $LR_{\max}(r) = -T\ln(1 - \hat\lambda_{r+1})$
+    \begin{itemize}
+        \item uses only the next eigenvalue, $\hat\lambda_{r+1}$: is there one more relation?
     \end{itemize}
     \item Rank determination: test $r = 0, 1, \dots$ in turn and stop at the first non-rejection; this sequence is consistent for the true rank at a fixed level \refJohD
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The Granger representation theorem}
+\begin{frame}{Likelihood ratio tests of the rank (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Limit under $H(r)$: \[ LR_{tr} \Rightarrow \mathrm{tr}\Big\{\int_0^1 (dB)F'\Big(\int_0^1 FF'du\Big)^{-1}\int_0^1 F(dB)'\Big\} \]
+    \item Notation
+    \begin{itemize}
+        \item $\Rightarrow$: convergence in distribution as $T \to \infty$; $\mathrm{tr}$: the trace (sum of the diagonal elements)
+        \item $B(u)$, $u \in [0, 1]$: an $(n - r)$-dimensional standard Brownian motion, the limit of the rescaled common trends
+        \item $F = B$ corrected for the deterministic terms of the case
+    \end{itemize}
+    \item The limit depends only on $n - r$ and the case, not on $\alpha, \beta, \Gamma_i, \Omega$
+    \begin{itemize}
+        \item a multivariate Dickey--Fuller distribution: quantiles by simulation \refOL, \refMHM
+        \item non-standard: neither $\chi^2$ nor Normal
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The Granger representation theorem (1/2)}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.30\textwidth}
@@ -356,13 +392,36 @@ EU-27 household consumption, disposable income, consumption deflator, population
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item Conditions: the roots of $|A(z)| = 0$ satisfy $|z| > 1$ or $z = 1$; $\mathrm{rank}\,\Pi = r$; $\alpha_\perp'\Gamma\beta_\perp$ has full rank, $\Gamma = I - \sum_i\Gamma_i$
-    \item Then $y_t = C\sum_{i=1}^{t}(\varepsilon_i + \Phi D_i) + C^*(L)(\varepsilon_t + \Phi D_t) + A_0$, with $C = \beta_\perp(\alpha_\perp'\Gamma\beta_\perp)^{-1}\alpha_\perp'$
-    \item $\beta'C = 0$: the relations do not contain the stochastic trends; $C\alpha = 0$: an equilibrium error has no permanent effect
-    \item Common trends: the $n - r$ random walks $\alpha_\perp'\sum_i\varepsilon_i$; $\alpha_\perp'\Gamma\beta_\perp$ singular means I(2) (see the I(2) section)
+    \item The theorem writes a cointegrated VAR as random-walk trends plus stationary deviations
+    \item Conditions
+    \begin{itemize}
+        \item the roots of $|A(z)| = 0$ satisfy $|z| > 1$ or $z = 1$
+        \item $\mathrm{rank}\,\Pi = r$
+        \item $\alpha_\perp'\Gamma\beta_\perp$ has full rank, $\Gamma = I - \sum_i\Gamma_i$
+    \end{itemize}
+    \item Then \[ y_t = C\sum_{i=1}^{t}(\varepsilon_i + \Phi D_i) + C^*(L)(\varepsilon_t + \Phi D_t) + A_0 \] with $C = \beta_\perp(\alpha_\perp'\Gamma\beta_\perp)^{-1}\alpha_\perp'$
 \end{itemize}
 \end{column}
 \end{columns}
+\end{frame}
+
+\begin{frame}{The Granger representation theorem (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Notation
+    \begin{itemize}
+        \item $A(z) = I - \sum_{i=1}^{p}A_iz^i$: the characteristic polynomial of the VAR in levels, $y_t = \sum_i A_iy_{t-i} + \dots$; the root condition excludes explosive and seasonal roots
+        \item $\alpha_\perp$, $\beta_\perp$ ($n\times(n - r)$, full rank): orthogonal complements, $\alpha'\alpha_\perp = 0$, $\beta'\beta_\perp = 0$
+        \item $C$: the long-run impact matrix; $C^*(L)$: a lag polynomial with summable coefficients (the stationary part); $A_0$: depends on initial values, $\beta'A_0 = 0$
+    \end{itemize}
+    \item Interpretation
+    \begin{itemize}
+        \item $\beta'C = 0$: the relations do not contain the stochastic trends
+        \item $C\alpha = 0$: an equilibrium error has no permanent effect
+        \item common trends: the $n - r$ random walks $\alpha_\perp'\sum_i\varepsilon_i$
+        \item $\alpha_\perp'\Gamma\beta_\perp$ singular means I(2) (see the I(2) section)
+    \end{itemize}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Recap: The cointegrated VAR}
@@ -384,6 +443,9 @@ EU-27 household consumption, disposable income, consumption deflator, population
 \itemsize{\small}
 \begin{itemize}
     \item $\mu_t = \mu_0 + \mu_1t$ with $\mu_j = \alpha\rho_j + \alpha_\perp\gamma_j$: the $\alpha$ part sits in the relations, the $\alpha_\perp$ part drives the levels \refJohD
+    \begin{itemize}
+        \item $\mu_t$: constant $\mu_0$ plus trend $\mu_1t$ in the VECM; $\rho_j$ ($r\times 1$), $\gamma_j$ ($(n - r)\times 1$): their coordinates in the two directions
+    \end{itemize}
     \item \begin{center}
 \scriptsize
 \begin{tabular}{clll}
@@ -399,7 +461,7 @@ EU-27 household consumption, disposable income, consumption deflator, population
 \end{tabular}
 \end{center}
 
-    \item ``Restricted'' terms enter $Z_{1t}$ with $y_{t-1}$ (they are part of $\beta$); ``unrestricted'' terms enter $Z_{2t}$ and are concentrated out
+    \item ``Restricted'' terms enter $Z_{1t}$ (the regressors multiplied by $\Pi$) with $y_{t-1}$, as part of $\beta$; ``unrestricted'' terms enter $Z_{2t}$ and are concentrated out
     \item Interest rates: case 2; trending macro aggregates: case 3 or 4; case 5 is rarely plausible
 \end{itemize}
 \end{frame}
@@ -471,7 +533,7 @@ $n - r$ & case 1 & case 2 & case 3 & case 4 & case 5 \\
     \item Three remedies
     \begin{itemize}
         \item \textbf{Reinsel--Ahn}: multiply the statistic by $(T - np)/T$ \refRA; simple, often too conservative
-        \item \textbf{Bartlett correction}: $LR_{tr}/(1 + a(\theta)/T)$ with $\E LR_{tr} \approx f\,(1 + a(\theta)/T)$, $a(\theta)$ derived analytically \refJohG
+        \item \textbf{Bartlett correction}: $LR_{tr}/(1 + a(\theta)/T)$ with $\E LR_{tr} \approx f\,(1 + a(\theta)/T)$ \refJohG; $f$: the mean of the limit distribution; $a(\theta)$: an analytic function of the parameters $\theta$, estimated by plug-in
         \item \textbf{Bootstrap}: simulate the null distribution from the model estimated under $H(r)$ \refSwe, \refCRT
     \end{itemize}
     \item Conditional heteroskedasticity leaves the limit distribution unchanged but worsens the finite-sample size \refCRTa: use the wild bootstrap
@@ -485,9 +547,9 @@ $n - r$ & case 1 & case 2 & case 3 & case 4 & case 5 \\
     \item 2. Generate $\Delta y_t^* = \hat\alpha^{(r)}\hat\beta^{(r)\prime}y_{t-1}^* + \sum_i\hat\Gamma_i^{(r)}\Delta y_{t-i}^* + \hat\Phi^{(r)}D_t + \varepsilon_t^*$ from the observed initial values
     \item 3. Innovations: $\varepsilon_t^* = \hat\varepsilon_t^{(r)}w_t$, $w_t \sim$ i.i.d. $N(0, 1)$ (wild) or resampled residuals (i.i.d. bootstrap)
     \begin{itemize}
-        \item the wild version keeps the volatility pattern of each date
+        \item the star marks bootstrap quantities; $w_t$: a random sign-and-scale weight; the wild version keeps the volatility pattern of each date
     \end{itemize}
-    \item 4. Compute $LR_{tr}^*(r)$ on each sample; $p$-value = share of $LR_{tr}^* \ge LR_{tr}(r)$; test $r = 0, 1, \dots$ and stop at the first non-rejection
+    \item 4. Compute $LR_{tr}^*(r)$ on each sample; p-value = share of $LR_{tr}^* \ge LR_{tr}(r)$; test $r = 0, 1, \dots$ and stop at the first non-rejection
     \item Estimating under $H(r)$ (not under $H(n)$) is essential: the bootstrap data must have exactly $n - r$ unit roots \refCRT
 \end{itemize}
 \end{frame}
@@ -529,40 +591,80 @@ $n - r$ & case 1 & case 2 & case 3 & case 4 & case 5 \\
 \section{Identification and tests on $\beta$ and $\alpha$}
 %=============================================================================
 
-\begin{frame}{Normalisation is not identification}
+\begin{frame}{Normalisation is not identification (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item The eigenvectors give one basis of the cointegration space $\mathrm{sp}(\beta)$; any $\beta\xi$ spans the same space and fits equally well
-    \item Dividing each vector by one coefficient fixes the scale ($r$ restrictions), but not the rotation: $r(r - 1)$ further restrictions are needed, $r - 1$ per vector
-    \item Linear restrictions vector by vector: $\beta = (H_1\varphi_1, \dots, H_r\varphi_r)$, $H_i$ of dimension $n_1\times s_i$, $R_i = H_{i\perp}$
     \begin{itemize}
-        \item rank condition \refJohE: for every $i$ and every set of $k$ other vectors, $\mathrm{rank}(R_i'(H_{i_1}, \dots, H_{i_k})) \ge k$, $k = 1, \dots, r - 1$
-        \item this is the cointegration analogue of the rank condition in simultaneous equations; the order condition alone is not enough
+        \item $\mathrm{sp}(\beta)$: the space spanned by the columns of $\beta$; $\xi$: an invertible $r\times r$ matrix (a rotation)
     \end{itemize}
-    \item Identification is economics: each restriction is a statement such as ``the lending rate does not depend on the deposit rate in the long run''
+    \item Dividing each vector by one coefficient fixes the scale ($r$ restrictions), but not the rotation
+    \begin{itemize}
+        \item $r(r - 1)$ further restrictions are needed, $r - 1$ per vector
+    \end{itemize}
+    \item Identification rests on economic theory: each restriction is a statement such as ``the lending rate does not depend on the deposit rate in the long run''
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testing restrictions on $\beta$}
+\begin{frame}{Normalisation is not identification (2/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{The same restriction on all vectors}, $\beta = H\varphi$ ($H$: $n_1\times s$): solve $|\lambda H'S_{11}H - H'S_{10}S_{00}^{-1}S_{01}H| = 0$
+    \item Linear restrictions vector by vector: $\beta = (H_1\varphi_1, \dots, H_r\varphi_r)$
     \begin{itemize}
-        \item $LR = T\sum_{i=1}^r\ln\{(1 - \tilde\lambda_i)/(1 - \hat\lambda_i)\} \to \chi^2(r(n_1 - s))$; e.g.\ excluding one variable from all relations
+        \item $n_1$: the length of each vector ($n$ plus the restricted deterministic terms)
+        \item $H_i$ ($n_1\times s_i$, known): the design matrix of vector $i$; $\varphi_i$ ($s_i\times 1$): its $s_i$ free coefficients
+        \item $R_i = H_{i\perp}$: the restrictions written as $R_i'\beta_i = 0$
     \end{itemize}
-    \item \textbf{Different restrictions per vector}, $\beta = (H_1\varphi_1, \dots, H_r\varphi_r)$: no closed form; maximise $-\tfrac{T}{2}\ln|\hat\Omega(\beta)|$ by the switching algorithm or numerically
+    \item Rank condition \refJohE: for every $i$ and every set of $k$ other vectors $i_1, \dots, i_k$
     \begin{itemize}
-        \item over-identifying restrictions: $LR \to \chi^2(\sum_i(n_1 - r + 1 - s_i))$
+        \item $\mathrm{rank}(R_i'(H_{i_1}, \dots, H_{i_k})) \ge k$, $k = 1, \dots, r - 1$
+        \item meaning: no combination of other vectors satisfies the restrictions of vector $i$
+        \item the cointegration analogue of the rank condition in simultaneous equations; the order condition alone is not enough
     \end{itemize}
-    \item \textbf{Fully known} $\beta$ (e.g.\ great ratios): $LR = T\{\ln|\hat\Omega(\beta_0)| - \ln|S_{00}| - \sum_{i\le r}\ln(1 - \hat\lambda_i)\} \to \chi^2(r(n_1 - r))$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testing restrictions on $\beta$ (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{The same restriction on all vectors}, $\beta = H\varphi$: solve $|\lambda H'S_{11}H - H'S_{10}S_{00}^{-1}S_{01}H| = 0$
+    \begin{itemize}
+        \item $H$ ($n_1\times s$, known): the restriction; $\varphi$ ($s\times r$): the free coefficients; e.g.\ excluding one variable from all relations
+        \item $\tilde\lambda_i$: the eigenvalues of the restricted problem; $\hat\lambda_i$: the unrestricted ones
+    \end{itemize}
+    \item Test statistic: $LR = T\sum_{i=1}^r\ln\{(1 - \tilde\lambda_i)/(1 - \hat\lambda_i)\} \to \chi^2(r(n_1 - s))$
+    \begin{itemize}
+        \item $LR \ge 0$; it is large when the restriction lowers the canonical correlations, i.e.\ when the data reject it
+        \item degrees of freedom $r(n_1 - s)$: $n_1 - s$ restrictions on each of the $r$ vectors
+    \end{itemize}
     \item Given the rank, $\hat\beta$ is super-consistent and mixed Gaussian: LR tests on $\beta$ are $\chi^2$, unlike the rank test \refJohB
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testing restrictions on $\beta$ (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Different restrictions per vector}, $\beta = (H_1\varphi_1, \dots, H_r\varphi_r)$: no closed form
+    \begin{itemize}
+        \item maximise the concentrated log-likelihood $-\tfrac{T}{2}\ln|\hat\Omega(\beta)|$ by the switching algorithm (one vector at a time) or numerically
+        \item over-identifying restrictions: $LR \to \chi^2(\sum_i(n_1 - r + 1 - s_i))$; each vector has $n_1 - r + 1 - s_i$ restrictions beyond the $r - 1$ needed to identify it
+    \end{itemize}
+    \item \textbf{Fully known} $\beta = \beta_0$ (e.g.\ the great ratios): \[ LR = T\Big\{\ln|\hat\Omega(\beta_0)| - \ln|S_{00}| - \sum_{i\le r}\ln(1 - \hat\lambda_i)\Big\} \to \chi^2(r(n_1 - r)) \]
+    \begin{itemize}
+        \item compares the fit with $\beta_0$ imposed ($\hat\Omega(\beta_0)$) to the unrestricted fit; $\beta_0$: the hypothesised matrix
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Restrictions on $\alpha$ and weak exogeneity}
 \itemsize{\small}
 \begin{itemize}
-    \item $\alpha = A\psi$ ($A$: $n\times m$): condition the system on $A_\perp'R_{0t}$ and solve the eigenvalue problem of the remaining $m$ equations; $LR = T\sum_{i\le r}\ln\{(1 - \tilde\lambda_i)/(1 - \hat\lambda_i)\} \to \chi^2(r(n - m))$
+    \item $\alpha = A\psi$: only $m$ combinations of the equations adjust to the relations
+    \begin{itemize}
+        \item $A$ ($n\times m$, known): the restriction; $\psi$ ($m\times r$): the free adjustment coefficients; $A_\perp$: its orthogonal complement
+        \item condition the system on $A_\perp'R_{0t}$ and solve the eigenvalue problem of the remaining $m$ equations (eigenvalues $\tilde\lambda_i$)
+        \item $LR = T\sum_{i\le r}\ln\{(1 - \tilde\lambda_i)/(1 - \hat\lambda_i)\} \to \chi^2(r(n - m))$
+    \end{itemize}
     \item \textbf{Weak exogeneity} of $x_t$ for $\beta$: the row of $\alpha$ for $x_t$ is zero (a zero row of $\alpha$, $r$ restrictions)
     \begin{itemize}
         \item $x_t$ does not adjust to past disequilibria; it is a common trend (a column of $\alpha_\perp$)
@@ -761,16 +863,30 @@ ROBOR weakly exogenous (zero row of $\alpha$) & 0.57 & 2 & 0.752 \\
 \section{Structural VECM: common trends}
 %=============================================================================
 
-\begin{frame}{Permanent and transitory shocks}
+\begin{frame}{Permanent and transitory shocks (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Granger representation: the long-run effect of $\varepsilon_t$ on $y_{t+h}$, $h \to \infty$, is $C\varepsilon_t$, and $\mathrm{rank}\,C = n - r$
-    \item With structural shocks $\varepsilon_t = Bu_t$ ($\E u_tu_t' = I$): long-run impact $CB$ has at most $n - r$ non-zero columns: $k = n - r$ permanent and $r$ transitory shocks
+    \item Structural shocks: $\varepsilon_t = Bu_t$, $\E u_tu_t' = I$
+    \begin{itemize}
+        \item $u_t$: $n$ uncorrelated shocks with unit variance; $B$ ($n\times n$): their impact effects, $BB' = \Omega$
+        \item the long-run impact $CB$ has at most $n - r$ non-zero columns: $k = n - r$ permanent and $r$ transitory shocks
+    \end{itemize}
     \item Counting (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3} needed $n(n - 1)/2$ restrictions): cointegration gives $rk$ zero long-run restrictions for free
     \begin{itemize}
         \item still needed: $k(k - 1)/2$ among the permanent shocks and $r(r - 1)/2$ among the transitory shocks \refKL, \refGN
     \end{itemize}
-    \item With one common trend ($k = 1$) the permanent shock is identified without further assumptions: $u_t^P = \alpha_\perp'\varepsilon_t/(\alpha_\perp'\Omega\alpha_\perp)^{1/2}$, impact $b^P = \Omega\alpha_\perp(\alpha_\perp'\Omega\alpha_\perp)^{-1/2}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Permanent and transitory shocks (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item With one common trend ($k = 1$) the permanent shock is identified without further assumptions
+    \begin{itemize}
+        \item the shock: $u_t^P = \alpha_\perp'\varepsilon_t/(\alpha_\perp'\Omega\alpha_\perp)^{1/2}$, the innovation of the common trend scaled to unit variance
+        \item its impact: $b^P = \Omega\alpha_\perp(\alpha_\perp'\Omega\alpha_\perp)^{-1/2}$, the column of $B$ that moves the $n$ variables on impact
+    \end{itemize}
     \item This generalises Blanchard--Quah (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3}): there the long-run zero was imposed; here it comes from the cointegration rank
 \end{itemize}
 \end{frame}
@@ -850,12 +966,28 @@ great ratios, case 3, 1949--2025 & 28\% & 20\% & 20\% & 29\% \\
 \section{ARDL and the bounds test}
 %=============================================================================
 
-\begin{frame}{From a VECM to a conditional ECM}
+\begin{frame}{From a VECM to a conditional ECM (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Partition $y_t = (y_t, x_t')'$, $x_t$ of dimension $k$; if $x_t$ is weakly exogenous and there is one relation involving $y_t$, the conditional model is
-    \item $\Delta y_t = c_0 + c_1t + \pi_{yy}y_{t-1} + \pi_{yx}'x_{t-1} + \sum_{i=1}^{p-1}\psi_i\Delta y_{t-i} + \sum_{j=0}^{q-1}\omega_j'\Delta x_{t-j} + u_t$ \refPSSb
-    \item This is an ARDL($p, q$) in levels, rewritten; long-run coefficients $\theta = -\pi_{yx}/\pi_{yy}$, speed of adjustment $\pi_{yy}$
+    \item Partition $y_t = (y_t, x_t')'$, $x_t$ of dimension $k$; if $x_t$ is weakly exogenous and there is one relation involving $y_t$, the conditional model is \[ \Delta y_t = c_0 + c_1t + \pi_{yy}y_{t-1} + \pi_{yx}'x_{t-1} + \sum_{i=1}^{p-1}\psi_i\Delta y_{t-i} + \sum_{j=0}^{q-1}\omega_j'\Delta x_{t-j} + u_t \]
+    \item Notation \refPSSb
+    \begin{itemize}
+        \item $y_t$: the dependent variable; $x_t$: the $k$ forcing variables; $c_0$, $c_1$: intercept and trend coefficient
+        \item $\pi_{yy}$ (scalar), $\pi_{yx}$ ($k\times 1$): the coefficients on the lagged levels, i.e.\ the long-run part
+        \item $\psi_i$, $\omega_j$: short-run coefficients; $p$, $q$: lag orders; $u_t$: the error, uncorrelated with $\Delta x_t$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{From a VECM to a conditional ECM (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item This is an ARDL($p, q$) in levels, rewritten
+    \begin{itemize}
+        \item long-run coefficients $\theta = -\pi_{yx}/\pi_{yy}$: the equilibrium is $y = \theta'x$ (plus constant)
+        \item speed of adjustment $\pi_{yy} \in (-1, 0)$: the share of last period's disequilibrium corrected this period; half-life $\ln 0.5/\ln(1 + \pi_{yy})$
+    \end{itemize}
+    \item Inference
     \begin{itemize}
         \item OLS is consistent and $\hat\theta$ has a mixed-Gaussian limit when the lags absorb the endogeneity of $x_t$ \refPSa
         \item standard errors of $\hat\theta$ by the delta method; $t$-tests on $\theta$ are asymptotically valid
@@ -954,12 +1086,13 @@ Structural use & multipliers of $x$ on $y$ & common trends, identified shocks \\
 \begin{frame}{Two related tools}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Toda--Yamamoto causality} \refTY: in a VAR of possibly integrated or cointegrated variables, fit $p + d_{\max}$ lags in levels and test only the first $p$
+    \item \textbf{Toda--Yamamoto causality} \refTY: in a VAR of possibly integrated or cointegrated variables, fit $p + d_{\max}$ lags in levels and test only the first $p$; $d_{\max}$: the highest suspected order of integration
     \begin{itemize}
         \item the Wald statistic is asymptotically $\chi^2(p)$ whatever the integration and cointegration properties; the price: lower power than a correctly specified VECM
     \end{itemize}
-    \item \textbf{Nonlinear ARDL} \refSYG: split $x_t$ into partial sums of increases $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$ and decreases $x_t^-$
+    \item \textbf{Nonlinear ARDL} \refSYG: split $x_t$ into partial sums of increases $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$ and decreases $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$
     \begin{itemize}
+        \item $x_t^+$ and $x_t^-$ enter the ARDL as two regressors, with long-run coefficients $\theta^+$, $\theta^-$ and short-run coefficients $\omega_j^+$, $\omega_j^-$
         \item long-run asymmetry: $\theta^+ \ne \theta^-$; short-run asymmetry: different $\omega_j^\pm$; Wald tests, bounds with $k = 2$
         \item classic use: retail fuel prices rise fast with oil and fall slowly (``rockets and feathers'') \refBac; Seminar 4 tests it for Romania
     \end{itemize}
@@ -1004,26 +1137,40 @@ Structural use & multipliers of $x$ on $y$ & common trends, identified shocks \\
 \begin{frame}{Measuring cross-section dependence}
 \itemsize{\small}
 \begin{itemize}
-    \item Pairwise correlations $\hat\rho_{ij}$ of residuals (or of demeaned series); \textbf{CD} statistic \refPesE: $CD = \sqrt{\dfrac{2T}{N(N - 1)}}\sum_{i<j}\hat\rho_{ij} \to N(0, 1)$
+    \item \textbf{CD} statistic \refPesE: the scaled sum of all pairwise correlations \[ CD = \sqrt{\dfrac{2T}{N(N - 1)}}\sum_{i<j}\hat\rho_{ij} \to N(0, 1) \]
+    \begin{itemize}
+        \item $\hat\rho_{ij}$: the correlation over time between the residuals (or demeaned series) of units $i$ and $j$; $N$: number of units; $T$: number of periods
+        \item reading: $CD \approx 0$ under the null; $|CD| > 1.96$ rejects it at 5\%
+    \end{itemize}
     \item The null is \emph{weak} dependence \refPesC: correlation that vanishes on average as $N$ grows; a common factor with non-zero mean loadings gives $|CD| \to \infty$
     \item Valid for fixed $T$ and large $N$, also in dynamic and unit-root panels; positive and negative correlations can offset each other, so report the mean $|\hat\rho_{ij}|$ as well
     \item EU-27, $T = 22$ (2001--2022): CD = 50.3 for consumption growth (mean $|\hat\rho| = 0.59$), 25.7 for income growth, 62.4 for inflation: strong dependence everywhere
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Panel unit-root tests}
+\begin{frame}{Panel unit-root tests (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{LLC} \refLLC: $\Delta y_{it} = \mu_i + \rho y_{i,t-1} + \sum_j\gamma_{ij}\Delta y_{i,t-j} + e_{it}$, common $\rho$; $H_1$: all units stationary with the same $\rho$
+    \item \textbf{LLC} \refLLC: one ADF regression per unit with a common $\rho$ \[ \Delta y_{it} = \mu_i + \rho y_{i,t-1} + \sum_j\gamma_{ij}\Delta y_{i,t-j} + e_{it} \]
     \begin{itemize}
+        \item $y_{it}$: unit $i$ at time $t$; $\mu_i$: unit intercepts; $\gamma_{ij}$: unit-specific lag coefficients; $e_{it}$: errors
+        \item $H_0$: $\rho = 0$ (unit root in every unit); $H_1$: $\rho < 0$, all units stationary with the same $\rho$
         \item pooled $t$ on orthogonalised, variance-normalised residuals, adjusted by tabulated mean and variance
     \end{itemize}
-    \item \textbf{IPS} \refIPS: heterogeneous $\rho_i$; $\bar t = N^{-1}\sum_i t_i$ (individual ADF), $Z = \sqrt N(\bar t - \E t)/\sqrt{\Var t} \to N(0, 1)$
+    \item \textbf{IPS} \refIPS: heterogeneous $\rho_i$; average the individual ADF statistics $t_i$ and standardise \[ \bar t = N^{-1}\sum_i t_i, \qquad Z = \sqrt N(\bar t - \E t)/\sqrt{\Var(t)} \to N(0, 1) \]
     \begin{itemize}
+        \item $\E t$, $\Var(t)$: the mean and variance of one ADF $t$ under the null (tabulated); a very negative $Z$ rejects
         \item $H_1$: a non-zero fraction of units is stationary; rejection does not say which
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Panel unit-root tests (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item \textbf{CIPS} \refPesB: one common factor $f_t$ in the errors; augment each ADF with $\bar y_{t-1}$ and $\Delta\bar y_{t-j}$ (CADF), average the $t$-ratios
     \begin{itemize}
+        \item $\bar y_t = N^{-1}\sum_i y_{it}$: the cross-section average at time $t$; $f_t$: an unobserved shock common to all units
         \item the cross-section averages proxy $f_t$; the distribution is non-standard and tabulated
     \end{itemize}
     \item Under strong dependence LLC and IPS over-reject: they treat 27 correlated countries as 27 independent pieces of evidence
@@ -1051,37 +1198,68 @@ inflation (constant) & \ensuremath{-}10.10 (0.003) & \ensuremath{-}1.82 (0.038) 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Panel cointegration tests}
+\begin{frame}{Panel cointegration tests (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Residual-based} \refPedA, \refPedC: estimate $y_{it} = a_i + \delta_it + \beta_i'x_{it} + e_{it}$ country by country and test the residuals for a unit root
     \begin{itemize}
+        \item $a_i$, $\delta_i$: country intercept and trend; $\beta_i$: country cointegrating coefficients; $e_{it}$: the equilibrium error, I(1) under $H_0$
         \item seven statistics: four ``panel'' (within, common AR coefficient) and three ``group'' (between, heterogeneous); $H_0$: no cointegration in any unit
         \item they impose a common-factor restriction (short-run dynamics of $x$ and $y$ alike); \refKao\ is the homogeneous special case
     \end{itemize}
-    \item \textbf{ECM-based} \refWes: $\Delta y_{it} = d_i + \alpha_iy_{i,t-1} + \lambda_i'x_{i,t-1} + \sum_j a_{ij}\Delta y_{i,t-j} + \sum_j\gamma_{ij}'\Delta x_{i,t-j} + e_{it}$; $H_0$: $\alpha_i = 0$ for all $i$
+    \item \textbf{ECM-based} \refWes: test whether each country's ECM has error correction \[ \Delta y_{it} = d_i + \alpha_iy_{i,t-1} + \lambda_i'x_{i,t-1} + \sum_j a_{ij}\Delta y_{i,t-j} + \sum_j\gamma_{ij}'\Delta x_{i,t-j} + e_{it} \]
     \begin{itemize}
-        \item group statistics $G_t$ (mean $t$-ratio), $G_a$; panel statistics $P_t$, $P_a$; bootstrap critical values under cross-section dependence
+        \item $\alpha_i$: the speed of adjustment of country $i$; $\lambda_i$: its level coefficients on $x$; $d_i$, $a_{ij}$, $\gamma_{ij}$: deterministic and short-run terms
+        \item $H_0$: $\alpha_i = 0$ for all $i$ (no error correction anywhere); negative statistics reject
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Panel cointegration tests (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Westerlund statistics
+    \begin{itemize}
+        \item group statistics: $G_t$, the mean of the $N$ $t$-ratios of $\hat\alpha_i$, and $G_a$, the mean of the scaled $\hat\alpha_i$; $H_1$: some countries adjust
+        \item panel statistics $P_t$, $P_a$: the same with a common $\alpha$; $H_1$: all countries adjust
+        \item bootstrap critical values under cross-section dependence
     \end{itemize}
     \item EU-27, $c$ on $y$ and $\pi$: Pedroni group ADF \ensuremath{-}3.05 (5\% critical value \ensuremath{-}2.73, $p = $<$\,0.001$); Westerlund $G_t$ \ensuremath{-}1.66 (\ensuremath{-}2.18, $p = 0.714$); null distributions simulated
     \item The two families disagree: the residual-based test rejects, the ECM test does not; with $T = 22$ and strong dependence, neither verdict is secure
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Estimators of the long-run relation}
+\begin{frame}{Estimators of the long-run relation (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Panel FMOLS/DOLS}: fully modified OLS \refPH\ or leads and lags of $\Delta x$ \refSai, \refSWa, per country and averaged (group mean) \refPedB
-    \item \textbf{Mean group (MG)} \refPSm: estimate each country's ARDL, average $\hat\theta_i$; consistent under full heterogeneity, SE $= s_\theta/\sqrt N$
+    \item \textbf{Mean group (MG)} \refPSm: estimate each country's ARDL and average the long-run coefficients $\hat\theta_i$
     \begin{itemize}
+        \item consistent under full heterogeneity; SE $= s_\theta/\sqrt N$, $s_\theta$: the cross-country standard deviation of $\hat\theta_i$
         \item pooled fixed effects with common slopes are inconsistent when the true slopes differ, even for large $T$; for small $T$ the Nickell bias adds \refNic
     \end{itemize}
-    \item \textbf{Pooled mean group (PMG)} \refPSSa: $\Delta y_{it} = \phi_i(y_{i,t-1} - \theta'x_{i,t-1}) + \sum_j\lambda_{ij}\Delta y_{i,t-j} + \sum_j\delta_{ij}'\Delta x_{i,t-j} + \mu_i + \varepsilon_{it}$
+    \item \textbf{CCE} \refPesA: $y_{it} = \alpha_i + \beta_i'x_{it} + \gamma_i'f_t + e_{it}$; add $\bar y_t, \bar x_t$ to each regression
     \begin{itemize}
-        \item common long run $\theta$, heterogeneous short run, $\phi_i$, $\sigma_i^2$; ML: maximise $-\sum_i\tfrac{T_i}{2}\ln\hat\sigma_i^2(\theta)$; requires $\phi_i < 0$
-        \item Hausman test of $\theta_{MG} = \theta_{PMG}$: PMG efficient under homogeneity, MG consistent in both cases
+        \item $f_t$: unobserved common factors; $\gamma_i$: the country loadings on them; the averages $\bar y_t, \bar x_t$ absorb $f_t$
+        \item valid with non-stationary factors \refKPY; dynamic version CS-ARDL \refCP
     \end{itemize}
-    \item \textbf{CCE} \refPesA: $y_{it} = \alpha_i + \beta_i'x_{it} + \gamma_i'f_t + e_{it}$; add $\bar y_t, \bar x_t$ to each regression; valid with non-stationary factors \refKPY; dynamic version CS-ARDL \refCP
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimators of the long-run relation (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Pooled mean group (PMG)} \refPSSa: a common long run inside country-specific ECMs \[ \Delta y_{it} = \phi_i(y_{i,t-1} - \theta'x_{i,t-1}) + \sum_j\lambda_{ij}\Delta y_{i,t-j} + \sum_j\delta_{ij}'\Delta x_{i,t-j} + \mu_i + \varepsilon_{it} \]
+    \begin{itemize}
+        \item $\theta$: the long-run coefficients, common to all countries; $\phi_i$: the country speed of adjustment, $\phi_i < 0$ required
+        \item $\lambda_{ij}$, $\delta_{ij}$, $\mu_i$, $\sigma_i^2 = \Var\varepsilon_{it}$: short run, intercept and error variance, all country-specific
+        \item ML: maximise $-\sum_i\tfrac{T_i}{2}\ln\hat\sigma_i^2(\theta)$ over $\theta$; $T_i$: the sample length of country $i$
+    \end{itemize}
+    \item Hausman test of $\theta_{MG} = \theta_{PMG}$
+    \begin{itemize}
+        \item $H = (\hat\theta_{MG} - \hat\theta_{PMG})'[\widehat\Var(\hat\theta_{MG}) - \widehat\Var(\hat\theta_{PMG})]^{-1}(\hat\theta_{MG} - \hat\theta_{PMG}) \to \chi^2(\dim\theta)$
+        \item PMG is efficient under homogeneity, MG consistent in both cases: a small $H$ (large p-value) supports pooling
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1150,6 +1328,9 @@ CCEMG & 0.73 (0.05) & 0.10 (0.10) & -- \\
 \itemsize{\small}
 \begin{itemize}
     \item $y_{it} = \mu_i + \sum_{j=1}^pA_jy_{i,t-j} + \varepsilon_{it}$: common dynamics, country fixed effects \refHNR
+    \begin{itemize}
+        \item $y_{it}$: the vector of variables of country $i$; $A_j$: lag matrices common to all countries; $\mu_i$: country fixed effects; $\varepsilon_{it}$: innovations
+    \end{itemize}
     \item With small $T$ the within estimator is biased by $O(1/T)$ (Nickell); estimate by GMM on forward-orthogonal deviations with lagged levels as instruments \refAL
     \item Identification of shocks as in \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3} (Cholesky, signs); impulse responses and FEVD are common to all countries
     \item Homogeneity of $A_j$ is the strong assumption: with macro panels of moderate $T$, mean-group VARs or CCE-augmented VARs are the heterogeneous alternatives

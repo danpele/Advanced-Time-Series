@@ -16,12 +16,18 @@ Rulare:
 """
 
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ats_build import Deck, Values, table, photo, cols, block, n   # noqa: E402
 from ats_build import items as _items   # noqa: E402
 from ch11_common import REFS, QLURL, T, V2, day, bib, finalize, load, minus_fix   # noqa: E402
+
+
+def M(tex):
+    """Displayed formula with decimals: decimal comma in RO (the renderer converts only inline math)."""
+    return T(tex, re.sub(r'(\d)\.(\d)', r'\1{,}\2', tex))
 
 
 def items(*xs):
@@ -290,7 +296,7 @@ D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
     T('State the spectral representation of a stationary process and derive the spectrum of a filtered process',
       'Enunțați reprezentarea spectrală a unui proces staționar și derivați spectrul unui proces filtrat'),
     T('Derive the bias and variance of lag-window estimators, choose the bandwidth, and build multitaper estimates with valid confidence bands',
-      'Derivați deplasarea și varianța estimatorilor cu fereastră de decalaje, alegeți lățimea de bandă și construiți estimări multitaper cu benzi de încredere valide'),
+      'Derivați deplasarea și varianța estimatorilor cu fereastră de laguri, alegeți lățimea de bandă și construiți estimări multitaper cu benzi de încredere valide'),
     T('Estimate and test coherence, phase, gain and dynamic correlation, and test Granger causality at a given frequency',
       'Estimați și testați coerența, faza, cîștigul și corelația dinamică și testați cauzalitatea Granger la o frecvență dată'),
     T('Evaluate trend--cycle filters by their gain, and measure business-cycle synchronisation',
@@ -327,7 +333,7 @@ D.frame(T('From harmonic analysis to time series', 'De la analiza armonică la s
             '1930: analiza armonică generalizată a lui Wiener; 1934: Hincin; autocovarianța și spectrul formează o pereche Fourier'),
           T('1942: Cramér\'s representation of a stationary process as a random superposition of sinusoids',
             '1942: reprezentarea lui Cramér a unui proces staționar ca suprapunere aleatoare de sinusoide'),
-          T(r'1961--1966: lag windows \refPar; the typical spectral shape of economic variables \refGra', r'1961--1966: ferestre de decalaje \refPar; forma spectrală tipică a variabilelor economice \refGra'),
+          T(r'1961--1966: lag windows \refPar; the typical spectral shape of economic variables \refGra', r'1961--1966: ferestre de laguri \refPar; forma spectrală tipică a variabilelor economice \refGra'),
           T(r'1982: multitaper estimation \refTho; frequency-domain causality \refGew', r'1982: estimarea multitaper \refTho; cauzalitatea în domeniul frecvenței \refGew'),
           T(r'1984--1989: wavelets \refGM, \refDau, \refMal; 1998: the practical guide \refTC', r'1984--1989: wavelets \refGM, \refDau, \refMal; 1998: ghidul practic \refTC')), '0.32', '0.66'), 'footnotesize')
 
@@ -349,43 +355,69 @@ D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), i
 # =============================================================================
 D.section('The spectral representation', 'Reprezentarea spectrală')
 
-D.frame(T('Autocovariance and spectral distribution', 'Autocovarianța și distribuția spectrală'), items(
-    (T(r'\textbf{Herglotz}: $\gamma(\cdot)$ is the autocovariance of a stationary process iff $\gamma(h) = \int_{(-\pi, \pi]} e^{i\omega h}\,dF(\omega)$, $F$ non-decreasing, right-continuous, bounded \refBD',
-       r'\textbf{Herglotz}: $\gamma(\cdot)$ este autocovarianța unui proces staționar dacă și numai dacă $\gamma(h) = \int_{(-\pi, \pi]} e^{i\omega h}\,dF(\omega)$, cu $F$ nedescrescătoare, continuă la dreapta, mărginită \refBD'),
-     [T(r'$F$ is the \textbf{spectral distribution}; if $\sum_h|\gamma(h)| < \infty$, $dF(\omega) = f(\omega)\,d\omega$ with $f(\omega) = \frac{1}{2\pi}\sum_h\gamma(h)e^{-i\omega h}$',
-        r'$F$ este \textbf{distribuția spectrală}; dacă $\sum_h|\gamma(h)| < \infty$, $dF(\omega) = f(\omega)\,d\omega$, cu $f(\omega) = \frac{1}{2\pi}\sum_h\gamma(h)e^{-i\omega h}$')]),
-    (T(r'$\gamma(0) = \int_{-\pi}^{\pi}f(\omega)\,d\omega$: the spectrum is a \textbf{decomposition of variance by frequency}', r'$\gamma(0) = \int_{-\pi}^{\pi}f(\omega)\,d\omega$: spectrul este o \textbf{descompunere a varianței pe frecvențe}'),
-     [T(r'frequency $\omega$ in radians per period; period $2\pi/\omega$; quarterly data: the business-cycle band of 6--32 quarters is $\omega \in [\pi/16, \pi/3]$',
-        r'frecvența $\omega$ în radiani pe perioadă; perioada $2\pi/\omega$; date trimestriale: banda ciclului economic de 6--32 de trimestre este $\omega \in [\pi/16, \pi/3]$')]),
+D.frame(T('Autocovariance and spectral distribution (1/2)', 'Autocovarianța și distribuția spectrală (1/2)'), items(
+    (T(r'\textbf{Herglotz} \refBD: $\gamma(\cdot)$ is the autocovariance of a stationary process if and only if', r'\textbf{Herglotz} \refBD: $\gamma(\cdot)$ este autocovarianța unui proces staționar dacă și numai dacă'
+       ) + r'''
+    \[ \gamma(h) = \int_{(-\pi, \pi]} e^{i\omega h}\,dF(\omega) \]''',
+     [T(r'$\gamma(h) = \Cov(X_{t+h}, X_t)$; $\omega$: angular frequency in radians per period; $F$: the \textbf{spectral distribution}, non-decreasing, right-continuous and bounded',
+        r'$\gamma(h) = \Cov(X_{t+h}, X_t)$; $\omega$: frecvența unghiulară, în radiani pe perioadă; $F$: \textbf{distribuția spectrală}, nedescrescătoare, continuă la dreapta și mărginită')]),
+    (T(r'If $\sum_h|\gamma(h)| < \infty$, $F$ has a density, the \textbf{spectral density}', r'Dacă $\sum_h|\gamma(h)| < \infty$, $F$ are o densitate, \textbf{densitatea spectrală}'
+       ) + r'''
+    \[ dF(\omega) = f(\omega)\,d\omega, \qquad f(\omega) = \frac{1}{2\pi}\sum_h\gamma(h)e^{-i\omega h} \]''',
+     [])), 'small')
+
+D.frame(T('Autocovariance and spectral distribution (2/2)', 'Autocovarianța și distribuția spectrală (2/2)'), items(
+    (T(r'At $h = 0$: the spectrum is a \textbf{decomposition of variance by frequency}', r'Pentru $h = 0$: spectrul este o \textbf{descompunere a varianței pe frecvențe}'
+       ) + r'''
+    \[ \gamma(0) = \Var(X_t) = \int_{-\pi}^{\pi}f(\omega)\,d\omega \]''',
+     [T(r'$f(\omega)\,d\omega$: the variance contributed by cycles with frequency near $\omega$; period $2\pi/\omega$',
+        r'$f(\omega)\,d\omega$: varianța adusă de ciclurile cu frecvența apropiată de $\omega$; perioada $2\pi/\omega$'),
+      T(r'quarterly data: the business-cycle band of 6--32 quarters is $\omega \in [\pi/16, \pi/3]$', r'date trimestriale: banda ciclului economic de 6--32 de trimestre este $\omega \in [\pi/16, \pi/3]$')]),
     T(r'A jump of $F$ at $\pm\omega_0$ is a deterministic cycle (a \textbf{line spectrum}); long memory is a pole of $f$ at $\omega = 0$ (Chapter 10)',
       r'Un salt al lui $F$ în $\pm\omega_0$ este un ciclu determinist (un \textbf{spectru de linii}); memoria lungă este un pol al lui $f$ în $\omega = 0$ (Capitolul 10)')), 'small')
 
 D.frame(T('Cramér\'s representation', 'Reprezentarea lui Cramér'), two(
     ph('cramer', T('Harald Cramér, 1951', 'Harald Cramér, 1951'), h='0.4\\textheight'),
-    items(T(r'Every zero-mean stationary process has $X_t = \int_{(-\pi, \pi]} e^{i\omega t}\,dZ(\omega)$ \refBD', r'Orice proces staționar de medie zero are $X_t = \int_{(-\pi, \pi]} e^{i\omega t}\,dZ(\omega)$ \refBD'),
-          T(r'$Z$ has \textbf{orthogonal increments}: $\E[dZ(\omega)\overline{dZ(\lambda)}] = 0$ for $\omega \ne \lambda$, $\E|dZ(\omega)|^2 = dF(\omega)$',
-            r'$Z$ are \textbf{creșteri ortogonale}: $\E[dZ(\omega)\overline{dZ(\lambda)}] = 0$ pentru $\omega \ne \lambda$, $\E|dZ(\omega)|^2 = dF(\omega)$'),
+    items((T(r'Every zero-mean stationary process is a sum of sinusoids with random amplitudes \refBD', r'Orice proces staționar de medie zero este o sumă de sinusoide cu amplitudini aleatoare \refBD'
+             ) + r'''
+    \[ X_t = \int_{(-\pi, \pi]} e^{i\omega t}\,dZ(\omega) \]''',
+           [T(r'$dZ(\omega)$: the random amplitude at frequency $\omega$; $Z$ has \textbf{orthogonal increments}: $\E[dZ(\omega)\overline{dZ(\lambda)}] = 0$ for $\omega \ne \lambda$, $\E|dZ(\omega)|^2 = dF(\omega)$',
+              r'$dZ(\omega)$: amplitudinea aleatoare la frecvența $\omega$; $Z$ are \textbf{creșteri ortogonale}: $\E[dZ(\omega)\overline{dZ(\lambda)}] = 0$ pentru $\omega \ne \lambda$, $\E|dZ(\omega)|^2 = dF(\omega)$')]),
           T('Random amplitudes at different frequencies are uncorrelated: the frequency components can be studied one by one',
             'Amplitudinile aleatoare de la frecvențe diferite sînt necorelate: componentele de frecvență se pot studia separat'),
-          T(r'The DFT $d(\omega_j) = n^{-1/2}\sum_t x_te^{-i\omega_jt}$ is the finite-sample analogue of $dZ(\omega_j)$: nearly uncorrelated across Fourier frequencies',
-            r'DFT $d(\omega_j) = n^{-1/2}\sum_t x_te^{-i\omega_jt}$ este analogul de eșantion al lui $dZ(\omega_j)$: aproape necorelat între frecvențele Fourier')), '0.32', '0.66'), 'small')
+          T(r'The discrete Fourier transform (DFT) $d(\omega_j) = n^{-1/2}\sum_t x_te^{-i\omega_jt}$ at $\omega_j = 2\pi j/n$ is the sample analogue of $dZ(\omega_j)$: nearly uncorrelated across Fourier frequencies',
+            r'Transformata Fourier discretă (DFT) $d(\omega_j) = n^{-1/2}\sum_t x_te^{-i\omega_jt}$ în $\omega_j = 2\pi j/n$ este analogul de eșantion al lui $dZ(\omega_j)$: aproape necorelată între frecvențele Fourier')), '0.32', '0.66'), 'small')
 
 D.frame(T('Linear filters in the frequency domain', 'Filtre liniare în domeniul frecvenței'), items(
-    (T(r'$Y_t = \sum_j a_jX_{t-j}$ with $\sum_j|a_j| < \infty$: $dZ_Y(\omega) = A(\omega)\,dZ_X(\omega)$, $A(\omega) = \sum_j a_je^{-i\omega j}$ the \textbf{transfer function}',
-       r'$Y_t = \sum_j a_jX_{t-j}$ cu $\sum_j|a_j| < \infty$: $dZ_Y(\omega) = A(\omega)\,dZ_X(\omega)$, $A(\omega) = \sum_j a_je^{-i\omega j}$ fiind \textbf{funcția de transfer}'),
-     [T(r'$f_Y(\omega) = |A(\omega)|^2f_X(\omega)$; $|A(\omega)|$ is the \textbf{gain}, $\arg A(\omega)$ the \textbf{phase shift}', r'$f_Y(\omega) = |A(\omega)|^2f_X(\omega)$; $|A(\omega)|$ este \textbf{cîștigul}, $\arg A(\omega)$ este \textbf{defazajul}'),
+    (T(r'A linear filter multiplies each frequency component by the \textbf{transfer function} $A(\omega)$', r'Un filtru liniar înmulțește fiecare componentă de frecvență cu \textbf{funcția de transfer} $A(\omega)$'
+       ) + r'''
+    \[ Y_t = \sum_j a_jX_{t-j} \ \Rightarrow\ dZ_Y(\omega) = A(\omega)\,dZ_X(\omega), \quad A(\omega) = \sum_j a_je^{-i\omega j} \]
+    \[ f_Y(\omega) = |A(\omega)|^2f_X(\omega) \]''',
+     [T(r'$a_j$: filter weights, $\sum_j|a_j| < \infty$; $|A(\omega)|$: the \textbf{gain}; $\arg A(\omega)$: the \textbf{phase shift}', r'$a_j$: ponderile filtrului, $\sum_j|a_j| < \infty$; $|A(\omega)|$: \textbf{cîștigul}; $\arg A(\omega)$: \textbf{defazajul}'),
       T(r'symmetric weights $a_j = a_{-j}$: $A(\omega)$ is real, no phase shift; the property every trend--cycle filter wants', r'ponderi simetrice $a_j = a_{-j}$: $A(\omega)$ este real, fără defazaj; proprietatea dorită de orice filtru de tendință și ciclu')]),
-    (T(r'First difference: $|1 - e^{-i\omega}|^2 = 2(1 - \cos\omega)$, zero at $\omega = 0$: differencing removes the long cycles and amplifies the short ones', r'Prima diferență: $|1 - e^{-i\omega}|^2 = 2(1 - \cos\omega)$, nulă în $\omega = 0$: diferențierea elimină ciclurile lungi și le amplifică pe cele scurte'), []),
+    (T(r'First difference: $|1 - e^{-i\omega}|^2 = 2(1 - \cos\omega)$, zero at $\omega = 0$', r'Prima diferență: $|1 - e^{-i\omega}|^2 = 2(1 - \cos\omega)$, nulă în $\omega = 0$'),
+     [T(r'differencing removes the long cycles and amplifies the short ones', r'diferențierea elimină ciclurile lungi și le amplifică pe cele scurte')]),
     T(r'Slutsky effect: a moving sum of white noise has a peak in its spectrum, i.e.\ \textbf{cycles created by the filter}; the HP critique of Section 4 is the same phenomenon',
       r'Efectul Slutsky: o sumă mobilă a unui zgomot alb are un vîrf în spectru, adică \textbf{cicluri create de filtru}; critica filtrului HP din secțiunea 4 este același fenomen')), 'small')
 
-D.frame(T('The spectral density matrix', 'Matricea densităților spectrale'), items(
-    (T(r'Vector process $\mathbf X_t$ (dimension $k$): $\mathbf f(\omega) = \frac{1}{2\pi}\sum_h\Gamma(h)e^{-i\omega h}$, $\Gamma(h) = \Cov(\mathbf X_{t+h}, \mathbf X_t)$, a Hermitian non-negative matrix',
-       r'Proces vectorial $\mathbf X_t$ (dimensiune $k$): $\mathbf f(\omega) = \frac{1}{2\pi}\sum_h\Gamma(h)e^{-i\omega h}$, $\Gamma(h) = \Cov(\mathbf X_{t+h}, \mathbf X_t)$, o matrice hermitică nenegativă'),
-     [T(r'VARMA $\Phi(L)\mathbf X_t = \Theta(L)\boldsymbol\varepsilon_t$: $\mathbf f(\omega) = \frac{1}{2\pi}\Phi(e^{-i\omega})^{-1}\Theta(e^{-i\omega})\bSigma\Theta(e^{-i\omega})^*\Phi(e^{-i\omega})^{-*}$',
-        r'VARMA $\Phi(L)\mathbf X_t = \Theta(L)\boldsymbol\varepsilon_t$: $\mathbf f(\omega) = \frac{1}{2\pi}\Phi(e^{-i\omega})^{-1}\Theta(e^{-i\omega})\bSigma\Theta(e^{-i\omega})^*\Phi(e^{-i\omega})^{-*}$')]),
-    (T(r'Off-diagonal: the \textbf{cross-spectrum} $f_{xy}(\omega) = c_{xy}(\omega) - iq_{xy}(\omega)$ (co-spectrum $c$, quadrature spectrum $q$)', r'În afara diagonalei: \textbf{spectrul încrucișat} $f_{xy}(\omega) = c_{xy}(\omega) - iq_{xy}(\omega)$ (cospectrul $c$, spectrul în cuadratură $q$)'),
-     [T(r'$c_{xy}$ is even in $\omega$ (contemporaneous co-movement), $q_{xy}$ odd (lead--lag); $\int c_{xy} = \Cov(X_t, Y_t)$', r'$c_{xy}$ este par în $\omega$ (co-mișcare simultană), $q_{xy}$ impar (decalaj); $\int c_{xy} = \Cov(X_t, Y_t)$')]),
+D.frame(T('The spectral density matrix (1/2)', 'Matricea densităților spectrale (1/2)'), items(
+    (T(r'Vector process $\mathbf X_t$ of dimension $k$: the Fourier transform of the autocovariance matrices', r'Proces vectorial $\mathbf X_t$ de dimensiune $k$: transformata Fourier a matricelor de autocovarianță'
+       ) + r'''
+    \[ \mathbf f(\omega) = \frac{1}{2\pi}\sum_h\Gamma(h)e^{-i\omega h}, \qquad \Gamma(h) = \Cov(\mathbf X_{t+h}, \mathbf X_t) \]''',
+     [T(r'$\mathbf f(\omega)$: a $k \times k$ Hermitian ($\mathbf f = \mathbf f^*$, the conjugate transpose) non-negative definite matrix at each frequency',
+        r'$\mathbf f(\omega)$: o matrice $k \times k$ hermitică ($\mathbf f = \mathbf f^*$, transpusa conjugată) și nenegativ definită la fiecare frecvență')]),
+    (T(r'VARMA $\Phi(L)\mathbf X_t = \Theta(L)\boldsymbol\varepsilon_t$: the multivariate analogue of the ARMA spectrum', r'VARMA $\Phi(L)\mathbf X_t = \Theta(L)\boldsymbol\varepsilon_t$: analogul multivariat al spectrului ARMA'
+       ) + r'''
+    \[ \mathbf f(\omega) = \frac{1}{2\pi}\Phi(e^{-i\omega})^{-1}\Theta(e^{-i\omega})\,\bSigma\,\Theta(e^{-i\omega})^*\Phi(e^{-i\omega})^{-*} \]''',
+     [T(r'$\Phi$, $\Theta$: matrix AR and MA polynomials; $\bSigma$: covariance of the innovations $\boldsymbol\varepsilon_t$; $^{-*}$: inverse of the conjugate transpose',
+        r'$\Phi$, $\Theta$: polinoamele matriceale AR și MA; $\bSigma$: covarianța inovațiilor $\boldsymbol\varepsilon_t$; $^{-*}$: inversa transpusei conjugate')])), 'small')
+
+D.frame(T('The spectral density matrix (2/2): cross-spectra', 'Matricea densităților spectrale (2/2): spectrele încrucișate'), items(
+    (T(r'Off-diagonal elements: the \textbf{cross-spectrum}, complex-valued', r'Elementele din afara diagonalei: \textbf{spectrul încrucișat}, cu valori complexe'
+       ) + r'''
+    \[ f_{xy}(\omega) = c_{xy}(\omega) - i\,q_{xy}(\omega) \]''',
+     [T(r'$c_{xy}$: co-spectrum, even in $\omega$ (contemporaneous co-movement), $\int c_{xy} = \Cov(X_t, Y_t)$', r'$c_{xy}$: cospectrul, par în $\omega$ (co-mișcare simultană), $\int c_{xy} = \Cov(X_t, Y_t)$'),
+      T(r'$q_{xy}$: quadrature spectrum, odd in $\omega$ (lead--lag between the series)', r'$q_{xy}$: spectrul în cuadratură, impar în $\omega$ (avans--întîrziere între serii)')]),
     T('Section 2 estimates the diagonal, Section 3 the off-diagonal, Section 4 factorises $\\mathbf f$ to measure causality',
       'Secțiunea 2 estimează diagonala, secțiunea 3 elementele din afara diagonalei, iar secțiunea 4 factorizează $\\mathbf f$ pentru a măsura cauzalitatea')), 'small')
 
@@ -407,7 +439,7 @@ interp(('the band decomposition', 'descompunerii pe benzi'), [
 D.recap(('The spectral representation', 'reprezentarea spectrală'), [
     T('The spectrum decomposes variance by frequency; Cramér: uncorrelated random amplitudes at each frequency', 'Spectrul descompune varianța pe frecvențe; Cramér: amplitudini aleatoare necorelate la fiecare frecvență'),
     T('A linear filter multiplies the spectrum by its squared gain; symmetric filters do not shift phase', 'Un filtru liniar înmulțește spectrul cu pătratul cîștigului; filtrele simetrice nu defazează'),
-    T('The spectral matrix contains cross-spectra: co-movement and lead--lag by frequency', 'Matricea spectrală conține spectrele încrucișate: co-mișcarea și decalajele pe frecvențe')])
+    T('The spectral matrix contains cross-spectra: co-movement and lead--lag by frequency', 'Matricea spectrală conține spectrele încrucișate: co-mișcarea și relațiile de avans--întîrziere pe frecvențe')])
 
 # =============================================================================
 # 2. TEORIA ESTIMĂRII
@@ -415,27 +447,42 @@ D.recap(('The spectral representation', 'reprezentarea spectrală'), [
 D.section('Spectral estimation theory', 'Teoria estimării spectrale')
 
 D.frame(T('Why the periodogram is not enough', 'Limitele periodogramei'), items(
-    (T(r'For a linear process $X_t = \sum_j\psi_j\varepsilon_{t-j}$ with $\sum_j|j|^{1/2}|\psi_j| < \infty$ and $f > 0$: $I(\omega_j) \Rightarrow f(\omega_j)\,\chi^2_2/2$, asymptotically independent over fixed Fourier frequencies \refBD',
-       r'Pentru un proces liniar $X_t = \sum_j\psi_j\varepsilon_{t-j}$ cu $\sum_j|j|^{1/2}|\psi_j| < \infty$ și $f > 0$: $I(\omega_j) \Rightarrow f(\omega_j)\,\chi^2_2/2$, asimptotic independente pe frecvențe Fourier fixate \refBD'),
-     [T(r'$\E I(\omega_j) \to f(\omega_j)$ but $\Var I(\omega_j) \to f(\omega_j)^2$: \textbf{inconsistent}, the variance does not fall with $n$', r'$\E I(\omega_j) \to f(\omega_j)$, dar $\Var I(\omega_j) \to f(\omega_j)^2$: \textbf{inconsistentă}, varianța nu scade cu $n$')]),
-    (T(r'$\E I(\omega) = \int F_n(\omega - \lambda)f(\lambda)\,d\lambda$, $F_n$ the Fejér kernel: side lobes decay only like $1/(n\omega^2)$, so power \textbf{leaks} from strong to weak frequencies',
-       r'$\E I(\omega) = \int F_n(\omega - \lambda)f(\lambda)\,d\lambda$, $F_n$ fiind nucleul Fejér: lobii laterali scad doar ca $1/(n\omega^2)$, deci puterea se \textbf{scurge} (leakage) de la frecvențele puternice spre cele slabe'), []),
+    (T(r'For a linear process the periodogram ordinates are asymptotically scaled $\chi^2_2$ variables \refBD', r'Pentru un proces liniar, ordonatele periodogramei sînt asimptotic variabile $\chi^2_2$ scalate \refBD'
+       ) + r'''
+    \[ X_t = \sum_j\psi_j\varepsilon_{t-j} \ \Rightarrow\ I(\omega_j) \Rightarrow f(\omega_j)\,\frac{\chi^2_2}{2} \]''',
+     [T(r'$\psi_j$: weights with $\sum_j|j|^{1/2}|\psi_j| < \infty$; $\varepsilon_t$: i.i.d. innovations; $f > 0$; asymptotically independent over fixed Fourier frequencies $\omega_j$',
+        r'$\psi_j$: ponderi cu $\sum_j|j|^{1/2}|\psi_j| < \infty$; $\varepsilon_t$: inovații i.i.d.; $f > 0$; asimptotic independente pe frecvențe Fourier $\omega_j$ fixate'),
+      T(r'$\E I(\omega_j) \to f(\omega_j)$ but $\Var I(\omega_j) \to f(\omega_j)^2$: \textbf{inconsistent}, the variance does not fall with $n$', r'$\E I(\omega_j) \to f(\omega_j)$, dar $\Var I(\omega_j) \to f(\omega_j)^2$: \textbf{inconsistentă}, varianța nu scade cu $n$')]),
+    (T(r'Leakage: the mean periodogram is the true spectrum smoothed by the Fejér kernel $F_n$', r'Scurgerea spectrală (leakage): media periodogramei este spectrul adevărat netezit cu nucleul Fejér $F_n$'
+       ) + r'''
+    \[ \E I(\omega) = \int F_n(\omega - \lambda)f(\lambda)\,d\lambda \]''',
+     [T(r'the side lobes of $F_n$ decay only like $1/(n\omega^2)$, so power \textbf{leaks} from strong to weak frequencies', r'lobii laterali ai lui $F_n$ scad doar ca $1/(n\omega^2)$, deci puterea se \textbf{scurge} de la frecvențele puternice spre cele slabe')]),
     T(r'Two remedies: \textbf{average} neighbouring frequencies (consistency) and \textbf{taper} the data (bias); multitaper does both',
       r'Două remedii: \textbf{medierea} frecvențelor vecine (consistență) și \textbf{ponderarea} datelor cu un taper (deplasare); estimatorul multitaper le face pe amîndouă')), 'small')
 
-D.frame(T('Lag-window estimators', 'Estimatori cu fereastră de decalaje'), items(
-    (T(r'$\hat f(\omega) = \frac{1}{2\pi}\sum_{|h| < n}k(h/M)\hat\gamma(h)e^{-i\omega h}$, $k$ the \textbf{lag window}, $M$ the truncation (bandwidth) parameter \refPar',
-       r'$\hat f(\omega) = \frac{1}{2\pi}\sum_{|h| < n}k(h/M)\hat\gamma(h)e^{-i\omega h}$, $k$ fiind \textbf{fereastra de decalaje}, $M$ parametrul de trunchiere (lățimea de bandă) \refPar'),
-     [T(r'equivalently $\hat f(\omega) = \int W_M(\omega - \lambda)I(\lambda)\,d\lambda$: a weighted average of the periodogram with the \textbf{spectral window} $W_M(\omega) = \frac{1}{2\pi}\sum_h k(h/M)e^{-i\omega h}$',
-        r'echivalent, $\hat f(\omega) = \int W_M(\omega - \lambda)I(\lambda)\,d\lambda$: o medie ponderată a periodogramei cu \textbf{fereastra spectrală} $W_M(\omega) = \frac{1}{2\pi}\sum_h k(h/M)e^{-i\omega h}$')]),
+D.frame(T('Lag-window estimators (1/2)', 'Estimatori cu fereastră de laguri (1/2)'), items(
+    (T(r'Down-weight the noisy sample autocovariances at long lags \refPar', r'Se reduc ponderile autocovarianțelor de eșantion zgomotoase de la laguri mari \refPar'
+       ) + r'''
+    \[ \hat f(\omega) = \frac{1}{2\pi}\sum_{|h| < n}k(h/M)\,\hat\gamma(h)e^{-i\omega h} \]''',
+     [T(r'$\hat\gamma(h)$: sample autocovariance; $k$: the \textbf{lag window}, $k(0) = 1$, decreasing in $|u|$; $M$: the truncation (bandwidth) parameter',
+        r'$\hat\gamma(h)$: autocovarianța de eșantion; $k$: \textbf{fereastra de laguri}, $k(0) = 1$, descrescătoare în $|u|$; $M$: parametrul de trunchiere (lățimea de bandă)')]),
+    (T(r'Equivalently: a weighted average of the periodogram with the \textbf{spectral window} $W_M$', r'Echivalent: o medie ponderată a periodogramei cu \textbf{fereastra spectrală} $W_M$'
+       ) + r'''
+    \[ \hat f(\omega) = \int W_M(\omega - \lambda)I(\lambda)\,d\lambda, \qquad W_M(\omega) = \frac{1}{2\pi}\sum_h k(h/M)e^{-i\omega h} \]''',
+     [T(r'a large $M$ gives a narrow $W_M$: little smoothing', r'un $M$ mare dă o fereastră $W_M$ îngustă: netezire redusă')])), 'small')
+
+D.frame(T('Lag-window estimators (2/2): the kernels', 'Estimatori cu fereastră de laguri (2/2): nucleele'), items(
     (T(r'Bartlett $k(u) = 1 - |u|$; Parzen; Tukey--Hanning; quadratic spectral (QS): the same kernels as the HAC estimators of Chapter 0 at $\omega = 0$',
        r'Bartlett $k(u) = 1 - |u|$; Parzen; Tukey--Hanning; pătratic spectral (QS): aceleași nuclee ca estimatorii HAC din Capitolul 0 în $\omega = 0$'),
      [T(r'a non-negative $W_M$ guarantees $\hat f \ge 0$ (Bartlett, Parzen, QS); Tukey--Hanning can go negative',
         r'un $W_M$ nenegativ garantează $\hat f \ge 0$ (Bartlett, Parzen, QS); Tukey--Hanning poate deveni negativ')]),
-    T(r'Characteristic exponent $q$ and $k_q = \lim_{u \to 0}(1 - k(u))/|u|^q$: Bartlett $q = 1$, $k_1 = 1$; Parzen $q = 2$, $k_2 = 6$; QS $q = 2$, $k_2 = 1.42$',
-      r'Exponentul caracteristic $q$ și $k_q = \lim_{u \to 0}(1 - k(u))/|u|^q$: Bartlett $q = 1$, $k_1 = 1$; Parzen $q = 2$, $k_2 = 6$; QS $q = 2$, $k_2 = 1.42$')), 'small')
+    (T(r'Characteristic exponent $q$: how flat the kernel is at zero', r'Exponentul caracteristic $q$: cît de plat este nucleul în zero'
+       ) + r'''
+    \[ k_q = \lim_{u \to 0}\frac{1 - k(u)}{|u|^q} \]''',
+     [T(r'Bartlett $q = 1$, $k_1 = 1$; Parzen $q = 2$, $k_2 = 6$; QS $q = 2$, $k_2 = 1.42$; a larger $q$ means smaller bias (next slides)',
+        r'Bartlett $q = 1$, $k_1 = 1$; Parzen $q = 2$, $k_2 = 6$; QS $q = 2$, $k_2 = 1.42$; un $q$ mai mare înseamnă deplasare mai mică (slide-urile următoare)')])), 'small')
 
-chart(T('Lag windows and spectral windows', 'Ferestre de decalaje și ferestre spectrale'), 'ats_ch11_kernels', 'ATS_ch11_spectral_estimation', [
+chart(T('Lag windows and spectral windows', 'Ferestre de laguri și ferestre spectrale'), 'ats_ch11_kernels', 'ATS_ch11_spectral_estimation', [
     T(r'Left: $k(u)$; right: the spectral window $W_M(\omega)$ for $M = 10$, the weights that each estimator gives to the periodogram around $\omega$',
       r'Stînga: $k(u)$; dreapta: fereastra spectrală $W_M(\omega)$ pentru $M = 10$, ponderile pe care fiecare estimator le dă periodogramei în jurul lui $\omega$')],
     h='0.5\\textheight')
@@ -450,15 +497,23 @@ interp(('the windows', 'ferestrelor'), [
     T('The QS kernel is optimal in MSE among kernels with non-negative estimates \\refAnd',
       'Nucleul QS este optim în MSE printre nucleele cu estimări nenegative \\refAnd')])
 
-D.frame(T('Bias, variance and the optimal bandwidth', 'Deplasare, varianță și lățimea de bandă optimă'), items(
-    (T(r'If $M \to \infty$ and $M/n \to 0$: $\hat f(\omega) \to_p f(\omega)$ (\textbf{consistency}) \refPar', r'Dacă $M \to \infty$ și $M/n \to 0$: $\hat f(\omega) \to_p f(\omega)$ (\textbf{consistență}) \refPar'),
-     [T(r'$\Var\hat f(\omega) \approx \frac{M}{n}f(\omega)^2\int k^2(u)\,du$ (twice that at $\omega = 0, \pm\pi$)', r'$\Var\hat f(\omega) \approx \frac{M}{n}f(\omega)^2\int k^2(u)\,du$ (dublu în $\omega = 0, \pm\pi$)'),
-      T(r'$\E\hat f(\omega) - f(\omega) \approx -k_qM^{-q}f^{(q)}(\omega)$, $f^{(q)}(\omega) = \frac{1}{2\pi}\sum_h|h|^q\gamma(h)e^{-i\omega h}$: the bias is large where the spectrum is curved (peaks)',
-        r'$\E\hat f(\omega) - f(\omega) \approx -k_qM^{-q}f^{(q)}(\omega)$, $f^{(q)}(\omega) = \frac{1}{2\pi}\sum_h|h|^q\gamma(h)e^{-i\omega h}$: deplasarea este mare unde spectrul este curbat (vîrfuri)')]),
-    (T(r'Minimising MSE: $M^* = \big(qk_q^2f^{(q)}(\omega)^2n\,/\,(f(\omega)^2\int k^2)\big)^{1/(2q+1)} \propto n^{1/(2q+1)}$; MSE $\propto n^{-2q/(2q+1)}$', r'Minimizînd MSE: $M^* = \big(qk_q^2f^{(q)}(\omega)^2n\,/\,(f(\omega)^2\int k^2)\big)^{1/(2q+1)} \propto n^{1/(2q+1)}$; MSE $\propto n^{-2q/(2q+1)}$'),
+D.frame(T('Bias, variance and the optimal bandwidth (1/2)', 'Deplasare, varianță și lățimea de bandă optimă (1/2)'), items(
+    (T(r'If $M \to \infty$ and $M/n \to 0$: $\hat f(\omega) \to_p f(\omega)$ (\textbf{consistency}) \refPar; variance and bias', r'Dacă $M \to \infty$ și $M/n \to 0$: $\hat f(\omega) \to_p f(\omega)$ (\textbf{consistență}) \refPar; varianța și deplasarea'
+       ) + r'''
+    \[ \Var\hat f(\omega) \approx \frac{M}{n}f(\omega)^2\int k^2(u)\,du, \qquad \E\hat f(\omega) - f(\omega) \approx -k_qM^{-q}f^{(q)}(\omega) \]''',
+     [T(r'the variance grows with $M$ (doubled at $\omega = 0, \pm\pi$); the bias falls with $M$', r'varianța crește cu $M$ (se dublează în $\omega = 0, \pm\pi$); deplasarea scade cu $M$'),
+      T(r'$f^{(q)}(\omega) = \frac{1}{2\pi}\sum_h|h|^q\gamma(h)e^{-i\omega h}$: a generalised $q$-th derivative of $f$, large where the spectrum is curved (peaks)',
+        r'$f^{(q)}(\omega) = \frac{1}{2\pi}\sum_h|h|^q\gamma(h)e^{-i\omega h}$: o derivată generalizată de ordinul $q$ a lui $f$, mare unde spectrul este curbat (vîrfuri)')])), 'small')
+
+D.frame(T('Bias, variance and the optimal bandwidth (2/2)', 'Deplasare, varianță și lățimea de bandă optimă (2/2)'), items(
+    (T(r'Minimising MSE = squared bias + variance over $M$', r'Minimizarea MSE = pătratul deplasării + varianța, în raport cu $M$'
+       ) + r'''
+    \[ M^* = \Big(\frac{qk_q^2f^{(q)}(\omega)^2\,n}{f(\omega)^2\int k^2}\Big)^{1/(2q+1)} \propto n^{1/(2q+1)}, \qquad \mathrm{MSE} \propto n^{-2q/(2q+1)} \]''',
      [T(r'$q = 2$ kernels converge faster ($n^{-4/5}$) than Bartlett ($n^{-2/3}$)', r'nucleele cu $q = 2$ converg mai repede ($n^{-4/5}$) decît Bartlett ($n^{-2/3}$)')]),
-    T(r'Inference: $\nu\hat f(\omega)/f(\omega) \approx \chi^2_\nu$ with $\nu = 2n/(M\int k^2)$ equivalent degrees of freedom; the band is constant in log scale',
-      r'Inferență: $\nu\hat f(\omega)/f(\omega) \approx \chi^2_\nu$, cu $\nu = 2n/(M\int k^2)$ grade de libertate echivalente; banda este constantă pe scară logaritmică')), 'small')
+    (T(r'Inference: a scaled $\chi^2$ with equivalent degrees of freedom $\nu$', r'Inferența: o variabilă $\chi^2$ scalată, cu $\nu$ grade de libertate echivalente'
+       ) + r'''
+    \[ \frac{\nu\hat f(\omega)}{f(\omega)} \approx \chi^2_\nu, \qquad \nu = \frac{2n}{M\int k^2} \]''',
+     [T(r'the confidence band $[\nu\hat f/\chi^2_{\nu,0.975}, \nu\hat f/\chi^2_{\nu,0.025}]$ has constant width in log scale', r'banda de încredere $[\nu\hat f/\chi^2_{\nu;0,975}, \nu\hat f/\chi^2_{\nu;0,025}]$ are lățime constantă pe scară logaritmică')])), 'small')
 
 chart(T('The bias--variance trade-off at a spectral peak', 'Compromisul deplasare--varianță într-un vîrf spectral'), 'ats_ch11_bias_variance', 'ATS_ch11_spectral_estimation', [
     T(r'Parzen estimator at the peak (period @{bv.peak}) of $X_t = 1.6X_{t-1} - 0.9X_{t-2} + \varepsilon_t$, $n = 512$, @{bv.reps} simulations; curves divided by $f(\mathrm{peak})^2$; dashed: the asymptotic formulas',
@@ -476,26 +531,38 @@ interp(('the trade-off', 'compromisului'), [
       'Un vîrf spectral ascuțit cere un $M$ mult mai mare decît ar sugera regula HAC pentru $\\omega = 0$: lățimea de bandă este locală')])
 
 D.frame(T('Choosing the bandwidth', 'Alegerea lățimii de bandă'), items(
-    (T(r'\textbf{Plug-in} \refAnd: approximate $f^{(q)}/f$ by a parametric (AR(1)) model, then use $M^*$; for $\omega = 0$: $M = 1.1447(\hat\alpha(1)n)^{1/3}$ (Bartlett), $1.3221(\hat\alpha(2)n)^{1/5}$ (QS)',
-       r'\textbf{Plug-in} \refAnd: aproximăm $f^{(q)}/f$ printr-un model parametric (AR(1)), apoi folosim $M^*$; pentru $\omega = 0$: $M = 1{,}1447(\hat\alpha(1)n)^{1/3}$ (Bartlett), $1{,}3221(\hat\alpha(2)n)^{1/5}$ (QS)'),
-     [T('good for long-run variances (Chapter 0); poor near sharp peaks, where the AR(1) approximation is wrong', 'bun pentru varianțele pe termen lung (Capitolul 0); slab lîngă vîrfuri ascuțite, unde aproximarea AR(1) este greșită')]),
-    (T(r'\textbf{Cross-validation} \refHur: minimise a leave-one-out Whittle criterion $\sum_j\big[\log\hat f_{-j}(\omega_j) + I(\omega_j)/\hat f_{-j}(\omega_j)\big]$ over $M$',
-       r'\textbf{Validare încrucișată} \refHur: minimizăm un criteriu Whittle fără observația $j$, $\sum_j\big[\log\hat f_{-j}(\omega_j) + I(\omega_j)/\hat f_{-j}(\omega_j)\big]$, în $M$'), []),
+    (T(r'\textbf{Plug-in} \refAnd: approximate $f^{(q)}/f$ by a parametric (AR(1)) model, then use $M^*$', r'\textbf{Plug-in} \refAnd: aproximăm $f^{(q)}/f$ printr-un model parametric (AR(1)), apoi folosim $M^*$'
+       ) + M(r'''
+    \[ M = 1.1447\,(\hat\alpha(1)\,n)^{1/3} \ \text{(Bartlett)}, \qquad M = 1.3221\,(\hat\alpha(2)\,n)^{1/5} \ \text{(QS)}, \qquad \omega = 0 \]'''),
+     [T(r'$\hat\alpha(q)$: the ratio $(f^{(q)}(0)/f(0))^2$ computed from the fitted AR(1), e.g.\ $\hat\alpha(2) = 4\hat\rho^2/(1 - \hat\rho)^4$ ($\hat\rho$: AR coefficient)',
+        r'$\hat\alpha(q)$: raportul $(f^{(q)}(0)/f(0))^2$ calculat din AR(1) estimat, de exemplu $\hat\alpha(2) = 4\hat\rho^2/(1 - \hat\rho)^4$ ($\hat\rho$: coeficientul AR)'),
+      T('good for long-run variances (Chapter 0); poor near sharp peaks, where the AR(1) approximation is wrong', 'bun pentru varianțele pe termen lung (Capitolul 0); slab lîngă vîrfuri ascuțite, unde aproximarea AR(1) este greșită')]),
+    (T(r'\textbf{Cross-validation} \refHur: minimise over $M$ a leave-one-out Whittle criterion', r'\textbf{Validare încrucișată} \refHur: minimizăm în $M$ un criteriu Whittle fără observația $j$'
+       ) + r'''
+    \[ \mathrm{CV}(M) = \sum_j\Big[\log\hat f_{-j}(\omega_j) + \frac{I(\omega_j)}{\hat f_{-j}(\omega_j)}\Big] \]''',
+     [T(r'$\hat f_{-j}$: the smoothed estimate computed without the ordinate $I(\omega_j)$', r'$\hat f_{-j}$: estimația netezită calculată fără ordonata $I(\omega_j)$')]),
     (T('\\textbf{Resolution}: two peaks closer than the bandwidth (about $1/M$ cycles) merge; decide the resolution you need before looking at the data',
-       '\\textbf{Rezoluția}: două vîrfuri mai apropiate decît lățimea de bandă (circa $1/M$ cicluri) se contopesc; stabiliți rezoluția necesară înainte de a privi datele'), []),
-    T('Report the estimate for two or three bandwidths: conclusions that depend on $M$ are not conclusions',
-      'Raportați estimarea pentru două sau trei lățimi de bandă: concluziile care depind de $M$ nu sînt concluzii')), 'small')
+       '\\textbf{Rezoluția}: două vîrfuri mai apropiate decît lățimea de bandă (circa $1/M$ cicluri) se contopesc; stabiliți rezoluția necesară înainte de a privi datele'),
+     [T('report the estimate for two or three bandwidths: conclusions that depend on $M$ are not conclusions', 'raportați estimarea pentru două sau trei lățimi de bandă: concluziile care depind de $M$ nu sînt concluzii')])), 'small')
 
-D.frame(T('Multitaper estimation', 'Estimarea multitaper'), items(
-    (T(r'\textbf{Slepian (DPSS) tapers} $v^{(k)}$, $k = 0, \dots, K - 1$: orthonormal sequences of length $n$ that maximise the share $\lambda_k$ of their energy in $[-W, W]$ \refTho',
-       r'\textbf{Taper-ele Slepian (DPSS)} $v^{(k)}$, $k = 0, \dots, K - 1$: șiruri ortonormate de lungime $n$ care maximizează ponderea $\lambda_k$ a energiei lor în $[-W, W]$ \refTho'),
-     [T(r'about $2NW$ of them have $\lambda_k \approx 1$; usually $K = 2NW - 1$ (e.g.\ $NW = 4$, $K = 7$); $W$ is the half-bandwidth in cycles',
-        r'aproximativ $2NW$ dintre ele au $\lambda_k \approx 1$; de obicei $K = 2NW - 1$ (de exemplu $NW = 4$, $K = 7$); $W$ este semilățimea de bandă în cicluri')]),
-    (T(r'Eigenspectra $\hat S_k(\omega) = \frac{1}{2\pi}\big|\sum_tv_t^{(k)}x_te^{-i\omega t}\big|^2$; $\hat f^{\mathrm{mt}} = \frac1K\sum_k\hat S_k$', r'Spectrele proprii $\hat S_k(\omega) = \frac{1}{2\pi}\big|\sum_tv_t^{(k)}x_te^{-i\omega t}\big|^2$; $\hat f^{\mathrm{mt}} = \frac1K\sum_k\hat S_k$'),
-     [T(r'$\hat S_k$ are nearly uncorrelated: $2K\hat f^{\mathrm{mt}}/f \approx \chi^2_{2K}$; variance $f^2/K$, bias controlled by the taper concentration',
-        r'$\hat S_k$ sînt aproape necorelate: $2K\hat f^{\mathrm{mt}}/f \approx \chi^2_{2K}$; varianță $f^2/K$, deplasare controlată de concentrarea taper-elor')]),
-    T(r'\textbf{Adaptive weights}: $d_k(\omega) = \sqrt{\lambda_k}f(\omega)/(\lambda_kf(\omega) + (1 - \lambda_k)\sigma^2)$, iterated; down-weight leaky tapers where $f$ is small \refPWa',
-      r'\textbf{Ponderi adaptive}: $d_k(\omega) = \sqrt{\lambda_k}f(\omega)/(\lambda_kf(\omega) + (1 - \lambda_k)\sigma^2)$, iterate; reduc ponderea taper-elor cu scurgeri acolo unde $f$ este mic \refPWa'),
+D.frame(T('Multitaper estimation (1/2): Slepian tapers', 'Estimarea multitaper (1/2): taper-ele Slepian'), items(
+    (T(r'\textbf{Slepian (DPSS) tapers} $v^{(k)}$, $k = 0, \dots, K - 1$ \refTho', r'\textbf{Taper-ele Slepian (DPSS)} $v^{(k)}$, $k = 0, \dots, K - 1$ \refTho'),
+     [T(r'orthonormal weight sequences of length $n$ that maximise the share $\lambda_k$ of their spectral energy inside $[-W, W]$; $W$: half-bandwidth in cycles',
+        r'șiruri de ponderi ortonormate de lungime $n$ care maximizează ponderea $\lambda_k$ a energiei lor spectrale în intervalul $[-W, W]$; $W$: semilățimea de bandă în cicluri'),
+      T(r'about $2nW$ of them have $\lambda_k \approx 1$; usually $K = 2NW - 1$ with $NW = nW$ (e.g.\ $NW = 4$, $K = 7$)',
+        r'aproximativ $2nW$ dintre ele au $\lambda_k \approx 1$; de obicei $K = 2NW - 1$, cu $NW = nW$ (de exemplu $NW = 4$, $K = 7$)')]),
+    (T(r'Eigenspectra: one tapered periodogram per taper; the estimate is their average', r'Spectrele proprii: cîte o periodogramă ponderată pentru fiecare taper; estimația este media lor'
+       ) + r'''
+    \[ \hat S_k(\omega) = \frac{1}{2\pi}\Big|\sum_tv_t^{(k)}x_te^{-i\omega t}\Big|^2, \qquad \hat f^{\mathrm{mt}}(\omega) = \frac1K\sum_{k=0}^{K-1}\hat S_k(\omega) \]''',
+     [T(r'the $\hat S_k$ are nearly uncorrelated: $2K\hat f^{\mathrm{mt}}/f \approx \chi^2_{2K}$; variance $f^2/K$, bias controlled by the taper concentration',
+        r'$\hat S_k$ sînt aproape necorelate: $2K\hat f^{\mathrm{mt}}/f \approx \chi^2_{2K}$; varianța $f^2/K$, deplasarea controlată de concentrarea taper-elor')])), 'small')
+
+D.frame(T('Multitaper estimation (2/2): adaptive weights', 'Estimarea multitaper (2/2): ponderi adaptive'), items(
+    (T(r'\textbf{Adaptive weights} \refPWa: down-weight leaky tapers where $f$ is small', r'\textbf{Ponderi adaptive} \refPWa: se reduce ponderea taper-elor cu scurgeri acolo unde $f$ este mic'
+       ) + r'''
+    \[ d_k(\omega) = \frac{\sqrt{\lambda_k}\,f(\omega)}{\lambda_kf(\omega) + (1 - \lambda_k)\sigma^2} \]''',
+     [T(r'$\sigma^2$: the variance of the series; $1 - \lambda_k$: the leakage of taper $k$; the weights depend on the unknown $f$, so they are iterated from $\hat f^{\mathrm{mt}}$',
+        r'$\sigma^2$: varianța seriei; $1 - \lambda_k$: scurgerea taper-ului $k$; ponderile depind de $f$ necunoscut, deci se iterează pornind de la $\hat f^{\mathrm{mt}}$')]),
     T(r'Alternatives with the same logic: sine tapers \refRS; Welch\'s averaging of tapered segments \refWel',
       r'Alternative cu aceeași logică: taper-ele sinus \refRS; medierea Welch a segmentelor ponderate \refWel')), 'small')
 
@@ -558,13 +625,22 @@ interp(('the industrial production spectra', 'spectrelor producției industriale
       r'România este mai volatilă (abaterea standard @{ip.RO.sd} față de @{ip.EA20.sd}), iar surplusul este la frecvențe înalte, unde benzile nu se suprapun: zgomot, revizuiri și efecte de calendar reziduale'),
     T('At periods above 12 months the two spectra cannot be told apart within the bands', 'La perioade de peste 12 luni, cele două spectre nu se pot distinge în interiorul benzilor')])
 
-D.frame(T('Lines in the spectrum: Thomson\'s F test', 'Linii în spectru: testul F al lui Thomson'), items(
-    (T(r'Model: $x_t = \mu\cos(\omega_0t + \phi) + $ noise with a smooth spectrum; under a line, each tapered DFT is $Y_k(\omega_0) \approx \mu U_k(0)$, $U_k(0) = \sum_tv^{(k)}_t$ \refTho',
-       r'Modelul: $x_t = \mu\cos(\omega_0t + \phi) + $ zgomot cu spectru neted; sub o linie, fiecare DFT ponderat este $Y_k(\omega_0) \approx \mu U_k(0)$, $U_k(0) = \sum_tv^{(k)}_t$ \refTho'),
-     [T(r'$\hat\mu(\omega) = \sum_kU_k(0)Y_k(\omega)/\sum_kU_k(0)^2$; $F(\omega) = (K - 1)|\hat\mu|^2\sum_kU_k(0)^2/\sum_k|Y_k - \hat\mu U_k(0)|^2 \sim F_{2, 2K - 2}$',
-        r'$\hat\mu(\omega) = \sum_kU_k(0)Y_k(\omega)/\sum_kU_k(0)^2$; $F(\omega) = (K - 1)|\hat\mu|^2\sum_kU_k(0)^2/\sum_k|Y_k - \hat\mu U_k(0)|^2 \sim F_{2, 2K - 2}$')]),
-    T('A regression of the eigencoefficients on the taper means, frequency by frequency: it separates a deterministic line from a stochastic peak, which Fisher\'s test (TSA) cannot',
-      'O regresie a coeficienților proprii pe mediile taper-elor, frecvență cu frecvență: separă o linie deterministă de un vîrf stochastic, ceea ce testul lui Fisher (TSA) nu poate'),
+D.frame(T('Lines in the spectrum: Thomson\'s F test (1/2)', 'Linii în spectru: testul F al lui Thomson (1/2)'), items(
+    (T(r'Model: a sinusoid plus noise with a smooth spectrum \refTho', r'Modelul: o sinusoidă plus un zgomot cu spectru neted \refTho'
+       ) + r'''
+    \[ x_t = \mu\cos(\omega_0t + \phi) + e_t \]''',
+     [T(r'$\mu$: amplitude; $\omega_0$: frequency of the line; $\phi$: phase; $e_t$: stationary noise',
+        r'$\mu$: amplitudinea; $\omega_0$: frecvența liniei; $\phi$: faza; $e_t$: zgomot staționar'),
+      T(r'under a line, each tapered DFT is $Y_k(\omega_0) \approx \mu\,U_k(0)$, with $U_k(0) = \sum_tv^{(k)}_t$ the sum of taper $k$',
+        r'sub o linie, fiecare DFT ponderat este $Y_k(\omega_0) \approx \mu\,U_k(0)$, cu $U_k(0) = \sum_tv^{(k)}_t$ suma taper-ului $k$')]),
+    T('A regression of the eigencoefficients $Y_k$ on the taper sums $U_k(0)$, frequency by frequency: it separates a deterministic line from a stochastic peak, which Fisher\'s test (TSA) cannot',
+      'O regresie a coeficienților proprii $Y_k$ pe sumele taper-elor $U_k(0)$, frecvență cu frecvență: separă o linie deterministă de un vîrf stochastic, ceea ce testul lui Fisher (TSA) nu poate')), 'small')
+
+D.frame(T('Lines in the spectrum: Thomson\'s F test (2/2)', 'Linii în spectru: testul F al lui Thomson (2/2)'), items(
+    (T(r'Estimated amplitude and the F statistic: explained against residual variation', r'Amplitudinea estimată și statistica F: variația explicată față de cea reziduală'
+       ) + r'''
+    \[ \hat\mu(\omega) = \frac{\sum_kU_k(0)Y_k(\omega)}{\sum_kU_k(0)^2}, \qquad F(\omega) = \frac{(K - 1)\,|\hat\mu|^2\sum_kU_k(0)^2}{\sum_k|Y_k - \hat\mu U_k(0)|^2} \sim F_{2, 2K - 2} \]''',
+     [T(r'a large $F(\omega)$: a line at $\omega$; $K$: number of tapers', r'un $F(\omega)$ mare: o linie în $\omega$; $K$: numărul de taper-e')]),
     T('Application: residual seasonality is a set of lines at $k/12$ cycles per month; trading-day effects are lines at 0.348 and 0.432 cycles per month',
       'Aplicație: sezonalitatea reziduală este o mulțime de linii la $k/12$ cicluri pe lună; efectele zilelor lucrătoare sînt linii la 0,348 și 0,432 cicluri pe lună'),
     T('Testing at hundreds of frequencies: expect about 1\\% false rejections at the 1\\% level; test only pre-specified frequencies',
@@ -594,27 +670,37 @@ D.recap(('Spectral estimation theory', 'teoria estimării spectrale'), [
 # =============================================================================
 D.section('Two series: coherence, phase and causality', 'Două serii: coerență, fază și cauzalitate')
 
-D.frame(T('Coherence, phase and gain', 'Coerența, faza și cîștigul'), items(
-    (T(r'\textbf{Squared coherence} $\kappa^2_{xy}(\omega) = |f_{xy}(\omega)|^2/(f_x(\omega)f_y(\omega)) \in [0, 1]$: the $R^2$ of the regression of $dZ_y(\omega)$ on $dZ_x(\omega)$',
-       r'\textbf{Coerența pătratică} $\kappa^2_{xy}(\omega) = |f_{xy}(\omega)|^2/(f_x(\omega)f_y(\omega)) \in [0, 1]$: $R^2$ al regresiei lui $dZ_y(\omega)$ pe $dZ_x(\omega)$'),
-     [T(r'invariant to filtering each series by an invertible filter: coherence does not depend on how the series are transformed',
-        r'invariantă la filtrarea fiecărei serii cu un filtru inversabil: coerența nu depinde de felul în care sînt transformate seriile')]),
-    (T(r'\textbf{Phase} $\phi_{xy}(\omega) = \arg f_{xy}(\omega)$, with $\gamma_{xy}(h) = \Cov(x_{t+h}, y_t)$: if $y_t = x_{t-d}$, then $f_{xy} = e^{i\omega d}f_x$, phase $\omega d > 0$: $x$ leads by $\phi/\omega$ periods',
-       r'\textbf{Faza} $\phi_{xy}(\omega) = \arg f_{xy}(\omega)$, cu $\gamma_{xy}(h) = \Cov(x_{t+h}, y_t)$: dacă $y_t = x_{t-d}$, atunci $f_{xy} = e^{i\omega d}f_x$, faza $\omega d > 0$: $x$ conduce cu $\phi/\omega$ perioade'),
-     [T(r'the phase is defined modulo $2\pi$: a lead of $d$ and a lag of $2\pi/\omega - d$ are the same phase; interpret it only where coherence is significant',
-        r'faza este definită modulo $2\pi$: un avans de $d$ și o întîrziere de $2\pi/\omega - d$ dau aceeași fază; interpretați-o doar unde coerența este semnificativă')]),
+D.frame(T('Coherence, phase and gain (1/2): coherence', 'Coerența, faza și cîștigul (1/2): coerența'), items(
+    (T(r'\textbf{Squared coherence}: the $R^2$ of the regression of $dZ_y(\omega)$ on $dZ_x(\omega)$', r'\textbf{Coerența pătratică}: $R^2$ al regresiei lui $dZ_y(\omega)$ pe $dZ_x(\omega)$'
+       ) + r'''
+    \[ \kappa^2_{xy}(\omega) = \frac{|f_{xy}(\omega)|^2}{f_x(\omega)f_y(\omega)} \in [0, 1] \]''',
+     [T(r'$f_x$, $f_y$: the two spectra; $f_{xy}$: the cross-spectrum; $\kappa^2 = 1$: $y$ is an exact linear filter of $x$ at frequency $\omega$; $\kappa^2 = 0$: no linear relation at that frequency',
+        r'$f_x$, $f_y$: cele două spectre; $f_{xy}$: spectrul încrucișat; $\kappa^2 = 1$: $y$ este exact un filtru liniar al lui $x$ la frecvența $\omega$; $\kappa^2 = 0$: nicio relație liniară la acea frecvență'),
+      T(r'invariant to filtering each series by an invertible filter: coherence does not depend on how the series are transformed (Appendix)',
+        r'invariantă la filtrarea fiecărei serii cu un filtru inversabil: coerența nu depinde de felul în care sînt transformate seriile (Anexa)')]),
     T(r'\textbf{Gain} $|f_{xy}(\omega)|/f_x(\omega)$: the regression coefficient of $y$ on $x$ at frequency $\omega$',
       r'\textbf{Cîștigul} $|f_{xy}(\omega)|/f_x(\omega)$: coeficientul de regresie al lui $y$ pe $x$ la frecvența $\omega$')), 'small')
 
+D.frame(T('Coherence, phase and gain (2/2): phase', 'Coerența, faza și cîștigul (2/2): faza'), items(
+    (T(r'\textbf{Phase}: the angle of the cross-spectrum, with $\gamma_{xy}(h) = \Cov(x_{t+h}, y_t)$', r'\textbf{Faza}: unghiul spectrului încrucișat, cu $\gamma_{xy}(h) = \Cov(x_{t+h}, y_t)$'
+       ) + r'''
+    \[ \phi_{xy}(\omega) = \arg f_{xy}(\omega) \]''',
+     [T(r'example: if $y_t = x_{t-d}$, then $f_{xy} = e^{i\omega d}f_x$, phase $\omega d > 0$: $x$ leads by $\phi/\omega$ periods',
+        r'exemplu: dacă $y_t = x_{t-d}$, atunci $f_{xy} = e^{i\omega d}f_x$, faza $\omega d > 0$: $x$ conduce cu $\phi/\omega$ perioade'),
+      T(r'the phase is defined modulo $2\pi$: a lead of $d$ and a lag of $2\pi/\omega - d$ are the same phase', r'faza este definită modulo $2\pi$: un avans de $d$ și o întîrziere de $2\pi/\omega - d$ dau aceeași fază')]),
+    T('Interpret the phase only where coherence is significant', 'Interpretați faza doar unde coerența este semnificativă')), 'small')
+
 D.frame(T('Inference on coherence and phase', 'Inferență pentru coerență și fază'), items(
     (T(r'The raw cross-periodogram gives $\hat\kappa^2 \equiv 1$ at every frequency: coherence \textbf{must} be smoothed (here: averaged over $K$ tapers)',
-       r'Periodograma încrucișată brută dă $\hat\kappa^2 \equiv 1$ la orice frecvență: coerența \textbf{trebuie} netezită (aici: mediată pe $K$ taper-e)'),
-     [T(r'under $\kappa^2 = 0$ with $L$ independent averaged ordinates: $\Pr(\hat\kappa^2 > c) = (1 - c)^{L-1}$, so the 5\% threshold is $1 - 0.05^{1/(L-1)}$',
-        r'sub $\kappa^2 = 0$, cu $L$ ordonate independente mediate: $\Pr(\hat\kappa^2 > c) = (1 - c)^{L-1}$, deci pragul de 5\% este $1 - 0{,}05^{1/(L-1)}$')]),
+       r'Periodograma încrucișată brută dă $\hat\kappa^2 \equiv 1$ la orice frecvență: coerența \textbf{trebuie} netezită (aici: mediată pe $K$ taper-e)'
+       ) + M(r'''
+    \[ \Pr(\hat\kappa^2 > c \mid \kappa^2 = 0) = (1 - c)^{L-1} \ \Rightarrow\ c_{0.05} = 1 - 0.05^{1/(L-1)} \]'''),
+     [T(r'$L$: number of independent ordinates averaged ($L = K$ for multitaper); $c$: threshold; $\hat\kappa^2$ above $c_{0.05}$ is significant at 5\%',
+        r'$L$: numărul ordonatelor independente mediate ($L = K$ pentru multitaper); $c$: pragul; un $\hat\kappa^2$ peste $c_{0{,}05}$ este semnificativ la 5\%')]),
     (T(r'$\hat\kappa^2$ is biased upwards when $\kappa^2$ is small; confidence intervals via the Fisher transform $\tanh^{-1}\hat\kappa$ \refSS', r'$\hat\kappa^2$ este deplasat în sus cînd $\kappa^2$ este mic; intervale de încredere prin transformarea Fisher $\tanh^{-1}\hat\kappa$ \refSS'),
      [T(r'phase: $\mathrm{se}(\hat\phi) \approx \sqrt{(1/\hat\kappa^2 - 1)/(2L)}$; it explodes as coherence falls', r'faza: $\mathrm{se}(\hat\phi) \approx \sqrt{(1/\hat\kappa^2 - 1)/(2L)}$; crește foarte mult cînd coerența scade')]),
     T(r'Misalignment bias: a long delay $d$ rotates the phase within the smoothing band and lowers $\hat\kappa^2$; align the series (or prewhiten) first',
-      r'Deplasarea din nealiniere: un decalaj mare $d$ rotește faza în interiorul benzii de netezire și scade $\hat\kappa^2$; aliniați seriile (sau aplicați o prealbire) mai întîi')), 'small')
+      r'Deplasarea din nealiniere: o întîrziere mare $d$ rotește faza în interiorul benzii de netezire și scade $\hat\kappa^2$; aliniați seriile (sau aplicați o prealbire) mai întîi')), 'small')
 
 chart(T('Romania and the euro area: coherence, phase and gain', 'România și zona euro: coerență, fază și cîștig'), 'ats_ch11_coherence', 'ATS_ch11_cross_spectrum', [
     T(r'Monthly industrial production growth, euro area ($x$) and Romania ($y$); multitaper $NW = 6$, $K = @{co.K}$; shaded: 18--96 months',
@@ -632,29 +718,43 @@ interp(('the cross-spectrum', 'spectrului încrucișat'), [
       r'Corelația simplă (@{co.corr}) amestecă aceste benzi; coerența separă zonele cu co-mișcare puternică de cele cu zgomot')])
 
 D.frame(T('Dynamic correlation', 'Corelația dinamică'), items(
-    (T(r'\refCFR: $\rho_{xy}(\omega) = c_{xy}(\omega)/\sqrt{f_x(\omega)f_y(\omega)} \in [-1, 1]$, the correlation of the real (in-phase) components at frequency $\omega$',
-       r'\refCFR: $\rho_{xy}(\omega) = c_{xy}(\omega)/\sqrt{f_x(\omega)f_y(\omega)} \in [-1, 1]$, corelația componentelor reale (în fază) la frecvența $\omega$'),
-     [T(r'unlike coherence it has a \textbf{sign}, and it is not inflated by out-of-phase movement: $\kappa^2 = \rho^2 + (q_{xy}/\sqrt{f_xf_y})^2$',
-        r'spre deosebire de coerență, are \textbf{semn} și nu este umflată de mișcarea defazată: $\kappa^2 = \rho^2 + (q_{xy}/\sqrt{f_xf_y})^2$')]),
-    (T(r'Over a band $\Lambda$: $\rho_{xy}(\Lambda) = \int_\Lambda c_{xy}/\sqrt{\int_\Lambda f_x\int_\Lambda f_y}$; over $[0, \pi]$ it is the ordinary correlation', r'Pe o bandă $\Lambda$: $\rho_{xy}(\Lambda) = \int_\Lambda c_{xy}/\sqrt{\int_\Lambda f_x\int_\Lambda f_y}$; pe $[0, \pi]$ este corelația obișnuită'),
-     [T('equals the correlation of the band-pass filtered series: a frequency-domain way to compute what Section 4 does with filters',
-        'este egală cu corelația seriilor filtrate trece-bandă: o cale în domeniul frecvenței pentru ceea ce secțiunea 4 face cu filtre')]),
+    (T(r'\refCFR: the correlation of the in-phase (real) components at frequency $\omega$', r'\refCFR: corelația componentelor în fază (reale) la frecvența $\omega$'
+       ) + r'''
+    \[ \rho_{xy}(\omega) = \frac{c_{xy}(\omega)}{\sqrt{f_x(\omega)f_y(\omega)}} \in [-1, 1] \]
+    \[ \kappa^2 = \rho^2 + \Big(\frac{q_{xy}}{\sqrt{f_xf_y}}\Big)^2 \]''',
+     [T(r'$c_{xy}$, $q_{xy}$: co-spectrum and quadrature spectrum; unlike coherence, $\rho_{xy}$ has a \textbf{sign} and is not increased by out-of-phase movement',
+        r'$c_{xy}$, $q_{xy}$: cospectrul și spectrul în cuadratură; spre deosebire de coerență, $\rho_{xy}$ are \textbf{semn} și nu este mărit artificial de mișcarea defazată')]),
+    (T(r'Over a band $\Lambda$ of frequencies', r'Pe o bandă $\Lambda$ de frecvențe'
+       ) + r'''
+    \[ \rho_{xy}(\Lambda) = \frac{\int_\Lambda c_{xy}}{\sqrt{\int_\Lambda f_x\int_\Lambda f_y}} \]''',
+     [T('over $[0, \\pi]$ it is the ordinary correlation; over a band it equals the correlation of the band-pass filtered series (Section 4)',
+        'pe $[0, \\pi]$ este corelația obișnuită; pe o bandă este egală cu corelația seriilor filtrate trece-bandă (secțiunea 4)')]),
     T(r'\textbf{Cohesion}: a weighted average of pairwise $\rho_{xy}(\omega)$ inside a group of countries; CFR use it for euro-area business cycles',
       r'\textbf{Coeziunea}: o medie ponderată a corelațiilor $\rho_{xy}(\omega)$ pe perechi într-un grup de țări; CFR o folosesc pentru ciclurile economice din zona euro')), 'small')
 
-D.frame(T('Granger causality by frequency', 'Cauzalitatea Granger pe frecvențe'), items(
-    (T(r'\refGew: bivariate VAR, innovations normalised so that $x$\'s innovation is uncorrelated with the transformed $y$ innovation; then $f_x(\omega) = \frac{1}{2\pi}\big(|\tilde H_{xx}|^2\tilde\sigma_{xx} + |\tilde H_{xy}|^2\tilde\sigma_{yy}\big)$',
-       r'\refGew: VAR bivariat, inovații normalizate astfel încît inovația lui $x$ să fie necorelată cu inovația transformată a lui $y$; atunci $f_x(\omega) = \frac{1}{2\pi}\big(|\tilde H_{xx}|^2\tilde\sigma_{xx} + |\tilde H_{xy}|^2\tilde\sigma_{yy}\big)$'),
-     [T(r'$M_{y \to x}(\omega) = \ln\big(2\pi f_x(\omega)/(|\tilde H_{xx}(\omega)|^2\tilde\sigma_{xx})\big) \ge 0$: the share of $f_x(\omega)$ that comes from $y$',
-        r'$M_{y \to x}(\omega) = \ln\big(2\pi f_x(\omega)/(|\tilde H_{xx}(\omega)|^2\tilde\sigma_{xx})\big) \ge 0$: partea din $f_x(\omega)$ care provine de la $y$'),
-      T(r'$\frac{1}{\pi}\int_0^\pi M_{y \to x}(\omega)\,d\omega = \ln(\sigma^2_{x|x}/\sigma^2_{x|x,y})$, the time-domain Granger measure (under a mild condition)',
-        r'$\frac{1}{\pi}\int_0^\pi M_{y \to x}(\omega)\,d\omega = \ln(\sigma^2_{x|x}/\sigma^2_{x|x,y})$, măsura Granger din domeniul timpului (sub o condiție slabă)')]),
-    (T(r'\refBC: $M_{y \to x}(\omega) = 0$ iff $\sum_{j=1}^p\psi_j\cos(j\omega) = 0$ and $\sum_{j=1}^p\psi_j\sin(j\omega) = 0$, $\psi_j$ the coefficients of $y_{t-j}$ in the $x$ equation',
-       r'\refBC: $M_{y \to x}(\omega) = 0$ dacă și numai dacă $\sum_{j=1}^p\psi_j\cos(j\omega) = 0$ și $\sum_{j=1}^p\psi_j\sin(j\omega) = 0$, $\psi_j$ fiind coeficienții lui $y_{t-j}$ în ecuația lui $x$'),
-     [T(r'two linear restrictions: an $F(2, T - 2p - 1)$ test at each $\omega$; with $p \le 2$ they fix all $\psi_j$, so the test is the same at every frequency',
-        r'două restricții liniare: un test $F(2, T - 2p - 1)$ la fiecare $\omega$; cu $p \le 2$ ele fixează toți $\psi_j$, deci testul este același la orice frecvență')]),
+D.frame(T('Granger causality by frequency (1/2): the Geweke measure', 'Cauzalitatea Granger pe frecvențe (1/2): măsura Geweke'), items(
+    (T(r'\refGew: in a bivariate VAR, normalise the innovations so that $x$\'s innovation is uncorrelated with the transformed $y$ innovation; then', r'\refGew: într-un VAR bivariat, normalizăm inovațiile astfel încît inovația lui $x$ să fie necorelată cu inovația transformată a lui $y$; atunci'
+       ) + r'''
+    \[ f_x(\omega) = \frac{1}{2\pi}\Big(|\tilde H_{xx}(\omega)|^2\tilde\sigma_{xx} + |\tilde H_{xy}(\omega)|^2\tilde\sigma_{yy}\Big) \]''',
+     [T(r'$\tilde H$: the transfer function (moving-average representation) of the normalised VAR; $\tilde\sigma_{xx}$, $\tilde\sigma_{yy}$: variances of the two orthogonal innovations',
+        r'$\tilde H$: funcția de transfer (reprezentarea de medie mobilă) a VAR normalizat; $\tilde\sigma_{xx}$, $\tilde\sigma_{yy}$: varianțele celor două inovații ortogonale')]),
+    (T(r'The share of $f_x(\omega)$ that comes from $y$', r'Partea din $f_x(\omega)$ care provine de la $y$'
+       ) + r'''
+    \[ M_{y \to x}(\omega) = \ln\frac{2\pi f_x(\omega)}{|\tilde H_{xx}(\omega)|^2\tilde\sigma_{xx}} \ge 0 \]
+    \[ \frac{1}{\pi}\int_0^\pi M_{y \to x}(\omega)\,d\omega = \ln\frac{\sigma^2_{x|x}}{\sigma^2_{x|x,y}} \]''',
+     [T(r'the integral is the time-domain Granger measure (under a mild condition): $\sigma^2_{x|x}$, $\sigma^2_{x|x,y}$ are the one-step forecast variances of $x$ without and with the past of $y$',
+        r'integrala este măsura Granger din domeniul timpului (sub o condiție slabă): $\sigma^2_{x|x}$, $\sigma^2_{x|x,y}$ sînt varianțele prognozei cu un pas a lui $x$ fără și cu trecutul lui $y$')])), 'footnotesize')
+
+D.frame(T('Granger causality by frequency (2/2): the Breitung--Candelon test', 'Cauzalitatea Granger pe frecvențe (2/2): testul Breitung--Candelon'), items(
+    (T(r'\refBC: no causality at frequency $\omega$ is two linear restrictions on the coefficients of $y$ in the $x$ equation', r'\refBC: lipsa cauzalității la frecvența $\omega$ înseamnă două restricții liniare asupra coeficienților lui $y$ din ecuația lui $x$'
+       ) + T(r'''
+    \[ M_{y \to x}(\omega) = 0 \iff \sum_{j=1}^p\psi_j\cos(j\omega) = 0 \ \text{ and } \ \sum_{j=1}^p\psi_j\sin(j\omega) = 0 \]''', r'''
+    \[ M_{y \to x}(\omega) = 0 \iff \sum_{j=1}^p\psi_j\cos(j\omega) = 0 \ \text{ și } \ \sum_{j=1}^p\psi_j\sin(j\omega) = 0 \]'''),
+     [T(r'$\psi_j$: coefficient of $y_{t-j}$ in the $x$ equation; $p$: VAR order; an $F(2, T - 2p - 1)$ test at each $\omega$, $T$: number of observations',
+        r'$\psi_j$: coeficientul lui $y_{t-j}$ în ecuația lui $x$; $p$: ordinul VAR; un test $F(2, T - 2p - 1)$ la fiecare $\omega$, $T$: numărul de observații'),
+      T(r'with $p \le 2$ the two restrictions fix all $\psi_j$, so the test is the same at every frequency', r'cu $p \le 2$ cele două restricții fixează toți $\psi_j$, deci testul este același la orice frecvență')]),
     T('BC show that the test extends to cointegrated VARs (long-run causality at $\\omega = 0$); pointwise tests across frequencies are not a joint test',
-      'BC arată că testul se extinde la VAR cointegrate (cauzalitate pe termen lung în $\\omega = 0$); testele punctuale pe frecvențe nu sînt un test comun')), 'footnotesize')
+      'BC arată că testul se extinde la VAR cointegrate (cauzalitate pe termen lung în $\\omega = 0$); testele punctuale pe frecvențe nu sînt un test comun')), 'small')
 
 chart(T('Does the euro area cause Romanian industry, and at which frequencies?', 'Cauzează zona euro industria românească și la ce frecvențe?'), 'ats_ch11_causality', 'ATS_ch11_causality', [
     T(r'VAR(@{ca.p}) in monthly industrial production growth (order by AIC, at least 3); left: Geweke measures; right: Breitung--Candelon $F$ with its 5\% critical value @{ca.crit}',
@@ -682,38 +782,46 @@ D.recap(('Two series', 'două serii'), [
 D.section('Filters and the business cycle', 'Filtre și ciclul economic')
 
 D.frame(T('Band-pass filters', 'Filtre trece-bandă'), items(
-    (T(r'Ideal filter for periods $[p_l, p_u]$: gain 1 on $[2\pi/p_u, 2\pi/p_l]$, 0 elsewhere; weights $b_0 = (\omega_2 - \omega_1)/\pi$, $b_j = (\sin j\omega_2 - \sin j\omega_1)/(\pi j)$: infinitely many',
-       r'Filtrul ideal pentru perioadele $[p_l, p_u]$: cîștig 1 pe $[2\pi/p_u, 2\pi/p_l]$, 0 în rest; ponderi $b_0 = (\omega_2 - \omega_1)/\pi$, $b_j = (\sin j\omega_2 - \sin j\omega_1)/(\pi j)$: în număr infinit'), []),
-    (T(r'\refBK: truncate at $K$ and add a constant so that $\sum_{j=-K}^Ka_j = 0$: removes a unit root and a linear trend; symmetric, no phase shift',
-       r'\refBK: trunchiem la $K$ și adăugăm o constantă astfel încît $\sum_{j=-K}^Ka_j = 0$: elimină o rădăcină unitară și o tendință liniară; simetric, fără defazaj'),
-     [T(r'quarterly recommendation: BK(6, 32, $K = 12$); the price: $K$ observations lost at each end; $a_0 = @{ga.bka0}$',
+    (T(r'Ideal filter for periods $[p_l, p_u]$: gain 1 on the frequencies $[\omega_1, \omega_2] = [2\pi/p_u, 2\pi/p_l]$, 0 elsewhere; its weights are infinitely many',
+       r'Filtrul ideal pentru perioadele $[p_l, p_u]$: cîștig 1 pe frecvențele $[\omega_1, \omega_2] = [2\pi/p_u, 2\pi/p_l]$, 0 în rest; ponderile lui sînt în număr infinit'
+       ) + r'''
+    \[ b_0 = \frac{\omega_2 - \omega_1}{\pi}, \qquad b_j = \frac{\sin j\omega_2 - \sin j\omega_1}{\pi j}, \quad j = \pm1, \pm2, \dots \]''',
+     []),
+    (T(r'\refBK: truncate at $K$ lags and add a constant so that $\sum_{j=-K}^Ka_j = 0$', r'\refBK: trunchiem la $K$ laguri și adăugăm o constantă astfel încît $\sum_{j=-K}^Ka_j = 0$'),
+     [T(r'$a_j$: the adjusted weights; the zero sum removes a unit root and a linear trend; symmetric, no phase shift',
+        r'$a_j$: ponderile ajustate; suma nulă elimină o rădăcină unitară și o tendință liniară; simetric, fără defazaj'),
+      T(r'quarterly recommendation: BK(6, 32, $K = 12$); the price: $K$ observations lost at each end; $a_0 = @{ga.bka0}$',
         r'recomandarea trimestrială: BK(6, 32, $K = 12$); prețul: $K$ observații pierdute la fiecare capăt; $a_0 = @{ga.bka0}$')]),
-    (T(r'\refCF: minimise $\E[(y^{\mathrm{ideal}}_t - \hat y_t)^2 \mid y_1, \dots, y_n]$ assuming a random walk: asymmetric, time-varying weights that use the whole sample',
-       r'\refCF: minimizăm $\E[(y^{\mathrm{ideal}}_t - \hat y_t)^2 \mid y_1, \dots, y_n]$ presupunînd un mers aleator: ponderi asimetrice, variabile în timp, care folosesc tot eșantionul'),
-     [T('no lost observations, but phase shifts near the ends and dependence on the random-walk assumption', 'nicio observație pierdută, dar defazaje lîngă capete și dependență de ipoteza mersului aleator')]),
+    (T(r'\refCF: minimise $\E[(y^{\mathrm{ideal}}_t - \hat y_t)^2 \mid y_1, \dots, y_n]$ assuming a random walk',
+       r'\refCF: minimizăm $\E[(y^{\mathrm{ideal}}_t - \hat y_t)^2 \mid y_1, \dots, y_n]$, presupunînd un mers aleator'),
+     [T(r'$y^{\mathrm{ideal}}_t$: the ideal band-pass component; asymmetric, time-varying weights that use the whole sample: no lost observations, but phase shifts near the ends',
+        r'$y^{\mathrm{ideal}}_t$: componenta trece-bandă ideală; ponderi asimetrice, variabile în timp, care folosesc tot eșantionul: nicio observație pierdută, dar defazaje lîngă capete')]),
     T(r'The business-cycle band of 6--32 quarters (1.5--8 years) follows Burns and Mitchell, as adopted by \refBK',
       r'Banda ciclului economic de 6--32 de trimestre (1,5--8 ani) urmează definiția Burns și Mitchell, preluată de \refBK')), 'small')
 
 D.frame(T('The Hodrick--Prescott filter', 'Filtrul Hodrick--Prescott'), two(
     ph('prescott', T('Edward C.\\ Prescott, 2015', 'Edward C.\\ Prescott, 2015'), h='0.4\\textheight'),
-    items(T(r'$\hat\tau = \arg\min_\tau\sum_t(y_t - \tau_t)^2 + \lambda\sum_t(\Delta^2\tau_t)^2 = (I + \lambda D\'D)^{-1}y$ \refHP',
-            r'$\hat\tau = \arg\min_\tau\sum_t(y_t - \tau_t)^2 + \lambda\sum_t(\Delta^2\tau_t)^2 = (I + \lambda D\'D)^{-1}y$ \refHP'),
-          T(r'Infinite-sample gain of the cycle: $G(\omega) = \dfrac{4\lambda(1 - \cos\omega)^2}{1 + 4\lambda(1 - \cos\omega)^2}$, a high-pass filter',
-            r'Cîștigul ciclului pe un eșantion infinit: $G(\omega) = \dfrac{4\lambda(1 - \cos\omega)^2}{1 + 4\lambda(1 - \cos\omega)^2}$, un filtru trece-sus'),
-          T(r'It is the Kalman smoother of a local linear trend with signal-to-noise ratio $1/\lambda$ (TSA and ATS, Chapter 6)',
-            r'Este netezitorul Kalman al unei tendințe liniare locale cu raportul semnal--zgomot $1/\lambda$ (TSA și ATS, Capitolul 6)'),
-          T(r'$\lambda = 1600$ for quarters; Ravn--Uhlig scaling $\lambda \propto s^4$: 129\,600 for months, 6.25 for years \refRU',
-            r'$\lambda = 1600$ pentru trimestre; scalarea Ravn--Uhlig $\lambda \propto s^4$: 129\,600 pentru luni, 6,25 pentru ani \refRU')), '0.3', '0.68'), 'small')
+    items((T(r'\refHP: the trend balances fit against smoothness', r'\refHP: tendința echilibrează potrivirea cu netezimea'
+             ) + r'''
+    \[ \hat\tau = \arg\min_\tau\sum_t(y_t - \tau_t)^2 + \lambda\sum_t(\Delta^2\tau_t)^2 = (I + \lambda D'D)^{-1}y \]''',
+           [T(r'$\tau_t$: trend; $\Delta^2\tau_t$: its second difference; $\lambda$: smoothness penalty; $D$: the second-difference matrix; cycle $y_t - \hat\tau_t$',
+              r'$\tau_t$: tendința; $\Delta^2\tau_t$: diferența ei de ordinul doi; $\lambda$: penalizarea pentru lipsa de netezime; $D$: matricea diferențelor de ordinul doi; ciclul $y_t - \hat\tau_t$')]),
+          (T(r'Infinite-sample gain of the cycle: a high-pass filter', r'Cîștigul ciclului pe un eșantion infinit: un filtru trece-sus'
+             ) + r'''
+    \[ G(\omega) = \frac{4\lambda(1 - \cos\omega)^2}{1 + 4\lambda(1 - \cos\omega)^2} \]''',
+           [T(r'the Kalman smoother of a local linear trend with signal-to-noise ratio $1/\lambda$ (Chapter 6); $\lambda = 1600$ for quarters; Ravn--Uhlig scaling $\lambda \propto s^4$ ($s$: observations per quarter): 129\,600 for months, 6.25 for years \refRU',
+              r'netezitorul Kalman al unei tendințe liniare locale cu raportul semnal--zgomot $1/\lambda$ (Capitolul 6); $\lambda = 1600$ pentru trimestre; scalarea Ravn--Uhlig $\lambda \propto s^4$ ($s$: numărul de observații pe trimestru): 129\,600 pentru luni, 6,25 pentru ani \refRU')])), '0.27', '0.71'), 'footnotesize')
 
 D.frame(T('Hamilton\'s critique', 'Critica lui Hamilton'), items(
     (T(r'\refHam: ``why you should never use the HP filter\'\'', r'\refHam: „de ce nu ar trebui să folosiți niciodată filtrul HP”'),
      [T(r'(1) applied to a random walk, HP produces a cycle with dynamics that are artefacts of the filter \refCN', r'(1) aplicat unui mers aleator, HP produce un ciclu cu o dinamică creată de filtru \refCN'),
       T('(2) end-of-sample values are very different from the values the same filter gives once more data arrive (one-sided against two-sided)', '(2) valorile de la sfîrșitul eșantionului diferă mult de cele pe care același filtru le dă după ce sosesc date noi (unilateral față de bilateral)'),
       T(r'(3) the $\lambda$ implied by a statistical model fitted to the data is far from 1600', r'(3) $\lambda$ implicat de un model statistic estimat pe date este departe de 1600')]),
-    (T(r'Alternative: the \textbf{regression filter} $y_{t+h} = \beta_0 + \beta_1y_t + \dots + \beta_py_{t-p+1} + v_{t+h}$, the cycle is $\hat v_{t+h}$; quarterly $h = 8$, $p = 4$',
-       r'Alternativa: \textbf{filtrul de regresie} $y_{t+h} = \beta_0 + \beta_1y_t + \dots + \beta_py_{t-p+1} + v_{t+h}$, ciclul este $\hat v_{t+h}$; trimestrial $h = 8$, $p = 4$'),
-     [T('one-sided by construction; consistent for the forecast error of a wide class of nonstationary processes; for a random walk $v_{t+h} = y_{t+h} - y_t$',
-        'unilateral prin construcție; consistent pentru eroarea de prognoză a unei clase largi de procese nestaționare; pentru un mers aleator $v_{t+h} = y_{t+h} - y_t$')]),
+    (T(r'Alternative: the \textbf{regression filter}, the cycle is the error of an $h$-step-ahead regression forecast', r'Alternativa: \textbf{filtrul de regresie}, ciclul este eroarea unei prognoze prin regresie cu $h$ pași înainte'
+       ) + T(r'''
+    \[ y_{t+h} = \beta_0 + \beta_1y_t + \dots + \beta_py_{t-p+1} + v_{t+h}, \qquad \text{cycle}_{t+h} = \hat v_{t+h} \]''', r'''
+    \[ y_{t+h} = \beta_0 + \beta_1y_t + \dots + \beta_py_{t-p+1} + v_{t+h}, \qquad \text{ciclul}_{t+h} = \hat v_{t+h} \]'''),
+     [T(r'quarterly $h = 8$, $p = 4$; one-sided by construction; for a random walk $v_{t+h} = y_{t+h} - y_t$', r'trimestrial $h = 8$, $p = 4$; unilateral prin construcție; pentru un mers aleator $v_{t+h} = y_{t+h} - y_t$')]),
     T(r'Replies: boosting the HP filter \refPS; a modified Hamilton filter for real time \refQW; the debate is about which gain you want',
       r'Răspunsuri: filtrul HP iterat (boosting) \refPS; un filtru Hamilton modificat pentru timp real \refQW; dezbaterea privește ce cîștig doriți')), 'small')
 
@@ -772,13 +880,16 @@ interp(('the real-time revisions', 'revizuirilor în timp real'), [
     T(r'Hamilton: correlation @{ep.cham}, sign wrong in @{ep.sham}\% of quarters; but the revision is @{ep.rham} points, because the regression is re-estimated on short samples in a transition economy',
       r'Hamilton: corelația @{ep.cham}, semnul greșit în @{ep.sham}\% din trimestre; dar revizuirea este de @{ep.rham} puncte, deoarece regresia se reestimează pe eșantioane scurte într-o economie în tranziție'),
     T('The real-time HP filter saw only a small part of the 2008 boom: the output gap that policy needed was the one it measured worst',
-      'Filtrul HP în timp real a văzut doar o mică parte din boom-ul din 2008: deviația PIB-ului de care avea nevoie politica economică era tocmai cea pe care o măsura cel mai prost'),
+      'Filtrul HP în timp real a văzut doar o mică parte din boom-ul din 2008: deviația PIB-ului de la potențial de care avea nevoie politica economică era tocmai cea pe care o măsura cel mai prost'),
     T('Report real-time properties of any gap estimate; the final estimate is not information that anyone had', 'Raportați proprietățile în timp real ale oricărei estimări a deviației; estimarea finală nu este o informație pe care o avea cineva')], size='footnotesize')
 
 D.frame(T('Measuring business-cycle synchronisation', 'Măsurarea sincronizării ciclurilor economice'), items(
     (T(r'Correlation of filtered cycles; it depends on the filter (gain) and on a few large episodes', r'Corelația ciclurilor filtrate; depinde de filtru (cîștig) și de cîteva episoade mari'), []),
-    (T(r'\textbf{Concordance} \refHPa: $C = \frac1T\sum_t[S_{xt}S_{yt} + (1 - S_{xt})(1 - S_{yt})]$, $S_t = 1$ in expansion (here: cycle above trend); compare with $p_xp_y + (1 - p_x)(1 - p_y)$ under independence',
-       r'\textbf{Concordanța} \refHPa: $C = \frac1T\sum_t[S_{xt}S_{yt} + (1 - S_{xt})(1 - S_{yt})]$, $S_t = 1$ în expansiune (aici: ciclul peste tendință); comparați cu $p_xp_y + (1 - p_x)(1 - p_y)$ sub independență'), []),
+    (T(r'\textbf{Concordance} \refHPa: the share of periods in which the two economies are in the same phase', r'\textbf{Concordanța} \refHPa: ponderea perioadelor în care cele două economii se află în aceeași fază'
+       ) + r'''
+    \[ C = \frac1T\sum_t\big[S_{xt}S_{yt} + (1 - S_{xt})(1 - S_{yt})\big] \]''',
+     [T(r'$S_{xt} = 1$ if $x$ is in expansion (here: cycle above trend), 0 otherwise; under independence $\E C = p_xp_y + (1 - p_x)(1 - p_y)$, $p_x$, $p_y$: shares of expansion periods',
+        r'$S_{xt} = 1$ dacă $x$ este în expansiune (aici: ciclul peste tendință), 0 altfel; sub independență $\E C = p_xp_y + (1 - p_x)(1 - p_y)$, $p_x$, $p_y$: ponderile perioadelor de expansiune')]),
     (T(r'Dynamic correlation over the business-cycle band \refCFR, which needs no filter', r'Corelația dinamică pe banda ciclului economic \refCFR, care nu cere niciun filtru'), []),
     T(r'Evidence for Central and Eastern Europe: a meta-analysis of 35 publications finds that some countries already had high correlations with the euro area and that the estimation method changes the correlation significantly \refFK',
       r'Evidența pentru Europa Centrală și de Est: o meta-analiză a 35 de publicații arată că unele țări aveau deja corelații mari cu zona euro și că metoda de estimare schimbă semnificativ corelația \refFK')), 'small')
@@ -824,11 +935,14 @@ D.recap(('Filters and the business cycle', 'filtre și ciclul economic'), [
 D.section('Spectra that change over time', 'Spectre care se schimbă în timp')
 
 D.frame(T('Evolutionary spectra and local stationarity', 'Spectre evolutive și staționaritate locală'), items(
-    (T(r'\refPri: $X_t = \int A_t(\omega)e^{i\omega t}\,dZ(\omega)$ with a slowly changing amplitude $A_t(\omega)$; the \textbf{evolutionary spectrum} $f_t(\omega) = |A_t(\omega)|^2f(\omega)$',
-       r'\refPri: $X_t = \int A_t(\omega)e^{i\omega t}\,dZ(\omega)$, cu o amplitudine $A_t(\omega)$ care se schimbă lent; \textbf{spectrul evolutiv} $f_t(\omega) = |A_t(\omega)|^2f(\omega)$'), []),
-    (T(r'\refDah: \textbf{locally stationary} processes $X_{t,T}$ with $A(t/T, \omega)$ smooth in rescaled time $u = t/T$: a time-varying spectrum $f(u, \omega)$ that can be estimated consistently',
-       r'\refDah: procese \textbf{local staționare} $X_{t,T}$, cu $A(t/T, \omega)$ netedă în timpul rescalat $u = t/T$: un spectru variabil în timp $f(u, \omega)$ care se poate estima consistent'),
-     [T('estimator: a spectrum on a moving window (short-time Fourier transform, spectrogram), tapered', 'estimatorul: un spectru pe o fereastră mobilă (transformata Fourier pe termen scurt, spectrograma), cu taper')]),
+    (T(r'\refPri: Cramér\'s representation with a slowly changing amplitude', r'\refPri: reprezentarea lui Cramér cu o amplitudine care se schimbă lent'
+       ) + r'''
+    \[ X_t = \int A_t(\omega)e^{i\omega t}\,dZ(\omega), \qquad f_t(\omega) = |A_t(\omega)|^2f(\omega) \]''',
+     [T(r'$A_t(\omega)$: time-varying amplitude; $f_t(\omega)$: the \textbf{evolutionary spectrum} at time $t$', r'$A_t(\omega)$: amplitudinea variabilă în timp; $f_t(\omega)$: \textbf{spectrul evolutiv} la momentul $t$')]),
+    (T(r'\refDah: \textbf{locally stationary} processes $X_{t,T}$ with $A(t/T, \omega)$ smooth in rescaled time $u = t/T$',
+       r'\refDah: procese \textbf{local staționare} $X_{t,T}$, cu $A(t/T, \omega)$ netedă în timpul rescalat $u = t/T$'),
+     [T(r'$T$: sample size; a time-varying spectrum $f(u, \omega)$ that can be estimated consistently by a tapered spectrum on a moving window (spectrogram)',
+        r'$T$: mărimea eșantionului; un spectru variabil în timp $f(u, \omega)$ care se poate estima consistent printr-un spectru cu taper pe o fereastră mobilă (spectrograma)')]),
     T(r'\textbf{Uncertainty principle}: a window of length $L$ resolves frequencies only to about $1/L$; long windows blur time, short windows blur frequency',
       r'\textbf{Principiul incertitudinii}: o fereastră de lungime $L$ separă frecvențele doar pînă la circa $1/L$; ferestrele lungi estompează timpul, cele scurte estompează frecvența'),
     T('Wavelets (next sections) let the window length change with the frequency: short for high frequencies, long for low ones',
@@ -870,25 +984,42 @@ D.recap(('Spectra that change over time', 'spectre care se schimbă în timp'), 
 D.section('Wavelets: decomposition by scale', 'Wavelets: descompunerea pe scale')
 
 D.frame(T('From sinusoids to wavelets', 'De la sinusoide la wavelets'), two(
-    ph('daub', T('Ingrid Daubechies, 2005', 'Ingrid Daubechies, 2005'), h='0.4\\textheight'),
-    items(T(r'A \textbf{wavelet} $\psi$: $\int\psi = 0$, $\int\psi^2 = 1$, localised in time and frequency; admissible if $C_\psi = \int|\hat\psi(\omega)|^2/|\omega|\,d\omega < \infty$ \refGM',
-            r'Un \textbf{wavelet} $\psi$: $\int\psi = 0$, $\int\psi^2 = 1$, localizat în timp și în frecvență; admisibil dacă $C_\psi = \int|\hat\psi(\omega)|^2/|\omega|\,d\omega < \infty$ \refGM'),
-          T(r'CWT: $W(s, \tau) = \int x(t)\frac{1}{\sqrt s}\psi^*\big(\frac{t - \tau}{s}\big)dt$; scale $s$ is inversely related to frequency',
-            r'CWT: $W(s, \tau) = \int x(t)\frac{1}{\sqrt s}\psi^*\big(\frac{t - \tau}{s}\big)dt$; scala $s$ este invers legată de frecvență'),
-          T(r'Compactly supported orthonormal wavelets \refDau and the pyramid algorithm \refMal give the DWT: $n$ coefficients for $n$ observations',
-            r'Wavelets ortonormate cu suport compact \refDau și algoritmul piramidal \refMal dau DWT: $n$ coeficienți pentru $n$ observații'),
-          T(r'In economics and finance: \refCro; \refGSWb; \refACS', r'În economie și finanțe: \refCro; \refGSWb; \refACS')), '0.3', '0.68'), 'small')
+    ph('daub', T('Ingrid Daubechies, 2005', 'Ingrid Daubechies, 2005'), h='0.36\\textheight'),
+    items((T(r'A \textbf{wavelet} $\psi$: a short wave, localised in time and frequency \refGM', r'Un \textbf{wavelet} $\psi$: o undă scurtă, localizată în timp și în frecvență \refGM'),
+           [T(r'$\int\psi = 0$, $\int\psi^2 = 1$; admissible if $C_\psi = \int|\hat\psi(\omega)|^2/|\omega|\,d\omega < \infty$, with $\hat\psi$ the Fourier transform of $\psi$',
+              r'$\int\psi = 0$, $\int\psi^2 = 1$; admisibil dacă $C_\psi = \int|\hat\psi(\omega)|^2/|\omega|\,d\omega < \infty$, cu $\hat\psi$ transformata Fourier a lui $\psi$')]),
+          (T(r'Continuous wavelet transform (CWT): correlate the series with stretched and shifted copies of $\psi$', r'Transformata wavelet continuă (CWT): corelăm seria cu copii dilatate și translatate ale lui $\psi$'
+             ) + r'''
+    \[ W(s, \tau) = \int x(t)\,\frac{1}{\sqrt s}\,\psi^*\Big(\frac{t - \tau}{s}\Big)dt \]''',
+           [T(r'$s > 0$: scale (inversely related to frequency); $\tau$: location in time; $\psi^*$: complex conjugate',
+              r'$s > 0$: scala (invers legată de frecvență); $\tau$: poziția în timp; $\psi^*$: conjugatul complex')]),
+          T(r'Compactly supported orthonormal wavelets \refDau and the pyramid algorithm \refMal give the DWT: $n$ coefficients for $n$ observations; applications: \refCro; \refGSWb; \refACS',
+            r'Wavelets ortonormate cu suport compact \refDau și algoritmul piramidal \refMal dau DWT: $n$ coeficienți pentru $n$ observații; aplicații: \refCro; \refGSWb; \refACS')), '0.28', '0.7'), 'footnotesize')
 
-D.frame(T('DWT, MODWT and multiresolution', 'DWT, MODWT și analiza multirezoluție'), items(
-    (T(r'Filters: scaling $g_l$ (low-pass), wavelet $h_l = (-1)^lg_{L-1-l}$ (high-pass); Haar $L = 2$, Daubechies least-asymmetric LA(8) $L = 8$ \refPWb',
-       r'Filtre: de scalare $g_l$ (trece-jos), wavelet $h_l = (-1)^lg_{L-1-l}$ (trece-sus); Haar $L = 2$, Daubechies cel mai puțin asimetric LA(8) $L = 8$ \refPWb'),
-     [T(r'level $j$ captures periods $[2^j, 2^{j+1}]$: an \textbf{octave} band; $J$ levels plus a smooth', r'nivelul $j$ captează perioadele $[2^j, 2^{j+1}]$: o bandă de o \textbf{octavă}; $J$ niveluri plus o componentă netedă')]),
-    (T(r'\textbf{MODWT}: no downsampling; rescaled filters $\tilde h = h/\sqrt2$, $\tilde g = g/\sqrt2$; $\tilde W_{j,t} = \sum_l\tilde h_{j,l}X_{t-l \bmod n}$',
-       r'\textbf{MODWT}: fără eșantionare redusă; filtre rescalate $\tilde h = h/\sqrt2$, $\tilde g = g/\sqrt2$; $\tilde W_{j,t} = \sum_l\tilde h_{j,l}X_{t-l \bmod n}$'),
-     [T('any sample size, shift-invariant (moving the start date does not change the coefficients), $J \\times n$ coefficients, energy preserved: $\\|X\\|^2 = \\sum_j\\|\\tilde W_j\\|^2 + \\|\\tilde V_J\\|^2$',
-        'orice mărime a eșantionului, invariantă la translații (mutarea datei de început nu schimbă coeficienții), $J \\times n$ coeficienți, energia se conservă: $\\|X\\|^2 = \\sum_j\\|\\tilde W_j\\|^2 + \\|\\tilde V_J\\|^2$')]),
-    (T(r'\textbf{MRA}: $X_t = \sum_{j=1}^J\mathcal D_{j,t} + \mathcal S_{J,t}$, each detail $\mathcal D_j$ the inverse MODWT of level $j$ alone; zero-phase, aligned with the data',
-       r'\textbf{MRA}: $X_t = \sum_{j=1}^J\mathcal D_{j,t} + \mathcal S_{J,t}$, fiecare detaliu $\mathcal D_j$ fiind inversa MODWT a nivelului $j$; fără defazaj, aliniat cu datele'), []),
+D.frame(T('DWT, MODWT and multiresolution (1/2)', 'DWT, MODWT și analiza multirezoluție (1/2)'), items(
+    (T(r'Two filters of length $L$ \refPWb', r'Două filtre de lungime $L$ \refPWb'
+       ) + T(r'''
+    \[ \text{scaling (low-pass): } g_l, \qquad \text{wavelet (high-pass): } h_l = (-1)^lg_{L-1-l} \]''', r'''
+    \[ \text{de scalare (trece-jos): } g_l, \qquad \text{wavelet (trece-sus): } h_l = (-1)^lg_{L-1-l} \]'''),
+     [T(r'Haar $L = 2$; Daubechies least-asymmetric LA(8) $L = 8$; level $j$ captures periods $[2^j, 2^{j+1}]$: an \textbf{octave} band; $J$ levels plus a smooth',
+        r'Haar $L = 2$; Daubechies cel mai puțin asimetric LA(8) $L = 8$; nivelul $j$ captează perioadele $[2^j, 2^{j+1}]$: o bandă de o \textbf{octavă}; $J$ niveluri plus o componentă netedă')]),
+    (T(r'\textbf{MODWT} (maximal overlap DWT): no downsampling, rescaled filters', r'\textbf{MODWT} (DWT cu suprapunere maximă): fără eșantionare redusă, cu filtre rescalate'
+       ) + r'''
+    \[ \tilde h = h/\sqrt2, \quad \tilde g = g/\sqrt2, \qquad \tilde W_{j,t} = \sum_l\tilde h_{j,l}X_{t-l \bmod n} \]''',
+     [T(r'$\tilde h_{j,l}$: the level-$j$ wavelet filter; $\tilde W_{j,t}$: wavelet coefficient of level $j$ at time $t$; $\bmod n$: the sample is treated as circular',
+        r'$\tilde h_{j,l}$: filtrul wavelet de nivel $j$; $\tilde W_{j,t}$: coeficientul wavelet de nivel $j$ la momentul $t$; $\bmod n$: eșantionul este tratat circular')])), 'small')
+
+D.frame(T('DWT, MODWT and multiresolution (2/2)', 'DWT, MODWT și analiza multirezoluție (2/2)'), items(
+    (T('MODWT properties', 'Proprietățile MODWT'),
+     [T('any sample size, shift-invariant (moving the start date does not change the coefficients), $J \\times n$ coefficients',
+        'orice mărime a eșantionului, invariantă la translații (mutarea datei de început nu schimbă coeficienții), $J \\times n$ coeficienți'),
+      T('energy preserved: $\\|X\\|^2 = \\sum_j\\|\\tilde W_j\\|^2 + \\|\\tilde V_J\\|^2$, with $\\tilde V_J$ the scaling (smooth) coefficients',
+        'energia se conservă: $\\|X\\|^2 = \\sum_j\\|\\tilde W_j\\|^2 + \\|\\tilde V_J\\|^2$, cu $\\tilde V_J$ coeficienții de scalare (netezi)')]),
+    (T(r'\textbf{Multiresolution analysis (MRA)}: the series is the sum of its details and a smooth', r'\textbf{Analiza multirezoluție (MRA)}: seria este suma detaliilor și a unei componente netede'
+       ) + r'''
+    \[ X_t = \sum_{j=1}^J\mathcal D_{j,t} + \mathcal S_{J,t} \]''',
+     [T(r'$\mathcal D_j$: the inverse MODWT of level $j$ alone; $\mathcal S_J$: the smooth; zero-phase, aligned with the data',
+        r'$\mathcal D_j$: inversa MODWT a nivelului $j$ singur; $\mathcal S_J$: componenta netedă; fără defazaj, aliniate cu datele')]),
     T(r'Boundary: the first $L_j - 1 = (2^j - 1)(L - 1)$ coefficients wrap around the sample (circular filtering) and are excluded from estimation',
       r'Marginile: primii $L_j - 1 = (2^j - 1)(L - 1)$ coeficienți folosesc date de la celălalt capăt (filtrare circulară) și se exclud din estimare')), 'small')
 
@@ -921,16 +1052,23 @@ interp(('the multiresolution analysis', 'analizei multirezoluție'), [
       'Volatility clustering apare la toate scalele în 2008 și 2020, dar componentele lente ($\\mathcal D_6$, $\\mathcal S_6$) se mișcă doar în criza din 2008--2009'),
     T('The details add up exactly to the series: a lossless, zero-phase decomposition', 'Detaliile se adună exact la serie: o descompunere fără pierderi și fără defazaj')])
 
-D.frame(T('Wavelet variance, correlation and beta by scale', 'Varianța, corelația și beta wavelet pe scale'), items(
-    (T(r'\textbf{Wavelet variance} $\nu_X^2(\tau_j) = \Var\tilde W_{j,t}$; $\sum_j\nu^2_X(\tau_j) = \Var X$: an octave-band version of the spectrum \refPer',
-       r'\textbf{Varianța wavelet} $\nu_X^2(\tau_j) = \Var\tilde W_{j,t}$; $\sum_j\nu^2_X(\tau_j) = \Var X$: o versiune pe octave a spectrului \refPer'),
-     [T(r'unbiased estimator: average of $\tilde W^2_{j,t}$ over the $M_j = n - L_j + 1$ non-boundary coefficients; $\eta\hat\nu^2/\nu^2 \approx \chi^2_\eta$, $\eta = \max(M_j/2^j, 1)$',
-        r'estimatorul nedeplasat: media lui $\tilde W^2_{j,t}$ pe cei $M_j = n - L_j + 1$ coeficienți din afara marginilor; $\eta\hat\nu^2/\nu^2 \approx \chi^2_\eta$, $\eta = \max(M_j/2^j, 1)$'),
-      T(r'white noise: $\nu^2(\tau_j) = \sigma^2/2^j$, halving at each level', r'zgomot alb: $\nu^2(\tau_j) = \sigma^2/2^j$, se înjumătățește la fiecare nivel')]),
-    (T(r'\textbf{Wavelet correlation} $\rho_{XY}(\tau_j) = \Cov(\tilde W^X_j, \tilde W^Y_j)/(\nu_X\nu_Y)$, interval $\tanh\big(\tanh^{-1}\hat\rho \pm z/\sqrt{M_j/2^j - 3}\big)$ \refWGP',
-       r'\textbf{Corelația wavelet} $\rho_{XY}(\tau_j) = \Cov(\tilde W^X_j, \tilde W^Y_j)/(\nu_X\nu_Y)$, intervalul $\tanh\big(\tanh^{-1}\hat\rho \pm z/\sqrt{M_j/2^j - 3}\big)$ \refWGP'), []),
-    T(r'\textbf{Wavelet beta} $\beta(\tau_j) = \Cov(\tilde W^r_j, \tilde W^m_j)/\Var\tilde W^m_j$: systematic risk by investment horizon \refGSW',
-      r'\textbf{Beta wavelet} $\beta(\tau_j) = \Cov(\tilde W^r_j, \tilde W^m_j)/\Var\tilde W^m_j$: riscul sistematic pe orizonturi de investiție \refGSW'),
+D.frame(T('Wavelet variance, correlation and beta by scale (1/2)', 'Varianța, corelația și beta wavelet pe scale (1/2)'), items(
+    (T(r'\textbf{Wavelet variance}: the variance of the level-$j$ coefficients; the levels add up to the variance of the series \refPer', r'\textbf{Varianța wavelet}: varianța coeficienților de nivel $j$; nivelurile însumează varianța seriei \refPer'
+       ) + r'''
+    \[ \nu_X^2(\tau_j) = \Var\tilde W_{j,t}, \qquad \sum_j\nu^2_X(\tau_j) = \Var X \]''',
+     [T(r'$\tau_j = 2^{j-1}$: the scale of level $j$; an octave-band version of the spectrum; white noise: $\nu^2(\tau_j) = \sigma^2/2^j$, halving at each level',
+        r'$\tau_j = 2^{j-1}$: scala nivelului $j$; o versiune pe octave a spectrului; zgomot alb: $\nu^2(\tau_j) = \sigma^2/2^j$, se înjumătățește la fiecare nivel'),
+      T(r'unbiased estimator: average of $\tilde W^2_{j,t}$ over the $M_j = n - L_j + 1$ non-boundary coefficients; $\eta\hat\nu^2/\nu^2 \approx \chi^2_\eta$, $\eta = \max(M_j/2^j, 1)$ equivalent degrees of freedom',
+        r'estimatorul nedeplasat: media lui $\tilde W^2_{j,t}$ pe cei $M_j = n - L_j + 1$ coeficienți din afara marginilor; $\eta\hat\nu^2/\nu^2 \approx \chi^2_\eta$, cu $\eta = \max(M_j/2^j, 1)$ grade de libertate echivalente')])), 'small')
+
+D.frame(T('Wavelet variance, correlation and beta by scale (2/2)', 'Varianța, corelația și beta wavelet pe scale (2/2)'), items(
+    (T(r'\textbf{Wavelet correlation} \refWGP\ and \textbf{wavelet beta} \refGSW', r'\textbf{Corelația wavelet} \refWGP\ și \textbf{beta wavelet} \refGSW'
+       ) + r'''
+    \[ \rho_{XY}(\tau_j) = \frac{\Cov(\tilde W^X_j, \tilde W^Y_j)}{\nu_X(\tau_j)\nu_Y(\tau_j)} \]
+    \[ \beta(\tau_j) = \frac{\Cov(\tilde W^r_j, \tilde W^m_j)}{\Var\tilde W^m_j} \]''',
+     [T(r'$\tilde W^r_j$, $\tilde W^m_j$: coefficients of an asset return and of the market return; $\beta(\tau_j)$: systematic risk at the investment horizon $\tau_j$',
+        r'$\tilde W^r_j$, $\tilde W^m_j$: coeficienții randamentului unui activ și ai randamentului pieței; $\beta(\tau_j)$: riscul sistematic la orizontul de investiție $\tau_j$'),
+      T(r'95\% interval for the correlation: $\tanh\big(\tanh^{-1}\hat\rho \pm z/\sqrt{M_j/2^j - 3}\big)$, $z = 1.96$', r'intervalul de 95\% pentru corelație: $\tanh\big(\tanh^{-1}\hat\rho \pm z/\sqrt{M_j/2^j - 3}\big)$, $z = 1{,}96$')]),
     T('Effective sample size falls by half at each level: long-scale estimates are wide even with 25 years of daily data',
       'Mărimea efectivă a eșantionului se înjumătățește la fiecare nivel: estimările pe scale lungi sînt largi chiar și cu 25 de ani de date zilnice')), 'small')
 
@@ -973,15 +1111,27 @@ D.recap(('Wavelets: decomposition by scale', 'wavelets: descompunerea pe scale')
 # =============================================================================
 D.section('Time--frequency co-movement: wavelet coherence', 'Co-mișcarea timp--frecvență: coerența wavelet')
 
-D.frame(T('The Morlet transform and its significance', 'Transformata Morlet și semnificația ei'), items(
-    (T(r'\refTC: $W_n(s) = \sum_kx\hat{}_k\hat\psi^*(s\omega_k)e^{i\omega_kn\delta t}$ by FFT; scales $s_j = s_02^{j\delta j}$; wavelet power $|W_n(s)|^2$',
-       r'\refTC: $W_n(s) = \sum_kx\hat{}_k\hat\psi^*(s\omega_k)e^{i\omega_kn\delta t}$ prin FFT; scalele $s_j = s_02^{j\delta j}$; puterea wavelet $|W_n(s)|^2$'),
-     [T(r'\textbf{cone of influence} (COI): where the wavelet at scale $s$ reaches the edge, within $\sqrt2\,s$ of either end; results there are biased',
-        r'\textbf{conul de influență} (COI): zona în care wavelet-ul de scală $s$ atinge marginea, la mai puțin de $\sqrt2\,s$ de oricare capăt; rezultatele de acolo sînt deplasate')]),
-    (T(r'Null of red noise (AR(1) with lag-1 autocorrelation $a$): $|W_n(s)|^2/\sigma^2 \sim P_k\chi^2_2/2$, $P_k = (1 - a^2)/(1 + a^2 - 2a\cos(2\pi k/N))$ at the frequency of scale $s$',
-       r'Ipoteza nulă de zgomot roșu (AR(1) cu autocorelația de ordinul 1 egală cu $a$): $|W_n(s)|^2/\sigma^2 \sim P_k\chi^2_2/2$, $P_k = (1 - a^2)/(1 + a^2 - 2a\cos(2\pi k/N))$ la frecvența scalei $s$'),
-     [T(r'global wavelet spectrum $\bar W^2(s) = \frac1n\sum_n|W_n(s)|^2$: a smoothed Fourier spectrum with $\nu = 2\sqrt{1 + (n\delta t/(2.32s))^2}$ degrees of freedom',
-        r'spectrul wavelet global $\bar W^2(s) = \frac1n\sum_n|W_n(s)|^2$: un spectru Fourier netezit cu $\nu = 2\sqrt{1 + (n\delta t/(2{,}32s))^2}$ grade de libertate')]),
+D.frame(T('The Morlet transform and its significance (1/2)', 'Transformata Morlet și semnificația ei (1/2)'), items(
+    (T(r'\refTC: the CWT computed by FFT on a grid of scales', r'\refTC: CWT calculată prin FFT pe o grilă de scale'
+       ) + r'''
+    \[ W_n(s) = \sum_k\hat x_k\,\hat\psi^*(s\omega_k)\,e^{i\omega_kn\delta t}, \qquad s_j = s_02^{j\delta j} \]''',
+     [T(r'$\hat x_k$: the DFT of the series at frequency $\omega_k$; $\hat\psi$: the Fourier transform of the Morlet wavelet; $\delta t$: time step; $s_0$: smallest scale; $\delta j$: scale step in octaves',
+        r'$\hat x_k$: DFT al seriei la frecvența $\omega_k$; $\hat\psi$: transformata Fourier a wavelet-ului Morlet; $\delta t$: pasul de timp; $s_0$: scala cea mai mică; $\delta j$: pasul scalelor, în octave'),
+      T(r'wavelet power $|W_n(s)|^2$: the variance of the series at time $n$ and scale $s$', r'puterea wavelet $|W_n(s)|^2$: varianța seriei la momentul $n$ și scala $s$')]),
+    (T(r'\textbf{Cone of influence} (COI): where the wavelet at scale $s$ reaches the edge, within $\sqrt2\,s$ of either end', r'\textbf{Conul de influență} (COI): zona în care wavelet-ul de scală $s$ atinge marginea, la mai puțin de $\sqrt2\,s$ de oricare capăt'),
+     [T('results inside the COI are biased and are not interpreted', 'rezultatele din COI sînt deplasate și nu se interpretează')])), 'small')
+
+D.frame(T('The Morlet transform and its significance (2/2)', 'Transformata Morlet și semnificația ei (2/2)'), items(
+    (T(r'Null of red noise, an AR(1) with lag-1 autocorrelation $a$: the power is a scaled $\chi^2_2$', r'Ipoteza nulă de zgomot roșu, un AR(1) cu autocorelația de ordinul 1 egală cu $a$: puterea este o variabilă $\chi^2_2$ scalată'
+       ) + r'''
+    \[ \frac{|W_n(s)|^2}{\sigma^2} \sim P_k\,\frac{\chi^2_2}{2}, \qquad P_k = \frac{1 - a^2}{1 + a^2 - 2a\cos(2\pi k/N)} \]''',
+     [T(r'$\sigma^2$: variance of the series; $P_k$: the red-noise spectrum at the Fourier index $k$ matching scale $s$; $N$: number of observations',
+        r'$\sigma^2$: varianța seriei; $P_k$: spectrul zgomotului roșu la indicele Fourier $k$ care corespunde scalei $s$; $N$: numărul de observații')]),
+    (T(r'Global wavelet spectrum: the time average of the power, a smoothed Fourier spectrum', r'Spectrul wavelet global: media în timp a puterii, un spectru Fourier netezit'
+       ) + T(r'''
+    \[ \bar W^2(s) = \frac1n\sum_n|W_n(s)|^2, \qquad \nu = 2\sqrt{1 + \Big(\frac{n\delta t}{2.32\,s}\Big)^2} \ \text{degrees of freedom} \]''', r'''
+    \[ \bar W^2(s) = \frac1n\sum_n|W_n(s)|^2, \qquad \nu = 2\sqrt{1 + \Big(\frac{n\delta t}{2{,}32\,s}\Big)^2} \ \text{grade de libertate} \]'''),
+     []),
     T(r'Rectify the power by $1/s$ when comparing scales \refLLW; the pointwise test runs at thousands of points: expect 5\% false patches \refMK',
       r'Rectificați puterea prin $1/s$ cînd comparați scalele \refLLW; testul punctual se aplică în mii de puncte: așteptați 5\% zone false \refMK')), 'small')
 
@@ -1000,16 +1150,22 @@ interp(('the wavelet power', 'puterii wavelet'), [
     T('The global spectrum stays inside the red-noise band: no persistent cycle in BET returns, as efficiency predicts',
       'Spectrul global rămîne în interiorul benzii zgomotului roșu: niciun ciclu persistent în randamentele BET, cum prezice eficiența pieței')])
 
-D.frame(T('Wavelet coherence and phase', 'Coerența și faza wavelet'), items(
-    (T(r'Cross-wavelet $W^{xy}_n(s) = W^x_n(s)W^{y*}_n(s)$; \textbf{squared wavelet coherence} \refTW, \refGMJ:',
-       r'Transformata wavelet încrucișată $W^{xy}_n(s) = W^x_n(s)W^{y*}_n(s)$; \textbf{coerența wavelet pătratică} \refTW, \refGMJ:'),
-     [T(r'$R^2_n(s) = \dfrac{|\mathcal S(s^{-1}W^{xy}_n(s))|^2}{\mathcal S(s^{-1}|W^x_n(s)|^2)\,\mathcal S(s^{-1}|W^y_n(s)|^2)}$, $\mathcal S$ = Gaussian smoothing in time (width $s$) and a boxcar of 0.6 octaves in scale',
-        r'$R^2_n(s) = \dfrac{|\mathcal S(s^{-1}W^{xy}_n(s))|^2}{\mathcal S(s^{-1}|W^x_n(s)|^2)\,\mathcal S(s^{-1}|W^y_n(s)|^2)}$, $\mathcal S$ = netezire gaussiană în timp (lățime $s$) și o medie pe 0,6 octave în scală'),
-      T(r'without smoothing $R^2 \equiv 1$, as for the raw coherence: smoothing is what makes it an estimator', r'fără netezire $R^2 \equiv 1$, ca pentru coerența brută: netezirea o face un estimator')]),
-    (T(r'Phase $\arg\mathcal S(s^{-1}W^{xy})$: arrows right = in phase, left = anti-phase, up = $x$ leads; lead in time = phase $\times$ period$/2\pi$',
-       r'Faza $\arg\mathcal S(s^{-1}W^{xy})$: săgeți spre dreapta = în fază, spre stînga = în antifază, în sus = $x$ conduce; avansul în timp = faza $\times$ perioada$/2\pi$'), []),
-    (T(r'Significance by \textbf{Monte Carlo} \refGMJ: pairs of independent AR(1) series with the data\'s lag-1 autocorrelations; the 95th percentile of $R^2$ at each scale',
-       r'Semnificația prin \textbf{Monte Carlo} \refGMJ: perechi de serii AR(1) independente cu autocorelațiile de ordinul 1 ale datelor; percentila 95 a lui $R^2$ la fiecare scală'), []),
+D.frame(T('Wavelet coherence and phase (1/2)', 'Coerența și faza wavelet (1/2)'), items(
+    (T(r'Cross-wavelet transform and \textbf{squared wavelet coherence} \refTW, \refGMJ', r'Transformata wavelet încrucișată și \textbf{coerența wavelet pătratică} \refTW, \refGMJ'
+       ) + r'''
+    \[ W^{xy}_n(s) = W^x_n(s)W^{y*}_n(s) \]
+    \[ R^2_n(s) = \frac{|\mathcal S(s^{-1}W^{xy}_n(s))|^2}{\mathcal S(s^{-1}|W^x_n(s)|^2)\,\mathcal S(s^{-1}|W^y_n(s)|^2)} \in [0, 1] \]''',
+     [T(r'$\mathcal S$: smoothing, Gaussian in time (width $s$) and a boxcar of 0.6 octaves in scale; $R^2_n(s)$: a local $R^2$ at time $n$ and scale $s$',
+        r'$\mathcal S$: netezirea, gaussiană în timp (lățime $s$) și o medie pe 0,6 octave în scală; $R^2_n(s)$: un $R^2$ local la momentul $n$ și scala $s$'),
+      T(r'without smoothing $R^2 \equiv 1$, as for the raw coherence: smoothing is what makes it an estimator', r'fără netezire $R^2 \equiv 1$, ca pentru coerența brută: netezirea o face un estimator')])), 'small')
+
+D.frame(T('Wavelet coherence and phase (2/2)', 'Coerența și faza wavelet (2/2)'), items(
+    (T(r'Phase $\arg\mathcal S(s^{-1}W^{xy})$, shown as arrows', r'Faza $\arg\mathcal S(s^{-1}W^{xy})$, reprezentată prin săgeți'),
+     [T(r'right = in phase, left = anti-phase, up = $x$ leads; lead in time = phase $\times$ period$/2\pi$',
+        r'spre dreapta = în fază, spre stînga = în antifază, în sus = $x$ conduce; avansul în timp = faza $\times$ perioada$/2\pi$')]),
+    (T(r'Significance by \textbf{Monte Carlo} \refGMJ', r'Semnificația prin \textbf{Monte Carlo} \refGMJ'),
+     [T(r'simulate pairs of independent AR(1) series with the data\'s lag-1 autocorrelations; the 95th percentile of $R^2$ at each scale is the 5\% threshold',
+        r'simulăm perechi de serii AR(1) independente cu autocorelațiile de ordinul 1 ale datelor; percentila 95 a lui $R^2$ la fiecare scală este pragul de 5\%')]),
     T(r'Extensions: partial and multiple wavelet coherence, phase differences with confidence bands \refACS; monetary policy \refAAS; energy \refVB',
       r'Extensii: coerența wavelet parțială și multiplă, diferențe de fază cu benzi de încredere \refACS; politica monetară \refAAS; energie \refVB')), 'small')
 
@@ -1039,7 +1195,7 @@ interp(('BET--S\\&P 500 coherence', 'coerenței BET--S\\&P 500'), [
     T(r'In 2000--2006 the phase is @{ws.earlyph} rad: the S\&P 500 led by about a fifth of the cycle; in crises the markets move in phase',
       r'În 2000--2006 faza este @{ws.earlyph} rad: S\&P 500 conducea cu circa o cincime din ciclu; în crize piețele se mișcă în fază'),
     T('Weekly data remove the one-day lag of the daily wavelet correlation: frequency choice matters for lead--lag claims',
-      'Datele săptămînale elimină decalajul de o zi din corelația wavelet zilnică: alegerea frecvenței datelor contează pentru afirmațiile despre decalaje'),
+      'Datele săptămînale elimină întîrzierea de o zi din corelația wavelet zilnică: alegerea frecvenței datelor contează pentru afirmațiile despre avans și întîrziere'),
     T(r'Our picture matches the international evidence: co-movement is strongest at low frequencies and in crises \refRN',
       r'Imaginea noastră confirmă evidența internațională: co-mișcarea este cea mai puternică la frecvențe joase și în crize \refRN')])
 
@@ -1052,7 +1208,7 @@ interp(('oil--stock coherence', 'coerenței petrol--acțiuni'), [
     T(r'Significant area @{wo.obs}\% (null 95th percentile @{wo.q95}\%): oil and stocks are linked only in episodes',
       r'Aria semnificativă @{wo.obs}\% (percentila 95 sub ipoteza nulă: @{wo.q95}\%): petrolul și acțiunile sînt legate doar în anumite episoade'),
     T(r'Before 2007: $R^2$ @{wo.early} with phase @{wo.earlyph} rad, neither in phase nor in anti-phase: a weak lead--lag link; 2008--2010: @{wo.gfc}, in phase (@{wo.gfcph} rad): a common demand shock',
-      r'Înainte de 2007: $R^2$ @{wo.early}, cu faza @{wo.earlyph} rad, nici în fază, nici în antifază: o legătură slabă, cu decalaj; 2008--2010: @{wo.gfc}, în fază (@{wo.gfcph} rad): un șoc comun de cerere'),
+      r'Înainte de 2007: $R^2$ @{wo.early}, cu faza @{wo.earlyph} rad, nici în fază, nici în antifază: o legătură slabă, de tip avans--întîrziere; 2008--2010: @{wo.gfc}, în fază (@{wo.gfcph} rad): un șoc comun de cerere'),
     T(r'2020--2021: @{wo.covid} in phase; 2022--2023: phase @{wo.warph} rad, closer to anti-phase: the energy-price shock of the war in Ukraine',
       r'2020--2021: @{wo.covid} în fază; 2022--2023: faza @{wo.warph} rad, mai aproape de antifază: șocul prețurilor energiei din timpul războiului din Ucraina'),
     T(r'The sign of the oil--stock link depends on the type of shock \refKP; wavelet phase shows the switch without identifying it',
@@ -1091,7 +1247,7 @@ D.frame(T('An open question', 'O întrebare deschisă'), items(
       T('falsified if the crisis coherence exceeds the 95th percentile of a bootstrap from a DCC-GARCH with constant correlation (Chapter 8), at pre-registered scales',
         'infirmată dacă coerența din criză depășește percentila 95 a unui bootstrap dintr-un DCC-GARCH cu corelație constantă (Capitolul 8), la scale preînregistrate')]),
     (T('Why it matters: diversification fails when it is needed; the Forbes--Rigobon correction exists for correlations, not for wavelet coherence',
-       'De ce contează: diversificarea eșuează tocmai cînd este nevoie de ea; corecția Forbes--Rigobon există pentru corelații, nu și pentru coerența wavelet'),
+       'Miza: diversificarea eșuează tocmai cînd este nevoie de ea; corecția Forbes--Rigobon există pentru corelații, nu și pentru coerența wavelet'),
      [T(r'literature to start from: \refFR, \refRN, \refMK, \refSch, \refACS', r'literatura de pornire: \refFR, \refRN, \refMK, \refSch, \refACS')])), 'small')
 
 D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un asistent AI'), items(

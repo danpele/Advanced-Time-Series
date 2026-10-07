@@ -80,10 +80,49 @@ REPL = T(r'\textbf{Replication}', r'\textbf{Replicarea}')
 MIST = T(r'\textbf{Common mistakes}', r'\textbf{Greșeli frecvente}')
 
 
+# Notation of the key formula of each chapter (each symbol defined where the formula is recalled)
+NOTA = {
+    0: [T(r'$\gamma_j$: autocovariance at lag $j$; $f(0)$: spectral density at frequency zero; $\Omega$: long-run variance', r'$\gamma_j$: autocovarianța la lagul $j$; $f(0)$: densitatea spectrală la frecvența zero; $\Omega$: varianța de termen lung'),
+        T(r'$\hat\Gamma_j$: sample autocovariance matrix at lag $j$; $L$: number of lags (bandwidth); $1 - j/(L + 1)$: Bartlett weights', r'$\hat\Gamma_j$: matricea de autocovarianță de selecție la lagul $j$; $L$: numărul de laguri (lățimea de bandă); $1 - j/(L + 1)$: ponderile Bartlett')],
+    1: [T(r'$\bar d$: mean loss differential of the two forecasts; $\hat\Omega_d$: its long-run variance; $P$: number of out-of-sample forecasts; $h$: horizon', r'$\bar d$: diferența medie a pierderilor celor două prognoze; $\hat\Omega_d$: varianța ei de termen lung; $P$: numărul de prognoze în afara eșantionului; $h$: orizontul'),
+        T(r'$\mathrm{DM}^*$: the HLN small-sample correction, compared with Student-$t$ with $P - 1$ degrees of freedom', r'$\mathrm{DM}^*$: corecția HLN pentru eșantioane mici, comparată cu Student-$t$ cu $P - 1$ grade de libertate')],
+    2: [T(r'$W_T(\pi)$: Wald statistic for a break at the sample fraction $\pi$; $B_p$: a $p$-dimensional Brownian motion; $\Rightarrow$: convergence in distribution', r'$W_T(\pi)$: statistica Wald pentru o ruptură la fracțiunea $\pi$ a eșantionului; $B_p$: o mișcare browniană $p$-dimensională; $\Rightarrow$: convergență în distribuție'),
+        T(r'TAR: $\phi_1$, $\phi_2$: coefficients of the two regimes; $x_t$: lagged regressors; $q_{t-d}$: threshold variable with delay $d$; $\gamma$: the threshold', r'TAR: $\phi_1$, $\phi_2$: coeficienții celor două regimuri; $x_t$: regresorii cu lag; $q_{t-d}$: variabila de prag cu lagul $d$; $\gamma$: pragul')],
+    3: [T(r'$u_t$: reduced-form residuals; $\varepsilon_t$: structural shocks; $B_0$: impact matrix; $\Phi_h$: reduced-form responses; $\Theta_h$: structural responses at horizon $h$', r'$u_t$: reziduurile formei reduse; $\varepsilon_t$: șocurile structurale; $B_0$: matricea de impact; $\Phi_h$: răspunsurile formei reduse; $\Theta_h$: răspunsurile structurale la orizontul $h$'),
+        T(r'proxy: $z_t$ instrument, $b_1$ first column of $B_0$, $\alpha$ relevance; LP: $\beta_h$ response at $h$ to $x_t$, $w_t$ controls, $\xi_{t+h}$ error', r'proxy: $z_t$ instrumentul, $b_1$ prima coloană a lui $B_0$, $\alpha$ relevanța; LP: $\beta_h$ răspunsul la $h$ față de $x_t$, $w_t$ controalele, $\xi_{t+h}$ eroarea')],
+    4: [T(r'$\Delta$: first difference; $\beta$: cointegrating vectors; $\alpha$: adjustment coefficients; $\Gamma_i$: short-run matrices; $D_t$: deterministic terms with coefficients $\Phi$', r'$\Delta$: diferența de ordinul întîi; $\beta$: vectorii de cointegrare; $\alpha$: coeficienții de ajustare; $\Gamma_i$: matricele de termen scurt; $D_t$: termenii deterministi, cu coeficienții $\Phi$'),
+        T(r'$LR_{tr}(r)$: trace statistic for rank at most $r$; $\hat\lambda_i$: ordered eigenvalues; $T$: sample size', r'$LR_{tr}(r)$: statistica urmei pentru rangul cel mult $r$; $\hat\lambda_i$: valorile proprii ordonate; $T$: mărimea eșantionului')],
+    5: [T(r'$(A_l)_{ij}$: effect of variable $j$ at lag $l$ on variable $i$; the prior variance shrinks with $l^2$', r'$(A_l)_{ij}$: efectul variabilei $j$ cu lagul $l$ asupra variabilei $i$; varianța a priori scade cu $l^2$'),
+        T(r'$\lambda$: overall tightness; $\vartheta$: extra tightness on other variables; $\sigma_i^2$: residual scale of variable $i$', r'$\lambda$: strîngerea generală; $\vartheta$: strîngerea suplimentară pentru celelalte variabile; $\sigma_i^2$: scala reziduală a variabilei $i$')],
+    6: [T(r'$a_t$, $P_t$: predicted state and its variance; $v_t$, $F_t$: prediction error and its variance; $K_t$: Kalman gain', r'$a_t$, $P_t$: starea prezisă și varianța ei; $v_t$, $F_t$: eroarea de predicție și varianța ei; $K_t$: cîștigul Kalman'),
+        T(r'$Z_t$: measurement matrix; $T_t$: transition matrix; $H_t$: measurement noise variance', r'$Z_t$: matricea de măsurare; $T_t$: matricea de tranziție; $H_t$: varianța zgomotului de măsurare')],
+    7: [T(r'$\hat\xi_{t|t}$: filtered regime probabilities; $\eta_t$: densities of $y_t$ in each regime; $\odot$: elementwise product; $\mathbf 1$: vector of ones', r'$\hat\xi_{t|t}$: probabilitățile filtrate ale regimurilor; $\eta_t$: densitățile lui $y_t$ în fiecare regim; $\odot$: produsul element cu element; $\mathbf 1$: vectorul de unu'),
+        T(r'$\mathbf P$: transition matrix; $p_{ii}$: probability of staying in regime $i$; $\E D_i$: expected duration of regime $i$', r'$\mathbf P$: matricea de tranziție; $p_{ii}$: probabilitatea de a rămîne în regimul $i$; $\E D_i$: durata așteptată a regimului $i$')],
+    8: [T(r'$\mathrm{RV}_t$: realised variance; $\mathrm{RV}^{(w)}_t$, $\mathrm{RV}^{(m)}_t$: its averages over 5 and 22 days; $\mathrm{RQ}_t$: realised quarticity, which measures the error of $\mathrm{RV}_t$', r'$\mathrm{RV}_t$: varianța realizată; $\mathrm{RV}^{(w)}_t$, $\mathrm{RV}^{(m)}_t$: mediile ei pe 5 și 22 de zile; $\mathrm{RQ}_t$: cvarticitatea realizată, care măsoară eroarea lui $\mathrm{RV}_t$'),
+        T(r'$\beta_{dQ} < 0$: the daily weight falls when $\mathrm{RV}_t$ is measured with a large error', r'$\beta_{dQ} < 0$: ponderea zilnică scade cînd $\mathrm{RV}_t$ este măsurat cu o eroare mare')],
+    9: [T(r'$y$: realised return; $v$: VaR forecast and $e$: ES forecast, both as (negative) return quantities; $\alpha$: the level (e.g.\ 0.025)', r'$y$: randamentul realizat; $v$: prognoza VaR și $e$: prognoza ES, ambele ca randamente (negative); $\alpha$: nivelul (de exemplu 0,025)'),
+        T(r'$L_{\mathrm{FZ0}}$: a consistent loss for the pair (VaR, ES), lower is better; $q_\alpha$: the $\alpha$-quantile of the return', r'$L_{\mathrm{FZ0}}$: o pierdere consistentă pentru perechea (VaR, ES), o valoare mai mică este mai bună; $q_\alpha$: cuantila de nivel $\alpha$ a randamentului')],
+    10: [T(r'$f(\lambda)$: spectral density at frequency $\lambda$; $\gamma(k)$: autocovariance at lag $k$; $d$: memory parameter; $c_f$, $c_\gamma$: constants; $\sim$: asymptotic equivalence', r'$f(\lambda)$: densitatea spectrală la frecvența $\lambda$; $\gamma(k)$: autocovarianța la lagul $k$; $d$: parametrul de memorie; $c_f$, $c_\gamma$: constante; $\sim$: echivalență asimptotică'),
+         T(r'$H$: Hurst exponent of log volatility, which measures how rough the path is; $\Delta$: time step; $q$: moment order; $H < 1/2$: rough paths', r'$H$: exponentul Hurst al logaritmului volatilității, care măsoară cît de rough este traiectoria; $\Delta$: pasul de timp; $q$: ordinul momentului; $H < 1/2$: traiectorii rough')],
+    11: [T(r'$\omega$: frequency; $\lambda$: HP smoothing parameter; $G(\omega) \in [0, 1]$: share of the variance at $\omega$ passed to the cycle', r'$\omega$: frecvența; $\lambda$: parametrul de netezire HP; $G(\omega) \in [0, 1]$: proporția din varianța de la $\omega$ transmisă ciclului'),
+         T(r'$f_x$, $f_y$: spectra; $f_{xy}$: cross-spectrum; $\kappa^2(\omega) \in [0, 1]$: squared correlation of $x$ and $y$ at frequency $\omega$', r'$f_x$, $f_y$: spectrele; $f_{xy}$: spectrul încrucișat; $\kappa^2(\omega) \in [0, 1]$: corelația la pătrat a lui $x$ și $y$ la frecvența $\omega$')],
+    12: [T(r'OWA: the M4 score, relative to the Naive2 benchmark (below 1: better); sMAPE: symmetric mean absolute percentage error', r'OWA: scorul M4, relativ la reperul Naive2 (sub 1: mai bun); sMAPE: eroarea procentuală absolută medie simetrică'),
+         T(r'$Q$, $K$, $V$: query, key and value matrices; $d_k$: key dimension; softmax normalises each row to weights that sum to 1', r'$Q$, $K$, $V$: matricele de interogare (query), cheie (key) și valoare (value); $d_k$: dimensiunea cheilor; softmax normalizează fiecare rînd în ponderi care însumează 1')],
+    13: [T(r'$S_{(k)}$: the $k$-th smallest of $n$ calibration scores; $\alpha$: the target miss rate; $\hat q$: the conformal threshold', r'$S_{(k)}$: al $k$-lea cel mai mic dintre $n$ scoruri de calibrare; $\alpha$: rata-țintă a ratărilor; $\hat q$: pragul conformal'),
+         T(r'ACI: $\alpha_t$ working level; $\gamma$: step; $\mathrm{err}_t = 1$ after a miss', r'ACI: $\alpha_t$ nivelul de lucru; $\gamma$: pasul; $\mathrm{err}_t = 1$ după o ratare')],
+    14: [T(r'$X_1$, $X_0$: pre-treatment predictors of the treated unit and of the donors; $V$: predictor weights; $w_j$: donor weights', r'$X_1$, $X_0$: predictorii anteriori tratamentului ai unității tratate și ai donatorilor; $V$: ponderile predictorilor; $w_j$: ponderile donatorilor'),
+         T(r'$r_j$: post/pre RMSPE ratio of unit $j$; $J$: number of donors; $\#\{\cdot\}$: count', r'$r_j$: raportul RMSPE după/înainte al unității $j$; $J$: numărul de donatori; $\#\{\cdot\}$: numărul de elemente')],
+    16: [T(r'$\mathrm{ADF}_{r_1}^{r_2}$: ADF statistic on the sample fraction $[r_1, r_2]$; BSADF: its sup over the start $r_1$; GSADF: the sup of BSADF over the end $r_2$', r'$\mathrm{ADF}_{r_1}^{r_2}$: statistica ADF pe fracțiunea de eșantion $[r_1, r_2]$; BSADF: supremumul ei după începutul $r_1$; GSADF: supremumul BSADF după sfîrșitul $r_2$'),
+         T(r'$B_t$: bubble component of the price; $r$: interest rate; $\E_t$: expectation given information at $t$', r'$B_t$: componenta de bulă a prețului; $r$: rata dobînzii; $\E_t$: speranța condiționată de informația de la $t$')],
+}
+
+
 def review(k, title, ideas, formula, repl, mistakes, size='footnotesize'):
-    """One recap slide per chapter: key ideas, key formula, the replication result, common mistakes."""
-    D.frame(T(f'Chapter {k}: {title[0]}', f'Capitolul {k}: {title[1]}'),
-            items((IDEA, ideas), (FORM, formula), (REPL, repl), (MIST, mistakes)), size)
+    """Two recap slides per chapter: key ideas and the key formula with its notation; the replication result and common mistakes."""
+    D.frame(T(f'Chapter {k}: {title[0]} (1/2)', f'Capitolul {k}: {title[1]} (1/2)'),
+            items((IDEA, ideas), (FORM, list(formula) + NOTA.get(k, []))), size)
+    D.frame(T(f'Chapter {k}: {title[0]} (2/2)', f'Capitolul {k}: {title[1]} (2/2)'),
+            items((REPL, repl), (MIST, mistakes)), size)
 
 
 # =============================================================================
@@ -136,7 +175,7 @@ D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
     T('Choose the right tool for a research question about dependent data', 'Alegeți instrumentul potrivit pentru o întrebare de cercetare despre date dependente'),
     T('Plan a project from the question to the report, with a pre-registration and a power calculation for the evaluation', 'Planificați un proiect de la întrebare la raport, cu preînregistrare și calculul puterii evaluării'),
     T('Replicate a landmark paper, explain a failed replication and make every number reproducible', 'Replicați o lucrare de referință, explicați o replicare nereușită și faceți reproductibil fiecare rezultat numeric'),
-    T('Recognise data snooping, leakage, look-ahead, p-hacking and overclaiming in your own work', 'Recunoașteți data snooping, scurgerea de informație, look-ahead, p-hacking și afirmațiile exagerate în propria lucrare'),
+    T('Recognise data snooping, leakage, look-ahead, p-hacking and overclaiming in your own work', 'Recunoașteți data snooping, leakage, look-ahead, p-hacking și afirmațiile exagerate în propria lucrare'),
     T('Prepare the individual oral defence and document the use of AI tools', 'Pregătiți susținerea orală individuală și documentați folosirea instrumentelor AI')))
 
 D.frame(T('Assessment at a glance', 'Evaluarea pe scurt'), table(
@@ -213,7 +252,8 @@ D.frame(T('Five questions for every analysis', 'Cinci întrebări pentru orice a
 
 D.frame(T('Three threads across the course', 'Trei fire comune ale cursului'), items(
     (T(r'\textbf{Inference under dependence}', r'\textbf{Inferența sub dependență}'),
-     [T(r'long-run variance $\Omega = 2\pi f(0)$ (Chapter 0) reappears in DM tests (Chapter 1), local projections (Chapter 3), cumulative effects (Chapter 14)', r'varianța de termen lung $\Omega = 2\pi f(0)$ (Capitolul 0) reapare în testele DM (Capitolul 1), proiecțiile locale (Capitolul 3), efectele cumulate (Capitolul 14)'),
+     [T(r'long-run variance $\Omega = 2\pi f(0)$ (Chapter 0), with $f(0)$ the spectral density at frequency zero: the variance of a sum of $n$ dependent terms is about $n\Omega$', r'varianța de termen lung $\Omega = 2\pi f(0)$ (Capitolul 0), unde $f(0)$ este densitatea spectrală la frecvența zero: varianța unei sume de $n$ termeni dependenți este aproximativ $n\Omega$'),
+      T(r'it reappears in DM tests (Chapter 1), local projections (Chapter 3), cumulative effects (Chapter 14)', r'ea reapare în testele DM (Capitolul 1), proiecțiile locale (Capitolul 3), efectele cumulate (Capitolul 14)'),
       T('non-standard limits: sup-tests for breaks, Johansen trace, regime tests, GSADF; critical values from the right distribution', 'limite nestandard: teste sup pentru rupturi, testul urmei Johansen, teste pentru regimuri, GSADF; valori critice din distribuția corectă')]),
     (T(r'\textbf{Honest out-of-sample evaluation}', r'\textbf{Evaluarea corectă în afara eșantionului}'),
      [T('proper scores and consistent losses, real-time data, blocked validation, evaluation after model release (Chapters 1, 9, 12, 13)', 'reguli de scor proprii și funcții de pierdere consistente, date în timp real, validare pe blocuri, evaluare după lansarea modelelor (Capitolele 1, 9, 12, 13)')]),
@@ -232,7 +272,7 @@ review(0, ('Inference for dependent data', 'Inferență pentru date dependente')
        [T(r'\refEH: slope @{c0.b1} with classical $t$ = @{c0.tcl}, but fixed-$b$ $t$ = @{c0.tll} below its critical value @{c0.cvll}; @{c0.early} before 1989, @{c0.late} afterwards: \textbf{partly replicated}', r'\refEH: panta @{c0.b1}, cu $t$ clasic = @{c0.tcl}, dar $t$ fixed-$b$ = @{c0.tll}, sub valoarea critică @{c0.cvll}; @{c0.early} înainte de 1989, @{c0.late} după: \textbf{replicare parțială}'),
         T(r'\refWhite on 50 moving-average rules for the BET: naive $p$ = @{c0.rcpn}, Reality Check $p$ = @{c0.rcp}', r'\refWhite pe 50 de reguli cu medii mobile pentru BET: $p$ naiv = @{c0.rcpn}, $p$ Reality Check = @{c0.rcp}')],
        [T(r'i.i.d.\ standard errors: the naive test rejects @{c0.naive1}\% of true nulls at $\phi = 0.9$, $T = 100$, and still @{c0.naive4}\% at $T = 400$', r'erori standard i.i.d.: testul naiv respinge @{c0.naive1}\% din ipotezele nule adevărate la $\phi = 0{,}9$, $T = 100$, și tot @{c0.naive4}\% la $T = 400$'),
-        T('the best of many specifications reported without a search-adjusted $p$-value', 'cea mai bună dintre multe specificații, raportată fără o valoare $p$ ajustată pentru căutare')])
+        T('the best of many specifications reported without a search-adjusted p-value', 'cea mai bună dintre multe specificații, raportată fără un p-value ajustat pentru căutare')])
 
 review(1, ('Forecast evaluation and combination', 'Evaluarea și combinarea prognozelor'),
        [T('Choose the loss or score first: it defines the target (mean, median, quantile, distribution)', 'Alegeți întîi funcția de pierdere sau de scor: ea definește ținta (medie, mediană, cuantilă, distribuție)'),
@@ -268,7 +308,7 @@ review(4, ('Cointegration: VECM, ARDL and panel data', 'Cointegrare: VECM, ARDL 
        [T(r'\refKPSW: two cointegrating relations, but the great ratios rejected (LR @{c4.kplr}, $p$ @{c4.kpp}): \textbf{partly replicated}', r'\refKPSW: două relații de cointegrare, dar rapoartele mari sînt respinse (LR @{c4.kplr}, $p$ @{c4.kpp}): \textbf{replicare parțială}'),
         T(r'\refPSS on EU-27 consumption: income elasticity @{c4.pmg}, Hausman $p$ = @{c4.pH}; the inflation effect is not robust', r'\refPSS pe consumul din UE-27: elasticitatea în raport cu venitul @{c4.pmg}, Hausman $p$ = @{c4.pH}; efectul inflației nu este robust')],
        [T(r'asymptotic critical values at $T = 50$: size @{c4.sa}\% against @{c4.sw}\% for the wild bootstrap', r'valori critice asimptotice la $T = 50$: mărimea @{c4.sa}\%, față de @{c4.sw}\% pentru wild bootstrap'),
-        T(r'the rank read as a measurement: Romanian pass-through, wild bootstrap $p$ = @{c4.bo4} with four lags', r'rangul citit ca o măsurătoare: transmiterea dobînzilor în România, $p$ wild bootstrap = @{c4.bo4} cu patru decalaje')])
+        T(r'the rank read as a measurement: Romanian pass-through, wild bootstrap $p$ = @{c4.bo4} with four lags', r'rangul citit ca o măsurătoare: transmiterea dobînzilor în România, $p$ wild bootstrap = @{c4.bo4} cu patru laguri')])
 
 review(5, ('Bayesian VAR, factor models and nowcasting', 'Modele VAR bayesiene, modele factoriale și nowcasting'),
        [T('Many series and few observations: shrink (priors) or compress (factors); bigger systems need tighter priors', 'Multe serii și puține observații: shrinkage (distribuții a priori) sau comprimare (factori); sistemele mai mari cer distribuții a priori mai strînse'),
@@ -310,21 +350,21 @@ review(9, ('VaR, ES and backtesting', 'VaR, ES și backtesting'),
        [T('A risk forecast is a point forecast of a functional: judge it with a consistent loss; VaR is elicitable, ES only jointly with VaR', 'O prognoză de risc este o prognoză punctuală a unei funcționale: judecați-o cu o funcție de pierdere consistentă; VaR este elicitabil, ES doar împreună cu VaR'),
         T('Backtests are moment tests with estimation risk; comparisons need DM, MCS and Murphy diagrams', 'Backtest-urile sînt teste de momente cu risc de estimare; comparațiile cer DM, MCS și diagrame Murphy')],
        [T(r'$L_{\mathrm{FZ0}}(y, v, e; \alpha) = -\frac{1}{\alpha e}\mathbf 1\{y \le v\}(v - y) + \frac{v}{e} + \ln(-e) - 1$; $\mathrm{VaR}_\alpha = -q_\alpha$', r'$L_{\mathrm{FZ0}}(y, v, e; \alpha) = -\frac{1}{\alpha e}\mathbf 1\{y \le v\}(v - y) + \frac{v}{e} + \ln(-e) - 1$; $\mathrm{VaR}_\alpha = -q_\alpha$')],
-       [T(r'\refPZC: GAS-1F loss @{c9.loss} (paper @{pub.pzc_loss}): the ranking \textbf{replicates}; its goodness-of-fit $p$-values @{c9.gv} and @{c9.ge} (paper @{pub.pzc_gof_var} and @{pub.pzc_gof_es}) \textbf{do not}', r'\refPZC: pierderea GAS-1F @{c9.loss} (lucrarea: @{pub.pzc_loss}): ierarhia \textbf{se replică}; valorile $p$ ale testelor de adecvare @{c9.gv} și @{c9.ge} (lucrarea: @{pub.pzc_gof_var} și @{pub.pzc_gof_es}) \textbf{nu}'),
+       [T(r'\refPZC: GAS-1F loss @{c9.loss} (paper @{pub.pzc_loss}): the ranking \textbf{replicates}; its goodness-of-fit p-values @{c9.gv} and @{c9.ge} (paper @{pub.pzc_gof_var} and @{pub.pzc_gof_es}) \textbf{do not}', r'\refPZC: pierderea GAS-1F @{c9.loss} (lucrarea: @{pub.pzc_loss}): ierarhia \textbf{se replică}; p-value-urile testelor de adecvare @{c9.gv} și @{c9.ge} (lucrarea: @{pub.pzc_gof_var} și @{pub.pzc_gof_es}) \textbf{nu}'),
         T(r'\refEM out of sample: only IG passes the DQ test ($p$ = @{c9.ig}; SAV @{c9.sav})', r'\refEM în afara eșantionului: doar IG trece testul DQ ($p$ = @{c9.ig}; SAV @{c9.sav})')],
        [T(r'ranking ES forecasts alone; Normal VaR 1\% with a hit rate of @{c9.gn}\%', r'ierarhizarea prognozelor ES singure; VaR 1\% Normal cu o rată a depășirilor de @{c9.gn}\%'),
         T(r'the $\sqrt{h}$ rule under volatility clustering; ``the best ES model\'\' instead of the MCS', r'regula $\sqrt{h}$ în prezența volatility clustering; „cel mai bun model ES” în locul MCS')])
 
 review(10, ('Long memory and rough volatility', 'Memorie lungă și rough volatility'),
        [T(r'Long memory is a pole at frequency zero; estimate $d$ by (exact) local Whittle and report $\hat d(m)$ across bandwidths', r'Memoria lungă este un pol la frecvența zero; estimați $d$ prin local Whittle (exact) și raportați $\hat d(m)$ pentru mai multe lățimi de bandă'),
-        T(r'Volatility is persistent over months and rough over days ($H \approx 0.1$); level shifts mimic long memory', r'Volatilitatea este persistentă pe luni și rugoasă pe zile ($H \approx 0{,}1$); salturile de nivel imită memoria lungă')],
+        T(r'Volatility is persistent over months and rough over days ($H \approx 0.1$); level shifts mimic long memory', r'Volatilitatea este persistentă la scara lunilor și rough la scara zilelor ($H \approx 0{,}1$); salturile de nivel imită memoria lungă')],
        [T(r'$f(\lambda) \sim c_f\lambda^{-2d}$, $\gamma(k) \sim c_\gamma k^{2d-1}$; $\E|\ln\sigma_{t+\Delta} - \ln\sigma_t|^q \propto \Delta^{qH}$', r'$f(\lambda) \sim c_f\lambda^{-2d}$, $\gamma(k) \sim c_\gamma k^{2d-1}$; $\E|\ln\sigma_{t+\Delta} - \ln\sigma_t|^q \propto \Delta^{qH}$')],
        [T(r'\refGJR on the S\&P 500: $\hat H$ = @{c10.H} (@{c10.H1} and @{c10.H2} in two halves): \textbf{replicated}; \refQu: $W$ = @{c10.W}, the memory of realised variance survives', r'\refGJR pe S\&P 500: $\hat H$ = @{c10.H} (@{c10.H1} și @{c10.H2} pe cele două jumătăți): \textbf{replicat}; \refQu: $W$ = @{c10.W}, memoria varianței realizate rezistă'),
         T(r'Rough forecasting gain over HAR at 5 days: QLIKE ratio @{c10.rq}, $p$ = @{c10.rqp}: small and horizon-dependent', r'Cîștigul de prognoză rough față de HAR la 5 zile: raportul QLIKE @{c10.rq}, $p$ = @{c10.rqp}: mic și dependent de orizont')],
-       [T(r'one bandwidth, one $\hat d$; ``short memory because $H < 1/2$\'\' (roughness and persistence are different properties)', r'o singură lățime de bandă, un singur $\hat d$; „memorie scurtă pentru că $H < 1/2$” (rugozitatea și persistența sînt proprietăți diferite)')])
+       [T(r'one bandwidth, one $\hat d$; ``short memory because $H < 1/2$\'\' (roughness and persistence are different properties)', r'o singură lățime de bandă, un singur $\hat d$; „memorie scurtă pentru că $H < 1/2$” (caracterul rough și persistența sînt proprietăți diferite)')])
 
 review(11, ('Spectral and wavelet analysis', 'Analiză spectrală și analiză wavelet'),
-       [T('The spectrum decomposes variance by frequency; filters act on it through their squared gain; multitaper gives low leakage and honest bands', 'Spectrul descompune varianța pe frecvențe; filtrele acționează prin pătratul cîștigului; multitaper dă scurgere spectrală mică și benzi corecte'),
+       [T('The spectrum decomposes variance by frequency; filters act on it through their squared gain; multitaper gives low leakage and honest bands', 'Spectrul descompune varianța pe frecvențe; filtrele acționează prin pătratul cîștigului; multitaper dă un leakage spectral redus și benzi corecte'),
         T('Wavelets localise variance and co-movement in time and scale; significance needs Monte Carlo and areawise thinking', 'Wavelet-urile localizează varianța și co-mișcarea în timp și pe scale; semnificația cere Monte Carlo și raționament pe arii')],
        [T(r'HP cycle gain $G(\omega) = \dfrac{4\lambda(1 - \cos\omega)^2}{1 + 4\lambda(1 - \cos\omega)^2}$; coherence $\kappa^2(\omega) = |f_{xy}|^2/(f_xf_y)$', r'cîștigul ciclului HP $G(\omega) = \dfrac{4\lambda(1 - \cos\omega)^2}{1 + 4\lambda(1 - \cos\omega)^2}$; coerența $\kappa^2(\omega) = |f_{xy}|^2/(f_xf_y)$')],
        [T(r'\refCN: HP applied to a random walk peaks at @{c11.cn} quarters (@{c11.cny} years; simulation @{c11.cnmc}): \textbf{replicated}', r'\refCN: HP aplicat unui mers aleator are vîrful la @{c11.cn} trimestre (@{c11.cny} ani; simulare @{c11.cnmc}): \textbf{replicat}'),
@@ -338,7 +378,7 @@ review(12, ('Machine learning and deep learning', 'Machine learning și deep lea
        [T(r'$\mathrm{OWA} = \frac12\big(\mathrm{sMAPE}/\mathrm{sMAPE}_{\mathrm{Naive2}} + \mathrm{MASE}/\mathrm{MASE}_{\mathrm{Naive2}}\big)$; $\mathrm{Att}(Q, K, V) = \mathrm{softmax}(QK\'/\sqrt{d_k})V$', r'$\mathrm{OWA} = \frac12\big(\mathrm{sMAPE}/\mathrm{sMAPE}_{\mathrm{Naive2}} + \mathrm{MASE}/\mathrm{MASE}_{\mathrm{Naive2}}\big)$; $\mathrm{Att}(Q, K, V) = \mathrm{softmax}(QK\'/\sqrt{d_k})V$')],
        [T(r'\refBHK: 5-fold CV error @{c12.cv} against @{c12.oos} out of sample: \textbf{replicated}', r'\refBHK: eroarea validării 5-fold @{c12.cv}, față de @{c12.oos} în afara eșantionului: \textbf{replicat}'),
         T(r'\refZeng and \refNie on Romanian load, $H = 96$: point-token Transformer @{c12.pt}, DLinear @{c12.dl}, patches @{c12.patch}: both papers \textbf{replicate}', r'\refZeng și \refNie pe consumul de energie al României, $H = 96$: Transformer cu tokeni punctuali @{c12.pt}, DLinear @{c12.dl}, patch-uri @{c12.patch}: ambele lucrări \textbf{se replică}')],
-       [T(r'random K-fold with autocorrelated residuals: validation-to-test error ratio @{c12.lk} (leakage)', r'K-fold aleator cu reziduuri autocorelate: raportul dintre eroarea de validare și cea de test @{c12.lk} (scurgere de informație)'),
+       [T(r'random K-fold with autocorrelated residuals: validation-to-test error ratio @{c12.lk} (leakage)', r'K-fold aleator cu reziduuri autocorelate: raportul dintre eroarea de validare și cea de test @{c12.lk} (leakage)'),
         T('attention weights read as importance; the best of many seeds reported as the model', 'ponderile atenției citite ca importanță; cel mai bun dintre multe seed-uri raportat drept model')])
 
 review(13, ('Foundation models and conformal prediction', 'Foundation models și predicție conformală'),
@@ -466,7 +506,7 @@ D.frame(T('Steps 4--6: data, replication, extension', 'Etapele 4--6: datele, rep
 
 D.frame(T('Steps 7--8: robustness and reporting', 'Etapele 7--8: robustețea și raportarea'), items(
     (T(r'\textbf{Robustness}: show the distribution of results over reasonable choices, not the best one', r'\textbf{Robustețea}: arătați distribuția rezultatelor pe alegeri rezonabile, nu pe cea mai bună'),
-     [T('specification curve or multiverse \\refSSN, \\refSte: windows, lags, donor pools, losses, bandwidths', 'curba specificațiilor sau multiversul \\refSSN, \\refSte: ferestre, decalaje, grupuri de donatori, funcții de pierdere, lățimi de bandă'),
+     [T('specification curve or multiverse \\refSSN, \\refSte: windows, lags, donor pools, losses, bandwidths', 'curba specificațiilor sau multiversul \\refSSN, \\refSte: ferestre, laguri, grupuri de donatori, funcții de pierdere, lățimi de bandă'),
       T('164 teams testing the same hypotheses on the same data disagree as much as the standard errors suggest \\refMen', '164 de echipe care testează aceleași ipoteze pe aceleași date diferă cît sugerează erorile standard \\refMen')]),
     (T(r'\textbf{Report} in the form of a paper: introduction, data, method, replication, extension, robustness, conclusion', r'\textbf{Raportul} în forma unui articol: introducere, date, metodă, replicare, extensie, robustețe, concluzie'),
      [T('every number in the text produced by the code; figures with the course chart rules', 'fiecare rezultat numeric din text produs de cod; figurile după regulile de grafice ale cursului'),
@@ -499,8 +539,8 @@ D.frame(T('Scoreboard of the course replications (1/2)', 'Tabloul replicărilor 
     r'\refEH & 0 & ' + VERD['p'] + ' & ' + T('robust inference and a later sample remove the significance', 'inferența robustă și un eșantion mai recent elimină semnificația'),
     r'\refMR, \refGKMT & 1 & ' + VERD['r'] + ' & ' + T('random walk and the simple average are hard to beat', 'mersul aleator și media simplă sînt greu de depășit'),
     r'\refMPQ, \refBP & 2 & ' + VERD['r'] + ' & ' + T('dates reproduced; the 2020 outliers weaken the extension', 'datele reproduse; valorile extreme din 2020 slăbesc extensia'),
-    r'\refHanB & 2 & ' + VERD['p'] + ' & ' + T('threshold close, delay fragile on revised data', 'pragul apropiat, decalajul fragil pe date revizuite'),
-    r'\refTPS & 2 & ' + VERD['n'] + ' & ' + T('Monte Carlo $p$-value; the price index of the paper is not published today', 'valoarea $p$ Monte Carlo; indicele de preț din lucrare nu mai este publicat azi'),
+    r'\refHanB & 2 & ' + VERD['p'] + ' & ' + T('threshold close, delay fragile on revised data', 'pragul apropiat, lagul variabilei de prag fragil pe date revizuite'),
+    r'\refTPS & 2 & ' + VERD['n'] + ' & ' + T('Monte Carlo p-value; the price index of the paper is not published today', 'p-value-ul Monte Carlo; indicele de preț din lucrare nu mai este publicat azi'),
     r'\refCEE, \refKil, \refGK & 3 & ' + VERD['r'] + ' & ' + T('public replication files; same identification', 'fișiere de replicare publice; aceeași identificare'),
     r'\refKPSW & 4 & ' + VERD['p'] + ' & ' + T('rank reproduced, great ratios depend on the deterministic case', 'rangul reprodus, rapoartele mari depind de cazul determinist'),
     r'\refBGR & 5 & ' + VERD['r'] + ' & ' + T('to 2003; fails after 2020 without stochastic volatility', 'pînă în 2003; eșuează după 2020 fără volatilitate stochastică'),
@@ -528,7 +568,7 @@ chart(T('A replication that worked: Patton, Ziegel and Chen (2019)', 'O replicar
 
 interp(('the two kinds of outcome', 'celor două tipuri de rezultat'), [
     T(r'Average losses over 4\,000 days are robust to small data differences: GAS-1F @{c9.loss} against @{pub.pzc_loss}', r'Pierderile medii pe 4\,000 de zile sînt robuste la mici diferențe de date: GAS-1F @{c9.loss}, față de @{pub.pzc_loss}'),
-    T(r'Tests that rest on a few dozen tail days are not: goodness-of-fit $p$ = @{c9.gv} against @{pub.pzc_gof_var}', r'Testele care se bazează pe cîteva zeci de zile din coadă nu sînt: valoarea $p$ a testului de adecvare @{c9.gv}, față de @{pub.pzc_gof_var}'),
+    T(r'Tests that rest on a few dozen tail days are not: goodness-of-fit $p$ = @{c9.gv} against @{pub.pzc_gof_var}', r'Testele care se bazează pe cîteva zeci de zile din coadă nu sînt: p-value-ul testului de adecvare @{c9.gv}, față de @{pub.pzc_gof_var}'),
     T(r'The same pattern in Chapter 2 (\refTPS: $p$ = @{c2.tpsp} against @{pub.tps_p}) and Chapter 14 (\refBMSS: $-$@{c14.bx}\% against $-$@{pub.brexit_gap}\%)' if OK14 else r'The same pattern in Chapter 2 (\refTPS: $p$ = @{c2.tpsp} against @{pub.tps_p})',
       r'Același tipar în Capitolul 2 (\refTPS: $p$ = @{c2.tpsp}, față de @{pub.tps_p}) și în Capitolul 14 (\refBMSS: $-$@{c14.bx}\%, față de $-$@{pub.brexit_gap}\%)' if OK14 else r'Același tipar în Capitolul 2 (\refTPS: $p$ = @{c2.tpsp}, față de @{pub.tps_p})'),
     T('Lesson: replicate the estimate and the inference separately; report which of the two survives', 'Lecția: replicați separat estimația și inferența; raportați care dintre ele rezistă')])
@@ -592,7 +632,7 @@ D.frame(T('Reproducibility checklist', 'Lista de verificare a reproductibilită�
 D.section('Failure modes', 'Erori frecvente')
 
 D.frame(T('Data snooping and p-hacking', 'Data snooping și p-hacking'), items(
-    (T(r'\textbf{Data snooping}: the same data are used to choose and to test a model; the reported $p$-value ignores the search \refWhite', r'\textbf{Data snooping}: aceleași date se folosesc pentru a alege și pentru a testa un model; valoarea $p$ raportată ignoră căutarea \refWhite'),
+    (T(r'\textbf{Data snooping}: the same data are used to choose and to test a model; the reported p-value ignores the search \refWhite', r'\textbf{Data snooping}: aceleași date se folosesc pentru a alege și pentru a testa un model; p-value-ul raportat ignoră căutarea \refWhite'),
      [T('remedies: Reality Check, SPA \\refHansen, StepM \\refRW, MCS \\refHLNa, a hold-out period never touched', 'remedii: Reality Check, SPA \\refHansen, StepM \\refRW, MCS \\refHLNa, o perioadă rezervată, neatinsă')]),
     (T(r'\textbf{p-hacking}: undisclosed flexibility (samples, controls, transformations, outliers) until $p < 0.05$ \refSNS', r'\textbf{p-hacking}: flexibilitate nedeclarată (eșantioane, variabile de control, transformări, valori extreme) pînă cînd $p < 0{,}05$ \refSNS'),
      [T('the ``garden of forking paths\'\': no conscious search is needed, data-dependent choices suffice \\refGL', '„grădina potecilor care se bifurcă”: nu este nevoie de o căutare conștientă, ajung alegerile dependente de date \\refGL'),
@@ -610,9 +650,9 @@ interp(('the specification search', 'căutării de specificații'), [
     T(r'The BET in Chapter 0: naive $p$ = @{c0.rcpn}, Reality Check $p$ = @{c0.rcp}', r'BET în Capitolul 0: $p$ naiv = @{c0.rcpn}, $p$ Reality Check = @{c0.rcp}'),
     T('Pre-register $K$; report all $K$ results', 'Preînregistrați $K$; raportați toate cele $K$ rezultate')])
 
-D.frame(T('Leakage and look-ahead', 'Scurgerea de informație și look-ahead'), items(
-    (T(r'\textbf{Leakage}: information from the evaluation period enters the model \refKau', r'\textbf{Scurgerea de informație}: informația din perioada de evaluare intră în model \refKau'),
-     [T('selection of predictors, lags or hyperparameters on the whole sample', 'selecția predictorilor, a decalajelor sau a hiperparametrilor pe întregul eșantion'),
+D.frame(T('Leakage and look-ahead', 'Leakage și look-ahead'), items(
+    (T(r'\textbf{Leakage}: information from the evaluation period enters the model \refKau', r'\textbf{Leakage}: informația din perioada de evaluare intră în model \refKau'),
+     [T('selection of predictors, lags or hyperparameters on the whole sample', 'selecția predictorilor, a lagurilor sau a hiperparametrilor pe întregul eșantion'),
       T('scaling, detrending, filtering (HP, wavelets) or imputing with full-sample statistics', 'scalare, eliminarea trendului, filtrare (HP, wavelet) sau imputare cu statistici din întregul eșantion'),
       T('random K-fold with dependent residuals or overlapping targets (Chapter 12)', 'K-fold aleator cu reziduuri dependente sau ținte suprapuse (Capitolul 12)')]),
     (T(r'\textbf{Look-ahead}: using data that were not available at the forecast date', r'\textbf{Look-ahead}: folosirea datelor care nu erau disponibile la data prognozei'),
@@ -624,11 +664,11 @@ chart(T('Predictor selection with look-ahead', 'Selecția predictorilor cu look-
     T(r'@{lk.reps} simulations: $T$ = @{lk.T}, last @{lk.n_test} periods for testing, @{lk.P} pure-noise candidate predictors, the @{lk.k} most correlated kept, OLS on the training sample', r'@{lk.reps} de simulări: $T$ = @{lk.T}, ultimele @{lk.n_test} de perioade pentru test, @{lk.P} de predictori candidați de tip zgomot pur, se păstrează cei @{lk.k} mai corelați, MCO pe eșantionul de antrenare')],
     h='0.62\\textheight')
 
-interp(('the leakage experiment', 'experimentului cu scurgere de informație'), [
+interp(('the leakage experiment', 'experimentului cu leakage'), [
     T(r'Honest selection: mean out-of-sample $R^2$ = @{lk.honest}\%, positive in @{lk.hpos}\% of runs: noise does not forecast', r'Selecție corectă: $R^2$ mediu în afara eșantionului = @{lk.honest}\%, pozitiv în @{lk.hpos}\% din rulări: zgomotul nu prognozează'),
     T(r'Selection on the whole sample: mean @{lk.leaky}\%, positive in @{lk.lpos}\% of runs: a ``forecasting gain\'\' created by the test period itself', r'Selecție pe întregul eșantion: media @{lk.leaky}\%, pozitiv în @{lk.lpos}\% din rulări: un „cîștig de prognoză” creat chiar de perioada de test'),
     T('Out-of-sample evaluation protects you only if every choice is made inside the training window \\refIK', 'Evaluarea în afara eșantionului vă protejează doar dacă fiecare alegere se face în fereastra de antrenare \\refIK'),
-    T('The same mechanism inflated the validation scores of Chapter 12 (ratio @{c12.lk})', 'Același mecanism a umflat scorurile de validare din Capitolul 12 (raport @{c12.lk})')])
+    T('The same mechanism inflated the validation scores of Chapter 12 (ratio @{c12.lk})', 'Același mecanism a supraestimat scorurile de validare din Capitolul 12 (raport @{c12.lk})')])
 
 D.frame(T('Overclaiming', 'Afirmații exagerate'), two(items(
     (T(r'\textbf{Causal language for predictive results}', r'\textbf{Limbaj cauzal pentru rezultate predictive}'),
@@ -680,7 +720,7 @@ D.frame(T('What distinguishes the grades', 'Criteriile care diferențiază notel
     (T(r'\textbf{7--8}', r'\textbf{7--8}'),
      [T('correct methods and interpretation; hesitates on alternatives or on the asymptotics', 'metode și interpretare corecte; ezită la alternative sau la asimptotică')]),
     (T(r'\textbf{5--6}', r'\textbf{5--6}'),
-     [T('can run and describe the code; reads $p$-values mechanically; limited link to the theory', 'poate rula și descrie codul; citește mecanic valorile $p$; legătură limitată cu teoria')]),
+     [T('can run and describe the code; reads p-values mechanically; limited link to the theory', 'poate rula și descrie codul; citește mecanic p-value-urile; legătură limitată cu teoria')]),
     (T(r'\textbf{below 5}', r'\textbf{sub 5}'),
      [T('cannot explain own code or numbers; claims not supported by the results; undeclared AI use', 'nu poate explica propriul cod sau propriile rezultate; afirmații nesusținute de rezultate; folosire nedeclarată a AI')])))
 
@@ -695,8 +735,8 @@ def qa(title, pairs):
 qa(T('Typical questions with model answers (1/3): the code', 'Întrebări tipice cu răspunsuri-model (1/3): codul'), [
     (T('Where in your code is the information set of the forecast for date $t$ fixed?', 'Unde se fixează în codul dumneavoastră mulțimea de informație a prognozei pentru data $t$?'),
      T('In the walk-forward loop: the estimation window ends at $t - h$, and scaling, selection and tuning are recomputed inside the loop (shows the lines)', 'În bucla walk-forward: fereastra de estimare se termină la $t - h$, iar scalarea, selecția și calibrarea hiperparametrilor se recalculează în buclă (arată liniile)')),
-    (T('How many HAC lags do you use, and why?', 'Cîte decalaje HAC folosiți și de ce?'),
-     T(r'The Newey--West rule $\lfloor 4(T/100)^{2/9}\rfloor$, at least $h - 1$ for overlapping $h$-step errors; the result is checked with fixed-$b$ critical values (Chapter 0)', r'Regula Newey--West $\lfloor 4(T/100)^{2/9}\rfloor$, cel puțin $h - 1$ pentru erori suprapuse la $h$ pași; rezultatul este verificat cu valori critice fixed-$b$ (Capitolul 0)')),
+    (T('How many HAC lags do you use, and why?', 'Cîte laguri HAC folosiți și de ce?'),
+     T(r'The Newey--West rule $\lfloor 4(T/100)^{2/9}\rfloor$ ($T$: sample size; $\lfloor\cdot\rfloor$: integer part), at least $h - 1$ for overlapping $h$-step errors; checked with fixed-$b$ critical values (Chapter 0)', r'Regula Newey--West $\lfloor 4(T/100)^{2/9}\rfloor$ ($T$: mărimea eșantionului; $\lfloor\cdot\rfloor$: partea întreagă), cel puțin $h - 1$ pentru erori suprapuse la $h$ pași; verificat cu valori critice fixed-$b$ (Capitolul 0)')),
     (T('What happens if you change the seed?', 'Ce se întîmplă dacă schimbați seed-ul?'),
      T('We reran with ten seeds: the ranking is unchanged, the loss changes by less than its standard error (a table in the report)', 'Am rulat din nou cu zece seed-uri: ierarhia nu se schimbă, pierderea variază cu mai puțin decît eroarea ei standard (un tabel în raport)'))])
 
@@ -718,7 +758,7 @@ qa(T('Typical questions with model answers (3/3): the chapters', 'Întrebări ti
 
 D.frame(T('Where defences go wrong', 'Unde greșesc susținerile'), items(
     T('Code written by someone else (a colleague or an AI assistant) that the presenter cannot explain', 'Cod scris de altcineva (un coleg sau un asistent AI) pe care cel care prezintă nu îl poate explica'),
-    T('A $p$-value read as the probability that the hypothesis is true', 'O valoare $p$ citită drept probabilitatea ca ipoteza să fie adevărată'),
+    T('A p-value read as the probability that the hypothesis is true', 'Un p-value citit drept probabilitatea ca ipoteza să fie adevărată'),
     T('A forecasting gain without a test, or a test without the size of the gain', 'Un cîștig de prognoză fără test sau un test fără mărimea cîștigului'),
     T('Not knowing the data: source, frequency, vintage, transformations, sample dates', 'Necunoașterea datelor: sursa, frecvența, ediția, transformările, datele eșantionului'),
     T('Numbers in the report that the repository does not reproduce', 'Rezultate din raport pe care repository-ul nu le reproduce'),
@@ -746,7 +786,7 @@ D.frame(T('AI\\_ERRORS.md: at least three errors caught', 'AI\\_ERRORS.md: cel p
     T(r'\textbf{Type}', r'\textbf{Tipul}') + ' & ' + T(r'\textbf{Example from the course}', r'\textbf{Exemplu din curs}') + ' & ' + T(r'\textbf{How it is caught}', r'\textbf{Cum se depistează}'),
     [T('invented reference', 'referință inventată') + ' & ' + T('a plausible title with a DOI that resolves to another paper', 'un titlu plauzibil cu un DOI care duce la altă lucrare') + ' & ' + T('Crossref lookup: title and authors must match', 'căutare în Crossref: titlul și autorii trebuie să coincidă'),
      T('wrong formula', 'formulă greșită') + ' & ' + T('ES scored alone with a quantile loss (Chapter 9)', 'ES evaluat singur cu o pierdere de cuantilă (Capitolul 9)') + ' & ' + T('derivation on paper; a simulation with known answer', 'derivare pe hîrtie; o simulare cu răspuns cunoscut'),
-     T('leakage in code', 'scurgere de informație în cod') + ' & ' + T('a scaler fitted on the whole sample before the split', 'o scalare estimată pe întregul eșantion înainte de împărțire') + ' & ' + T('the date test: recompute a forecast with data up to its date only', 'testul datei: recalculați o prognoză doar cu datele de pînă la data ei'),
+     T('leakage in code', 'leakage în cod') + ' & ' + T('a scaler fitted on the whole sample before the split', 'o scalare estimată pe întregul eșantion înainte de împărțire') + ' & ' + T('the date test: recompute a forecast with data up to its date only', 'testul datei: recalculați o prognoză doar cu datele de pînă la data ei'),
      T('wrong default', 'opțiune implicită greșită') + ' & ' + T('a $\\chi^2$ critical value for a sup-test (Chapter 2)', 'o valoare critică $\\chi^2$ pentru un test sup (Capitolul 2)') + ' & ' + T('read the documentation and the paper; reproduce a published value', 'citiți documentația și lucrarea; reproduceți o valoare publicată'),
      T('overclaiming', 'afirmație exagerată') + ' & ' + T('``Granger causality proves that ...\'\' (Chapter 14)', '„cauzalitatea Granger dovedește că ...” (Capitolul 14)') + ' & ' + T('compare each sentence with the design', 'comparați fiecare frază cu designul')],
     size='scriptsize') + items(
@@ -789,13 +829,15 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('The verdict criteria (replicated, partly, not) are written before the replication is run', 'Criteriile verdictului (replicat, parțial, nereplicat) sînt scrise înainte de a rula replicarea')), 'small')
 
 chart(T('Mini-case: is the evaluation sample long enough?', 'Mini studiu de caz: este eșantionul de evaluare destul de lung?'), 'ats_ch15_power', 'ATS_ch15_power', [
-    T(r'Rejection rate of the DM--HLN test (5\%, two-sided, @{pw.reps} simulations) when the loss differential is a mean gain plus an AR(1) with coefficient 0.3; dotted: $\Phi\big(\delta\sqrt{P/\Omega} - 1.96\big)$', r'Rata de respingere a testului DM--HLN (5\%, bilateral, @{pw.reps} de simulări) cînd diferența pierderilor este un cîștig mediu plus un AR(1) cu coeficientul 0,3; punctat: $\Phi\big(\delta\sqrt{P/\Omega} - 1{,}96\big)$')],
-    h='0.62\\textheight')
+    T(r'Rejection rate of the DM--HLN test (5\%, two-sided, @{pw.reps} simulations) when the loss differential is a mean gain $\delta$ plus an AR(1) noise with coefficient $\rho = 0.3$ and unit variance', r'Rata de respingere a testului DM--HLN (5\%, bilateral, @{pw.reps} de simulări) cînd diferența pierderilor este un cîștig mediu $\delta$ plus un zgomot AR(1) cu coeficientul $\rho = 0{,}3$ și varianța 1'),
+    T(r'Dotted: the approximation $\Phi\big(\delta\sqrt{P/\Omega} - 1.96\big)$; $\Phi$: standard Normal distribution function; $P$: number of out-of-sample observations; $\Omega$: long-run variance of the differential', r'Punctat: aproximarea $\Phi\big(\delta\sqrt{P/\Omega} - 1{,}96\big)$; $\Phi$: funcția de repartiție a distribuției Normale standard; $P$: numărul de observații în afara eșantionului; $\Omega$: varianța de termen lung a diferenței')],
+    h='0.56\\textheight')
 
 interp(('the mini-case', 'mini studiului de caz'), [
     T(r'A gain of 0.2 standard deviations is detected with probability @{pw.b.100}\% at $P = 100$ and @{pw.b.500}\% at $P = 500$; 80\% power needs about @{pw.b.p80} observations', r'Un cîștig de 0,2 abateri standard este detectat cu probabilitatea @{pw.b.100}\% la $P = 100$ și @{pw.b.500}\% la $P = 500$; o putere de 80\% cere aproximativ @{pw.b.p80} de observații'),
     T(r'A gain of 0.1 needs about @{pw.a.p80}: more than 120 years of monthly data; a gain of 0.3 about @{pw.c.p80}', r'Un cîștig de 0,1 cere aproximativ @{pw.a.p80}: mai mult de 120 de ani de date lunare; un cîștig de 0,3 aproximativ @{pw.c.p80}'),
-    T(r'The rule $P \approx \Omega\,(z_{0.975} + z_{0.8})^2/\delta^2$ with $\Omega = (1 + \rho)/(1 - \rho)$ = @{pw.om}: dependence multiplies the sample you need', r'Regula $P \approx \Omega\,(z_{0{,}975} + z_{0{,}8})^2/\delta^2$, cu $\Omega = (1 + \rho)/(1 - \rho)$ = @{pw.om}: dependența multiplică eșantionul necesar'),
+    (T(r'The sample-size rule $P \approx \Omega\,(z_{0.975} + z_{0.8})^2/\delta^2$, with $\Omega = (1 + \rho)/(1 - \rho)$ = @{pw.om}: dependence multiplies the sample you need', r'Regula de mărime a eșantionului $P \approx \Omega\,(z_{0{,}975} + z_{0{,}8})^2/\delta^2$, cu $\Omega = (1 + \rho)/(1 - \rho)$ = @{pw.om}: dependența multiplică eșantionul necesar'),
+     [T(r'$z_{0.975} = 1.96$, $z_{0.8} = 0.84$: Normal quantiles for a 5\% two-sided test and 80\% power; $\delta$: the mean gain in standard deviations', r'$z_{0{,}975} = 1{,}96$, $z_{0{,}8} = 0{,}84$: cuantilele distribuției Normale pentru un test bilateral de 5\% și o putere de 80\%; $\delta$: cîștigul mediu, în abateri standard')]),
     T(r'With few observations the test is also oversized: @{pw.s.50}\% at $P = 50$', r'Cu puține observații testul este și supradimensionat: @{pw.s.50}\% la $P = 50$'),
     T('Choose a question your data can answer: monthly macro data rarely detect small gains, daily or intraday data can', 'Alegeți o întrebare la care datele pot răspunde: datele macro lunare detectează rar cîștiguri mici, datele zilnice sau intrazilnice pot')])
 
@@ -819,7 +861,7 @@ D.frame(T('Key takeaways', 'Idei de reținut'), items(
     T('Five questions for every analysis: target, dependence, identification, evaluation, robustness', 'Cinci întrebări pentru orice analiză: ținta, dependența, identificarea, evaluarea, robustețea'),
     T('Most landmark results replicate in direction; their strength and their tests depend on vintage, sample and inference', 'Majoritatea rezultatelor de referință se replică în sens; mărimea și testele lor depind de ediția datelor, de eșantion și de inferență'),
     T('Pre-register the design, compute the power, and make every number reproducible from one command', 'Preînregistrați designul, calculați puterea și faceți fiecare rezultat reproductibil dintr-o singură comandă'),
-    T('Searches, leakage and look-ahead create discoveries from noise; causal words need causal designs', 'Căutările, scurgerea de informație și look-ahead creează descoperiri din zgomot; cuvintele cauzale cer designuri cauzale'),
+    T('Searches, leakage and look-ahead create discoveries from noise; causal words need causal designs', 'Căutările, leakage-ul și look-ahead creează descoperiri din zgomot; cuvintele cauzale cer designuri cauzale'),
     T('The defence is individual: explain the method, the code, the inference and the limits yourself', 'Susținerea este individuală: explicați singur metoda, codul, inferența și limitele')))
 
 D.frame(T('Self-assessment', 'Autoevaluare'), cols(
@@ -858,7 +900,7 @@ D.frame(T('Appendix: project seeds by chapter (2/2)', 'Anexă: idei de proiect p
     'l' + TB + 'p{5.0cm}' + TB + 'p{6.6cm}',
     T(r'\textbf{Ch.}', r'\textbf{Cap.}') + ' & ' + T(r'\textbf{Replicate}', r'\textbf{Replicați}') + ' & ' + T(r'\textbf{Extend}', r'\textbf{Extindeți}'),
     [r'9 & \refPZC & ' + T('CEE indices; the power of the backtests', 'indicii din ECE; puterea backtest-urilor'),
-     r'10 & \refGJR & ' + T('roughness of CEE and crypto volatility; robustness to noise', 'rugozitatea volatilității în ECE și pe cripto; robustețea la zgomot'),
+     r'10 & \refGJR & ' + T('roughness of CEE and crypto volatility; robustness to noise', 'caracterul rough al volatilității în ECE și pe cripto; robustețea la zgomot'),
      r'11 & \refCN, \refHamB & ' + T('real-time output gaps of the EU members', 'output gap-uri în timp real pentru statele membre UE'),
      r'12 & \refZeng & ' + T('EU electricity load; global models; honest benchmarks', 'consumul de electricitate din UE; modele globale; comparații oneste'),
      r'13 & \refGC & ' + T('conformal VaR for the BET; coverage by regime', 'VaR conformal pentru BET; acoperire pe regimuri'),

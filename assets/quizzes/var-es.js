@@ -159,7 +159,7 @@ window.ATS_DATA.quizzes['var-es'] = {
             },
             "ro": {
                 "title": "Testul DQ",
-                "text": "În testul DQ al lui Engle și Manganelli în afara eșantionului, cu regresorii constantă, patru depășiri întîrziate și prognoza VaR, statistica se compară cu:",
+                "text": "În testul DQ al lui Engle și Manganelli în afara eșantionului, cu regresorii constantă, patru laguri ale depășirilor și prognoza VaR, statistica se compară cu:",
                 "options": [
                     "$N(0, 1)$",
                     "$\\chi^2_6$",
@@ -216,7 +216,7 @@ window.ATS_DATA.quizzes['var-es'] = {
                 "text": "De ce pornesc Engle și Manganelli estimarea CAViaR din mulți vectori de parametri aleatori?",
                 "options": [
                     "Modelul nu are parametri",
-                    "Verosimilitatea este Gaussiană",
+                    "Verosimilitatea este gaussiană",
                     "Regresia cuantilică are formă închisă",
                     "Criteriul de regresie cuantilică este nediferențiabil și neconvex în parametrii recursiei"
                 ],
@@ -483,11 +483,11 @@ window.ATS_DATA.quizzes['var-es'] = {
             },
             "ro": {
                 "title": "Replicarea lui Patton, Ziegel și Chen",
-                "text": "Replicarea designului S\\&P 500 al lui Patton, Ziegel și Chen (2019) pe datele cursului dă:",
+                "text": "Replicarea schemei S\\&P 500 a lui Patton, Ziegel și Chen (2019) pe datele cursului dă:",
                 "options": [
                     "pierderi medii complet diferite",
-                    "pierderi FZ0 medii în afara eșantionului la circa 0,02 de cele din lucrare, dar valori $p$ diferite la testele de adecvare",
-                    "valori $p$ identice, dar pierderi diferite",
+                    "pierderi FZ0 medii în afara eșantionului la circa 0,02 de cele din lucrare, dar p-value-uri diferite la testele de adecvare",
+                    "p-value-uri identice, dar pierderi diferite",
                     "nicio ordonare a modelelor"
                 ],
                 "correctExplanation": "Pierderile medii sînt funcții netede de multe zile și se replică îndeaproape; testele care se sprijină pe cîteva zile din coadă sînt sensibile la date și la alegerea covarianței.",

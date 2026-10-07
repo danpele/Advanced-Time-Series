@@ -356,7 +356,7 @@ window.ATS_DATA.quizzes['volatility'] = {
                     "o eroare în definiția lui RV"
                 ],
                 "correctExplanation": "O autocovarianță pozitivă $\\gamma_1 > 0$ face RV la scara cea mai fină prea mic; zgomotul i.i.d. l-ar face prea mare.",
-                "incorrectExplanation": "Zgomotul i.i.d. produce autocorelație negativă și un signature plot descrescător; salturile cresc RV la orice scară; forma crescătoare indică prețuri învechite sau care se ajustează treptat."
+                "incorrectExplanation": "Zgomotul i.i.d. produce autocorelație negativă și un signature plot descrescător; salturile cresc RV la orice scară; forma crescătoare indică prețuri stale (neactualizate) sau care se ajustează treptat."
             }
         },
         {
@@ -625,8 +625,8 @@ window.ATS_DATA.quizzes['volatility'] = {
                     "țintei de corelație a reziduurilor standardizate",
                     "matricei de covarianță prognozate după fiecare actualizare"
                 ],
-                "correctExplanation": "În dimensiune mare, ținta DCC este o matrice de corelație de eșantion zgomotoasă; micșorarea neliniară a valorilor ei proprii dă o țintă mai bine condiționată, iar dinamica DCC se păstrează.",
-                "incorrectExplanation": "Varianțele provin din GARCH univariat, iar dinamica din $(a, b)$; doar ținta mare, de dimensiune $N \\times N$, este micșorată."
+                "correctExplanation": "În dimensiune mare, ținta DCC este o matrice de corelație de eșantion zgomotoasă; shrinkage-ul neliniar al valorilor ei proprii dă o țintă mai bine condiționată, iar dinamica DCC se păstrează.",
+                "incorrectExplanation": "Varianțele provin din GARCH univariat, iar dinamica din $(a, b)$; shrinkage-ul se aplică doar țintei mari, de dimensiune $N \\times N$."
             }
         },
         {

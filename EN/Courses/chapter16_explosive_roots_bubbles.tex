@@ -93,7 +93,6 @@ MSCA Digital Finance}
     \item \textbf{AR}: AutoRegressive (model); in event studies: Abnormal Return
     \item \textbf{AUC}: Area Under the (ROC) Curve
     \item \textbf{BET}: Bucharest Exchange Trading (index)
-    \item \textbf{BIC}: Bayesian Information Criterion
     \item \textbf{BSADF}: Backward Supremum Augmented Dickey–Fuller (statistic)
     \item \textbf{BUX}: Budapesti Értéktőzsde index (the Budapest Stock Exchange index)
     \item \textbf{CLT}: Central Limit Theorem
@@ -101,23 +100,24 @@ MSCA Digital Finance}
     \item \textbf{CUSUM}: CUmulative SUM
     \item \textbf{EODHD}: EOD Historical Data (market-data provider)
     \item \textbf{FCLT}: Functional Central Limit Theorem
+    \item \textbf{FRED}: Federal Reserve Economic Data
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{FRED}: Federal Reserve Economic Data
     \item \textbf{FW}: Family-Wise (error control)
     \item \textbf{FWER}: Family-Wise Error Rate
     \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity
     \item \textbf{GSADF}: Generalised Supremum Augmented Dickey–Fuller (test)
     \item \textbf{HICP}: Harmonised Index of Consumer Prices
-    \item \textbf{IMF}: International Monetary Fund
     \item \textbf{LLM}: Large Language Model
     \item \textbf{LPPL}: Log-Periodic Power Law
     \item \textbf{LPPLS}: Log-Periodic Power Law Singularity (model)
     \item \textbf{MC}: Monte Carlo
     \item \textbf{MFM}: Modelling Financial Markets
     \item \textbf{OLS}: Ordinary Least Squares
+    \item \textbf{PSY}: Phillips, Shi and Yu (2015)
+    \item \textbf{PWY}: Phillips, Wu and Yu (2011)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -127,8 +127,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{PSY}: Phillips, Shi and Yu (2015)
-    \item \textbf{PWY}: Phillips, Wu and Yu (2011)
     \item \textbf{PX}: Prague Stock Exchange index (index Burzy cenných papírů Praha)
     \item \textbf{ROC}: Receiver Operating Characteristic (curve)
     \item \textbf{SADF}: Supremum Augmented Dickey–Fuller (test)
@@ -254,27 +252,45 @@ All price series of the course data & EODHD, monthly closes (screen of the AI mi
 \section{Rational bubbles}
 %=============================================================================
 
-\begin{frame}{The present-value model and its bubble solutions}
+\begin{frame}{The present-value model and its bubble solutions (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item No-arbitrage with a constant required return $r > 0$: $P_t = (1 + r)^{-1}\E_t[P_{t+1} + D_{t+1}]$; $P_t$ price, $D_t$ dividend (or rent)
-    \item Forward substitution $k$ times: $P_t = \sum_{i=1}^{k}(1 + r)^{-i}\E_t D_{t+i} + (1 + r)^{-k}\E_t P_{t+k}$
+    \item \textbf{No-arbitrage} with a constant required return $r > 0$: today's price is the discounted expected value of tomorrow's price plus dividend \[ P_t = (1 + r)^{-1}\E_t[P_{t+1} + D_{t+1}] \]
     \begin{itemize}
-        \item if the \textbf{transversality condition} $\lim_k (1 + r)^{-k}\E_t P_{t+k} = 0$ holds: $P_t = F_t := \sum_{i \ge 1}(1 + r)^{-i}\E_t D_{t+i}$, the fundamental value
+        \item $P_t$: price; $D_t$: dividend (or rent); $\E_t$: expectation given the information available at $t$
     \end{itemize}
-    \item General solution: $P_t = F_t + B_t$ with $\E_t B_{t+1} = (1 + r)B_t$: the \textbf{bubble} $B_t$ is a submartingale with an explosive mean, $\E_t B_{t+k} = (1 + r)^k B_t$
+    \item \textbf{Forward substitution} $k$ times: the price is the discounted dividends of the next $k$ periods plus the discounted price at $t + k$ \[ P_t = \sum_{i=1}^{k}(1 + r)^{-i}\E_t D_{t+i} + (1 + r)^{-k}\E_t P_{t+k} \]
+    \item If the \textbf{transversality condition} $\lim_{k\to\infty} (1 + r)^{-k}\E_t P_{t+k} = 0$ holds, the price equals the \textbf{fundamental value} \[ P_t = F_t := \sum_{i \ge 1}(1 + r)^{-i}\E_t D_{t+i} \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The present-value model and its bubble solutions (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{General solution}: the fundamental plus a \textbf{bubble} $B_t$ whose expected value grows at the rate $r$ \[ P_t = F_t + B_t, \qquad \E_t B_{t+1} = (1 + r)B_t, \qquad \E_t B_{t+k} = (1 + r)^k B_t \]
     \begin{itemize}
-        \item econometric content: in $(1 - (1 + r)L)B_t = z_t$, the root $1 + r > 1$ lies outside the unit circle on the wrong side: an \textbf{explosive autoregressive root}
+        \item $B_t$ is a submartingale with an explosive mean: it satisfies the no-arbitrage equation but violates transversality
     \end{itemize}
-    \item General equilibrium limits: with infinitely lived agents bubbles are ruled out in most economies; with overlapping generations they can exist if growth exceeds $r$ \refTir; \refSW
+    \item \textbf{Econometric content}: $B_t$ follows $(1 - (1 + r)L)B_t = z_t$, an AR(1) with coefficient $1 + r > 1$
+    \begin{itemize}
+        \item $L$: the lag operator ($LB_t = B_{t-1}$); $z_t$: a martingale difference ($\E_{t-1}z_t = 0$); an \textbf{explosive autoregressive root}
+    \end{itemize}
+    \item General equilibrium limits \refTir; \refSW
+    \begin{itemize}
+        \item with infinitely lived agents bubbles are ruled out in most economies
+        \item with overlapping generations they can exist if growth exceeds $r$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Worked example: the fundamental value with random-walk dividends}
 \itemsize{\small}
 \begin{itemize}
-    \item Let $D_t = \mu + D_{t-1} + \varepsilon_t$: then $\E_t D_{t+i} = D_t + i\mu$
-    \item $F_t = D_t\sum_{i \ge 1}(1 + r)^{-i} + \mu\sum_{i \ge 1} i(1 + r)^{-i} = \dfrac{D_t}{r} + \dfrac{\mu(1 + r)}{r^2}$
+    \item Let dividends be a random walk with drift, $D_t = \mu + D_{t-1} + \varepsilon_t$: then $\E_t D_{t+i} = D_t + i\mu$
+    \begin{itemize}
+        \item $\mu$: the expected change per period (drift); $\varepsilon_t$: a zero-mean shock
+    \end{itemize}
+    \item Summing the discounted expected dividends \[ F_t = D_t\sum_{i \ge 1}(1 + r)^{-i} + \mu\sum_{i \ge 1} i(1 + r)^{-i} = \dfrac{D_t}{r} + \dfrac{\mu(1 + r)}{r^2} \]
     \begin{itemize}
         \item using $\sum_{i \ge 1} x^i = x/(1 - x)$ and $\sum_{i \ge 1} i x^i = x/(1 - x)^2$ with $x = (1 + r)^{-1}$
     \end{itemize}
@@ -297,7 +313,10 @@ All price series of the course data & EODHD, monthly closes (screen of the AI mi
 \end{column}
 \begin{column}{0.66\textwidth}
 \begin{itemize}
-    \item $B_{t+1} = \dfrac{1 + r}{\pi}B_t + \varepsilon_{t+1}$ with probability $\pi$, $B_{t+1} = \varepsilon_{t+1}$ with probability $1 - \pi$ \refBW
+    \item \refBW: each period the bubble survives with probability $\pi$ and bursts with probability $1 - \pi$ \[ B_{t+1} = \begin{cases} \dfrac{1 + r}{\pi}B_t + \varepsilon_{t+1} & \text{with probability}\ \pi \\[2mm] \varepsilon_{t+1} & \text{with probability}\ 1 - \pi \end{cases} \]
+    \begin{itemize}
+        \item $\varepsilon_{t+1}$: a zero-mean shock; $\pi \in (0, 1)$: the survival probability
+    \end{itemize}
     \item Check: $\E_t B_{t+1} = \pi\cdot\frac{1 + r}{\pi}B_t = (1 + r)B_t$: a valid rational bubble
     \item Survival time is geometric: expected duration $1/(1 - \pi)$; $\pi = 0.98$ gives 50 periods
     \item While it survives it grows at $(1 + r)/\pi - 1 > r$: the extra return pays for the crash risk
@@ -394,7 +413,10 @@ $|\rho| > 1$ fixed & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \m
 \end{tabular}
 \end{center}
 }\begin{itemize}
-    \item $y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$ OLS without intercept; $W$ a standard Brownian motion; $\mathcal C$ the standard Cauchy law
+    \item $y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS without intercept; $n$: sample size; $W$: a standard Brownian motion; $\mathcal C$: the standard Cauchy law
+    \begin{itemize}
+        \item mildly explosive: $c > 0$ and $k_n \to \infty$ more slowly than $n$ ($k_n = o(n)$, i.e.\ $k_n/n \to 0$); CLT/FCLT: (functional) central limit theorem; $\Rightarrow$: convergence in distribution
+    \end{itemize}
     \item The rate grows from $\sqrt n$ to $n$ to the exponential $\rho^n$: the further from unity, the faster we learn $\rho$ (unit roots: \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter2_structural_breaks_nonlinear_models.pdf}{Chapter 2} and \refHam, Chapter 17)
     \item Mildly explosive roots are the realistic case for bubbles: faster than any local-to-unity root $1 + c/n$, slower than any fixed explosive root
 \end{itemize}
@@ -467,17 +489,31 @@ $|\rho| > 1$ fixed & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \m
 \section{Recursive tests: theory and size}
 %=============================================================================
 
-\begin{frame}{The recursive statistics}
-\itemsize{\footnotesize}
+\begin{frame}{The recursive statistics (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item Window regression on the log price: $\Delta y_t = a + \delta y_{t-1} + \sum_{j=1}^{k}\phi_j\Delta y_{t-j} + e_t$, $t$ from $\lfloor r_1T\rfloor$ to $\lfloor r_2T\rfloor$; $\mathrm{ADF}_{r_1}^{r_2}$ is the $t$-statistic of $\delta$
+    \item \textbf{Window regression} on the log price $y_t$, over the sample fractions $[r_1, r_2]$ \[ \Delta y_t = a + \delta y_{t-1} + \sum_{j=1}^{k}\phi_j\Delta y_{t-j} + e_t, \qquad t = \lfloor r_1T\rfloor, \dots, \lfloor r_2T\rfloor \]
     \begin{itemize}
-        \item $H_0$: $\delta = 0$ (unit root); $H_1$: $\delta > 0$ (explosive); minimum window $r_0 = 0.01 + 1.8/\sqrt T$
+        \item $\Delta y_t = y_t - y_{t-1}$; $a$: intercept; $\delta$: the coefficient tested; $\phi_j$: coefficients of $k$ lagged differences; $e_t$: error; $T$: sample size; $\lfloor\cdot\rfloor$: integer part
+        \item $\mathrm{ADF}_{r_1}^{r_2}$: the $t$-statistic of $\delta$ on this window
     \end{itemize}
-    \item $\mathrm{SADF} = \sup_{r_2 \in [r_0, 1]}\mathrm{ADF}_0^{r_2}$ \refPWY; $\mathrm{BSADF}_{r_2} = \sup_{r_1 \in [0, r_2 - r_0]}\mathrm{ADF}_{r_1}^{r_2}$; $\mathrm{GSADF} = \sup_{r_2}\mathrm{BSADF}_{r_2}$ \refPSYa
-    \item Null limit (PSY, Theorem 1), with $r_w = r_2 - r_1$ and integrals over $[r_1, r_2]$:
+    \item $H_0$: $\delta = 0$ (unit root) against $H_1$: $\delta > 0$ (explosive): a \textbf{right-tailed} test
     \begin{itemize}
-        \item $\mathrm{ADF}_{r_1}^{r_2} \Rightarrow \dfrac{\frac12 r_w\left[W(r_2)^2 - W(r_1)^2 - r_w\right] - \int W\,dr\,\left[W(r_2) - W(r_1)\right]}{r_w^{1/2}\left\{r_w\int W^2dr - \left(\int W\,dr\right)^2\right\}^{1/2}}$
+        \item minimum window fraction $r_0 = 0.01 + 1.8/\sqrt T$
+    \end{itemize}
+    \item \textbf{Suprema} over windows \refPWY, \refPSYa{} \[ \mathrm{SADF} = \sup_{r_2 \in [r_0, 1]}\mathrm{ADF}_0^{r_2}, \quad \mathrm{BSADF}_{r_2} = \sup_{r_1 \in [0, r_2 - r_0]}\mathrm{ADF}_{r_1}^{r_2}, \quad \mathrm{GSADF} = \sup_{r_2}\mathrm{BSADF}_{r_2} \]
+    \begin{itemize}
+        \item SADF: windows starting at the first observation; BSADF: all windows ending at $r_2$ (used to date); GSADF: all windows
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The recursive statistics (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Null limit (PSY, Theorem 1), with $r_w = r_2 - r_1$ and integrals over $[r_1, r_2]$: \[ \mathrm{ADF}_{r_1}^{r_2} \Rightarrow \dfrac{\frac12 r_w\left[W(r_2)^2 - W(r_1)^2 - r_w\right] - \int W\,dr\,\left[W(r_2) - W(r_1)\right]}{r_w^{1/2}\left\{r_w\int W^2dr - \left(\int W\,dr\right)^2\right\}^{1/2}} \]
+    \begin{itemize}
+        \item $W$: a standard Brownian motion; $\Rightarrow$: convergence in distribution as $T \to \infty$
         \item pivotal: free of $\sigma$ and of the drift, so critical values depend only on $r_0$, the deterministic terms and $T$ in finite samples
     \end{itemize}
     \item Computation: for $T = 400$ there are 65\,341 window regressions; cumulated cross-products give all of them in $O(T^2)$ operations
@@ -577,16 +613,30 @@ $|\rho| > 1$ fixed & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \m
 \begin{frame}{Date-stamping rules and their accuracy}
 \itemsize{\small}
 \begin{itemize}
-    \item Origination and termination \refPSYa: $\hat r_e = \inf\{r_2 \ge r_0: \mathrm{BSADF}_{r_2} > cv_{r_2}\}$, $\hat r_f = \inf\{r_2 \ge \hat r_e + \delta\ln(T)/T: \mathrm{BSADF}_{r_2} < cv_{r_2}\}$
+    \item \textbf{Origination and termination} \refPSYa: the first date where BSADF exceeds its critical value, and the first later date where it falls back below \[ \hat r_e = \inf\{r_2 \ge r_0: \mathrm{BSADF}_{r_2} > cv_{r_2}\}, \qquad \hat r_f = \inf\{r_2 \ge \hat r_e + \delta\ln(T)/T: \mathrm{BSADF}_{r_2} < cv_{r_2}\} \]
     \begin{itemize}
+        \item $cv_{r_2}$: the pointwise 95\% critical value at $r_2$; $\delta\ln(T)/T$: a minimum duration (with $\delta$ a tuning constant)
         \item here: an episode is a run of at least $\lceil\ln T\rceil$ consecutive exceedances, dated from the first to the last one (as in \texttt{exuber} \refVPM)
     \end{itemize}
     \item In real time an episode is \textbf{confirmed} only after the minimum duration: the alarm date is the start plus $\lceil\ln T\rceil - 1$
-    \item Consistency of $(\hat r_e, \hat r_f)$ holds for mildly explosive bubbles of fixed fractional duration \refPSYb; the start is dated late, because a window must first accumulate explosive observations
+    \item Consistency of $(\hat r_e, \hat r_f)$ holds for mildly explosive bubbles of fixed fractional duration \refPSYb
     \begin{itemize}
+        \item the start is dated late, because a window must first accumulate explosive observations
         \item improved start and end estimators that use the whole bubble period: \refHLS
     \end{itemize}
-    \item Design of the experiment: random walk from $y_0 = 100$, explosive $y_t = \rho y_{t-1} + e_t$ on periods 200--260, collapse to the pre-bubble level, random walk; $T = 400$, 1\,000 paths per $\rho$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Date-stamping: design of the experiment}
+\itemsize{\small}
+\begin{itemize}
+    \item Simulated paths: random walk from $y_0 = 100$, then an explosive phase, a collapse, and a random walk again
+    \begin{itemize}
+        \item explosive phase $y_t = \rho y_{t-1} + e_t$, $\rho > 1$, on periods 200--260; $e_t$: Normal noise
+        \item collapse to the pre-bubble level at the end of the explosive phase
+        \item $T = 400$, 1\,000 paths for each value of $\rho$
+    \end{itemize}
+    \item Questions: how often is the bubble found, how late is its start dated, how often is a false episode dated before it?
 \end{itemize}
 \end{frame}
 
@@ -612,16 +662,33 @@ $|\rho| > 1$ fixed & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \m
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Real-time monitoring}
+\begin{frame}{Real-time monitoring (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Monitoring: a training sample of $n$ observations without a bubble, then a decision at each new date $t > n$; the error rate is over the \textbf{whole} monitoring horizon \refCSW
-    \item CUSUM of returns: $S_t = \sum_{j=n+1}^{t}(r_j - \bar r_n)/(\hat\sigma_n\sqrt n)$; alarm when $S_t > b_t = \sqrt{\tfrac{t - n}{n}\cdot\tfrac{t}{n}\left[a^2 + \ln\tfrac{t}{t - n}\right]}$
+    \item \textbf{CUSUM} of returns: cumulated deviations of the new returns from the training mean, in units of the training volatility \[ S_t = \sum_{j=n+1}^{t}\frac{r_j - \bar r_n}{\hat\sigma_n\sqrt n}, \qquad \text{alarm when}\ S_t > b_t = \sqrt{\tfrac{t - n}{n}\cdot\tfrac{t}{n}\left[a^2 + \ln\tfrac{t}{t - n}\right]} \]
     \begin{itemize}
-        \item $\Pr\{S_t > b_t$ for some $t\} \to 1 - \Phi(a) + a\varphi(a)$ (proof in the \atsapplink{atsapp2}{atssrc1}{Appendix}); 5\% gives $a = 2.50$, $a^2 = 6.25$
-        \item simulated size, $n = 100$, horizon $5n$, 2\,000 paths: 3.5\% with i.i.d.\ returns, 6.0\% with GARCH returns
+        \item $r_j$: return of period $j$; $\bar r_n$, $\hat\sigma_n$: mean and standard deviation of the training returns; $b_t$: the boundary, which widens with $t$; $a$: a constant that sets the error rate
     \end{itemize}
-    \item \refHB{} compare bubble tests and monitoring schemes and recommend monitoring of this kind for real time; \refAHLST{} give monitoring statistics with controlled size for explosive bubbles
+    \item Error rate over the whole horizon (proof in the \atsapplink{atsapp2}{atssrc1}{Appendix})
+    \begin{itemize}
+        \item $\Pr\{S_t > b_t$ for some $t\} \to 1 - \Phi(a) + a\varphi(a)$; $\Phi$, $\varphi$: standard Normal distribution and density functions
+        \item 5\% gives $a = 2.50$, $a^2 = 6.25$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Real-time monitoring (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Simulated size, $n = 100$, horizon $5n$, 2\,000 paths
+    \begin{itemize}
+        \item 3.5\% with i.i.d.\ returns, 6.0\% with GARCH returns
+    \end{itemize}
+    \item \refHB{} compare bubble tests and monitoring schemes and recommend monitoring of this kind for real time
+    \begin{itemize}
+        \item \refAHLST{} give monitoring statistics with controlled size for explosive bubbles
+    \end{itemize}
     \item BSADF in real time is also a monitor: $\mathrm{BSADF}_t$ uses only data up to $t$, but its pointwise critical values do not control the error over the horizon
 \end{itemize}
 \end{frame}
@@ -743,9 +810,12 @@ $|\rho| > 1$ fixed & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \m
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item $\ln p(t) = A + B(t_c - t)^m + C_1(t_c - t)^m\cos(\omega\ln(t_c - t)) + C_2(t_c - t)^m\sin(\omega\ln(t_c - t))$ \refJLS; $B < 0$, $0 < m < 1$: faster-than-exponential growth towards a critical time $t_c$
+    \item \refJLS: the log price grows faster than exponentially towards a critical time $t_c$, with oscillations that speed up \[ \ln p(t) = A + B(t_c - t)^m + C_1(t_c - t)^m\cos(\omega\ln(t_c - t)) + C_2(t_c - t)^m\sin(\omega\ln(t_c - t)) \]
+    \begin{itemize}
+        \item $A$: log price at $t_c$; $B < 0$ and $0 < m < 1$: super-exponential growth; $C_1$, $C_2$: amplitudes of the oscillations; $\omega$: their log-frequency
+    \end{itemize}
     \item Two steps \refFS: for given $(t_c, m, \omega)$ the four linear parameters are OLS; minimise the concentrated sum of squares over three nonlinear parameters
-    \item Qualified fits: the filter of \refSZ{} (bounds on $m$, $\omega$, $t_c$, number of oscillations, damping, relative error, Lomb test of the oscillations, stationary residuals)
+    \item Qualified fits: the filter of \refSZ{} (bounds on $m$, $\omega$, $t_c$, number of oscillations, damping, relative error, Lomb test, stationary residuals)
     \item \textbf{Confidence indicator}: the share of qualified fits over many windows ending at the same date (here 29 windows of 50--750 days)
 \end{itemize}
 \end{column}
@@ -756,9 +826,9 @@ $|\rho| > 1$ fixed & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \m
 \itemsize{\small}
 \begin{itemize}
     \item The point estimate $\hat t_c$ moves with the window and the data; an \textbf{interval} is needed
-    \item Profile likelihood: for each $t_c$ concentrate out $(m, \omega)$ and the linear parameters; with Gaussian errors $\ell(t_c) = -\frac n2\ln[\mathrm{SSR}(t_c)/n]$
+    \item \textbf{Profile likelihood}: for each $t_c$, the other parameters are set to their best values; with Gaussian errors \[ \ell(t_c) = -\frac n2\ln\big[\mathrm{SSR}(t_c)/n\big], \qquad \text{95\% interval}: \{t_c: 2[\ell(\hat t_c) - \ell(t_c)] \le \chi^2_{1;0.95} = 3.84\} \]
     \begin{itemize}
-        \item 95\% interval: $\{t_c: 2[\ell(\hat t_c) - \ell(t_c)] \le \chi^2_{1;0.95} = 3.84\}$
+        \item $n$: number of days in the window; $\mathrm{SSR}(t_c)$: the smallest sum of squared residuals for this $t_c$
         \item too narrow when residuals are autocorrelated or when nuisance parameters are many
     \end{itemize}
     \item \refFDS: the modified profile likelihood (Barndorff-Nielsen) corrects for the nuisance parameters; intervals for $t_c$ become wider and asymmetric
@@ -913,7 +983,10 @@ BET, 20 July 2007 & 2 September 2005 & 98 & no & -- & 46\% \\
 \begin{itemize}
     \item Base rates: 6.8\% of S\&P 500 dates and 47.6\% of Bitcoin dates are followed by a 20\% fall: the same alarm means very different things in the two markets
     \item S\&P 500, AUC with 90\% block-bootstrap intervals: indicator 0.39 [0.32, 0.48], BSADF 0.41 [0.28, 0.58], momentum 0.23 [0.10, 0.40]: all below 0.5
-    \item Most S\&P 500 dates followed by a 20\% fall lie inside bear markets (2000--2002, 2008), when exuberance scores are low, and few at the top of a run-up: the scores are \textbf{lower} before the events; BSADF alarms have precision 1\% against a base rate of 6.8\%
+    \item Most S\&P 500 dates followed by a 20\% fall lie inside bear markets (2000--2002, 2008), when exuberance scores are low, and few at the top of a run-up
+    \begin{itemize}
+        \item so the scores are \textbf{lower} before the events; BSADF alarms have precision 1\% against a base rate of 6.8\%
+    \end{itemize}
     \item Bitcoin: BSADF has skill, AUC 0.77 [0.69, 0.85], above momentum 0.66; its alarms reach precision 79\% against a base rate of 47.6\% (hit rate 32\%, false alarms 8\%)
     \item The LPPLS indicator is positive on 35.9\% of S\&P 500 dates and 4.6\% of Bitcoin dates; its AUC is 0.39 and 0.49: under this protocol it does not separate pre-crash dates from the rest
 \end{itemize}
@@ -980,7 +1053,7 @@ BET, 20 July 2007 & 2 September 2005 & 98 & no & -- & 46\% \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item GSADF on the monthly log price of 71 series of the course data (from 1990 or the first month), $p$-values from 1999 wild-bootstrap and 1999 Monte Carlo draws (smallest attainable $p$: 0.0005)
+    \item GSADF on the monthly log price of 71 series of the course data (from 1990 or the first month), p-values from 1999 wild-bootstrap and 1999 Monte Carlo draws (smallest attainable p-value: 0.0005)
     \item Rejections at 5\%: 42 with Monte Carlo, 20 with the wild bootstrap (3.6 expected by chance); after Holm 2, after Benjamini--Hochberg 12. An AI summary such as \textquotedblleft bubbles in 42 assets\textquotedblright{} is wrong twice: wrong null and no correction
 \end{itemize}
 \quantlet{ATS\_ch16\_ai\_screen}{\qlurl{ATS_ch16_ai_screen}}

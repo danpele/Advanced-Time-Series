@@ -31,7 +31,7 @@ window.ATS_DATA.quizzes['causal'] = {
                     "Respinge doar dacă se folosesc erori standard HAC",
                     "Respinge în ambele direcții cu aceeași frecvență, indiferent de momentul observării"
                 ],
-                "correctExplanation": "x aduce informație timpurie despre factorul comun, deci decalajele lui îmbunătățesc prognoza lui y; cauzalitatea Granger este predictivă și relativă la mulțimea de informație.",
+                "correctExplanation": "x aduce informație timpurie despre factorul comun, deci lagurile lui îmbunătățesc prognoza lui y; cauzalitatea Granger este predictivă și relativă la mulțimea de informație.",
                 "incorrectExplanation": "Testul nu știe nimic despre intervenții: cu w omis, x este informativ despre y. HAC nu este problema, iar momentul observării face respingerea x -> y mult mai frecventă."
             }
         },
@@ -51,7 +51,7 @@ window.ATS_DATA.quizzes['causal'] = {
             },
             "ro": {
                 "title": "Entropia de transfer gaussiană",
-                "text": "Într-un VAR gaussian, varianța reziduală a lui y_t este 2,0 fără decalajele lui x și 1,5 cu ele. Care este entropia de transfer de la x la y?",
+                "text": "Într-un VAR gaussian, varianța reziduală a lui y_t este 2,0 fără lagurile lui x și 1,5 cu ele. Care este entropia de transfer de la x la y?",
                 "options": [
                     "ln(2,0/1,5) = 0,288 nats",
                     "0,5 ln(2,0/1,5) = 0,144 nats",
@@ -109,11 +109,11 @@ window.ATS_DATA.quizzes['causal'] = {
                 "options": [
                     "Ca tratamentul să fie atribuit aleator în fiecare perioadă",
                     "Ca rezultatul să fie staționar",
-                    "Ca drumul tratamentului să fie observat complet",
+                    "Ca traiectoria tratamentului să fie observată complet",
                     "Ca rezultatul de la momentul t să nu depindă de tratamentele atribuite după t"
                 ],
                 "correctExplanation": "Non-anticipare: Y_t(w_1:T) = Y_t(w_1:t); politicile viitoare anunțate o încalcă, dacă anunțul însuși nu este definit ca tratament.",
-                "incorrectExplanation": "Atribuirea aleatoare este o condiție separată (și mai tare); staționaritatea și observarea completă a drumului nu fac parte din definiție."
+                "incorrectExplanation": "Atribuirea aleatoare este o condiție separată (și mai tare); staționaritatea și observarea completă a traiectoriei nu fac parte din definiție."
             }
         },
         {
@@ -140,7 +140,7 @@ window.ATS_DATA.quizzes['causal'] = {
                     "Pentru a identifica legăturile contemporane"
                 ],
                 "correctExplanation": "Condiționarea pe trecutul propriu al sursei o „albește”: testul se comportă ca pe date i.i.d., iar rata alarmelor false este controlată (Runge et al. 2019).",
-                "incorrectExplanation": "Condiționarea suplimentară controlează alarmele false, nu crește detecțiile; testul rămîne unul de corelație parțială, doar cu legături cu decalaj."
+                "incorrectExplanation": "Condiționarea suplimentară controlează alarmele false, nu crește detecțiile; testul rămîne unul de corelație parțială, doar cu legături cu lag."
             }
         },
         {
@@ -159,14 +159,14 @@ window.ATS_DATA.quizzes['causal'] = {
             },
             "ro": {
                 "title": "PCMCI față de VAR complet",
-                "text": "În simularea din capitol, cînd este PCMCI clar superior VAR complet (o regresie a fiecărei variabile pe toate decalajele tuturor variabilelor)?",
+                "text": "În simularea din capitol, cînd este PCMCI clar superior VAR complet (o regresie a fiecărei variabile pe toate lagurile tuturor variabilelor)?",
                 "options": [
                     "Întotdeauna, pentru că VAR nu poate controla alarmele false",
                     "Cu multe variabile relativ la dimensiunea eșantionului (20 de variabile, T = 150), unde VAR își pierde puterea",
                     "Doar cînd legăturile sînt neliniare",
                     "Doar cu șase variabile și T = 500"
                 ],
-                "correctExplanation": "Cu 20 de variabile și trei decalaje, VAR condiționează pe 60 de regresori și puterea lui scade (0,78), iar PCMCI păstrează mulțimi de condiționare mici și o putere mare (0,94), cu aceeași rată a alarmelor false.",
+                "correctExplanation": "Cu 20 de variabile și trei laguri, VAR condiționează pe 60 de regresori și puterea lui scade (0,78), iar PCMCI păstrează mulțimi de condiționare mici și o putere mare (0,94), cu aceeași rată a alarmelor false.",
                 "incorrectExplanation": "Cu șase variabile și T = 500 cele două metode sînt echivalente; ambele au folosit corelații parțiale, deci neliniaritatea nu a fost motivul."
             }
         },
@@ -321,7 +321,7 @@ window.ATS_DATA.quizzes['causal'] = {
             },
             "ro": {
                 "title": "Inferența prin placebo",
-                "text": "Un studiu cu control sintetic are o unitate tratată și 26 de donatori. Unitatea tratată are cel mai mare raport RMSPE după/înainte. Care este valoarea p prin permutare?",
+                "text": "Un studiu cu control sintetic are o unitate tratată și 26 de donatori. Unitatea tratată are cel mai mare raport RMSPE după/înainte. Care este p-value-ul prin permutare?",
                 "options": [
                     "0,01",
                     "0,05",
@@ -329,7 +329,7 @@ window.ATS_DATA.quizzes['causal'] = {
                     "1/27 = 0,037"
                 ],
                 "correctExplanation": "Distribuția de permutare are 27 de unități; unitatea tratată este pe primul loc, deci p = 1/27, care este și cea mai mică valoare posibilă.",
-                "incorrectExplanation": "Valoarea p include unitatea tratată: numitorul este J + 1 = 27; valori ca 0,01 sînt imposibile cu 27 de unități."
+                "incorrectExplanation": "P-value-ul include unitatea tratată: numitorul este J + 1 = 27; valori ca 0,01 sînt imposibile cu 27 de unități."
             }
         },
         {
@@ -356,7 +356,7 @@ window.ATS_DATA.quizzes['causal'] = {
                     "Un efect semnificativ la nivelul de 1% după testul de permutare"
                 ],
                 "correctExplanation": "V ales prin validare încrucișată și programarea pătratică dau ponderile publicate în tabelul 1 cu două zecimale și diferența medie 1990--2003 de aproximativ 1600 USD.",
-                "incorrectExplanation": "Diferența este negativă; ponderile sînt rare; cu 17 unități, valoarea p prin permutare nu poate fi sub 1/17 = 0,059."
+                "incorrectExplanation": "Diferența este negativă; ponderile sînt rare; cu 17 unități, p-value-ul prin permutare nu poate fi sub 1/17 = 0,059."
             }
         },
         {
@@ -510,7 +510,7 @@ window.ATS_DATA.quizzes['causal'] = {
             },
             "ro": {
                 "title": "Adoptarea eșalonată",
-                "text": "Unitățile adoptă o politică la date diferite, iar efectul crește cu expunerea. De ce poate o estimație TWFE statică să fie mult sub efectul mediu asupra tratatelor?",
+                "text": "Unitățile adoptă o politică la date diferite, iar efectul crește cu expunerea. De ce poate o estimație TWFE statică să fie mult sub efectul mediu asupra unităților tratate?",
                 "options": [
                     "Pentru că panelul este neechilibrat",
                     "Pentru că erorile standard sînt grupate",
@@ -620,13 +620,13 @@ window.ATS_DATA.quizzes['causal'] = {
                 "title": "Găsiți eroarea din răspunsul AI (1)",
                 "text": "Un asistent AI a scris: „Cu 23 de donatori, testul placebo al controlului sintetic dă p = 0,01, deci efectul este semnificativ la nivelul de 1%.” Ce este greșit?",
                 "options": [
-                    "Nimic; testele placebo pot da orice valoare p",
-                    "Testele placebo dau intervale de încredere, nu valori p",
-                    "Cu 23 de donatori, cea mai mică valoare p posibilă prin permutare este 1/24 = 0,042",
-                    "Valoarea p ar trebui înmulțită cu numărul donatorilor"
+                    "Nimic; testele placebo pot da orice p-value",
+                    "Testele placebo dau intervale de încredere, nu p-value-uri",
+                    "Cu 23 de donatori, cel mai mic p-value posibil prin permutare este 1/24 = 0,042",
+                    "P-value-ul ar trebui înmulțit cu numărul donatorilor"
                 ],
                 "correctExplanation": "Distribuția de permutare are J + 1 = 24 de valori; unitatea tratată pe primul loc dă p = 1/24, deci p = 0,01 este imposibil.",
-                "incorrectExplanation": "Valorile p prin permutare sînt discrete, cu pasul 1/(J + 1); sînt valori p, nu intervale; nu se aplică nicio înmulțire de tip Bonferroni."
+                "incorrectExplanation": "P-value-urile prin permutare sînt discrete, cu pasul 1/(J + 1); sînt p-value-uri, nu intervale; nu se aplică nicio înmulțire de tip Bonferroni."
             }
         },
         {

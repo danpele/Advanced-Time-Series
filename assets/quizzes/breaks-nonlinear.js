@@ -326,7 +326,7 @@ window.ATS_DATA.quizzes['breaks-nonlinear'] = {
                     "Statistica kappa-2 are o altă distribuție-limită",
                     "Statistica Inclán-Tiao folosește randamentele absolute în locul pătratelor",
                     "Statistica kappa-2 ignoră primele și ultimele 15% din eșantion",
-                    "Scalarea Inclán-Tiao presupune Var(a^2) = 2 sigma^4; cozile groase și volatility clustering o umflă, în timp ce kappa-2 folosește o varianță de termen lung a lui a^2"
+                    "Scalarea Inclán-Tiao presupune Var(a^2) = 2 sigma^4; cozile groase și volatility clustering o măresc artificial, în timp ce kappa-2 folosește o varianță de termen lung a lui a^2"
                 ],
                 "correctExplanation": "Sansó, Aragó și Carrion (2004): cu coeficientul de boltire kappa, statistica IT este mărită de sqrt((kappa - 1)/2) ori, iar GARCH adaugă autocorelația lui a^2; kappa-2 păstrează aceeași limită a punții browniene.",
                 "incorrectExplanation": "Ambele statistici au limita sup |punte browniană| (valoarea de 5% 1,358); ambele folosesc pătrate; niciuna nu trunchiază eșantionul în acest fel."
@@ -456,7 +456,7 @@ window.ATS_DATA.quizzes['breaks-nonlinear'] = {
             },
             "ro": {
                 "title": "Testarea unui prag",
-                "text": "De ce calculează Hansen (1996) valorile p ale testului sup-Wald pentru un TAR prin bootstrap?",
+                "text": "De ce calculează Hansen (1996) p-value-urile testului sup-Wald pentru un TAR prin bootstrap?",
                 "options": [
                     "Pentru că pragul nu este identificat sub liniaritate, iar distribuția-limită depinde de date",
                     "Pentru că erorile nu urmează niciodată distribuția Normală",
@@ -621,7 +621,7 @@ window.ATS_DATA.quizzes['breaks-nonlinear'] = {
                 "text": "Un asistent AI scrie: „Pe randamentele zilnice EUR/RON, testul BDS respinge independența reziduurilor AR cu p < 0,001, deci media condiționată urmează un model cu prag.” Ce este greșit?",
                 "options": [
                     "BDS nu se poate aplica reziduurilor",
-                    "O valoare p sub 0,001 nu este semnificativă pentru date zilnice",
+                    "Un p-value sub 0,001 nu este semnificativ pentru date zilnice",
                     "BDS are putere împotriva oricărei dependențe, inclusiv volatility clustering; testul TAR robust la heteroscedasticitate nu respinge (p aproximativ 0,15)",
                     "Randamentele zilnice nu pot fi neliniare"
                 ],
@@ -648,11 +648,11 @@ window.ATS_DATA.quizzes['breaks-nonlinear'] = {
                 "text": "Un asistent AI scrie: „Testul KSS respinge rădăcina unitară pentru cursul real dolar-liră (p aproximativ 0,04), deci revenirea neliniară la medie (ESTAR) este demonstrată.” Care este principala greșeală?",
                 "options": [
                     "Testul KSS nu se poate aplica cursurilor de schimb",
-                    "O valoare p de 0,04 înseamnă că rădăcina unitară este acceptată",
+                    "Un p-value de 0,04 înseamnă că rădăcina unitară este acceptată",
                     "KSS testează față de LSTAR, nu față de ESTAR",
                     "Cîteva schimbări ale mediei pot produce aceeași respingere; cînd regimurile de medie Bai-Perron fac parte din procedura sub ipoteza nulă, dovezile dispar (p aproximativ 0,8)"
                 ],
-                "correctExplanation": "Rupturile structurale și neliniaritatea se imită reciproc (Carrasco 2002); în mini studiul de caz din curs, statistica KSS în interiorul regimurilor nu este semnificativă odată ce căutarea rupturilor este simulată sub ipoteza nulă.",
+                "correctExplanation": "Rupturile structurale și neliniaritatea se imită reciproc (Carrasco 2002); în mini-studiul de caz din curs, statistica KSS în interiorul regimurilor nu este semnificativă odată ce căutarea rupturilor este simulată sub ipoteza nulă.",
                 "incorrectExplanation": "KSS este conceput pentru cursurile reale; p = 0,04 respinge la 5%; KSS are ESTAR ca alternativă."
             }
         }

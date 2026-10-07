@@ -515,7 +515,7 @@ window.ATS_DATA.quizzes['regime-switching'] = {
                     "O rădăcină unitară în orice eșantion",
                     "Estimații ale lui $d$ care converg la zero",
                     "Estimații pozitive ale parametrului de memorie $d$ care nu dispar cînd $T$ crește",
-                    "Autocorelații negative la decalaje mari"
+                    "Autocorelații negative la laguri mari"
                 ],
                 "correctExplanation": "Comutările rare fac ca varianța sumelor parțiale să crească la fel ca la un proces I($d$); estimatorii de memorie precum GPH raportează atunci $d > 0$, deci nu pot deosebi memoria lungă de regimuri.",
                 "incorrectExplanation": "Nu există rădăcină unitară: procesul revine la medie, date fiind regimurile; cu $p_{ii}$ fix (memorie scurtă) estimațiile tind la zero, dar nu cu $p_{ii} \\to 1$; autocorelațiile sînt pozitive."

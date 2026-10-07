@@ -293,12 +293,13 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
 \begin{itemize}
     \item MS($K$)-AR($p$): $y_t = \nu_{S_t} + \sum_{k=1}^p \phi_{k,S_t} y_{t-k} + \sigma_{S_t}\varepsilon_t$, $\varepsilon_t \sim$ i.i.d.\ $N(0, 1)$, $S_t \in \{1, \dots, K\}$
     \begin{itemize}
-        \item $S_t$ a homogeneous Markov chain, $p_{ij} = \Pr(S_t = j \mid S_{t-1} = i)$, independent of $\varepsilon$ \refKro
+        \item $S_t$: the regime at $t$, one of $K$ values; $\nu_{S_t}$, $\phi_{k,S_t}$, $\sigma_{S_t}$: the intercept, the AR($p$) coefficients and the shock s.d.\ of the current regime
+        \item $S_t$ a homogeneous Markov chain, $p_{ij} = \Pr(S_t = j \mid S_{t-1} = i)$, independent of $\varepsilon$ \refKro; $\mathbf{P} = (p_{ij})$: the transition matrix, rows sum to 1
     \end{itemize}
     \item Which parameters switch gives the name:
     \begin{itemize}
         \item \textbf{MSI}: intercept $\nu$; \textbf{MSIH}: intercept and variance; \textbf{MSIAH}: intercept, AR coefficients and variance
-        \item \textbf{MSM} (Hamilton 1989): the \emph{mean} switches, $y_t - \mu_{S_t} = \sum_k \phi_k(y_{t-k} - \mu_{S_{t-k}}) + \sigma\varepsilon_t$
+        \item \textbf{MSM} (Hamilton 1989): the \emph{mean} $\mu_{S_t}$ switches, $y_t - \mu_{S_t} = \sum_k \phi_k(y_{t-k} - \mu_{S_{t-k}}) + \sigma\varepsilon_t$
     \end{itemize}
     \item MSI: after a switch the mean adjusts gradually; MSM: it jumps at once; MSM needs the regimes of $p + 1$ periods
     \item Special cases: $p_{ij} = \pi_j$ for all $i$ is an i.i.d.\ mixture; an upper-triangular $\mathbf{P}$ is a change-point model \refChibC
@@ -310,11 +311,12 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
 \begin{itemize}
     \item Ergodic probabilities: $\boldsymbol\pi'\mathbf{P} = \boldsymbol\pi'$, $\mathbf{1}'\boldsymbol\pi = 1$; with $K = 2$, $\pi_1 = (1 - p_{22})/(2 - p_{11} - p_{22})$
     \begin{itemize}
-        \item durations are geometric: $\Pr(D_i = d) = p_{ii}^{d-1}(1 - p_{ii})$, $\E D_i = 1/(1 - p_{ii})$ (memoryless)
+        \item $\boldsymbol\pi$: the long-run share of time spent in each regime; $\mathbf{1}$: a vector of ones
+        \item durations are geometric: $\Pr(D_i = d) = p_{ii}^{d-1}(1 - p_{ii})$, $\E D_i = 1/(1 - p_{ii})$ (memoryless); $D_i$: the number of periods a visit to regime $i$ lasts
     \end{itemize}
     \item AR(1) representation \refHam, \S22.2: $\xi_t = \mathbf{1}\{S_t = 1\}$ satisfies $\xi_t = (1 - p_{22}) + \lambda\xi_{t-1} + v_t$, $\lambda = p_{11} + p_{22} - 1$
     \begin{itemize}
-        \item $v_t$ is a martingale difference, not independent of the past (its variance depends on $S_{t-1}$)
+        \item $\mathbf{1}\{\cdot\}$: the indicator (1 if true, 0 otherwise); $v_t$: the innovation; it is a martingale difference, not independent of the past (its variance depends on $S_{t-1}$)
         \item $\Pr(S_{t+h} = 1 \mid S_t) \to \pi_1$ at the rate $\lambda^h$: $\lambda$ is the persistence of the regime process
     \end{itemize}
     \item Duration dependence (recessions that are more likely to end the longer they last) needs an extended state or a semi-Markov chain \refMM
@@ -388,7 +390,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
     \end{itemize}
     \item Bayes on the pair: $\Pr(S_t = i, S_{t+1} = j \mid Y_T) = \dfrac{\hat\xi_{i,t|t}\,p_{ij}}{\hat\xi_{j,t+1|t}}\,\hat\xi_{j,t+1|T}$
     \begin{itemize}
-        \item sum over $j$: $\hat\xi_{t|T} = \hat\xi_{t|t}\odot\left[\mathbf{P}(\hat\xi_{t+1|T}\oslash\hat\xi_{t+1|t})\right]$, backwards from $\hat\xi_{T|T}$
+        \item sum over $j$: $\hat\xi_{t|T} = \hat\xi_{t|t}\odot\left[\mathbf{P}(\hat\xi_{t+1|T}\oslash\hat\xi_{t+1|t})\right]$, backwards from $\hat\xi_{T|T}$; $\oslash$: element-wise division
     \end{itemize}
     \item The joint probabilities of $(S_t, S_{t+1})$ are the E-step of EM; sampling instead of summing gives FFBS (Section 7)
 \end{itemize}
@@ -430,9 +432,10 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
     \item If $S_1, \dots, S_T$ were observed, the log-likelihood would split \refDLR, \refHamB:
     \begin{itemize}
         \item $\ln L_c = \sum_j \mathbf{1}\{S_1 = j\}\ln\rho_j + \sum_{t\ge2}\sum_{i,j}\mathbf{1}\{S_{t-1} = i, S_t = j\}\ln p_{ij} + \sum_t\sum_j \mathbf{1}\{S_t = j\}\ln\eta_{jt}(\theta_j)$
+        \item $\rho_j = \Pr(S_1 = j)$: initial probabilities; $\eta_{jt}(\theta_j)$: the density of $y_t$ in regime $j$, with parameters $\theta_j$
         \item transition counts and regime-by-regime regressions: closed forms
     \end{itemize}
-    \item \textbf{E-step}: replace the indicators by their expectations given $Y_T$ and the current $\theta^{(m)}$
+    \item \textbf{E-step}: replace the indicators by their expectations given $Y_T$ and the current $\theta^{(m)}$ ($m$: the iteration)
     \begin{itemize}
         \item $\hat\xi_{j,t|T}$ and $\hat\xi_{ij,t|T} = \Pr(S_{t-1} = i, S_t = j \mid Y_T)$: exactly the output of the Kim smoother
     \end{itemize}
@@ -444,7 +447,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
 \itemsize{\small}
 \begin{itemize}
     \item Transitions: $p_{ij}^{(m+1)} = \dfrac{\sum_{t=2}^T \hat\xi_{ij,t|T}}{\sum_{t=2}^T \hat\xi_{i,t-1|T}}$ (expected transitions over expected visits); $\rho^{(m+1)} = \hat\xi_{1|T}$
-    \item Switching coefficients (MSIAH): weighted least squares $\beta_j^{(m+1)} = (X'W_jX)^{-1}X'W_jy$, $W_j = \mathrm{diag}(\hat\xi_{j,t|T})$
+    \item Switching coefficients (MSIAH): weighted least squares $\beta_j^{(m+1)} = (X'W_jX)^{-1}X'W_jy$, $W_j = \mathrm{diag}(\hat\xi_{j,t|T})$; $X$: rows $x_t'$ (constant and lags), $y$: the observations; each date weighs by its probability of being in regime $j$
     \item Variances: $\sigma_j^{2(m+1)} = \sum_t\hat\xi_{j,t|T}(y_t - x_t'\beta_j)^2/\sum_t\hat\xi_{j,t|T}$; MS-VAR: the same with matrices
     \item Common coefficients (MSIH-AR): one stacked weighted regression with weights $\hat\xi_{j,t|T}/\sigma_j^2$ (a conditional M-step, ECM)
     \item MSM-AR: $\mu$ and $\phi$ enter as products, so no closed form: numerical maximisation (or EM with a numerical M-step)
@@ -531,7 +534,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
         \item (ii) the null can be written as $p_{11} = 1$: a parameter on the \textbf{boundary}
         \item (iii) the score with respect to $\mu_2 - \mu_1$ is \textbf{identically zero} at $H_0$: the information matrix is singular
     \end{itemize}
-    \item Each of the three breaks one of the conditions for $2\ln\Lambda \to \chi^2_q$: counting parameters does not give the critical value
+    \item Each of the three breaks one of the conditions for $2\ln\Lambda \to \chi^2_q$ ($\Lambda$: the likelihood ratio; $q$: the number of restrictions): counting parameters does not give the critical value
     \item Same structure as testing linearity against TAR or STAR (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter2_structural_breaks_nonlinear_models.pdf}{Chapter 2}), with a latent instead of an observed switch
 \end{itemize}
 \end{frame}
@@ -545,7 +548,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
     \end{itemize}
     \item \refGar: the asymptotic null distribution of the sup-LR for MS models with switching mean (and variance), with tabulated critical values
     \item \refCW: quasi-LR against a two-component mixture (an i.i.d.\ switch has the same null behaviour); \refCHP: an optimal test against Markov switching that needs only the null model (score-type, second-order terms)
-    \item Practice: \textbf{parametric bootstrap} of the LR: simulate from the estimated null, re-estimate both models (with several starts) on each sample, $p = (1 + \#\{LR^* \ge LR\})/(B + 1)$
+    \item Practice: \textbf{parametric bootstrap} of the LR: simulate from the estimated null, re-estimate both models (with several starts) on each sample, $p = (1 + \#\{LR^* \ge LR\})/(B + 1)$; $LR^*$: the $B$ bootstrap statistics, $\#$: their count above $LR$
     \item Selection rather than testing: AIC, BIC, HQ, or Bayes factors through the marginal likelihood \refChibA
 \end{itemize}
 \end{frame}
@@ -690,6 +693,7 @@ statsmodels & 1.164 & \ensuremath{-}0.359 & 0.013 & \ensuremath{-}0.058 & \ensur
 \begin{itemize}
     \item \refDLW, \refFil: $p_{ii,t} = \Pr(S_t = i \mid S_{t-1} = i, z_{t-1}) = \dfrac{\exp(z_{t-1}'\gamma_i)}{1 + \exp(z_{t-1}'\gamma_i)}$
     \begin{itemize}
+        \item $z_{t-1}$: observed variables known at $t - 1$ (with a constant); $\gamma_i$: their coefficients; the logistic function keeps $p_{ii,t}$ in $(0, 1)$
         \item a leading indicator, the term spread or a policy rate can make a recession more or less likely to begin or end
         \item expected durations now vary over time; the chain is no longer homogeneous
     \end{itemize}
@@ -754,7 +758,8 @@ constant transitions & & 2.77 & $p_{00} = 0.983$ & $p_{11} = 0.14$ & \ensuremath
 \begin{itemize}
     \item MSIAH($K$)-VAR($p$): $y_t = \nu_{S_t} + \sum_{k=1}^p A_{k,S_t}y_{t-k} + \Sigma_{S_t}^{1/2}\varepsilon_t$, $y_t \in \R^n$ \refKro
     \begin{itemize}
-        \item EM: the M-step is multivariate weighted least squares by regime; $\Sigma_j = \sum_t\hat\xi_{j,t|T}\hat u_{jt}\hat u_{jt}'/\sum_t\hat\xi_{j,t|T}$
+        \item $\nu_{S_t}$, $A_{k,S_t}$, $\Sigma_{S_t}$: intercept vector, lag matrices and error covariance of the current regime; $\varepsilon_t \sim N(0, I_n)$
+        \item EM: the M-step is multivariate weighted least squares by regime; $\Sigma_j = \sum_t\hat\xi_{j,t|T}\hat u_{jt}\hat u_{jt}'/\sum_t\hat\xi_{j,t|T}$ ($\hat u_{jt}$: residuals of regime $j$)
         \item parameters grow as $K(n + n^2p + n(n + 1)/2)$: shrinkage or restricted switching (MSIH) in larger systems (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter5_bvar_factor_models_nowcasting.pdf}{Chapter 5})
     \end{itemize}
     \item \textbf{Regime-dependent impulse responses} \refEEV: $\partial y_{t+h}/\partial\varepsilon_t$ computed with $(A_j, \Sigma_j)$, assuming regime $j$ persists over the horizon
@@ -815,7 +820,7 @@ constant transitions & & 2.77 & $p_{00} = 0.983$ & $p_{11} = 0.14$ & \ensuremath
 \begin{frame}{The path-dependence problem}
 \itemsize{\small}
 \begin{itemize}
-    \item Naive MS-GARCH: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$, with $h_{t-1}$ itself regime-dependent
+    \item Naive MS-GARCH: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$, with $h_{t-1}$ itself regime-dependent; $h_t$: conditional variance; $\varepsilon_{t-1}$: last return shock; $\omega$, $\alpha$, $\beta$: GARCH parameters of the regime
     \begin{itemize}
         \item $h_t$ depends on the whole path $(S_1, \dots, S_t)$: $K^t$ histories, so the Hamilton filter cannot be applied ($2^{100} \approx 10^{30}$)
     \end{itemize}
@@ -932,7 +937,7 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \itemsize{\small}
 \begin{itemize}
     \item \refAB: with regime switching, optimal portfolios depend on the current regime probabilities; home bias and the value of international diversification change across regimes
-    \item Mean-variance weight of equity against cash, risk aversion $\gamma = 5$: $w = \mu/(\gamma\sigma^2)$ (weekly moments)
+    \item Mean-variance weight of equity against cash, risk aversion $\gamma = 5$: $w = \mu/(\gamma\sigma^2)$; $\mu$, $\sigma^2$: weekly mean and variance of the return in the regime
     \begin{itemize}
         \item S\&P 500: 2.79 in the calm regime, \ensuremath{-}0.51 in the turbulent one, 0.39 with constant moments
         \item with one-step mixture moments the weight moves between \ensuremath{-}0.47 and 2.02
@@ -952,7 +957,7 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \begin{itemize}
     \item Treat $S = (S_1, \dots, S_T)$ as parameters \refAC: given $S$, the model is a set of regressions; given $\theta$, $S$ is a hidden Markov chain
     \begin{itemize}
-        \item 1. $S \mid \theta, Y$; 2. $\mathbf{P} \mid S$: rows $\sim$ Dirichlet$(a_{i\cdot} + n_{i\cdot})$, $n_{ij}$ the transition counts
+        \item 1. $S \mid \theta, Y$; 2. $\mathbf{P} \mid S$: rows $\sim$ Dirichlet$(a_{i\cdot} + n_{i\cdot})$, $n_{ij}$ the transition counts, $a_{ij}$ the prior Dirichlet parameters
         \item 3. $\mu_j \mid \sigma_j^2, S, Y \sim$ Normal and $\sigma_j^2 \mid \mu_j, S, Y \sim$ inverse gamma: conjugate updates on the observations of regime $j$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter5_bvar_factor_models_nowcasting.pdf}{Chapter 5})
     \end{itemize}
     \item \textbf{FFBS} \refChibB: draw the whole path at once: $S_T \sim \hat\xi_{T|T}$, then $\Pr(S_t = i \mid S_{t+1} = j, Y_t) \propto \hat\xi_{i,t|t}p_{ij}$ backwards
@@ -1020,7 +1025,7 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \begin{frame}{Rare switches look like long memory}
 \itemsize{\small}
 \begin{itemize}
-    \item \refDI: $y_t = \mu_{S_t} + \varepsilon_t$ with $p_{ii} = 1 - c/T^\delta$: the variance of partial sums grows like that of an I($d$) process, $d > 0$
+    \item \refDI: $y_t = \mu_{S_t} + \varepsilon_t$ with $p_{ii} = 1 - c/T^\delta$ ($c, \delta > 0$: switches become rarer as $T$ grows): the variance of partial sums grows like that of an I($d$) process, $d > 0$
     \begin{itemize}
         \item the autocorrelations $\propto\lambda^k$ with $\lambda \to 1$ decay so slowly that, in any finite sample, they look hyperbolic
     \end{itemize}
@@ -1162,7 +1167,7 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
     \item Several steps with AR terms: the mean is not linear in past regimes (MSM) or needs the regime path; simulate paths of $(S, y)$
     \item Evaluation (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}): point forecasts by RMSE and Diebold--Mariano; densities by log score, PIT and CRPS; regime probabilities by QPS
     \begin{itemize}
-        \item QPS $= \frac2T\sum_t(\hat p_t - d_t)^2$ \refDR: the Brier score of a recession probability against the NBER indicator
+        \item QPS $= \frac2T\sum_t(\hat p_t - d_t)^2$ \refDR: the Brier score of a recession probability $\hat p_t$ against the NBER indicator $d_t$ (1 in recession); 0 is perfect, 2 the worst
     \end{itemize}
     \item \refCKr: MS models rarely beat linear AR in point forecasts of GDP; their value is in densities and in turning-point probabilities
 \end{itemize}

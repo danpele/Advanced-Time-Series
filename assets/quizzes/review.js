@@ -302,7 +302,7 @@ window.ATS_DATA.quizzes['review'] = {
                     "Un exponent Hurst de aproximativ 0,1"
                 ],
                 "correctExplanation": "Salturile de nivel adaugă putere doar la frecvențele cele mai joase, deci $\\hat d(m)$ scade odată cu $m$; testul Qu (2011) se bazează pe această semnătură.",
-                "incorrectExplanation": "O scădere lentă a ACF este comună memoriei lungi reale și salturilor; un $\\hat d(m)$ stabil susține memoria reală, iar $H \\approx 0{,}1$ privește rugozitatea, nu persistența."
+                "incorrectExplanation": "O scădere lentă a ACF este comună memoriei lungi reale și salturilor; un $\\hat d(m)$ stabil susține memoria reală, iar $H \\approx 0{,}1$ privește caracterul rough, nu persistența."
             }
         },
         {
@@ -356,7 +356,7 @@ window.ATS_DATA.quizzes['review'] = {
                     "Doar pentru ansamblurile de arbori"
                 ],
                 "correctExplanation": "Cu reziduuri necorelate, partițiile se comportă ca eșantioane independente; în Capitolul 12 eroarea de validare a fost 0,094, față de 0,137 în afara eșantionului, ca în lucrare.",
-                "incorrectExplanation": "Cu reziduuri autocorelate (modele subspecificate, ținte suprapuse) partițiile aleatoare produc scurgere de informație; atunci se folosește validarea pe blocuri sau cu purjare."
+                "incorrectExplanation": "Cu reziduuri autocorelate (modele subspecificate, ținte suprapuse) partițiile aleatoare produc leakage; atunci se folosește validarea pe blocuri sau cu purjare."
             }
         },
         {
@@ -402,7 +402,7 @@ window.ATS_DATA.quizzes['review'] = {
             },
             "ro": {
                 "title": "Inferența placebo pentru controlul sintetic",
-                "text": "Un studiu cu control sintetic are 19 donatori, iar unitatea tratată are cel mai mare raport RMSPE după/înainte. Care este valoarea $p$ placebo?",
+                "text": "Un studiu cu control sintetic are 19 donatori, iar unitatea tratată are cel mai mare raport RMSPE după/înainte. Care este p-value-ul placebo?",
                 "options": [
                     "0,01",
                     "0,019",
@@ -410,7 +410,7 @@ window.ATS_DATA.quizzes['review'] = {
                     "0,10"
                 ],
                 "correctExplanation": "$p = \\#\\{j: r_j \\ge r_1\\}/(J + 1) = 1/20 = 0{,}05$, care este și cea mai mică valoare posibilă.",
-                "incorrectExplanation": "Cu $J$ donatori, valoarea $p$ prin permutare este un multiplu de $1/(J + 1)$; valori sub $1/20$ nu sînt posibile."
+                "incorrectExplanation": "Cu $J$ donatori, p-value-ul prin permutare este un multiplu de $1/(J + 1)$; valori sub $1/20$ nu sînt posibile."
             }
         },
         {
@@ -482,7 +482,7 @@ window.ATS_DATA.quizzes['review'] = {
                 "incorrectExplanation": "An honest protocol gives a negative mean $R^2$ for noise; selection on the whole sample leaks the test period into the model."
             },
             "ro": {
-                "title": "Scurgerea de informație prin selecție",
+                "title": "Leakage prin selecție",
                 "text": "Predictorii sînt selectați după corelația cu ținta pe întregul eșantion, apoi un model este estimat pe perioada de antrenare și evaluat pe ultimele 60 de perioade. Cu predictori de tip zgomot pur, ce se întîmplă?",
                 "options": [
                     "$R^2$ în afara eșantionului este negativ în medie, cum ar trebui",
@@ -567,7 +567,7 @@ window.ATS_DATA.quizzes['review'] = {
                 "text": "Un asistent AI a formulat patru afirmații despre compararea prognozelor. Care este greșită?",
                 "options": [
                     "Testul Diebold--Mariano este valid pentru modele imbricate fără nicio ajustare",
-                    "Cu erori suprapuse la $h$ pași, varianța HAC are nevoie de cel puțin $h - 1$ decalaje",
+                    "Cu erori suprapuse la $h$ pași, varianța HAC are nevoie de cel puțin $h - 1$ laguri",
                     "Cu puține prognoze pe mai mulți pași, corecția HLN și valorile critice $t_{P-1}$ sînt recomandabile",
                     "Cu multe modele, un model confidence set este preferabil testelor pe perechi"
                 ],

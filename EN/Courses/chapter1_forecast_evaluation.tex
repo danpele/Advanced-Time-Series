@@ -308,12 +308,13 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \begin{itemize}
     \item Target $Y_{t+h}$, information set $\mathcal{F}_t$, horizon $h$; a \textbf{point forecast} $\hat y_{t+h|t}$ is $\mathcal{F}_t$-measurable
     \begin{itemize}
+        \item $\mathcal{F}_t$-measurable: computed only from information available at $t$
         \item a \textbf{probabilistic forecast} is a predictive distribution $F_{t+h|t}$ (density, quantiles, interval, ensemble)
     \end{itemize}
     \item Out-of-sample design: $R$ observations to estimate, $P$ forecasts to evaluate, $R + P + h - 1 = T$
     \begin{itemize}
         \item schemes: \textbf{fixed} (estimate once), \textbf{rolling} (last $R$), \textbf{recursive} (all past); \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter4_seasonality_forecasting.pdf}{TSA, Chapter 4} called this rolling-origin evaluation
-        \item the scheme matters for inference: West (1996) vs Giacomini--White (2006), Section 4
+        \item $T$: the total sample; the last forecast, made at $R + P - 1$, targets $T$; the scheme matters for inference: West (1996) vs Giacomini--White (2006), Section 4
     \end{itemize}
     \item Known from \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter0_introduction.pdf}{TSA, Chapter 0}: MAE, RMSE, MAPE and the scale-free MASE \refHK
     \begin{itemize}
@@ -322,21 +323,37 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The optimal point forecast and consistency}
+\begin{frame}{The optimal point forecast and consistency (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Given a loss $L(x, y)$ and a predictive distribution $F$, the \textbf{optimal} (Bayes) forecast is $x^* = \arg\min_x \E_F[L(x, Y)]$
+    \item Given a loss $L(x, y)$ and a predictive distribution $F$, the \textbf{optimal} (Bayes) forecast minimises the expected loss:
     \begin{itemize}
-        \item a loss is \textbf{consistent} for a functional $\mathrm{T}$ if $\E_F L(\mathrm{T}(F), Y) \le \E_F L(x, Y)$ for all $x$ and $F$ \refGnaa
-        \item \textbf{strictly} consistent: equality only at $x = \mathrm{T}(F)$
+        \item $x^* = \arg\min_x \E_F[L(x, Y)]$
+        \item $x$: the point forecast; $y$: the outcome; $L(x, y) \ge 0$: the penalty; $\E_F$: the expectation when $Y \sim F$
     \end{itemize}
-    \item Three classical cases ($e = y - x$)
+    \item A \textbf{functional} $\mathrm{T}(F)$ maps a distribution to a number: the mean, the median, a quantile
+    \begin{itemize}
+        \item $L$ is \textbf{consistent} for $\mathrm{T}$ if $\E_F L(\mathrm{T}(F), Y) \le \E_F L(x, Y)$ for all $x$ and $F$ \refGnaa
+        \item i.e.\ reporting $\mathrm{T}(F)$ is optimal whatever $F$ is; \textbf{strictly} consistent: equality only at $x = \mathrm{T}(F)$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The optimal point forecast and consistency (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Three classical cases, with the forecast error $e = y - x$; set the derivative of the expected loss to zero
     \begin{itemize}
         \item squared $e^2$: $\frac{d}{dx}\E(Y - x)^2 = -2\E(Y - x) = 0 \Rightarrow x^* = \E Y$ (the mean)
         \item absolute $|e|$: $\frac{d}{dx}\E|Y - x| = F(x) - (1 - F(x)) = 0 \Rightarrow F(x^*) = 1/2$ (the median)
         \item pinball $\rho_\tau(e) = (\tau - \mathbf 1\{e < 0\})e$: $F(x) - \tau = 0 \Rightarrow x^* = F^{-1}(\tau)$ (the $\tau$-quantile)
     \end{itemize}
-    \item Consequence: report the loss \emph{before} asking for a forecast; a median forecast judged by RMSE is judged unfairly \refGnaa
+    \item Notation of the pinball loss
+    \begin{itemize}
+        \item $\tau \in (0, 1)$: the quantile level; $\mathbf 1\{e < 0\}$: 1 if the forecast is too high, 0 otherwise; $F^{-1}$: the quantile function
+        \item under-forecasts cost $\tau|e|$, over-forecasts $(1 - \tau)|e|$: a high $\tau$ pushes the forecast up
+    \end{itemize}
+    \item Consequence: announce the loss \emph{before} asking for a forecast; a median forecast judged by RMSE is judged unfairly \refGnaa
 \end{itemize}
 \end{frame}
 
@@ -364,17 +381,30 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Bregman losses: all losses consistent for the mean}
+\begin{frame}{Bregman losses: all losses consistent for the mean (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Theorem} \refSav, \refGnaa: under regularity, $L$ is consistent for the mean iff
+    \item \textbf{Theorem} \refSav, \refGnaa: under regularity, $L$ is consistent for the mean iff it is a \textbf{Bregman} loss
     \begin{itemize}
-        \item $L(x, y) = \phi(y) - \phi(x) - \phi'(x)(y - x)$ with $\phi$ convex (a \textbf{Bregman} loss), up to terms in $y$ only
-        \item $\phi(x) = x^2$: squared error; $\phi(x) = -\ln x$: \textbf{QLIKE} $y/x - \ln(y/x) - 1$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter8_advanced_volatility.pdf}{Chapter 8}); the conditional mean is optimal for every Bregman loss \refBGW; proof for the quantile in the \atsapplink{atsapp1}{atssrc1}{Appendix}
+        \item $L(x, y) = \phi(y) - \phi(x) - \phi'(x)(y - x)$
+        \item $\phi$: a convex function, $\phi'$ its derivative; $L$ is the gap between $\phi(y)$ and the tangent of $\phi$ at $x$, so $L \ge 0$ (up to terms in $y$ only)
     \end{itemize}
-    \item Proof sketch: $\E L(x, Y) - \E L(\mu, Y) = \phi(\mu) - \phi(x) - \phi'(x)(\mu - x) \ge 0$ by convexity
+    \item Two members of the family
     \begin{itemize}
-        \item the linear term vanishes because $\E(Y - \mu) = 0$
+        \item $\phi(x) = x^2$: the squared error $(y - x)^2$
+        \item $\phi(x) = -\ln x$: \textbf{QLIKE} $y/x - \ln(y/x) - 1$, for a variance forecast $x > 0$ and a variance proxy $y > 0$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter8_advanced_volatility.pdf}{Chapter 8})
+        \item the conditional mean is optimal for every Bregman loss \refBGW; proof for the quantile in the \atsapplink{atsapp1}{atssrc1}{Appendix}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Bregman losses: all losses consistent for the mean (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Proof sketch, with $\mu = \E Y$:
+    \begin{itemize}
+        \item $\E L(x, Y) - \E L(\mu, Y) = \phi(\mu) - \phi(x) - \phi'(x)(\mu - x) \ge 0$
+        \item the linear term vanishes because $\E(Y - \mu) = 0$; the inequality is convexity of $\phi$
     \end{itemize}
     \item Correctly specified forecasts rank the same under every Bregman loss; misspecified ones need not \refPatbz
     \begin{itemize}
@@ -387,9 +417,10 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \begin{frame}{Asymmetric loss}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{LinEx} loss $L(e) = b[\exp(ae) - ae - 1]$, $e = y - x$: $a > 0$ penalises under-forecasts exponentially
+    \item \textbf{LinEx} loss $L(e) = b[\exp(ae) - ae - 1]$, $e = y - x$: linear on one side, exponential on the other
     \begin{itemize}
-        \item optimal forecast $x^* = a^{-1}\ln\E e^{aY}$; with $Y \mid \mathcal F_t \sim N(\mu_t, \sigma_t^2)$: $x^* = \mu_t + a\sigma^2_t/2$ \refCD
+        \item $b > 0$: a scale; $a$: the asymmetry; $a > 0$ penalises under-forecasts ($e > 0$) exponentially, over-forecasts about linearly
+        \item optimal forecast $x^* = a^{-1}\ln\E e^{aY}$; with $Y \mid \mathcal F_t \sim N(\mu_t, \sigma_t^2)$ (conditional mean $\mu_t$, variance $\sigma_t^2$): $x^* = \mu_t + a\sigma^2_t/2$ \refCD
         \item the optimal forecast is \textbf{biased} and its bias moves with the conditional variance
     \end{itemize}
     \item Consequences for evaluation
@@ -421,8 +452,8 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \begin{itemize}
     \item \textbf{Calibration}: statistical consistency between the forecasts $F_t$ and the outcomes $y_t$ (a joint property) \refGBR
     \begin{itemize}
-        \item \textbf{probabilistic} calibration: the PIT $u_t = F_t(y_t)$ is uniform on average
-        \item \textbf{marginal} calibration: $\frac1T\sum_t F_t(x) \to G(x)$, the limit of the empirical distribution of $y_t$
+        \item \textbf{probabilistic} calibration: the PIT (probability integral transform) $u_t = F_t(y_t)$, the forecast probability of an outcome below $y_t$, is uniform on average
+        \item \textbf{marginal} calibration: $\frac1T\sum_t F_t(x) \to G(x)$ for every $x$, with $G$ the limit of the empirical distribution of $y_t$
     \end{itemize}
     \item \textbf{Sharpness}: concentration of the predictive distributions; a property of the forecasts only
     \begin{itemize}
@@ -441,7 +472,7 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \begin{itemize}
     \item \textbf{Theorem} \refDawid, \refDGT: if $F_t$ is the true conditional distribution of $Y_t$ given $\mathcal{F}_{t-1}$ and continuous, then $u_t = F_t(y_t)$ are i.i.d.\ $U(0, 1)$
     \begin{itemize}
-        \item uniform: $P(u_t \le v \mid \mathcal{F}_{t-1}) = P(Y_t \le F_t^{-1}(v) \mid \mathcal F_{t-1}) = v$ for every past
+        \item uniform: for every $v \in (0,1)$, $P(u_t \le v \mid \mathcal{F}_{t-1}) = P(Y_t \le F_t^{-1}(v) \mid \mathcal F_{t-1}) = v$, whatever the past
         \item independent: a conditional distribution that does not depend on the past implies independence of the sequence
     \end{itemize}
     \item For $h > 1$ the PITs are uniform but serially dependent up to lag $h - 1$ (overlapping horizons)
@@ -477,20 +508,38 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testing calibration}
+\begin{frame}{Testing calibration (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Berkowitz (2001)}: $z_t = \Phi^{-1}(u_t)$ should be i.i.d.\ $N(0, 1)$ \refBerk
+    \item \textbf{Berkowitz (2001)} \refBerk: if the PITs are i.i.d.\ uniform, $z_t = \Phi^{-1}(u_t)$ is i.i.d.\ $N(0, 1)$
     \begin{itemize}
-        \item fit $z_t = \mu + \rho(z_{t-1} - \mu) + \varepsilon_t$, $\varepsilon_t \sim N(0, \sigma^2(1 - \rho^2))$; LR test of $\mu = 0, \sigma = 1, \rho = 0$, $\chi^2(3)$
-        \item the transformation to $z$ makes the tails visible; it tests only the first two moments and AR(1) dependence
+        \item $\Phi^{-1}$: the quantile function of the standard Normal distribution
     \end{itemize}
+    \item Fit a Gaussian AR(1) to $z_t$ and test its parameters:
+    \begin{itemize}
+        \item $z_t = \mu + \rho(z_{t-1} - \mu) + \varepsilon_t$, $\quad \varepsilon_t \sim N(0, \sigma^2(1 - \rho^2))$
+        \item $\mu$: the mean of $z_t$; $\sigma^2$: its variance; $\rho$: its first-order autocorrelation; calibration means $\mu = 0$, $\sigma = 1$, $\rho = 0$
+        \item LR (likelihood ratio) statistic $2(\ell_1 - \ell_0) \sim \chi^2(3)$ under $H_0$; $\ell_1, \ell_0$: maximised log-likelihoods without and with the restrictions
+        \item the transformation to $z$ makes the tails visible; the test checks only the first two moments and AR(1) dependence
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testing calibration (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item \textbf{Correlograms} of $(u_t - \bar u)^k$, $k = 1, 2$ \refDGT: dependence in level and in volatility
     \begin{itemize}
-        \item Ljung--Box on $(u_t - \bar u)^2$ detects missing volatility dynamics
+        \item $\bar u$: the mean PIT; Ljung--Box on $(u_t - \bar u)^2$ detects missing volatility dynamics
     \end{itemize}
-    \item Parameter estimation changes the null distribution of PIT tests; with $P/R$ small it can be ignored, otherwise use \refRS
-    \item Interval forecasts: coverage and independence of the hits \refChr; for VaR this becomes backtesting (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9})
+    \item Parameter estimation changes the null distribution of PIT tests
+    \begin{itemize}
+        \item with $P/R$ small (few forecasts relative to the estimation sample) it can be ignored, otherwise use \refRS
+    \end{itemize}
+    \item Interval forecasts: coverage and independence of the hits \refChr
+    \begin{itemize}
+        \item hit: an outcome outside the interval; for VaR this becomes backtesting (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9})
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -503,7 +552,8 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
     \end{itemize}
     \item Our replication: the same three models, estimated by maximum likelihood on 2000--2012, fixed parameters, one-day density forecasts for 2013--2026 ($3\,448$ days)
     \begin{itemize}
-        \item GARCH-$t$: $\hat\theta = \ensuremath{-}0.061$, $\hat\alpha + \hat\beta = 0.996$, $\hat\nu = 8.0$ degrees of freedom
+        \item model: $r_t = c + \varepsilon_t + \theta\varepsilon_{t-1}$, $\varepsilon_t = \sigma_tz_t$, $\sigma_t^2 = \omega + \alpha\varepsilon_{t-1}^2 + \beta\sigma_{t-1}^2$; $z_t$ Normal or Student-$t$ with $\nu$ degrees of freedom
+        \item GARCH-$t$: $\hat\theta = \ensuremath{-}0.061$, $\hat\alpha + \hat\beta = 0.996$ (the persistence of volatility), $\hat\nu = 8.0$ (fat tails)
     \end{itemize}
     \item Question: which density forecast is calibrated, and do the proper scores agree with the PIT diagnosis?
 \end{itemize}
@@ -557,12 +607,13 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \begin{itemize}
     \item A \textbf{scoring rule} $S(F, y)$ assigns a penalty to the forecast $F$ when $y$ occurs (negatively oriented: lower is better)
     \begin{itemize}
-        \item \textbf{proper}: $\E_G S(G, Y) \le \E_G S(F, Y)$ for all $F, G$: reporting the true belief is optimal \refGRa
-        \item \textbf{strictly proper}: equality only if $F = G$; then the score cannot be gamed
+        \item \textbf{proper}: $\E_G S(G, Y) \le \E_G S(F, Y)$ for all $F, G$ \refGRa
+        \item $G$: the distribution the forecaster believes; $\E_G$: the expectation under $G$; reporting the true belief is optimal
+        \item \textbf{strictly proper}: equality only if $F = G$; then the score cannot be manipulated
     \end{itemize}
     \item Proper scores reward calibration and sharpness together: the expected score decomposes into uncertainty, minus resolution, plus reliability
     \begin{itemize}
-        \item the Brier score $(p - \mathbf 1\{\text{event}\})^2$ for binary events is the oldest example \refBrier
+        \item the Brier score $(p - \mathbf 1\{\text{event}\})^2$, with $p$ the forecast probability of a binary event, is the oldest example \refBrier
     \end{itemize}
     \item A proper score of a probabilistic forecast reduces to a consistent loss of a point forecast when $F$ is a point mass (CRPS $\to$ absolute error)
 \end{itemize}
@@ -573,7 +624,8 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \begin{itemize}
     \item $\mathrm{LogS}(f, y) = -\ln f(y)$ \refGood: the only proper score that is \textbf{local} (depends on $f$ only at $y$, up to equivalence)
     \begin{itemize}
-        \item properness: $\E_g[\mathrm{LogS}(f, Y)] - \E_g[\mathrm{LogS}(g, Y)] = \int g \ln(g/f) = \mathrm{KL}(g \| f) \ge 0$ (Gibbs inequality)
+        \item $f$: the forecast density; $g$: the true density; properness: $\E_g[\mathrm{LogS}(f, Y)] - \E_g[\mathrm{LogS}(g, Y)] = \int g \ln(g/f) = \mathrm{KL}(g \| f) \ge 0$
+        \item $\mathrm{KL}$: the Kullback--Leibler divergence, nonnegative and zero only if $f = g$ (Gibbs inequality)
     \end{itemize}
     \item Links: average log score = minus the out-of-sample log-likelihood; the difference of two log scores is a predictive likelihood ratio
     \begin{itemize}
@@ -586,40 +638,71 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The continuous ranked probability score}
+\begin{frame}{The continuous ranked probability score (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $\mathrm{CRPS}(F, y) = \int_{-\infty}^{\infty}(F(z) - \mathbf 1\{y \le z\})^2dz$ \refMW
+    \item Definition \refMW: the squared distance between the forecast distribution function and the step function of the outcome
     \begin{itemize}
-        \item kernel form: $\mathrm{CRPS}(F, y) = \E_F|X - y| - \frac12\E_F|X - X'|$, $X, X' \sim F$ independent \refGRa\ (proof in the \atsapplink{atsapp2}{atssrc2}{Appendix})
-        \item first term: accuracy; second: a reward for spread that stops the score from favouring point masses
+        \item $\mathrm{CRPS}(F, y) = \int_{-\infty}^{\infty}(F(z) - \mathbf 1\{y \le z\})^2dz$
+        \item $z$: a threshold; $\mathbf 1\{y \le z\}$: the ``distribution function'' of the outcome, 0 below $y$ and 1 above; units: those of $y$
     \end{itemize}
-    \item Closed forms: $N(\mu, \sigma^2)$: $\sigma\left[z(2\Phi(z) - 1) + 2\varphi(z) - 1/\sqrt\pi\right]$, $z = (y - \mu)/\sigma$; also for Student $t$ (Quantlet)
+    \item Kernel form \refGRa\ (proof in the \atsapplink{atsapp2}{atssrc2}{Appendix}):
     \begin{itemize}
+        \item $\mathrm{CRPS}(F, y) = \E_F|X - y| - \frac12\E_F|X - X'|$, $\quad X, X' \sim F$ independent
+        \item first term: accuracy; second: a reward for spread that stops the score from favouring point masses
+        \item for a point forecast ($F$ a point mass at $x$) it reduces to the absolute error $|y - x|$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The continuous ranked probability score (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Closed form for $F = N(\mu, \sigma^2)$, with $z = (y - \mu)/\sigma$:
+    \begin{itemize}
+        \item $\mathrm{CRPS} = \sigma\left[z(2\Phi(z) - 1) + 2\varphi(z) - 1/\sqrt\pi\right]$
+        \item $\Phi$, $\varphi$: the distribution and density functions of $N(0,1)$; a closed form exists also for Student $t$ (Quantlet)
         \item ensembles: plug in the empirical distribution of the members
     \end{itemize}
-    \item Decompositions: $\mathrm{CRPS} = \int \mathrm{BS}_z\,dz = 2\int_0^1 \rho_\tau(y - F^{-1}(\tau))\,d\tau$
+    \item Decompositions:
     \begin{itemize}
-        \item the integral of Brier scores over thresholds, or twice the integral of pinball losses over quantile levels
+        \item $\mathrm{CRPS} = \int \mathrm{BS}_z\,dz = 2\int_0^1 \rho_\tau(y - F^{-1}(\tau))\,d\tau$
+        \item $\mathrm{BS}_z$: the Brier score of the event $\{y \le z\}$; $\rho_\tau$: the pinball loss at level $\tau$
         \item so the average pinball over the 99 percentiles (GEFCom2014) approximates CRPS/2 \refGEF
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Quantile, interval and multivariate scores}
-\itemsize{\footnotesize}
+\begin{frame}{Quantile, interval and multivariate scores (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item \textbf{Quantile score}: $\rho_\tau(y - q)$, strictly consistent for the $\tau$-quantile; any $g$ increasing gives $(\mathbf 1\{y \le q\} - \tau)(g(q) - g(y))$ \refGnaa
+    \item \textbf{Quantile score}: $\rho_\tau(y - q)$ for a forecast $q$ of the $\tau$-quantile, strictly consistent \refGnaa
+    \begin{itemize}
+        \item any increasing $g$ gives another consistent score: $(\mathbf 1\{y \le q\} - \tau)(g(q) - g(y))$
+    \end{itemize}
     \item \textbf{Interval score} of a central $(1 - \alpha)$ interval $[l, u]$ \refGRa
     \begin{itemize}
-        \item $\mathrm{IS}_\alpha = (u - l) + \frac2\alpha(l - y)\mathbf 1\{y < l\} + \frac2\alpha(y - u)\mathbf 1\{y > u\}$: width plus a penalty for misses
+        \item $\mathrm{IS}_\alpha = (u - l) + \frac2\alpha(l - y)\mathbf 1\{y < l\} + \frac2\alpha(y - u)\mathbf 1\{y > u\}$
+        \item $l, u$: the lower and upper limits; width plus a penalty $2/\alpha$ per unit of miss
         \item it equals $\frac2\alpha[\rho_{\alpha/2}(y - l) + \rho_{1 - \alpha/2}(y - u)]$; coverage alone is not a score
     \end{itemize}
-    \item \textbf{Energy score} for vectors: $\mathrm{ES}(F, \mathbf y) = \E\|\mathbf X - \mathbf y\| - \frac12\E\|\mathbf X - \mathbf X'\|$, the multivariate CRPS
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Quantile, interval and multivariate scores (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Energy score} for vectors, the multivariate CRPS:
     \begin{itemize}
+        \item $\mathrm{ES}(F, \mathbf y) = \E\|\mathbf X - \mathbf y\| - \frac12\E\|\mathbf X - \mathbf X'\|$
+        \item $\mathbf y$: the outcome vector; $\mathbf X, \mathbf X'$: independent draws from the forecast $F$; $\|\cdot\|$: the Euclidean norm
         \item weak at detecting wrong correlations; the \textbf{variogram score} \refSH\ targets the dependence structure (24 hourly loads, a VAR path)
     \end{itemize}
-    \item Tails: threshold-weighted CRPS $\int (F(z) - \mathbf 1\{y \le z\})^2w(z)dz$ stays proper \refGRjaa; the weighted likelihood ratio of \refAG\ does not \refGRjaa
+    \item Tails: threshold-weighted CRPS stays proper \refGRjaa
+    \begin{itemize}
+        \item $\int (F(z) - \mathbf 1\{y \le z\})^2w(z)dz$
+        \item $w(z) \ge 0$: a weight that emphasises the thresholds of interest (e.g.\ the left tail); the weighted likelihood ratio of \refAG\ does not stay proper \refGRjaa
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -655,12 +738,13 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
     \end{itemize}
     \item \textbf{Necessary condition} (Osband): convex level sets: $\mathrm T(F_0) = \mathrm T(F_1) = t \Rightarrow \mathrm T(\lambda F_0 + (1 - \lambda)F_1) = t$
     \begin{itemize}
+        \item $F_0, F_1$: two distributions with the same value $t$; $\lambda \in [0,1]$: the mixing weight
         \item the \textbf{variance} fails it, so it is not elicitable; the pair (mean, second moment) is
     \end{itemize}
-    \item Risk measures with $\mathrm{VaR}_\alpha(X) = -q_\alpha(X)$ (VaR 1\%: $\alpha = 0.01$)
+    \item Risk measures with $\mathrm{VaR}_\alpha(X) = -q_\alpha(X)$, $q_\alpha$ the $\alpha$-quantile of the return $X$ (VaR 1\%: $\alpha = 0.01$)
     \begin{itemize}
         \item VaR is a quantile: elicitable by the pinball loss
-        \item ES has non-convex level sets: \textbf{not elicitable} alone \refWeber, \refGnaa; (VaR, ES) is \textbf{jointly} elicitable \refFZ
+        \item ES (expected shortfall, the mean loss beyond VaR) has non-convex level sets: \textbf{not elicitable} alone \refWeber, \refGnaa; (VaR, ES) is \textbf{jointly} elicitable \refFZ
         \item the Fissler--Ziegel scores and the backtests built on them: \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9}
     \end{itemize}
 \end{itemize}
@@ -723,21 +807,34 @@ MA(1)-GARCH(1,1)-$t$ & 1.233 & 0.507 & 8.4\% & 0.019 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The Diebold--Mariano test with HAC variance}
+\begin{frame}{The Diebold--Mariano test with HAC variance (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Loss differential $d_t = L(e_{1t}) - L(e_{2t})$, $H_0$: $\E d_t = 0$; assume $d_t$ covariance stationary
+    \item Loss differential $d_t = L(e_{1t}) - L(e_{2t})$; $H_0$: $\E d_t = 0$ (equal accuracy)
     \begin{itemize}
-        \item $\mathrm{DM} = \bar d/\sqrt{\hat\sigma^2_{LR}/P} \to N(0, 1)$, $\sigma^2_{LR} = \gamma_0 + 2\sum_{k \ge 1}\gamma_k$ the long-run variance (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0})
+        \item $e_{it}$: the error of forecast $i$ at $t$; $d_t > 0$: forecast 2 did better at $t$; $d_t$ assumed covariance stationary
     \end{itemize}
+    \item The statistic: the mean differential over its HAC standard error
+    \begin{itemize}
+        \item $\mathrm{DM} = \bar d/\sqrt{\hat\sigma^2_{LR}/P} \to N(0, 1)$, $\quad \sigma^2_{LR} = \gamma_0 + 2\sum_{k \ge 1}\gamma_k$
+        \item $\bar d$: the mean of $d_t$ over the $P$ forecasts; $\gamma_k$: the autocovariances of $d_t$; $\sigma^2_{LR}$: its long-run variance (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0})
+        \item a large positive DM: forecast 2 is more accurate; reject at 5\% if $|\mathrm{DM}| > 1.96$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The Diebold--Mariano test with HAC variance (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Optimal $h$-step errors are at most MA($h - 1$), so DM truncate at $h - 1$ lags with a \textbf{rectangular} kernel
     \begin{itemize}
         \item the rectangular estimate can be \textbf{negative}; Newey--West (Bartlett) weights keep it positive \refNW, at the cost of downward bias
         \item suboptimal forecasts have errors with longer memory: use a data-driven bandwidth (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0})
     \end{itemize}
-    \item \textbf{HLN correction} \refHLNig: $\mathrm{DM}^* = \mathrm{DM}\sqrt{(P + 1 - 2h + h(h - 1)/P)/P}$ compared with $t_{P-1}$
+    \item \textbf{HLN correction} \refHLNig: a small-sample rescaling of DM
     \begin{itemize}
-        \item the factor removes the bias of the variance estimator for MA($h - 1$) errors; the $t$ distribution handles small $P$
+        \item $\mathrm{DM}^* = \mathrm{DM}\sqrt{(P + 1 - 2h + h(h - 1)/P)/P}$, compared with $t_{P-1}$
+        \item the factor (below 1) removes the bias of the variance estimator for MA($h - 1$) errors; $t_{P-1}$: Student $t$ with $P - 1$ degrees of freedom, for small $P$
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -816,33 +913,64 @@ average & 3.76 & 0.96 & 0.88 & 0.378 & 0.795 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Conditional predictive ability: Giacomini--White}
+\begin{frame}{Conditional predictive ability: Giacomini--White (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $H_0$: $\E[d_{t+h} \mid \mathcal{G}_t] = 0$, i.e.\ no instrument $h_t \in \mathcal{G}_t$ predicts which method wins \refGW
+    \item $H_0$: $\E[d_{t+h} \mid \mathcal{G}_t] = 0$ \refGW
     \begin{itemize}
-        \item statistic $\mathrm{GW} = P\,\bar Z'\hat\Omega^{-1}\bar Z \to \chi^2(q)$, $Z_t = h_t d_{t+h}$, $\hat\Omega$ HAC with $h - 1$ lags
+        \item $\mathcal{G}_t$: the information at the forecast origin; $H_0$: no instrument $h_t \in \mathcal{G}_t$ predicts which method wins
+        \item $h_t$: a $q \times 1$ vector of instruments (not the horizon $h$), e.g.\ a constant and the last loss differential
+    \end{itemize}
+    \item The statistic: a Wald test that the instruments do not predict $d_{t+h}$
+    \begin{itemize}
+        \item $\mathrm{GW} = P\,\bar Z'\hat\Omega^{-1}\bar Z \to \chi^2(q)$, $\quad Z_t = h_t d_{t+h}$
+        \item $\bar Z$: the mean of $Z_t$; $\hat\Omega$: its HAC covariance matrix with $h - 1$ lags; $\chi^2(q)$: chi-squared with $q$ degrees of freedom
         \item $h_t = 1$ gives the unconditional test; adding $d_t$ or a state variable tests whether the past predicts the winner
     \end{itemize}
-    \item Valid with a \textbf{rolling} window of fixed size, nested or non-nested models, any loss; invalid with a recursive window
-    \begin{itemize}
-        \item a rejection suggests a decision rule: use model 1 when $\hat\delta'h_t > 0$
-    \end{itemize}
-    \item Romanian inflation, AR(3) against no change, $h_t = (1, d_t, \pi_t - 2.5)$: $\mathrm{GW} = 3.19$, $p$ 0.363: neither the recent loss nor the distance from the target predicts the winner
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Nested models: why DM fails and Clark--West}
+\begin{frame}{Conditional predictive ability: Giacomini--White (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Valid with a \textbf{rolling} window of fixed size, nested or non-nested models, any loss; invalid with a recursive window
+    \begin{itemize}
+        \item a rejection suggests a decision rule: use model 1 when $\hat\delta'h_t > 0$, with $\hat\delta$ the regression of $d_{t+h}$ on $h_t$
+    \end{itemize}
+    \item Romanian inflation, AR(3) against no change, $h_t = (1, d_t, \pi_t - 2.5)$
+    \begin{itemize}
+        \item $\pi_t - 2.5$: the distance of inflation from the BNR target
+        \item $\mathrm{GW} = 3.19$, $p$ 0.363: neither the recent loss nor the distance from the target predicts the winner
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Nested models: why DM fails and Clark--West (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Model 1 (small, e.g.\ the random walk) is nested in model 2; under $H_0$ the extra coefficients are zero
     \begin{itemize}
-        \item population MSPEs are equal, and $d_t$ is degenerate: the DM statistic is not asymptotically Normal \refCM
-        \item in finite samples model 2 estimates zero coefficients with noise, so its MSPE is \textbf{larger}: DM is undersized and has little power
+        \item MSPE: the mean squared prediction error; population MSPEs are equal, and $d_t$ is degenerate
+        \item so the DM statistic is not asymptotically Normal \refCM
     \end{itemize}
+    \item In finite samples model 2 estimates zero coefficients with noise
+    \begin{itemize}
+        \item its MSPE is \textbf{larger} than that of model 1: DM is undersized (rejects too rarely) and has little power
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Nested models: why DM fails and Clark--West (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item \textbf{Clark--West} \refCW: adjust the larger model for the noise it adds
     \begin{itemize}
-        \item $f_t = e_{1t}^2 - [e_{2t}^2 - (\hat y_{1t} - \hat y_{2t})^2]$; one-sided $t$ test of $\E f_t = 0$ against $\E f_t > 0$ with Normal critical values
+        \item $f_t = e_{1t}^2 - [e_{2t}^2 - (\hat y_{1t} - \hat y_{2t})^2]$
+        \item $e_{1t}, e_{2t}$: the errors of the small and large model; $\hat y_{1t}, \hat y_{2t}$: their forecasts; the squared gap between forecasts is the noise added by model 2
+        \item one-sided $t$ test of $\E f_t = 0$ against $\E f_t > 0$ (model 2 better) with Normal critical values
+    \end{itemize}
+    \item Why the adjustment works
+    \begin{itemize}
         \item under $H_0$, $\E e_1^2 - \E e_2^2 = -\E(\hat y_1 - \hat y_2)^2$: the adjustment recentres the differential (\atsapplink{atsapp3}{atssrc3}{Appendix})
         \item approximately Normal for rolling and recursive schemes; the exact critical values of \refCM\ are non-standard
     \end{itemize}
@@ -858,7 +986,9 @@ average & 3.76 & 0.96 & 0.88 & 0.378 & 0.795 \\
     \end{itemize}
     \item Our data: monthly EUR/RON (BNR reference rate, end of month), $\Delta s_{t+1} = 100\Delta\ln S_{t+1}$; recursive estimation, forecasts January 2010 to August 2026 ($P = 200$)
     \begin{itemize}
+        \item $S_t$: the rate (lei per euro); $\Delta s_{t+1}$: its monthly log change in \%, positive when the leu depreciates
         \item nested in the random walk ($\Delta\hat s = 0$): drift, AR($p$), the UIP regression $\Delta s_{t+1} = a + b(i^{RO}_t - i^{EA}_t)/12 + u$ \refFama
+        \item $i^{RO}_t, i^{EA}_t$: 3-month interest rates in \% a year (divided by 12: per month); $a, b$: regression coefficients
         \item no estimated parameters: UIP imposed ($a = 0, b = 1$), momentum (mean of the last three changes)
     \end{itemize}
     \item UIP: uncovered interest parity, the expected depreciation equals the interest differential
@@ -902,20 +1032,30 @@ average & 1.026 & 0.85 & -- & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Rationality: Mincer--Zarnowitz and encompassing}
+\begin{frame}{Rationality: Mincer--Zarnowitz and encompassing (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Mincer--Zarnowitz} \refMZ: $y_{t+h} = a + b\hat y_{t+h|t} + u_{t+h}$; under squared loss an optimal forecast has $(a, b) = (0, 1)$
+    \item \textbf{Mincer--Zarnowitz} \refMZ: regress the outcome on the forecast
     \begin{itemize}
-        \item Wald test with HAC errors ($u$ is MA($h - 1$)); $b < 1$: forecasts too volatile; $b > 1$: too timid
+        \item $y_{t+h} = a + b\hat y_{t+h|t} + u_{t+h}$
+        \item under squared loss an optimal forecast has $(a, b) = (0, 1)$: no bias, and a one-unit forecast change predicts a one-unit outcome change
+        \item Wald test of $(a, b) = (0, 1)$ with HAC errors ($u$ is MA($h - 1$)); $b < 1$: forecasts too volatile; $b > 1$: too timid
         \item extended version: add variables in $\mathcal{F}_t$; a significant coefficient means unused information
     \end{itemize}
+    \item MZ assumes squared loss: under asymmetric loss a rational forecast is biased (Section 1)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Rationality: Mincer--Zarnowitz and encompassing (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item \textbf{Encompassing} \refChH, \refHLNih: forecast 1 encompasses forecast 2 if 2 adds nothing to 1
     \begin{itemize}
-        \item $y = (1 - \lambda)\hat y_1 + \lambda\hat y_2 + \varepsilon$, $H_0$: $\lambda = 0$; HLN test: DM--HLN on $d_t = e_{1t}(e_{1t} - e_{2t})$, one-sided
-        \item if neither encompasses the other, a combination beats both (Section 5)
+        \item $y = (1 - \lambda)\hat y_1 + \lambda\hat y_2 + \varepsilon$, $\quad H_0$: $\lambda = 0$
+        \item $\lambda$: the weight of forecast 2 in the best combination; $\lambda = 0$: forecast 2 is useless given forecast 1
+        \item HLN test: DM--HLN on $d_t = e_{1t}(e_{1t} - e_{2t})$, one-sided ($\E d_t > 0$ means $\lambda > 0$)
     \end{itemize}
-    \item MZ assumes squared loss: under asymmetric loss a rational forecast is biased (Section 1)
+    \item If neither encompasses the other, a combination beats both (Section 5)
 \end{itemize}
 \end{frame}
 
@@ -924,7 +1064,8 @@ average & 1.026 & 0.85 & -- & -- \\
 \begin{itemize}
     \item \refAO: a naive forecast, ``inflation over the next four quarters equals inflation over the last four quarters'', beats Phillips-curve forecasts in the US after 1984
     \begin{itemize}
-        \item the Phillips curve of \refSWii: $\pi^4_{t+4} - \pi^4_t = a + \beta(L)u_t + \gamma(L)\Delta\pi_t + e_{t+4}$, unemployment $u_t$, quarterly inflation $\pi_t$
+        \item the Phillips curve of \refSWii: $\pi^4_{t+4} - \pi^4_t = a + \beta(L)u_t + \gamma(L)\Delta\pi_t + e_{t+4}$
+        \item $\pi^4_t$: inflation over the last four quarters; $\pi_t$: quarterly inflation; $u_t$: the unemployment rate; $\beta(L), \gamma(L)$: lag polynomials (four lags each)
     \end{itemize}
     \item Our update: CPI (quarterly average) and the unemployment rate (FRED); four lags of each, rolling window of 15 years; targets 1985Q1 to 2026Q2 ($P = 166$)
     \begin{itemize}
@@ -965,6 +1106,7 @@ average & 1.026 & 0.85 & -- & -- \\
     \item Testing $k$ models against a benchmark and reporting the best $p$-value is \textbf{data snooping}
     \begin{itemize}
         \item $H_0$: $\max_{j \le k}\E[d_{j,t}] \le 0$ with $d_{j,t} = L_{0,t} - L_{j,t}$: no model beats the benchmark
+        \item $L_{0,t}$: the loss of the benchmark; $L_{j,t}$: the loss of model $j$; $d_{j,t} > 0$: model $j$ did better at $t$
     \end{itemize}
     \item \textbf{Reality check} \refWhite: statistic $\max_j\sqrt P\bar d_j$, $p$-value from the stationary bootstrap (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}) under the least favourable configuration
     \begin{itemize}
@@ -979,20 +1121,35 @@ average & 1.026 & 0.85 & -- & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The model confidence set}
+\begin{frame}{The model confidence set (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{MCS} \refHLNaa: the set $\hat{\mathcal M}_{1-\alpha}$ that contains the best model(s) with probability at least $1 - \alpha$ asymptotically
     \begin{itemize}
         \item no benchmark: all models are treated symmetrically; analogous to a confidence interval for a parameter
     \end{itemize}
-    \item Algorithm: start with all $m$ models
+    \item Equivalence test on the $m$ models still in the set
     \begin{itemize}
-        \item \textbf{equivalence test}: $H_0$: $\E[d_{i\cdot,t}] = 0$ for all $i$, $d_{i\cdot,t} = L_{i,t} - \frac1m\sum_j L_{j,t}$, statistic $T_{\max} = \max_i \bar d_{i\cdot}/\widehat{\mathrm{se}}(\bar d_{i\cdot})$
-        \item if rejected, \textbf{eliminate} the model with the largest $t_i$ and repeat; stop at the first non-rejection
-        \item block bootstrap for the null distribution and the standard errors; MCS $p$-value of a model = the largest test $p$-value up to its elimination
+        \item $H_0$: $\E[d_{i\cdot,t}] = 0$ for all $i$, $\quad d_{i\cdot,t} = L_{i,t} - \frac1m\sum_j L_{j,t}$
+        \item $d_{i\cdot,t}$: the loss of model $i$ minus the average loss of all models; positive: model $i$ is worse than average
+        \item statistic $T_{\max} = \max_i t_i$, $t_i = \bar d_{i\cdot}/\widehat{\mathrm{se}}(\bar d_{i\cdot})$: the worst model relative to the average, standardised
     \end{itemize}
-    \item A large MCS is a finding too: the data cannot separate the models (a weak sample, not equal models)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The model confidence set (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Algorithm: start with all models
+    \begin{itemize}
+        \item if the equivalence test rejects, \textbf{eliminate} the model with the largest $t_i$ and repeat; stop at the first non-rejection
+        \item a block bootstrap gives the null distribution and the standard errors
+        \item MCS $p$-value of a model: the largest test $p$-value up to its elimination; it stays in $\hat{\mathcal M}_{1-\alpha}$ if this is above $\alpha$
+    \end{itemize}
+    \item A large MCS is a finding too
+    \begin{itemize}
+        \item the data cannot separate the models (a weak sample, not equal models)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1099,8 +1256,9 @@ ARX + mean of 4 weeks & 107 & 285 & 88.3\% & $<$\,0.001 \\
     \begin{itemize}
         \item error variance $w^2\sigma_1^2 + (1 - w)^2\sigma_2^2 + 2w(1 - w)\sigma_{12}$, minimised at
         \item $w^* = \dfrac{\sigma_2^2 - \sigma_{12}}{\sigma_1^2 + \sigma_2^2 - 2\sigma_{12}}$, \quad $\sigma^2_c = \dfrac{\sigma_1^2\sigma_2^2 - \sigma_{12}^2}{\sigma_1^2 + \sigma_2^2 - 2\sigma_{12}} \le \min(\sigma_1^2, \sigma_2^2)$
+        \item $\sigma^2_c$: the error variance of the optimal combination, never above that of the better forecast; the less precise forecast gets the smaller weight
     \end{itemize}
-    \item $N$ forecasts: $\mathbf w^* = \Sigma^{-1}\iota/(\iota'\Sigma^{-1}\iota)$; \refGRm: regress $y$ on the forecasts, with or without a constant and the sum-to-one restriction
+    \item $N$ forecasts: $\mathbf w^* = \Sigma^{-1}\iota/(\iota'\Sigma^{-1}\iota)$, with $\Sigma$ the covariance matrix of the errors and $\iota$ a vector of ones; \refGRm: regress $y$ on the forecasts, with or without a constant and the sum-to-one restriction
     \begin{itemize}
         \item combination diversifies model risk, structural breaks and the private information of forecasters \refTim
     \end{itemize}
@@ -1118,7 +1276,8 @@ ARX + mean of 4 weeks & 107 & 285 & 88.3\% & $<$\,0.001 \\
     \end{itemize}
     \item \textbf{Explanation} \refSWal, \refCMVW: the weights are estimated
     \begin{itemize}
-        \item $\E[\mathrm{MSE}(\hat w)] = \mathrm{MSE}(w^*) + \E(\hat w - w^*)^2 D$, $D = \sigma_1^2 + \sigma_2^2 - 2\sigma_{12}$
+        \item $\E[\mathrm{MSE}(\hat w)] = \mathrm{MSE}(w^*) + \E(\hat w - w^*)^2 D$, $D = \sigma_1^2 + \sigma_2^2 - 2\sigma_{12}$ (the variance of $e_1 - e_2$)
+        \item $\hat w$: the weight estimated from $n$ past errors; MSE: the mean squared error of the combination
         \item gain of $w^*$ over $1/2$: $(w^* - 1/2)^2D$; loss from estimating: $\mathrm{Var}(\hat w)D$, of order $1/n$
         \item equal weights win when $(w^* - 1/2)^2 < \mathrm{Var}(\hat w)$: similar forecasts, short samples, correlated errors
     \end{itemize}
@@ -1152,6 +1311,7 @@ ARX + mean of 4 weeks & 107 & 285 & 88.3\% & $<$\,0.001 \\
 \begin{itemize}
     \item \textbf{Shrinkage}: $\hat w_\lambda = \lambda\hat w + (1 - \lambda)\iota/N$ \refDP, \refSWzd
     \begin{itemize}
+        \item $\hat w$: the estimated weights; $\iota/N$: equal weights for $N$ forecasts; $\lambda \in [0,1]$: $\lambda = 0$ gives the mean, $\lambda = 1$ the estimated weights
         \item a Bayesian prior centred on equal weights; $\lambda$ falls with the number of forecasts and rises with the sample
     \end{itemize}
     \item \textbf{Performance weights}: $w_i \propto 1/\mathrm{MSE}_i$ on a recent window, ignoring correlations; discounting gives recent errors more weight
@@ -1171,6 +1331,7 @@ ARX + mean of 4 weeks & 107 & 285 & 88.3\% & $<$\,0.001 \\
 \begin{itemize}
     \item \textbf{Linear pool}: $p(y) = \sum_i w_ip_i(y)$, $w_i \ge 0$, $\sum w_i = 1$ \refHM
     \begin{itemize}
+        \item $p_i$: the density forecast of model $i$; $w_i$: its weight; the pool is a mixture of the densities
         \item weights that minimise the average log score: \textbf{optimal prediction pools} \refGA
         \item interior weights even when every model is misspecified: a pool is not a model average in the Bayesian sense
     \end{itemize}
@@ -1375,6 +1536,7 @@ ARX + mean of 4 weeks & 107 & 285 & 88.3\% & $<$\,0.001 \\
     \item Does the forecast combination puzzle survive when the panel of experts changes over time and the outcome distribution shifts (2020--2023)?
     \begin{itemize}
         \item formal: $H_0$: $\E[(y - \hat y_{\lambda})^2 - (y - \bar y)^2] \ge 0$ for every shrinkage factor $\lambda$ fixed in advance, in every sub-period
+        \item $\hat y_\lambda$: the shrinkage combination with factor $\lambda$; $\bar y$: the mean of all forecasters
         \item falsified by a pre-registered $\lambda$ that beats the mean with DM--HLN $p < 0.05$ after a Holm correction across sub-periods
     \end{itemize}
     \item Why it matters: central banks publish the survey mean; a better combination would change the published expectations

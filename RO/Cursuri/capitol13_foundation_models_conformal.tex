@@ -216,7 +216,7 @@ MSCA Digital Finance}
 \begin{itemize}
     \item Explicați cum se preantrenează un foundation model pentru serii de timp: corpus, scalare, tokenizare sau patching, stratul de ieșire și funcția de pierdere
     \item Comparați familiile de modele și alegeți între folosirea zero-shot, fine-tuning și covariabilele în context
-    \item Proiectați un benchmark fără scurgere de informație sau contaminare și testați diferențele pe multe serii cu corecții pentru testarea multiplă
+    \item Proiectați un benchmark fără leakage sau contaminare și testați diferențele pe multe serii cu corecții pentru testarea multiplă
     \item Demonstrați acoperirea metodelor split conformal și CQR și precizați ce nu poate garanta predicția conformală
     \item Aplicați predicția conformală ponderată, EnbPI, ACI și PID conformal pe date dependente, diagnosticați acoperirea și calibrați intervalele produse de foundation models
 \end{itemize}
@@ -287,7 +287,7 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
     \begin{itemize}
         \item alegerile de proiectare și consecințele lor (limitele de domeniu, straturi de cuantile, patching, covariabile în context), dovezile de scalare
         \item benchmark-uri cu ferestre preînregistrate după lansarea modelelor, teste pe multe serii cu corecțiile Holm și BH
-        \item teoria conformală cu demonstrații, eșecul ei sub dependență și metodele online care o repară, cu diagnosticarea acoperirii
+        \item teoria conformală cu demonstrații, eșecul ei sub dependență și metodele online care o corectează, cu diagnosticarea acoperirii
     \end{itemize}
     \item Studii de caz: Ansari et al.\ (2024), Tan et al.\ (2024), Romano--Patterson--Candès (2019), Gibbs--Candès (2021), Barber et al.\ (2023), Angelopoulos--Candès--Tibshirani (2023), Xu--Xie (2021), cu designul din lucrări, pe datele noastre
 \end{itemize}
@@ -298,26 +298,45 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
 \section{Preantrenarea pentru serii de timp}
 %=============================================================================
 
-\begin{frame}{Un foundation model ca prognozator amortizat}
+\begin{frame}{Un foundation model ca prognozator amortizat (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Preantrenarea}: $\hat\theta = \arg\min_\theta \sum_{s \in \mathcal D_{\mathrm{pre}}}\sum_t \ell\big(y^{(s)}_{t+1:t+H}, f_\theta(y^{(s)}_{t-C+1:t})\big)$ pe un corpus $\mathcal D_{\mathrm{pre}}$ format din multe serii
+    \item \textbf{Preantrenarea}: o singură rețea este estimată o singură dată, prin minimizarea pierderii de prognoză însumate pe toate seriile și pe toate originile unui corpus mare \[ \hat\theta = \arg\min_\theta \sum_{s \in \mathcal D_{\mathrm{pre}}}\sum_t \ell\big(y^{(s)}_{t+1:t+H},\; f_\theta(y^{(s)}_{t-C+1:t})\big) \]
+    \item Notațiile
     \begin{itemize}
-        \item $C$: lungimea contextului; $H$: orizontul; $\ell$: o regulă de scor (entropie încrucișată, pinball, log-verosimilitate negativă)
-        \item termenul \textbf{foundation model} \refBom: antrenat o singură dată pe date diverse, apoi adaptat la multe sarcini
+        \item $\mathcal D_{\mathrm{pre}}$: corpusul de preantrenare, o colecție de multe serii; $s$ indexează seriile, $t$ originea prognozei
+        \item $y^{(s)}_{t-C+1:t}$: ultimele $C$ valori ale seriei $s$ (\textbf{contextul}); $y^{(s)}_{t+1:t+H}$: următoarele $H$ valori (\textbf{orizontul})
+        \item $f_\theta$: rețeaua cu ponderile $\theta$; transformă un context într-o prognoză a următoarelor $H$ valori (o distribuție sau un set de cuantile)
+        \item $\ell$: o regulă de scor (entropie încrucișată, pinball, log-verosimilitate negativă); $\hat\theta$: ponderile estimate
     \end{itemize}
-    \item Folosirea \textbf{zero-shot}: $\hat\theta$ fixat, prognoza pentru o serie nouă este $f_{\hat\theta}(y_{T-C+1:T})$; niciun parametru nu se estimează pe seria-țintă
+    \item Termenul \textbf{foundation model} \refBom: model antrenat o singură dată pe date diverse, apoi adaptat la multe sarcini
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Un foundation model ca prognozator amortizat (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Folosirea \textbf{zero-shot}: ponderile rămîn $\hat\theta$, iar prognoza pentru o serie nouă $y_1, \dots, y_T$ este rețeaua aplicată ultimelor ei $C$ valori \[ \hat y_{T+1:T+H} = f_{\hat\theta}(y_{T-C+1:T}) \]
     \begin{itemize}
-        \item rețeaua face pasul de estimare în interiorul trecerii înainte: inferența este amortizată pe corpus
+        \item $T$: ultima perioadă observată a seriei-țintă; niciun parametru nu se estimează pe ea
     \end{itemize}
-    \item Un model global din \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12} este antrenat pe seriile unui singur set de date; un foundation model, pe multe seturi de date, frecvențe și domenii
+    \item \textbf{Inferența amortizată}
+    \begin{itemize}
+        \item un model clasic este reestimat pe fiecare serie nouă; aici rețeaua face pasul de estimare în interiorul trecerii înainte (forward pass)
+        \item costul estimării este plătit o singură dată, la preantrenare, și împărțit între toate prognozele ulterioare
+    \end{itemize}
+    \item Modelul global și foundation model
+    \begin{itemize}
+        \item un model global din \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12} este antrenat pe seriile unui singur set de date
+        \item un foundation model este antrenat pe multe seturi de date, frecvențe și domenii
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Structuri comune între serii}
 \itemsize{\small}
 \begin{itemize}
-    \item Formele se repetă între domenii: profiluri sezoniere, tendințe amortizate, salturi de nivel, grupări ale volatilității, intermitență
+    \item Formele se repetă între domenii: profiluri sezoniere, tendințe amortizate, salturi de nivel, volatility clustering, intermitență
     \begin{itemize}
         \item după scalare, o curbă de consum și una de trafic web pot arăta la fel: modelul învață o distribuție a priori asupra formelor
     \end{itemize}
@@ -327,7 +346,7 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
     \end{itemize}
     \item O rezervă de tip „no free lunch”: în medie pe toate procesele niciun prognozator nu cîștigă; preantrenarea ajută doar dacă seria-țintă seamănă cu corpusul
     \begin{itemize}
-        \item randamentele financiare sînt aproape de o diferență de martingală: puțină formă de transferat, mult de supraajustat
+        \item randamentele financiare sînt aproape de o diferență de martingală: puțină structură transferabilă și un risc mare de supraajustare
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -337,21 +356,45 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
 \begin{itemize}
     \item Chronos \refAns: seturi de date publice plus două augmentări: \textbf{TSMixup} (combinații convexe de serii reale) și \textbf{KernelSynth} (serii extrase din procese gaussiene cu nuclee compuse aleatoare)
     \item TimesFM \refDas: aproximativ $10^{11}$ momente de timp: Google Trends, accesări Wikipedia, serii sintetice și publice; Moirai \refWoo: LOTSA, peste 27 de miliarde de observații din nouă domenii
-    \item Toto \refCoh: metrici de observabilitate ale unui furnizor cloud, un corpus de 4--10 ori mai mare decît al modelelor anterioare; GIFT-Eval \refAks: un set de preantrenare \textbf{fără scurgere} de circa 230 de miliarde de puncte
+    \item Toto \refCoh: metrici de observabilitate ale unui furnizor cloud, un corpus de 4--10 ori mai mare decît al modelelor anterioare; GIFT-Eval \refAks: un set de preantrenare \textbf{fără leakage} de circa 230 de miliarde de puncte
     \item Pentru noi compoziția contează mai mult decît volumul: seriile economice și financiare sînt o parte mică, de frecvență joasă, a oricărui corpus
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Tokenizarea: de la valori reale la un vocabular}
+\begin{frame}{Tokenizarea: de la valori reale la un vocabular (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Chronos \refAns: \textbf{scalarea prin medie} $\tilde x_t = x_t/s$, $s = \frac1C\sum_{t \le C}|x_t|$ (doar contextul), apoi \textbf{intervale egale} pe $[-15, 15]$; 4096 de token-uri, inclusiv cele speciale
+    \item Chronos \refAns, pasul 1, \textbf{scalarea prin medie}: fiecare valoare din context se împarte la media valorilor absolute din context \[ \tilde x_t = x_t / s, \qquad s = \frac1C\sum_{t = 1}^{C}|x_t| \]
     \begin{itemize}
-        \item modelul este un model de limbaj (T5) antrenat cu \textbf{entropia încrucișată}: prognoza este o distribuție categorială pe intervale, eșantionată autoregresiv
-        \item nicio noțiune de distanță între token-uri: intervalele vecine sînt la fel de diferite ca cele îndepărtate, dacă datele nu arată altceva
+        \item $x_1, \dots, x_C$: valorile din context; $s$: scala, calculată doar pe context; $\tilde x_t$: valoarea scalată, în medie apropiată de 1 în valoare absolută
     \end{itemize}
-    \item Consecințe: rezoluția $30s/4092$; valorile peste $15s$ nu pot fi prognozate; invarianță la scală prin construcție
-    \item LLMTime \refGru: cifrele ca token-uri de text; Lag-Llama \refRas: valori decalate ca variabile; modelele cu patch-uri: fără vocabular
+    \item Pasul 2, \textbf{intervale egale}: intervalul $[-15, 15]$ este acoperit de intervale egale, cîte un token pentru fiecare; împreună cu token-urile speciale, vocabularul are 4096 de token-uri
+    \begin{itemize}
+        \item fiecare valoare scalată este înlocuită cu token-ul intervalului care o conține
+    \end{itemize}
+    \item Pasul 3: un model de limbaj (T5) antrenat cu \textbf{entropia încrucișată} prezice token-ul următor
+    \begin{itemize}
+        \item prognoza este o distribuție categorială pe intervale, eșantionată autoregresiv (cîte un token o dată)
+        \item nu există o noțiune de distanță între token-uri: intervalele vecine sînt la fel de diferite ca cele îndepărtate, dacă datele nu arată altceva
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Tokenizarea: de la valori reale la un vocabular (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Rezoluția}: centrele a două intervale vecine sînt la distanța $30/4092$ pe axa scalată, adică $30s/4092$ în unitățile seriei
+    \begin{itemize}
+        \item $30 = 15 - (-15)$ este lungimea domeniului acoperit; eroarea de cuantizare este cel mult jumătate din această distanță
+    \end{itemize}
+    \item \textbf{Domeniu limitat}: o valoare peste $15s$ (sau sub $-15s$) nu are token și nu poate fi prognozată
+    \item \textbf{Invarianța la scală}: înmulțirea seriei cu $c > 0$ înmulțește $s$ cu $c$ și lasă token-urile neschimbate
+    \item Alte reprezentări ale intrării
+    \begin{itemize}
+        \item LLMTime \refGru: cifrele fiecărei valori, ca token-uri de text
+        \item Lag-Llama \refRas: valorile cu lag ca variabile
+        \item modelele cu patch-uri: fără vocabular (slide-urile următoare)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -371,7 +414,7 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
 \itemsize{\small}
 \begin{itemize}
     \item BET: $s = 23\,072$ puncte, lățimea intervalului 169{,}1 puncte, eroarea maximă de cuantizare 84{,}5 puncte: neglijabilă pentru prețuri, dar o pondere fixă din nivel
-    \item Panoul din dreapta: scala este fixată de context, deci traiectoria care urcă peste $15s$ este tăiată: 42\% dintre pașii viitori sînt de neatins, ultimul cu o eroare de 40\%
+    \item Panoul din dreapta: scala este fixată de context, deci traiectoria care urcă peste $15s$ este trunchiată: 42\% dintre pașii viitori nu pot fi atinși, ultimul are o eroare de 40\%
     \item Seriile explozive (bule, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol16_radacini_explozive_bule_speculative.pdf}{Capitolul 16}; hiperinflație) sînt în afara suportului unui vocabular scalat prin medie; Chronos-2 îl înlocuiește cu o transformare arcsinh și ieșiri sub formă de cuantile
 \end{itemize}
 \end{frame}
@@ -379,23 +422,34 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
 \begin{frame}{Patching și stratul de ieșire}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Patching} \refNie: contextul se împarte în patch-uri de $P$ valori consecutive, iar fiecare patch devine un token; atenția costă $O((C/P)^2)$ în loc de $O(C^2)$
+    \item \textbf{Patching} \refNie: contextul se împarte în patch-uri de $P$ valori consecutive, iar fiecare patch devine un token de intrare
     \begin{itemize}
+        \item $P$: lungimea unui patch; un context de $C$ valori dă $C/P$ token-uri
+        \item atenția compară fiecare pereche de token-uri, deci costul ei crește ca $O((C/P)^2)$ în loc de $O(C^2)$; $O(\cdot)$: ordinul de mărime
         \item TimesFM \refDas: patch-uri de intrare de 32, de ieșire de 128 (mai puțini pași autoregresivi); Chronos-Bolt și Chronos-2: patch-uri de 16; Moirai \refWoo: mai multe mărimi, după frecvență
     \end{itemize}
     \item Straturi de ieșire
     \begin{itemize}
-        \item distribuție categorială pe intervale (Chronos); \textbf{strat de cuantile} antrenat cu pierderea pinball (Chronos-Bolt: 10\%--90\%; Chronos-2: 1\%--99\%; TimesFM 2.5, TiRex: decile)
+        \item distribuție categorială pe intervale (Chronos)
+        \item \textbf{strat de cuantile} antrenat cu pierderea pinball (Chronos-Bolt: 10\%--90\%; Chronos-2: 1\%--99\%; TimesFM 2.5, TiRex: decile)
         \item parametric: Student-$t$ (Lag-Llama \refRas), un amestec de distribuții (Moirai)
     \end{itemize}
-    \item Cuantilele directe pe mai mulți pași (o singură trecere pentru $H$ pași) evită acumularea erorilor, dar dau distribuții predictive marginale, nu comune: funcționalele de traiectorie (un maxim, o sumă) cer atenție
+    \item \textbf{Cuantile directe pe mai mulți pași}: o singură trecere dă cuantilele pentru toți cei $H$ pași
+    \begin{itemize}
+        \item erorile nu se acumulează de la un pas la altul
+        \item dar ieșirea este distribuția marginală a fiecărui pas, nu distribuția lor comună: o funcțională de traiectorie (un maxim, o sumă pe orizont) nu se poate citi din ea
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Legi de scalare}
 \itemsize{\small}
 \begin{itemize}
-    \item Modelele de limbaj \refKap, \refHof: pierderea pe datele de test scade ca o lege de putere, $L(N) \approx (N_c/N)^{\alpha_N}$, în numărul de parametri $N$, în date și în calcul, pe mai multe ordine de mărime
+    \item Modelele de limbaj \refKap, \refHof: pierderea pe datele de test scade ca o lege de putere în mărimea modelului și, la fel, în volumul datelor și în calcul, pe mai multe ordine de mărime \[ L(N) \approx (N_c/N)^{\alpha_N} \]
+    \begin{itemize}
+        \item $L(N)$: pierderea pe datele de test a unui model cu $N$ parametri; $N_c$: o constantă de scală estimată; $\alpha_N > 0$: exponentul estimat
+        \item interpretare: dublarea lui $N$ înmulțește pierderea cu $2^{-\alpha_N}$; pe un grafic log--log relația este o dreaptă cu panta $-\alpha_N$
+    \end{itemize}
     \item Serii de timp: Transformers de tip decoder-only arată aceleași legi de putere în parametri, date și calcul \refEdw; lungimea contextului interacționează cu volumul datelor \refShi
     \begin{itemize}
         \item în afara distribuției: log-verosimilitatea se scalează asemănător în și în afara distribuției, dar arhitectura contează; ajustările care ajută în distribuție pot reduce scalabilitatea OOD \refYao
@@ -411,7 +465,8 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Pierderi relative la modelul de referință al fiecărei sarcini: consumul României (MAE / ARX expert, 2025--2026), inflația UE (MAE / mers aleator, $h = 12$, medie geometrică pe 27 de țări), log RV Bitcoin (MSE / HAR); parametrii numărați în modelele încărcate
+    \item Pierderi relative la modelul de referință al fiecărei sarcini: consumul României (MAE / ARX expert, 2025--2026), inflația UE (MAE / mers aleator, $h = 12$, medie geometrică pe 27 de țări), log RV Bitcoin (MSE / HAR)
+    \item Parametrii sînt numărați în modelele încărcate; o valoare sub 1 înseamnă că modelul întrece modelul de referință
 \end{itemize}
 \quantlet{ATS\_ch13\_pretraining}{\qlurl{ATS_ch13_pretraining}}
 \end{frame}
@@ -420,8 +475,12 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
 \itemsize{\small}
 \begin{itemize}
     \item Familia Chronos-Bolt (9--205 M parametri): consum 1{,}143 $\to$ 1{,}034, inflație 1{,}086 $\to$ 1{,}034, Bitcoin 0{,}800 $\to$ 0{,}690
-    \item Între familii, mărimea nu dă clasamentul: Chronos-2 (119 M) 0{,}951 la consum; TiRex (35 M) 1{,}078; TimesFM 2.5 (231 M) 1{,}121
-    \item În familia Chronos-Bolt pierderea scade odată cu mărimea pe toate cele trei sarcini (o excepție: mini la inflație); între familii, arhitectura, corpusul și rețeta de antrenare se schimbă împreună, deci trei sarcini nu fac un studiu de scalare
+    \item Între familii, mărimea nu determină clasamentul: Chronos-2 (119 M) 0{,}951 la consum; TiRex (35 M) 1{,}078; TimesFM 2.5 (231 M) 1{,}121
+    \item În familia Chronos-Bolt pierderea scade odată cu mărimea pe toate cele trei sarcini (o excepție: mini la inflație)
+    \begin{itemize}
+        \item între familii, arhitectura, corpusul și procedura de antrenare se schimbă simultan
+        \item deci trei sarcini nu constituie un studiu de scalare
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -452,7 +511,7 @@ Chronos-Bolt & T5 pe patch-uri de 16 & 9--205 M & 9 cuantile, 10\%--90\%, 64 de 
 Chronos-2 \refAnsB{} & encoder cu atenție de grup & 119 M & 21 de cuantile, 1\%--99\%; covariabile \\
 TimesFM 2.5 \refDas{} & decoder-only, patch-uri & 231 M & media și decilele \\
 Moirai \refWoo{} & encoder mascat, atenție pe orice număr de variabile & 14--311 M & amestec de distribuții \\
-Lag-Llama \refRas{} & decoder-only pe valori decalate & mic & Student-$t$ \\
+Lag-Llama \refRas{} & decoder-only pe valori cu lag & mic & Student-$t$ \\
 MOMENT \refGos{} & encoder T5 mascat, multi-sarcină & 40--385 M & reconstrucție; straturi pe sarcină \\
 TiRex \refAue{} & xLSTM & 35 M & decile \\
 \bottomrule
@@ -466,10 +525,13 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Familia Chronos}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Chronos} \refAns: rețeta modelelor de limbaj fără modificări; prognoze prin eșantionarea traiectoriilor de token-uri; rezultate zero-shot comparabile cu modele antrenate pe datele-țintă (Benchmark II din lucrare)
+    \item \textbf{Chronos} \refAns: procedura de antrenare a modelelor de limbaj, nemodificată; prognoze prin eșantionarea traiectoriilor de token-uri
+    \begin{itemize}
+        \item rezultate zero-shot comparabile cu cele ale modelelor antrenate pe datele-țintă (Benchmark II din lucrare)
+    \end{itemize}
     \item \textbf{Chronos-Bolt}: intrări sub formă de patch-uri, decodor direct de cuantile; mult mai rapid; context de pînă la 2048, 64 de pași; cuantile doar între 10\% și 90\%
     \begin{itemize}
-        \item un interval de 95\% sau un VaR 1\% nu se pot citi din ieșirea lui: cererea este tăiată la cel mai apropiat nivel antrenat
+        \item un interval de 95\% sau un VaR 1\% nu se pot citi din ieșirea lui: cererea este trunchiată la cel mai apropiat nivel antrenat
     \end{itemize}
     \item \textbf{Chronos-2} \refAnsB: atenția de grup împarte informația între seriile unui grup (variabile, serii înrudite, covariabile); \textbf{învățare în context} a efectelor covariabilelor
     \begin{itemize}
@@ -486,7 +548,7 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
     \begin{itemize}
         \item Moirai 2.0 \refLiu: o simplificare decoder-only, mai mică și mai bună pe GIFT-Eval
     \end{itemize}
-    \item \textbf{Lag-Llama} \refRas: un decodor de tip LLaMA ale cărui token-uri sînt vectori de valori decalate la multe decalaje sezoniere; strat Student-$t$; puternic după fine-tuning
+    \item \textbf{Lag-Llama} \refRas: un decodor de tip LLaMA ale cărui token-uri sînt vectori de valori cu lag, la multe laguri sezoniere; strat Student-$t$; puternic după fine-tuning
     \item \textbf{MOMENT} \refGos: reconstrucție mascată pe Time series Pile; un singur encoder pentru prognoză, clasificare, detectarea anomaliilor și imputare
 \end{itemize}
 \end{frame}
@@ -494,8 +556,9 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Din nou recurente, observabilitate și un API închis}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{TiRex} \refAue: un xLSTM (celulele recurente din \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12}, cu porți exponențiale și memorie matriceală) păstrează o stare de-a lungul contextului: urmărirea stării pe orizonturi lungi
+    \item \textbf{TiRex} \refAue: un xLSTM păstrează o stare de-a lungul contextului, ceea ce permite urmărirea stării pe orizonturi lungi
     \begin{itemize}
+        \item xLSTM: celulele recurente din \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12}, cu porți exponențiale și memorie matriceală
         \item mascarea patch-urilor contigue (CPM) la antrenare: modelul învață să prognozeze cu patch-uri lipsă, adică mai mulți pași fără reacție
     \end{itemize}
     \item \textbf{Toto} \refCoh: decoder-only pentru metrici multivariate de observabilitate; benchmark-ul BOOM (2807 serii); arată că alcătuirea pe domenii a corpusului determină rezultatele
@@ -509,12 +572,12 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Zero-shot, fine-tuning, covariabile în context}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; fără antrenare, fără riscul ajustării; singurele alegeri sînt $C$ și modelul
-    \item \textbf{Fine-tuning}: $\theta$ pornește de la $\hat\theta$, cîțiva pași de gradient pe datele-țintă (toate ponderile sau adaptoare precum LoRA)
+    \item \textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; fără antrenare, deci fără risc de supraajustare pe seria-țintă; singurele alegeri sînt $C$ și modelul
+    \item \textbf{Fine-tuning}: ponderile $\theta$ pornesc de la $\hat\theta$ și fac cîțiva pași de gradient pe datele-țintă (toate ponderile sau adaptoare precum LoRA)
     \begin{itemize}
         \item cere o împărțire de validare care respectă timpul (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12}); poate uita distribuția a priori; pe serii economice scurte rareori merită
     \end{itemize}
-    \item \textbf{Covariabile în context} (Chronos-2): se transmit valorile trecute ale lui $x_t$ și valorile viitoare ale regresorilor cunoscuți; modelul deduce efectul lor în timpul trecerii înainte
+    \item \textbf{Covariabile în context} (Chronos-2): se transmit valorile trecute ale unei covariabile $x_t$ (de exemplu temperatura) și valorile viitoare ale regresorilor cunoscuți dinainte; modelul deduce efectul lor în timpul trecerii înainte
     \begin{itemize}
         \item învățarea încrucișată: prognoza în comun a unui lot de serii înrudite (toate cele 27 de țări UE la aceeași origine)
     \end{itemize}
@@ -537,9 +600,10 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Interpretarea celor patru prognoze}
 \itemsize{\small}
 \begin{itemize}
-    \item Consumul: formele zilnice și săptămînale sînt continuate cu benzi înguste: transferul de formă în cel mai bun caz
+    \item Consumul: profilurile zilnice și săptămînale sînt continuate cu benzi înguste: cazul cel mai favorabil pentru transferul de formă
     \item Inflația: o traiectorie netedă spre nivelul recent, cu benzi care se lărgesc cu orizontul: aproape de ce ar da un model AR persistent
-    \item Log RV pentru Bitcoin: un tipar săptămînal (varianță mai mică la sfîrșit de săptămînă) în jurul unui nivel stabilit de context; randamentele: o mediană constantă și o bandă simetrică, adică o distribuție necondiționată
+    \item Log RV pentru Bitcoin: un tipar săptămînal (varianță mai mică la sfîrșit de săptămînă) în jurul unui nivel stabilit de context
+    \item Randamentele: o mediană constantă și o bandă simetrică, adică o distribuție necondiționată
     \item Benzile randamentelor din cuantilele de 1\% și 99\%: VaR 1\% Chronos-2 pentru ziua următoare este 3{,}90 (\% din valoare); secțiunea 8 verifică dacă astfel de cifre sînt calibrate
 \end{itemize}
 \end{frame}
@@ -547,7 +611,7 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Recapitulare: familiile de modele}
 \itemsize{\small}
 \begin{itemize}
-    \item Familiile diferă prin intrare (token-uri, patch-uri, decalaje), arhitectură (encoder, decoder, recurentă) și ieșire (categorială, cuantile, parametrică)
+    \item Familiile diferă prin intrare (token-uri, patch-uri, laguri), arhitectură (encoder, decoder, recurentă) și ieșire (categorială, cuantile, parametrică)
     \item Domeniul cuantilelor este o constrîngere de proiectare: doar decile, cu excepția Chronos-2
     \item Zero-shot este varianta implicită; covariabilele în context și învățarea încrucișată sînt noile pîrghii; API-urile închise nu pot fi verificate
 \end{itemize}
@@ -561,32 +625,53 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Benchmark-uri pentru modelele preantrenate}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{GIFT-Eval} \refAks: 23 de seturi de date, peste 144\,000 de serii, 177 de milioane de puncte, șapte domenii, zece frecvențe, orizonturi scurte și lungi; un set de preantrenare fără scurgere
+    \item \textbf{GIFT-Eval} \refAks: 23 de seturi de date, peste 144\,000 de serii, 177 de milioane de puncte, șapte domenii, zece frecvențe, orizonturi scurte și lungi; un set de preantrenare fără leakage
     \item \textbf{fev-bench} \refShc: 100 de sarcini în șapte domenii, 46 cu covariabile; rate de cîștig și scoruri de abilitate cu intervale de încredere bootstrap
     \item \textbf{Benchmark-uri live}: prognoze înregistrate înainte să existe rezultatele, de exemplu TS-Arena \refMey{} și Impermanent \refGarB: singurul design imun la contaminare prin construcție
     \item Repere clasice pentru ce cere o comparație corectă: M5 \refMak; capcanele catalogate de \refHAB
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Agregarea scorurilor pe mai multe serii}
+\begin{frame}{Agregarea scorurilor pe mai multe serii (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Scoruri fără scală: MASE $= \frac{1}{H}\sum_h|y_{T+h} - \hat y_{T+h}| \big/ \frac{1}{T-m}\sum_t|y_t - y_{t-m}|$ \refHK; WQL $= 2\sum_{t,\tau}\rho_\tau(y_t - \hat q_{\tau,t})\big/\sum_t|y_t|$
+    \item \textbf{MASE} \refHK: eroarea absolută medie a prognozei împărțită la eroarea absolută medie, în eșantion, a prognozei naive sezoniere \[ \mathrm{MASE} = \frac{\frac{1}{H}\sum_{h=1}^{H}|y_{T+h} - \hat y_{T+h}|}{\frac{1}{T-m}\sum_{t=m+1}^{T}|y_t - y_{t-m}|} \]
     \begin{itemize}
-        \item $\rho_\tau(u) = u(\tau - \mathbf 1\{u < 0\})$ (pinball); media pe $\tau$ aproximează CRPS (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
+        \item $\hat y_{T+h}$: prognoza la $h$ pași după originea $T$; $m$: perioada sezonieră (1 fără sezonalitate)
+        \item MASE $< 1$: mai bun decît prognoza naivă în eșantion; nu depinde de unitățile lui $y$
     \end{itemize}
-    \item Scorurile relative $r_s = L_s(\text{model})/L_s(\text{referință})$ se combină prin \textbf{media geometrică} \refFW: clasamentele nu depind de alegerea modelului de referință, iar cîștigurile și pierderile sînt tratate simetric
+    \item \textbf{WQL} (pierderea cuantilică ponderată): pierderile pinball ale cuantilelor prognozate, însumate și împărțite la nivelul absolut total al seriei \[ \mathrm{WQL} = \frac{2\sum_{t}\sum_{\tau}\rho_\tau(y_t - \hat q_{\tau,t})}{\sum_t|y_t|}, \qquad \rho_\tau(u) = u\big(\tau - \mathbf 1\{u < 0\}\big) \]
     \begin{itemize}
-        \item scorul de abilitate $1 - \bar r_{\mathrm{geo}}$; rata de cîștig: ponderea seriilor pe care un model îl întrece pe altul
+        \item $\hat q_{\tau,t}$: cuantila prognozată de nivel $\tau \in (0, 1)$ pentru perioada $t$; $\mathbf 1\{\cdot\}$: 1 dacă condiția este îndeplinită, 0 altfel
+        \item $\rho_\tau$: pierderea pinball; media ei pe $\tau$ aproximează CRPS (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}); WQL $= 0$ doar pentru cuantile perfecte
     \end{itemize}
-    \item Media aritmetică a rapoartelor recompensează seriile slabe ale modelului de referință; media erorilor brute este dominată de seria cu scala cea mai mare
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Scurgerea de informație și contaminarea}
+\begin{frame}{Agregarea scorurilor pe mai multe serii (2/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Scurgerea seriilor}: o serie de evaluare (sau o copie apropiată) se află în corpusul de preantrenare; Chronos separă din acest motiv rezultatele în domeniu (Benchmark I) de cele zero-shot (Benchmark II) \refAns
+    \item \textbf{Scorul relativ} al seriei $s$: pierderea modelului împărțită la pierderea unui model de referință pe aceeași serie \[ r_s = \frac{L_s(\text{model})}{L_s(\text{baseline})}, \qquad \bar r_{\mathrm{geo}} = \Big(\prod_{s=1}^{S} r_s\Big)^{1/S} \]
+    \begin{itemize}
+        \item $L_s$: o pierdere (MAE, MASE, WQL) pe seria $s$; $S$: numărul de serii; $r_s < 1$: modelul întrece modelul de referință pe seria $s$
+    \end{itemize}
+    \item \textbf{Media geometrică} $\bar r_{\mathrm{geo}}$ \refFW: clasamentele nu depind de alegerea modelului de referință, iar un cîștig și o pierdere de același raport se compensează
+    \begin{itemize}
+        \item \textbf{scorul de abilitate} (skill score) $1 - \bar r_{\mathrm{geo}}$: cîștigul proporțional mediu față de modelul de referință (0: niciun cîștig)
+        \item \textbf{rata de cîștig} (win rate): ponderea seriilor pe care un model îl întrece pe altul
+    \end{itemize}
+    \item Două agregări de evitat
+    \begin{itemize}
+        \item media aritmetică a rapoartelor: dominată de seriile pe care modelul de referință este slab
+        \item media erorilor brute: dominată de seria cu scala cea mai mare
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Leakage și contaminare}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Leakage-ul seriilor}: o serie de evaluare (sau o copie apropiată) se află în corpusul de preantrenare; Chronos separă din acest motiv rezultatele în domeniu (Benchmark I) de cele zero-shot (Benchmark II) \refAns
     \item \textbf{Contaminarea temporală}: fereastra de test precede data-limită a antrenării; modelul poate să fi văzut rezultatele altor serii, corelate, din aceeași perioadă
     \begin{itemize}
         \item LLM-urile reproduc valori economice exacte din perioada dinaintea datei-limită \refLTZ; un design cu două seturi de date împotriva contaminării, pentru prețurile electricității \refPE
@@ -600,16 +685,38 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testarea pe multe serii}
+\begin{frame}{Testarea pe multe serii (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item O serie: DM cu corecția HLN \refDM, \refHLN; capacitatea condiționată \refGW; multe modele: MCS \refHLNa{} (toate în \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
-    \item $S$ serii testate separat: la 5\% fiecare, sub ipoteza nulă se așteaptă aproximativ $0{,}05S$ respingeri false
+    \item $S$ serii testate separat, fiecare la nivelul de 5\%: sub ipoteza nulă se așteaptă aproximativ $0{,}05S$ respingeri false
     \begin{itemize}
-        \item \textbf{Holm} \refHol{} (FWER): ordonați $p_{(1)} \le \dots \le p_{(S)}$, respingeți cît timp $p_{(k)} \le \alpha/(S - k + 1)$
-        \item \textbf{Benjamini--Hochberg} \refBH{} (FDR): respingeți cele mai mici $k^*$, $k^* = \max\{k: p_{(k)} \le k\alpha/S\}$; valid sub independență sau dependență pozitivă
+        \item cu $S = 27$ de țări, aproximativ una sau două țări „semnificative” doar din întîmplare
     \end{itemize}
-    \item Teste agregate: mediați diferența de pierdere pe serii la fiecare origine, apoi un singur test DM cu varianță HAC: corelația dintre serii este păstrată în dimensiunea timpului
+    \item Două rate de eroare pentru o familie de teste
+    \begin{itemize}
+        \item \textbf{FWER} (family-wise error rate): probabilitatea a cel puțin unei respingeri false
+        \item \textbf{FDR} (false discovery rate): proporția așteptată a respingerilor false printre toate respingerile
+    \end{itemize}
+    \item Notațiile: $p_{(1)} \le \dots \le p_{(S)}$ sînt cele $S$ p-value-uri ordonate crescător; $\alpha$: nivelul-țintă al familiei (de exemplu 5\%)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testarea pe multe serii (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Holm} \refHol, controlează FWER: se parcurge lista ordonată și se respinge cît timp \[ p_{(k)} \le \frac{\alpha}{S - k + 1}, \qquad k = 1, 2, \dots \]
+    \begin{itemize}
+        \item cel mai mic p-value este comparat cu pragul Bonferroni $\alpha/S$, următoarele cu praguri treptat mai permisive; se oprește la primul eșec
+    \end{itemize}
+    \item \textbf{Benjamini--Hochberg} \refBH, controlează FDR: se resping cele mai mici $k^*$ p-value-uri, unde \[ k^* = \max\{k: p_{(k)} \le k\alpha/S\} \]
+    \begin{itemize}
+        \item mai multe respingeri decît Holm; valid sub independență sau dependență pozitivă între teste
+    \end{itemize}
+    \item \textbf{Test agregat}: se mediază diferența de pierdere pe serii la fiecare origine, apoi se aplică un singur test DM cu varianță HAC
+    \begin{itemize}
+        \item corelația dintre serii rămîne în seria de timp mediată, deci varianța HAC o ia în calcul
+    \end{itemize}
     \item Ranguri pe multe seturi de date: testele Friedman și Nemenyi \refDem; ele ignoră mărimea diferențelor și presupun seturi de date independente
 \end{itemize}
 \end{frame}
@@ -725,7 +832,11 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
     \item De la iunie 2021: după 12 luni inflația a fost 13{,}0\%; mediana Chronos-2 3{,}8\% (80\%: 1{,}5 -- 6{,}6), AR 3{,}7\%
     \item De la noiembrie 2022, aproape de vîrf (14{,}6\% în noiembrie 2022): rezultat 6{,}9\%; Chronos-2 16{,}5\%, AR 13{,}7\%
     \item De la august 2025: rezultat 6{,}3\%; Chronos-2 11{,}4\%, AR 9{,}0\%; ultima observație este 6{,}3\% (august 2026)
-    \item Ambele metode extrapolează persistența; punctele de întoarcere vin din informații din afara seriei (prețurile energiei, sfîrșitul plafonării prețurilor, majorarea TVA din august 2025, al cărei efect asupra inflației anuale durează exact 12 luni): cunoscute dinainte, deci covariabile naturale
+    \item Ambele metode extrapolează persistența; punctele de întoarcere vin din informații din afara seriei
+    \begin{itemize}
+        \item prețurile energiei, sfîrșitul plafonării prețurilor, majorarea TVA din august 2025 (efectul ei asupra inflației anuale durează exact 12 luni)
+        \item acestea sînt cunoscute dinainte, deci sînt covariabile naturale
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -736,7 +847,7 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Statisticile DM--HLN pe țări (HAC cu $h - 1$ decalaje) ale erorilor absolute Chronos-2 minus AR($p$) la $h = 12$; negativ: Chronos-2 este mai bun
+    \item Statisticile DM--HLN pe țări (HAC cu $h - 1$ laguri) ale erorilor absolute Chronos-2 minus AR($p$) la $h = 12$; negativ: Chronos-2 este mai bun
 \end{itemize}
 \quantlet{ATS\_ch13\_benchmark}{\qlurl{ATS_ch13_benchmark}}
 \end{frame}
@@ -746,7 +857,10 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{itemize}
     \item 23 din 27 de statistici sînt negative; 2 sînt semnificative la 5\% fără corecție (1 în favoarea Chronos-2, 1 în favoarea AR)
     \item Cu Holm: 0 respingeri; cu Benjamini--Hochberg: 0; România: $t = 2{,}88$, $p$ = 0{,}005
-    \item Agregat pe cele 27 de țări (diferența medie de pierdere la fiecare origine, varianță HAC): $t = \ensuremath{-}1{,}35$, $p$ = 0{,}180; intervalele bootstrap din graficul anterior tratează țările ca independente și par mai precise decît sînt
+    \item Agregat pe cele 27 de țări (diferența medie de pierdere la fiecare origine, varianță HAC): $t = \ensuremath{-}1{,}35$, $p$ = 0{,}180
+    \begin{itemize}
+        \item intervalele bootstrap din graficul anterior tratează țările ca independente și par mai precise decît sînt
+    \end{itemize}
     \item O lucrare care raportează țările în care modelul ei cîștigă la 5\% raportează zgomot; testul agregat și numerele ajustate pentru multiplicitate sînt rezumatul onest
 \end{itemize}
 \end{frame}
@@ -768,7 +882,11 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{itemize}
     \item Bitcoin, QLIKE relativ la HAR: Chronos-2 0{,}825, TimesFM 0{,}800, TiRex 0{,}824, Bolt 0{,}864; MCS (10\%): \{Chronos-2, TimesFM 2.5, TiRex\}
     \item S\&P 500: Chronos-2 0{,}963, TimesFM 0{,}968, TiRex 0{,}956, Bolt 1{,}004; MCS (10\%): \{Chronos-2, TimesFM 2.5, TiRex\}
-    \item Trei dintre cele patru modele zero-shot întrec HAR pe ambele active, iar HAR nu intră în niciun MCS: memoria lentă a lui log RV (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol10_memorie_lunga_rough_volatility.pdf}{Capitolul 10}) este o formă pe care un corpus o poate preda; cîștigul este mare pentru Bitcoin și mic pentru S\&P 500
+    \item Trei dintre cele patru modele zero-shot întrec HAR pe ambele active, iar HAR nu intră în niciun MCS
+    \begin{itemize}
+        \item memoria lentă a lui log RV (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol10_memorie_lunga_rough_volatility.pdf}{Capitolul 10}) este o structură pe care modelul o poate învăța din corpus
+        \item cîștigul este mare pentru Bitcoin și mic pentru S\&P 500
+    \end{itemize}
     \item Studii recente ajung la verdicte mixte \refGoe, \refBri, \refRNW: cîștigurile depind de activ, de orizont și de funcția de pierdere, iar fine-tuning-ul sau preantrenarea pe date financiare contează adesea
 \end{itemize}
 \end{frame}
@@ -790,7 +908,10 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{itemize}
     \item Consum, Chronos-2: 0{,}952 înainte, 0{,}950 după; TimesFM: 1{,}133; 1{,}112; fereastra anterioară (ianuarie--octombrie 2025) precede ambele lansări
     \item Bitcoin, Chronos-2: 0{,}886 (2021 -- 24 noiembrie 2024) și 0{,}631 (după); TiRex: 0{,}874; 0{,}658; ferestrele de după lansare au 334 și 322 de zile
-    \item Nicio deteriorare după lansări (pentru Bitcoin rapoartele sînt chiar mai mici): nicio dovadă de contaminare aici; dar absența unei scăderi nu dovedește absența scurgerii, iar piețele se schimbă între ferestre
+    \item Nicio deteriorare după lansări (pentru Bitcoin rapoartele sînt chiar mai mici): nicio dovadă de contaminare aici
+    \begin{itemize}
+        \item dar absența unei scăderi nu dovedește absența leakage-ului, iar piețele se schimbă între ferestre
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -816,7 +937,12 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
     \begin{itemize}
         \item probabilitățile cifră cu cifră definesc o densitate ierarhică (pe mai multe intervale) pentru valori continue; eșantionarea repetată dă cuantile
     \end{itemize}
-    \item Rezultatele lucrării: competitiv zero-shot pe unele benchmark-uri; tokenizarea numerelor contează (un model mai nou putea fi mai slab din cauza felului în care împarte cifrele); alinierea (RLHF) strică calibrarea
+    \item Rezultatele lucrării
+    \begin{itemize}
+        \item competitiv zero-shot pe unele benchmark-uri
+        \item tokenizarea numerelor contează: un model mai nou putea fi mai slab din cauza felului în care împarte cifrele
+        \item alinierea (RLHF) deteriorează calibrarea
+    \end{itemize}
     \item Costuri: mii de token-uri pe serie și multe eșantioane pentru o prognoză; fereastra de context limitează istoria; LLM-ul poate să fi memorat datele
 \end{itemize}
 \end{frame}
@@ -902,33 +1028,80 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \end{columns}
 \end{frame}
 
-\begin{frame}{Interschimbabilitatea și garanția urmărită}
+\begin{frame}{Interschimbabilitatea și garanția urmărită (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $Z_1, \dots, Z_{n+1}$, $Z_i = (X_i, Y_i)$, sînt \textbf{interschimbabile} dacă $(Z_{\pi(1)}, \dots, Z_{\pi(n+1)}) \overset{d}{=} (Z_1, \dots, Z_{n+1})$ pentru orice permutare $\pi$
+    \item Datele: $n$ puncte de calibrare și un punct de test, $Z_i = (X_i, Y_i)$, $i = 1, \dots, n + 1$
     \begin{itemize}
-        \item i.i.d.\ implică interschimbabilitate; extragerile fără întoarcere sînt interschimbabile, dar dependente; un AR(1) staționar nu este interschimbabil
+        \item $X_i$: predictorii (variabile, laguri, o prognoză de model); $Y_i$: valoarea care trebuie acoperită; $Z_{n+1}$: punctul de test, al cărui $Y_{n+1}$ este necunoscut
     \end{itemize}
-    \item \textbf{Acoperire marginală}: $\Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha$, probabilitatea fiind luată împreună pe datele de calibrare și pe punctul de test
+    \item \textbf{Interschimbabilitatea}: orice reordonare a punctelor are aceeași distribuție comună \[ (Z_{\pi(1)}, \dots, Z_{\pi(n+1)}) \overset{d}{=} (Z_1, \dots, Z_{n+1}) \quad \text{pentru orice permutare} \ \pi \]
     \begin{itemize}
-        \item nu acoperirea \textbf{condiționată} $\Pr\{Y \in \hat C(x) \mid X = x\} \ge 1 - \alpha$ pentru orice $x$ și nici acoperirea condiționată de eșantionul de calibrare
+        \item $\pi$: o permutare (reordonare) a mulțimii $\{1, \dots, n + 1\}$; $\overset{d}{=}$: egalitate în distribuție
     \end{itemize}
-    \item Un \textbf{scor de neconformitate} $s(x, y)$: mare cînd $y$ este neobișnuit dat fiind $x$, de exemplu $|y - \hat\mu(x)|$, $|y - \hat\mu(x)|/\hat\sigma(x)$ sau scorul CQR de mai jos
+    \item Exemple
+    \begin{itemize}
+        \item datele i.i.d.\ sînt interschimbabile
+        \item extragerile fără întoarcere sînt interschimbabile, dar dependente
+        \item un AR(1) staționar $y_t = \phi y_{t-1} + \varepsilon_t$, $0 < |\phi| < 1$, nu este: $\mathrm{corr}(y_1, y_2) = \phi \ne \phi^2 = \mathrm{corr}(y_1, y_3)$, deci schimbarea între ele a lui $y_2$ și $y_3$ modifică legea comună
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Predicția split conformal}
+\begin{frame}{Interschimbabilitatea și garanția urmărită (2/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Se estimează $\hat\mu$ pe un set de antrenare; se calculează $S_i = s(X_i, Y_i)$ pe $n$ puncte de calibrare \refPap, \refLei
+    \item \textbf{Acoperirea marginală}: mulțimea de predicție conține valoarea de test cu probabilitatea de cel puțin $1 - \alpha$ \[ \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha \]
     \begin{itemize}
-        \item $\hat q = S_{(k)}$, $k = \lceil (n + 1)(1 - \alpha) \rceil$ (a $k$-a cea mai mică valoare; $+\infty$ dacă $k > n$); $\hat C(x) = \{y: s(x, y) \le \hat q\}$
+        \item $\hat C(x)$: mulțimea de predicție (de obicei un interval) construită din datele de calibrare; $\alpha$: rata de ratare admisă, de exemplu 0,1 pentru un interval de 90\%
+        \item probabilitatea este luată împreună pe datele de calibrare și pe punctul de test
     \end{itemize}
-    \item \textbf{Teoremă}: dacă $(X_i, Y_i)_{i \le n+1}$ sînt interschimbabile, $\Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha$; fără egalități, și $\le 1 - \alpha + 1/(n + 1)$
+    \item Ce nu garantează
     \begin{itemize}
-        \item demonstrație: dat fiind $\hat\mu$, scorurile $S_1, \dots, S_{n+1}$ sînt interschimbabile, deci rangul lui $S_{n+1}$ este uniform pe $\{1, \dots, n + 1\}$; $Y_{n+1} \in \hat C \iff$ rangul $\le k$, cu probabilitatea $k/(n + 1) \ge 1 - \alpha$ (\atsapplink{atsapp1}{atssrc1}{Anexă})
+        \item acoperirea \textbf{condiționată}, $\Pr\{Y \in \hat C(x) \mid X = x\} \ge 1 - \alpha$ pentru orice valoare $x$
+        \item acoperirea condiționată de un anumit eșantion de calibrare
     \end{itemize}
-    \item Nicio ipoteză asupra modelului sau a distribuției: un model slab dă intervale largi, nu invalide
+    \item Un \textbf{scor de neconformitate} $s(x, y)$: un număr care este mare cînd $y$ este neobișnuit dat fiind $x$
+    \begin{itemize}
+        \item exemple: $|y - \hat\mu(x)|$, $|y - \hat\mu(x)|/\hat\sigma(x)$ sau scorul CQR de mai jos
+        \item $\hat\mu(x)$: o prognoză punctuală a lui $y$ dat fiind $x$; $\hat\sigma(x)$: o prognoză a dispersiei (de exemplu o volatilitate GARCH)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Predicția split conformal (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Pasul 1: se estimează un model de prognoză $\hat\mu$ pe un set de antrenare \refPap, \refLei
+    \item Pasul 2: se calculează scorurile celor $n$ puncte de calibrare, nefolosite la pasul 1 \[ S_i = s(X_i, Y_i), \qquad i = 1, \dots, n \]
+    \item Pasul 3: pragul $\hat q$ este al $k$-lea cel mai mic scor de calibrare \[ \hat q = S_{(k)}, \qquad k = \lceil (n + 1)(1 - \alpha) \rceil \]
+    \begin{itemize}
+        \item $S_{(k)}$: statistica de ordine $k$ a scorurilor $S_1, \dots, S_n$; $\lceil\cdot\rceil$: rotunjirea în sus la un întreg; $\hat q = +\infty$ dacă $k > n$
+        \item exemplu: $n = 99$, $\alpha = 0{,}1$ dă $k = 90$, al 90-lea cel mai mic dintre cele 99 de scoruri
+    \end{itemize}
+    \item Pasul 4: mulțimea de predicție păstrează orice valoare candidată al cărei scor nu depășește pragul \[ \hat C(x) = \{y: s(x, y) \le \hat q\} \]
+    \begin{itemize}
+        \item cu $s(x, y) = |y - \hat\mu(x)|$: intervalul $\hat\mu(x) \pm \hat q$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Predicția split conformal (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Teoremă}: dacă punctele $(X_i, Y_i)$, $i = 1, \dots, n + 1$, sînt interschimbabile, atunci \[ 1 - \alpha \le \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \le 1 - \alpha + \frac{1}{n + 1} \]
+    \begin{itemize}
+        \item marginea superioară cere ca scorurile să nu aibă egalități (scoruri continue)
+    \end{itemize}
+    \item Ideea demonstrației (\atsapplink{atsapp1}{atssrc1}{Anexă})
+    \begin{itemize}
+        \item dat fiind $\hat\mu$, scorurile $S_1, \dots, S_{n+1}$ sînt interschimbabile, deci rangul lui $S_{n+1}$ printre ele este uniform pe $\{1, \dots, n + 1\}$
+        \item $Y_{n+1} \in \hat C(X_{n+1})$ exact atunci cînd acest rang este cel mult $k$, ceea ce are probabilitatea $k/(n + 1) \ge 1 - \alpha$
+    \end{itemize}
+    \item Nicio ipoteză asupra modelului sau a distribuției
+    \begin{itemize}
+        \item un model slab dă intervale largi, nu intervale invalide
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -939,7 +1112,8 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Acoperirea $F(\hat q)$ a punctului următor pentru 4000 de seturi de calibrare de $n = 50$ și $n = 500$ scoruri, $\alpha = 0{,}1$, și legea exactă Beta($k$, $n + 1 - k$)
+    \item Acoperirea $F(\hat q)$ a punctului următor pentru 4000 de seturi de calibrare cu $n = 50$ și cu $n = 500$ de scoruri, $\alpha = 0{,}1$, și legea exactă Beta($k$, $n + 1 - k$)
+    \item $F$: funcția de repartiție a scorurilor, deci $F(\hat q) = \Pr\{S_{n+1} \le \hat q \mid \text{setul de calibrare}\}$ este acoperirea obținută cu un anumit set de calibrare
 \end{itemize}
 \quantlet{ATS\_ch13\_conformal\_basics}{\qlurl{ATS_ch13_conformal_basics}}
 \end{frame}
@@ -949,12 +1123,15 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{itemize}
     \item Acoperirea medie 0{,}902 ($n = 50$) și 0{,}900 ($n = 500$), cum dă teoria (0{,}902; 0{,}900): garanția marginală este valabilă în medie pe seturile de calibrare
     \item Un set de calibrare este o singură extragere: abaterea standard 0{,}041 și 0{,}014; cu $n = 50$, 26\% dintre seturi dau acoperire sub 0,88, cu $n = 500$ doar 7\%
-    \item Deoarece $F(\hat q) \sim$ Beta($k$, $n + 1 - k$), alegerea lui $n$ este un calcul de mărime a eșantionului: abaterea standard este aproximativ $\sqrt{\alpha(1 - \alpha)/n}$
+    \item Deoarece $F(\hat q) \sim$ Beta($k$, $n + 1 - k$), alegerea lui $n$ este un calcul de mărime a eșantionului
+    \begin{itemize}
+        \item abaterea standard a acoperirii realizate este aproximativ $\sqrt{\alpha(1 - \alpha)/n}$: pentru a o înjumătăți, $n$ trebuie înmulțit cu 4
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Regresia cuantilică conformalizată}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.32\textwidth}
 \centering
@@ -964,11 +1141,23 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \end{column}
 \begin{column}{0.66\textwidth}
 \begin{itemize}
-    \item \refRPC: se estimează regresii cuantilice \refKB{} $\hat q_{\alpha/2}(x)$, $\hat q_{1-\alpha/2}(x)$ pe setul de antrenare
-    \item Scorul $s(x, y) = \max\{\hat q_{\alpha/2}(x) - y,\; y - \hat q_{1-\alpha/2}(x)\}$: negativ în interiorul benzii
-    \item $\hat C(x) = [\hat q_{\alpha/2}(x) - \hat q,\; \hat q_{1-\alpha/2}(x) + \hat q]$: banda este deplasată spre exterior (sau spre interior dacă $\hat q < 0$)
-    \item Acoperirea marginală rezultă din teorema split; lățimea se adaptează la heteroscedasticitate prin modelele cuantilice
-    \item Același scor calibrează cuantilele oricărui foundation model (secțiunea 8)
+    \item \refRPC: se estimează două regresii cuantilice \refKB{} pe setul de antrenare
+    \begin{itemize}
+        \item $\hat q_{\alpha/2}(x)$, $\hat q_{1-\alpha/2}(x)$: cuantilele condiționate inferioară și superioară ale lui $Y$ dat fiind $X = x$, estimate
+    \end{itemize}
+    \item \textbf{Scorul CQR}: distanța cu semn a lui $y$ în afara benzii \[ s(x, y) = \max\{\hat q_{\alpha/2}(x) - y,\; y - \hat q_{1-\alpha/2}(x)\} \]
+    \begin{itemize}
+        \item negativ în interiorul benzii, pozitiv în afara ei
+    \end{itemize}
+    \item \textbf{Intervalul}: banda lărgită pe ambele părți cu pragul conformal $\hat q$ al acestor scoruri \[ \hat C(x) = [\hat q_{\alpha/2}(x) - \hat q,\; \hat q_{1-\alpha/2}(x) + \hat q] \]
+    \begin{itemize}
+        \item $\hat q < 0$: banda era prea largă și este îngustată
+    \end{itemize}
+    \item Proprietăți
+    \begin{itemize}
+        \item acoperirea marginală rezultă din teorema split; lățimea se adaptează la heteroscedasticitate prin modelele cuantilice
+        \item același scor calibrează cuantilele oricărui foundation model (secțiunea 8)
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -977,11 +1166,13 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{CQR pe designul lui Romano, Patterson și Candès}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.48\textheight,keepaspectratio]{ats_ch13_cqr.pdf}
+\includegraphics[width=0.97\textwidth,height=0.44\textheight,keepaspectratio]{ats_ch13_cqr.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item $Y = \mathrm{Pois}(\sin^2 X + 0{,}1) + 0{,}03X\varepsilon_1 + 25\cdot\mathbf 1\{U < 0{,}01\}\varepsilon_2$, $X \sim U[0, 5]$ (Figura 1 din lucrare); 1000 de puncte de antrenare și 1000 de calibrare; gradient boosting pentru medie și pentru cuantilele de 5\% și 95\%
+    \item Date simulate (Figura 1 din lucrare): $Y = \mathrm{Pois}(\sin^2 X + 0{,}1) + 0{,}03X\varepsilon_1 + 25\cdot\mathbf 1\{U < 0{,}01\}\varepsilon_2$, $X \sim U[0, 5]$
+    \item $\mathrm{Pois}(\lambda)$: o extragere Poisson cu media $\lambda$; $\varepsilon_1, \varepsilon_2$: zgomot cu distribuția Normală standard; $U \sim U[0, 1]$, deci 1\% dintre puncte primesc o valoare extremă mare; zgomotul crește cu $X$
+    \item 1000 de puncte de antrenare și 1000 de calibrare; gradient boosting pentru medie și pentru cuantilele de 5\% și 95\%
 \end{itemize}
 \quantlet{ATS\_ch13\_conformal\_basics}{\qlurl{ATS_ch13_conformal_basics}}
 \end{frame}
@@ -990,8 +1181,11 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \itemsize{\small}
 \begin{itemize}
     \item Acoperirea pe datele de test: split conformal 0{,}918, CQR 0{,}915, modelele cuantilice brute 0{,}883; lățimea medie 2{,}84; 2{,}20 și 2{,}17
-    \item Regresiile cuantilice brute acoperă prea puțin; CQR le repară aproape fără lățime suplimentară, în timp ce banda split de lățime constantă este cu 29\% mai largă
-    \item Pe intervale ale lui $X$, ambele rămîn la cîteva puncte de 90\% (cele mai slabe intervale: CQR 0{,}892, split 0{,}896); cîștigul CQR este în lățime: îngust acolo unde $Y$ este concentrat, larg acolo unde zgomotul Poisson este mare
+    \item Regresiile cuantilice brute au o acoperire prea mică; CQR le corectează aproape fără lățime suplimentară, în timp ce banda split de lățime constantă este cu 29\% mai largă
+    \item Pe intervale ale lui $X$, ambele rămîn la cîteva puncte de 90\% (cele mai slabe intervale: CQR 0{,}892, split 0{,}896)
+    \begin{itemize}
+        \item cîștigul CQR este în lățime: îngust acolo unde $Y$ este concentrat, larg acolo unde zgomotul Poisson este mare
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1002,8 +1196,17 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
     \begin{itemize}
         \item nicio metodă nu poate certifica în eșantioane finite acoperirea în fiecare punct al unei covariabile continue fără ipoteze
     \end{itemize}
-    \item Rezultate posibile: acoperire în cadrul unui număr finit de grupuri (conformal Mondrian: calibrare separată pe grupuri); acoperire condiționată aproximativă sub ipoteze de netezime; acoperire condiționată de setul de calibrare cu probabilitate mare (legea Beta)
-    \item Pentru serii de timp, condiția relevantă este trecutul: $\Pr\{Y_t \in \hat C_t \mid \mathcal F_{t-1}\}$; un backtest VaR (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9}) testează exact această proprietate pentru mulțimi unilaterale
+    \item Rezultate posibile
+    \begin{itemize}
+        \item acoperire în fiecare dintre un număr finit de grupuri (conformal Mondrian: calibrare separată pe grupuri)
+        \item acoperire condiționată aproximativă, sub ipoteze de netezime
+        \item acoperire condiționată de setul de calibrare, cu probabilitate mare (legea Beta)
+    \end{itemize}
+    \item Pentru serii de timp, condiția relevantă este trecutul: ținta este $\Pr\{Y_t \in \hat C_t \mid \mathcal F_{t-1}\} = 1 - \alpha$
+    \begin{itemize}
+        \item $\mathcal F_{t-1}$: informația disponibilă la $t - 1$; $\hat C_t$: mulțimea construită la $t - 1$ pentru perioada $t$
+        \item un backtest VaR (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9}) testează exact această proprietate pentru mulțimi unilaterale
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1024,39 +1227,71 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Interschimbabilitatea încălcată: rezultatele care rămîn valabile}
 \itemsize{\small}
 \begin{itemize}
-    \item Seriile de timp încalcă interschimbabilitatea în trei feluri: dependența serială, volatilitatea variabilă, schimbările structurale; ultimele două strică cel mai mult acoperirea
-    \item \textbf{Staționar și mixing}: split conformal rămîne aproximativ valid, cu o abatere a acoperirii controlată de coeficienții $\beta$-mixing și de mărimea calibrării \refOli
+    \item Seriile de timp încalcă interschimbabilitatea în trei feluri: dependența serială, volatilitatea variabilă, schimbările structurale; ultimele două afectează cel mai mult acoperirea
+    \item \textbf{Staționar și mixing}: split conformal rămîne aproximativ valid \refOli
     \begin{itemize}
+        \item abaterea acoperirii scade cu mărimea calibrării și cu coeficienții $\beta$-mixing, care măsoară cît de repede dispare dependența dintre observațiile îndepărtate
         \item permutările pe blocuri refac exactitatea sub condiții mai slabe \refCWZ
     \end{itemize}
-    \item \textbf{Nestaționar}: nicio metodă statică nu poate funcționa; pragul trebuie să se miște odată cu datele: ponderi (Barber et al.), reestimare (EnbPI), reacție la erori (ACI, PID)
-    \item Un cadru online comun: scorurile $S_t = s(X_t, Y_t)$ calculate din prognoze în afara eșantionului; la momentul $t$ se alege un prag $q_t$ din $S_1, \dots, S_{t-1}$; ratarea $\mathrm{err}_t = \mathbf 1\{S_t > q_t\}$
+    \item \textbf{Nestaționar}: nicio metodă statică nu poate funcționa; pragul trebuie să se miște odată cu datele
+    \begin{itemize}
+        \item ponderi (Barber et al.), reestimare (EnbPI), reacție la erori (ACI, PID)
+    \end{itemize}
+    \item \textbf{Un cadru online comun} pentru slide-urile următoare
+    \begin{itemize}
+        \item $S_t = s(X_t, Y_t)$: scorul perioadei $t$, calculat dintr-o prognoză în afara eșantionului
+        \item $q_t$: pragul folosit la $t$, ales din scorurile trecute $S_1, \dots, S_{t-1}$; mulțimea este $\hat C_t = \{y: s(X_t, y) \le q_t\}$
+        \item $\mathrm{err}_t = \mathbf 1\{S_t > q_t\}$: indicatorul ratării, 1 dacă $Y_t$ cade în afara lui $\hat C_t$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Predicția conformală dincolo de interschimbabilitate}
+\begin{frame}{Predicția conformală dincolo de interschimbabilitate (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refBar: ponderi fixe $w_i \in [0, 1]$, alese înainte de a vedea datele; $\hat q$ = cuantila $(1 - \alpha)$ a lui $\sum_i \tilde w_i\delta_{S_i} + \tilde w_{n+1}\delta_{+\infty}$, $\tilde w_i = w_i/(1 + \sum_j w_j)$, $w_{n+1} = 1$
+    \item \refBar: fiecare scor de calibrare primește o pondere fixă $w_i \in [0, 1]$, aleasă înainte de a vedea datele; punctul de test primește ponderea $w_{n+1} = 1$
     \begin{itemize}
-        \item \textbf{Teoremă}: acoperirea $\ge 1 - \alpha - \sum_i \tilde w_i\, d_{\mathrm{TV}}(Z, Z^i)$, unde $Z^i$ schimbă punctul de test cu punctul $i$
+        \item ponderile normalizate $\tilde w_i = w_i/(1 + \sum_{j=1}^n w_j)$, $i = 1, \dots, n + 1$; însumează 1
     \end{itemize}
-    \item Sub interschimbabilitate abaterea este zero; sub o derivă lentă, $d_{\mathrm{TV}}$ este mic pentru punctele recente, deci ponderile geometrice $w_i = \rho^{n+1-i}$ o păstrează mică
+    \item Pragul $\hat q$ este cuantila $(1 - \alpha)$ a distribuției ponderate a scorurilor, cu punctul de test plasat la $+\infty$ \[ \hat q = Q_{1-\alpha}\Big(\sum_{i=1}^n \tilde w_i\,\delta_{S_i} + \tilde w_{n+1}\,\delta_{+\infty}\Big) \]
     \begin{itemize}
-        \item mărimea efectivă a eșantionului $\approx 1/(1 - \rho)$: $\rho = 0{,}99$ folosește aproximativ 100 de scoruri recente; robustețe în schimbul variabilității pragului
+        \item $\delta_a$: o masă de probabilitate unitară în punctul $a$; $Q_{1-\alpha}(\cdot)$: cuantila $(1 - \alpha)$ a unei distribuții
+        \item cu toate $w_i = 1$, acesta este pragul split conformal
     \end{itemize}
-    \item Schimbarea distribuției covariabilelor cu raport de verosimilitate cunoscut: ponderile $w(x) = dP_{\mathrm{test}}/dP_{\mathrm{train}}$ dau acoperire exactă \refTBCR
+    \item \textbf{Schimbarea distribuției covariabilelor} cu raport de verosimilitate cunoscut: ponderile $w(x) = dP_{\mathrm{test}}/dP_{\mathrm{train}}$ dau acoperire exactă \refTBCR
+    \begin{itemize}
+        \item $dP_{\mathrm{test}}/dP_{\mathrm{train}}$: raportul densităților lui $X$ în populația de test și în cea de antrenare
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Predicția conformală dincolo de interschimbabilitate (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Teoremă} \refBar: pierderea de acoperire este mărginită de distanța ponderată față de interschimbabilitate \[ \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha - \sum_{i=1}^n \tilde w_i\, d_{\mathrm{TV}}(Z, Z^i) \]
+    \begin{itemize}
+        \item $Z = (Z_1, \dots, Z_{n+1})$: datele; $Z^i$: aceleași date, cu punctul de test și punctul $i$ schimbate între ele
+        \item $d_{\mathrm{TV}}$: distanța în variație totală dintre două distribuții, în $[0, 1]$; 0 cînd coincid
+    \end{itemize}
+    \item Sub interschimbabilitate, toți termenii $d_{\mathrm{TV}}(Z, Z^i)$ sînt 0, iar abaterea dispare
+    \item Sub o derivă lentă, $d_{\mathrm{TV}}$ este mic pentru punctele recente: acestea primesc ponderile cele mai mari
+    \begin{itemize}
+        \item ponderi geometrice $w_i = \rho^{n+1-i}$, $\rho \in (0, 1)$: ponderea se înjumătățește la fiecare $\ln 2/|\ln\rho|$ pași
+        \item mărimea efectivă a eșantionului $\approx 1/(1 - \rho)$: $\rho = 0{,}99$ folosește aproximativ 100 de scoruri recente
+        \item un $\rho$ mai mic se adaptează mai repede, dar face pragul mai variabil
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Predicția conformală ponderată la puncte de schimbare}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.48\textheight,keepaspectratio]{ats_ch13_weighted.pdf}
+\includegraphics[width=0.97\textwidth,height=0.42\textheight,keepaspectratio]{ats_ch13_weighted.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item $Y_t = X_t'\beta_t + \varepsilon_t$, $X_t \sim N(0, I_4)$, $\beta$ se schimbă la $t = 500$ și $t = 1500$; cele mai mici pătrate pe toate datele trecute; reziduurile absolute prequential ca scoruri; acoperirea mediată pe 200 de rulări (medie mobilă pe 20 de pași)
+    \item Regresie simulată $Y_t = X_t'\beta_t + \varepsilon_t$: $X_t \sim N(0, I_4)$, patru regresori independenți cu distribuția Normală standard ($I_4$: matricea unitate $4 \times 4$); $\varepsilon_t$: zgomot cu distribuția Normală; vectorul de coeficienți $\beta_t$ se schimbă la $t = 500$ și $t = 1500$
+    \item Cele mai mici pătrate pe toate datele trecute; scorurile: reziduurile absolute la un pas (prequential: fiecare calculat înainte ca $Y_t$ să fie folosit); acoperirea mediată pe 200 de rulări (medie mobilă pe 20 de pași)
 \end{itemize}
 \quantlet{ATS\_ch13\_conformal\_time}{\qlurl{ATS_ch13_conformal_time}}
 \end{frame}
@@ -1065,47 +1300,77 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \itemsize{\small}
 \begin{itemize}
     \item Acoperirea medie după perioada inițială: standard 0{,}836, ponderat ($\rho = 0{,}99$) 0{,}900; cea mai slabă medie pe 20 de pași 0{,}36 față de 0{,}43
-    \item Ambele se prăbușesc la o ruptură, pentru că estimarea prin cele mai mici pătrate este greșită o vreme; pragul ponderat uită scorurile vechi și își revine în aproximativ 100 de pași
-    \item Prețul: lățimea medie 7{,}47 față de 6{,}22; garanția este o margine exprimată prin $d_{\mathrm{TV}}$, nu o acoperire exactă
+    \item Acoperirea ambelor metode scade brusc la o ruptură, pentru că estimarea prin cele mai mici pătrate rămîne greșită o perioadă; pragul ponderat uită scorurile vechi și își revine în aproximativ 100 de pași
+    \item Costul: lățimea medie 7{,}47 față de 6{,}22; garanția este o margine exprimată prin $d_{\mathrm{TV}}$, nu o acoperire exactă
 \end{itemize}
 \end{frame}
 
 \begin{frame}{EnbPI: ansambluri fără împărțirea datelor}
 \itemsize{\small}
 \begin{itemize}
-    \item \refXX, \refXXb: se estimează $B$ modele pe eșantioane bootstrap (pe blocuri, pentru a respecta dependența) ale perioadei de antrenare
+    \item \refXX, \refXXb: se estimează $B$ modele pe $B$ eșantioane bootstrap ale perioadei de antrenare (blocuri de observații consecutive, pentru a respecta dependența)
     \begin{itemize}
         \item reziduuri leave-one-out: pentru punctul $i$ se agregă doar modelele al căror eșantion bootstrap l-a exclus pe $i$
-        \item intervalul la $t$: $\hat f(x_t) \pm$ cuantila $(1 - \alpha)$ a ultimelor $T$ reziduuri absolute; după ce $y_t$ este observat, reziduul lui intră în fereastră, iar cel mai vechi iese
+    \end{itemize}
+    \item Intervalul la $t$: prognoza ansamblului plus sau minus o cuantilă a reziduurilor absolute recente \[ \hat C_t = \hat f(x_t) \pm Q_{1-\alpha}\big(|e_{t-W}|, \dots, |e_{t-1}|\big) \]
+    \begin{itemize}
+        \item $\hat f(x_t)$: prognoza agregată a celor $B$ modele, dați predictorii $x_t$; $e_s$: reziduul perioadei $s$; $W$: lungimea ferestrei
+        \item după ce $y_t$ este observat, reziduul lui intră în fereastră, iar cel mai vechi iese
     \end{itemize}
     \item Fără reestimare la fiecare pas, fără împărțire pentru calibrare: eficient pe fluxuri lungi
     \item Garanția: acoperire asimptotică, condiționată, dacă erorile sînt staționare și puternic mixing, iar ansamblul este consistent; gîndit pentru serii de energie (solară și eoliană)
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Inferența conformală adaptivă}
+\begin{frame}{Inferența conformală adaptivă (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refGC: se folosește nivelul $\alpha_t$ la momentul $t$, $q_t$ = cuantila conformală $(1 - \alpha_t)$ a scorurilor recente, apoi $\alpha_{t+1} = \alpha_t + \gamma(\alpha - \mathrm{err}_t)$
+    \item \refGC: nivelul nominal este înlocuit cu un nivel de lucru $\alpha_t$, actualizat după fiecare observație
     \begin{itemize}
-        \item o ratare scade $\alpha_t$ (mulțimi mai largi); o acoperire îl crește; $\alpha_t \le 0$ dă $q_t = +\infty$ (toată dreapta), $\alpha_t \ge 1$ mulțimea vidă
+        \item $q_t$: cuantila conformală $(1 - \alpha_t)$ a scorurilor recente; $\alpha$: rata-țintă a ratărilor (de exemplu 0,1)
     \end{itemize}
-    \item \textbf{Teoremă}: pentru orice șir de date, $\Big|\frac1T\sum_{t=1}^T\mathrm{err}_t - \alpha\Big| \le \frac{\max\{\alpha_1, 1 - \alpha_1\} + \gamma}{\gamma T}$
+    \item \textbf{Actualizarea}: după observarea lui $Y_t$, nivelul de lucru se mută în sens opus ultimei erori \[ \alpha_{t+1} = \alpha_t + \gamma\,(\alpha - \mathrm{err}_t) \]
     \begin{itemize}
-        \item demonstrație: $\alpha_t$ rămîne în $[-\gamma, 1 + \gamma]$ și $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; se împarte la $\gamma T$
+        \item $\gamma > 0$: pasul; $\mathrm{err}_t \in \{0, 1\}$: indicatorul ratării de pe slide-urile anterioare
     \end{itemize}
-    \item Frecvență pe termen lung, nu acoperire condiționată: o medie rezistentă la orice adversar. Alegerea adaptivă a lui $\gamma$: AgACI \refZaf, DtACI \refGCb; ACI pentru VaR: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9}
+    \item Interpretarea actualizării
+    \begin{itemize}
+        \item o ratare ($\mathrm{err}_t = 1$) scade $\alpha_t$ cu $\gamma(1 - \alpha)$: mulțimea următoare este mai largă
+        \item o acoperire ($\mathrm{err}_t = 0$) crește $\alpha_t$ cu $\gamma\alpha$: mulțimea următoare este mai îngustă
+        \item $\alpha_t \le 0$ dă $q_t = +\infty$ (toată dreapta reală); $\alpha_t \ge 1$ dă mulțimea vidă
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Inferența conformală adaptivă (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Teoremă} \refGC: pentru orice șir de date, frecvența ratărilor pe $T$ perioade este apropiată de $\alpha$ \[ \Big|\frac1T\sum_{t=1}^T\mathrm{err}_t - \alpha\Big| \le \frac{\max\{\alpha_1, 1 - \alpha_1\} + \gamma}{\gamma T} \]
+    \begin{itemize}
+        \item $\alpha_1$: nivelul de pornire; marginea scade ca $1/T$ și este mai strînsă pentru un $\gamma$ mai mare
+    \end{itemize}
+    \item Ideea demonstrației (\atsapplink{atsapp1}{atssrc2}{Anexă})
+    \begin{itemize}
+        \item $\alpha_t$ rămîne mereu în $[-\gamma, 1 + \gamma]$
+        \item însumînd actualizările, $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; se împarte la $\gamma T$
+    \end{itemize}
+    \item O frecvență pe termen lung, nu o acoperire condiționată
+    \begin{itemize}
+        \item garanția este valabilă și pentru un șir de date ales advers
+        \item alegerea adaptivă a lui $\gamma$: AgACI \refZaf, DtACI \refGCb; ACI pentru VaR: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9}
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{ACI pe volatilitatea bursieră}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.46\textheight,keepaspectratio]{ats_ch13_aci.pdf}
+\includegraphics[width=0.97\textwidth,height=0.42\textheight,keepaspectratio]{ats_ch13_aci.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Designul din \refGC: $V_t = r_t^2$, $\hat\sigma_t^2$ dintr-un GARCH(1,1) estimat pe ultimele 1250 de zile, scorul $|V_t - \hat\sigma_t^2|/\hat\sigma_t^2$, $\alpha = 0{,}1$, $\gamma = 0{,}005$; acoperirea locală pe 500 de zile; evaluare din 15 decembrie 2009
+    \item Designul din \refGC: ținta este $V_t = r_t^2$, randamentul zilnic la pătrat; $\hat\sigma_t^2$: prognoza ei dintr-un GARCH(1,1) estimat pe ultimele 1250 de zile
+    \item Scorul $|V_t - \hat\sigma_t^2|/\hat\sigma_t^2$ (eroarea relativă a prognozei de varianță), $\alpha = 0{,}1$, $\gamma = 0{,}005$; acoperirea locală pe 500 de zile; evaluare din 15 decembrie 2009
 \end{itemize}
 \quantlet{ATS\_ch13\_conformal\_time}{\qlurl{ATS_ch13_conformal_time}}
 \end{frame}
@@ -1113,9 +1378,19 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Interpretarea ACI pe volatilitate}
 \itemsize{\small}
 \begin{itemize}
+    \item Trei praguri comparate
+    \begin{itemize}
+        \item static: split conformal calibrat o singură dată, pe primele 1250 de scoruri
+        \item mobil: split conformal pe ultimele 1250 de scoruri, cu nivelul fix $\alpha$
+        \item ACI: aceeași fereastră mobilă, cu nivelul $\alpha_t$
+    \end{itemize}
     \item Acoperirea totală, S\&P 500: static 0{,}918, mobil 0{,}903, ACI 0{,}901; BET: 0{,}928; 0{,}903; 0{,}899; NVIDIA: 0{,}882; 0{,}900; 0{,}901
     \item Acoperirea locală a metodei statice variază între 0{,}884 și 0{,}962 (S\&P 500); ACI rămîne între 0{,}870 și 0{,}928
-    \item Acoperirea condiționată Christoffersen pentru ratări (S\&P 500): static $p$ $<$ 0{,}001, ACI $p$ = 0{,}968: o calibrare fixată pe 2005--2009 este prea largă ulterior; actualizarea reface atît frecvența, cît și independența ratărilor
+    \item Testul Christoffersen de acoperire condiționată a ratărilor (S\&P 500): static $p$ $<$ 0{,}001, ACI $p$ = 0{,}968
+    \begin{itemize}
+        \item o calibrare fixată pe 2005--2009 este prea largă ulterior
+        \item actualizarea reface atît frecvența, cît și independența ratărilor
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1140,16 +1415,38 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Controlul PID conformal}
+\begin{frame}{Controlul PID conformal (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refACT: \textbf{urmărirea cuantilei} (P): $q_{t+1} = q_t + \eta(\mathrm{err}_t - \alpha)$, adică coborîre pe gradient online pe pierderea pinball a scorului
+    \item \refACT, \textbf{urmărirea cuantilei} (termenul P): pragul însuși este actualizat după fiecare observație \[ q_{t+1} = q_t + \eta\,(\mathrm{err}_t - \alpha) \]
     \begin{itemize}
-        \item \textbf{Propoziție}: dacă $S_t \in [0, B]$, atunci $\big|\frac1T\sum_t(\mathrm{err}_t - \alpha)\big| \le (B + \eta)/(\eta T)$: pragul se mișcă pe scala scorurilor, nu a lui $\alpha$
+        \item $\eta > 0$: pasul, în unitățile scorurilor; o ratare ridică pragul cu $\eta(1 - \alpha)$, o acoperire îl coboară cu $\eta\alpha$
+        \item este coborîrea pe gradient online pe pierderea pinball a scorului la nivelul $1 - \alpha$
     \end{itemize}
-    \item \textbf{Integratorul} (I): se adaugă $r_t\big(\sum_{i \le t}(\mathrm{err}_i - \alpha)\big)$, $r_t(x) = K_I\tan\big(x\log t/(tC_{\mathrm{sat}})\big)$: reacționează la eroarea de acoperire acumulată și se saturează pentru a păstra garanția
-    \item \textbf{Prognozatorul de scor} (asemănător termenului D): un model care prognozează scorul următor din trecutul lui (sezonalitate, tendințe ale erorilor) și se adaugă la prag
-    \item ACI este cazul particular care urmărește nivelul în loc de cuantilă; PID își ia vocabularul din ingineria controlului: proporțional, integral, derivat
+    \item \textbf{Propoziție}: dacă scorurile sînt în $[0, B]$, frecvența ratărilor este apropiată de $\alpha$ pentru orice șir \[ \Big|\frac1T\sum_{t=1}^T(\mathrm{err}_t - \alpha)\Big| \le \frac{B + \eta}{\eta T} \]
+    \begin{itemize}
+        \item $B$: o margine superioară a scorurilor; pragul se mișcă pe scala scorurilor, nu pe cea a lui $\alpha$, ca la ACI
+    \end{itemize}
+    \item ACI este cazul particular care urmărește nivelul în loc de cuantilă
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Controlul PID conformal (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Integratorul} (termenul I): adaugă o corecție determinată de eroarea de acoperire acumulată \[ r_t\Big(\sum_{i \le t}(\mathrm{err}_i - \alpha)\Big), \qquad r_t(x) = K_I\tan\big(x\log t/(tC_{\mathrm{sat}})\big) \]
+    \begin{itemize}
+        \item $\sum_{i \le t}(\mathrm{err}_i - \alpha)$: ratările peste țintă, acumulate pînă la $t$
+        \item $K_I > 0$: cîștigul integratorului; $C_{\mathrm{sat}} > 0$: constanta de saturație; $\tan$ crește nemărginit lîngă polul său, ceea ce păstrează garanția pe termen lung
+    \end{itemize}
+    \item \textbf{Prognozatorul de scor} (un termen asemănător lui D): un model care prognozează scorul următor din trecutul lui și se adaugă la prag
+    \begin{itemize}
+        \item anticipează tiparele previzibile ale erorilor: sezonalitate, tendințe
+    \end{itemize}
+    \item Denumirea vine din teoria controlului automat
+    \begin{itemize}
+        \item proporțional (reacție la ultima eroare), integral (la eroarea acumulată), derivativ (la schimbarea anticipată)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1178,12 +1475,21 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Diagnosticarea acoperirii}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Necondiționat}: frecvența ratărilor și testul Kupiec \refKup; \textbf{independența} ratărilor: Christoffersen \refChr{} (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9})
+    \item \textbf{Frecvența și independența} ratărilor (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9})
     \begin{itemize}
-        \item o verificare prin regresie în spiritul testului DQ \refEM: regresia lui $\mathrm{err}_t - \alpha$ pe ratările decalate și pe lățimea prognozată
+        \item frecvența ratărilor și testul Kupiec \refKup{} (este frecvența egală cu $\alpha$?); testul Christoffersen \refChr{} (sînt ratările independente în timp?)
+        \item o verificare prin regresie în spiritul testului DQ \refEM: regresia lui $\mathrm{err}_t - \alpha$ pe ratările cu lag și pe lățimea prognozată
     \end{itemize}
-    \item \textbf{Local}: acoperirea pe ferestre mobile; acoperirea pe clase ale unei variabile cunoscute la origine (volatilitatea prognozată, ora, regimul): echivalentul empiric al acoperirii condiționate
-    \item \textbf{Precizia}: lățimea medie și scorul de interval $W + \frac{2}{\alpha}(\ell - y)\mathbf 1\{y < \ell\} + \frac{2}{\alpha}(y - u)\mathbf 1\{y > u\}$ \refWin, \refGR, un scor propriu pentru intervale centrale
+    \item \textbf{Acoperirea locală}: echivalentul empiric al acoperirii condiționate
+    \begin{itemize}
+        \item acoperirea pe ferestre mobile
+        \item acoperirea pe clase ale unei variabile cunoscute la origine (volatilitatea prognozată, ora, regimul)
+    \end{itemize}
+    \item \textbf{Precizia} (sharpness): lățimea medie și \textbf{scorul de interval} \refWin, \refGR, care adaugă o penalizare pentru fiecare ratare \[ \mathrm{IS} = (u - \ell) + \frac{2}{\alpha}(\ell - y)\mathbf 1\{y < \ell\} + \frac{2}{\alpha}(y - u)\mathbf 1\{y > u\} \]
+    \begin{itemize}
+        \item $[\ell, u]$: intervalul central de $(1 - \alpha)$; $u - \ell$: lățimea lui; $y$: valoarea realizată; o valoare mai mică este mai bună
+        \item o regulă de scor proprie: recompensează intervalele înguste doar dacă își păstrează acoperirea nominală
+    \end{itemize}
     \item Raportați toate trei: o metodă validă, dar de două ori mai largă, nu este o metodă mai bună
 \end{itemize}
 \end{frame}
@@ -1226,11 +1532,18 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{frame}{Nevoia de calibrare a cuantilelor foundation models}
 \itemsize{\small}
 \begin{itemize}
-    \item Cuantilele preantrenate sînt calibrate pe distribuția corpusului, nu pe seria dumneavoastră: calibrarea greșită este situația implicită, în ambele sensuri
-    \item Majoritatea modelelor dau doar cuantile de 10\%--90\%: un interval de 95\% sau VaR 1\% cere extrapolare dincolo de nivelurile antrenate
-    \item Rețeta: CQR online pe banda proprie a modelului, scorul $S_t = \max\{\hat q_{0{,}1,t} - y_t, y_t - \hat q_{0{,}9,t}\}$; ACI alege pragul pentru orice nivel-țintă ($80\%$ sau $95\%$)
+    \item Cuantilele preantrenate sînt calibrate pe distribuția corpusului, nu pe seria dumneavoastră
     \begin{itemize}
-        \item varianta unilaterală pentru VaR: $S_t = \hat q_{0{,}1,t} - y_t$, pragul la nivelul $\alpha$; VaR este $-(\hat q_{0{,}1,t} - q_t)$
+        \item calibrarea greșită este situația implicită, în ambele sensuri (benzi prea înguste sau prea largi)
+    \end{itemize}
+    \item Majoritatea modelelor dau doar cuantile de 10\%--90\%: un interval de 95\% sau VaR 1\% cere extrapolare dincolo de nivelurile antrenate
+    \item Procedura: CQR online pe banda proprie de 10\%--90\% a modelului, iar ACI alege pragul pentru orice nivel-țintă (80\% sau 95\%) \[ S_t = \max\{\hat q_{0{,}1,t} - y_t,\; y_t - \hat q_{0{,}9,t}\}, \qquad \hat C_t = [\hat q_{0{,}1,t} - q_t,\; \hat q_{0{,}9,t} + q_t] \]
+    \begin{itemize}
+        \item $\hat q_{0{,}1,t}$, $\hat q_{0{,}9,t}$: cuantilele de 10\% și 90\% prognozate de model pentru perioada $t$; $q_t$: pragul ACI
+    \end{itemize}
+    \item Varianta unilaterală pentru VaR: scorul $S_t = \hat q_{0{,}1,t} - y_t$, pragul $q_t$ la nivelul $\alpha$
+    \begin{itemize}
+        \item cuantila calibrată este $\hat q_{0{,}1,t} - q_t$, iar $\mathrm{VaR}_t = -(\hat q_{0{,}1,t} - q_t)$ (VaR ca pierdere pozitivă)
     \end{itemize}
     \item Lectură suplimentară despre recalibrarea conformală a VaR pentru foundation models: \refCO; \refTV
 \end{itemize}
@@ -1253,7 +1566,11 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{itemize}
     \item Benzile brute de 80\%: consum 75--81\%, Bitcoin 77--81\%, inflație 76--85\%, randamente BET 72--78\% pentru cele patru modele
     \item După CQR online: intervalele de 80\% acoperă 79--81\%, cele de 95\% 94{,}5--95{,}4\% în toate sarcinile
-    \item Benzile brute greșesc în ambele sensuri (prea înguste: Chronos-2 la consum; prea largi: TimesFM la inflație); pasul conformal le lărgește sau le îngustează, cu o lățime medie între 0{,}90 și 1{,}24 ori lățimea brută, și ajunge la 95\% pornind de la modele care produc doar decile
+    \item Benzile brute sînt necalibrate în ambele sensuri: prea înguste (Chronos-2 la consum), prea largi (TimesFM la inflație)
+    \begin{itemize}
+        \item pasul conformal le lărgește sau le îngustează: lățimea medie este între 0{,}90 și 1{,}24 ori lățimea brută
+        \item și ajunge la 95\% pornind de la modele care produc doar decile
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1274,7 +1591,11 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \begin{itemize}
     \item BET, VaR 1\%: GARCH-$t$ 1{,}31\% (Kupiec $p$ = 0{,}170), Chronos-2 brut 1{,}22\% ($p$ = 0{,}331), Chronos-2 + ACI 1{,}03\% ($p$ = 0{,}893), TimesFM + conformal 1{,}08\%
     \item S\&P 500: GARCH-$t$ 1{,}66\% (Kupiec $p$ = 0{,}007), Chronos-2 brut 1{,}56\% ($p$ = 0{,}021), + ACI 1{,}06\% ($p$ = 0{,}802, $p$ Christoffersen = 0{,}454)
-    \item Calibrarea corectează rata de depășire a oricărui model; nu adaugă informație despre coadă: decilele extinse conformal au o pierdere cuantilică mai mare decît GARCH-$t$ (BET, Chronos-Bolt: DM $t = 2{,}70$), în timp ce Chronos-2, antrenat pe cuantile de 1\%, nu are ($t = 0{,}10$)
+    \item Calibrarea corectează rata de depășire a oricărui model, dar nu adaugă informație despre coadă
+    \begin{itemize}
+        \item decilele extinse conformal au o pierdere cuantilică mai mare decît GARCH-$t$ (BET, Chronos-Bolt: DM $t = 2{,}70$)
+        \item Chronos-2, antrenat pe cuantile de 1\%, nu are o pierdere mai mare ($t = 0{,}10$)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1328,7 +1649,7 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
     \item Datele de lansare și datele-limită de antrenare ale fiecărui model, din fișele modelelor, comparate cu începutul ferestrei de evaluare
     \item Nivelurile de cuantile produse efectiv de fiecare model (o cerere pentru 1\% poate întoarce, fără avertisment, 10\%)
     \item Modelele de referință ajustate cu aceeași grijă; contextul disponibil este același pentru toate modelele
-    \item Multiplicitatea: numărul de serii, orizonturi și modele testate; raportarea testului agregat și a valorilor $p$ ajustate
+    \item Multiplicitatea: numărul de serii, orizonturi și modele testate; raportarea testului agregat și a p-value-urilor ajustate
 \end{itemize}
 \end{frame}
 
@@ -1340,7 +1661,8 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \vspace{-0.25cm}
 \begin{itemize}
     \item Statisticile DM--HLN ale Chronos-2 față de AR($p$) la $h = 12$ pe 2000 de benchmark-uri aleatoare cu 5 țări UE și 3 ani de origini și pe întregul panel
-    \item 11{,}2\% dintre benchmark-urile aleatoare declară Chronos-2 semnificativ mai bun, iar 2{,}1\% semnificativ mai slab; panelul întreg dă $t = \ensuremath{-}1{,}35$ ($p$ = 0{,}180). Un rezumat AI care prezintă o astfel de lucrare ca dovadă pentru (sau împotriva) foundation models greșește; doar panelul preînregistrat răspunde
+    \item 11{,}2\% dintre benchmark-urile aleatoare declară Chronos-2 semnificativ mai bun, iar 2{,}1\% semnificativ mai slab; panelul întreg dă $t = \ensuremath{-}1{,}35$ ($p$ = 0{,}180)
+    \item Un rezumat AI care prezintă o astfel de lucrare ca dovadă pentru (sau împotriva) foundation models greșește; doar panelul preînregistrat răspunde la întrebare
 \end{itemize}
 \quantlet{ATS\_ch13\_benchmark}{\qlurl{ATS_ch13_benchmark}}
 \end{frame}

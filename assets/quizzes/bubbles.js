@@ -245,10 +245,10 @@ window.ATS_DATA.quizzes['bubbles'] = {
                     "Testul respinge în aproximativ 5% din cazuri",
                     "Testul aproape nu respinge niciodată, fiindcă cuantila de 95% a legii Dickey-Fuller cu termen liber este aproape de zero, nu 1,645",
                     "Testul respinge întotdeauna",
-                    "Testul este valid doar cu diferențe decalate"
+                    "Testul este valid doar cu diferențe cu lag"
                 ],
                 "correctExplanation": "Legea Dickey-Fuller cu termen liber este deplasată spre stînga; cuantila ei de 95% este aproape de zero, deci 1,645 este departe în coada dreaptă, iar nivelul este aproape zero.",
-                "incorrectExplanation": "Cuantila normală nu se aplică statisticii ADF sub o rădăcină unitară; decalajele nu schimbă acest lucru."
+                "incorrectExplanation": "Cuantila normală nu se aplică statisticii ADF sub o rădăcină unitară; lagurile nu schimbă acest lucru."
             }
         },
         {
@@ -269,13 +269,13 @@ window.ATS_DATA.quizzes['bubbles'] = {
                 "title": "GSADF față de SADF",
                 "text": "De ce este valoarea critică de 95% a GSADF mai mare decît cea a SADF pentru aceleași $T$ și $r_0$?",
                 "options": [
-                    "Pentru că GSADF folosește diferențe decalate",
+                    "Pentru că GSADF folosește diferențe cu lag",
                     "Pentru că GSADF se calculează pe logaritmul prețurilor",
                     "Pentru că GSADF ia supremul pe mai multe ferestre (toate punctele de început și de sfîrșit), ceea ce mută distribuția sub ipoteza nulă spre dreapta",
                     "Pentru că GSADF are o altă ipoteză nulă"
                 ],
                 "correctExplanation": "SADF caută pe punctele de sfîrșit, cu începutul fixat; GSADF caută și pe punctele de început; maximul mai multor statistici este mai mare sub ipoteza nulă.",
-                "incorrectExplanation": "Cele două statistici au aceeași ipoteză nulă, aceeași transformare a datelor și aceeași alegere a decalajelor; diferă doar mulțimea ferestrelor."
+                "incorrectExplanation": "Cele două statistici au aceeași ipoteză nulă, aceeași transformare a datelor și aceeași alegere a lagurilor; diferă doar mulțimea ferestrelor."
             }
         },
         {
@@ -328,7 +328,7 @@ window.ATS_DATA.quizzes['bubbles'] = {
                     "Pierde putere, dar își păstrează nivelul",
                     "Respinge prea des: creșterea tîrzie a volatilității arată ca o accelerare"
                 ],
-                "correctExplanation": "Limita pivotală presupune dispersie constantă; o creștere tîrzie a volatilității umflă statisticile pe ferestre, iar rata de respingere urcă mult peste 5% (33,8% în simularea capitolului).",
+                "correctExplanation": "Limita pivotală presupune dispersie constantă; o creștere tîrzie a volatilității mărește artificial statisticile pe ferestre, iar rata de respingere urcă mult peste 5% (33,8% în simularea capitolului).",
                 "incorrectExplanation": "Pivotalitatea este valabilă doar sub homoscedasticitate; o scădere a volatilității, nu o creștere, face testul conservator."
             }
         },
@@ -509,16 +509,16 @@ window.ATS_DATA.quizzes['bubbles'] = {
                 "incorrectExplanation": "Autocorrelation biases the no-lag ADF statistic; a larger window does not remove the bias, and the test is run on the log level."
             },
             "ro": {
-                "title": "Indici netezîți ai prețurilor locuințelor",
+                "title": "Indici neteziți ai prețurilor locuințelor",
                 "text": "Indicii lunari ai prețurilor locuințelor, construiți din vînzări repetate, au variații puternic autocorelate. Ce trebuie să includă un test pe coada din dreapta aplicat lor?",
                 "options": [
-                    "Diferențe decalate în fiecare regresie pe fereastră și un bootstrap sub ipoteza nulă AR",
+                    "Diferențe cu lag în fiecare regresie pe fereastră și un bootstrap sub ipoteza nulă AR",
                     "Nimic: autocorelația nu afectează statistica ADF",
                     "Doar o fereastră minimă mai mare",
                     "Logaritmul variațiilor în locul nivelurilor"
                 ],
-                "correctExplanation": "Fără decalaje, variațiile autocorelate arată ca o accelerare, iar testele resping aproape peste tot; decalajele (alese, de exemplu, prin BIC) și ipoteza nulă AR din bootstrap corectează aceasta.",
-                "incorrectExplanation": "Autocorelația deplasează statistica ADF fără decalaje; o fereastră mai mare nu elimină deplasarea, iar testul se aplică logaritmului nivelului."
+                "correctExplanation": "Fără laguri, variațiile autocorelate arată ca o accelerare, iar testele resping aproape peste tot; lagurile (alese, de exemplu, prin BIC) și ipoteza nulă AR din bootstrap corectează aceasta.",
+                "incorrectExplanation": "Autocorelația deplasează statistica ADF fără laguri; o fereastră mai mare nu elimină deplasarea, iar testul se aplică logaritmului nivelului."
             }
         },
         {
@@ -598,7 +598,7 @@ window.ATS_DATA.quizzes['bubbles'] = {
                     "SADF are o distribuție nestandard sub ipoteza nulă; valoarea critică trebuie simulată pentru aceleași $T$, $r_0$ și specificație (sau obținută prin bootstrap), nu luată din distribuția Normală",
                     "Testul trebuie să folosească doar GSADF"
                 ],
-                "correctExplanation": "Legea SADF sub ipoteza nulă este un suprem de funcționale Dickey-Fuller, nici normală, nici pe coada stîngă; valoarea de 95% (aproximativ 1,4 pentru $T = 400$ fără decalaje) trebuie simulată.",
+                "correctExplanation": "Legea SADF sub ipoteza nulă este un suprem de funcționale Dickey-Fuller, nici normală, nici pe coada stîngă; valoarea de 95% (aproximativ 1,4 pentru $T = 400$ fără laguri) trebuie simulată.",
                 "incorrectExplanation": "SADF nu are asimptotic distribuția Normală, alternativa se află în coada dreaptă, iar SADF este o statistică validă în sine."
             }
         },
@@ -620,13 +620,13 @@ window.ATS_DATA.quizzes['bubbles'] = {
                 "title": "Găsiți eroarea din răspunsul AI (2)",
                 "text": "Un rezumat AI al unei analize pe 71 de serii de prețuri spune: „GSADF respinge la 5% pentru 42 de active cu valori critice Monte Carlo, deci bulele speculative sînt larg răspîndite.” Care sînt primele două corecții?",
                 "options": [
-                    "Mai multe decalaje și un eșantion mai lung",
+                    "Mai multe laguri și un eșantion mai lung",
                     "Înlocuirea GSADF cu SADF și testarea la 10%",
                     "Raportarea doar a activelor cu cel mai mare GSADF",
                     "Valori critice care țin seama de volatilitatea variabilă (wild bootstrap) și corecția pentru testarea a 71 de ipoteze (Holm sau Benjamini-Hochberg)"
                 ],
                 "correctExplanation": "În analiza din capitol, wild bootstrap reduce respingerile de la 42 la 20, iar Holm lasă 2 (Benjamini-Hochberg 12), cu 3,6 așteptate din întîmplare la 5%.",
-                "incorrectExplanation": "Schimbarea numărului de decalaje, a statisticii sau a nivelului nu corectează cele două erori: o ipoteză nulă homoscedastică pe prețuri heteroscedastice și lipsa corecției pentru multiplicitate."
+                "incorrectExplanation": "Schimbarea numărului de laguri, a statisticii sau a nivelului nu corectează cele două erori: o ipoteză nulă homoscedastică pe prețuri heteroscedastice și lipsa corecției pentru multiplicitate."
             }
         },
         {

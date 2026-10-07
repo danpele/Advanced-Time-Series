@@ -93,7 +93,6 @@ MSCA Digital Finance}
     \item \textbf{AIC}: Akaike Information Criterion
     \item \textbf{AR}: AutoRegressive (model); in event studies: Abnormal Return
     \item \textbf{ARMA}: AutoRegressive Moving Average (model)
-    \item \textbf{ATS}: Advanced Time Series Analysis and Forecasting
     \item \textbf{BC}: Breitung–Candelon (frequency-domain causality test)
     \item \textbf{BET}: Bucharest Exchange Trading (index)
     \item \textbf{BK}: Baxter–King (band-pass filter)
@@ -102,11 +101,11 @@ MSCA Digital Finance}
     \item \textbf{CFR}: Croux, Forni and Reichlin (2001)
     \item \textbf{COI}: Cone Of Influence (of a wavelet transform)
     \item \textbf{CWT}: Continuous Wavelet Transform
+    \item \textbf{DCC-GARCH}: Dynamic Conditional Correlation GARCH
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{DCC-GARCH}: Dynamic Conditional Correlation GARCH
     \item \textbf{DFT}: Discrete Fourier Transform
     \item \textbf{DPSS}: Discrete Prolate Spheroidal Sequences (Slepian tapers)
     \item \textbf{DWT}: Discrete Wavelet Transform
@@ -119,6 +118,7 @@ MSCA Digital Finance}
     \item \textbf{HICP}: Harmonised Index of Consumer Prices
     \item \textbf{HP}: Hodrick–Prescott (filter)
     \item \textbf{LA}: Least Asymmetric (Daubechies wavelet filter)
+    \item \textbf{LLM}: Large Language Model
 \end{itemize}
 \end{column}
 \end{columns}
@@ -128,7 +128,7 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{LLM}: Large Language Model
+    \item \textbf{MA}: Moving Average
     \item \textbf{MODWT}: Maximal Overlap Discrete Wavelet Transform
     \item \textbf{MRA}: MultiResolution Analysis
     \item \textbf{MSE}: Mean Squared Error
@@ -259,16 +259,27 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \section{The spectral representation}
 %=============================================================================
 
-\begin{frame}{Autocovariance and spectral distribution}
+\begin{frame}{Autocovariance and spectral distribution (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Herglotz}: $\gamma(\cdot)$ is the autocovariance of a stationary process iff $\gamma(h) = \int_{(-\pi, \pi]} e^{i\omega h}\,dF(\omega)$, $F$ non-decreasing, right-continuous, bounded \refBD
+    \item \textbf{Herglotz} \refBD: $\gamma(\cdot)$ is the autocovariance of a stationary process if and only if
+    \[ \gamma(h) = \int_{(-\pi, \pi]} e^{i\omega h}\,dF(\omega) \]
     \begin{itemize}
-        \item $F$ is the \textbf{spectral distribution}; if $\sum_h|\gamma(h)| < \infty$, $dF(\omega) = f(\omega)\,d\omega$ with $f(\omega) = \frac{1}{2\pi}\sum_h\gamma(h)e^{-i\omega h}$
+        \item $\gamma(h) = \Cov(X_{t+h}, X_t)$; $\omega$: angular frequency in radians per period; $F$: the \textbf{spectral distribution}, non-decreasing, right-continuous and bounded
     \end{itemize}
-    \item $\gamma(0) = \int_{-\pi}^{\pi}f(\omega)\,d\omega$: the spectrum is a \textbf{decomposition of variance by frequency}
+    \item If $\sum_h|\gamma(h)| < \infty$, $F$ has a density, the \textbf{spectral density}
+    \[ dF(\omega) = f(\omega)\,d\omega, \qquad f(\omega) = \frac{1}{2\pi}\sum_h\gamma(h)e^{-i\omega h} \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Autocovariance and spectral distribution (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item At $h = 0$: the spectrum is a \textbf{decomposition of variance by frequency}
+    \[ \gamma(0) = \Var(X_t) = \int_{-\pi}^{\pi}f(\omega)\,d\omega \]
     \begin{itemize}
-        \item frequency $\omega$ in radians per period; period $2\pi/\omega$; quarterly data: the business-cycle band of 6--32 quarters is $\omega \in [\pi/16, \pi/3]$
+        \item $f(\omega)\,d\omega$: the variance contributed by cycles with frequency near $\omega$; period $2\pi/\omega$
+        \item quarterly data: the business-cycle band of 6--32 quarters is $\omega \in [\pi/16, \pi/3]$
     \end{itemize}
     \item A jump of $F$ at $\pm\omega_0$ is a deterministic cycle (a \textbf{line spectrum}); long memory is a pole of $f$ at $\omega = 0$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter10_long_memory_rough_volatility.pdf}{Chapter 10})
 \end{itemize}
@@ -285,10 +296,13 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \end{column}
 \begin{column}{0.66\textwidth}
 \begin{itemize}
-    \item Every zero-mean stationary process has $X_t = \int_{(-\pi, \pi]} e^{i\omega t}\,dZ(\omega)$ \refBD
-    \item $Z$ has \textbf{orthogonal increments}: $\E[dZ(\omega)\overline{dZ(\lambda)}] = 0$ for $\omega \ne \lambda$, $\E|dZ(\omega)|^2 = dF(\omega)$
+    \item Every zero-mean stationary process is a sum of sinusoids with random amplitudes \refBD
+    \[ X_t = \int_{(-\pi, \pi]} e^{i\omega t}\,dZ(\omega) \]
+    \begin{itemize}
+        \item $dZ(\omega)$: the random amplitude at frequency $\omega$; $Z$ has \textbf{orthogonal increments}: $\E[dZ(\omega)\overline{dZ(\lambda)}] = 0$ for $\omega \ne \lambda$, $\E|dZ(\omega)|^2 = dF(\omega)$
+    \end{itemize}
     \item Random amplitudes at different frequencies are uncorrelated: the frequency components can be studied one by one
-    \item The DFT $d(\omega_j) = n^{-1/2}\sum_t x_te^{-i\omega_jt}$ is the finite-sample analogue of $dZ(\omega_j)$: nearly uncorrelated across Fourier frequencies
+    \item The discrete Fourier transform (DFT) $d(\omega_j) = n^{-1/2}\sum_t x_te^{-i\omega_jt}$ at $\omega_j = 2\pi j/n$ is the sample analogue of $dZ(\omega_j)$: nearly uncorrelated across Fourier frequencies
 \end{itemize}
 \end{column}
 \end{columns}
@@ -297,26 +311,45 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \begin{frame}{Linear filters in the frequency domain}
 \itemsize{\small}
 \begin{itemize}
-    \item $Y_t = \sum_j a_jX_{t-j}$ with $\sum_j|a_j| < \infty$: $dZ_Y(\omega) = A(\omega)\,dZ_X(\omega)$, $A(\omega) = \sum_j a_je^{-i\omega j}$ the \textbf{transfer function}
+    \item A linear filter multiplies each frequency component by the \textbf{transfer function} $A(\omega)$
+    \[ Y_t = \sum_j a_jX_{t-j} \ \Rightarrow\ dZ_Y(\omega) = A(\omega)\,dZ_X(\omega), \quad A(\omega) = \sum_j a_je^{-i\omega j} \]
+    \[ f_Y(\omega) = |A(\omega)|^2f_X(\omega) \]
     \begin{itemize}
-        \item $f_Y(\omega) = |A(\omega)|^2f_X(\omega)$; $|A(\omega)|$ is the \textbf{gain}, $\arg A(\omega)$ the \textbf{phase shift}
+        \item $a_j$: filter weights, $\sum_j|a_j| < \infty$; $|A(\omega)|$: the \textbf{gain}; $\arg A(\omega)$: the \textbf{phase shift}
         \item symmetric weights $a_j = a_{-j}$: $A(\omega)$ is real, no phase shift; the property every trend--cycle filter wants
     \end{itemize}
-    \item First difference: $|1 - e^{-i\omega}|^2 = 2(1 - \cos\omega)$, zero at $\omega = 0$: differencing removes the long cycles and amplifies the short ones
+    \item First difference: $|1 - e^{-i\omega}|^2 = 2(1 - \cos\omega)$, zero at $\omega = 0$
+    \begin{itemize}
+        \item differencing removes the long cycles and amplifies the short ones
+    \end{itemize}
     \item Slutsky effect: a moving sum of white noise has a peak in its spectrum, i.e.\ \textbf{cycles created by the filter}; the HP critique of Section 4 is the same phenomenon
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The spectral density matrix}
+\begin{frame}{The spectral density matrix (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Vector process $\mathbf X_t$ (dimension $k$): $\mathbf f(\omega) = \frac{1}{2\pi}\sum_h\Gamma(h)e^{-i\omega h}$, $\Gamma(h) = \Cov(\mathbf X_{t+h}, \mathbf X_t)$, a Hermitian non-negative matrix
+    \item Vector process $\mathbf X_t$ of dimension $k$: the Fourier transform of the autocovariance matrices
+    \[ \mathbf f(\omega) = \frac{1}{2\pi}\sum_h\Gamma(h)e^{-i\omega h}, \qquad \Gamma(h) = \Cov(\mathbf X_{t+h}, \mathbf X_t) \]
     \begin{itemize}
-        \item VARMA $\Phi(L)\mathbf X_t = \Theta(L)\boldsymbol\varepsilon_t$: $\mathbf f(\omega) = \frac{1}{2\pi}\Phi(e^{-i\omega})^{-1}\Theta(e^{-i\omega})\bSigma\Theta(e^{-i\omega})^*\Phi(e^{-i\omega})^{-*}$
+        \item $\mathbf f(\omega)$: a $k \times k$ Hermitian ($\mathbf f = \mathbf f^*$, the conjugate transpose) non-negative definite matrix at each frequency
     \end{itemize}
-    \item Off-diagonal: the \textbf{cross-spectrum} $f_{xy}(\omega) = c_{xy}(\omega) - iq_{xy}(\omega)$ (co-spectrum $c$, quadrature spectrum $q$)
+    \item VARMA $\Phi(L)\mathbf X_t = \Theta(L)\boldsymbol\varepsilon_t$: the multivariate analogue of the ARMA spectrum
+    \[ \mathbf f(\omega) = \frac{1}{2\pi}\Phi(e^{-i\omega})^{-1}\Theta(e^{-i\omega})\,\bSigma\,\Theta(e^{-i\omega})^*\Phi(e^{-i\omega})^{-*} \]
     \begin{itemize}
-        \item $c_{xy}$ is even in $\omega$ (contemporaneous co-movement), $q_{xy}$ odd (lead--lag); $\int c_{xy} = \Cov(X_t, Y_t)$
+        \item $\Phi$, $\Theta$: matrix AR and MA polynomials; $\bSigma$: covariance of the innovations $\boldsymbol\varepsilon_t$; $^{-*}$: inverse of the conjugate transpose
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The spectral density matrix (2/2): cross-spectra}
+\itemsize{\small}
+\begin{itemize}
+    \item Off-diagonal elements: the \textbf{cross-spectrum}, complex-valued
+    \[ f_{xy}(\omega) = c_{xy}(\omega) - i\,q_{xy}(\omega) \]
+    \begin{itemize}
+        \item $c_{xy}$: co-spectrum, even in $\omega$ (contemporaneous co-movement), $\int c_{xy} = \Cov(X_t, Y_t)$
+        \item $q_{xy}$: quadrature spectrum, odd in $\omega$ (lead--lag between the series)
     \end{itemize}
     \item Section 2 estimates the diagonal, Section 3 the off-diagonal, Section 4 factorises $\mathbf f$ to measure causality
 \end{itemize}
@@ -361,27 +394,49 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \begin{frame}{Why the periodogram is not enough}
 \itemsize{\small}
 \begin{itemize}
-    \item For a linear process $X_t = \sum_j\psi_j\varepsilon_{t-j}$ with $\sum_j|j|^{1/2}|\psi_j| < \infty$ and $f > 0$: $I(\omega_j) \Rightarrow f(\omega_j)\,\chi^2_2/2$, asymptotically independent over fixed Fourier frequencies \refBD
+    \item For a linear process the periodogram ordinates are asymptotically scaled $\chi^2_2$ variables \refBD
+    \[ X_t = \sum_j\psi_j\varepsilon_{t-j} \ \Rightarrow\ I(\omega_j) \Rightarrow f(\omega_j)\,\frac{\chi^2_2}{2} \]
     \begin{itemize}
+        \item $\psi_j$: weights with $\sum_j|j|^{1/2}|\psi_j| < \infty$; $\varepsilon_t$: i.i.d. innovations; $f > 0$; asymptotically independent over fixed Fourier frequencies $\omega_j$
         \item $\E I(\omega_j) \to f(\omega_j)$ but $\Var I(\omega_j) \to f(\omega_j)^2$: \textbf{inconsistent}, the variance does not fall with $n$
     \end{itemize}
-    \item $\E I(\omega) = \int F_n(\omega - \lambda)f(\lambda)\,d\lambda$, $F_n$ the Fejér kernel: side lobes decay only like $1/(n\omega^2)$, so power \textbf{leaks} from strong to weak frequencies
+    \item Leakage: the mean periodogram is the true spectrum smoothed by the Fejér kernel $F_n$
+    \[ \E I(\omega) = \int F_n(\omega - \lambda)f(\lambda)\,d\lambda \]
+    \begin{itemize}
+        \item the side lobes of $F_n$ decay only like $1/(n\omega^2)$, so power \textbf{leaks} from strong to weak frequencies
+    \end{itemize}
     \item Two remedies: \textbf{average} neighbouring frequencies (consistency) and \textbf{taper} the data (bias); multitaper does both
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Lag-window estimators}
+\begin{frame}{Lag-window estimators (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $\hat f(\omega) = \frac{1}{2\pi}\sum_{|h| < n}k(h/M)\hat\gamma(h)e^{-i\omega h}$, $k$ the \textbf{lag window}, $M$ the truncation (bandwidth) parameter \refPar
+    \item Down-weight the noisy sample autocovariances at long lags \refPar
+    \[ \hat f(\omega) = \frac{1}{2\pi}\sum_{|h| < n}k(h/M)\,\hat\gamma(h)e^{-i\omega h} \]
     \begin{itemize}
-        \item equivalently $\hat f(\omega) = \int W_M(\omega - \lambda)I(\lambda)\,d\lambda$: a weighted average of the periodogram with the \textbf{spectral window} $W_M(\omega) = \frac{1}{2\pi}\sum_h k(h/M)e^{-i\omega h}$
+        \item $\hat\gamma(h)$: sample autocovariance; $k$: the \textbf{lag window}, $k(0) = 1$, decreasing in $|u|$; $M$: the truncation (bandwidth) parameter
     \end{itemize}
+    \item Equivalently: a weighted average of the periodogram with the \textbf{spectral window} $W_M$
+    \[ \hat f(\omega) = \int W_M(\omega - \lambda)I(\lambda)\,d\lambda, \qquad W_M(\omega) = \frac{1}{2\pi}\sum_h k(h/M)e^{-i\omega h} \]
+    \begin{itemize}
+        \item a large $M$ gives a narrow $W_M$: little smoothing
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Lag-window estimators (2/2): the kernels}
+\itemsize{\small}
+\begin{itemize}
     \item Bartlett $k(u) = 1 - |u|$; Parzen; Tukey--Hanning; quadratic spectral (QS): the same kernels as the HAC estimators of \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0} at $\omega = 0$
     \begin{itemize}
         \item a non-negative $W_M$ guarantees $\hat f \ge 0$ (Bartlett, Parzen, QS); Tukey--Hanning can go negative
     \end{itemize}
-    \item Characteristic exponent $q$ and $k_q = \lim_{u \to 0}(1 - k(u))/|u|^q$: Bartlett $q = 1$, $k_1 = 1$; Parzen $q = 2$, $k_2 = 6$; QS $q = 2$, $k_2 = 1.42$
+    \item Characteristic exponent $q$: how flat the kernel is at zero
+    \[ k_q = \lim_{u \to 0}\frac{1 - k(u)}{|u|^q} \]
+    \begin{itemize}
+        \item Bartlett $q = 1$, $k_1 = 1$; Parzen $q = 2$, $k_2 = 6$; QS $q = 2$, $k_2 = 1.42$; a larger $q$ means smaller bias (next slides)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -407,19 +462,31 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Bias, variance and the optimal bandwidth}
+\begin{frame}{Bias, variance and the optimal bandwidth (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item If $M \to \infty$ and $M/n \to 0$: $\hat f(\omega) \to_p f(\omega)$ (\textbf{consistency}) \refPar
+    \item If $M \to \infty$ and $M/n \to 0$: $\hat f(\omega) \to_p f(\omega)$ (\textbf{consistency}) \refPar; variance and bias
+    \[ \Var\hat f(\omega) \approx \frac{M}{n}f(\omega)^2\int k^2(u)\,du, \qquad \E\hat f(\omega) - f(\omega) \approx -k_qM^{-q}f^{(q)}(\omega) \]
     \begin{itemize}
-        \item $\Var\hat f(\omega) \approx \frac{M}{n}f(\omega)^2\int k^2(u)\,du$ (twice that at $\omega = 0, \pm\pi$)
-        \item $\E\hat f(\omega) - f(\omega) \approx -k_qM^{-q}f^{(q)}(\omega)$, $f^{(q)}(\omega) = \frac{1}{2\pi}\sum_h|h|^q\gamma(h)e^{-i\omega h}$: the bias is large where the spectrum is curved (peaks)
+        \item the variance grows with $M$ (doubled at $\omega = 0, \pm\pi$); the bias falls with $M$
+        \item $f^{(q)}(\omega) = \frac{1}{2\pi}\sum_h|h|^q\gamma(h)e^{-i\omega h}$: a generalised $q$-th derivative of $f$, large where the spectrum is curved (peaks)
     \end{itemize}
-    \item Minimising MSE: $M^* = \big(qk_q^2f^{(q)}(\omega)^2n\,/\,(f(\omega)^2\int k^2)\big)^{1/(2q+1)} \propto n^{1/(2q+1)}$; MSE $\propto n^{-2q/(2q+1)}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Bias, variance and the optimal bandwidth (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Minimising MSE = squared bias + variance over $M$
+    \[ M^* = \Big(\frac{qk_q^2f^{(q)}(\omega)^2\,n}{f(\omega)^2\int k^2}\Big)^{1/(2q+1)} \propto n^{1/(2q+1)}, \qquad \mathrm{MSE} \propto n^{-2q/(2q+1)} \]
     \begin{itemize}
         \item $q = 2$ kernels converge faster ($n^{-4/5}$) than Bartlett ($n^{-2/3}$)
     \end{itemize}
-    \item Inference: $\nu\hat f(\omega)/f(\omega) \approx \chi^2_\nu$ with $\nu = 2n/(M\int k^2)$ equivalent degrees of freedom; the band is constant in log scale
+    \item Inference: a scaled $\chi^2$ with equivalent degrees of freedom $\nu$
+    \[ \frac{\nu\hat f(\omega)}{f(\omega)} \approx \chi^2_\nu, \qquad \nu = \frac{2n}{M\int k^2} \]
+    \begin{itemize}
+        \item the confidence band $[\nu\hat f/\chi^2_{\nu,0.975}, \nu\hat f/\chi^2_{\nu,0.025}]$ has constant width in log scale
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -448,28 +515,48 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \begin{frame}{Choosing the bandwidth}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Plug-in} \refAnd: approximate $f^{(q)}/f$ by a parametric (AR(1)) model, then use $M^*$; for $\omega = 0$: $M = 1.1447(\hat\alpha(1)n)^{1/3}$ (Bartlett), $1.3221(\hat\alpha(2)n)^{1/5}$ (QS)
+    \item \textbf{Plug-in} \refAnd: approximate $f^{(q)}/f$ by a parametric (AR(1)) model, then use $M^*$
+    \[ M = 1.1447\,(\hat\alpha(1)\,n)^{1/3} \ \text{(Bartlett)}, \qquad M = 1.3221\,(\hat\alpha(2)\,n)^{1/5} \ \text{(QS)}, \qquad \omega = 0 \]
     \begin{itemize}
+        \item $\hat\alpha(q)$: the ratio $(f^{(q)}(0)/f(0))^2$ computed from the fitted AR(1), e.g.\ $\hat\alpha(2) = 4\hat\rho^2/(1 - \hat\rho)^4$ ($\hat\rho$: AR coefficient)
         \item good for long-run variances (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}); poor near sharp peaks, where the AR(1) approximation is wrong
     \end{itemize}
-    \item \textbf{Cross-validation} \refHur: minimise a leave-one-out Whittle criterion $\sum_j\big[\log\hat f_{-j}(\omega_j) + I(\omega_j)/\hat f_{-j}(\omega_j)\big]$ over $M$
+    \item \textbf{Cross-validation} \refHur: minimise over $M$ a leave-one-out Whittle criterion
+    \[ \mathrm{CV}(M) = \sum_j\Big[\log\hat f_{-j}(\omega_j) + \frac{I(\omega_j)}{\hat f_{-j}(\omega_j)}\Big] \]
+    \begin{itemize}
+        \item $\hat f_{-j}$: the smoothed estimate computed without the ordinate $I(\omega_j)$
+    \end{itemize}
     \item \textbf{Resolution}: two peaks closer than the bandwidth (about $1/M$ cycles) merge; decide the resolution you need before looking at the data
-    \item Report the estimate for two or three bandwidths: conclusions that depend on $M$ are not conclusions
+    \begin{itemize}
+        \item report the estimate for two or three bandwidths: conclusions that depend on $M$ are not conclusions
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Multitaper estimation}
+\begin{frame}{Multitaper estimation (1/2): Slepian tapers}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Slepian (DPSS) tapers} $v^{(k)}$, $k = 0, \dots, K - 1$: orthonormal sequences of length $n$ that maximise the share $\lambda_k$ of their energy in $[-W, W]$ \refTho
+    \item \textbf{Slepian (DPSS) tapers} $v^{(k)}$, $k = 0, \dots, K - 1$ \refTho
     \begin{itemize}
-        \item about $2NW$ of them have $\lambda_k \approx 1$; usually $K = 2NW - 1$ (e.g.\ $NW = 4$, $K = 7$); $W$ is the half-bandwidth in cycles
+        \item orthonormal weight sequences of length $n$ that maximise the share $\lambda_k$ of their spectral energy inside $[-W, W]$; $W$: half-bandwidth in cycles
+        \item about $2nW$ of them have $\lambda_k \approx 1$; usually $K = 2NW - 1$ with $NW = nW$ (e.g.\ $NW = 4$, $K = 7$)
     \end{itemize}
-    \item Eigenspectra $\hat S_k(\omega) = \frac{1}{2\pi}\big|\sum_tv_t^{(k)}x_te^{-i\omega t}\big|^2$; $\hat f^{\mathrm{mt}} = \frac1K\sum_k\hat S_k$
+    \item Eigenspectra: one tapered periodogram per taper; the estimate is their average
+    \[ \hat S_k(\omega) = \frac{1}{2\pi}\Big|\sum_tv_t^{(k)}x_te^{-i\omega t}\Big|^2, \qquad \hat f^{\mathrm{mt}}(\omega) = \frac1K\sum_{k=0}^{K-1}\hat S_k(\omega) \]
     \begin{itemize}
-        \item $\hat S_k$ are nearly uncorrelated: $2K\hat f^{\mathrm{mt}}/f \approx \chi^2_{2K}$; variance $f^2/K$, bias controlled by the taper concentration
+        \item the $\hat S_k$ are nearly uncorrelated: $2K\hat f^{\mathrm{mt}}/f \approx \chi^2_{2K}$; variance $f^2/K$, bias controlled by the taper concentration
     \end{itemize}
-    \item \textbf{Adaptive weights}: $d_k(\omega) = \sqrt{\lambda_k}f(\omega)/(\lambda_kf(\omega) + (1 - \lambda_k)\sigma^2)$, iterated; down-weight leaky tapers where $f$ is small \refPWa
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Multitaper estimation (2/2): adaptive weights}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Adaptive weights} \refPWa: down-weight leaky tapers where $f$ is small
+    \[ d_k(\omega) = \frac{\sqrt{\lambda_k}\,f(\omega)}{\lambda_kf(\omega) + (1 - \lambda_k)\sigma^2} \]
+    \begin{itemize}
+        \item $\sigma^2$: the variance of the series; $1 - \lambda_k$: the leakage of taper $k$; the weights depend on the unknown $f$, so they are iterated from $\hat f^{\mathrm{mt}}$
+    \end{itemize}
     \item Alternatives with the same logic: sine tapers \refRS; Welch's averaging of tapered segments \refWel
 \end{itemize}
 \end{frame}
@@ -562,14 +649,27 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Lines in the spectrum: Thomson's F test}
+\begin{frame}{Lines in the spectrum: Thomson's F test (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Model: $x_t = \mu\cos(\omega_0t + \phi) + $ noise with a smooth spectrum; under a line, each tapered DFT is $Y_k(\omega_0) \approx \mu U_k(0)$, $U_k(0) = \sum_tv^{(k)}_t$ \refTho
+    \item Model: a sinusoid plus noise with a smooth spectrum \refTho
+    \[ x_t = \mu\cos(\omega_0t + \phi) + e_t \]
     \begin{itemize}
-        \item $\hat\mu(\omega) = \sum_kU_k(0)Y_k(\omega)/\sum_kU_k(0)^2$; $F(\omega) = (K - 1)|\hat\mu|^2\sum_kU_k(0)^2/\sum_k|Y_k - \hat\mu U_k(0)|^2 \sim F_{2, 2K - 2}$
+        \item $\mu$: amplitude; $\omega_0$: frequency of the line; $\phi$: phase; $e_t$: stationary noise
+        \item under a line, each tapered DFT is $Y_k(\omega_0) \approx \mu\,U_k(0)$, with $U_k(0) = \sum_tv^{(k)}_t$ the sum of taper $k$
     \end{itemize}
-    \item A regression of the eigencoefficients on the taper means, frequency by frequency: it separates a deterministic line from a stochastic peak, which Fisher's test (TSA) cannot
+    \item A regression of the eigencoefficients $Y_k$ on the taper sums $U_k(0)$, frequency by frequency: it separates a deterministic line from a stochastic peak, which Fisher's test (TSA) cannot
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Lines in the spectrum: Thomson's F test (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Estimated amplitude and the F statistic: explained against residual variation
+    \[ \hat\mu(\omega) = \frac{\sum_kU_k(0)Y_k(\omega)}{\sum_kU_k(0)^2}, \qquad F(\omega) = \frac{(K - 1)\,|\hat\mu|^2\sum_kU_k(0)^2}{\sum_k|Y_k - \hat\mu U_k(0)|^2} \sim F_{2, 2K - 2} \]
+    \begin{itemize}
+        \item a large $F(\omega)$: a line at $\omega$; $K$: number of tapers
+    \end{itemize}
     \item Application: residual seasonality is a set of lines at $k/12$ cycles per month; trading-day effects are lines at 0.348 and 0.432 cycles per month
     \item Testing at hundreds of frequencies: expect about 1\% false rejections at the 1\% level; test only pre-specified frequencies
 \end{itemize}
@@ -611,18 +711,29 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \section{Two series: coherence, phase and causality}
 %=============================================================================
 
-\begin{frame}{Coherence, phase and gain}
+\begin{frame}{Coherence, phase and gain (1/2): coherence}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Squared coherence} $\kappa^2_{xy}(\omega) = |f_{xy}(\omega)|^2/(f_x(\omega)f_y(\omega)) \in [0, 1]$: the $R^2$ of the regression of $dZ_y(\omega)$ on $dZ_x(\omega)$
+    \item \textbf{Squared coherence}: the $R^2$ of the regression of $dZ_y(\omega)$ on $dZ_x(\omega)$
+    \[ \kappa^2_{xy}(\omega) = \frac{|f_{xy}(\omega)|^2}{f_x(\omega)f_y(\omega)} \in [0, 1] \]
     \begin{itemize}
-        \item invariant to filtering each series by an invertible filter: coherence does not depend on how the series are transformed
-    \end{itemize}
-    \item \textbf{Phase} $\phi_{xy}(\omega) = \arg f_{xy}(\omega)$, with $\gamma_{xy}(h) = \Cov(x_{t+h}, y_t)$: if $y_t = x_{t-d}$, then $f_{xy} = e^{i\omega d}f_x$, phase $\omega d > 0$: $x$ leads by $\phi/\omega$ periods
-    \begin{itemize}
-        \item the phase is defined modulo $2\pi$: a lead of $d$ and a lag of $2\pi/\omega - d$ are the same phase; interpret it only where coherence is significant
+        \item $f_x$, $f_y$: the two spectra; $f_{xy}$: the cross-spectrum; $\kappa^2 = 1$: $y$ is an exact linear filter of $x$ at frequency $\omega$; $\kappa^2 = 0$: no linear relation at that frequency
+        \item invariant to filtering each series by an invertible filter: coherence does not depend on how the series are transformed (\atsapplink{atsapp2}{atssrc1}{Appendix})
     \end{itemize}
     \item \textbf{Gain} $|f_{xy}(\omega)|/f_x(\omega)$: the regression coefficient of $y$ on $x$ at frequency $\omega$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Coherence, phase and gain (2/2): phase}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Phase}: the angle of the cross-spectrum, with $\gamma_{xy}(h) = \Cov(x_{t+h}, y_t)$
+    \[ \phi_{xy}(\omega) = \arg f_{xy}(\omega) \]
+    \begin{itemize}
+        \item example: if $y_t = x_{t-d}$, then $f_{xy} = e^{i\omega d}f_x$, phase $\omega d > 0$: $x$ leads by $\phi/\omega$ periods
+        \item the phase is defined modulo $2\pi$: a lead of $d$ and a lag of $2\pi/\omega - d$ are the same phase
+    \end{itemize}
+    \item Interpret the phase only where coherence is significant
 \end{itemize}
 \end{frame}
 
@@ -630,8 +741,9 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \itemsize{\small}
 \begin{itemize}
     \item The raw cross-periodogram gives $\hat\kappa^2 \equiv 1$ at every frequency: coherence \textbf{must} be smoothed (here: averaged over $K$ tapers)
+    \[ \Pr(\hat\kappa^2 > c \mid \kappa^2 = 0) = (1 - c)^{L-1} \ \Rightarrow\ c_{0.05} = 1 - 0.05^{1/(L-1)} \]
     \begin{itemize}
-        \item under $\kappa^2 = 0$ with $L$ independent averaged ordinates: $\Pr(\hat\kappa^2 > c) = (1 - c)^{L-1}$, so the 5\% threshold is $1 - 0.05^{1/(L-1)}$
+        \item $L$: number of independent ordinates averaged ($L = K$ for multitaper); $c$: threshold; $\hat\kappa^2$ above $c_{0.05}$ is significant at 5\%
     \end{itemize}
     \item $\hat\kappa^2$ is biased upwards when $\kappa^2$ is small; confidence intervals via the Fisher transform $\tanh^{-1}\hat\kappa$ \refSS
     \begin{itemize}
@@ -666,29 +778,46 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \begin{frame}{Dynamic correlation}
 \itemsize{\small}
 \begin{itemize}
-    \item \refCFR: $\rho_{xy}(\omega) = c_{xy}(\omega)/\sqrt{f_x(\omega)f_y(\omega)} \in [-1, 1]$, the correlation of the real (in-phase) components at frequency $\omega$
+    \item \refCFR: the correlation of the in-phase (real) components at frequency $\omega$
+    \[ \rho_{xy}(\omega) = \frac{c_{xy}(\omega)}{\sqrt{f_x(\omega)f_y(\omega)}} \in [-1, 1] \]
+    \[ \kappa^2 = \rho^2 + \Big(\frac{q_{xy}}{\sqrt{f_xf_y}}\Big)^2 \]
     \begin{itemize}
-        \item unlike coherence it has a \textbf{sign}, and it is not inflated by out-of-phase movement: $\kappa^2 = \rho^2 + (q_{xy}/\sqrt{f_xf_y})^2$
+        \item $c_{xy}$, $q_{xy}$: co-spectrum and quadrature spectrum; unlike coherence, $\rho_{xy}$ has a \textbf{sign} and is not increased by out-of-phase movement
     \end{itemize}
-    \item Over a band $\Lambda$: $\rho_{xy}(\Lambda) = \int_\Lambda c_{xy}/\sqrt{\int_\Lambda f_x\int_\Lambda f_y}$; over $[0, \pi]$ it is the ordinary correlation
+    \item Over a band $\Lambda$ of frequencies
+    \[ \rho_{xy}(\Lambda) = \frac{\int_\Lambda c_{xy}}{\sqrt{\int_\Lambda f_x\int_\Lambda f_y}} \]
     \begin{itemize}
-        \item equals the correlation of the band-pass filtered series: a frequency-domain way to compute what Section 4 does with filters
+        \item over $[0, \pi]$ it is the ordinary correlation; over a band it equals the correlation of the band-pass filtered series (Section 4)
     \end{itemize}
     \item \textbf{Cohesion}: a weighted average of pairwise $\rho_{xy}(\omega)$ inside a group of countries; CFR use it for euro-area business cycles
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Granger causality by frequency}
+\begin{frame}{Granger causality by frequency (1/2): the Geweke measure}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item \refGew: bivariate VAR, innovations normalised so that $x$'s innovation is uncorrelated with the transformed $y$ innovation; then $f_x(\omega) = \frac{1}{2\pi}\big(|\tilde H_{xx}|^2\tilde\sigma_{xx} + |\tilde H_{xy}|^2\tilde\sigma_{yy}\big)$
+    \item \refGew: in a bivariate VAR, normalise the innovations so that $x$'s innovation is uncorrelated with the transformed $y$ innovation; then
+    \[ f_x(\omega) = \frac{1}{2\pi}\Big(|\tilde H_{xx}(\omega)|^2\tilde\sigma_{xx} + |\tilde H_{xy}(\omega)|^2\tilde\sigma_{yy}\Big) \]
     \begin{itemize}
-        \item $M_{y \to x}(\omega) = \ln\big(2\pi f_x(\omega)/(|\tilde H_{xx}(\omega)|^2\tilde\sigma_{xx})\big) \ge 0$: the share of $f_x(\omega)$ that comes from $y$
-        \item $\frac{1}{\pi}\int_0^\pi M_{y \to x}(\omega)\,d\omega = \ln(\sigma^2_{x|x}/\sigma^2_{x|x,y})$, the time-domain Granger measure (under a mild condition)
+        \item $\tilde H$: the transfer function (moving-average representation) of the normalised VAR; $\tilde\sigma_{xx}$, $\tilde\sigma_{yy}$: variances of the two orthogonal innovations
     \end{itemize}
-    \item \refBC: $M_{y \to x}(\omega) = 0$ iff $\sum_{j=1}^p\psi_j\cos(j\omega) = 0$ and $\sum_{j=1}^p\psi_j\sin(j\omega) = 0$, $\psi_j$ the coefficients of $y_{t-j}$ in the $x$ equation
+    \item The share of $f_x(\omega)$ that comes from $y$
+    \[ M_{y \to x}(\omega) = \ln\frac{2\pi f_x(\omega)}{|\tilde H_{xx}(\omega)|^2\tilde\sigma_{xx}} \ge 0 \]
+    \[ \frac{1}{\pi}\int_0^\pi M_{y \to x}(\omega)\,d\omega = \ln\frac{\sigma^2_{x|x}}{\sigma^2_{x|x,y}} \]
     \begin{itemize}
-        \item two linear restrictions: an $F(2, T - 2p - 1)$ test at each $\omega$; with $p \le 2$ they fix all $\psi_j$, so the test is the same at every frequency
+        \item the integral is the time-domain Granger measure (under a mild condition): $\sigma^2_{x|x}$, $\sigma^2_{x|x,y}$ are the one-step forecast variances of $x$ without and with the past of $y$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Granger causality by frequency (2/2): the Breitung--Candelon test}
+\itemsize{\small}
+\begin{itemize}
+    \item \refBC: no causality at frequency $\omega$ is two linear restrictions on the coefficients of $y$ in the $x$ equation
+    \[ M_{y \to x}(\omega) = 0 \iff \sum_{j=1}^p\psi_j\cos(j\omega) = 0 \ \text{ and } \ \sum_{j=1}^p\psi_j\sin(j\omega) = 0 \]
+    \begin{itemize}
+        \item $\psi_j$: coefficient of $y_{t-j}$ in the $x$ equation; $p$: VAR order; an $F(2, T - 2p - 1)$ test at each $\omega$, $T$: number of observations
+        \item with $p \le 2$ the two restrictions fix all $\psi_j$, so the test is the same at every frequency
     \end{itemize}
     \item BC show that the test extends to cointegrated VARs (long-run causality at $\omega = 0$); pointwise tests across frequencies are not a joint test
 \end{itemize}
@@ -733,34 +862,42 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \begin{frame}{Band-pass filters}
 \itemsize{\small}
 \begin{itemize}
-    \item Ideal filter for periods $[p_l, p_u]$: gain 1 on $[2\pi/p_u, 2\pi/p_l]$, 0 elsewhere; weights $b_0 = (\omega_2 - \omega_1)/\pi$, $b_j = (\sin j\omega_2 - \sin j\omega_1)/(\pi j)$: infinitely many
-    \item \refBK: truncate at $K$ and add a constant so that $\sum_{j=-K}^Ka_j = 0$: removes a unit root and a linear trend; symmetric, no phase shift
+    \item Ideal filter for periods $[p_l, p_u]$: gain 1 on the frequencies $[\omega_1, \omega_2] = [2\pi/p_u, 2\pi/p_l]$, 0 elsewhere; its weights are infinitely many
+    \[ b_0 = \frac{\omega_2 - \omega_1}{\pi}, \qquad b_j = \frac{\sin j\omega_2 - \sin j\omega_1}{\pi j}, \quad j = \pm1, \pm2, \dots \]
+    \item \refBK: truncate at $K$ lags and add a constant so that $\sum_{j=-K}^Ka_j = 0$
     \begin{itemize}
+        \item $a_j$: the adjusted weights; the zero sum removes a unit root and a linear trend; symmetric, no phase shift
         \item quarterly recommendation: BK(6, 32, $K = 12$); the price: $K$ observations lost at each end; $a_0 = 0.28$
     \end{itemize}
-    \item \refCF: minimise $\E[(y^{\mathrm{ideal}}_t - \hat y_t)^2 \mid y_1, \dots, y_n]$ assuming a random walk: asymmetric, time-varying weights that use the whole sample
+    \item \refCF: minimise $\E[(y^{\mathrm{ideal}}_t - \hat y_t)^2 \mid y_1, \dots, y_n]$ assuming a random walk
     \begin{itemize}
-        \item no lost observations, but phase shifts near the ends and dependence on the random-walk assumption
+        \item $y^{\mathrm{ideal}}_t$: the ideal band-pass component; asymmetric, time-varying weights that use the whole sample: no lost observations, but phase shifts near the ends
     \end{itemize}
     \item The business-cycle band of 6--32 quarters (1.5--8 years) follows Burns and Mitchell, as adopted by \refBK
 \end{itemize}
 \end{frame}
 
 \begin{frame}{The Hodrick--Prescott filter}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{columns}[T]
-\begin{column}{0.3\textwidth}
+\begin{column}{0.27\textwidth}
 \centering
 \includegraphics[height=0.4\textheight]{ch11_prescott_2015.jpg}\\[1mm]
 \imgcap{Edward C.\ Prescott, 2015}
 \imgcredit{https://commons.wikimedia.org/wiki/File:Edward_C_Prescott_2015_(cropped).jpg}{Photo: Narodowy Bank Polski (2015); CC BY-SA 2.0; Wikimedia Commons}
 \end{column}
-\begin{column}{0.68\textwidth}
+\begin{column}{0.71\textwidth}
 \begin{itemize}
-    \item $\hat\tau = \arg\min_\tau\sum_t(y_t - \tau_t)^2 + \lambda\sum_t(\Delta^2\tau_t)^2 = (I + \lambda D'D)^{-1}y$ \refHP
-    \item Infinite-sample gain of the cycle: $G(\omega) = \dfrac{4\lambda(1 - \cos\omega)^2}{1 + 4\lambda(1 - \cos\omega)^2}$, a high-pass filter
-    \item It is the Kalman smoother of a local linear trend with signal-to-noise ratio $1/\lambda$ (TSA and ATS, \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter6_state_space_models_bayesian_filtering.pdf}{Chapter 6})
-    \item $\lambda = 1600$ for quarters; Ravn--Uhlig scaling $\lambda \propto s^4$: 129\,600 for months, 6.25 for years \refRU
+    \item \refHP: the trend balances fit against smoothness
+    \[ \hat\tau = \arg\min_\tau\sum_t(y_t - \tau_t)^2 + \lambda\sum_t(\Delta^2\tau_t)^2 = (I + \lambda D'D)^{-1}y \]
+    \begin{itemize}
+        \item $\tau_t$: trend; $\Delta^2\tau_t$: its second difference; $\lambda$: smoothness penalty; $D$: the second-difference matrix; cycle $y_t - \hat\tau_t$
+    \end{itemize}
+    \item Infinite-sample gain of the cycle: a high-pass filter
+    \[ G(\omega) = \frac{4\lambda(1 - \cos\omega)^2}{1 + 4\lambda(1 - \cos\omega)^2} \]
+    \begin{itemize}
+        \item the Kalman smoother of a local linear trend with signal-to-noise ratio $1/\lambda$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter6_state_space_models_bayesian_filtering.pdf}{Chapter 6}); $\lambda = 1600$ for quarters; Ravn--Uhlig scaling $\lambda \propto s^4$ ($s$: observations per quarter): 129\,600 for months, 6.25 for years \refRU
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -775,9 +912,10 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
         \item (2) end-of-sample values are very different from the values the same filter gives once more data arrive (one-sided against two-sided)
         \item (3) the $\lambda$ implied by a statistical model fitted to the data is far from 1600
     \end{itemize}
-    \item Alternative: the \textbf{regression filter} $y_{t+h} = \beta_0 + \beta_1y_t + \dots + \beta_py_{t-p+1} + v_{t+h}$, the cycle is $\hat v_{t+h}$; quarterly $h = 8$, $p = 4$
+    \item Alternative: the \textbf{regression filter}, the cycle is the error of an $h$-step-ahead regression forecast
+    \[ y_{t+h} = \beta_0 + \beta_1y_t + \dots + \beta_py_{t-p+1} + v_{t+h}, \qquad \text{cycle}_{t+h} = \hat v_{t+h} \]
     \begin{itemize}
-        \item one-sided by construction; consistent for the forecast error of a wide class of nonstationary processes; for a random walk $v_{t+h} = y_{t+h} - y_t$
+        \item quarterly $h = 8$, $p = 4$; one-sided by construction; for a random walk $v_{t+h} = y_{t+h} - y_t$
     \end{itemize}
     \item Replies: boosting the HP filter \refPS; a modified Hamilton filter for real time \refQW; the debate is about which gain you want
 \end{itemize}
@@ -875,7 +1013,11 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \itemsize{\small}
 \begin{itemize}
     \item Correlation of filtered cycles; it depends on the filter (gain) and on a few large episodes
-    \item \textbf{Concordance} \refHPa: $C = \frac1T\sum_t[S_{xt}S_{yt} + (1 - S_{xt})(1 - S_{yt})]$, $S_t = 1$ in expansion (here: cycle above trend); compare with $p_xp_y + (1 - p_x)(1 - p_y)$ under independence
+    \item \textbf{Concordance} \refHPa: the share of periods in which the two economies are in the same phase
+    \[ C = \frac1T\sum_t\big[S_{xt}S_{yt} + (1 - S_{xt})(1 - S_{yt})\big] \]
+    \begin{itemize}
+        \item $S_{xt} = 1$ if $x$ is in expansion (here: cycle above trend), 0 otherwise; under independence $\E C = p_xp_y + (1 - p_x)(1 - p_y)$, $p_x$, $p_y$: shares of expansion periods
+    \end{itemize}
     \item Dynamic correlation over the business-cycle band \refCFR, which needs no filter
     \item Evidence for Central and Eastern Europe: a meta-analysis of 35 publications finds that some countries already had high correlations with the euro area and that the estimation method changes the correlation significantly \refFK
 \end{itemize}
@@ -942,10 +1084,14 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \begin{frame}{Evolutionary spectra and local stationarity}
 \itemsize{\small}
 \begin{itemize}
-    \item \refPri: $X_t = \int A_t(\omega)e^{i\omega t}\,dZ(\omega)$ with a slowly changing amplitude $A_t(\omega)$; the \textbf{evolutionary spectrum} $f_t(\omega) = |A_t(\omega)|^2f(\omega)$
-    \item \refDah: \textbf{locally stationary} processes $X_{t,T}$ with $A(t/T, \omega)$ smooth in rescaled time $u = t/T$: a time-varying spectrum $f(u, \omega)$ that can be estimated consistently
+    \item \refPri: Cramér's representation with a slowly changing amplitude
+    \[ X_t = \int A_t(\omega)e^{i\omega t}\,dZ(\omega), \qquad f_t(\omega) = |A_t(\omega)|^2f(\omega) \]
     \begin{itemize}
-        \item estimator: a spectrum on a moving window (short-time Fourier transform, spectrogram), tapered
+        \item $A_t(\omega)$: time-varying amplitude; $f_t(\omega)$: the \textbf{evolutionary spectrum} at time $t$
+    \end{itemize}
+    \item \refDah: \textbf{locally stationary} processes $X_{t,T}$ with $A(t/T, \omega)$ smooth in rescaled time $u = t/T$
+    \begin{itemize}
+        \item $T$: sample size; a time-varying spectrum $f(u, \omega)$ that can be estimated consistently by a tapered spectrum on a moving window (spectrogram)
     \end{itemize}
     \item \textbf{Uncertainty principle}: a window of length $L$ resolves frequencies only to about $1/L$; long windows blur time, short windows blur frequency
     \item Wavelets (next sections) let the window length change with the frequency: short for high frequencies, long for low ones
@@ -999,37 +1145,60 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 %=============================================================================
 
 \begin{frame}{From sinusoids to wavelets}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{columns}[T]
-\begin{column}{0.3\textwidth}
+\begin{column}{0.28\textwidth}
 \centering
-\includegraphics[height=0.4\textheight]{ch11_daubechies_2005.jpg}\\[1mm]
+\includegraphics[height=0.36\textheight]{ch11_daubechies_2005.jpg}\\[1mm]
 \imgcap{Ingrid Daubechies, 2005}
 \imgcredit{https://commons.wikimedia.org/wiki/File:Ingrid_Daubechies_(2005)_(cropped).jpg}{Photo: own work of the uploader (2005); public domain; Wikimedia Commons}
 \end{column}
-\begin{column}{0.68\textwidth}
+\begin{column}{0.7\textwidth}
 \begin{itemize}
-    \item A \textbf{wavelet} $\psi$: $\int\psi = 0$, $\int\psi^2 = 1$, localised in time and frequency; admissible if $C_\psi = \int|\hat\psi(\omega)|^2/|\omega|\,d\omega < \infty$ \refGM
-    \item CWT: $W(s, \tau) = \int x(t)\frac{1}{\sqrt s}\psi^*\big(\frac{t - \tau}{s}\big)dt$; scale $s$ is inversely related to frequency
-    \item Compactly supported orthonormal wavelets \refDau{} and the pyramid algorithm \refMal{} give the DWT: $n$ coefficients for $n$ observations
-    \item In economics and finance: \refCro; \refGSWb; \refACS
+    \item A \textbf{wavelet} $\psi$: a short wave, localised in time and frequency \refGM
+    \begin{itemize}
+        \item $\int\psi = 0$, $\int\psi^2 = 1$; admissible if $C_\psi = \int|\hat\psi(\omega)|^2/|\omega|\,d\omega < \infty$, with $\hat\psi$ the Fourier transform of $\psi$
+    \end{itemize}
+    \item Continuous wavelet transform (CWT): correlate the series with stretched and shifted copies of $\psi$
+    \[ W(s, \tau) = \int x(t)\,\frac{1}{\sqrt s}\,\psi^*\Big(\frac{t - \tau}{s}\Big)dt \]
+    \begin{itemize}
+        \item $s > 0$: scale (inversely related to frequency); $\tau$: location in time; $\psi^*$: complex conjugate
+    \end{itemize}
+    \item Compactly supported orthonormal wavelets \refDau{} and the pyramid algorithm \refMal{} give the DWT: $n$ coefficients for $n$ observations; applications: \refCro; \refGSWb; \refACS
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{DWT, MODWT and multiresolution}
+\begin{frame}{DWT, MODWT and multiresolution (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Filters: scaling $g_l$ (low-pass), wavelet $h_l = (-1)^lg_{L-1-l}$ (high-pass); Haar $L = 2$, Daubechies least-asymmetric LA(8) $L = 8$ \refPWb
+    \item Two filters of length $L$ \refPWb
+    \[ \text{scaling (low-pass): } g_l, \qquad \text{wavelet (high-pass): } h_l = (-1)^lg_{L-1-l} \]
     \begin{itemize}
-        \item level $j$ captures periods $[2^j, 2^{j+1}]$: an \textbf{octave} band; $J$ levels plus a smooth
+        \item Haar $L = 2$; Daubechies least-asymmetric LA(8) $L = 8$; level $j$ captures periods $[2^j, 2^{j+1}]$: an \textbf{octave} band; $J$ levels plus a smooth
     \end{itemize}
-    \item \textbf{MODWT}: no downsampling; rescaled filters $\tilde h = h/\sqrt2$, $\tilde g = g/\sqrt2$; $\tilde W_{j,t} = \sum_l\tilde h_{j,l}X_{t-l \bmod n}$
+    \item \textbf{MODWT} (maximal overlap DWT): no downsampling, rescaled filters
+    \[ \tilde h = h/\sqrt2, \quad \tilde g = g/\sqrt2, \qquad \tilde W_{j,t} = \sum_l\tilde h_{j,l}X_{t-l \bmod n} \]
     \begin{itemize}
-        \item any sample size, shift-invariant (moving the start date does not change the coefficients), $J \times n$ coefficients, energy preserved: $\|X\|^2 = \sum_j\|\tilde W_j\|^2 + \|\tilde V_J\|^2$
+        \item $\tilde h_{j,l}$: the level-$j$ wavelet filter; $\tilde W_{j,t}$: wavelet coefficient of level $j$ at time $t$; $\bmod n$: the sample is treated as circular
     \end{itemize}
-    \item \textbf{MRA}: $X_t = \sum_{j=1}^J\mathcal D_{j,t} + \mathcal S_{J,t}$, each detail $\mathcal D_j$ the inverse MODWT of level $j$ alone; zero-phase, aligned with the data
+\end{itemize}
+\end{frame}
+
+\begin{frame}{DWT, MODWT and multiresolution (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item MODWT properties
+    \begin{itemize}
+        \item any sample size, shift-invariant (moving the start date does not change the coefficients), $J \times n$ coefficients
+        \item energy preserved: $\|X\|^2 = \sum_j\|\tilde W_j\|^2 + \|\tilde V_J\|^2$, with $\tilde V_J$ the scaling (smooth) coefficients
+    \end{itemize}
+    \item \textbf{Multiresolution analysis (MRA)}: the series is the sum of its details and a smooth
+    \[ X_t = \sum_{j=1}^J\mathcal D_{j,t} + \mathcal S_{J,t} \]
+    \begin{itemize}
+        \item $\mathcal D_j$: the inverse MODWT of level $j$ alone; $\mathcal S_J$: the smooth; zero-phase, aligned with the data
+    \end{itemize}
     \item Boundary: the first $L_j - 1 = (2^j - 1)(L - 1)$ coefficients wrap around the sample (circular filtering) and are excluded from estimation
 \end{itemize}
 \end{frame}
@@ -1078,16 +1247,28 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Wavelet variance, correlation and beta by scale}
+\begin{frame}{Wavelet variance, correlation and beta by scale (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Wavelet variance} $\nu_X^2(\tau_j) = \Var\tilde W_{j,t}$; $\sum_j\nu^2_X(\tau_j) = \Var X$: an octave-band version of the spectrum \refPer
+    \item \textbf{Wavelet variance}: the variance of the level-$j$ coefficients; the levels add up to the variance of the series \refPer
+    \[ \nu_X^2(\tau_j) = \Var\tilde W_{j,t}, \qquad \sum_j\nu^2_X(\tau_j) = \Var X \]
     \begin{itemize}
-        \item unbiased estimator: average of $\tilde W^2_{j,t}$ over the $M_j = n - L_j + 1$ non-boundary coefficients; $\eta\hat\nu^2/\nu^2 \approx \chi^2_\eta$, $\eta = \max(M_j/2^j, 1)$
-        \item white noise: $\nu^2(\tau_j) = \sigma^2/2^j$, halving at each level
+        \item $\tau_j = 2^{j-1}$: the scale of level $j$; an octave-band version of the spectrum; white noise: $\nu^2(\tau_j) = \sigma^2/2^j$, halving at each level
+        \item unbiased estimator: average of $\tilde W^2_{j,t}$ over the $M_j = n - L_j + 1$ non-boundary coefficients; $\eta\hat\nu^2/\nu^2 \approx \chi^2_\eta$, $\eta = \max(M_j/2^j, 1)$ equivalent degrees of freedom
     \end{itemize}
-    \item \textbf{Wavelet correlation} $\rho_{XY}(\tau_j) = \Cov(\tilde W^X_j, \tilde W^Y_j)/(\nu_X\nu_Y)$, interval $\tanh\big(\tanh^{-1}\hat\rho \pm z/\sqrt{M_j/2^j - 3}\big)$ \refWGP
-    \item \textbf{Wavelet beta} $\beta(\tau_j) = \Cov(\tilde W^r_j, \tilde W^m_j)/\Var\tilde W^m_j$: systematic risk by investment horizon \refGSW
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Wavelet variance, correlation and beta by scale (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Wavelet correlation} \refWGP\ and \textbf{wavelet beta} \refGSW
+    \[ \rho_{XY}(\tau_j) = \frac{\Cov(\tilde W^X_j, \tilde W^Y_j)}{\nu_X(\tau_j)\nu_Y(\tau_j)} \]
+    \[ \beta(\tau_j) = \frac{\Cov(\tilde W^r_j, \tilde W^m_j)}{\Var\tilde W^m_j} \]
+    \begin{itemize}
+        \item $\tilde W^r_j$, $\tilde W^m_j$: coefficients of an asset return and of the market return; $\beta(\tau_j)$: systematic risk at the investment horizon $\tau_j$
+        \item 95\% interval for the correlation: $\tanh\big(\tanh^{-1}\hat\rho \pm z/\sqrt{M_j/2^j - 3}\big)$, $z = 1.96$
+    \end{itemize}
     \item Effective sample size falls by half at each level: long-scale estimates are wide even with 25 years of daily data
 \end{itemize}
 \end{frame}
@@ -1150,17 +1331,32 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \section{Time--frequency co-movement: wavelet coherence}
 %=============================================================================
 
-\begin{frame}{The Morlet transform and its significance}
+\begin{frame}{The Morlet transform and its significance (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refTC: $W_n(s) = \sum_kx\hat{}_k\hat\psi^*(s\omega_k)e^{i\omega_kn\delta t}$ by FFT; scales $s_j = s_02^{j\delta j}$; wavelet power $|W_n(s)|^2$
+    \item \refTC: the CWT computed by FFT on a grid of scales
+    \[ W_n(s) = \sum_k\hat x_k\,\hat\psi^*(s\omega_k)\,e^{i\omega_kn\delta t}, \qquad s_j = s_02^{j\delta j} \]
     \begin{itemize}
-        \item \textbf{cone of influence} (COI): where the wavelet at scale $s$ reaches the edge, within $\sqrt2\,s$ of either end; results there are biased
+        \item $\hat x_k$: the DFT of the series at frequency $\omega_k$; $\hat\psi$: the Fourier transform of the Morlet wavelet; $\delta t$: time step; $s_0$: smallest scale; $\delta j$: scale step in octaves
+        \item wavelet power $|W_n(s)|^2$: the variance of the series at time $n$ and scale $s$
     \end{itemize}
-    \item Null of red noise (AR(1) with lag-1 autocorrelation $a$): $|W_n(s)|^2/\sigma^2 \sim P_k\chi^2_2/2$, $P_k = (1 - a^2)/(1 + a^2 - 2a\cos(2\pi k/N))$ at the frequency of scale $s$
+    \item \textbf{Cone of influence} (COI): where the wavelet at scale $s$ reaches the edge, within $\sqrt2\,s$ of either end
     \begin{itemize}
-        \item global wavelet spectrum $\bar W^2(s) = \frac1n\sum_n|W_n(s)|^2$: a smoothed Fourier spectrum with $\nu = 2\sqrt{1 + (n\delta t/(2.32s))^2}$ degrees of freedom
+        \item results inside the COI are biased and are not interpreted
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The Morlet transform and its significance (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Null of red noise, an AR(1) with lag-1 autocorrelation $a$: the power is a scaled $\chi^2_2$
+    \[ \frac{|W_n(s)|^2}{\sigma^2} \sim P_k\,\frac{\chi^2_2}{2}, \qquad P_k = \frac{1 - a^2}{1 + a^2 - 2a\cos(2\pi k/N)} \]
+    \begin{itemize}
+        \item $\sigma^2$: variance of the series; $P_k$: the red-noise spectrum at the Fourier index $k$ matching scale $s$; $N$: number of observations
+    \end{itemize}
+    \item Global wavelet spectrum: the time average of the power, a smoothed Fourier spectrum
+    \[ \bar W^2(s) = \frac1n\sum_n|W_n(s)|^2, \qquad \nu = 2\sqrt{1 + \Big(\frac{n\delta t}{2.32\,s}\Big)^2} \ \text{degrees of freedom} \]
     \item Rectify the power by $1/s$ when comparing scales \refLLW; the pointwise test runs at thousands of points: expect 5\% false patches \refMK
 \end{itemize}
 \end{frame}
@@ -1187,16 +1383,30 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Wavelet coherence and phase}
+\begin{frame}{Wavelet coherence and phase (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Cross-wavelet $W^{xy}_n(s) = W^x_n(s)W^{y*}_n(s)$; \textbf{squared wavelet coherence} \refTW, \refGMJ:
+    \item Cross-wavelet transform and \textbf{squared wavelet coherence} \refTW, \refGMJ
+    \[ W^{xy}_n(s) = W^x_n(s)W^{y*}_n(s) \]
+    \[ R^2_n(s) = \frac{|\mathcal S(s^{-1}W^{xy}_n(s))|^2}{\mathcal S(s^{-1}|W^x_n(s)|^2)\,\mathcal S(s^{-1}|W^y_n(s)|^2)} \in [0, 1] \]
     \begin{itemize}
-        \item $R^2_n(s) = \dfrac{|\mathcal S(s^{-1}W^{xy}_n(s))|^2}{\mathcal S(s^{-1}|W^x_n(s)|^2)\,\mathcal S(s^{-1}|W^y_n(s)|^2)}$, $\mathcal S$ = Gaussian smoothing in time (width $s$) and a boxcar of 0.6 octaves in scale
+        \item $\mathcal S$: smoothing, Gaussian in time (width $s$) and a boxcar of 0.6 octaves in scale; $R^2_n(s)$: a local $R^2$ at time $n$ and scale $s$
         \item without smoothing $R^2 \equiv 1$, as for the raw coherence: smoothing is what makes it an estimator
     \end{itemize}
-    \item Phase $\arg\mathcal S(s^{-1}W^{xy})$: arrows right = in phase, left = anti-phase, up = $x$ leads; lead in time = phase $\times$ period$/2\pi$
-    \item Significance by \textbf{Monte Carlo} \refGMJ: pairs of independent AR(1) series with the data's lag-1 autocorrelations; the 95th percentile of $R^2$ at each scale
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Wavelet coherence and phase (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Phase $\arg\mathcal S(s^{-1}W^{xy})$, shown as arrows
+    \begin{itemize}
+        \item right = in phase, left = anti-phase, up = $x$ leads; lead in time = phase $\times$ period$/2\pi$
+    \end{itemize}
+    \item Significance by \textbf{Monte Carlo} \refGMJ
+    \begin{itemize}
+        \item simulate pairs of independent AR(1) series with the data's lag-1 autocorrelations; the 95th percentile of $R^2$ at each scale is the 5\% threshold
+    \end{itemize}
     \item Extensions: partial and multiple wavelet coherence, phase differences with confidence bands \refACS; monetary policy \refAAS; energy \refVB
 \end{itemize}
 \end{frame}
@@ -1416,6 +1626,7 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 %=============================================================================
 
 \begin{frame}{Appendix: the distribution of the periodogram}
+\hypertarget{atsapp1}{}\atsappback{atssrc1}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item Gaussian white noise: $a_j = \sqrt{2/n}\sum_tx_t\cos(\omega_jt)$, $b_j = \sqrt{2/n}\sum_tx_t\sin(\omega_jt)$ are i.i.d.\ $N(0, \sigma^2)$ for $0 < \omega_j < \pi$ (orthogonality of the Fourier basis)
@@ -1426,6 +1637,7 @@ Brent crude oil & FRED (US Energy Information Administration), daily & 2000 -- 2
 \end{frame}
 
 \begin{frame}{Appendix: two filter facts}
+\hypertarget{atsapp2}{}\atsappback{atssrc1}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Coherence is filter-invariant}: $\tilde x = A(L)x$, $\tilde y = B(L)y$ give $f_{\tilde x\tilde y} = A(\omega)\overline{B(\omega)}f_{xy}$, $f_{\tilde x} = |A|^2f_x$, $f_{\tilde y} = |B|^2f_y$, so $\kappa^2_{\tilde x\tilde y} = \kappa^2_{xy}$ where $A, B \ne 0$

@@ -15,12 +15,18 @@ Rulare:
 """
 
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ats_build import Deck, Values, table, photo, cols, block, n   # noqa: E402
 from ats_build import items as _items   # noqa: E402
 from ch9_common import REFS, QLURL, T, V2, day, bib, finalize, load, minus_fix   # noqa: E402
+
+
+def M(tex):
+    """Displayed formula with decimals: decimal comma in RO (the renderer converts only inline math)."""
+    return T(tex, re.sub(r'(\d)\.(\d)', r'\1{,}\2', tex))
 
 
 def items(*xs):
@@ -366,24 +372,50 @@ D.frame(T('Known from TSA and MFM, and new here', 'Cunoscut din TSA și MFM și 
     T('Replications: Engle and Manganelli (2004) and Patton, Ziegel and Chen (2019), with the specifications of the papers, on our data',
       'Replicări: Engle și Manganelli (2004) și Patton, Ziegel și Chen (2019), cu specificațiile din lucrări, pe datele noastre')), 'small')
 
-D.frame(T('VaR and ES as functionals', 'VaR și ES ca funcționale'), items(
-    (T(r'Return $Y$ with distribution $F$; level $\alpha$ (VaR 1\%: $\alpha = 0.01$); quantile $q_\alpha(F) = \inf\{y: F(y) \ge \alpha\}$',
-       r'Randamentul $Y$ cu distribuția $F$; nivelul $\alpha$ (VaR 1\%: $\alpha = 0{,}01$); cuantila $q_\alpha(F) = \inf\{y: F(y) \ge \alpha\}$'),
-     [T(r'$\mathrm{VaR}_\alpha(F) = -q_\alpha(F)$; target hit rate $\Pr(Y < -\mathrm{VaR}_\alpha) = \alpha$', r'$\mathrm{VaR}_\alpha(F) = -q_\alpha(F)$; rata de depășire țintă $\Pr(Y < -\mathrm{VaR}_\alpha) = \alpha$')]),
-    (T(r'$\mathrm{ES}_\alpha(F) = -\dfrac{1}{\alpha}\displaystyle\int_0^\alpha q_u(F)\,du$ \refAT; for continuous $F$: $\mathrm{ES}_\alpha = -\E[Y \mid Y \le q_\alpha]$',
-       r'$\mathrm{ES}_\alpha(F) = -\dfrac{1}{\alpha}\displaystyle\int_0^\alpha q_u(F)\,du$ \refAT; pentru $F$ continuă: $\mathrm{ES}_\alpha = -\E[Y \mid Y \le q_\alpha]$'),
-     [T(r'ES is coherent (subadditive) \refADEH; VaR is not; ES needs $\E|Y| < \infty$', r'ES este coerent (subaditiv) \refADEH; VaR nu este; ES cere $\E|Y| < \infty$')]),
-    T(r'In formulas we work with the return-scale pair $(v, e) = (q_\alpha, -\mathrm{ES}_\alpha)$, both negative: $e \le v < 0$',
-      r'În formule lucrăm cu perechea pe scala randamentelor $(v, e) = (q_\alpha, -\mathrm{ES}_\alpha)$, ambele negative: $e \le v < 0$'),
-    T(r'Both are \textbf{functionals} $\mathrm T(F)$: a forecast of them is a point forecast of the predictive distribution, as in Chapter 1',
-      r'Ambele sînt \textbf{funcționale} $\mathrm T(F)$: o prognoză a lor este o prognoză punctuală a distribuției predictive, ca în Capitolul 1')), 'small')
+D.frame(T('VaR and ES as functionals (1/2): definitions', 'VaR și ES ca funcționale (1/2): definiții'), items(
+    (T(r'VaR is minus a quantile of the return distribution', r'VaR este o cuantilă a distribuției randamentelor, cu semn schimbat'
+       ) + r'''
+    \[ q_\alpha(F) = \inf\{y: F(y) \ge \alpha\}, \qquad \mathrm{VaR}_\alpha(F) = -q_\alpha(F) \]''',
+     [T(r'$Y$: the return, with distribution function $F$; $\alpha$: the level, i.e.\ the target hit rate (VaR 1\%: $\alpha = 0.01$)',
+        r'$Y$: randamentul, cu funcția de repartiție $F$; $\alpha$: nivelul, adică rata de depășire țintă (VaR 1\%: $\alpha = 0{,}01$)'),
+      T(r'$q_\alpha(F)$: the smallest $y$ with $F(y) \ge \alpha$; a correct VaR is exceeded with probability $\Pr(Y < -\mathrm{VaR}_\alpha) = \alpha$',
+        r'$q_\alpha(F)$: cel mai mic $y$ cu $F(y) \ge \alpha$; un VaR corect este depășit cu probabilitatea $\Pr(Y < -\mathrm{VaR}_\alpha) = \alpha$')]),
+    (T(r'ES is minus the average of the quantiles below level $\alpha$ \refAT', r'ES este media cuantilelor de sub nivelul $\alpha$, cu semn schimbat \refAT'
+       ) + r'''
+    \[ \mathrm{ES}_\alpha(F) = -\frac{1}{\alpha}\int_0^\alpha q_u(F)\,du \]''',
+     [T(r'for continuous $F$: $\mathrm{ES}_\alpha = -\E[Y \mid Y \le q_\alpha]$, minus the mean return on the worst $\alpha$ share of days',
+        r'pentru $F$ continuă: $\mathrm{ES}_\alpha = -\E[Y \mid Y \le q_\alpha]$, media randamentelor din cea mai proastă fracțiune $\alpha$ a zilelor, cu semn schimbat'),
+      T(r'ES is coherent (subadditive) \refADEH; VaR is not; ES needs $\E|Y| < \infty$', r'ES este coerent (subaditiv) \refADEH; VaR nu este; ES cere $\E|Y| < \infty$')])), 'small')
 
-D.frame(T('Conditional risk forecasts: three routes', 'Prognoze condiționate de risc: trei căi'), items(
-    T(r'Target: $(v_t, e_t) = \mathrm T(F_{t|t-1})$, with $F_{t|t-1}$ the distribution of $Y_t$ given $\mathcal F_{t-1}$', r'Ținta: $(v_t, e_t) = \mathrm T(F_{t|t-1})$, unde $F_{t|t-1}$ este distribuția lui $Y_t$ condiționată de $\mathcal F_{t-1}$'),
-    (T(r'\textbf{Location--scale}: $Y_t = \mu_t + \sigma_t\eta_t$, $\eta_t$ i.i.d.\ $\Rightarrow v_t = \mu_t + \sigma_t q_\alpha(\eta)$, $e_t = \mu_t + \sigma_t\E[\eta \mid \eta \le q_\alpha(\eta)]$', r'\textbf{Poziție--scală}: $Y_t = \mu_t + \sigma_t\eta_t$, $\eta_t$ i.i.d.\ $\Rightarrow v_t = \mu_t + \sigma_t q_\alpha(\eta)$, $e_t = \mu_t + \sigma_t\E[\eta \mid \eta \le q_\alpha(\eta)]$'),
-     [T('GARCH with Normal, skewed-t \\refHan\\ or empirical (EDF) innovations; the ratio $e_t/v_t$ is then constant over time', 'GARCH cu inovații din distribuția Normală, t asimetrică \\refHan\\ sau empirice (EDF); raportul $e_t/v_t$ este atunci constant în timp')]),
-    (T(r'\textbf{Direct quantile dynamics}: $v_t = v(\mathcal F_{t-1}; \beta)$ estimated by quantile loss, no distribution \refEM', r'\textbf{Dinamica directă a cuantilei}: $v_t = v(\mathcal F_{t-1}; \beta)$ estimat prin pierderea cuantilică, fără distribuție \refEM'), []),
-    (T(r'\textbf{Joint semiparametric}: $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$ estimated by a Fissler--Ziegel loss \refPZC, \refDB', r'\textbf{Semiparametric comun}: $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$ estimat printr-o pierdere Fissler--Ziegel \refPZC, \refDB'), []),
+D.frame(T('VaR and ES as functionals (2/2): conventions', 'VaR și ES ca funcționale (2/2): convenții'), items(
+    (T(r'In formulas we work on the return scale with the pair $(v, e) = (q_\alpha, -\mathrm{ES}_\alpha)$',
+       r'În formule lucrăm pe scala randamentelor cu perechea $(v, e) = (q_\alpha, -\mathrm{ES}_\alpha)$'),
+     [T(r'$v$: the $\alpha$-quantile of returns; $e$: the mean return beyond it; for the usual levels both are negative and $e \le v < 0$',
+        r'$v$: cuantila de nivel $\alpha$ a randamentelor; $e$: media randamentelor dincolo de ea; pentru nivelurile uzuale ambele sînt negative, iar $e \le v < 0$')]),
+    (T(r'Both are \textbf{functionals} $\mathrm T(F)$: maps from a distribution to a number', r'Ambele sînt \textbf{funcționale} $\mathrm T(F)$: aplicații de la o distribuție la un număr'),
+     [T(r'a forecast of them is a point forecast of the predictive distribution, as in Chapter 1',
+        r'o prognoză a lor este o prognoză punctuală a distribuției predictive, ca în Capitolul 1')])), 'small')
+
+D.frame(T('Conditional risk forecasts: three routes (1/2)', 'Prognoze condiționate de risc: trei căi (1/2)'), items(
+    (T(r'Target: the functional of the conditional distribution', r'Ținta: funcționala distribuției condiționate'
+       ) + r'''
+    \[ (v_t, e_t) = \mathrm T(F_{t|t-1}) \]''',
+     [T(r'$F_{t|t-1}$: distribution of the return $Y_t$ given $\mathcal F_{t-1}$, the information up to day $t-1$',
+        r'$F_{t|t-1}$: distribuția randamentului $Y_t$ condiționată de $\mathcal F_{t-1}$, informația pînă în ziua $t-1$')]),
+    (T(r'\textbf{Location--scale}: the return is a mean plus a volatility times an i.i.d. shock', r'\textbf{Poziție--scală}: randamentul este o medie plus produsul dintre volatilitate și un șoc i.i.d.'
+       ) + r'''
+    \[ Y_t = \mu_t + \sigma_t\eta_t \ \Rightarrow\ v_t = \mu_t + \sigma_t\,q_\alpha(\eta), \qquad e_t = \mu_t + \sigma_t\,\E[\eta \mid \eta \le q_\alpha(\eta)] \]''',
+     [T(r'$\mu_t$, $\sigma_t$: conditional mean and volatility (ARMA, GARCH); $q_\alpha(\eta)$: quantile of the shock distribution',
+        r'$\mu_t$, $\sigma_t$: media și volatilitatea condiționate (ARMA, GARCH); $q_\alpha(\eta)$: cuantila distribuției șocului'),
+      T('GARCH with Normal, skewed-t \\refHan\\ or empirical (EDF) innovations; the ratio $e_t/v_t$ is constant over time when $\\mu_t = 0$', 'GARCH cu inovații din distribuția Normală, t asimetrică \\refHan\\ sau empirice (EDF); raportul $e_t/v_t$ este constant în timp cînd $\\mu_t = 0$')])), 'small')
+
+D.frame(T('Conditional risk forecasts: three routes (2/2)', 'Prognoze condiționate de risc: trei căi (2/2)'), items(
+    (T(r'\textbf{Direct quantile dynamics} \refEM: $v_t = v(\mathcal F_{t-1}; \beta)$', r'\textbf{Dinamica directă a cuantilei} \refEM: $v_t = v(\mathcal F_{t-1}; \beta)$'),
+     [T(r'$v(\cdot; \beta)$: a recursion with parameters $\beta$, estimated by the quantile (pinball) loss, without a distribution',
+        r'$v(\cdot; \beta)$: o recursie cu parametrii $\beta$, estimată prin pierderea cuantilică (pinball), fără o distribuție')]),
+    (T(r'\textbf{Joint semiparametric}: $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$', r'\textbf{Semiparametric comun}: $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$'),
+     [T(r'two recursions with parameters $\theta$, estimated by a Fissler--Ziegel loss \refPZC, \refDB',
+        r'două recursii cu parametrii $\theta$, estimate printr-o pierdere Fissler--Ziegel \refPZC, \refDB')]),
     T('Every route produces a point forecast of a functional; the scoring function of the next section is what makes them comparable',
       'Fiecare cale produce o prognoză punctuală a unei funcționale; funcția de scor din secțiunea următoare le face comparabile')), 'small')
 
@@ -408,29 +440,49 @@ D.recap(('Risk measures as functionals', 'măsurile de risc ca funcționale'), [
 # =============================================================================
 D.section('Elicitability and scoring functions', 'Elicitabilitate și funcții de scor')
 
-D.frame(T('Consistency, elicitability, identification', 'Consistență, elicitabilitate, identificare'), items(
-    (T(r'A scoring function $S(x, y)$ is \textbf{consistent} for $\mathrm T$ on a class $\mathcal F$ if $\E_F S(\mathrm T(F), Y) \le \E_F S(x, Y)$ for all $x$, $F \in \mathcal F$; \textbf{strictly} if equality forces $x = \mathrm T(F)$ \refGn',
-       r'O funcție de scor $S(x, y)$ este \textbf{consistentă} pentru $\mathrm T$ pe o clasă $\mathcal F$ dacă $\E_F S(\mathrm T(F), Y) \le \E_F S(x, Y)$ pentru orice $x$ și $F \in \mathcal F$; \textbf{strict} dacă egalitatea impune $x = \mathrm T(F)$ \refGn'),
-     [T(r'$\mathrm T$ is \textbf{elicitable} if a strictly consistent $S$ exists (Chapter 1)', r'$\mathrm T$ este \textbf{elicitabilă} dacă există o funcție $S$ strict consistentă (Capitolul 1)')]),
-    (T(r'\textbf{Identification function}: $V(x, y)$ with $\E_F V(x, Y) = 0 \iff x = \mathrm T(F)$', r'\textbf{Funcție de identificare}: $V(x, y)$ cu $\E_F V(x, Y) = 0 \iff x = \mathrm T(F)$'),
-     [T(r'quantile: $V(x, y) = \mathbf 1\{y \le x\} - \alpha$; mean: $V(x, y) = x - y$', r'cuantila: $V(x, y) = \mathbf 1\{y \le x\} - \alpha$; media: $V(x, y) = x - y$'),
-      T(r'Osband\'s principle: $\partial_x\E_F S(x, Y) = h(x)\,\E_F V(x, Y)$, $h > 0$; scores are integrated identification functions \refFZ', r'Principiul lui Osband: $\partial_x\E_F S(x, Y) = h(x)\,\E_F V(x, Y)$, $h > 0$; scorurile sînt funcții de identificare integrate \refFZ')]),
+D.frame(T('Consistency, elicitability, identification (1/2)', 'Consistență, elicitabilitate, identificare (1/2)'), items(
+    (T(r'A scoring function $S(x, y)$ assigns a loss to the forecast $x$ when $y$ is observed; it is \textbf{consistent} for $\mathrm T$ on a class $\mathcal F$ if \refGn',
+       r'O funcție de scor $S(x, y)$ atribuie o pierdere prognozei $x$ cînd se observă $y$; ea este \textbf{consistentă} pentru $\mathrm T$ pe o clasă $\mathcal F$ dacă \refGn'
+       ) + T(r'''
+    \[ \E_F S(\mathrm T(F), Y) \le \E_F S(x, Y) \quad \text{for all } x \text{ and } F \in \mathcal F \]''', r'''
+    \[ \E_F S(\mathrm T(F), Y) \le \E_F S(x, Y) \quad \text{pentru orice } x \text{ și } F \in \mathcal F \]'''),
+     [T(r'$\E_F$: expectation when $Y \sim F$; the true functional value has the smallest expected loss',
+        r'$\E_F$: media cînd $Y \sim F$; valoarea adevărată a funcționalei are cea mai mică pierdere așteptată'),
+      T(r'\textbf{strictly} consistent: equality forces $x = \mathrm T(F)$; $\mathrm T$ is \textbf{elicitable} if a strictly consistent $S$ exists (Chapter 1)',
+        r'\textbf{strict} consistentă: egalitatea impune $x = \mathrm T(F)$; $\mathrm T$ este \textbf{elicitabilă} dacă există o funcție $S$ strict consistentă (Capitolul 1)')])), 'small')
+
+D.frame(T('Consistency, elicitability, identification (2/2)', 'Consistență, elicitabilitate, identificare (2/2)'), items(
+    (T(r'\textbf{Identification function}: a function $V(x, y)$ whose mean is zero exactly at the true value', r'\textbf{Funcție de identificare}: o funcție $V(x, y)$ a cărei medie este zero exact în valoarea adevărată'
+       ) + r'''
+    \[ \E_F V(x, Y) = 0 \iff x = \mathrm T(F) \]''',
+     [T(r'quantile: $V(x, y) = \mathbf 1\{y \le x\} - \alpha$, with $\mathbf 1\{\cdot\}$ the indicator (1 if true, 0 otherwise); mean: $V(x, y) = x - y$',
+        r'cuantila: $V(x, y) = \mathbf 1\{y \le x\} - \alpha$, cu $\mathbf 1\{\cdot\}$ indicatorul (1 dacă este adevărat, 0 altfel); media: $V(x, y) = x - y$')]),
+    (T(r'Osband\'s principle: the slope of the expected score is a positive multiple of the expected identification function \refFZ', r'Principiul lui Osband: panta scorului așteptat este un multiplu pozitiv al funcției de identificare așteptate \refFZ'
+       ) + r'''
+    \[ \partial_x\E_F S(x, Y) = h(x)\,\E_F V(x, Y), \qquad h > 0 \]''',
+     [T(r'scores are integrated identification functions', r'scorurile sînt funcții de identificare integrate')]),
     T('Identification functions give \\textbf{backtests} (is the forecast calibrated?); scoring functions give \\textbf{comparisons} (which forecast is better?) \\refNZ',
       'Funcțiile de identificare dau \\textbf{backtesting} (este prognoza calibrată?); funcțiile de scor dau \\textbf{comparații} (care prognoză este mai bună?) \\refNZ')), 'small')
 
 D.frame(T('Quantiles: all consistent scores', 'Cuantilele: toate scorurile consistente'), items(
-    (T(r'\textbf{Theorem} \refGn: under mild conditions, $S$ is consistent for $q_\alpha$ iff $S(x, y) = (\mathbf 1\{y \le x\} - \alpha)(G(x) - G(y))$ with $G$ non-decreasing (generalised piecewise linear, GPL)',
-       r'\textbf{Teoremă} \refGn: în condiții slabe, $S$ este consistentă pentru $q_\alpha$ dacă și numai dacă $S(x, y) = (\mathbf 1\{y \le x\} - \alpha)(G(x) - G(y))$, cu $G$ nedescrescătoare (liniară pe porțiuni generalizată, GPL)'),
-     [T(r'$G(x) = x$: the pinball loss; $G$ strictly increasing gives strict consistency', r'$G(x) = x$: pierderea pinball; $G$ strict crescătoare dă consistența strictă')]),
-    (T(r'Why: $\partial_x\E_F S(x, Y) = G\'(x)\,(F(x) - \alpha)$, negative below $q_\alpha$, positive above (Appendix)', r'Motivul: $\partial_x\E_F S(x, Y) = G\'(x)\,(F(x) - \alpha)$, negativă sub $q_\alpha$, pozitivă deasupra (Anexă)'),
-     [T(r'$G(x) = \ln x$ on positive variables gives a scale-free (zero-homogeneous) score', r'$G(x) = \ln x$ pentru variabile pozitive dă un scor independent de scală (omogen de grad zero)')]),
+    (T(r'\textbf{Theorem} \refGn: under mild conditions, $S$ is consistent for $q_\alpha$ if and only if it is generalised piecewise linear (GPL)',
+       r'\textbf{Teoremă} \refGn: în condiții slabe, $S$ este consistentă pentru $q_\alpha$ dacă și numai dacă este liniară pe porțiuni generalizată (GPL)'
+       ) + T(r'''
+    \[ S(x, y) = (\mathbf 1\{y \le x\} - \alpha)\big(G(x) - G(y)\big), \qquad G \text{ non-decreasing} \]''', r'''
+    \[ S(x, y) = (\mathbf 1\{y \le x\} - \alpha)\big(G(x) - G(y)\big), \qquad G \text{ nedescrescătoare} \]'''),
+     [T(r'$G(x) = x$: the pinball loss; $G$ strictly increasing gives strict consistency; $G(x) = \ln x$ for positive variables gives a scale-free (zero-homogeneous) score',
+        r'$G(x) = x$: pierderea pinball; $G$ strict crescătoare dă consistența strictă; $G(x) = \ln x$ pentru variabile pozitive dă un scor independent de scală (omogen de grad zero)'),
+      T(r'why: $\partial_x\E_F S(x, Y) = G\'(x)\,(F(x) - \alpha)$, negative below $q_\alpha$, positive above (Appendix)', r'motivul: $\partial_x\E_F S(x, Y) = G\'(x)\,(F(x) - \alpha)$, negativă sub $q_\alpha$, pozitivă deasupra (Anexă)')]),
     T('Different $G$ give the same optimal forecast but can rank two misspecified forecasts differently: the choice of $G$ is a modelling choice',
       'Funcții $G$ diferite dau aceeași prognoză optimă, dar pot ordona diferit două prognoze greșite: alegerea lui $G$ este o decizie de modelare'),
     T(r'Expectiles (asymmetric squared loss) are the only elicitable coherent risk measures \refZie; \refTayA\ uses them for VaR and ES', r'Expectilele (pierdere pătratică asimetrică) sînt singurele măsuri de risc coerente și elicitabile \refZie; \refTayA\ le folosește pentru VaR și ES')), 'small')
 
 D.frame(T('ES is not elicitable', 'ES nu este elicitabil'), items(
-    (T(r'\textbf{Necessary condition} \refGn: if $\mathrm T$ is elicitable, its level sets $\{F: \mathrm T(F) = t\}$ are convex', r'\textbf{Condiție necesară} \refGn: dacă $\mathrm T$ este elicitabilă, mulțimile ei de nivel $\{F: \mathrm T(F) = t\}$ sînt convexe'),
-     [T(r'proof: if $\E_{F_0}S(t, Y) \le \E_{F_0}S(x, Y)$ and the same for $F_1$, the inequality holds for $\lambda F_0 + (1 - \lambda)F_1$ (expectations are linear in $F$)', r'demonstrație: dacă $\E_{F_0}S(t, Y) \le \E_{F_0}S(x, Y)$ și la fel pentru $F_1$, inegalitatea rămîne pentru $\lambda F_0 + (1 - \lambda)F_1$ (media este liniară în $F$)')]),
+    (T(r'\textbf{Necessary condition} \refGn: if $\mathrm T$ is elicitable, its level sets are convex', r'\textbf{Condiție necesară} \refGn: dacă $\mathrm T$ este elicitabilă, mulțimile ei de nivel sînt convexe'),
+     [T(r'level set: $\{F: \mathrm T(F) = t\}$, all distributions with the same functional value $t$; convex: closed under mixtures $\lambda F_0 + (1 - \lambda)F_1$, $\lambda \in [0, 1]$',
+        r'mulțimea de nivel: $\{F: \mathrm T(F) = t\}$, toate distribuțiile cu aceeași valoare $t$ a funcționalei; convexă: închisă la amestecuri $\lambda F_0 + (1 - \lambda)F_1$, $\lambda \in [0, 1]$'),
+      T(r'proof: if $\E_{F_0}S(t, Y) \le \E_{F_0}S(x, Y)$ and the same for $F_1$, the inequality holds for the mixture, because expectations are linear in $F$',
+        r'demonstrație: dacă $\E_{F_0}S(t, Y) \le \E_{F_0}S(x, Y)$ și la fel pentru $F_1$, inegalitatea rămîne pentru amestec, deoarece media este liniară în $F$')]),
     (T(r'Quantiles pass: if $F_0(t) = F_1(t) = \alpha$, then every mixture has $F_\lambda(t) = \alpha$', r'Cuantilele trec testul: dacă $F_0(t) = F_1(t) = \alpha$, orice amestec are $F_\lambda(t) = \alpha$'), []),
     (T(r'ES fails: the mixture changes the quantile, so it changes which part of each component enters the tail mean \refWeb', r'ES nu trece: amestecul schimbă cuantila, deci schimbă partea din fiecare componentă care intră în media cozii \refWeb'),
      [T('consequence: no loss function can rank ES forecasts alone; average losses of ES forecasts are not meaningful by themselves', 'consecință: nicio funcție de pierdere nu poate ordona prognoze ES singure; pierderile medii ale prognozelor ES nu au sens luate separat')]),
@@ -447,17 +499,33 @@ interp(('the level sets', 'mulțimilor de nivel'), [
     T('The gap is small in numbers but decisive in logic: one counterexample rules out every strictly consistent loss for ES alone', 'Diferența este mică numeric, dar decisivă logic: un singur contraexemplu exclude orice pierdere strict consistentă pentru ES singur'),
     T('The way out is to forecast the quantile together with ES: the pair has a convex level set', 'Soluția este prognoza cuantilei împreună cu ES: perechea are mulțimi de nivel convexe')])
 
-D.frame(T('Joint elicitability: the Fissler--Ziegel class', 'Elicitabilitatea comună: clasa Fissler--Ziegel'), items(
-    (T(r'\textbf{Theorem} \refFZ, in the form of \refPZC, eq.~(4): for $e \le v$,', r'\textbf{Teoremă} \refFZ, în forma din \refPZC, ec.~(4): pentru $e \le v$,'),
-     [r'$S(v, e, y) = (\mathbf 1\{y \le v\} - \alpha)\big(G_1(v) - G_1(y)\big) + G_2(e)\Big(v - e + \tfrac{1}{\alpha}\mathbf 1\{y \le v\}(y - v)\Big) - \mathcal G_2(e)$',
-      T(r'is consistent for $(q_\alpha, -\mathrm{ES}_\alpha)$ if $G_1$ is non-decreasing and $\mathcal G_2\' = G_2$ is positive and increasing; strictly so under mild conditions', r'este consistentă pentru $(q_\alpha, -\mathrm{ES}_\alpha)$ dacă $G_1$ este nedescrescătoare și $\mathcal G_2\' = G_2$ este pozitivă și crescătoare; strict consistentă în condiții slabe')]),
-    (T(r'Identification function of the pair: $V_1 = \mathbf 1\{y \le v\} - \alpha$, $V_2 = e - v + \tfrac{1}{\alpha}\mathbf 1\{y \le v\}(v - y)$', r'Funcția de identificare a perechii: $V_1 = \mathbf 1\{y \le v\} - \alpha$, $V_2 = e - v + \tfrac{1}{\alpha}\mathbf 1\{y \le v\}(v - y)$'),
-     [T(r'$\E V_2 = 0$ at the true quantile is the Acerbi--Tasche formula: ES is the tail mean only together with the right quantile', r'$\E V_2 = 0$ la cuantila corectă este formula Acerbi--Tasche: ES este media cozii doar împreună cu cuantila corectă')]),
+D.frame(T('Joint elicitability: the Fissler--Ziegel class (1/2)', 'Elicitabilitatea comună: clasa Fissler--Ziegel (1/2)'), items(
+    (T(r'\textbf{Theorem} \refFZ, in the form of \refPZC, eq.~(4): for $e \le v$, the loss', r'\textbf{Teoremă} \refFZ, în forma din \refPZC, ec.~(4): pentru $e \le v$, pierderea'
+       ) + r'''
+    \[ S(v, e, y) = (\mathbf 1\{y \le v\} - \alpha)\big(G_1(v) - G_1(y)\big) + G_2(e)\Big(v - e + \frac{1}{\alpha}\mathbf 1\{y \le v\}(y - v)\Big) - \mathcal G_2(e) \]''',
+     [T(r'is consistent for $(q_\alpha, -\mathrm{ES}_\alpha)$ if $G_1$ is non-decreasing and $G_2 = \mathcal G_2\'$ is positive and increasing; strictly so under mild conditions',
+        r'este consistentă pentru $(q_\alpha, -\mathrm{ES}_\alpha)$ dacă $G_1$ este nedescrescătoare, iar $G_2 = \mathcal G_2\'$ este pozitivă și crescătoare; strict consistentă în condiții slabe')]),
+    (T('Reading the two parts', 'Interpretarea celor două părți'),
+     [T(r'first term: a GPL quantile score for $v$ (previous slides); $G_1$: any non-decreasing function',
+        r'primul termen: un scor GPL pentru cuantila $v$ (slide-urile anterioare); $G_1$: orice funcție nedescrescătoare'),
+      T(r'second part: a Bregman-type score for $e$, evaluated against the tail mean implied by $v$; $\mathcal G_2$: an antiderivative of $G_2$',
+        r'partea a doua: un scor de tip Bregman pentru $e$, evaluat față de media cozii implicată de $v$; $\mathcal G_2$: o primitivă a lui $G_2$')])), 'small')
+
+D.frame(T('Joint elicitability: the Fissler--Ziegel class (2/2)', 'Elicitabilitatea comună: clasa Fissler--Ziegel (2/2)'), items(
+    (T(r'Identification function of the pair: one component for the quantile, one for the tail mean', r'Funcția de identificare a perechii: o componentă pentru cuantilă și una pentru media cozii'
+       ) + r'''
+    \[ V_1 = \mathbf 1\{y \le v\} - \alpha, \qquad V_2 = e - v + \frac{1}{\alpha}\mathbf 1\{y \le v\}(v - y) \]''',
+     [T(r'$\E V_1 = 0$: $v$ is the $\alpha$-quantile; $\E V_2 = 0$ at the true quantile is the Acerbi--Tasche formula',
+        r'$\E V_1 = 0$: $v$ este cuantila de nivel $\alpha$; $\E V_2 = 0$ la cuantila corectă este formula Acerbi--Tasche'),
+      T(r'ES is the tail mean only together with the right quantile', r'ES este media cozii doar împreună cu cuantila corectă')]),
     T(r'Consequence \refFZG: ES can be \textbf{compared} through the pair; traditional ES backtests still need more than ES (Section 5)', r'Consecință \refFZG: ES poate fi \textbf{comparat} prin pereche; backtesting-ul clasic al ES cere în continuare mai mult decît ES (secțiunea 5)')), 'small')
 
 D.frame(T('FZ0: the zero-homogeneous member', 'FZ0: membrul omogen de grad zero'), items(
-    (T(r'\refPZC, Proposition 1: with $v, e < 0$, loss \textbf{differences} are invariant to rescaling $Y$ iff $G_1 = 0$, $G_2(e) = -1/e$:', r'\refPZC, Propoziția 1: cu $v, e < 0$, \textbf{diferențele} de pierdere sînt invariante la rescalarea lui $Y$ dacă și numai dacă $G_1 = 0$, $G_2(e) = -1/e$:'),
-     [r'$L_{\mathrm{FZ0}}(y, v, e; \alpha) = -\dfrac{1}{\alpha e}\mathbf 1\{y \le v\}(v - y) + \dfrac{v}{e} + \ln(-e) - 1$',
+    (T(r'\refPZC, Proposition 1: with $v, e < 0$, loss \textbf{differences} are invariant to rescaling $Y$ if and only if $G_1 = 0$ and $G_2(e) = -1/e$', r'\refPZC, Propoziția 1: cu $v, e < 0$, \textbf{diferențele} de pierdere sînt invariante la rescalarea lui $Y$ dacă și numai dacă $G_1 = 0$ și $G_2(e) = -1/e$'
+       ) + r'''
+    \[ L_{\mathrm{FZ0}}(y, v, e; \alpha) = -\frac{1}{\alpha e}\mathbf 1\{y \le v\}(v - y) + \frac{v}{e} + \ln(-e) - 1 \]''',
+     [T(r'first term: positive only on hit days ($y \le v$), proportional to the size of the hit; $v/e \in (0, 1]$; $\ln(-e)$ penalises an exaggerated ES',
+        r'primul termen: pozitiv doar în zilele cu depășire ($y \le v$), proporțional cu mărimea depășirii; $v/e \in (0, 1]$; $\ln(-e)$ penalizează un ES exagerat'),
       T(r'the VaR part resembles the pinball loss; the ES part resembles QLIKE (Chapter 8)', r'partea de VaR seamănă cu pierderea pinball; partea de ES seamănă cu QLIKE (Capitolul 8)')]),
     (T('Why zero homogeneity matters for time series', 'De ce contează omogenitatea de grad zero pentru serii de timp'),
      [T('with a non-homogeneous score, volatile days dominate the average loss and the DM test (heteroskedastic loss differences)', 'cu un scor neomogen, zilele volatile domină pierderea medie și testul DM (diferențe de pierdere heteroscedastice)'),
@@ -476,17 +544,19 @@ interp(('the expected losses', 'pierderilor așteptate'), [
     T('Forecasts with $e > v$ are inadmissible: estimation must enforce the ordering', 'Prognozele cu $e > v$ sînt inadmisibile: estimarea trebuie să impună ordinea')])
 
 D.frame(T('Murphy diagrams: ranking for all consistent scores', 'Diagramele Murphy: ordonarea pentru toate scorurile consistente'), items(
-    (T(r'\refEGJK: every GPL quantile score is a mixture of \textbf{elementary scores}', r'\refEGJK: orice scor GPL pentru cuantile este un amestec de \textbf{scoruri elementare}'),
-     [r'$S_\theta(x, y) = (\mathbf 1\{y < x\} - \alpha)\big(\mathbf 1\{\theta < x\} - \mathbf 1\{\theta < y\}\big)$, $\quad S(x, y) = \int S_\theta(x, y)\,dH(\theta)$',
-      T(r'$S_\theta$ is the loss of a binary decision with threshold $\theta$; $H$ non-decreasing corresponds to $G$', r'$S_\theta$ este pierderea unei decizii binare cu pragul $\theta$; $H$ nedescrescătoare corespunde lui $G$')]),
-    (T(r'\textbf{Murphy diagram}: the average $\bar S_\theta$ of each forecast against $\theta$', r'\textbf{Diagrama Murphy}: media $\bar S_\theta$ a fiecărei prognoze în funcție de $\theta$'),
-     [T('forecast A dominates B for every consistent score iff its curve is below for all $\\theta$', 'prognoza A domină B pentru orice scor consistent dacă și numai dacă curba ei este dedesubt pentru orice $\\theta$'),
+    (T(r'\refEGJK: every GPL quantile score is a mixture of \textbf{elementary scores}', r'\refEGJK: orice scor GPL pentru cuantile este un amestec de \textbf{scoruri elementare}'
+       ) + r'''
+    \[ S_\theta(x, y) = (\mathbf 1\{y < x\} - \alpha)\big(\mathbf 1\{\theta < x\} - \mathbf 1\{\theta < y\}\big), \qquad S(x, y) = \int S_\theta(x, y)\,dH(\theta) \]''',
+     [T(r'$\theta$: a threshold; $S_\theta$: the loss of a binary decision ``is the return below $\theta$?\'\'; $H$: a non-decreasing weight over thresholds, corresponding to $G$',
+        r'$\theta$: un prag; $S_\theta$: pierderea unei decizii binare „este randamentul sub $\theta$?”; $H$: o pondere nedescrescătoare pe praguri, care corespunde lui $G$')]),
+    (T(r'\textbf{Murphy diagram}: the average $\bar S_\theta$ of each forecast, plotted against $\theta$', r'\textbf{Diagrama Murphy}: media $\bar S_\theta$ a fiecărei prognoze, reprezentată în funcție de $\theta$'),
+     [T('forecast A dominates B for every consistent score if and only if its curve is below for all $\\theta$', 'prognoza A domină B pentru orice scor consistent dacă și numai dacă curba ei este dedesubt pentru orice $\\theta$'),
       T('crossing curves: the ranking depends on $G$, i.e.\\ on which thresholds the user cares about', 'curbe care se intersectează: ordonarea depinde de $G$, adică de pragurile care contează pentru utilizator')]),
     T('A check on the pinball ranking that costs one line of code', 'O verificare a ordonării pinball care costă o singură linie de cod')), 'small')
 
 chart(T('A Murphy diagram for VaR 2.5\\%', 'O diagramă Murphy pentru VaR 2,5\\%'), 'ats_ch9_murphy', 'ATS_ch9_scoring', [
     T(r'S\&P 500, out of sample 2000--2016 (PZC design); mean elementary scores of three VaR 2.5\% forecasts against the threshold $\theta$',
-      r'S\&P 500, în afara eșantionului 2000--2016 (designul PZC); scorurile elementare medii ale celor trei prognoze VaR 2,5\% în funcție de pragul $\theta$')],
+      r'S\&P 500, în afara eșantionului 2000--2016 (schema PZC); scorurile elementare medii ale celor trei prognoze VaR 2,5\% în funcție de pragul $\theta$')],
     h='0.5\\textheight')
 
 interp(('the Murphy diagram', 'diagramei Murphy'), [
@@ -505,45 +575,80 @@ D.recap(('Elicitability', 'elicitabilitate'), [
 # =============================================================================
 D.section('Quantile regression and CAViaR', 'Regresia cuantilică și CAViaR')
 
-D.frame(T('Quantile regression as M-estimation', 'Regresia cuantilică ca M-estimare'), two(
+D.frame(T('Quantile regression as M-estimation (1/2)', 'Regresia cuantilică ca M-estimare (1/2)'), two(
     ph('koenker', T('Roger Koenker, Oberwolfach, 2012', 'Roger Koenker, Oberwolfach, 2012'), h='0.26\\textheight'),
-    items((T(r'\refKB: $\hat\beta(\alpha) = \arg\min_\beta \sum_t \rho_\alpha(y_t - x_t\'\beta)$, a linear program', r'\refKB: $\hat\beta(\alpha) = \arg\min_\beta \sum_t \rho_\alpha(y_t - x_t\'\beta)$, o problemă de programare liniară'),
-           [T(r'first-order condition: $\sum_t x_t(\mathbf 1\{y_t \le x_t\'\hat\beta\} - \alpha) \approx 0$, the identification function', r'condiția de ordinul întîi: $\sum_t x_t(\mathbf 1\{y_t \le x_t\'\hat\beta\} - \alpha) \approx 0$, funcția de identificare')]),
-          (T(r'$\sqrt T(\hat\beta - \beta) \to N\big(0, \alpha(1 - \alpha)D^{-1}\Omega D^{-1}\big)$, $\Omega = \E[x_tx_t\']$, $D = \E[f_t(q_t)x_tx_t\']$ \refKoe', r'$\sqrt T(\hat\beta - \beta) \to N\big(0, \alpha(1 - \alpha)D^{-1}\Omega D^{-1}\big)$, $\Omega = \E[x_tx_t\']$, $D = \E[f_t(q_t)x_tx_t\']$ \refKoe'),
-           [T(r'the conditional density at the quantile (the ``sparsity\'\') enters $D$: estimate it with a kernel and a bandwidth', r'densitatea condiționată în cuantilă (inversul „sparsity”) intră în $D$: se estimează cu un nucleu și o lățime de bandă')]),
-          T(r'Time series: quantile autoregression \refKX\ lets AR coefficients vary across quantiles; CAViaR makes the quantile itself autoregressive',
-            r'Serii de timp: autoregresia cuantilică \refKX\ permite coeficienților AR să varieze între cuantile; CAViaR face cuantila însăși autoregresivă')), '0.27', '0.71'), 'small')
+    items((T(r'\refKB: the $\alpha$-quantile of $y_t$ given $x_t$ is modelled as $x_t\'\beta$ and estimated by minimising the pinball loss',
+             r'\refKB: cuantila de nivel $\alpha$ a lui $y_t$ condiționat de $x_t$ este modelată ca $x_t\'\beta$ și estimată prin minimizarea pierderii pinball'
+             ) + r'''
+    \[ \hat\beta(\alpha) = \arg\min_\beta \sum_t \rho_\alpha(y_t - x_t'\beta), \qquad \rho_\alpha(u) = u\,(\alpha - \mathbf 1\{u < 0\}) \]''',
+           [T(r'$x_t$: vector of regressors; $\rho_\alpha$: the check (pinball) function, slope $\alpha$ for positive residuals and $\alpha - 1$ for negative ones; the problem is a linear program',
+              r'$x_t$: vectorul regresorilor; $\rho_\alpha$: funcția pinball, cu panta $\alpha$ pentru reziduuri pozitive și $\alpha - 1$ pentru reziduuri negative; problema este una de programare liniară'),
+            T(r'first-order condition: $\sum_t x_t(\mathbf 1\{y_t \le x_t\'\hat\beta\} - \alpha) \approx 0$, the identification function',
+              r'condiția de ordinul întîi: $\sum_t x_t(\mathbf 1\{y_t \le x_t\'\hat\beta\} - \alpha) \approx 0$, funcția de identificare')])), '0.27', '0.71'), 'small')
+
+D.frame(T('Quantile regression as M-estimation (2/2)', 'Regresia cuantilică ca M-estimare (2/2)'), items(
+    (T(r'Asymptotic distribution \refKoe: a sandwich in which the density at the quantile appears', r'Distribuția asimptotică \refKoe: un sandwich în care apare densitatea în cuantilă'
+       ) + r'''
+    \[ \sqrt T(\hat\beta - \beta) \to N\big(0, \alpha(1 - \alpha)D^{-1}\Omega D^{-1}\big), \qquad \Omega = \E[x_tx_t'], \qquad D = \E[f_t(q_t)x_tx_t'] \]''',
+     [T(r'$f_t(q_t)$: conditional density of $y_t$ at its true quantile $q_t$; its inverse is called the ``sparsity\'\'',
+        r'$f_t(q_t)$: densitatea condiționată a lui $y_t$ în cuantila adevărată $q_t$; inversul ei se numește „sparsity”'),
+      T(r'few observations near the quantile (small $f_t$) mean an imprecise $\hat\beta$; $f_t$ is estimated with a kernel and a bandwidth',
+        r'puține observații în jurul cuantilei ($f_t$ mic) înseamnă un $\hat\beta$ imprecis; $f_t$ se estimează cu un kernel și o lățime de bandă')]),
+    T(r'Time series: quantile autoregression \refKX\ lets AR coefficients vary across quantiles; CAViaR makes the quantile itself autoregressive',
+      r'Serii de timp: autoregresia cuantilică \refKX\ permite coeficienților AR să varieze între cuantile; CAViaR face cuantila însăși autoregresivă')), 'small')
 
 D.frame(T('CAViaR: the four specifications', 'CAViaR: cele patru specificații'), two(
-    ph('engle', T('Robert Engle, 2022', 'Robert Engle, 2022'), h='0.38\\textheight'),
-    items(T(r'\refEM, written for $\mathrm{VaR}_t = -q_t(\alpha) > 0$:', r'\refEM, scrise pentru $\mathrm{VaR}_t = -q_t(\alpha) > 0$:'),
-          T(r'\textbf{SAV}: $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3|y_{t-1}|$', r'\textbf{SAV}: $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3|y_{t-1}|$'),
-          T(r'\textbf{AS}: $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3(y_{t-1})^+ + \beta_4(y_{t-1})^-$', r'\textbf{AS}: $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3(y_{t-1})^+ + \beta_4(y_{t-1})^-$'),
-          T(r'\textbf{IG}: $\mathrm{VaR}_t = (\beta_1 + \beta_2\mathrm{VaR}_{t-1}^2 + \beta_3y_{t-1}^2)^{1/2}$ (a GARCH(1,1) with i.i.d.\ innovations)', r'\textbf{IG}: $\mathrm{VaR}_t = (\beta_1 + \beta_2\mathrm{VaR}_{t-1}^2 + \beta_3y_{t-1}^2)^{1/2}$ (un GARCH(1,1) cu inovații i.i.d.)'),
-          T(r'\textbf{Adaptive}: $\mathrm{VaR}_t = \mathrm{VaR}_{t-1} + \beta_1\big([1 + e^{G(y_{t-1} + \mathrm{VaR}_{t-1})}]^{-1} - \alpha\big)$, $G = 10$: raise after a hit, lower slowly otherwise', r'\textbf{Adaptiv}: $\mathrm{VaR}_t = \mathrm{VaR}_{t-1} + \beta_1\big([1 + e^{G(y_{t-1} + \mathrm{VaR}_{t-1})}]^{-1} - \alpha\big)$, $G = 10$: crește după o depășire, scade lent în rest'),
-          T(r'$\beta_2$ is the persistence of the tail; no distribution is assumed', r'$\beta_2$ este persistența cozii; nu se presupune nicio distribuție')), '0.3', '0.68'), 'small')
+    ph('engle', T('Robert Engle, 2022', 'Robert Engle, 2022'), h='0.32\\textheight'),
+    items(T(r'\refEM, written for $\mathrm{VaR}_t = -q_t(\alpha) > 0$; $y_{t-1}$: yesterday\'s return; $\beta_j$: parameters:', r'\refEM, scrise pentru $\mathrm{VaR}_t = -q_t(\alpha) > 0$; $y_{t-1}$: randamentul de ieri; $\beta_j$: parametri:'),
+          (T(r'\textbf{SAV} (symmetric absolute value): $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3|y_{t-1}|$', r'\textbf{SAV} (valoare absolută simetrică): $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3|y_{t-1}|$'),
+           [T(r'$\beta_2$: the persistence of the tail; $\beta_3$: the reaction to the size of yesterday\'s return', r'$\beta_2$: persistența cozii; $\beta_3$: reacția la mărimea randamentului de ieri')]),
+          (T(r'\textbf{AS} (asymmetric slope): $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3(y_{t-1})^+ + \beta_4(y_{t-1})^-$', r'\textbf{AS} (pantă asimetrică): $\mathrm{VaR}_t = \beta_1 + \beta_2\mathrm{VaR}_{t-1} + \beta_3(y_{t-1})^+ + \beta_4(y_{t-1})^-$'),
+           [T(r'$(y)^+ = \max(y, 0)$, $(y)^- = -\min(y, 0)$: gains and losses enter separately; $\beta_4 > \beta_3$ is a leverage effect', r'$(y)^+ = \max(y, 0)$, $(y)^- = -\min(y, 0)$: cîștigurile și pierderile intră separat; $\beta_4 > \beta_3$ înseamnă efect de levier')]),
+          T(r'\textbf{IG} (indirect GARCH): $\mathrm{VaR}_t = (\beta_1 + \beta_2\mathrm{VaR}_{t-1}^2 + \beta_3y_{t-1}^2)^{1/2}$, a GARCH(1,1) with i.i.d.\ innovations', r'\textbf{IG} (GARCH indirect): $\mathrm{VaR}_t = (\beta_1 + \beta_2\mathrm{VaR}_{t-1}^2 + \beta_3y_{t-1}^2)^{1/2}$, un GARCH(1,1) cu inovații i.i.d.'),
+          (T(r'\textbf{Adaptive}: $\mathrm{VaR}_t = \mathrm{VaR}_{t-1} + \beta_1\big([1 + e^{G(y_{t-1} + \mathrm{VaR}_{t-1})}]^{-1} - \alpha\big)$', r'\textbf{Adaptiv}: $\mathrm{VaR}_t = \mathrm{VaR}_{t-1} + \beta_1\big([1 + e^{G(y_{t-1} + \mathrm{VaR}_{t-1})}]^{-1} - \alpha\big)$'),
+           [T(r'the bracket is a smooth hit indicator ($G = 10$): VaR rises after a hit and falls slowly otherwise; no distribution is assumed in any of the four', r'paranteza este un indicator neted al depășirii ($G = 10$): VaR crește după o depășire și scade lent în rest; niciuna dintre cele patru specificații nu presupune o distribuție')])), '0.26', '0.72'), 'footnotesize')
 
-D.frame(T('Estimation and inference', 'Estimare și inferență'), items(
-    (T(r'Regression-quantile criterion: $\hat\beta = \arg\min_\beta T^{-1}\sum_t \rho_\alpha\big(y_t + \mathrm{VaR}_t(\beta)\big)$; non-differentiable and non-convex in $\beta$', r'Criteriul de regresie cuantilică: $\hat\beta = \arg\min_\beta T^{-1}\sum_t \rho_\alpha\big(y_t + \mathrm{VaR}_t(\beta)\big)$; nediferențiabil și neconvex în $\beta$'),
-     [T(r'EM procedure (empirical section): $\mathrm{VaR}_1$ = the empirical quantile of the first 300 days; $10^4$ random vectors, the 10 best refined by alternating simplex and quasi-Newton steps',
-        r'Procedura EM (secțiunea empirică): $\mathrm{VaR}_1$ = cuantila empirică din primele 300 de zile; $10^4$ vectori aleatori, cei mai buni 10 rafinați alternînd pași simplex și cvasi-Newton')]),
-    (T(r'Consistency and $\sqrt T(\hat\beta - \beta) \to N(0, \alpha(1 - \alpha)D^{-1}AD^{-1})$, $A = \E[\nabla q_t\nabla q_t\']$, $D = \E[f_t(q_t)\nabla q_t\nabla q_t\']$', r'Consistență și $\sqrt T(\hat\beta - \beta) \to N(0, \alpha(1 - \alpha)D^{-1}AD^{-1})$, $A = \E[\nabla q_t\nabla q_t\']$, $D = \E[f_t(q_t)\nabla q_t\nabla q_t\']$'),
-     [T(r'$\hat D = (2T\hat c)^{-1}\sum_t\mathbf 1\{|y_t - \hat q_t| < \hat c\}\nabla\hat q_t\nabla\hat q_t\'$; we take $\hat c$ from the Hall--Sheather rule on the residual scale \refKoe', r'$\hat D = (2T\hat c)^{-1}\sum_t\mathbf 1\{|y_t - \hat q_t| < \hat c\}\nabla\hat q_t\nabla\hat q_t\'$; luăm $\hat c$ din regula Hall--Sheather pe scala reziduurilor \refKoe')]),
-    T(r'Gradients $\nabla q_t$ follow their own recursion (or numerical differentiation of the path): the dynamic model is a recursive M-estimator',
-      r'Gradienții $\nabla q_t$ urmează propria recursie (sau derivarea numerică a traiectoriei): modelul dinamic este un M-estimator recursiv')), 'small')
+D.frame(T('Estimation and inference (1/2): the criterion', 'Estimare și inferență (1/2): criteriul'), items(
+    (T(r'Regression-quantile criterion: the average pinball loss of the implied quantile path', r'Criteriul de regresie cuantilică: pierderea pinball medie a traiectoriei cuantilei implicate'
+       ) + r'''
+    \[ \hat\beta = \arg\min_\beta \frac1T\sum_t \rho_\alpha\big(y_t + \mathrm{VaR}_t(\beta)\big) \]''',
+     [T(r'$\mathrm{VaR}_t(\beta)$: the path generated by the recursion with parameters $\beta$; the criterion is non-differentiable and non-convex in $\beta$',
+        r'$\mathrm{VaR}_t(\beta)$: traiectoria generată de recursie cu parametrii $\beta$; criteriul este nediferențiabil și neconvex în $\beta$')]),
+    (T(r'EM procedure (empirical section)', r'Procedura EM (secțiunea empirică)'),
+     [T(r'$\mathrm{VaR}_1$: the empirical quantile of the first 300 days; $10^4$ random parameter vectors, the 10 best refined by alternating simplex and quasi-Newton steps',
+        r'$\mathrm{VaR}_1$: cuantila empirică din primele 300 de zile; $10^4$ vectori de parametri aleatori, cei mai buni 10 rafinați alternînd pași simplex și cvasi-Newton')])), 'small')
+
+D.frame(T('Estimation and inference (2/2): the covariance', 'Estimare și inferență (2/2): covarianța'), items(
+    (T(r'Consistency and asymptotic normality, with a sandwich covariance', r'Consistență și normalitate asimptotică, cu o covarianță de tip sandwich'
+       ) + r'''
+    \[ \sqrt T(\hat\beta - \beta) \to N\big(0, \alpha(1 - \alpha)D^{-1}AD^{-1}\big), \qquad A = \E[\nabla q_t\nabla q_t'], \qquad D = \E[f_t(q_t)\nabla q_t\nabla q_t'] \]''',
+     [T(r'$\nabla q_t = \partial q_t(\beta)/\partial\beta$: gradient of the quantile path, which follows its own recursion (or numerical differentiation of the path)',
+        r'$\nabla q_t = \partial q_t(\beta)/\partial\beta$: gradientul traiectoriei cuantilei, care urmează propria recursie (sau derivarea numerică a traiectoriei)'),
+      T(r'$f_t(q_t)$: conditional density of $y_t$ at the quantile, as in quantile regression', r'$f_t(q_t)$: densitatea condiționată a lui $y_t$ în cuantilă, ca în regresia cuantilică')]),
+    (T(r'Estimator of $D$: count the residuals within $\hat c$ of zero', r'Estimatorul lui $D$: se numără reziduurile aflate la cel mult $\hat c$ de zero'
+       ) + r'''
+    \[ \hat D = \frac{1}{2T\hat c}\sum_t\mathbf 1\{|y_t - \hat q_t| < \hat c\}\,\nabla\hat q_t\nabla\hat q_t' \]''',
+     [T(r'$\hat c$: bandwidth, from the Hall--Sheather rule on the residual scale \refKoe; the dynamic model is a recursive M-estimator',
+        r'$\hat c$: lățimea de bandă, din regula Hall--Sheather pe scala reziduurilor \refKoe; modelul dinamic este un M-estimator recursiv')])), 'small')
 
 D.frame(T('The dynamic quantile (DQ) test', 'Testul dinamic pe cuantile (DQ)'), items(
-    (T(r'$\mathrm{Hit}_t = \mathbf 1\{y_t < q_t\} - \alpha$: under correct specification a martingale difference, $\E[\mathrm{Hit}_t \mid \mathcal F_{t-1}] = 0$', r'$\mathrm{Hit}_t = \mathbf 1\{y_t < q_t\} - \alpha$: sub specificarea corectă este o diferență de martingală, $\E[\mathrm{Hit}_t \mid \mathcal F_{t-1}] = 0$'),
+    (T(r'The hit sequence is a martingale difference under correct specification', r'Sub specificarea corectă, șirul depășirilor este o diferență de martingal'
+       ) + r'''
+    \[ \mathrm{Hit}_t = \mathbf 1\{y_t < q_t\} - \alpha, \qquad \E[\mathrm{Hit}_t \mid \mathcal F_{t-1}] = 0 \]''',
      [T(r'regress $\mathrm{Hit}_t$ on $X_t$ = (1, $\mathrm{Hit}_{t-1}, \dots, \mathrm{Hit}_{t-4}$, $q_t$), all in $\mathcal F_{t-1}$ \refEM', r'regresăm $\mathrm{Hit}_t$ pe $X_t$ = (1, $\mathrm{Hit}_{t-1}, \dots, \mathrm{Hit}_{t-4}$, $q_t$), toate din $\mathcal F_{t-1}$ \refEM')]),
-    (T(r'Out of sample: $\mathrm{DQ} = \dfrac{\mathrm{Hit}\'X(X\'X)^{-1}X\'\mathrm{Hit}}{\alpha(1 - \alpha)} \to \chi^2_6$', r'În afara eșantionului: $\mathrm{DQ} = \dfrac{\mathrm{Hit}\'X(X\'X)^{-1}X\'\mathrm{Hit}}{\alpha(1 - \alpha)} \to \chi^2_6$'),
-     [T('in sample the estimated $\\beta$ makes the hits orthogonal to the gradients: the covariance needs the correction derived by EM', 'în eșantion, $\\beta$ estimat face depășirile ortogonale pe gradienți: covarianța cere corecția derivată de EM')]),
-    T('Kupiec (constant only) and Christoffersen (one lagged hit) are special cases; the VaR regressor adds power against level-dependent misspecification',
-      'Testele Kupiec (doar constanta) și Christoffersen (o depășire întîrziată) sînt cazuri particulare; regresorul VaR adaugă putere împotriva erorilor care depind de nivel'),
-    T('With $\\alpha = 1\\%$ and a few hundred days the $\\chi^2$ approximation is poor (Section 5): report simulated or exact $p$-values when possible',
-      'Cu $\\alpha = 1\\%$ și cîteva sute de zile, aproximarea $\\chi^2$ este slabă (secțiunea 5): raportați valori $p$ simulate sau exacte cînd se poate')), 'small')
+    (T(r'Out-of-sample statistic: a Wald test that all regression coefficients are zero', r'Statistica în afara eșantionului: un test Wald că toți coeficienții regresiei sînt zero'
+       ) + r'''
+    \[ \mathrm{DQ} = \frac{\mathrm{Hit}'X(X'X)^{-1}X'\mathrm{Hit}}{\alpha(1 - \alpha)} \to \chi^2_6 \]''',
+     [T(r'$\mathrm{Hit}$: vector of hits; $X$: matrix with rows $X_t$; 6 = number of regressors; a large DQ rejects calibration',
+        r'$\mathrm{Hit}$: vectorul depășirilor; $X$: matricea cu rîndurile $X_t$; 6 = numărul regresorilor; un DQ mare respinge calibrarea'),
+      T('in sample the estimated $\\beta$ makes the hits orthogonal to the gradients: the covariance needs the correction derived by EM', 'în eșantion, $\\beta$ estimat face depășirile ortogonale pe gradienți: covarianța cere corecția derivată de EM')]),
+    T('Kupiec (constant only) and Christoffersen (the first lag of the hits) are special cases; the VaR regressor adds power against level-dependent misspecification',
+      'Testele Kupiec (doar constanta) și Christoffersen (primul lag al depășirilor) sînt cazuri particulare; regresorul VaR adaugă putere împotriva erorilor care depind de nivel'),
+    T('With $\\alpha = 1\\%$ and a few hundred days the $\\chi^2$ approximation is poor (Section 5): report simulated or exact p-values when possible',
+      'Cu $\\alpha = 1\\%$ și cîteva sute de zile, aproximarea $\\chi^2$ este slabă (secțiunea 5): raportați p-value-uri simulate sau exacte cînd se poate')), 'footnotesize')
 
 D.frame(T('Case study: Engle and Manganelli (2004) on today\'s data', 'Studiu de caz: Engle și Manganelli (2004) pe datele de azi'), items(
-    (T('The design of the empirical section of EM: 3,392 daily returns, the first 2,892 for estimation, the last 500 out of sample; VaR 1\\% and 5\\%', 'Designul din secțiunea empirică a lucrării EM: 3\\,392 de randamente zilnice, primele 2\\,892 pentru estimare, ultimele 500 în afara eșantionului; VaR 1\\% și 5\\%'),
+    (T('The design of the empirical section of EM: 3,392 daily returns, the first 2,892 for estimation, the last 500 out of sample; VaR 1\\% and 5\\%', 'Schema din secțiunea empirică a lucrării EM: 3\\,392 de randamente zilnice, primele 2\\,892 pentru estimare, ultimele 500 în afara eșantionului; VaR 1\\% și 5\\%'),
      [T(r'EM used 1986--1999 (GM, IBM, S\&P 500); we use the S\&P 500 from @{cv.d0} to @{cv.d3}, out of sample from @{cv.d2}', r'EM au folosit 1986--1999 (GM, IBM, S\&P 500); noi folosim S\&P 500 de la @{cv.d0} la @{cv.d3}, în afara eșantionului din @{cv.d2}')]),
     (T('Same specifications, starting values and search; the April 2025 tariff shock falls in the out-of-sample period', 'Aceleași specificații, valori de pornire și căutare; șocul tarifelor din aprilie 2025 cade în perioada din afara eșantionului'), []),
     T('Questions: which specification fits the 1\\% tail, are the forecasts calibrated out of sample, and is the response to bad news asymmetric?',
@@ -562,7 +667,7 @@ D.frame(T('Estimates, standard errors and DQ tests', 'Estimații, erori standard
      r'ADAPT & @{cv.ADAPT.b0} (@{cv.ADAPT.s0}) & -- & -- & -- & @{cv.ADAPT.rq} & @{cv.ADAPT.hi} & @{cv.ADAPT.ho} & @{cv.ADAPT.dq} (@{cv.ADAPT.dqp})'],
     size='tiny') + items(
     T(r'Standard errors from the asymptotic covariance of EM; RQ: the minimised in-sample criterion; DQ out of sample with four lagged hits and the VaR, $\chi^2_6$; 500 days give 5 expected hits',
-      r'Erorile standard din covarianța asimptotică EM; RQ: criteriul minimizat în eșantion; DQ în afara eșantionului cu patru depășiri întîrziate și VaR, $\chi^2_6$; 500 de zile dau 5 depășiri așteptate'),
+      r'Erorile standard din covarianța asimptotică EM; RQ: criteriul minimizat în eșantion; DQ în afara eșantionului cu patru laguri ale depășirilor și VaR, $\chi^2_6$; 500 de zile dau 5 depășiri așteptate'),
     T(r'Out-of-sample average pinball loss ($\times10^2$): SAV @{cv.SAV.pin}, AS @{cv.AS.pin}, IG @{cv.IG.pin}, adaptive @{cv.ADAPT.pin}', r'Pierderea pinball medie în afara eșantionului ($\times10^2$): SAV @{cv.SAV.pin}, AS @{cv.AS.pin}, IG @{cv.IG.pin}, adaptiv @{cv.ADAPT.pin}')), 'footnotesize')
 
 interp(('the CAViaR estimates', 'estimațiilor CAViaR'), [
@@ -594,31 +699,51 @@ D.recap(('CAViaR', 'CAViaR'), [
 D.section('Semiparametric models for (VaR, ES)', 'Modele semiparametrice pentru (VaR, ES)')
 
 D.frame(T('M-estimation with the FZ0 loss', 'M-estimarea cu pierderea FZ0'), items(
-    (T(r'Model $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$; estimator $\hat\theta = \arg\min_\theta T^{-1}\sum_t L_{\mathrm{FZ0}}(y_t, v_t(\theta), e_t(\theta); \alpha)$ \refPZC', r'Modelul $(v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta)$; estimatorul $\hat\theta = \arg\min_\theta T^{-1}\sum_t L_{\mathrm{FZ0}}(y_t, v_t(\theta), e_t(\theta); \alpha)$ \refPZC'),
-     [T('consistency follows from the strict consistency of FZ0 and identification of $\\theta$; asymptotic normality as for CAViaR, with a sandwich covariance', 'consistența rezultă din consistența strictă a FZ0 și din identificarea lui $\\theta$; normalitatea asimptotică ca la CAViaR, cu o covarianță de tip sandwich')]),
+    (T(r'A dynamic model for the pair, estimated by minimising the average FZ0 loss \refPZC', r'Un model dinamic pentru pereche, estimat prin minimizarea pierderii FZ0 medii \refPZC'
+       ) + r'''
+    \[ (v_t, e_t) = (v, e)(\mathcal F_{t-1}; \theta), \qquad \hat\theta = \arg\min_\theta \frac1T\sum_t L_{\mathrm{FZ0}}\big(y_t, v_t(\theta), e_t(\theta); \alpha\big) \]''',
+     [T(r'$\theta$: parameters of the two recursions; consistency follows from the strict consistency of FZ0 and the identification of $\theta$',
+        r'$\theta$: parametrii celor două recursii; consistența rezultă din consistența strictă a FZ0 și din identificarea lui $\theta$'),
+      T('asymptotic normality as for CAViaR, with a sandwich covariance', 'normalitatea asimptotică este ca la CAViaR, cu o covarianță de tip sandwich')]),
     (T('Why not maximum likelihood?', 'De ce nu verosimilitate maximă?'),
      [T('MLE needs the whole distribution; a wrong body or right tail distorts the left tail estimates', 'Verosimilitatea maximă cere întreaga distribuție; un corp sau o coadă dreaptă greșite distorsionează estimațiile cozii stîngi'),
       T('FZ estimation targets exactly the two tail functionals: less efficient if the model is right, robust if it is not (PZC, Tables 3--4)', 'Estimarea FZ țintește exact cele două funcționale de coadă: mai puțin eficientă dacă modelul este corect, robustă dacă nu este (PZC, Tabelele 3--4)')]),
     T(r'Related: the asymmetric Laplace quasi-likelihood \refTayB; ES regressions \refDB; score-driven (GAS) dynamics \refCKL', r'Înrudite: cvasi-verosimilitatea Laplace asimetrică \refTayB; regresiile pentru ES \refDB; dinamica determinată de scor (GAS) \refCKL')), 'small')
 
 D.frame(T('The two-factor GAS model', 'Modelul GAS cu doi factori'), items(
-    (T(r'\refPZC, eq.~(9)--(16): $\begin{pmatrix} v_{t+1} \\ e_{t+1}\end{pmatrix} = w + B\begin{pmatrix} v_t \\ e_t\end{pmatrix} + A\lambda_t$, $B$ diagonal, $A$ a $2\times2$ matrix', r'\refPZC, ec.~(9)--(16): $\begin{pmatrix} v_{t+1} \\ e_{t+1}\end{pmatrix} = w + B\begin{pmatrix} v_t \\ e_t\end{pmatrix} + A\lambda_t$, $B$ diagonală, $A$ o matrice $2\times2$'),
-     [T(r'forcing variables from the FZ0 score: $\lambda_{v,t} = -v_t(\mathbf 1\{y_t \le v_t\} - \alpha)$, $\lambda_{e,t} = \tfrac{1}{\alpha}\mathbf 1\{y_t \le v_t\}y_t - e_t$', r'variabilele de impuls din scorul FZ0: $\lambda_{v,t} = -v_t(\mathbf 1\{y_t \le v_t\} - \alpha)$, $\lambda_{e,t} = \tfrac{1}{\alpha}\mathbf 1\{y_t \le v_t\}y_t - e_t$'),
-      T(r'both are identification functions: zero conditional mean under correct specification', r'ambele sînt funcții de identificare: medie condiționată nulă sub specificarea corectă')]),
-    (T(r'The Hessian is scaled with $f_t(v_t) \approx k_\alpha/v_t$ (exact for location--scale returns), so no density is estimated', r'Hessiana se scalează cu $f_t(v_t) \approx k_\alpha/v_t$ (exact pentru randamente de tip poziție--scală), deci nu se estimează nicio densitate'), []),
-    T('Eight parameters; on non-hit days $\\lambda_{e,t} = -e_t$ and both risk measures decay deterministically towards their means', 'Opt parametri; în zilele fără depășire $\\lambda_{e,t} = -e_t$, iar ambele măsuri de risc scad determinist spre mediile lor')), 'small')
+    (T(r'\refPZC, eq.~(9)--(16): the pair follows a VAR(1) driven by the scaled score of FZ0 (generalised autoregressive score, GAS)', r'\refPZC, ec.~(9)--(16): perechea urmează un VAR(1) determinat de scorul scalat al FZ0 (generalised autoregressive score, GAS)'
+       ) + r'''
+    \[ \begin{pmatrix} v_{t+1} \\ e_{t+1}\end{pmatrix} = w + B\begin{pmatrix} v_t \\ e_t\end{pmatrix} + A\lambda_t \]''',
+     [T(r'$w$: intercept vector; $B$: diagonal $2\times2$ persistence matrix; $A$: $2\times2$ matrix of reactions to the forcing variables $\lambda_t = (\lambda_{v,t}, \lambda_{e,t})\'$',
+        r'$w$: vectorul termenilor liberi; $B$: matrice diagonală $2\times2$ de persistență; $A$: matricea $2\times2$ a reacțiilor la variabilele de impuls $\lambda_t = (\lambda_{v,t}, \lambda_{e,t})\'$')]),
+    (T(r'Forcing variables from the FZ0 score', r'Variabilele de impuls, din scorul FZ0'
+       ) + r'''
+    \[ \lambda_{v,t} = -v_t\big(\mathbf 1\{y_t \le v_t\} - \alpha\big), \qquad \lambda_{e,t} = \frac{1}{\alpha}\mathbf 1\{y_t \le v_t\}\,y_t - e_t \]''',
+     [T(r'both are identification functions: zero conditional mean under correct specification', r'ambele sînt funcții de identificare: medie condiționată nulă sub specificarea corectă'),
+      T(r'the Hessian is scaled with $f_t(v_t) \approx k_\alpha/v_t$, $k_\alpha$ a constant (exact for location--scale returns), so no density is estimated',
+        r'hessiana se scalează cu $f_t(v_t) \approx k_\alpha/v_t$, $k_\alpha$ o constantă (exact pentru randamente de tip poziție--scală), deci nu se estimează nicio densitate'),
+      T('eight parameters; on non-hit days $\\lambda_{e,t} = -e_t$ and both risk measures decay deterministically towards their means', 'opt parametri; în zilele fără depășire $\\lambda_{e,t} = -e_t$, iar ambele măsuri de risc scad determinist spre mediile lor')])), 'small')
 
 D.frame(T('One-factor, GARCH-FZ and Hybrid models', 'Modelele cu un factor, GARCH-FZ și Hybrid'), items(
-    (T(r'\textbf{GAS-1F}, eq.~(20): $v_t = a e^{\kappa_t}$, $e_t = b e^{\kappa_t}$, $b < a < 0$, $\kappa_t = \beta\kappa_{t-1} + \gamma\,\dfrac{-1}{e_{t-1}}\Big(\tfrac{1}{\alpha}\mathbf 1\{y_{t-1} \le v_{t-1}\}y_{t-1} - e_{t-1}\Big)$', r'\textbf{GAS-1F}, ec.~(20): $v_t = a e^{\kappa_t}$, $e_t = b e^{\kappa_t}$, $b < a < 0$, $\kappa_t = \beta\kappa_{t-1} + \gamma\,\dfrac{-1}{e_{t-1}}\Big(\tfrac{1}{\alpha}\mathbf 1\{y_{t-1} \le v_{t-1}\}y_{t-1} - e_{t-1}\Big)$'),
-     [T(r'one latent log-scale; the intercept $\omega$ is not identified with $(a, b)$ and is fixed at 0', r'o singură log-scală latentă; termenul liber $\omega$ nu este identificat împreună cu $(a, b)$ și se fixează la 0')]),
-    (T(r'\textbf{GARCH-FZ}, eq.~(25)--(26): $\kappa_t^2 = 1 + \beta\kappa_{t-1}^2 + \gamma y_{t-1}^2$, $(v_t, e_t) = (a, b)\kappa_t$: a GARCH tuned to the tail', r'\textbf{GARCH-FZ}, ec.~(25)--(26): $\kappa_t^2 = 1 + \beta\kappa_{t-1}^2 + \gamma y_{t-1}^2$, $(v_t, e_t) = (a, b)\kappa_t$: un GARCH ajustat pentru coadă'), []),
-    (T(r'\textbf{Hybrid}, eq.~(27): GAS-1F plus $\delta\ln|y_{t-1}|$: reacts every day, more strongly on hit days', r'\textbf{Hybrid}, ec.~(27): GAS-1F plus $\delta\ln|y_{t-1}|$: reacționează în fiecare zi, mai puternic în zilele cu depășiri'), []),
-    T(r'In all three the ratio $e_t/v_t = b/a$ is constant: the shape of the tail is fixed, only its scale moves', r'În toate trei raportul $e_t/v_t = b/a$ este constant: forma cozii este fixă, doar scala ei se mișcă')), 'small')
+    (T(r'\textbf{GAS-1F}, eq.~(20): one latent log-scale $\kappa_t$ multiplies both risk measures', r'\textbf{GAS-1F}, ec.~(20): o singură log-scală latentă $\kappa_t$ multiplică ambele măsuri de risc'
+       ) + r'''
+    \[ v_t = a\,e^{\kappa_t}, \quad e_t = b\,e^{\kappa_t}, \quad \kappa_t = \beta\kappa_{t-1} + \gamma\,\frac{-1}{e_{t-1}}\Big(\frac{1}{\alpha}\mathbf 1\{y_{t-1} \le v_{t-1}\}y_{t-1} - e_{t-1}\Big) \]''',
+     [T(r'$b < a < 0$: VaR and ES at $\kappa_t = 0$; $\beta$: persistence of the log-scale; $\gamma$: reaction to the ES forcing variable',
+        r'$b < a < 0$: VaR și ES pentru $\kappa_t = 0$; $\beta$: persistența log-scalei; $\gamma$: reacția la variabila de impuls a ES'),
+      T(r'the intercept $\omega$ is not identified together with $(a, b)$ and is fixed at 0', r'termenul liber $\omega$ nu este identificat împreună cu $(a, b)$ și se fixează la 0')]),
+    (T(r'\textbf{GARCH-FZ}, eq.~(25)--(26): $\kappa_t^2 = 1 + \beta\kappa_{t-1}^2 + \gamma y_{t-1}^2$, $(v_t, e_t) = (a, b)\kappa_t$: a GARCH whose scale $\kappa_t$ is fitted to the tail', r'\textbf{GARCH-FZ}, ec.~(25)--(26): $\kappa_t^2 = 1 + \beta\kappa_{t-1}^2 + \gamma y_{t-1}^2$, $(v_t, e_t) = (a, b)\kappa_t$: un GARCH a cărui scală $\kappa_t$ este ajustată pentru coadă'), []),
+    (T(r'\textbf{Hybrid}, eq.~(27): GAS-1F plus $\delta\ln|y_{t-1}|$ in the recursion of $\kappa_t$', r'\textbf{Hybrid}, ec.~(27): GAS-1F plus $\delta\ln|y_{t-1}|$ în recursia lui $\kappa_t$'),
+     [T(r'reacts every day through $\delta$, more strongly on hit days', r'reacționează în fiecare zi prin $\delta$, mai puternic în zilele cu depășiri')]),
+    T(r'In all three the ratio $e_t/v_t = b/a$ is constant: the shape of the tail is fixed, only its scale moves', r'În toate trei raportul $e_t/v_t = b/a$ este constant: forma cozii este fixă, doar scala ei se mișcă')), 'footnotesize')
 
 D.frame(T('Estimating non-smooth recursive models', 'Estimarea modelelor recursive nenetede'), items(
     (T(r'The FZ0 objective is discontinuous in $\theta$ (through $\mathbf 1\{y_t \le v_t(\theta)\}$) and the recursion propagates every jump', r'Funcția obiectiv FZ0 este discontinuă în $\theta$ (prin $\mathbf 1\{y_t \le v_t(\theta)\}$), iar recursia propagă fiecare salt'), []),
-    (T(r'Appendix C of the paper \refPZC: replace the indicator by $\Gamma(y, v; \tau) = [1 + e^{\tau(y - v)}]^{-1}$ in the loss and in the forcing variable', r'Anexa C a lucrării \refPZC: înlocuim indicatorul cu $\Gamma(y, v; \tau) = [1 + e^{\tau(y - v)}]^{-1}$ în pierdere și în variabila de impuls'),
-     [T(r'quasi-Newton with $\tau = 5$, then $\tau = 20$, then the exact loss with the simplex method, each step starting from the previous one', r'cvasi-Newton cu $\tau = 5$, apoi $\tau = 20$, apoi pierderea exactă cu metoda simplex, fiecare pas pornind din cel anterior')]),
+    (T(r'Appendix C of the paper \refPZC: replace the indicator by a logistic approximation in the loss and in the forcing variable', r'Anexa C a lucrării \refPZC: indicatorul se înlocuiește cu o aproximare logistică în pierdere și în variabila de impuls'
+       ) + r'''
+    \[ \Gamma(y, v; \tau) = \frac{1}{1 + e^{\tau(y - v)}} \]''',
+     [T(r'$\tau > 0$: smoothing parameter; as $\tau \to \infty$, $\Gamma \to \mathbf 1\{y \le v\}$',
+        r'$\tau > 0$: parametrul de netezire; cînd $\tau \to \infty$, $\Gamma \to \mathbf 1\{y \le v\}$'),
+      T(r'quasi-Newton with $\tau = 5$, then $\tau = 20$, then the exact loss with the simplex method, each step starting from the previous one', r'cvasi-Newton cu $\tau = 5$, apoi $\tau = 20$, apoi pierderea exactă cu metoda simplex, fiecare pas pornind din cel anterior')]),
     (T('Our starting values: random dynamic parameters with $(a, b)$ matched to the in-sample VaR and ES; the four best are refined', 'Valorile noastre de pornire: parametri dinamici aleatori, cu $(a, b)$ potriviți la VaR și ES din eșantion; cei mai buni patru sînt rafinați'), []),
     T('Constraints enforced by penalty: $e_t \\le v_t$, $e_t < 0$, stationarity of the recursion', 'Restricții impuse prin penalizare: $e_t \\le v_t$, $e_t < 0$, staționaritatea recursiei')), 'small')
 
@@ -644,7 +769,7 @@ interp(('the three forecasts', 'celor trei prognoze'), [
 
 chart(T('Replication: average out-of-sample FZ0 loss', 'Replicare: pierderea FZ0 medie în afara eșantionului'), 'ats_ch9_pzc_table', 'ATS_ch9_pzc', [
     T(r'Bars: our data and code, same design; diamonds: the values printed in PZC, Table 8 ($\alpha$ = 5\%) and Table S5 ($\alpha$ = 2.5\%)',
-      r'Bare: datele și codul nostru, același design; romburi: valorile tipărite în PZC, Tabelul 8 ($\alpha$ = 5\%) și Tabelul S5 ($\alpha$ = 2,5\%)')],
+      r'Bare: datele și codul nostru, aceeași schemă; romburi: valorile tipărite în PZC, Tabelul 8 ($\alpha$ = 5\%) și Tabelul S5 ($\alpha$ = 2,5\%)')],
     h='0.5\\textheight')
 
 D.frame(T('Replication in numbers', 'Replicarea în cifre'), table(
@@ -672,8 +797,12 @@ interp(('the DM matrix', 'matricei DM'), [
     T('Ninety pairwise tests need a multiple-testing answer: the MCS (Section 6)', 'Nouăzeci de teste pe perechi cer un răspuns la testarea multiplă: MCS (secțiunea 6)')])
 
 D.frame(T('Joint (VaR, ES) regression', 'Regresia comună (VaR, ES)'), items(
-    (T(r'\refDB: $q_\alpha(Y_t \mid x_t) = x_t\'\beta$, $-\mathrm{ES}_\alpha(Y_t \mid x_t) = x_t\'\gamma$, estimated jointly by minimising a Fissler--Ziegel loss', r'\refDB: $q_\alpha(Y_t \mid x_t) = x_t\'\beta$, $-\mathrm{ES}_\alpha(Y_t \mid x_t) = x_t\'\gamma$, estimate împreună prin minimizarea unei pierderi Fissler--Ziegel'),
-     [T(r'M-estimator: consistent and asymptotically normal for any member of the class; the choice of $(G_1, G_2)$ affects only efficiency', r'M-estimator: consistent și asimptotic normal pentru orice membru al clasei; alegerea lui $(G_1, G_2)$ afectează doar eficiența')]),
+    (T(r'\refDB: both functionals are linear in the covariates', r'\refDB: ambele funcționale sînt liniare în covariabile'
+       ) + r'''
+    \[ q_\alpha(Y_t \mid x_t) = x_t'\beta, \qquad -\mathrm{ES}_\alpha(Y_t \mid x_t) = x_t'\gamma \]''',
+     [T(r'$x_t$: covariates known at $t-1$; $\beta$, $\gamma$: the effects on the quantile and on the tail mean; estimated jointly by minimising a Fissler--Ziegel loss',
+        r'$x_t$: covariabile cunoscute la $t-1$; $\beta$, $\gamma$: efectele asupra cuantilei și asupra mediei cozii; estimate împreună prin minimizarea unei pierderi Fissler--Ziegel'),
+      T(r'M-estimator: consistent and asymptotically normal for any member of the class; the choice of $(G_1, G_2)$ affects only efficiency', r'M-estimator: consistent și asimptotic normal pentru orice membru al clasei; alegerea lui $(G_1, G_2)$ afectează doar eficiența')]),
     (T('Uses', 'Utilizări'),
      [T(r'which variables move the tail and by how much: the ES analogue of quantile regression', r'ce variabile mișcă coada și cît: analogul pentru ES al regresiei cuantilice'),
       T(r'ES backtests: regress realised returns on the ES forecast and test intercept 0, slope 1 \refBD\ (MFM, Chapter 8)', r'backtesting pentru ES: regresăm randamentele realizate pe prognoza ES și testăm termen liber 0, pantă 1 \refBD\ (MFM, Capitolul 8)')]),
@@ -687,13 +816,13 @@ chart(T('The tail of the S\\&P 500 against the VIX', 'Coada S\\&P 500 în funcț
 
 interp(('the joint regression', 'regresiei comune'), [
     T(r'Quantile: $@{er.b0} @{er.b1}\,\mathrm{VIX}$ (s.e.\ @{er.bs0}; @{er.bs1}); tail mean: $@{er.g0} @{er.g1}\,\mathrm{VIX}$ (s.e.\ @{er.gs0}; @{er.gs1})', r'Cuantila: $@{er.b0} @{er.b1}\,\mathrm{VIX}$ (erori standard @{er.bs0}; @{er.bs1}); media cozii: $@{er.g0} @{er.g1}\,\mathrm{VIX}$ (erori standard @{er.gs0}; @{er.gs1})'),
-    T(r'One VIX point lowers the 2.5\% quantile by @{er.b1a} and the tail mean by @{er.g1a} percentage points: the tail fans out @{er.ratio} times faster in ES', r'Un punct de VIX coboară cuantila de 2,5\% cu @{er.b1a} și media cozii cu @{er.g1a} puncte procentuale: coada se deschide de @{er.ratio} ori mai repede în ES'),
+    T(r'One VIX point lowers the 2.5\% quantile by @{er.b1a} and the tail mean by @{er.g1a} percentage points: the tail fans out @{er.ratio} times faster in ES', r'Un punct de VIX coboară cuantila de 2,5\% cu @{er.b1a} și media cozii cu @{er.g1a} puncte procentuale: coada se lărgește de @{er.ratio} ori mai repede în ES'),
     T(r'The quantile part is close to quantile regression ($@{er.q0}$, $@{er.q1}$); in-sample hit rate @{er.hit}\%; the PZC tests do not reject ($p$ = @{er.pv}; @{er.pe})', r'Partea de cuantilă este apropiată de regresia cuantilică ($@{er.q0}$, $@{er.q1}$); rata de depășire în eșantion @{er.hit}\%; testele PZC nu resping ($p$ = @{er.pv}; @{er.pe})'),
     T('The VIX is a market forecast of volatility: the regression says that the option market prices the left tail almost linearly', 'VIX este o prognoză de piață a volatilității: regresia arată că piața opțiunilor evaluează coada stîngă aproape liniar')])
 
 D.recap(('Semiparametric (VaR, ES) models', 'modelele semiparametrice (VaR, ES)'), [
     T('FZ0 minimisation estimates the tail pair without a distribution', 'Minimizarea FZ0 estimează perechea din coadă fără o distribuție'),
-    T('GAS forcing variables are identification functions: the model corrects itself only when the tail speaks', 'Variabilele de impuls GAS sînt funcții de identificare: modelul se corectează doar cînd vorbește coada'),
+    T('GAS forcing variables are identification functions: the model corrects itself only when the tail speaks', 'Variabilele de impuls GAS sînt funcții de identificare: modelul se corectează doar cînd coada aduce informație nouă (în zilele cu depășiri)'),
     T('The PZC ranking replicates; their goodness-of-fit results do not; joint regression links the tail to covariates', 'Ordonarea PZC se replică; rezultatele testelor de adecvare nu; regresia comună leagă coada de covariabile')])
 
 # =============================================================================
@@ -702,8 +831,9 @@ D.recap(('Semiparametric (VaR, ES) models', 'modelele semiparametrice (VaR, ES)'
 D.section('Backtesting as a test of calibration', 'Backtesting ca test de calibrare')
 
 D.frame(T('Recap: counting hits', 'Recapitulare: numărarea depășirilor'), items(
-    (T(r'Hits $I_t = \mathbf 1\{y_t < v_t\}$; correct VaR $\Rightarrow I_t$ i.i.d.\ Bernoulli($\alpha$) (MFM, Chapter 8)', r'Depășirile $I_t = \mathbf 1\{y_t < v_t\}$; VaR corect $\Rightarrow I_t$ i.i.d.\ Bernoulli($\alpha$) (MFM, Capitolul 8)'),
-     [T(r'\refKup: unconditional coverage, LR $\sim \chi^2_1$; \refChr: independence of consecutive hits and conditional coverage, $\chi^2_2$', r'\refKup: acoperirea necondiționată, LR $\sim \chi^2_1$; \refChr: independența depășirilor consecutive și acoperirea condiționată, $\chi^2_2$'),
+    (T(r'Hits $I_t = \mathbf 1\{y_t < v_t\}$; a correct VaR makes $I_t$ i.i.d.\ Bernoulli($\alpha$) (MFM, Chapter 8)', r'Depășirile $I_t = \mathbf 1\{y_t < v_t\}$; un VaR corect face ca $I_t$ să fie i.i.d.\ Bernoulli($\alpha$) (MFM, Capitolul 8)'),
+     [T(r'\refKup: unconditional coverage, likelihood-ratio statistic LR $\sim \chi^2_1$ (is the hit rate $\alpha$?)', r'\refKup: acoperirea necondiționată, statistica raportului de verosimilitate LR $\sim \chi^2_1$ (este rata depășirilor egală cu $\alpha$?)'),
+      T(r'\refChr: independence of consecutive hits, and conditional coverage (both together), $\chi^2_2$', r'\refChr: independența depășirilor consecutive și acoperirea condiționată (ambele împreună), $\chi^2_2$'),
       T(r'Basel traffic light \refBCBS: green up to 4 hits of VaR 1\% in 250 days, yellow 5--9, red from 10', r'Semaforul Basel \refBCBS: verde pînă la 4 depășiri ale VaR 1\% în 250 de zile, galben 5--9, roșu de la 10')]),
     (T('What counting misses', 'Ce nu vede numărarea'),
      [T('hits that depend on information other than the last hit (DQ)', 'depășirile care depind de altă informație decît ultima depășire (DQ)'),
@@ -711,19 +841,30 @@ D.frame(T('Recap: counting hits', 'Recapitulare: numărarea depășirilor'), ite
       T('the effect of estimated parameters on the null distribution', 'efectul parametrilor estimați asupra distribuției sub ipoteza nulă')])), 'small')
 
 D.frame(T('Conditional calibration', 'Calibrarea condiționată'), items(
-    (T(r'A forecast $x_t$ of $\mathrm T$ is \textbf{conditionally calibrated} if $\E[V(x_t, Y_t) \mid \mathcal F_{t-1}] = 0$, with $V$ the identification function \refNZ', r'O prognoză $x_t$ a lui $\mathrm T$ este \textbf{calibrată condiționat} dacă $\E[V(x_t, Y_t) \mid \mathcal F_{t-1}] = 0$, unde $V$ este funcția de identificare \refNZ'),
-     [T(r'for any instruments $h_{t-1} \in \mathcal F_{t-1}$: $\E[h_{t-1}V(x_t, Y_t)] = 0$, a moment test (Wald, $\chi^2$)', r'pentru orice instrumente $h_{t-1} \in \mathcal F_{t-1}$: $\E[h_{t-1}V(x_t, Y_t)] = 0$, un test de momente (Wald, $\chi^2$)')]),
-    (T(r'PZC, eq.~(40)--(41): standardised generalised residuals $\lambda^s_{v,t} = \mathbf 1\{y_t \le v_t\} - \alpha$ and $\lambda^s_{e,t} = \dfrac{\mathbf 1\{y_t \le v_t\}y_t}{\alpha e_t} - 1$', r'PZC, ec.~(40)--(41): reziduurile generalizate standardizate $\lambda^s_{v,t} = \mathbf 1\{y_t \le v_t\} - \alpha$ și $\lambda^s_{e,t} = \dfrac{\mathbf 1\{y_t \le v_t\}y_t}{\alpha e_t} - 1$'),
-     [T(r'regress each on (1, its own lag, $v_t$ or $e_t$) and test that all three coefficients are zero; we use a White (HC0) covariance', r'regresăm fiecare pe (1, propriul decalaj, $v_t$ sau $e_t$) și testăm că toți cei trei coeficienți sînt zero; folosim covarianța White (HC0)')]),
-    T('DQ is the special case for VaR; the ES regression tests ES only jointly with VaR, as elicitability predicts', 'DQ este cazul particular pentru VaR; regresia pentru ES testează ES doar împreună cu VaR, cum prevede elicitabilitatea'),
-    T('Power comes from the instruments: lagged hits detect clustering, the forecast level detects scale errors', 'Puterea vine din instrumente: depășirile întîrziate detectează gruparea, nivelul prognozei detectează erorile de scală')), 'small')
+    (T(r'A forecast $x_t$ of $\mathrm T$ is \textbf{conditionally calibrated} if its identification function $V$ has conditional mean zero \refNZ', r'O prognoză $x_t$ a lui $\mathrm T$ este \textbf{calibrată condiționat} dacă funcția ei de identificare $V$ are media condiționată zero \refNZ'
+       ) + r'''
+    \[ \E[V(x_t, Y_t) \mid \mathcal F_{t-1}] = 0 \ \Rightarrow\ \E[h_{t-1}V(x_t, Y_t)] = 0 \]''',
+     [T(r'$h_{t-1}$: any instrument known at $t-1$ (constant, lagged hits, the forecast itself); a moment test (Wald, $\chi^2$)',
+        r'$h_{t-1}$: orice instrument cunoscut la $t-1$ (constanta, laguri ale depășirilor, prognoza însăși); un test de momente (Wald, $\chi^2$)')]),
+    (T(r'PZC, eq.~(40)--(41): standardised generalised residuals', r'PZC, ec.~(40)--(41): reziduurile generalizate standardizate'
+       ) + r'''
+    \[ \lambda^s_{v,t} = \mathbf 1\{y_t \le v_t\} - \alpha, \qquad \lambda^s_{e,t} = \frac{\mathbf 1\{y_t \le v_t\}\,y_t}{\alpha e_t} - 1 \]''',
+     [T(r'regress each on (1, its own first lag, $v_t$ or $e_t$) and test that all three coefficients are zero; we use a White (HC0) covariance',
+        r'regresăm fiecare pe (1, propriul lag de ordinul întîi, $v_t$ sau $e_t$) și testăm că toți cei trei coeficienți sînt zero; folosim covarianța White (HC0)'),
+      T('DQ is the special case for VaR; the ES regression tests ES only jointly with VaR, as elicitability predicts', 'DQ este cazul particular pentru VaR; regresia pentru ES testează ES doar împreună cu VaR, cum prevede elicitabilitatea')]),
+    T('Power comes from the instruments: lagged hits detect clustering, the forecast level detects scale errors', 'Puterea vine din instrumente: lagurile depășirilor detectează gruparea, nivelul prognozei detectează erorile de scală')), 'small')
 
 D.frame(T('Duration-based backtests', 'Teste pe baza duratelor'), items(
-    (T(r'\refCP: under a correct VaR the durations $d_i$ between hits are geometric, memoryless, mean $1/\alpha$', r'\refCP: pentru un VaR corect, duratele $d_i$ dintre depășiri sînt geometrice, fără memorie, cu media $1/\alpha$'),
-     [T(r'alternative: Weibull hazard $\lambda(d) = a^b b\,d^{b-1}$; $b < 1$ is a decreasing hazard, i.e.\ hits cluster', r'alternativa: hazardul Weibull $\lambda(d) = a^b b\,d^{b-1}$; $b < 1$ înseamnă hazard descrescător, adică depășirile se grupează')]),
-    (T(r'Likelihood with censoring: the first and last spells are incomplete, they enter through the survival function $S(d) = e^{-(ad)^b}$', r'Verosimilitatea cu cenzurare: primul și ultimul interval sînt incomplete și intră prin funcția de supraviețuire $S(d) = e^{-(ad)^b}$'),
-     [T(r'$\mathrm{LR} = 2[\ln L(\hat a, \hat b) - \ln L(\tilde a, 1)] \to \chi^2_1$; small-sample $p$-values by simulation are advisable', r'$\mathrm{LR} = 2[\ln L(\hat a, \hat b) - \ln L(\tilde a, 1)] \to \chi^2_1$; pentru eșantioane mici se recomandă valori $p$ prin simulare')]),
-    T('Durations see clustering at any distance, not only on consecutive days as Christoffersen\'s test does', 'Duratele văd gruparea la orice distanță, nu doar în zile consecutive, ca testul lui Christoffersen')), 'small')
+    (T(r'\refCP: under a correct VaR the durations $d_i$ (days between consecutive hits) are geometric, memoryless, with mean $1/\alpha$', r'\refCP: pentru un VaR corect, duratele $d_i$ (zilele dintre două depășiri consecutive) sînt geometrice, fără memorie, cu media $1/\alpha$'),
+     [T(r'alternative: Weibull hazard $\lambda(d) = a^b b\,d^{b-1}$, the probability of a hit after $d$ quiet days; $a > 0$: scale, $b > 0$: shape',
+        r'alternativa: hazardul Weibull $\lambda(d) = a^b b\,d^{b-1}$, probabilitatea unei depășiri după $d$ zile liniștite; $a > 0$: scala, $b > 0$: forma'),
+      T(r'$b = 1$: constant hazard (no memory, as under $H_0$); $b < 1$: decreasing hazard, i.e.\ hits cluster', r'$b = 1$: hazard constant (fără memorie, ca sub $H_0$); $b < 1$: hazard descrescător, adică depășirile se grupează')]),
+    (T(r'Likelihood with censoring: the first and last spells are incomplete and enter through the survival function $S(d) = e^{-(ad)^b}$', r'Verosimilitatea cu cenzurare: primul și ultimul interval sînt incomplete și intră prin funcția de supraviețuire $S(d) = e^{-(ad)^b}$'
+       ) + r'''
+    \[ \mathrm{LR} = 2\big[\ln L(\hat a, \hat b) - \ln L(\tilde a, 1)\big] \to \chi^2_1 \]''',
+     [T(r'$(\hat a, \hat b)$: unrestricted estimates; $\tilde a$: estimate under $b = 1$; small-sample p-values by simulation are advisable',
+        r'$(\hat a, \hat b)$: estimațiile nerestricționate; $\tilde a$: estimația sub $b = 1$; pentru eșantioane mici se recomandă p-value-uri obținute prin simulare')]),
+    T('Durations see clustering at any distance, not only on consecutive days as Christoffersen\'s test does', 'Duratele surprind gruparea la orice distanță, nu doar în zile consecutive, ca testul lui Christoffersen')), 'small')
 
 chart(T('How far apart are the hits?', 'Cît de departe sînt depășirile una de alta?'), 'ats_ch9_durations', 'ATS_ch9_backtests', [
     T(r'S\&P 500, VaR 2.5\%, out of sample 2000--2026; empirical survival of the durations between hits (log scale) against the geometric law of a correct model',
@@ -740,16 +881,22 @@ D.frame(T('Backtesting ES: what each test needs', 'Backtesting pentru ES: ce cer
     TB + 'p{3.2cm}' + TB + 'p{4.5cm}' + TB + 'p{3.8cm}',
     T(r'\textbf{Test}', r'\textbf{Testul}') + ' & ' + T(r'\textbf{Statistic}', r'\textbf{Statistica}') + ' & ' + T(r'\textbf{Inputs}', r'\textbf{Date necesare}'),
     [r'\refMF & ' + T(r'mean of $(y_t - e_t)/\sigma_t$ on hit days, bootstrap', r'media lui $(y_t - e_t)/\sigma_t$ în zilele cu depășiri, bootstrap') + ' & ' + T(r'$v_t$, $e_t$, $\sigma_t$', r'$v_t$, $e_t$, $\sigma_t$'),
-     r'\refAS\ $Z_2$ & $1 - \frac{1}{T\alpha}\sum_t \frac{y_tI_t}{e_t}$ & ' + T('$v_t$, $e_t$ and the forecast distribution (simulated $p$-value)', '$v_t$, $e_t$ și distribuția prognozată (valoare $p$ simulată)'),
+     r'\refAS\ $Z_2$ & $1 - \frac{1}{T\alpha}\sum_t \frac{y_tI_t}{e_t}$ & ' + T('$v_t$, $e_t$ and the forecast distribution (simulated $p$-value)', '$v_t$, $e_t$ și distribuția prognozată (p-value simulat)'),
      r'\refDE & ' + T(r'cumulative violations $H_t = \frac{1}{\alpha}(\alpha - u_t)\mathbf 1\{u_t \le \alpha\}$', r'depășirile cumulate $H_t = \frac{1}{\alpha}(\alpha - u_t)\mathbf 1\{u_t \le \alpha\}$') + ' & ' + T(r'the PIT $u_t = F_{t|t-1}(y_t)$', r'PIT $u_t = F_{t|t-1}(y_t)$'),
      r'\refKLM & ' + T('multinomial test of several VaR levels', 'test multinomial pentru mai multe niveluri VaR') + ' & ' + T('the PIT, or VaR at several levels', 'PIT sau VaR la mai multe niveluri'),
      r'\refPZC, \refBD & ' + T('regression on $(v_t, e_t)$', 'regresie pe $(v_t, e_t)$') + r' & $v_t$, $e_t$'],
     size='scriptsize') + items(
+    T(r'$\sigma_t$: forecast volatility; $I_t$: hit indicator; $u_t = F_{t|t-1}(y_t)$: probability integral transform (PIT), uniform on $[0, 1]$ under a correct forecast distribution',
+      r'$\sigma_t$: volatilitatea prognozată; $I_t$: indicatorul depășirii; $u_t = F_{t|t-1}(y_t)$: transformarea integrală de probabilitate (PIT), uniformă pe $[0, 1]$ dacă distribuția prognozată este corectă'),
     T('Only the regression tests use nothing beyond the pair (VaR, ES): the others are tests of a distribution, which ES alone does not supply', 'Doar testele prin regresie nu folosesc nimic în plus față de perechea (VaR, ES): celelalte testează o distribuție, pe care ES singur nu o furnizează')), 'footnotesize')
 
 D.frame(T('Estimation risk in backtests', 'Riscul de estimare în backtesting'), items(
-    (T(r'Backtests assume the VaR is known; in practice $\hat v_t = v_t(\hat\theta_R)$, with $\hat\theta_R$ estimated on $R$ days and tested on $P$ days \refEO', r'Testele presupun că VaR este cunoscut; în practică $\hat v_t = v_t(\hat\theta_R)$, cu $\hat\theta_R$ estimat pe $R$ zile și testat pe $P$ zile \refEO'),
-     [T(r'$P^{-1/2}\sum_t(\hat I_t - \alpha) = P^{-1/2}\sum_t(I_t - \alpha) + \underbrace{\sqrt{P/R}\cdot\E[f_t(v_t)\nabla v_t\']\sqrt R(\hat\theta_R - \theta)}_{\text{estimation term}}$', r'$P^{-1/2}\sum_t(\hat I_t - \alpha) = P^{-1/2}\sum_t(I_t - \alpha) + \underbrace{\sqrt{P/R}\cdot\E[f_t(v_t)\nabla v_t\']\sqrt R(\hat\theta_R - \theta)}_{\text{termenul de estimare}}$')]),
+    (T(r'Backtests assume the VaR is known; in practice $\hat v_t = v_t(\hat\theta_R)$, estimated on $R$ days and tested on the next $P$ days \refEO', r'Testele presupun că VaR este cunoscut; în practică $\hat v_t = v_t(\hat\theta_R)$, estimat pe $R$ zile și testat pe următoarele $P$ zile \refEO'
+       ) + T(r'''
+    \[ \frac{1}{\sqrt P}\sum_t(\hat I_t - \alpha) = \frac{1}{\sqrt P}\sum_t(I_t - \alpha) + \underbrace{\sqrt{P/R}\cdot\E[f_t(v_t)\nabla v_t']\,\sqrt R(\hat\theta_R - \theta)}_{\text{estimation term}} \]''', r'''
+    \[ \frac{1}{\sqrt P}\sum_t(\hat I_t - \alpha) = \frac{1}{\sqrt P}\sum_t(I_t - \alpha) + \underbrace{\sqrt{P/R}\cdot\E[f_t(v_t)\nabla v_t']\,\sqrt R(\hat\theta_R - \theta)}_{\text{termenul de estimare}} \]'''),
+     [T(r'$\hat I_t$, $I_t$: hits of the estimated and of the true VaR; $f_t(v_t)$: conditional density at the VaR; $\nabla v_t$: gradient of the VaR in $\theta$',
+        r'$\hat I_t$, $I_t$: depășirile VaR estimat și ale VaR adevărat; $f_t(v_t)$: densitatea condiționată în VaR; $\nabla v_t$: gradientul VaR în raport cu $\theta$')]),
     (T(r'The estimation term vanishes only if $P/R \to 0$; with a fixed window it grows with the test sample', r'Termenul de estimare dispare doar dacă $P/R \to 0$; cu o fereastră fixă crește odată cu eșantionul de test'),
      [T('the Kupiec variance $\\alpha(1 - \\alpha)$ is then too small and the test over-rejects a correct model', 'varianța Kupiec $\\alpha(1 - \\alpha)$ este atunci prea mică, iar testul respinge prea des un model corect'),
       T('fixes: the corrected variance of Escanciano and Olmo, a subsampling or bootstrap of the whole estimate-and-test procedure', 'remedii: varianța corectată a lui Escanciano și Olmo, subeșantionarea sau bootstrap pentru întreaga procedură de estimare și testare')]),
@@ -795,7 +942,7 @@ D.frame(T('From backtests to comparative backtests', 'De la backtesting la backt
      [T('so a ranking by FZ0 rewards both calibration and information, which a backtest cannot do', 'deci o ordonare prin FZ0 răsplătește și calibrarea, și informația, ceea ce un backtest nu poate face')]),
     T(r'Tools from Chapter 1: DM with HAC variance \refDM, Giacomini--White for estimated forecasting methods \refGW, the MCS \refHLN', r'Instrumente din Capitolul 1: DM cu varianță HAC \refDM, Giacomini--White pentru metode de prognoză estimate \refGW, MCS \refHLN')), 'small')
 
-D.frame(T('Design of the comparison', 'Designul comparației'), items(
+D.frame(T('Design of the comparison', 'Schema comparației'), items(
     (T(r'Ten PZC models, $\alpha$ = 2.5\%, FZ0 losses out of sample: S\&P 500 and DAX from 2000, BET from 2010, EUR/RON from July 2015, Bitcoin from 2020', r'Cele zece modele PZC, $\alpha$ = 2,5\%, pierderi FZ0 în afara eșantionului: S\&P 500 și DAX din 2000, BET din 2010, EUR/RON din iulie 2015, Bitcoin din 2020'), []),
     (T(r'90\% MCS with the $T_{\max}$ statistic, moving-block bootstrap (blocks of 10 days over the whole period, 5 days in a stress period), 1000 replications', r'MCS de 90\% cu statistica $T_{\max}$, bootstrap pe blocuri mobile (blocuri de 10 zile pe toată perioada, 5 zile într-o perioadă de criză), 1000 de replicări'), []),
     (T('Stress periods fixed before looking at the losses', 'Perioadele de criză fixate înainte de a vedea pierderile'),
@@ -815,7 +962,7 @@ interp(('the stress-period losses', 'pierderilor din perioadele de criză'), [
     T('No model wins every crisis; the semiparametric models are competitive but not dominant out of sample after 2016', 'Niciun model nu cîștigă fiecare criză; modelele semiparametrice sînt competitive, dar nu domină în afara eșantionului după 2016')], size='footnotesize')
 
 chart(T('Model confidence sets', 'Mulțimi de încredere ale modelelor'), 'ats_ch9_mcs', 'ATS_ch9_comparison', [
-    T(r'MCS $p$-values (FZ0 loss, $\alpha$ = 2.5\%); green: in the 90\% MCS', r'Valorile $p$ MCS (pierderea FZ0, $\alpha$ = 2,5\%); verde: în MCS de 90\%')],
+    T(r'MCS $p$-values (FZ0 loss, $\alpha$ = 2.5\%); green: in the 90\% MCS', r'P-value-urile MCS (pierderea FZ0, $\alpha$ = 2,5\%); verde: în MCS de 90\%')],
     h='0.52\\textheight')
 
 interp(('the MCS', 'mulțimilor MCS'), [
@@ -834,12 +981,26 @@ D.recap(('Comparison', 'compararea'), [
 # =============================================================================
 D.section('The horizon: multi-period risk', 'Orizontul: riscul pe mai multe perioade')
 
-D.frame(T('Why the square-root-of-time rule fails', 'Limitele regulii rădăcinii pătrate a timpului'), items(
-    (T(r'$\mathrm{VaR}^{(h)} = \sqrt h\,\mathrm{VaR}^{(1)}$ holds for i.i.d.\ Normal returns with zero mean (stable laws: $h^{1/\gamma}$)', r'$\mathrm{VaR}^{(h)} = \sqrt h\,\mathrm{VaR}^{(1)}$ este valabilă pentru randamente i.i.d.\ din distribuția Normală cu media zero (legi stabile: $h^{1/\gamma}$)'),
-     [T(r'fat tails that are not stable: the $h$-day sum is closer to Normal than the daily return, so $\sqrt h$ overstates the quantile at long horizons \refDZ', r'cozi groase care nu sînt stabile: suma pe $h$ zile este mai apropiată de distribuția Normală decît randamentul zilnic, deci $\sqrt h$ supraestimează cuantila la orizonturi lungi \refDZ')]),
-    (T(r'Volatility clustering: $\mathrm{Var}_t(\sum_{k=1}^h y_{t+k}) = \sum_{k=0}^{h-1}\big[\bar\sigma^2 + (\alpha + \beta)^k(\sigma_{t+1}^2 - \bar\sigma^2)\big]$ for GARCH(1,1)', r'Volatility clustering: $\mathrm{Var}_t(\sum_{k=1}^h y_{t+k}) = \sum_{k=0}^{h-1}\big[\bar\sigma^2 + (\alpha + \beta)^k(\sigma_{t+1}^2 - \bar\sigma^2)\big]$ pentru GARCH(1,1)'),
-     [T(r'in calm times $\sqrt h$ understates risk, in crises it overstates it: mean reversion of volatility', r'în perioade calme $\sqrt h$ subestimează riscul, în crize îl supraestimează: revenirea volatilității la medie')]),
-    T('Leverage (GJR) makes multi-day losses more skewed than daily ones: the left tail of the sum is thicker than the scaled daily tail', 'Efectul de levier (GJR) face pierderile pe mai multe zile mai asimetrice decît cele zilnice: coada stîngă a sumei este mai groasă decît coada zilnică scalată'),
+D.frame(T('Why the square-root-of-time rule fails (1/2)', 'Limitele regulii rădăcinii pătrate a timpului (1/2)'), items(
+    (T(r'The rule scales the one-day VaR to $h$ days', r'Regula scalează VaR pe o zi la $h$ zile'
+       ) + r'''
+    \[ \mathrm{VaR}^{(h)} = \sqrt h\,\mathrm{VaR}^{(1)} \]''',
+     [T(r'$\mathrm{VaR}^{(h)}$: VaR of the $h$-day return $\sum_{k=1}^h y_{t+k}$; exact for i.i.d.\ returns from the Normal distribution with zero mean',
+        r'$\mathrm{VaR}^{(h)}$: VaR al randamentului pe $h$ zile, $\sum_{k=1}^h y_{t+k}$; exactă pentru randamente i.i.d.\ din distribuția Normală cu media zero'),
+      T(r'for i.i.d.\ stable laws with index $\gamma \in (0, 2]$ the factor is $h^{1/\gamma}$ ($\gamma = 2$: the Normal case)',
+        r'pentru legi stabile i.i.d.\ cu indicele $\gamma \in (0, 2]$, factorul este $h^{1/\gamma}$ ($\gamma = 2$: cazul distribuției Normale)')]),
+    (T(r'Fat tails that are not stable: the $h$-day sum is closer to Normal than the daily return', r'Cozi groase care nu sînt stabile: suma pe $h$ zile este mai apropiată de distribuția Normală decît randamentul zilnic'),
+     [T(r'so $\sqrt h$ overstates the quantile at long horizons \refDZ', r'deci $\sqrt h$ supraestimează cuantila la orizonturi lungi \refDZ')]),
+    T('Leverage (GJR) makes multi-day losses more skewed than daily ones: the left tail of the sum is thicker than the scaled daily tail', 'Efectul de levier (GJR) face pierderile pe mai multe zile mai asimetrice decît cele zilnice: coada stîngă a sumei este mai groasă decît coada zilnică scalată')), 'small')
+
+D.frame(T('Why the square-root-of-time rule fails (2/2)', 'Limitele regulii rădăcinii pătrate a timpului (2/2)'), items(
+    (T(r'Volatility clustering: for GARCH(1,1) the variance of the $h$-day return depends on today\'s volatility', r'Volatility clustering: pentru GARCH(1,1), varianța randamentului pe $h$ zile depinde de volatilitatea de azi'
+       ) + r'''
+    \[ \mathrm{Var}_t\Big(\sum_{k=1}^h y_{t+k}\Big) = \sum_{k=0}^{h-1}\big[\bar\sigma^2 + (\alpha + \beta)^k(\sigma_{t+1}^2 - \bar\sigma^2)\big] \]''',
+     [T(r'$\bar\sigma^2 = \omega/(1 - \alpha - \beta)$: unconditional variance; $\sigma^2_{t+1}$: tomorrow\'s forecast variance; $\alpha + \beta$: persistence',
+        r'$\bar\sigma^2 = \omega/(1 - \alpha - \beta)$: varianța necondiționată; $\sigma^2_{t+1}$: varianța prognozată pentru mîine; $\alpha + \beta$: persistența'),
+      T(r'in calm times ($\sigma^2_{t+1} < \bar\sigma^2$) $\sqrt h$ understates risk, in crises it overstates it: mean reversion of volatility',
+        r'în perioade calme ($\sigma^2_{t+1} < \bar\sigma^2$), $\sqrt h$ subestimează riscul, în crize îl supraestimează: revenirea volatilității la medie')]),
     T('Remedies: simulate the $h$-day distribution (FHS), or forecast the $h$-day quantile directly (quantile regression on $h$-day returns)', 'Remedii: simularea distribuției pe $h$ zile (FHS) sau prognoza directă a cuantilei pe $h$ zile (regresie cuantilică pe randamentele pe $h$ zile)')), 'small')
 
 D.frame(T('Multi-day forecasts and their backtests', 'Prognozele pe mai multe zile și testarea lor'), items(
@@ -871,8 +1032,12 @@ D.recap(('The horizon', 'orizontul'), [
 D.section('Model risk and estimation risk', 'Riscul de model și riscul de estimare')
 
 D.frame(T('Model risk of risk models', 'Riscul de model al modelelor de risc'), items(
-    (T(r'\refDJVZ: \textbf{risk ratio} $\mathrm{RR}_t = \max_m\mathrm{VaR}_{m,t}/\min_m\mathrm{VaR}_{m,t}$ across standard models: the disagreement a regulator should expect', r'\refDJVZ: \textbf{raportul de risc} $\mathrm{RR}_t = \max_m\mathrm{VaR}_{m,t}/\min_m\mathrm{VaR}_{m,t}$ între modele standard: dezacordul la care trebuie să se aștepte un supraveghetor'),
-     [T('they find the ratio largest exactly in crises, when risk numbers matter most', 'ei găsesc raportul cel mai mare tocmai în crize, cînd cifrele de risc contează cel mai mult')]),
+    (T(r'\refDJVZ: the \textbf{risk ratio} across standard models measures the disagreement a regulator should expect', r'\refDJVZ: \textbf{raportul de risc} între modele standard măsoară dezacordul la care trebuie să se aștepte un supraveghetor'
+       ) + r'''
+    \[ \mathrm{RR}_t = \frac{\max_m\mathrm{VaR}_{m,t}}{\min_m\mathrm{VaR}_{m,t}} \ge 1 \]''',
+     [T(r'$\mathrm{VaR}_{m,t}$: the forecast of model $m$ for day $t$; $\mathrm{RR}_t = 1$: all models agree; 2: the most prudent model asks for twice the capital of the least prudent',
+        r'$\mathrm{VaR}_{m,t}$: prognoza modelului $m$ pentru ziua $t$; $\mathrm{RR}_t = 1$: toate modelele sînt de acord; 2: modelul cel mai prudent cere de două ori capitalul celui mai puțin prudent'),
+      T('they find the ratio largest exactly in crises, when risk numbers matter most', 'ei găsesc raportul cel mai mare tocmai în crize, cînd cifrele de risc contează cel mai mult')]),
     (T(r'\refBDKM: \textbf{risk models-at-risk}: quantify the model risk of a VaR forecast and adjust the forecast for estimation and specification errors', r'\refBDKM: \textbf{risk models-at-risk}: cuantificăm riscul de model al unei prognoze VaR și ajustăm prognoza pentru erorile de estimare și de specificare'), []),
     (T(r'\refKR: ES carries more model risk than VaR at comparable levels: it extrapolates further into the tail', r'\refKR: ES are mai mult risc de model decît VaR la niveluri comparabile: extrapolează mai departe în coadă'), []),
     T('Our six models, rolling 1000-day windows: historical simulation, Normal with window volatility, EWMA ($\\lambda$ = 0.94), GARCH-N, GARCH-t, filtered HS', 'Cele șase modele ale noastre, ferestre mobile de 1000 de zile: simulare istorică, distribuția Normală cu volatilitatea ferestrei, EWMA ($\\lambda$ = 0,94), GARCH-N, GARCH-t, FHS')), 'small')
@@ -904,7 +1069,7 @@ interp(('the estimation error', 'erorii de estimare'), [
     T(r'Interval width relative to the forecast: median @{ci.med}\%, from @{ci.min}\% to @{ci.max}\%', r'Lățimea intervalului raportată la prognoză: mediana @{ci.med}\%, între @{ci.min}\% și @{ci.max}\%'),
     T(r'June 2020: ES @{ci.20}\% with interval [@{ci.20lo}; @{ci.20hi}]: two thousand days of data still leave a band of several tenths of a percent', r'Iunie 2020: ES @{ci.20}\% cu intervalul [@{ci.20lo}; @{ci.20hi}]: două mii de zile de date lasă totuși o bandă de cîteva zecimi de procent'),
     T('Estimation risk is small next to model risk (risk ratios near 2): the choice of model matters more than its precision', 'Riscul de estimare este mic față de riscul de model (rapoarte de risc în jur de 2): alegerea modelului contează mai mult decît precizia lui'),
-    T('Capital rules that multiply a point forecast ignore both: reporting the interval is the honest minimum', 'Regulile de capital care multiplică o prognoză punctuală le ignoră pe amîndouă: raportarea intervalului este minimul onest')])
+    T('Capital rules that multiply a point forecast ignore both: reporting the interval is the honest minimum', 'Regulile de capital care multiplică o prognoză punctuală le ignoră pe amîndouă: raportarea intervalului este minimul necesar')])
 
 D.recap(('Model and estimation risk', 'riscul de model și de estimare'), [
     T('Standard models disagree by a factor of about two, more in crises', 'Modelele standard diferă cu un factor de circa doi, mai mult în crize'),
@@ -917,9 +1082,16 @@ D.recap(('Model and estimation risk', 'riscul de model și de estimare'), [
 D.section('Extremes under dependence and conformal calibration', 'Extreme sub dependență și calibrare conformală')
 
 D.frame(T('Extremes of dependent series', 'Extremele seriilor dependente'), items(
-    (T(r'For a stationary series, $\Pr(\max_{t \le n} X_t \le u_n) \approx F(u_n)^{n\theta}$, $\theta \in (0, 1]$ the \textbf{extremal index} \refEKM', r'Pentru o serie staționară, $\Pr(\max_{t \le n} X_t \le u_n) \approx F(u_n)^{n\theta}$, $\theta \in (0, 1]$ fiind \textbf{indicele extremal} \refEKM'),
-     [T(r'$1/\theta$ = mean cluster size of exceedances; $\theta = 1$: no clustering of extremes', r'$1/\theta$ = mărimea medie a unui grup de depășiri; $\theta = 1$: extremele nu se grupează')]),
-    (T(r'Intervals estimator \refFS: from the gaps $T_i$ between exceedances, $\hat\theta = \min\Big(1, \dfrac{2\big(\sum(T_i - 1)\big)^2}{(N - 1)\sum(T_i - 1)(T_i - 2)}\Big)$ (when $\max T_i > 2$)', r'Estimatorul pe intervale \refFS: din distanțele $T_i$ dintre depășiri, $\hat\theta = \min\Big(1, \dfrac{2\big(\sum(T_i - 1)\big)^2}{(N - 1)\sum(T_i - 1)(T_i - 2)}\Big)$ (cînd $\max T_i > 2$)'), []),
+    (T(r'For a stationary series, dependence changes the law of the maximum only through one number, the \textbf{extremal index} $\theta$ \refEKM', r'Pentru o serie staționară, dependența schimbă legea maximului doar printr-un număr, \textbf{indicele extremal} $\theta$ \refEKM'
+       ) + r'''
+    \[ \Pr\Big(\max_{t \le n} X_t \le u_n\Big) \approx F(u_n)^{n\theta}, \qquad \theta \in (0, 1] \]''',
+     [T(r'$X_t$: the daily loss; $F$: its marginal distribution; $u_n$: a high threshold that grows with the sample size $n$',
+        r'$X_t$: pierderea zilnică; $F$: distribuția ei marginală; $u_n$: un prag ridicat care crește cu mărimea eșantionului $n$'),
+      T(r'$1/\theta$ = mean cluster size of exceedances; $\theta = 1$: no clustering of extremes', r'$1/\theta$ = mărimea medie a unui grup de depășiri; $\theta = 1$: extremele nu se grupează')]),
+    (T(r'Intervals estimator \refFS, from the gaps $T_i$ between the $N$ exceedances (when $\max T_i > 2$)', r'Estimatorul pe intervale \refFS, din distanțele $T_i$ dintre cele $N$ depășiri (cînd $\max T_i > 2$)'
+       ) + r'''
+    \[ \hat\theta = \min\Big(1, \frac{2\big(\sum_i(T_i - 1)\big)^2}{(N - 1)\sum_i(T_i - 1)(T_i - 2)}\Big) \]''',
+     []),
     T(r'\refMF: fit GARCH, apply EVT to the standardised residuals; it works if filtering removes the clustering ($\theta$ near 1 after filtering)', r'\refMF: estimăm GARCH, aplicăm EVT reziduurilor standardizate; metoda funcționează dacă filtrarea elimină gruparea ($\theta$ aproape de 1 după filtrare)')), 'small')
 
 chart(T('Extremal index before and after filtering', 'Indicele extremal înainte și după filtrare'), 'ats_ch9_extremal', 'ATS_ch9_extremes', [
@@ -930,13 +1102,18 @@ chart(T('Extremal index before and after filtering', 'Indicele extremal înainte
 interp(('the extremal index', 'indicelui extremal'), [
     T(r'Raw losses: $\hat\theta$ = @{ex.sp500.r} (S\&P 500), @{ex.bet.r} (BET), @{ex.eurron.r} (EUR/RON): extremes come in clusters of two to eight days', r'Pierderi brute: $\hat\theta$ = @{ex.sp500.r} (S\&P 500), @{ex.bet.r} (BET), @{ex.eurron.r} (EUR/RON): extremele vin în grupuri de două pînă la opt zile'),
     T(r'After filtering: @{ex.sp500.f}, @{ex.dax.f}, @{ex.btc.f} for the S\&P 500, DAX and Bitcoin: GARCH removes most of the clustering, as McNeil and Frey assume', r'După filtrare: @{ex.sp500.f}, @{ex.dax.f}, @{ex.btc.f} pentru S\&P 500, DAX și Bitcoin: GARCH elimină cea mai mare parte a grupării, cum presupun McNeil și Frey'),
-    T(r'EUR/RON stays clustered (@{ex.eurron.f}) and BET partly (@{ex.bet.f}): a managed exchange rate and a thin market have dependence that GARCH does not capture', r'EUR/RON rămîne grupat (@{ex.eurron.f}) și BET parțial (@{ex.bet.f}): un curs administrat și o piață mică au o dependență pe care GARCH nu o surprinde'),
+    T(r'EUR/RON stays clustered (@{ex.eurron.f}) and BET partly (@{ex.bet.f}): a managed exchange rate and a thin market have dependence that GARCH does not capture', r'EUR/RON rămîne grupat (@{ex.eurron.f}) și BET parțial (@{ex.bet.f}): un curs în regim de managed float și o piață mică au o dependență pe care GARCH nu o surprinde'),
     T('With fixed in-sample parameters the filter is imperfect after the estimation period: part of the remaining clustering is drift', 'Cu parametri ficși din eșantion, filtrul este imperfect după perioada de estimare: o parte din gruparea rămasă este derivă')])
 
 D.frame(T('Conformal calibration of VaR', 'Calibrarea conformală a VaR'), items(
     (T(r'Split conformal quantiles guarantee coverage under exchangeability (Chapter 13); returns are not exchangeable, so the guarantee fails', r'Cuantilele conformale split garantează acoperirea sub interschimbabilitate (Capitolul 13); randamentele nu sînt interschimbabile, deci garanția nu mai este valabilă'), []),
-    (T(r'\textbf{Adaptive conformal inference} \refGC: forecast at level $\alpha_t$ and update $\alpha_{t+1} = \alpha_t + \gamma(\alpha - \mathrm{err}_t)$, $\mathrm{err}_t = \mathbf 1\{y_t < q_t(\alpha_t)\}$', r'\textbf{Inferența conformală adaptivă} \refGC: prognozăm la nivelul $\alpha_t$ și actualizăm $\alpha_{t+1} = \alpha_t + \gamma(\alpha - \mathrm{err}_t)$, $\mathrm{err}_t = \mathbf 1\{y_t < q_t(\alpha_t)\}$'),
-     [T(r'deterministic guarantee: $\big|T^{-1}\sum_t\mathrm{err}_t - \alpha\big| \le \dfrac{\max(\alpha_1, 1 - \alpha_1) + \gamma}{\gamma T}$ for \textbf{any} sequence of returns', r'garanție deterministă: $\big|T^{-1}\sum_t\mathrm{err}_t - \alpha\big| \le \dfrac{\max(\alpha_1, 1 - \alpha_1) + \gamma}{\gamma T}$ pentru \textbf{orice} șir de randamente'),
+    (T(r'\textbf{Adaptive conformal inference} (ACI) \refGC: forecast at a working level $\alpha_t$ and correct it after each day', r'\textbf{Inferența conformală adaptivă} (ACI) \refGC: se prognozează la un nivel de lucru $\alpha_t$, corectat după fiecare zi'
+       ) + r'''
+    \[ \alpha_{t+1} = \alpha_t + \gamma(\alpha - \mathrm{err}_t), \qquad \mathrm{err}_t = \mathbf 1\{y_t < q_t(\alpha_t)\} \]''',
+     [T(r'$q_t(\alpha_t)$: the model\'s quantile at level $\alpha_t$; $\gamma > 0$: step size; after a hit $\alpha_{t+1}$ falls (VaR rises), after a quiet day it rises slightly',
+        r'$q_t(\alpha_t)$: cuantila modelului la nivelul $\alpha_t$; $\gamma > 0$: mărimea pasului; după o depășire $\alpha_{t+1}$ scade (VaR crește), după o zi liniștită crește ușor'),
+      T(r'deterministic guarantee: $\big|T^{-1}\sum_t\mathrm{err}_t - \alpha\big| \le \dfrac{\max(\alpha_1, 1 - \alpha_1) + \gamma}{\gamma T}$ for \textbf{any} sequence of returns ($\alpha_1$: the starting level)',
+        r'garanție deterministă: $\big|T^{-1}\sum_t\mathrm{err}_t - \alpha\big| \le \dfrac{\max(\alpha_1, 1 - \alpha_1) + \gamma}{\gamma T}$ pentru \textbf{orice} șir de randamente ($\alpha_1$: nivelul inițial)'),
       T('long-run frequency only: no conditional calibration, no statement about ES', 'doar frecvența pe termen lung: nici calibrare condiționată, nici vreo afirmație despre ES')]),
     T(r'Further reading: conformal recalibration of extreme tail quantiles under dependence \refCO', r'Lectură suplimentară: recalibrarea conformală a cuantilelor extreme sub dependență \refCO')), 'small')
 
@@ -949,10 +1126,10 @@ interp(('the conformal correction', 'corecției conformale'), [
     T(r'BET: GARCH-N hits @{cf.bet.b}\% of @{cf.bet.T} days (Kupiec $p$ @{cf.bet.kb}); with ACI @{cf.bet.a}\% ($p$ = @{cf.bet.ka}), conditional coverage $p$ = @{cf.bet.ca}', r'BET: GARCH-N are depășiri în @{cf.bet.b}\% din @{cf.bet.T} de zile (Kupiec $p$ @{cf.bet.kb}); cu ACI @{cf.bet.a}\% ($p$ = @{cf.bet.ka}), acoperire condiționată $p$ = @{cf.bet.ca}'),
     T(r'Bitcoin: @{cf.btc.b}\% to @{cf.btc.a}\%; the rolling hit rate is not smoothed: its maximum rises from @{cf.btc.rb}\% to @{cf.btc.ra}\% after over-correction', r'Bitcoin: de la @{cf.btc.b}\% la @{cf.btc.a}\%; rata mobilă nu se netezește: maximul crește de la @{cf.btc.rb}\% la @{cf.btc.ra}\% după o supracorecție'),
     T(r'ACI fixes the frequency, not the dynamics: the adapted level can go below zero (VaR then infinite) after a run of quiet days', r'ACI corectează frecvența, nu dinamica: nivelul adaptat poate coborî sub zero (VaR devine atunci infinit) după un șir de zile liniștite'),
-    T('A useful wrapper for a regulator\'s count; a calibrated model is still needed for DQ and for ES', 'Un înveliș util pentru numărătoarea supraveghetorului; pentru DQ și pentru ES este în continuare nevoie de un model calibrat')])
+    T('A useful wrapper for a regulator\'s count; a calibrated model is still needed for DQ and for ES', 'O corecție utilă pentru numărătoarea supraveghetorului; pentru DQ și pentru ES este în continuare nevoie de un model calibrat')])
 
 D.recap(('Extremes and conformal calibration', 'extreme și calibrare conformală'), [
-    T('Extremes cluster; filtering removes most clustering for liquid markets, not for managed rates', 'Extremele se grupează; filtrarea elimină cea mai mare parte a grupării pe piețele lichide, nu și pentru cursurile administrate'),
+    T('Extremes cluster; filtering removes most clustering for liquid markets, not for managed rates', 'Extremele se grupează; filtrarea elimină cea mai mare parte a grupării pe piețele lichide, nu și pentru cursurile în regim de managed float'),
     T('ACI guarantees the long-run hit frequency for any data, nothing more', 'ACI garantează frecvența pe termen lung a depășirilor pentru orice date, nimic mai mult'),
     T('Both are corrections of a model, not replacements for one', 'Ambele sînt corecții ale unui model, nu înlocuitori ai lui')])
 
@@ -962,16 +1139,16 @@ D.recap(('Extremes and conformal calibration', 'extreme și calibrare conformal�
 D.section('AI for scientific discovery', 'AI în descoperirea științifică')
 
 D.frame(T('An open question', 'O întrebare deschisă'), items(
-    (T('Do semiparametric (VaR, ES) models beat location--scale models out of sample once estimation is repeated, and is the advantage concentrated in crises?', 'Bat modelele semiparametrice (VaR, ES) modelele de tip poziție--scală în afara eșantionului atunci cînd estimarea se repetă și este avantajul concentrat în crize?'),
+    (T('Do semiparametric (VaR, ES) models beat location--scale models out of sample once estimation is repeated, and is the advantage concentrated in crises?', 'Sînt modelele semiparametrice (VaR, ES) mai bune decît modelele de tip poziție--scală în afara eșantionului atunci cînd estimarea se repetă? Este avantajul concentrat în crize?'),
      [T(r'formal: $H_0$: equal expected FZ0 loss of GAS-1F and GARCH-EDF with rolling re-estimation, on pre-registered assets, periods and levels', r'formal: $H_0$: pierdere FZ0 așteptată egală pentru GAS-1F și GARCH-EDF cu reestimare mobilă, pe active, perioade și niveluri preînregistrate'),
       T('falsified by a significant GW statistic in the pre-registered crisis windows, robust across $\\alpha$ = 1\\%, 2.5\\%, 5\\%', 'infirmată de o statistică GW semnificativă în ferestrele de criză preînregistrate, robustă pentru $\\alpha$ = 1\\%, 2,5\\%, 5\\%')]),
-    (T('Why it matters: Basel requires ES models; the PZC evidence comes from fixed parameters and four indices', 'De ce contează: Basel cere modele ES; evidența PZC provine din parametri ficși și patru indici'),
+    (T('Why it matters: Basel requires ES models; the PZC evidence comes from fixed parameters and four indices', 'Miza: Basel cere modele ES; evidența PZC provine din parametri ficși și patru indici'),
      [T(r'literature to start from: \refPZC, \refTayB, \refNZ, \refDB', r'literatura de pornire: \refPZC, \refTayB, \refNZ, \refDB')])), 'small')
 
 D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un asistent AI'), items(
     (T('An AI assistant (an LLM such as Claude, ChatGPT, Gemini or Copilot) speeds up each step; Semantic Scholar and Elicit help with the literature', 'Un asistent AI (un LLM precum Claude, ChatGPT, Gemini sau Copilot) accelerează fiecare etapă; Semantic Scholar și Elicit ajută la literatură'),
      [T(r'\textbf{literature}: \aiprompt{List peer-reviewed papers since 2017 that compare dynamic ES models out of sample with FZ losses; give DOIs.} Then check every DOI on Crossref', r'\textbf{literatura}: \aiprompt{Listează articole recenzate din 2017 încoace care compară modele dinamice pentru ES în afara eșantionului cu pierderi FZ; dă DOI-urile.} Apoi verificați fiecare DOI pe Crossref'),
-      T(r'\textbf{hypothesis}: \aiprompt{Under which data-generating processes should a one-factor GAS model beat GARCH with empirical innovations for ES 2.5\%?}', r'\textbf{ipoteza}: \aiprompt{În ce procese generatoare ar trebui ca un model GAS cu un factor să bată GARCH cu inovații empirice pentru ES 2,5\%?}'),
+      T(r'\textbf{hypothesis}: \aiprompt{Under which data-generating processes should a one-factor GAS model beat GARCH with empirical innovations for ES 2.5\%?}', r'\textbf{ipoteza}: \aiprompt{În ce procese generatoare ar trebui ca un model GAS cu un factor să fie mai bun decît GARCH cu inovații empirice pentru ES 2,5\%?}'),
       T(r'\textbf{code and replication}: ask for the GAS-1F recursion, then reproduce a published number first (PZC, Table 8: @{pp5.fz1f})', r'\textbf{cod și replicare}: cereți recursia GAS-1F, apoi reproduceți întîi o cifră publicată (PZC, Tabelul 8: @{pp5.fz1f})'),
       T(r'\textbf{critique}: \aiprompt{Act as a hostile referee: list the ways an FZ0 ranking could be an artefact of the sample, the level or the starting values.}', r'\textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră felurile în care o ordonare FZ0 poate fi un artefact al eșantionului, al nivelului sau al valorilor de pornire.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
@@ -992,9 +1169,9 @@ chart(T('Mini-case: is there a best ES model?', 'Mini studiu de caz: există un 
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{ES models for Central and Eastern European markets under rolling re-estimation}: replicate first, then extend', r'\textbf{Modele ES pentru piețele din Europa Centrală și de Est cu reestimare mobilă}: întîi replicare, apoi extindere'),
-     [T(r'replicate: PZC Table 8 and Table S5 for the S\&P 500 (GAS-1F @{pp5.fz1f} and @{pp25.fz1f}) and the EM design with VaR 1\%', r'replicați: Tabelele 8 și S5 din PZC pentru S\&P 500 (GAS-1F @{pp5.fz1f} și @{pp25.fz1f}) și designul EM cu VaR 1\%'),
-      T('extend: BET, WIG20, BUX, PX and EUR/RON; rolling re-estimation; joint (VaR, ES) regressions with VIX and the BNR rate; ACI as a wrapper', 'extindeți: BET, WIG20, BUX, PX și EUR/RON; reestimare mobilă; regresii comune (VaR, ES) cu VIX și dobînda BNR; ACI ca înveliș'),
-      T('pre-register: samples, levels, models, windows, the stress periods and the MCS design', 'preînregistrați: eșantioanele, nivelurile, modelele, ferestrele, perioadele de criză și designul MCS')]),
+     [T(r'replicate: PZC Table 8 and Table S5 for the S\&P 500 (GAS-1F @{pp5.fz1f} and @{pp25.fz1f}) and the EM design with VaR 1\%', r'replicați: Tabelele 8 și S5 din PZC pentru S\&P 500 (GAS-1F @{pp5.fz1f} și @{pp25.fz1f}) și schema EM cu VaR 1\%'),
+      T('extend: BET, WIG20, BUX, PX and EUR/RON; rolling re-estimation; joint (VaR, ES) regressions with VIX and the BNR rate; ACI as a wrapper', 'extindeți: BET, WIG20, BUX, PX și EUR/RON; reestimare mobilă; regresii comune (VaR, ES) cu VIX și dobînda BNR; ACI ca strat de corecție'),
+      T('pre-register: samples, levels, models, windows, the stress periods and the MCS design', 'preînregistrați: eșantioanele, nivelurile, modelele, ferestrele, perioadele de criză și schema MCS')]),
     T(r'Deliverables follow the course rules: repository, report, AI\_USE.md, AI\_ERRORS.md, oral defence', r'Livrabilele urmează regulile cursului: repository, raport, AI\_USE.md, AI\_ERRORS.md, susținere orală')), 'small')
 
 # =============================================================================

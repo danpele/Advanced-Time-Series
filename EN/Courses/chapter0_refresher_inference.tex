@@ -462,15 +462,44 @@ US macro & real GDP; 10-year and 3-month Treasury yields & 1962 -- 2026 & FRED \
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Notation}
+\begin{frame}{Notation (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $\{x_t\}$ a (weakly) stationary series with mean $\mu$ and autocovariances $\gamma_j = \Cov(x_t, x_{t-j})$; $\rho_j = \gamma_j/\gamma_0$
-    \item Sample mean $\bar{x} = T^{-1}\sum_{t=1}^{T} x_t$; sample autocovariance $\hat\gamma_j = T^{-1}\sum_{t=j+1}^{T}(x_t - \bar x)(x_{t-j} - \bar x)$
-    \item Long-run variance $\Omega = \sum_{j=-\infty}^{\infty}\gamma_j = 2\pi f(0)$, with $f$ the spectral density
-    \item Kernel $k(\cdot)$, bandwidth $S$ (Newey--West lags $L = S - 1$ for Bartlett), $b = S/T$
-    \item Size: the probability of rejecting a true $H_0$; nominal level $5\%$ unless stated
-    \item HAC: heteroskedasticity and autocorrelation consistent; HAR: heteroskedasticity and autocorrelation robust (the test built on a HAC estimator)
+    \item $\{x_t\}$, $t = 1, \dots, T$: a weakly stationary series observed over $T$ periods
+    \begin{itemize}
+        \item $\mu = E x_t$: its mean; $\gamma_j = \Cov(x_t, x_{t-j})$: the autocovariance at lag $j$, the same for every $t$
+        \item $\gamma_0 = \Var(x_t)$; $\rho_j = \gamma_j/\gamma_0 \in [-1, 1]$: the autocorrelation at lag $j$
+    \end{itemize}
+    \item Sample counterparts (a hat marks an estimated value)
+    \begin{itemize}
+        \item sample mean $\bar{x} = T^{-1}\sum_{t=1}^{T} x_t$
+        \item sample autocovariance $\hat\gamma_j = T^{-1}\sum_{t=j+1}^{T}(x_t - \bar x)(x_{t-j} - \bar x)$
+        \item $\hat\gamma_j$ averages the products of deviations from the mean that lie $j$ periods apart
+    \end{itemize}
+    \item Long-run variance $\Omega = \sum_{j=-\infty}^{\infty}\gamma_j = 2\pi f(0)$
+    \begin{itemize}
+        \item the sum of all autocovariances ($\gamma_{-j} = \gamma_j$); it governs the precision of $\bar x$ (next section)
+        \item $f(\omega)$: the spectral density at frequency $\omega$; $f(0)$ measures the variance of the slow, long-run movements
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Notation (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Kernel $k(\cdot)$: a weight function with $k(0) = 1$; lag $j$ receives the weight $k(j/S)$
+    \begin{itemize}
+        \item bandwidth $S$: the scale of the weights; lags much longer than $S$ get (almost) zero weight
+        \item Newey--West: $L = S - 1$ lags for the Bartlett kernel; $b = S/T$: the bandwidth as a share of the sample
+    \end{itemize}
+    \item Size of a test: the probability of rejecting a true $H_0$
+    \begin{itemize}
+        \item nominal level $5\%$ unless stated; a test over-rejects when its actual size exceeds the nominal level
+    \end{itemize}
+    \item HAC: heteroskedasticity and autocorrelation consistent (an estimator of $\Omega$)
+    \begin{itemize}
+        \item HAR: heteroskedasticity and autocorrelation robust (the test built on a HAC estimator)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -506,32 +535,57 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \begin{frame}{Stationarity and the Wold representation}
 \itemsize{\small}
 \begin{itemize}
-    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter1_stochastic_processes_stationarity.pdf}{TSA, Chapter 1}. Weak stationarity: constant mean and $\gamma_j$ depending only on $j$; strict: all finite-dimensional distributions shift-invariant
+    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter1_stochastic_processes_stationarity.pdf}{TSA, Chapter 1}. Weak stationarity: constant mean and $\gamma_j$ depending only on $j$
     \begin{itemize}
-        \item Neither implies the other without moment conditions (Cauchy i.i.d.\ is strictly but not weakly stationary)
+        \item strict stationarity: all finite-dimensional distributions are invariant to a shift in time
+        \item neither implies the other without moment conditions: Cauchy i.i.d.\ is strictly but not weakly stationary (no variance)
     \end{itemize}
-    \item Wold: every weakly stationary, purely nondeterministic series is $x_t - \mu = \sum_{j\ge 0}\psi_j\varepsilon_{t-j}$, $\sum\psi_j^2 < \infty$, $\varepsilon_t$ white noise \refHamilton
+    \item Wold theorem \refHamilton: every weakly stationary, purely nondeterministic series is a weighted sum of past innovations
     \begin{itemize}
+        \item $x_t - \mu = \sum_{j\ge 0}\psi_j\varepsilon_{t-j}$, $\quad \psi_0 = 1$, $\quad \sum_j\psi_j^2 < \infty$
+        \item $\varepsilon_t$: white noise with variance $\sigma^2$, the one-step forecast error; $\psi_j$: the effect of a shock after $j$ periods
         \item $\varepsilon_t$ is uncorrelated, not necessarily independent: GARCH innovations are Wold innovations
-        \item This is why ``white noise'' is not enough for i.i.d.-based inference on squares or on extremes
     \end{itemize}
-    \item In this chapter: $\Omega = \sigma^2 \big(\sum_j \psi_j\big)^2$ for the Wold form: the long-run variance is the variance of the permanent component
+    \item Hence white noise is not enough for i.i.d.-based inference on squares or on extremes
+    \begin{itemize}
+        \item In this chapter: $\Omega = \sigma^2 \big(\sum_j \psi_j\big)^2$; $\sum_j\psi_j$ is the cumulative (long-run) effect of a shock, so $\Omega$ is the variance of the permanent component
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{ARMA and unit roots}
+\begin{frame}{ARMA and unit roots (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter2_arma_models.pdf}{TSA, Chapter 2}. ARMA$(p,q)$: $\phi(L)x_t = \theta(L)\varepsilon_t$; stationary if the roots of $\phi(z)$ lie outside the unit circle, invertible if those of $\theta(z)$ do
+    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter2_arma_models.pdf}{TSA, Chapter 2}. ARMA$(p,q)$: $\phi(L)x_t = \theta(L)\varepsilon_t$
     \begin{itemize}
-        \item Long-run variance in closed form: $\Omega = \sigma^2\,\theta(1)^2/\phi(1)^2$; AR(1): $\sigma^2/(1-\phi)^2$
+        \item $L$: the lag operator, $Lx_t = x_{t-1}$; $\phi(L) = 1 - \phi_1L - \dots - \phi_pL^p$; $\theta(L) = 1 + \theta_1L + \dots + \theta_qL^q$
+        \item stationary if the roots of $\phi(z)$ lie outside the unit circle; invertible if those of $\theta(z)$ do
     \end{itemize}
-    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter3_unit_roots_arima_models.pdf}{TSA, Chapter 3}. Unit root $\phi(1) = 0$: $\Omega = \infty$, the mean is not defined and the $t$-statistic has a nonstandard (Dickey--Fuller) limit
+    \item Long-run variance in closed form: $\Omega = \sigma^2\,\theta(1)^2/\phi(1)^2$
     \begin{itemize}
-        \item Regressing one random walk on an independent one gives $|t| > 2$ in 76 of 100 regressions in \refGN; the $t$-statistic diverges at rate $\sqrt{T}$ \refPhillips
-        \item No HAC estimator repairs a spurious regression (Seminar 0, B5)
+        \item $\phi(1) = 1 - \sum_i\phi_i$ and $\theta(1) = 1 + \sum_i\theta_i$: the two polynomials evaluated at $z = 1$
+        \item AR(1): $\Omega = \sigma^2/(1-\phi)^2$; the closer $\phi(1)$ is to 0 (more persistence), the larger $\Omega$
     \end{itemize}
-    \item Near unit roots ($\phi$ close to 1) are the hard case of this chapter: every HAC method over-rejects
+\end{itemize}
+\end{frame}
+
+\begin{frame}{ARMA and unit roots (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter3_unit_roots_arima_models.pdf}{TSA, Chapter 3}. Unit root, $\phi(1) = 0$: $\Omega = \infty$ and the mean is not defined
+    \begin{itemize}
+        \item the $t$-statistic has a nonstandard (Dickey--Fuller) limit
+    \end{itemize}
+    \item Spurious regression: one random walk regressed on an independent one
+    \begin{itemize}
+        \item $|t| > 2$ in 76 of 100 regressions in \refGN
+        \item the $t$-statistic diverges at rate $\sqrt{T}$ \refPhillips
+        \item no HAC estimator repairs a spurious regression (Seminar 0, B5)
+    \end{itemize}
+    \item Near unit roots ($\phi$ close to 1) are the hard case of this chapter
+    \begin{itemize}
+        \item every HAC method over-rejects there (Monte Carlo section)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -540,6 +594,7 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \begin{itemize}
     \item GARCH (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter5_conditional_volatility_garch.pdf}{TSA, Chapter 5}): $r_t = \sigma_t z_t$ is a martingale difference; $r_t^2$ is an ARMA(1,1) with strong, slowly decaying autocorrelation
     \begin{itemize}
+        \item $r_t$: the return; $\sigma_t$: its conditional volatility; $z_t$: i.i.d.\ with mean 0 and variance 1
         \item Means of returns: HAC barely matters; means of squared returns (variances, risk premia): HAC matters a lot
     \end{itemize}
     \item VAR (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter6_var_models_granger_causality.pdf}{TSA, Chapter 6}): Granger causality tests are Wald tests; with heteroskedastic errors they need robust covariances
@@ -627,19 +682,26 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \begin{frame}{The variance of a mean under dependence}
 \itemsize{\small}
 \begin{itemize}
-    \item Exact, for any weakly stationary series:
+    \item Exact, for any weakly stationary series: the variance of the scaled mean adds up the covariances of all pairs of observations
     \begin{itemize}
         \item $\Var(\sqrt{T}\,\bar x) = \dfrac{1}{T}\sum_{t=1}^{T}\sum_{s=1}^{T}\gamma_{t-s} = \sum_{|j| < T}\Big(1 - \dfrac{|j|}{T}\Big)\gamma_j$
+        \item $\gamma_{t-s}$: the covariance of $x_t$ and $x_s$; $T - |j|$ pairs lie at distance $j$, hence the weight $1 - |j|/T$
     \end{itemize}
-    \item If $\sum_j |\gamma_j| < \infty$ (dominated convergence):
+    \item If $\sum_j |\gamma_j| < \infty$, the weights tend to 1 (dominated convergence):
     \begin{itemize}
         \item $\Var(\sqrt{T}\,\bar x) \to \Omega = \gamma_0 + 2\sum_{j\ge 1}\gamma_j = 2\pi f(0)$
     \end{itemize}
     \item The i.i.d.\ formula uses $\gamma_0$ only; the error factor is $\Omega/\gamma_0 = 1 + 2\sum_{j\ge1}\rho_j$
     \begin{itemize}
-        \item Effective sample size $T\gamma_0/\Omega$: AR(1) with $\phi = 0.9$ makes 1000 observations worth about 53
+        \item factor above 1: the naive standard error is too small; below 1: too large
+        \item effective sample size $T\gamma_0/\Omega$: the number of independent observations with the same precision
+        \item AR(1) with $\phi = 0.9$: 1000 observations are worth about 53 independent ones
     \end{itemize}
-    \item Two questions: when does $\bar x \to \mu$ (LLN)? when is $\sqrt{T}(\bar x - \mu)/\sqrt{\Omega}$ asymptotically $N(0,1)$ (CLT)?
+    \item Two questions for the rest of the section
+    \begin{itemize}
+        \item LLN: when does $\bar x \to \mu$?
+        \item CLT: when is $\sqrt{T}(\bar x - \mu)/\sqrt{\Omega}$ asymptotically $N(0,1)$?
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -648,7 +710,7 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \begin{columns}[T]
 \begin{column}{0.66\textwidth}
 \begin{itemize}
-    \item A strictly stationary $\{x_t\}$ is \textbf{ergodic} if every shift-invariant event has probability 0 or 1
+    \item A strictly stationary $\{x_t\}$ is \textbf{ergodic} if every shift-invariant event (unchanged when the whole path is shifted in time) has probability 0 or 1
     \begin{itemize}
         \item Intuition: one long path visits the whole distribution; time averages equal ensemble averages
     \end{itemize}
@@ -656,7 +718,7 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
     \begin{itemize}
         \item Functions of finitely many lags of an ergodic process are ergodic: sample moments, autocovariances, OLS
     \end{itemize}
-    \item Counterexample: $x_t = Z + \varepsilon_t$ with $Z$ drawn once: stationary, not ergodic, $\bar x \to Z$
+    \item Counterexample: $x_t = Z + \varepsilon_t$, with $Z$ a random level drawn once and $\varepsilon_t$ i.i.d.: stationary, not ergodic, $\bar x \to Z$
     \begin{itemize}
         \item A single history of one economy is a single draw of $Z$: why regime and break questions matter (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter2_structural_breaks_nonlinear_models.pdf}{Chapters 2}, \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter7_regime_switching_models.pdf}{7})
     \end{itemize}
@@ -671,23 +733,40 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \end{columns}
 \end{frame}
 
-\begin{frame}{Mixing: dependence that fades}
-\itemsize{\footnotesize}
+\begin{frame}{Mixing: dependence that fades (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item Strong ($\alpha$-) mixing coefficient \refRosenblatt: $\alpha(m) = \sup_t\,\sup\{|P(A\cap B) - P(A)P(B)|: A \in \mathcal{F}_{-\infty}^{t}, B \in \mathcal{F}_{t+m}^{\infty}\}$
+    \item Strong ($\alpha$-) mixing coefficient \refRosenblatt:
     \begin{itemize}
-        \item $\alpha$-mixing: $\alpha(m) \to 0$; $\beta$- and $\phi$-mixing are stronger; mixing implies ergodicity \refBradley
+        \item $\alpha(m) = \sup_t\,\sup\{|P(A\cap B) - P(A)P(B)|: A \in \mathcal{F}_{-\infty}^{t}, B \in \mathcal{F}_{t+m}^{\infty}\}$
+        \item $\mathcal{F}_{-\infty}^{t}$: the events determined by $x_s$, $s \le t$ (the past); $\mathcal{F}_{t+m}^{\infty}$: those determined by $x_s$, $s \ge t + m$ (the future after a gap of $m$ periods)
+        \item $|P(A\cap B) - P(A)P(B)|$ is 0 when $A$ and $B$ are independent: $\alpha(m)$ is the largest dependence between a past and a future event $m$ periods apart
     \end{itemize}
-    \item Which models mix?
+    \item $\alpha$-mixing: $\alpha(m) \to 0$ as $m \to \infty$, i.e.\ the distant past and future become independent
     \begin{itemize}
-        \item Stationary ARMA with continuous innovations: geometrically $\beta$-mixing \refMokkadem
-        \item Strictly stationary GARCH(1,1), stochastic volatility: geometrically $\beta$-mixing \refCC
+        \item $\beta$- and $\phi$-mixing are stronger; mixing implies ergodicity \refBradley
     \end{itemize}
-    \item Which do not?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Mixing: dependence that fades (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Models that are mixing
     \begin{itemize}
-        \item Unit roots, long memory with $d > 0$ (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter8_long_memory_arfima.pdf}{TSA, Chapter 8}), some deterministic chaos: mixing fails or is too slow for the standard CLT
+        \item stationary ARMA with continuous innovations: geometrically $\beta$-mixing \refMokkadem
+        \item strictly stationary GARCH(1,1), stochastic volatility: geometrically $\beta$-mixing \refCC
+        \item geometric: $\beta(m) \le C\lambda^m$ for some constants $C > 0$ and $0 < \lambda < 1$
     \end{itemize}
-    \item Mixing coefficients cannot be estimated from one path: the assumption is checked through the model, not tested
+    \item Models that are not
+    \begin{itemize}
+        \item unit roots, long memory with $d > 0$ (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter8_long_memory_arfima.pdf}{TSA, Chapter 8}), some deterministic chaos
+        \item there mixing fails, or is too slow for the standard CLT
+    \end{itemize}
+    \item Mixing coefficients cannot be estimated from one path
+    \begin{itemize}
+        \item the assumption is checked through the model, not tested
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -696,7 +775,7 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \begin{itemize}
     \item \textbf{$L^2$ law}: weakly stationary with $\gamma_j \to 0$ $\Rightarrow$ $E(\bar x - \mu)^2 \to 0$
     \begin{itemize}
-        \item Proof: $E(\bar x - \mu)^2 = T^{-1}\sum_{|j|<T}(1 - |j|/T)\gamma_j$, and the Cesàro mean of $\gamma_j \to 0$ tends to 0
+        \item Proof: $E(\bar x - \mu)^2 = T^{-1}\sum_{|j|<T}(1 - |j|/T)\gamma_j$, and the Cesàro mean (the average of the first terms) of the sequence $\gamma_j \to 0$ tends to 0
     \end{itemize}
     \item \textbf{Ergodic law} \refBirkhoff: almost sure convergence, only $E|x_t| < \infty$, no second moment
     \begin{itemize}
@@ -712,30 +791,51 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \begin{itemize}
     \item $\{u_t\}$ is a \textbf{martingale difference sequence} (MDS) if $E(u_t \mid \mathcal{F}_{t-1}) = 0$
     \begin{itemize}
+        \item $\mathcal{F}_{t-1}$: the information available at $t-1$; the past does not predict $u_t$ on average
         \item Uncorrelated with every function of the past, but may be conditionally heteroskedastic: GARCH returns, scores of a correct likelihood, one-step forecast errors of an optimal forecast
     \end{itemize}
     \item \textbf{MDS CLT} \refBillingsley: stationary, ergodic MDS with $E u_t^2 = \sigma^2 < \infty$ $\Rightarrow$ $\sqrt{T}\,\bar u \to_d N(0, \sigma^2)$
     \begin{itemize}
-        \item Nonstationary MDS: Lindeberg-type conditions \refBrown
-        \item Here $\Omega = \gamma_0$: no autocorrelation correction is needed, only White (1980) heteroskedasticity-robust errors \refWhiteH
+        \item $\to_d$: convergence in distribution; nonstationary MDS: Lindeberg-type conditions \refBrown
+        \item Here $\Omega = \gamma_0$: no autocorrelation correction is needed, only heteroskedasticity-robust errors \refWhiteH
     \end{itemize}
     \item Overlapping $h$-step forecast errors are not an MDS: they follow an MA$(h-1)$ (Section ``Overlapping observations'')
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Central limit theorems beyond martingale differences}
-\itemsize{\footnotesize}
+\begin{frame}{Central limit theorems beyond martingale differences (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item \textbf{Mixing CLT} \refIbragimov: stationary, $E|x_t|^{2+\delta} < \infty$, $\sum_m \alpha(m)^{\delta/(2+\delta)} < \infty$, $\Omega > 0$ $\Rightarrow$ $\sqrt{T}(\bar x - \mu) \to_d N(0, \Omega)$
+    \item \textbf{Mixing CLT} \refIbragimov: if $x_t$ is stationary and
     \begin{itemize}
-        \item Trade-off: more moments allow slower mixing; the first CLT under strong mixing is \refRosenblatt
+        \item $E|x_t|^{2+\delta} < \infty$, $\quad \sum_m \alpha(m)^{\delta/(2+\delta)} < \infty$, $\quad \Omega > 0$ $\;\Rightarrow\;$ $\sqrt{T}(\bar x - \mu) \to_d N(0, \Omega)$
+        \item $\delta > 0$: the number of moments beyond the second; $\alpha(m)$: the mixing coefficient of the previous section
+        \item trade-off: more moments (larger $\delta$) allow slower mixing; the first CLT under strong mixing is \refRosenblatt
     \end{itemize}
     \item \textbf{Linear processes} \refPS: $x_t - \mu = \sum\psi_j\varepsilon_{t-j}$ with i.i.d.\ or MDS $\varepsilon_t$ and $\sum j|\psi_j| < \infty$
     \begin{itemize}
-        \item Beveridge--Nelson: $\psi(L) = \psi(1) - (1-L)\tilde\psi(L)$, so $\sqrt{T}(\bar x - \mu) = \psi(1)\sqrt{T}\bar\varepsilon + o_p(1)$, hence $\Omega = \sigma^2\psi(1)^2$
+        \item the condition on $\psi_j$ requires the effect of a shock to die out fast enough
     \end{itemize}
-    \item Functional versions (invariance principles) give the Brownian-motion limits behind unit-root and fixed-$b$ theory
-    \item All three need $0 < \Omega < \infty$: unit roots give $\Omega = \infty$, over-differencing gives $\Omega = 0$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Central limit theorems beyond martingale differences (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Beveridge--Nelson decomposition of the lag polynomial $\psi(L) = \sum_j\psi_jL^j$:
+    \begin{itemize}
+        \item $\psi(L) = \psi(1) - (1-L)\tilde\psi(L)$, $\quad$ so $\quad \sqrt{T}(\bar x - \mu) = \psi(1)\sqrt{T}\bar\varepsilon + o_p(1)$
+        \item $\psi(1) = \sum_j\psi_j$: the long-run effect of a shock; $\tilde\psi(L)$: the polynomial of the transitory part; $o_p(1)$: a term that tends to 0 in probability
+        \item the mean of $x_t$ behaves like $\psi(1)$ times the mean of the innovations, hence $\Omega = \sigma^2\psi(1)^2$
+    \end{itemize}
+    \item Functional versions (invariance principles) give the Brownian-motion limits
+    \begin{itemize}
+        \item they underlie the unit-root theory and the fixed-$b$ theory (next section)
+    \end{itemize}
+    \item All three CLTs need $0 < \Omega < \infty$
+    \begin{itemize}
+        \item unit roots give $\Omega = \infty$; over-differencing gives $\Omega = 0$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -746,7 +846,7 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Left: $T\Var(\bar x)/\gamma_0$ for an AR(1), theory $(1+\phi)/(1-\phi)$ and 20\,000 simulations with $T = 200$; right: asymptotic size of the naive 5\% test, $2[1 - \Phi(1.96/\sqrt{(1+\phi)/(1-\phi)})]$
+    \item Left: $T\Var(\bar x)/\gamma_0$ for an AR(1), theory $(1+\phi)/(1-\phi)$ and 20\,000 simulations with $T = 200$; right: asymptotic size of the naive 5\% test, $2[1 - \Phi(1.96/\sqrt{(1+\phi)/(1-\phi)})]$, with $\Phi$ the standard normal distribution function
 \end{itemize}
 \quantlet{ATS\_ch0\_long\_run\_variance}{\qlurl{ATS_ch0_long_run_variance}}
 \end{frame}
@@ -766,19 +866,38 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Regression with dependent errors}
+\begin{frame}{Regression with dependent errors (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $y_t = x_t'\beta + u_t$, $E(x_t u_t) = 0$; under a CLT for $x_t u_t$:
+    \item Model $y_t = x_t'\beta + u_t$ with $E(x_t u_t) = 0$
+    \begin{itemize}
+        \item $x_t$: the vector of regressors; $\beta$: the coefficients; $u_t$: the error, uncorrelated with $x_t$; $'$ denotes transposition
+    \end{itemize}
+    \item Under a CLT for the products $x_t u_t$, the OLS estimator is asymptotically normal:
     \begin{itemize}
         \item $\sqrt{T}(\hat\beta - \beta) \to_d N\big(0,\; Q^{-1}\Omega_{xu} Q^{-1}\big)$, $\quad Q = E(x_t x_t'),\quad \Omega_{xu} = \sum_{j}E(x_t u_t u_{t-j} x_{t-j}')$
+        \item $Q$: the second-moment matrix of the regressors; $\Omega_{xu}$: the long-run variance of $x_t u_t$
+        \item the form $Q^{-1}\Omega_{xu}Q^{-1}$ is called a sandwich: $\Omega_{xu}$ between two copies of $Q^{-1}$
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Regression with dependent errors (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Scalar slope, $x_t$ and $u_t$ independent stationary series: the error factor is
     \begin{itemize}
         \item $\Omega_{xu}/(\gamma_{x,0}\gamma_{u,0}) = 1 + 2\sum_{j\ge 1}\rho_{x}(j)\rho_{u}(j)$
-        \item Both regressor and error must be persistent for a large distortion: a persistent predictor with persistent errors is the worst case
+        \item $\gamma_{x,0}, \gamma_{u,0}$: the variances of $x_t$ and $u_t$; $\rho_x(j), \rho_u(j)$: their autocorrelations at lag $j$
     \end{itemize}
-    \item The sandwich $\hat Q^{-1}\hat\Omega_{xu}\hat Q^{-1}$ with a kernel estimate of $\Omega_{xu}$ is the Newey--West covariance matrix \refNW
+    \item A large distortion needs both a persistent regressor and a persistent error
+    \begin{itemize}
+        \item if either autocorrelation is zero, the factor is 1; a persistent predictor with persistent errors is the worst case
+    \end{itemize}
+    \item The Newey--West covariance matrix \refNW: the sandwich $\hat Q^{-1}\hat\Omega_{xu}\hat Q^{-1}$
+    \begin{itemize}
+        \item $\hat Q$: the sample mean of $x_tx_t'$; $\hat\Omega_{xu}$: a kernel estimate of $\Omega_{xu}$ (next section)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -800,36 +919,53 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \begin{frame}{Estimating the long-run variance}
 \itemsize{\small}
 \begin{itemize}
-    \item Plug in all sample autocovariances: $\sum_{|j|<T}\hat\gamma_j = 0$ identically (demeaned data): useless
+    \item Plugging in all sample autocovariances fails: $\sum_{|j|<T}\hat\gamma_j = 0$ identically for demeaned data
     \begin{itemize}
-        \item High-order $\hat\gamma_j$ use few pairs and are noise
+        \item high-order $\hat\gamma_j$ use few pairs and are mostly noise
     \end{itemize}
-    \item \textbf{Kernel estimator}: $\hat\Omega = \sum_{|j|<T} k(j/S)\,\hat\gamma_j$, with $k(0) = 1$, $k$ decreasing in $|x|$
+    \item \textbf{Kernel estimator}: a weighted sum of sample autocovariances
     \begin{itemize}
-        \item Equivalently a smoothed periodogram at frequency 0: $\hat\Omega = 2\pi\hat f(0)$ \refSS
+        \item $\hat\Omega = \sum_{|j|<T} k(j/S)\,\hat\gamma_j$, $\quad k(0) = 1$, $\quad k(x)$ decreasing in $|x|$
+        \item $k(j/S)$: the weight of lag $j$; $S$: the bandwidth; equivalently a smoothed periodogram at frequency 0, $\hat\Omega = 2\pi\hat f(0)$ \refSS
     \end{itemize}
-    \item Consistency: $S \to \infty$ and $S/T \to 0$ (Andrews 1991, under mixing and moment conditions) \refAndrews
+    \item Consistency: $S \to \infty$ and $S/T \to 0$, under mixing and moment conditions \refAndrews
     \begin{itemize}
-        \item Bias from the down-weighted lags, variance from the included ones: $S$ trades them off
+        \item the down-weighted lags create bias, the included ones create variance: $S$ balances the two
     \end{itemize}
     \item A variance estimator must be nonnegative: not every kernel guarantees this
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Case study: Newey and West (1987)}
-\itemsize{\footnotesize}
+\begin{frame}{Case study: Newey and West (1987) (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item \refNW, Econometrica 55(3): the Bartlett kernel $k(x) = 1 - |x|$ for $|x| \le 1$, with $L$ lags:
+    \item \refNW, Econometrica 55(3): the Bartlett kernel $k(x) = 1 - |x|$ for $|x| \le 1$, with $L$ lags
     \begin{itemize}
-        \item $\hat\Omega_{NW} = \hat\Gamma_0 + \sum_{j=1}^{L}\Big(1 - \dfrac{j}{L+1}\Big)\big(\hat\Gamma_j + \hat\Gamma_j'\big)$, $\quad\hat\Gamma_j = T^{-1}\sum_{t>j}\hat h_t\hat h_{t-j}'$, $\hat h_t = x_t\hat u_t$
+        \item $\hat\Omega_{NW} = \hat\Gamma_0 + \sum_{j=1}^{L}\Big(1 - \dfrac{j}{L+1}\Big)\big(\hat\Gamma_j + \hat\Gamma_j'\big)$, $\quad\hat\Gamma_j = T^{-1}\sum_{t>j}\hat h_t\hat h_{t-j}'$
     \end{itemize}
+    \item Notation
+    \begin{itemize}
+        \item $\hat h_t = x_t\hat u_t$: regressor times OLS residual $\hat u_t$ (the score of observation $t$)
+        \item $\hat\Gamma_j$: the sample autocovariance matrix of $\hat h_t$ at lag $j$; $\hat\Gamma_0$: its variance matrix
+        \item $1 - j/(L+1)$: weights that decrease linearly from 1 to $1/(L+1)$; lags beyond $L$ get weight 0
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Case study: Newey and West (1987) (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item \textbf{Positive semi-definite by construction}: Bartlett weights are the autocovariances of a moving sum
     \begin{itemize}
-        \item $\hat\Omega_{NW}$ equals (up to end effects) $\frac{1}{(L+1)T}\sum_t\big(\sum_{i=0}^{L}\hat h_{t-i}\big)\big(\sum_{i=0}^{L}\hat h_{t-i}\big)'$: a sum of outer products
-        \item Spectral view: the Bartlett (Fejér) window is nonnegative at every frequency
+        \item up to end effects, $\hat\Omega_{NW} = \frac{1}{(L+1)T}\sum_t\big(\sum_{i=0}^{L}\hat h_{t-i}\big)\big(\sum_{i=0}^{L}\hat h_{t-i}\big)'$
+        \item a sum of outer products $vv'$, each positive semi-definite, so the sum is too
+        \item spectral view: the Bartlett (Fejér) window is nonnegative at every frequency
     \end{itemize}
-    \item Consistency with $L \to \infty$, $L = o(T^{1/4})$ in the original paper; Andrews (1991) refines the rates
-    \item One page of algebra, now the default ``robust standard error'' in every econometrics package
+    \item Consistency with $L \to \infty$, $L = o(T^{1/4})$ in the original paper
+    \begin{itemize}
+        \item $L = o(T^{1/4})$: $L$ grows more slowly than $T^{1/4}$; Andrews (1991) refines the rates
+    \end{itemize}
+    \item One page of algebra, now the default robust standard error in every econometrics package
 \end{itemize}
 \end{frame}
 
@@ -856,7 +992,8 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \le 1$); QS: $\frac{25}{12\pi^2x^2}\big[\frac{\sin(6\pi x/5)}{6\pi x/5} - \cos(6\pi x/5)\big]$, all lags
+    \item Weight $k(x)$ against $x = j/S$, the lag relative to the bandwidth; Bartlett: $1 - |x|$ ($|x| \le 1$)
+    \item Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \le 1$); QS (quadratic spectral): $\frac{25}{12\pi^2x^2}\big[\frac{\sin(6\pi x/5)}{6\pi x/5} - \cos(6\pi x/5)\big]$, all lags
 \end{itemize}
 \quantlet{ATS\_ch0\_long\_run\_variance}{\qlurl{ATS_ch0_long_run_variance}}
 \end{frame}
@@ -864,35 +1001,52 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \begin{frame}{Interpreting the kernels}
 \itemsize{\small}
 \begin{itemize}
-    \item Bartlett, Parzen and QS have nonnegative spectral windows: $\hat\Omega \ge 0$ always
+    \item Bartlett, Parzen and QS have nonnegative spectral windows (the Fourier transform of the weights): $\hat\Omega \ge 0$ always
     \begin{itemize}
         \item QS takes small negative weights (minimum $\ensuremath{-}0.086$) yet stays positive semi-definite
     \end{itemize}
-    \item Kernel order $q$: $1 - k(x) \sim c|x|^q$ near 0; Bartlett $q = 1$, Parzen and QS $q = 2$
+    \item Kernel order $q$: $1 - k(x) \sim c|x|^q$ near 0, with $c > 0$ a constant; Bartlett $q = 1$, Parzen and QS $q = 2$
     \begin{itemize}
-        \item Bias $O(S^{-q})$, variance $O(S/T)$: optimal $S \propto T^{1/(2q+1)}$, i.e.\ $T^{1/3}$ (Bartlett) and $T^{1/5}$ (QS)
+        \item bias of order $S^{-q}$, variance of order $S/T$: the optimal $S$ grows like $T^{1/(2q+1)}$
+        \item i.e.\ $T^{1/3}$ for Bartlett and $T^{1/5}$ for QS
     \end{itemize}
     \item \refAndrews: QS minimises the asymptotic MSE among kernels with nonnegative estimates
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Case study: Andrews (1991) and the choice of bandwidth}
-\itemsize{\footnotesize}
+\begin{frame}{Case study: Andrews (1991) and the choice of bandwidth (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item MSE-optimal bandwidth: $S^* = c_k\,(\alpha(q)\,T)^{1/(2q+1)}$, with $\alpha(q)$ depending on the unknown spectrum \refAndrews
+    \item MSE-optimal bandwidth \refAndrews: the $S$ that minimises the mean squared error of $\hat\Omega$
     \begin{itemize}
+        \item $S^* = c_k\,(\alpha(q)\,T)^{1/(2q+1)}$
+        \item $q$: the order of the kernel; $c_k$: a constant of the kernel; $\alpha(q)$: a function of the unknown spectrum, large for persistent series
         \item Bartlett: $S^* = 1.1447(\hat\alpha(1)T)^{1/3}$; Parzen: $2.6614(\hat\alpha(2)T)^{1/5}$; QS: $1.3221(\hat\alpha(2)T)^{1/5}$
     \end{itemize}
-    \item \textbf{AR(1) plug-in}: fit $\hat\rho$ to $\hat h_t$, then
+    \item \textbf{AR(1) plug-in}: fit an AR(1) with coefficient $\hat\rho$ to $\hat h_t$, then
     \begin{itemize}
         \item $\hat\alpha(1) = \dfrac{4\hat\rho^2}{(1-\hat\rho)^2(1+\hat\rho)^2}$, $\qquad \hat\alpha(2) = \dfrac{4\hat\rho^2}{(1-\hat\rho)^4}$
+        \item both grow without bound as $\hat\rho \to 1$: more persistence, wider bandwidth
     \end{itemize}
-    \item Alternatives
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Case study: Andrews (1991) and the choice of bandwidth (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Newey--West rule of thumb: $L = \lfloor 4(T/100)^{2/9}\rfloor$
     \begin{itemize}
-        \item Newey--West rule of thumb $L = \lfloor 4(T/100)^{2/9}\rfloor$ and their nonparametric automatic selection \refNWb
-        \item Prewhitening with a VAR(1), then recolouring \refAM: less bias for persistent series
+        \item $\lfloor\cdot\rfloor$: the integer part; $L$ depends only on $T$, not on the data
+        \item their nonparametric automatic selection \refNWb{} estimates the spectrum instead
     \end{itemize}
-    \item The MSE criterion targets $\hat\Omega$, not the test: it is the reason for size distortions (next sections)
+    \item Prewhitening with a VAR(1), then recolouring \refAM
+    \begin{itemize}
+        \item filter out the AR(1) part, estimate $\Omega$ on the residuals, then undo the filter: less bias for persistent series
+    \end{itemize}
+    \item The MSE criterion targets $\hat\Omega$, not the test
+    \begin{itemize}
+        \item this is the source of the size distortions of the next sections
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -926,14 +1080,16 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \begin{frame}{Fixed-$b$ asymptotics}
 \itemsize{\small}
 \begin{itemize}
-    \item Standard theory: $S/T \to 0$, $\hat\Omega \to_p \Omega$, the $t$-statistic is $N(0,1)$: the sampling error of $\hat\Omega$ is ignored
+    \item Standard theory: $S/T \to 0$, $\hat\Omega \to_p \Omega$, the $t$-statistic is $N(0,1)$
     \begin{itemize}
-        \item In samples of 100--300, $\hat\Omega$ is noisy and downward biased: the normal critical values are too small
+        \item $\to_p$: convergence in probability; the sampling error of $\hat\Omega$ is ignored
+        \item with 100--300 observations, $\hat\Omega$ is noisy and biased downwards: the normal critical values are too small
     \end{itemize}
     \item \textbf{Fixed-$b$} \refKVB, \refKVb, \refKV: keep $b = S/T$ fixed as $T \to \infty$
     \begin{itemize}
-        \item $\hat\Omega/\Omega \to_d Q_k(b)$, a functional of a Brownian bridge $\tilde W(r) = W(r) - rW(1)$; $t \to_d W(1)/\sqrt{Q_k(b)}$
-        \item Nonstandard but pivotal: critical values depend only on the kernel and on $b$
+        \item $\hat\Omega/\Omega \to_d Q_k(b)$, $\qquad t \to_d W(1)/\sqrt{Q_k(b)}$
+        \item $W(r)$: a standard Brownian motion on $r \in [0,1]$ ($r$: the fraction of the sample); $Q_k(b)$: a random functional of the Brownian bridge $\tilde W(r) = W(r) - rW(1)$
+        \item nonstandard but pivotal (free of unknown parameters): critical values depend only on the kernel and on $b$
     \end{itemize}
     \item Higher-order theory: fixed-$b$ critical values remove the leading size distortion of the normal approximation \refSPJ
 \end{itemize}
@@ -964,16 +1120,33 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recommendations for practice: Lazarus, Lewis, Stock and Watson (2018)}
-\itemsize{\footnotesize}
+\begin{frame}{Recommendations for practice: Lazarus, Lewis, Stock and Watson (2018) (1/2)}
+\itemsize{\small}
 \begin{itemize}
     \item \refLLSW{} choose the bandwidth for the \emph{test}: a size--power frontier, not the MSE of $\hat\Omega$
     \begin{itemize}
-        \item Newey--West with $S = 1.3\sqrt{T}$ and fixed-$b$ critical values
-        \item Equal-weighted cosine (EWC): $\hat\Omega = \nu^{-1}\sum_{j=1}^{\nu}\hat\Lambda_j^2$, $\hat\Lambda_j = \sqrt{2/T}\sum_t \cos[\pi j(t - 1/2)/T]\hat h_t$, $\nu = 0.4T^{2/3}$, Student $t_\nu$ critical values
+        \item first recommendation: Newey--West with $S = 1.3\sqrt{T}$ and fixed-$b$ critical values
     \end{itemize}
-    \item Size--power trade-off is unavoidable: \refLLS{} give the frontier for kernel tests
-    \item Very persistent series ($\phi$ near 1): no kernel or EWC rule is reliable; \refMuller{} proposes tests valid under local-to-unity dependence
+    \item Second recommendation: the equal-weighted cosine (EWC) estimator
+    \begin{itemize}
+        \item $\hat\Omega = \nu^{-1}\sum_{j=1}^{\nu}\hat\Lambda_j^2$, $\qquad \hat\Lambda_j = \sqrt{2/T}\sum_t \cos[\pi j(t - 1/2)/T]\,\hat h_t$, $\qquad \nu = 0.4T^{2/3}$
+        \item $\hat\Lambda_j$: the projection of $\hat h_t$ on the $j$-th cosine, a low-frequency component; each $\hat\Lambda_j^2$ estimates $\Omega$
+        \item $\nu$: the number of cosines averaged, also the degrees of freedom: critical values from Student $t_\nu$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Recommendations for practice: Lazarus, Lewis, Stock and Watson (2018) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item The size--power trade-off is unavoidable
+    \begin{itemize}
+        \item \refLLS{} give the frontier for kernel tests
+    \end{itemize}
+    \item Very persistent series ($\phi$ near 1): no kernel or EWC rule is reliable
+    \begin{itemize}
+        \item \refMuller{} proposes tests valid under local-to-unity dependence (a root that tends to 1 as $T$ grows)
+    \end{itemize}
     \item These are the defaults of the course from \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1} on
 \end{itemize}
 \end{frame}
@@ -997,6 +1170,7 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \begin{itemize}
     \item DGP: $x_t = \phi x_{t-1} + \varepsilon_t$, $\varepsilon_t \sim N(0,1)$ i.i.d., 200 burn-in values; $H_0: \mu = 0$ is true
     \begin{itemize}
+        \item $\phi$: the AR(1) coefficient, i.e.\ the persistence; burn-in: initial values dropped so that the series starts from its stationary distribution
         \item $\phi \in \{0, 0.3, 0.5, 0.7, 0.9\}$, $T \in \{100, 400\}$; 5\,000 replications (1\,000 for the bootstrap, 399 resamples each); seed 2026
     \end{itemize}
     \item Seven tests at nominal 5\%
@@ -1004,7 +1178,10 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
         \item naive i.i.d.; NW rule of thumb; NW and QS with the Andrews AR(1) bandwidth (normal critical values)
         \item NW with $S = 1.3\sqrt{T}$ and fixed-$b$ values; EWC with $t_\nu$; circular block bootstrap with the Politis--White block length
     \end{itemize}
-    \item Monte Carlo standard error of a rejection rate $p$: $\sqrt{p(1-p)/R}$, about $0.3$ pp at $p = 5\%$ and $R = 5000$
+    \item Monte Carlo standard error of a rejection rate $p$ estimated from $R$ replications: $\sqrt{p(1-p)/R}$
+    \begin{itemize}
+        \item about $0.3$ percentage points (pp) at $p = 5\%$ and $R = 5000$
+    \end{itemize}
     \item The same design as the Monte Carlo sections of \refAndrews{} and \refKV: AR(1) data, rejection rates under the null
 \end{itemize}
 \end{frame}
@@ -1082,9 +1259,10 @@ circular block bootstrap & 7.4 & 12.0 & 30.8 & 5.6 & 8.6 & 15.6 \\
 \begin{itemize}
     \item Efron's bootstrap \refEfron{} resamples single observations: the dependence is destroyed
     \begin{itemize}
+        \item a star marks a bootstrap quantity: $\bar x^*$ is the mean of one resample, $\Var^*$ the variance over resamples
         \item $\Var^*(\sqrt{T}\bar x^*) = \hat\gamma_0$, not $\Omega$: the i.i.d.\ bootstrap reproduces the naive standard error
     \end{itemize}
-    \item \refSingh: even for $m$-dependent data the i.i.d.\ bootstrap of the mean is inconsistent
+    \item \refSingh: even for $m$-dependent data (independent beyond distance $m$) the i.i.d.\ bootstrap of the mean is inconsistent
     \begin{itemize}
         \item Idea of the block bootstrap: resample blocks long enough to keep the dependence inside them
     \end{itemize}
@@ -1105,16 +1283,19 @@ circular block bootstrap & 7.4 & 12.0 & 30.8 & 5.6 & 8.6 & 15.6 \\
 \begin{columns}[T]
 \begin{column}{0.64\textwidth}
 \begin{itemize}
-    \item \refKunsch: blocks $B_i = (x_i, \dots, x_{i+l-1})$, $i = 1, \dots, T - l + 1$
+    \item \refKunsch: overlapping blocks $B_i = (x_i, \dots, x_{i+l-1})$ of length $l$, $i = 1, \dots, T - l + 1$
     \begin{itemize}
-        \item Draw $k = \lceil T/l\rceil$ blocks with replacement, concatenate, keep the first $T$ values
+        \item draw $k = \lceil T/l\rceil$ blocks with replacement ($\lceil\cdot\rceil$: rounding up), concatenate, keep the first $T$ values
     \end{itemize}
     \item Consistency for smooth functions of means if $l \to \infty$, $l/T \to 0$
     \begin{itemize}
         \item $\Var^*(\sqrt{T}\bar x^*) \approx \sum_{|j|<l}(1 - |j|/l)\hat\gamma_j$: a Bartlett estimate with $S = l$
         \item Optimal $l \propto T^{1/3}$ for variance and bias, as for the Bartlett bandwidth \refLahiri
     \end{itemize}
-    \item Edge effect: end observations enter fewer blocks, so $E^*\bar x^* \ne \bar x$; centre at $E^*\bar x^*$
+    \item Edge effect: end observations enter fewer blocks, so $E^*\bar x^* \ne \bar x$
+    \begin{itemize}
+        \item $E^*$: the expectation over resamples; centre the bootstrap statistics at $E^*\bar x^*$
+    \end{itemize}
 \end{itemize}
 \end{column}
 \begin{column}{0.32\textwidth}
@@ -1133,7 +1314,7 @@ circular block bootstrap & 7.4 & 12.0 & 30.8 & 5.6 & 8.6 & 15.6 \\
     \begin{itemize}
         \item Every observation enters $l$ blocks: $E^*\bar x^* = \bar x$ exactly (Seminar 0, A5--A6)
     \end{itemize}
-    \item \textbf{Stationary bootstrap} \refPR: block lengths $\sim$ geometric with mean $1/p$, starts uniform, wrapped
+    \item \textbf{Stationary bootstrap} \refPR: block lengths geometric with mean $1/p$, uniform starting points, data wrapped on a circle
     \begin{itemize}
         \item Equivalently: each step continues the block with probability $1 - p$ or jumps to a random point with probability $p$
         \item The resampled series is stationary; the method is less sensitive to the choice of $1/p$ than MBB to $l$
@@ -1143,35 +1324,70 @@ circular block bootstrap & 7.4 & 12.0 & 30.8 & 5.6 & 8.6 & 15.6 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Choosing the block length}
-\itemsize{\footnotesize}
+\begin{frame}{Choosing the block length (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item \refPW, corrected by \refPPW: plug-in estimates of the MSE-optimal mean block length
+    \item \refPW, corrected by \refPPW: plug-in estimate of the MSE-optimal mean block length
     \begin{itemize}
         \item $\hat b_{opt} = \Big(\dfrac{2\hat G^2}{\hat D}\Big)^{1/3} T^{1/3}$, $\quad \hat G = \sum_{|k|\le M}\lambda(k/M)\,|k|\,\hat\gamma_k$, $\quad \hat g = \sum_{|k|\le M}\lambda(k/M)\,\hat\gamma_k$
-        \item $\hat D_{SB} = 2\hat g^2$, $\hat D_{CB} = \tfrac{4}{3}\hat g^2$; $\lambda$ the flat-top (trapezoid) kernel; $M = 2\hat m$, $\hat m$ the first lag after which $K_T$ autocorrelations are insignificant
+        \item $\hat D_{SB} = 2\hat g^2$ (stationary), $\hat D_{CB} = \tfrac{4}{3}\hat g^2$ (circular)
     \end{itemize}
-    \item The same structure as the Andrews bandwidth: bias term $G$ over variance term $D$, rate $T^{1/3}$
+    \item Notation
     \begin{itemize}
-        \item Implemented in the Python package \texttt{arch} (\texttt{optimal\_block\_length}); our code reproduces it to the last digit
+        \item $\hat G$: autocovariances weighted by their lag, the bias term; $\hat g$: an estimate of $\Omega$; $\hat D$: the variance term
+        \item $\lambda$: the flat-top (trapezoid) kernel; $M = 2\hat m$: the truncation lag
+        \item $\hat m$: the first lag after which $K_T$ consecutive autocorrelations are insignificant
     \end{itemize}
-    \item Our data: about 145 days for squared S\&P 500 returns, 25 months for inflation, 0.8 for GDP growth (i.e.\ the i.i.d.\ bootstrap)
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The wild bootstrap and its limits}
-\itemsize{\footnotesize}
+\begin{frame}{Choosing the block length (2/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item \textbf{Wild bootstrap} \refWu, \refLiu, \refMammen: $y_t^* = x_t'\hat\beta + \hat u_t\eta_t$, $\eta_t$ i.i.d., $E\eta_t = 0$, $E\eta_t^2 = 1$ (Rademacher or Mammen two-point)
+    \item The same structure as the Andrews bandwidth
     \begin{itemize}
-        \item Keeps the heteroskedasticity of each $\hat u_t$; destroys every autocorrelation
-        \item Valid when the scores are an MDS: AR models with GARCH-type errors \refGK
+        \item bias term $G$ over variance term $D$, rate $T^{1/3}$: persistent series get longer blocks
     \end{itemize}
-    \item \textbf{Not} valid for overlapping forecasts, local projections or the mean of squared returns
+    \item Implemented in the Python package \texttt{arch} (\texttt{optimal\_block\_length})
     \begin{itemize}
-        \item Dependent wild bootstrap \refShao: $\eta_t$ drawn from a stationary process with correlation $a(|t-s|/l)$: wild in form, block-like in effect
+        \item our code gives the same block lengths
     \end{itemize}
-    \item Sieve bootstrap \refBuhlmann: fit an AR$(p)$ with $p \to \infty$, resample its residuals: efficient for linear processes, fragile for nonlinear ones
+    \item Our data
+    \begin{itemize}
+        \item about 145 days for squared S\&P 500 returns, 25 months for inflation
+        \item 0.8 for GDP growth, i.e.\ the i.i.d.\ bootstrap
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The wild bootstrap and its limits (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Wild bootstrap} \refWu, \refLiu, \refMammen: each residual is multiplied by a random sign-like weight
+    \begin{itemize}
+        \item $y_t^* = x_t'\hat\beta + \hat u_t\eta_t$, $\quad \eta_t$ i.i.d., $E\eta_t = 0$, $E\eta_t^2 = 1$
+        \item $y_t^*$: the bootstrap observation; $\eta_t$: Rademacher ($\pm 1$ with probability $1/2$ each) or the Mammen two-point distribution
+    \end{itemize}
+    \item It keeps the heteroskedasticity of each $\hat u_t$ and destroys every autocorrelation
+    \begin{itemize}
+        \item valid when the scores are an MDS: AR models with GARCH-type errors \refGK
+        \item \textbf{not} valid for overlapping forecasts, local projections or the mean of squared returns
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The wild bootstrap and its limits (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Dependent wild bootstrap \refShao: $\eta_t$ drawn from a stationary process
+    \begin{itemize}
+        \item $\Corr(\eta_t, \eta_s) = a(|t-s|/l)$, with $a(\cdot)$ a kernel and $l$ a bandwidth
+        \item wild in form, block-like in effect: neighbouring residuals keep their joint signs
+    \end{itemize}
+    \item Sieve bootstrap \refBuhlmann: fit an AR$(p)$ with $p \to \infty$, resample its residuals
+    \begin{itemize}
+        \item efficient for linear processes, fragile for nonlinear ones
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1276,18 +1492,35 @@ RO inflation & 248 & 4.799 & 0.98 & 0.218 & 1.131 & 0.957 & 22.05 / 5.92 \\
 \section{Overlapping observations: the term spread and growth}
 %=============================================================================
 
-\begin{frame}{Case study: Estrella and Hardouvelis (1991)}
+\begin{frame}{Case study: Estrella and Hardouvelis (1991) (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refEH: does the slope of the yield curve predict US real growth? Regression of cumulative growth over the next $k$ quarters on the spread
+    \item \refEH: does the slope of the yield curve predict US real growth?
     \begin{itemize}
+        \item regression of the average growth over the next $h$ quarters on the term spread
         \item $y_t^{(h)} = \dfrac{400}{h}\ln\dfrac{\mathrm{GDP}_{t+h}}{\mathrm{GDP}_t} = \beta_0 + \beta_1 (i^{10y}_t - i^{3m}_t) + u_t$, $\quad h = 4$
     \end{itemize}
-    \item Overlap: $y_t^{(4)}$ and $y_{t+1}^{(4)}$ share three quarters, so $u_t$ is at least MA(3) under $H_0$
+    \item Notation
     \begin{itemize}
-        \item Classical remedy: \refHH{} (truncated kernel, $h - 1$ lags) or Newey--West with $L = h - 1$
+        \item $y_t^{(h)}$: real GDP growth from quarter $t$ to $t + h$, annualised, in \%; the factor $400/h$ turns a log change over $h$ quarters into \% a year
+        \item $i^{10y}_t$, $i^{3m}_t$: the 10-year and 3-month Treasury yields; their difference is the term spread
+        \item $\beta_1 > 0$: a steeper curve announces faster growth; $u_t$: the forecast error
     \end{itemize}
-    \item Our data: FRED real GDP, 10-year and 3-month Treasury yields (quarterly averages), 1962Q1 -- 2025Q2, $T = 254$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Case study: Estrella and Hardouvelis (1991) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Overlap: $y_t^{(4)}$ and $y_{t+1}^{(4)}$ share three quarters
+    \begin{itemize}
+        \item so $u_t$ is at least MA(3) under $H_0$, even if quarterly shocks are independent
+        \item classical remedy: \refHH{} (truncated kernel, $h - 1$ lags) or Newey--West with $L = h - 1$
+    \end{itemize}
+    \item Our data: FRED real GDP, 10-year and 3-month Treasury yields (quarterly averages)
+    \begin{itemize}
+        \item 1962Q1 -- 2025Q2, $T = 254$
+    \end{itemize}
     \item Same design for local projections (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3}) and for long-horizon return regressions (MFM)
 \end{itemize}
 \end{frame}
@@ -1356,10 +1589,14 @@ NW, $S = 1.3\sqrt{T} = 21$, fixed-$b$ & 0.25 & 2.04 & 2.18 \\
     \end{itemize}
     \item Error rates for $K$ tests
     \begin{itemize}
-        \item FWER: probability of at least one false rejection; Bonferroni ($\alpha/K$) and Holm (step-down) control it
-        \item FDR: expected share of false rejections among rejections, controlled by \refBH
+        \item FWER (family-wise error rate): probability of at least one false rejection among the $K$ tests at level $\alpha$
+        \item Bonferroni tests each hypothesis at $\alpha/K$; Holm (step-down) relaxes the threshold step by step; both control the FWER
+        \item FDR (false discovery rate): expected share of false rejections among rejections, controlled by \refBH
     \end{itemize}
-    \item In forecasting: many models, many horizons, many samples; the honest $p$-value is the one of the \emph{search}, not of the winner
+    \item In forecasting: many models, many horizons, many samples
+    \begin{itemize}
+        \item the honest $p$-value is the one of the \emph{search}, not of the winner
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1390,19 +1627,35 @@ NW, $S = 1.3\sqrt{T} = 21$, fixed-$b$ & 0.25 & 2.04 & 2.18 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Case study: the Reality Check of White (2000)}
-\itemsize{\footnotesize}
+\begin{frame}{Case study: the Reality Check of White (2000) (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item $K$ models against a benchmark; $f_{k,t}$ the performance difference (e.g.\ return of rule $k$ minus buy-and-hold) \refWhite
+    \item $K$ models against a benchmark, evaluated on $n$ periods \refWhite
+    \begin{itemize}
+        \item $f_{k,t}$: the performance difference of model $k$ at $t$ (e.g.\ return of rule $k$ minus buy-and-hold); $\bar f_k$: its mean over the $n$ periods
+    \end{itemize}
+    \item Hypothesis and statistic
     \begin{itemize}
         \item $H_0: \max_k E f_{k,t} \le 0$ (no model beats the benchmark); $\quad \bar V = \max_k \sqrt{n}\,\bar f_k$
+        \item $\bar V$: the scaled average outperformance of the best model; a large $\bar V$ is evidence against $H_0$
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Case study: the Reality Check of White (2000) (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Null distribution by the stationary bootstrap of the whole vector $f_t$ (keeps the correlation across rules and over time):
     \begin{itemize}
         \item $\bar V^*_b = \max_k \sqrt{n}\,(\bar f^*_{k,b} - \bar f_k)$, $\quad p = B^{-1}\sum_b \mathbf{1}\{\bar V^*_b > \bar V\}$
+        \item $b = 1, \dots, B$: the resamples; $\bar f^*_{k,b}$: the mean of rule $k$ in resample $b$; $\mathbf{1}\{\cdot\}$: 1 if the condition holds, 0 otherwise
+        \item $p$: the share of resamples with a larger maximum than the observed one, i.e.\ a $p$-value for the whole search
     \end{itemize}
     \item \refSTW{} apply it to 7846 technical rules on the Dow Jones; \refHansen{} (SPA) and \refRW{} (StepM) refine it: \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}
-    \item Our application: 50 rules ``long if the close is above its $n$-day moving average'', $n = 5, 10, \dots, 250$, on the BET, against buy-and-hold, no costs; mean block 10 days
+    \item Our application: 50 rules ``long if the close is above its $n$-day moving average'', $n = 5, 10, \dots, 250$, on the BET
+    \begin{itemize}
+        \item against buy-and-hold, no costs; mean block of 10 days
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1426,7 +1679,10 @@ NW, $S = 1.3\sqrt{T} = 21$, fixed-$b$ & 0.25 & 2.04 & 2.18 \\
         \item Reality Check $p = 0.06$: not significant at 5\% once the search over 50 rules is accounted for
     \end{itemize}
     \item 2014--2026: the same rule, $t = 0.97$, Reality Check $p = 0.38$: whatever existed did not survive
-    \item The short-MA winner fits the positive $\hat\rho_1$ of BET returns (stale prices), and costs would eat it
+    \item The short-MA winner fits the positive $\hat\rho_1$ of BET returns (stale prices)
+    \begin{itemize}
+        \item transaction costs would eat the gain
+    \end{itemize}
     \item Pre-register the rule universe and the sample split before looking at the results (Stage 1 of the project)
 \end{itemize}
 \end{frame}

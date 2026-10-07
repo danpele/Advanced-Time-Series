@@ -108,14 +108,12 @@ MSCA Digital Finance}
     \item \textbf{BNR}: Banca Națională a României
     \item \textbf{BSS}: Brownian Semistationary (process) — proces brownian semistaționar
     \item \textbf{CPIAUCSL}: Consumer Price Index for All Urban Consumers (FRED series code) — indicele prețurilor de consum pentru toți consumatorii urbani (codul seriei în FRED)
-    \item \textbf{DFA}: Detrended Fluctuation Analysis (analiza fluctuațiilor fără tendință)
-    \item \textbf{DFT}: Discrete Fourier Transform (transformata Fourier discretă)
+    \item \textbf{DM}: Diebold–Mariano (test) — testul Diebold–Mariano de comparare a prognozelor
+    \item \textbf{ELW}: Exact Local Whittle (estimator) — estimatorul local Whittle exact
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{DM}: Diebold–Mariano (test) — testul Diebold–Mariano de comparare a prognozelor
-    \item \textbf{ELW}: Exact Local Whittle (estimator) — estimatorul local Whittle exact
     \item \textbf{EODHD}: EOD Historical Data (market-data provider) — furnizor de date de piață
     \item \textbf{FCVAR}: Fractionally Cointegrated VAR (model VAR cointegrat fracționar)
     \item \textbf{FFT}: Fast Fourier Transform (transformata Fourier rapidă)
@@ -127,6 +125,8 @@ MSCA Digital Finance}
     \item \textbf{GJR}: Gatheral, Jaisson and Rosenbaum (2018) — Gatheral, Jaisson și Rosenbaum (2018)
     \item \textbf{GMM}: Generalized Method of Moments (metoda generalizată a momentelor)
     \item \textbf{GPH}: Geweke–Porter-Hudak (estimator) — estimatorul Geweke–Porter-Hudak al parametrului de memorie lungă
+    \item \textbf{HAC}: Heteroskedasticity and Autocorrelation Consistent (standard errors) — erori standard robuste la heteroscedasticitate și autocorelație
+    \item \textbf{HAR}: Heterogeneous AutoRegressive (model) — model autoregresiv heterogen
 \end{itemize}
 \end{column}
 \end{columns}
@@ -136,8 +136,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{HAC}: Heteroskedasticity and Autocorrelation Consistent (standard errors) — erori standard robuste la heteroscedasticitate și autocorelație
-    \item \textbf{HAR}: Heterogeneous AutoRegressive (model) — model autoregresiv heterogen
     \item \textbf{HYGARCH}: Hyperbolic GARCH (Davidson) — GARCH hiperbolic (Davidson)
     \item \textbf{IAPC}: Indicele armonizat al prețurilor de consum
     \item \textbf{IPC}: Indicele prețurilor de consum
@@ -145,15 +143,16 @@ MSCA Digital Finance}
     \item \textbf{LMSV}: Long-Memory Stochastic Volatility (volatilitate stochastică cu memorie lungă)
     \item \textbf{LR}: Likelihood Ratio (test) — testul raportului de verosimilitate
     \item \textbf{LW}: Local Whittle (estimator) — estimatorul local Whittle
+    \item \textbf{MA}: Moving Average (medie mobilă)
     \item \textbf{MFM}: Modelling Financial Markets (Modelarea piețelor financiare, cursul de master)
     \item \textbf{ML}: Machine Learning (învățare automată)
     \item \textbf{MSE}: Mean Squared Error (eroarea pătratică medie)
     \item \textbf{NBLS}: Narrow-Band Least Squares (cele mai mici pătrate în bandă îngustă de frecvențe)
+    \item \textbf{OHLC}: Open, High, Low, Close (deschidere, maxim, minim, închidere)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{OHLC}: Open, High, Low, Close (deschidere, maxim, minim, închidere)
     \item \textbf{OLS}: Ordinary Least Squares (metoda celor mai mici pătrate)
     \item \textbf{OU}: Ornstein–Uhlenbeck (process) — procesul Ornstein–Uhlenbeck
     \item \textbf{QLIKE}: Quasi-LIKElihood loss (pierderea de tip cvasi-verosimilitate)
@@ -164,8 +163,9 @@ MSCA Digital Finance}
     \item \textbf{SE}: Standard Error (eroare standard)
     \item \textbf{SUA}: Statele Unite ale Americii
     \item \textbf{SV}: Stochastic Volatility (volatilitate stochastică)
-    \item \textbf{TED}: Technology, Entertainment, Design (conference) — conferința Technology, Entertainment, Design
     \item \textbf{TSA}: Time Series Analysis (Serii de timp, cursul de licență)
+    \item \textbf{VAR}: Vector AutoRegression (model vector autoregresiv)
+    \item \textbf{VECM}: Vector Error Correction Model (model vectorial cu corecția erorii)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -175,8 +175,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{VAR}: Vector AutoRegression (model vector autoregresiv)
-    \item \textbf{VECM}: Vector Error Correction Model (model vectorial cu corecția erorii)
     \item \textbf{VIX}: CBOE Volatility IndeX (indicele de volatilitate CBOE)
     \item \textbf{WIG20}: Warszawski Indeks Giełdowy 20 (indicele celor mai mari 20 de companii de la Bursa din Varșovia)
 \end{itemize}
@@ -190,9 +188,9 @@ MSCA Digital Finance}
 \begin{frame}{Întrebarea de azi și traseul}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Întrebarea}: cît de încet se sting șocurile asupra volatilității și inflației, cît de rugoasă este volatilitatea pe orizonturi scurte și cum deosebim memoria lungă reală de rupturi și de erorile de măsurare?
+    \item \textbf{Întrebarea}: cît de încet se sting șocurile asupra volatilității și inflației, cît de neregulată (rough) este volatilitatea pe orizonturi scurte și cum deosebim memoria lungă reală de rupturi și de erorile de măsurare?
     \begin{itemize}
-        \item două scări ale aceluiași obiect: persistența logaritmului volatilității pe luni și rugozitatea lui pe zile
+        \item două scări ale aceluiași obiect: persistența logaritmului volatilității pe luni și neregularitatea lui pe zile
     \end{itemize}
     \item \textbf{Traseul} capitolului
     \begin{itemize}
@@ -212,7 +210,7 @@ MSCA Digital Finance}
     \item Enunțați teoria asimptotică a estimatorilor GPH, local Whittle și local Whittle exact și alegeți lățimea de bandă din compromisul deplasare--varianță
     \item Testați memoria lungă față de memoria scurtă cu salturi de nivel (Qu 2011) și estimați un VAR cointegrat fracționar
     \item Estimați modele FIGARCH și HYGARCH, precum și memoria lungă a volatilității robust la zgomotul de măsurare
-    \item Simulați mișcarea browniană fracționară, replicați evidența rugozității pe varianța realizată și evaluați onest, în afara eșantionului, prognozele de rough volatility
+    \item Simulați mișcarea browniană fracționară, replicați evidența neregularității pe varianța realizată și evaluați riguros, în afara eșantionului, prognozele de rough volatility
 \end{itemize}
 \end{frame}
 
@@ -240,8 +238,8 @@ MSCA Digital Finance}
 \toprule
 \textbf{Seria} & \textbf{Sursa, eșantionul} & \textbf{Utilizarea} \\
 \midrule
-Varianța realizată a șase indici bursieri & \refOMI: RV din randamente de 5 minute, ianuarie 2000 -- februarie 2022 (sfîrșitul bibliotecii) & memorie, rugozitate, prognoze \\
-Varianța realizată a Bitcoin & prețuri Binance la un minut (date publice), măsurile noastre, ianuarie 2018 -- septembrie 2026 & rugozitate, prognoze \\
+Varianța realizată a șase indici bursieri & \refOMI: RV din randamente de 5 minute, ianuarie 2000 -- februarie 2022 (sfîrșitul bibliotecii) & memorie, neregularitate, prognoze \\
+Varianța realizată a Bitcoin & prețuri Binance la un minut (date publice), măsurile noastre, ianuarie 2018 -- septembrie 2026 & neregularitate, prognoze \\
 S\&P 500, DAX, BET, Bitcoin, VIX & EODHD, prețuri zilnice OHLC și de închidere, 2000 -- septembrie 2026 & FIGARCH, $|r|$, amplitudini, FCVAR \\
 EUR/RON & cursul de referință BNR, iulie 2005 -- septembrie 2026 & memoria lui $|r|$ \\
 Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), lunar & persistență și rupturi \\
@@ -249,7 +247,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item Acolo unde nu există date intraday (BET, EUR/RON), volatilitatea este aproximată prin $|r_t|$ și $\log r_t^2$; amplitudinea Parkinson arată cum un proxy mai zgomotos distorsionează rugozitatea
+    \item Acolo unde nu există date intraday (BET, EUR/RON), volatilitatea este aproximată prin $|r_t|$ și $\log r_t^2$; amplitudinea Parkinson arată cum un proxy mai zgomotos distorsionează neregularitatea
 \end{itemize}
 \end{frame}
 
@@ -287,7 +285,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
     \item Nilometrul de pe Roda a înregistrat minimele anuale ale Nilului începînd cu secolul al VII-lea: una dintre cele mai vechi serii de timp
     \item Aceste minime sînt setul clasic de date cu memorie lungă \refBFGK
     \item Azi aceeași întrebare se pune pentru volatilitate, inflație și dobînzi: se stinge un șoc geometric sau hiperbolic?
-    \item Și una mai nouă: pe orizonturi scurte, este volatilitatea mai netedă sau mai rugoasă decît mișcarea browniană?
+    \item Și una mai nouă: pe orizonturi scurte, este volatilitatea mai netedă sau mai neregulată decît mișcarea browniană?
 \end{itemize}
 \end{column}
 \end{columns}
@@ -300,7 +298,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Stînga: S\&P 500 (Oxford-Man, $n = 5\,552$ zile pînă la 25 februarie 2022) și Bitcoin ($n = 3\,165$ zile pînă la 18 septembrie 2026); dreapta: ACF de eșantion a logaritmului RV pentru S\&P 500, decalaje 1--500, scară log-log
+    \item Stînga: S\&P 500 (Oxford-Man, $n = 5\,552$ zile pînă la 25 februarie 2022) și Bitcoin ($n = 3\,165$ zile pînă la 18 septembrie 2026); dreapta: ACF de eșantion a logaritmului RV pentru S\&P 500, laguri 1--500, scară log-log
 \end{itemize}
 \quantlet{ATS\_ch10\_memory}{\qlurl{ATS_ch10_memory}}
 \end{frame}
@@ -308,10 +306,10 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \begin{frame}{Interpretarea imaginii de ansamblu}
 \itemsize{\small}
 \begin{itemize}
-    \item ACF 0{,}82 la decalajul 1, 0{,}53 la 22, încă 0{,}18 la 250: un AR(1) cu același prim decalaj ar da circa $10^{-22}$ la decalajul 250
-    \item Pe decalajele 5--200, ACF este o dreaptă în scara log-log, cu panta \ensuremath{-}0{,}33: o descreștere hiperbolică $k^{2d-1}$ cu $d \approx 0{,}34$
-    \item Estimația local Whittle este mai mare, 0{,}62: sub memorie lungă, ACF de eșantion este deplasată în jos la decalaje mari
-    \item Restul capitolului întreabă în care dintre aceste cifre putem avea încredere și de ce aceeași serie pare și rugoasă
+    \item ACF 0{,}82 la lagul 1, 0{,}53 la 22, încă 0{,}18 la 250: un AR(1) cu același prim lag ar da circa $10^{-22}$ la lagul 250
+    \item Pe lagurile 5--200, ACF este o dreaptă în scara log-log, cu panta \ensuremath{-}0{,}33: o descreștere hiperbolică $k^{2d-1}$ cu $d \approx 0{,}34$
+    \item Estimația local Whittle este mai mare, 0{,}62: sub memorie lungă, ACF de eșantion este deplasată în jos la laguri mari
+    \item Restul capitolului întreabă în care dintre aceste cifre putem avea încredere și de ce aceeași serie pare și neregulată
 \end{itemize}
 \end{frame}
 
@@ -330,39 +328,71 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
         \item legile limită ale estimatorilor semiparametrici, $d$ nestaționar, deplasarea și alegerea lui $m$
         \item un test formal împotriva salturilor de nivel; cointegrarea fracționară; rough volatility
     \end{itemize}
-    \item Replicări: agregarea Granger (1980), designul Qu (2011), scalarea Gatheral, Jaisson și Rosenbaum (2018, secțiunea 2) pe datele Oxford-Man folosite de ei
+    \item Replicări: agregarea Granger (1980), schema Qu (2011), scalarea Gatheral, Jaisson și Rosenbaum (2018, secțiunea 2) pe datele Oxford-Man folosite de ei
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Două definiții ale memoriei lungi}
+\begin{frame}{Două definiții ale memoriei lungi (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Domeniul timpului}: $\gamma(k) \sim c_\gamma\,k^{2d-1}$ cînd $k \to \infty$, $0 < d < 1/2$; atunci $\sum_k|\gamma(k)| = \infty$
+    \item \textbf{Domeniul timpului}: autocovarianțele scad hiperbolic și nu sînt sumabile
+    \[ \gamma(k) \sim c_\gamma\,k^{2d-1} \ \ (k \to \infty), \quad 0 < d < 1/2 \ \Rightarrow\ \sum_k|\gamma(k)| = \infty \]
     \begin{itemize}
-        \item $a_k \sim b_k$ înseamnă $a_k/b_k \to 1$; memorie scurtă: $\sum_k|\gamma(k)| < \infty$
+        \item $\gamma(k)$: autocovarianța la lagul $k$; $d$: parametrul de memorie; $c_\gamma > 0$: o constantă; $a_k \sim b_k$ înseamnă $a_k/b_k \to 1$
+        \item memorie scurtă: $\sum_k|\gamma(k)| < \infty$ (de exemplu ARMA, cu descreștere geometrică)
     \end{itemize}
-    \item \textbf{Domeniul frecvenței}: $f(\lambda) \sim c_f\,\lambda^{-2d}$ cînd $\lambda \to 0^+$: un pol în frecvența zero
+    \item \textbf{Domeniul frecvenței}: densitatea spectrală are un pol în frecvența zero
+    \[ f(\lambda) \sim c_f\,\lambda^{-2d} \quad (\lambda \to 0^+) \]
     \begin{itemize}
+        \item $f(\lambda)$: densitatea spectrală la frecvența $\lambda \in (0, \pi]$; $c_f > 0$: o constantă
         \item $d < 0$: antipersistență, $f(0) = 0$, $\sum_k\gamma(k) = 0$; $d = 0$: memorie scurtă
     \end{itemize}
-    \item Echivalența: pentru $\gamma$ cvasi-monotonă, $c_f = c_\gamma\,\Gamma(2d)\sin(\pi/2 - \pi d)/\pi$ (teoreme abeliene--tauberiene) \refBFGK
-    \begin{itemize}
-        \item fără regularitate, cele două definiții diferă; estimatorii semiparametrici folosesc doar definiția din domeniul frecvenței
-    \end{itemize}
-    \item Scara Hurst: $H = d + 1/2$ pentru seria staționară; $H > 1/2$ persistentă, $H < 1/2$ antipersistentă
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Integrarea fracționară și ARFIMA}
+\begin{frame}{Două definiții ale memoriei lungi (2/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $(1 - L)^d = \sum_{k\ge0}\pi_k L^k$, $\pi_0 = 1$, $\pi_k = \pi_{k-1}\dfrac{k - 1 - d}{k}$, $\pi_k \sim k^{-d-1}/\Gamma(-d)$ \refGJ, \refHos
-    \item ARFIMA$(p,d,q)$: $\phi(L)(1 - L)^d(X_t - \mu) = \theta(L)\varepsilon_t$; staționar și inversabil pentru $-1/2 < d < 1/2$
+    \item Echivalența: pentru $\gamma$ cvasi-monotonă, constantele sînt legate (teoreme abeliene--tauberiene) \refBFGK
+    \[ c_f = c_\gamma\,\Gamma(2d)\,\frac{\sin(\pi/2 - \pi d)}{\pi} \]
     \begin{itemize}
-        \item spectrul $f(\lambda) = \dfrac{\sigma^2}{2\pi}\,\bigl|2\sin(\lambda/2)\bigr|^{-2d}\,\dfrac{|\theta(e^{-i\lambda})|^2}{|\phi(e^{-i\lambda})|^2} = |2\sin(\lambda/2)|^{-2d}f^*(\lambda)$
-        \item $f^*$: partea netedă de memorie scurtă; lîngă zero $f(\lambda) \approx f^*(0)\lambda^{-2d}$
+        \item $\Gamma(\cdot)$: funcția gamma; fără această regularitate, cele două definiții diferă
+        \item estimatorii semiparametrici folosesc doar definiția din domeniul frecvenței
     \end{itemize}
-    \item ARFIMA$(0,d,0)$: $\gamma(0) = \sigma^2\dfrac{\Gamma(1 - 2d)}{\Gamma(1 - d)^2}$, $\rho(k) = \dfrac{\Gamma(k + d)\Gamma(1 - d)}{\Gamma(k - d + 1)\Gamma(d)} \sim \dfrac{\Gamma(1 - d)}{\Gamma(d)}k^{2d-1}$
+    \item Scara Hurst: $H = d + 1/2$ pentru seria staționară
+    \begin{itemize}
+        \item $H > 1/2$: persistentă; $H < 1/2$: antipersistentă; $H = 1/2$: memorie scurtă
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Integrarea fracționară și ARFIMA (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Operatorul de diferențiere fracționară este o serie de puteri în operatorul lag $L$ ($LX_t = X_{t-1}$) \refGJ, \refHos
+    \[ (1 - L)^d = \sum_{k\ge0}\pi_k L^k, \qquad \pi_0 = 1, \quad \pi_k = \pi_{k-1}\frac{k - 1 - d}{k}, \quad \pi_k \sim \frac{k^{-d-1}}{\Gamma(-d)} \]
+    \begin{itemize}
+        \item $\pi_k$: ponderea lui $X_{t-k}$; scade hiperbolic, deci filtrul are memorie infinită; $d = 1$ dă diferența obișnuită $1 - L$
+    \end{itemize}
+    \item ARFIMA$(p,d,q)$: un ARMA pentru seria diferențiată fracționar
+    \[ \phi(L)(1 - L)^d(X_t - \mu) = \theta(L)\varepsilon_t \]
+    \begin{itemize}
+        \item $\phi(L)$, $\theta(L)$: polinoamele AR și MA de ordinele $p$, $q$; $\mu$: media; $\varepsilon_t$: zgomot alb cu varianța $\sigma^2$
+        \item staționar și inversabil pentru $-1/2 < d < 1/2$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Integrarea fracționară și ARFIMA (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Spectrul: un pol în zero înmulțit cu spectrul părții ARMA
+    \[ f(\lambda) = \frac{\sigma^2}{2\pi}\,\big|2\sin(\lambda/2)\big|^{-2d}\,\frac{|\theta(e^{-i\lambda})|^2}{|\phi(e^{-i\lambda})|^2} = |2\sin(\lambda/2)|^{-2d}f^*(\lambda) \]
+    \begin{itemize}
+        \item $f^*$: partea netedă de memorie scurtă (ARMA); lîngă zero $|2\sin(\lambda/2)| \approx \lambda$, deci $f(\lambda) \approx f^*(0)\lambda^{-2d}$
+    \end{itemize}
+    \item ARFIMA$(0,d,0)$: varianța și autocorelațiile în formă închisă
+    \[ \gamma(0) = \sigma^2\frac{\Gamma(1 - 2d)}{\Gamma(1 - d)^2}, \qquad \rho(k) = \frac{\Gamma(k + d)\Gamma(1 - d)}{\Gamma(k - d + 1)\Gamma(d)} \sim \frac{\Gamma(1 - d)}{\Gamma(d)}k^{2d-1} \]
     \begin{itemize}
         \item recursia $\rho(k) = \rho(k - 1)\,(k - 1 + d)/(k - d)$, $\rho(1) = d/(1 - d)$
     \end{itemize}
@@ -394,13 +424,15 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \begin{frame}{Originea memoriei lungi: agregarea}
 \itemsize{\small}
 \begin{itemize}
-    \item \refGra: $X_t = N^{-1/2}\sum_{i=1}^N x_{it}$, $x_{it} = \phi_i x_{i,t-1} + \varepsilon_{it}$, unități independente cu $\phi_i$ aleator
+    \item \refGra: suma scalată a $N$ serii AR(1) independente, cu coeficienți aleatori
+    \[ X_t = \frac{1}{\sqrt N}\sum_{i=1}^N x_{it}, \qquad x_{it} = \phi_i x_{i,t-1} + \varepsilon_{it}, \qquad \phi_i^2 \sim \mathrm{Beta}(p, q) \]
     \begin{itemize}
-        \item $\phi_i^2 \sim \mathrm{Beta}(p, q)$, adică densitatea $\propto \phi^{2p-1}(1 - \phi^2)^{q-1}$ pe $(0, 1)$
+        \item $\phi_i$: persistența unității $i$, extrasă o singură dată; densitatea Beta $\propto \phi^{2p-1}(1 - \phi^2)^{q-1}$ pe $(0, 1)$; $q$ controlează masa din apropierea rădăcinii unitare
     \end{itemize}
-    \item Derivare: $\gamma_X(k) = \E\big[\phi^k/(1 - \phi^2)\big] \propto \int_0^1\phi^{k+2p-1}(1 - \phi^2)^{q-2}d\phi \propto B\big(\tfrac{k}{2} + p, q - 1\big) \sim c\,k^{-(q-1)}$
+    \item Derivare: mediem autocovarianțele AR(1) după distribuția lui $\phi$
+    \[ \gamma_X(k) = \E\Big[\frac{\phi^k}{1 - \phi^2}\Big] \propto \int_0^1\phi^{k+2p-1}(1 - \phi^2)^{q-2}d\phi \propto B\Big(\frac{k}{2} + p, q - 1\Big) \sim c\,k^{-(q-1)} \]
     \begin{itemize}
-        \item identificăm cu $k^{2d-1}$: $d = 1 - q/2$, memorie lungă pentru $1 < q < 2$
+        \item $B(\cdot, \cdot)$: funcția beta; identificînd cu $k^{2d-1}$ obținem $d = 1 - q/2$, memorie lungă pentru $1 < q < 2$
     \end{itemize}
     \item Lectura economică: inflația, volatilitatea sau producția agregată combină mulți agenți cu memorie scurtă și persistență eterogenă; cîteva unități apropiate de rădăcina unitară domină frecvențele joase
     \item Memoria lungă poate fi deci structurală, nu o curiozitate a estimatorului
@@ -432,7 +464,8 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \begin{frame}{Consecințe pentru inferență: media de eșantion}
 \itemsize{\small}
 \begin{itemize}
-    \item $\Var(\bar X_n) = \dfrac1n\sum_{|k|<n}\Big(1 - \dfrac{|k|}{n}\Big)\gamma(k) \sim \dfrac{c_\gamma}{d(2d + 1)}\,n^{2d-1}$
+    \item Varianța mediei de eșantion $\bar X_n$ scade mai lent decît $1/n$
+    \[ \Var(\bar X_n) = \frac1n\sum_{|k|<n}\Big(1 - \frac{|k|}{n}\Big)\gamma(k) \sim \frac{c_\gamma}{d(2d + 1)}\,n^{2d-1} \]
     \begin{itemize}
         \item media converge cu viteza $n^{1/2-d}$, nu $n^{1/2}$; cu $d = 0{,}4$: $n^{0{,}1}$
     \end{itemize}
@@ -440,7 +473,10 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
     \begin{itemize}
         \item la fel pentru testele DM (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}) aplicate diferențelor de pierderi care moștenesc memoria lungă
     \end{itemize}
-    \item Regresie cu regresori și erori cu memorie lungă: pantele OLS converg încet; regresie falsă între serii fracționare independente cînd $d_x + d_u > 1/2$
+    \item Regresie cu regresori și erori cu memorie lungă: pantele OLS converg încet
+    \begin{itemize}
+        \item regresie falsă între serii fracționare independente cînd $d_x + d_u > 1/2$ ($d_x$, $d_u$: memoria regresorului și a erorii)
+    \end{itemize}
     \item Fiecare test din acest curs construit pe asimptotica $\sqrt n$ trebuie reexaminat cînd $d > 0$
 \end{itemize}
 \end{frame}
@@ -462,17 +498,19 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \begin{frame}{Periodograma lîngă frecvența zero}
 \itemsize{\small}
 \begin{itemize}
-    \item $I(\lambda_j) = \dfrac{1}{2\pi n}\Big|\sum_{t=1}^n X_te^{-i\lambda_jt}\Big|^2$ în $\lambda_j = 2\pi j/n$, $j = 1, \dots, m$
+    \item Periodograma: pătratul modulului transformatei Fourier discrete, la frecvențele Fourier
+    \[ I(\lambda_j) = \frac{1}{2\pi n}\Big|\sum_{t=1}^n X_te^{-i\lambda_jt}\Big|^2, \qquad \lambda_j = \frac{2\pi j}{n}, \quad j = 1, \dots, m \]
     \begin{itemize}
-        \item memorie scurtă: $I(\lambda_j)/f(\lambda_j)$ asimptotic i.i.d.\ $\mathrm{Exp}(1)$
+        \item $n$: mărimea eșantionului; $m$: lățimea de bandă, numărul frecvențelor celor mai joase folosite; memorie scurtă: $I(\lambda_j)/f(\lambda_j)$ asimptotic i.i.d.\ $\mathrm{Exp}(1)$
     \end{itemize}
     \item Memorie lungă: pentru $j$ fix, $\E\,I(\lambda_j)/f(\lambda_j) \not\to 1$, iar ordonatele rămîn corelate \refRobB
     \begin{itemize}
         \item distorsiunea dispare cînd $j \to \infty$: demonstrațiile cer $m \to \infty$, $m/n \to 0$ și tratează separat primele frecvențe
     \end{itemize}
-    \item Modelul semiparametric: $f(\lambda) = G\lambda^{-2d}\big(1 + O(\lambda^\beta)\big)$ cînd $\lambda \to 0$, $\beta \in (0, 2]$; nimic nu se presupune departe de zero
+    \item Modelul semiparametric: se specifică doar comportamentul lîngă zero
+    \[ f(\lambda) = G\lambda^{-2d}\big(1 + O(\lambda^\beta)\big), \qquad \lambda \to 0, \quad \beta \in (0, 2] \]
     \begin{itemize}
-        \item $\beta = 2$ pentru ARFIMA: $f^*$ este netedă și pară, deci $f^*(\lambda) = f^*(0)(1 + \tfrac12\tfrac{f^{*\prime\prime}(0)}{f^*(0)}\lambda^2 + \dots)$
+        \item $G > 0$: nivelul spectrului la frecvențe joase; $\beta$: netezimea restului; $\beta = 2$ pentru ARFIMA, deoarece $f^*$ este netedă și pară
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -480,46 +518,61 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \begin{frame}{GPH: regresia pe logaritmul periodogramei}
 \itemsize{\small}
 \begin{itemize}
-    \item $\log I(\lambda_j) = \log G - 2d\log\lambda_j + \log\xi_j$, $\xi_j = I(\lambda_j)/f(\lambda_j)$ \refGPH
+    \item Logaritmînd $I = f\xi$ obținem o regresie liniară în $\log\lambda_j$, cu panta $-2d$ \refGPH
+    \[ \log I(\lambda_j) = \log G - 2d\log\lambda_j + \log\xi_j, \qquad \xi_j = \frac{I(\lambda_j)}{f(\lambda_j)} \]
     \begin{itemize}
-        \item OLS pe $j = 1, \dots, m$; cu $\xi_j \sim \mathrm{Exp}(1)$: $\E\log\xi_j = -\gamma_E$ (Euler), $\Var\log\xi_j = \pi^2/6$
+        \item OLS pe $j = 1, \dots, m$; cu $\xi_j \sim \mathrm{Exp}(1)$: $\E\log\xi_j = -\gamma_E$ ($\gamma_E \approx 0{,}577$, constanta lui Euler), $\Var\log\xi_j = \pi^2/6$
     \end{itemize}
-    \item \refRobB: pentru $|d| < 1/2$ și $X$ gaussian, $\sqrt m(\hat d_{GPH} - d) \to N(0, \pi^2/24)$ dacă $m \to \infty$ și $m^5/n^4 \to 0$
+    \item \refRobB: pentru $|d| < 1/2$ și $X$ gaussian, dacă $m \to \infty$ și $m^5/n^4 \to 0$
+    \[ \sqrt m(\hat d_{GPH} - d) \to N(0, \pi^2/24) \]
     \begin{itemize}
-        \item de unde vine $\pi^2/24$: $\Var(\hat d) = \dfrac{\pi^2/6}{4\sum_j\nu_j^2}$, $\nu_j = \log j - \overline{\log j}$, iar $\sum_j\nu_j^2 \sim m$
+        \item originea lui $\pi^2/24$: $\Var(\hat d) = \dfrac{\pi^2/6}{4\sum_j\nu_j^2}$, cu $\nu_j = \log j - \overline{\log j}$ regresorul centrat și $\sum_j\nu_j^2 \sim m$
     \end{itemize}
-    \item MSE și deplasare pentru ARFIMA \refHDB: $\E\hat d - d \approx -\dfrac{2\pi^2}{9}\dfrac{f^{*\prime\prime}(0)}{f^*(0)}\dfrac{m^2}{n^2}$
+    \item Deplasarea pentru ARFIMA \refHDB: $\E\hat d - d \approx -\dfrac{2\pi^2}{9}\dfrac{f^{*\prime\prime}(0)}{f^*(0)}\dfrac{m^2}{n^2}$
     \begin{itemize}
         \item condiția $m^5/n^4 \to 0$ face deplasarea neglijabilă față de abaterea standard $m^{-1/2}$
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Local Whittle: derivare}
+\begin{frame}{Local Whittle (1/2): funcția obiectiv}
 \itemsize{\small}
 \begin{itemize}
-    \item Aproximarea Whittle a log-verosimilității gaussiene restrînsă la $j \le m$, cu $f(\lambda_j) = G\lambda_j^{-2d}$:
+    \item Aproximarea Whittle a log-verosimilității gaussiene, restrînsă la $j \le m$, cu $f(\lambda_j) = G\lambda_j^{-2d}$
+    \[ Q(G, d) = \frac1m\sum_{j=1}^m\Big[\log\big(G\lambda_j^{-2d}\big) + \frac{I(\lambda_j)}{G\lambda_j^{-2d}}\Big] \]
     \begin{itemize}
-        \item $Q(G, d) = \dfrac1m\sum_{j=1}^m\Big[\log\big(G\lambda_j^{-2d}\big) + \dfrac{I(\lambda_j)}{G\lambda_j^{-2d}}\Big]$
+        \item aceeași formă ca QLIKE (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol8_volatilitate_avansata.pdf}{Capitolul 8}): spectrul modelului $G\lambda_j^{-2d}$ este ajustat la periodogramă, ordonată cu ordonată
     \end{itemize}
-    \item Concentrăm $G$: $\hat G(d) = \dfrac1m\sum_j\lambda_j^{2d}I(\lambda_j)$, deci \refRobC
+    \item Eliminăm $G$ prin concentrare \refRobC: pentru $d$ dat, nivelul optim este media lui $\lambda_j^{2d}I(\lambda_j)$
+    \[ \hat G(d) = \frac1m\sum_j\lambda_j^{2d}I(\lambda_j), \qquad \hat d_{LW} = \arg\min_d R(d) \]
+    \[ R(d) = \log\hat G(d) - \frac{2d}{m}\sum_{j=1}^m\log\lambda_j \]
     \begin{itemize}
-        \item $\hat d_{LW} = \arg\min_d R(d)$, $R(d) = \log\hat G(d) - \dfrac{2d}{m}\sum_{j=1}^m\log\lambda_j$
+        \item o minimizare unidimensională în $d$
     \end{itemize}
-    \item Scorul în valoarea adevărată: $R'(d) = \dfrac{2}{m}\sum_j\nu_j\Big(\dfrac{\lambda_j^{2d}I(\lambda_j)}{\hat G(d)} - 1\Big)$, o sumă ponderată de $\xi_j - 1$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Local Whittle (2/2): varianța}
+\itemsize{\small}
+\begin{itemize}
+    \item Scorul în valoarea adevărată: o sumă ponderată de $\xi_j - 1$
+    \[ R'(d) = \frac{2}{m}\sum_j\nu_j\Big(\frac{\lambda_j^{2d}I(\lambda_j)}{\hat G(d)} - 1\Big) \]
     \begin{itemize}
-        \item $\Var(\xi_j) = 1$ și $R''(d) \to 4$: $\sqrt m(\hat d - d) \to N(0, 4/16) = N(0, 1/4)$
+        \item $\nu_j = \log\lambda_j - \overline{\log\lambda}$: logaritmul centrat al frecvenței; cu $\Var(\xi_j) = 1$ și $R''(d) \to 4$: $\sqrt m(\hat d - d) \to N(0, 4/16) = N(0, 1/4)$
     \end{itemize}
-    \item Nicio ipoteză de distribuție în afara unui proces liniar cu inovații diferențe de martingal; eficiența relativă față de GPH: $(\pi^2/24)/(1/4) = \pi^2/6 \approx 1{,}64$
+    \item Nicio ipoteză de distribuție în afara unui proces liniar cu inovații diferențe de martingal
+    \begin{itemize}
+        \item eficiența relativă față de GPH: $(\pi^2/24)/(1/4) = \pi^2/6 \approx 1{,}64$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Local Whittle: teorema și limitele ei}
 \itemsize{\small}
 \begin{itemize}
-    \item \refRobC: pentru $d \in (-1/2, 1/2)$, $f(\lambda) = G\lambda^{-2d}(1 + O(\lambda^\beta))$, $1/m + m^{1+2\beta}(\log m)^2/n^{2\beta} \to 0$:
+    \item \refRobC: pentru $d \in (-1/2, 1/2)$, $f(\lambda) = G\lambda^{-2d}(1 + O(\lambda^\beta))$ și o lățime de bandă cu $1/m + m^{1+2\beta}(\log m)^2/n^{2\beta} \to 0$
     \begin{itemize}
-        \item $\hat d \to_p d$ și $\sqrt m(\hat d - d) \to N(0, 1/4)$
+        \item $\hat d \to_p d$ și $\sqrt m(\hat d - d) \to N(0, 1/4)$; condiția pentru $m$: crește, dar suficient de lent pentru ca deplasarea să dispară
     \end{itemize}
     \item $d$ nestaționar: consistent pentru $d < 1$, asimptotic normal pentru $d < 3/4$ \refVel
     \begin{itemize}
@@ -532,15 +585,13 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \begin{frame}{Local Whittle exact}
 \itemsize{\small}
 \begin{itemize}
-    \item \refSP: înlocuim $\lambda_j^{2d}I_X(\lambda_j)$ prin periodograma datelor diferențiate fracționar $\Delta^dX_t = \sum_{k=0}^{t-1}\pi_kX_{t-k}$
+    \item \refSP: înlocuim $\lambda_j^{2d}I_X(\lambda_j)$ prin periodograma datelor diferențiate fracționar
+    \[ \Delta^dX_t = \sum_{k=0}^{t-1}\pi_kX_{t-k}, \qquad R_E(d) = \log\Big(\frac1m\sum_jI_{\Delta^dX}(\lambda_j)\Big) - \frac{2d}{m}\sum_j\log\lambda_j \]
     \begin{itemize}
-        \item $R_E(d) = \log\Big(\dfrac1m\sum_jI_{\Delta^dX}(\lambda_j)\Big) - \dfrac{2d}{m}\sum_j\log\lambda_j$
+        \item $\Delta^d = (1 - L)^d$, trunchiat la începutul eșantionului; $I_{\Delta^dX}$: periodograma seriei diferențiate
+        \item $\lambda^{2d}I_X(\lambda)$ aproximează $I_{\Delta^dX}(\lambda)$ doar pentru $d < 1/2$; versiunea exactă elimină eroarea care strică LW pentru $d$ mare: $\sqrt m(\hat d_{ELW} - d) \to N(0, 1/4)$ pe orice interval de căutare de lățime $< 9/2$
     \end{itemize}
-    \item Explicația: $\lambda^{2d}I_X(\lambda)$ aproximează $I_{\Delta^dX}(\lambda)$ doar pentru $d < 1/2$; versiunea exactă elimină eroarea de aproximare care strică LW pentru $d$ mare
-    \begin{itemize}
-        \item $\sqrt m(\hat d_{ELW} - d) \to N(0, 1/4)$ pentru orice $d$ dintr-un interval de căutare de lățime $< 9/2$
-    \end{itemize}
-    \item Media necunoscută \refShi: $X_t - \hat\mu(d)$ cu $\hat\mu(d) = w(d)\bar X + (1 - w(d))X_1$
+    \item Media necunoscută \refShi: se scade $\hat\mu(d) = w(d)\bar X + (1 - w(d))X_1$
     \begin{itemize}
         \item $w(d) = 1$ pentru $d \le 1/2$, $0$ pentru $d \ge 3/4$, netedă între ele: media de eșantion estimează prost nivelul cînd $d > 1/2$
     \end{itemize}
@@ -573,12 +624,14 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \begin{frame}{Lățimea de bandă: deplasare și varianță}
 \itemsize{\small}
 \begin{itemize}
-    \item Deplasarea principală (GPH și LW): regresăm $\log f^*(\lambda_j) \approx \log f^*(0) + b\lambda_j^2$, $b = \tfrac12f^{*\prime\prime}(0)/f^*(0)$, pe $-2\nu_j$:
+    \item Deplasarea principală (GPH și LW): curbura lui $\log f^*$ lîngă zero trece în pantă
+    \[ \E\hat d - d \approx -\frac{2\pi^2}{9}\,\frac{f^{*\prime\prime}(0)}{f^*(0)}\Big(\frac mn\Big)^2 = C\Big(\frac mn\Big)^2 \]
     \begin{itemize}
-        \item $\E\hat d - d \approx -\dfrac12\,b\Big(\dfrac{2\pi m}{n}\Big)^2\dfrac{\int_0^1(1 + \log x)x^2dx}{\int_0^1(1 + \log x)^2dx} = -\dfrac{2\pi^2}{9}\dfrac{f^{*\prime\prime}(0)}{f^*(0)}\Big(\dfrac mn\Big)^2$
-        \item integralele sînt $2/9$ și $1$; ARFIMA$(1,d,0)$: $f^{*\prime\prime}(0)/f^*(0) = -2\phi/(1 - \phi)^2$, deplasare în sus pentru $\phi > 0$
+        \item din regresia lui $\log f^*(\lambda_j) \approx \log f^*(0) + b\lambda_j^2$, $b = \tfrac12f^{*\prime\prime}(0)/f^*(0)$, pe $-2\nu_j$; $C$: constanta deplasării
+        \item ARFIMA$(1,d,0)$: $f^{*\prime\prime}(0)/f^*(0) = -2\phi/(1 - \phi)^2$, deplasare în sus pentru $\phi > 0$
     \end{itemize}
-    \item MSE $\approx C^2(m/n)^4 + 1/(4m)$ cu constanta deplasării $C$; minimizăm: $m^* = \big(n^4/(16C^2)\big)^{1/5} \propto n^{4/5}$ \refHR
+    \item MSE: pătratul deplasării plus varianța; minimizarea în $m$ dă lățimea de bandă optimă \refHR
+    \[ \mathrm{MSE}(m) \approx C^2\Big(\frac mn\Big)^4 + \frac{1}{4m}, \qquad m^* = \Big(\frac{n^4}{16C^2}\Big)^{1/5} \propto n^{4/5} \]
     \begin{itemize}
         \item $C$ este necunoscută: regulile plug-in o estimează; local Whittle polinomial \refAnSu\ elimină termenul în $\lambda^2$ cu un cost în varianță
     \end{itemize}
@@ -611,9 +664,10 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \begin{frame}{Alternativa parametrică: Whittle și ML exact}
 \itemsize{\small}
 \begin{itemize}
-    \item Whittle: $\hat\vartheta = \arg\min\sum_{j=1}^{\lfloor (n-1)/2\rfloor}\Big[\log f(\lambda_j; \vartheta) + \dfrac{I(\lambda_j)}{f(\lambda_j; \vartheta)}\Big]$ pe toate frecvențele \refFT
+    \item Whittle: se ajustează o densitate spectrală complet specificată pe toate frecvențele \refFT
+    \[ \hat\vartheta = \arg\min_\vartheta\sum_{j=1}^{\lfloor (n-1)/2\rfloor}\Big[\log f(\lambda_j; \vartheta) + \frac{I(\lambda_j)}{f(\lambda_j; \vartheta)}\Big] \]
     \begin{itemize}
-        \item consistent cu viteza $\sqrt n$ și eficient pentru un ARFIMA$(p,d,q)$ corect specificat; $\Var(\hat d) \approx 6/(\pi^2n)$ pentru $(0,d,0)$
+        \item $\vartheta$: toți parametrii ARFIMA$(p,d,q)$ ($d$, coeficienții AR și MA, $\sigma^2$); consistent cu viteza $\sqrt n$ și eficient dacă modelul este corect; $\Var(\hat d) \approx 6/(\pi^2n)$ pentru $(0,d,0)$
     \end{itemize}
     \item Compromisul este între robustețe și eficiență: un $(p, q)$ greșit deplasează $\hat d$ pentru orice $n$
     \begin{itemize}
@@ -644,9 +698,10 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
     \begin{itemize}
         \item rupturile rare sînt invizibile la frecvențe înalte și arată ca un pol la frecvențe joase \refGH
     \end{itemize}
-    \item Salturi aleatoare de nivel \refLP: $X_t = \mu_t + u_t$, $\mu_t = \mu_{t-1} + \delta_t\eta_t$, $\delta_t \sim$ Bernoulli($p$)
+    \item Salturi aleatoare de nivel \refLP: o serie cu memorie scurtă $u_t$ în jurul unui nivel care sare rar
+    \[ X_t = \mu_t + u_t, \qquad \mu_t = \mu_{t-1} + \delta_t\eta_t, \qquad \delta_t \sim \mathrm{Bernoulli}(p) \]
     \begin{itemize}
-        \item spectrul $\approx \dfrac{p\sigma_\eta^2}{2\pi\lambda^2}$ peste frecvența $\approx p$, plus $f_u$ plat: o pantă $-2$ care trece într-un platou
+        \item $\delta_t$: 1 în zilele (rare) cu salt; $\eta_t$: mărimea saltului, cu varianța $\sigma^2_\eta$; spectrul $\approx p\sigma_\eta^2/(2\pi\lambda^2)$ peste frecvența $\approx p$, plus $f_u$ plat: o pantă $-2$ care trece într-un platou
     \end{itemize}
     \item Semnătura \refPQ: sub salturi de nivel, $\hat d(m)$ scade abrupt cînd $m$ crește; sub memorie lungă reală este plat
     \begin{itemize}
@@ -660,15 +715,16 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \itemsize{\small}
 \begin{itemize}
     \item Sub $H_0$ (memorie lungă staționară) scorul LW are media zero în orice bandă de frecvențe; sub salturi de nivel, frecvențele joase sînt supraponderate \refQu
-    \item $W = \sup_{r\in[\varepsilon, 1]}\Big(\sum_{j=1}^m\nu_j^2\Big)^{-1/2}\Big|\sum_{j=1}^{\lfloor mr\rfloor}\nu_j\Big(\dfrac{I(\lambda_j)}{\hat G\lambda_j^{-2\hat d}} - 1\Big)\Big|$
+    \[ W = \sup_{r\in[\varepsilon, 1]}\Big(\sum_{j=1}^m\nu_j^2\Big)^{-1/2}\Big|\sum_{j=1}^{\lfloor mr\rfloor}\nu_j\Big(\frac{I(\lambda_j)}{\hat G\lambda_j^{-2\hat d}} - 1\Big)\Big| \]
     \begin{itemize}
-        \item $\hat d, \hat G$: local Whittle pe aceleași $m$ frecvențe; $\nu_j = \log\lambda_j - \overline{\log\lambda}$; suma parțială în $r = 1$ este zero prin condiția de ordinul întîi
+        \item $\hat d, \hat G$: local Whittle pe aceleași $m$ frecvențe; $\nu_j = \log\lambda_j - \overline{\log\lambda}$; $r$: fracțiunea din cele $m$ frecvențe inclusă; $\varepsilon$: trimming-ul benzii celei mai joase
+        \item suma parțială în $r = 1$ este zero prin condiția de ordinul întîi; $W$: cea mai mare sumă parțială standardizată
     \end{itemize}
     \item Limita: supremul unui proces gaussian care nu depinde de $d$ și $G$; Qu recomandă $m = n^{0{,}7}$, $\varepsilon = 0{,}02$ (pentru $n$ mare) sau $0{,}05$
     \begin{itemize}
         \item valorile critice simulate de noi: $\varepsilon = 0{,}02$: 1{,}09; 1{,}22; 1{,}56; $\varepsilon = 0{,}05$: 1{,}00; 1{,}14; 1{,}45 (10\%, 5\%, 1\%)
+        \item respingem pentru $W$ mare: evidență împotriva memoriei lungi staționare, de obicei rupturi, salturi de nivel sau trenduri
     \end{itemize}
-    \item Respingem pentru $W$ mare: evidență împotriva memoriei lungi staționare, de obicei rupturi, salturi de nivel sau trenduri
 \end{itemize}
 \end{frame}
 
@@ -730,27 +786,44 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \section{Cointegrarea fracționară}
 %=============================================================================
 
-\begin{frame}{Cointegrarea fracționară și FCVAR}
+\begin{frame}{Cointegrarea fracționară și FCVAR (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $X_t \in \mathbb R^p$ este I($d$); este \textbf{cointegrat fracționar} dacă $\beta'X_t$ este I($d - b$), $b > 0$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol4_cointegrare_vecm_ardl_panel.pdf}{Capitolul 4} este cazul $d = b = 1$)
-    \item FCVAR \refJN: $\Delta^dX_t = \alpha\beta'L_b\Delta^{d-b}X_t + \sum_{i=1}^k\Gamma_i\Delta^dL_b^iX_t + \varepsilon_t$, $L_b = 1 - \Delta^b$
+    \item $X_t \in \mathbb R^p$ este I($d$); este \textbf{cointegrat fracționar} dacă $\beta'X_t$ este I($d - b$), $b > 0$
     \begin{itemize}
-        \item $L_b$ este un decalaj fracționar ($L_1 = L$): cu $d = b = 1$ obținem VECM; $\alpha$: ajustarea, $\beta$: vectorii de cointegrare, rangul $r$
+        \item $d$: memoria seriilor; $b$: reducerea memoriei obținută prin combinația $\beta'X_t$; \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol4_cointegrare_vecm_ardl_panel.pdf}{Capitolul 4} este cazul $d = b = 1$
     \end{itemize}
-    \item Estimare: pentru $(d, b)$ fixat, modelul este o regresie de rang redus a lui $Z_0 = \Delta^dX$ pe $Z_1 = L_b\Delta^{d-b}X$; profilăm verosimilitatea în $(d, b)$
+    \item FCVAR \refJN: VECM în care diferența $\Delta$ este înlocuită cu diferențe fracționare
+    \[ \Delta^dX_t = \alpha\beta'L_b\Delta^{d-b}X_t + \sum_{i=1}^k\Gamma_i\Delta^dL_b^iX_t + \varepsilon_t, \qquad L_b = 1 - \Delta^b \]
     \begin{itemize}
-        \item $\ell_r(d, b) = -\tfrac T2\big[\log\det S_{00} + \sum_{i\le r}\log(1 - \hat\lambda_i)\big]$, $\hat\lambda_i$ valorile proprii Johansen
+        \item $\Delta^d = (1 - L)^d$; $L_b$: operatorul lag fracționar ($L_1 = L$), deci $d = b = 1$ dă VECM
+        \item $\alpha$ ($p \times r$): ajustarea; $\beta$ ($p \times r$): vectorii de cointegrare, rangul $r$; $\Gamma_i$: matricele de termen scurt, $k$ laguri; $\varepsilon_t$: erori i.i.d.
     \end{itemize}
-    \item Testele de rang: pentru $b < 1/2$, statistica trace LR este asimptotic $\chi^2_{(p-r)^2}$; pentru $b > 1/2$ se folosesc distribuțiile Dickey--Fuller fracționare din \refMN
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cointegrarea fracționară și FCVAR (2/2): estimare și rang}
+\itemsize{\small}
+\begin{itemize}
+    \item Pentru $(d, b)$ fixat: o regresie de rang redus a lui $Z_0 = \Delta^dX$ pe $Z_1 = L_b\Delta^{d-b}X$; apoi profilăm verosimilitatea în $(d, b)$
+    \[ \ell_r(d, b) = -\frac T2\Big[\log\det S_{00} + \sum_{i\le r}\log(1 - \hat\lambda_i)\Big] \]
+    \begin{itemize}
+        \item $S_{00}$: covarianța reziduală a lui $Z_0$ (după termenii de termen scurt); $\hat\lambda_i$: valorile proprii Johansen, în ordine descrescătoare; $T$: mărimea eșantionului
+    \end{itemize}
+    \item Testele de rang: statistica trace LR pentru rangul $r$ față de $p$
+    \begin{itemize}
+        \item pentru $b < 1/2$ este asimptotic $\chi^2_{(p-r)^2}$; pentru $b > 1/2$ se folosesc distribuțiile Dickey--Fuller fracționare din \refMN
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Memorie comună semiparametrică}
 \itemsize{\small}
 \begin{itemize}
-    \item Cele mai mici pătrate în bandă îngustă \refRobA, \refCN: $\hat\beta = \mathrm{Re}\sum_{j=1}^mI_{xy}(\lambda_j)\big/\sum_{j=1}^mI_{xx}(\lambda_j)$
+    \item Cele mai mici pătrate în bandă îngustă (NBLS) \refRobA, \refCN: regresăm $y$ pe $x$ folosind doar cele mai joase $m$ frecvențe
+    \[ \hat\beta = \frac{\mathrm{Re}\sum_{j=1}^mI_{xy}(\lambda_j)}{\sum_{j=1}^mI_{xx}(\lambda_j)} \]
     \begin{itemize}
+        \item $I_{xy}$: periodograma încrucișată a lui $x$ și $y$; $I_{xx}$: periodograma lui $x$; $\mathrm{Re}$: partea reală
         \item doar frecvențele joase, acolo unde se află componenta comună cu memorie lungă: robust la corelația de termen scurt dintre $x$ și eroare, care deplasează OLS
     \end{itemize}
     \item Rangul prin ELW \refNS: estimăm $d$ pentru fiecare serie, testăm egalitatea lui $d$, apoi numărăm valorile proprii mici ale matricei spectrale de frecvență joasă
@@ -797,19 +870,32 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \section{Memoria lungă a volatilității}
 %=============================================================================
 
-\begin{frame}{FIGARCH}
+\begin{frame}{FIGARCH (1/2): ponderi ARCH hiperbolice}
 \itemsize{\small}
 \begin{itemize}
-    \item GARCH(1,1) ca ARCH($\infty$): $\sigma_t^2 = \omega/(1 - \beta) + \sum_k\alpha\beta^{k-1}\varepsilon_{t-k}^2$: ponderi geometrice
-    \item FIGARCH(1,$d$,1) \refBBM: $\sigma_t^2 = \dfrac{\omega}{1 - \beta} + \Big[1 - \dfrac{(1 - \phi L)(1 - L)^d}{1 - \beta L}\Big]\varepsilon_t^2 = \dfrac{\omega}{1 - \beta} + \sum_{k\ge1}\lambda_k\varepsilon_{t-k}^2$
+    \item GARCH(1,1) ca ARCH($\infty$): ponderile pătratelor șocurilor trecute scad geometric
+    \[ \sigma_t^2 = \frac{\omega}{1 - \beta} + \sum_{k\ge1}\alpha\beta^{k-1}\varepsilon_{t-k}^2 \]
+    \item FIGARCH(1,$d$,1) \refBBM: o diferență fracționară le face să scadă hiperbolic
+    \[ \sigma_t^2 = \frac{\omega}{1 - \beta} + \Big[1 - \frac{(1 - \phi L)(1 - L)^d}{1 - \beta L}\Big]\varepsilon_t^2 = \frac{\omega}{1 - \beta} + \sum_{k\ge1}\lambda_k\varepsilon_{t-k}^2 \]
     \begin{itemize}
-        \item $\lambda_k \sim c\,k^{-d-1}$: ponderi hiperbolice; pozitivitatea cere de exemplu $\beta - d \le \phi \le (2 - d)/3$
+        \item $d \in (0, 1)$: memoria volatilității; $\phi$, $\beta$: termenii ARCH și GARCH de termen scurt; $\lambda_k \sim c\,k^{-d-1}$: ponderile ARCH($\infty$)
+        \item pozitivitatea tuturor $\lambda_k$ cere restricții, de exemplu $\beta - d \le \phi \le (2 - d)/3$
     \end{itemize}
-    \item Paradoxul: $\sum_k\lambda_k = 1$, deci $\E\varepsilon_t^2 = \infty$: FIGARCH nu este staționar în covarianță pentru niciun $d > 0$, deși este strict staționar
+\end{itemize}
+\end{frame}
+
+\begin{frame}{FIGARCH (2/2): paradoxul varianței și HYGARCH}
+\itemsize{\small}
+\begin{itemize}
+    \item Paradoxul: $\sum_k\lambda_k = 1$, deci $\E\varepsilon_t^2 = \infty$
     \begin{itemize}
+        \item FIGARCH nu este staționar în covarianță pentru niciun $d > 0$, deși este strict staționar
         \item memoria lungă a lui $\varepsilon_t^2$ nu este deci definită printr-o autocovarianță
     \end{itemize}
-    \item HYGARCH \refDav: $(1 - L)^d$ înlocuit cu $1 + a\big((1 - L)^d - 1\big)$; $a < 1$ dă o varianță finită și memorie hiperbolică, $a = 1$ este FIGARCH
+    \item HYGARCH \refDav: $(1 - L)^d$ este înlocuit cu $1 + a\big((1 - L)^d - 1\big)$
+    \begin{itemize}
+        \item $a \ge 0$: amplitudinea părții hiperbolice; $a < 1$ dă o varianță finită și memorie hiperbolică, $a = 1$ este FIGARCH, $a = 0$ este GARCH
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -820,7 +906,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Randamentele zilnice ale S\&P 500, 2000--2026 ($n = 6\,714$), QML cu distribuția Student $t$, ARCH($\infty$) trunchiat la 1000 de decalaje; GARCH $(\alpha, \beta) = (0{,}119; 0{,}876)$, FIGARCH $d = 0{,}61$, $\phi = 0{,}04$, $\beta = 0{,}59$
+    \item Randamentele zilnice ale S\&P 500, 2000--2026 ($n = 6\,714$), QML cu distribuția Student $t$, ARCH($\infty$) trunchiat la 1000 de laguri; GARCH $(\alpha, \beta) = (0{,}119; 0{,}876)$, FIGARCH $d = 0{,}61$, $\phi = 0{,}04$, $\beta = 0{,}59$
 \end{itemize}
 \quantlet{ATS\_ch10\_figarch}{\qlurl{ATS_ch10_figarch}}
 \end{frame}
@@ -831,7 +917,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \scriptsize
 \begin{tabular}{lcccccc}
 \toprule
-\textbf{Piața} & $\hat d$ & LR & $\hat a$ & BIC GARCH & BIC FIGARCH & ponderea după decalajul 22 \\
+\textbf{Piața} & $\hat d$ & LR & $\hat a$ & BIC GARCH & BIC FIGARCH & ponderea după lagul 22 \\
 \midrule
 S\&P 500 & 0{,}61 & 40{,}8 & 0{,}99 & 18197 & 18165 & 15\% / 5\% \\
 BET & 0{,}46 & 79{,}0 & 1{,}00 & 19514 & 19444 & 17\% / 1\% \\
@@ -850,16 +936,19 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \begin{frame}{Volatilitate stochastică cu memorie lungă și zgomot}
 \itemsize{\small}
 \begin{itemize}
-    \item LMSV \refBCL: $r_t = \sigma_t\eta_t$, $\log\sigma_t^2 = \mu + h_t$, $h_t$ ARFIMA$(p,d,q)$; atunci $\log r_t^2 = \mu + \E\log\eta^2 + h_t + \xi_t$
+    \item LMSV \refBCL: logaritmul varianței este un proces cu memorie lungă; ridicarea la pătrat și logaritmarea fac modelul liniar
+    \[ r_t = \sigma_t\eta_t, \quad \log\sigma_t^2 = \mu + h_t \ \Rightarrow\ \log r_t^2 = \mu + \E\log\eta^2 + h_t + \xi_t \]
     \begin{itemize}
-        \item $\xi_t = \log\eta_t^2 - \E\log\eta^2$: zgomot i.i.d.\ cu varianța $\pi^2/2$ pentru $\eta$ gaussian, adesea mai mare decît $\Var(h_t)$
+        \item $h_t$: ARFIMA$(p,d,q)$; $\eta_t$: șoc i.i.d.; $\xi_t = \log\eta_t^2 - \E\log\eta^2$: zgomot i.i.d.\ cu varianța $\pi^2/2$ pentru $\eta$ gaussian, adesea mai mare decît $\Var(h_t)$
     \end{itemize}
-    \item Spectrul lui $\log r_t^2$: $f(\lambda) = G\lambda^{-2d} + \sigma_\xi^2/(2\pi)$: zgomotul plat aplatizează panta de frecvență joasă și deplasează $\hat d$ în jos
+    \item Spectrul lui $\log r_t^2$: un pol plus un nivel plat al zgomotului
+    \[ f(\lambda) = G\lambda^{-2d} + \frac{\sigma_\xi^2}{2\pi} \]
     \begin{itemize}
-        \item LW cu zgomot \refHMS: $f(\lambda) = G(\lambda^{-2d} + \theta)$, $\theta \ge 0$ estimat simultan; consistent, cu o viteză mai mică
+        \item zgomotul plat aplatizează panta de frecvență joasă și deplasează $\hat d$ în jos
+        \item LW cu zgomot \refHMS: $f(\lambda) = G(\lambda^{-2d} + \theta)$, cu raportul zgomot/semnal $\theta \ge 0$ estimat simultan; consistent, cu o viteză mai mică
     \end{itemize}
     \item Varianța realizată reduce zgomotul prin medierea randamentelor intraday \refABDL: $\log RV_t = \log IV_t + $ o eroare mică
-    \item Memoria lungă a volatilității în timp continuu: \refCR; alternativa rugoasă urmează în secțiunea 6
+    \item Memoria lungă a volatilității în timp continuu: \refCR; alternativa rough volatility urmează în secțiunea 6
 \end{itemize}
 \end{frame}
 
@@ -888,15 +977,16 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \begin{frame}{HAR ca aproximare a memoriei lungi}
 \itemsize{\small}
 \begin{itemize}
-    \item HAR \refCor: $y_{t+1} = \beta_0 + \beta_dy_t + \beta_w\bar y_t^{(5)} + \beta_m\bar y_t^{(22)} + u_{t+1}$, $y = \log RV$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol8_volatilitate_avansata.pdf}{Capitolul 8})
+    \item HAR \refCor\ pentru $y = \log RV$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol8_volatilitate_avansata.pdf}{Capitolul 8})
+    \[ y_{t+1} = \beta_0 + \beta_dy_t + \beta_w\bar y_t^{(5)} + \beta_m\bar y_t^{(22)} + u_{t+1} \]
     \begin{itemize}
-        \item un AR(22) cu trei parametri liberi: o aproximare în trepte a ponderilor AR cu descreștere hiperbolică
+        \item $\bar y_t^{(5)}$, $\bar y_t^{(22)}$: mediile lui $y$ pe ultimele 5 și 22 de zile; un AR(22) cu trei pante libere: o aproximare în trepte a ponderilor AR cu descreștere hiperbolică
     \end{itemize}
     \item Formal, memorie scurtă: ACF scade geometric, dar pe orizonturi de pînă la cîteva luni imită $k^{2d-1}$
     \begin{itemize}
         \item interpretarea în cascadă: participanți cu orizonturi zilnice, săptămînale și lunare (ipoteza pieței eterogene)
     \end{itemize}
-    \item Estimat prin OLS, ușor de extins (salturi, semivarianțe, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol8_volatilitate_avansata.pdf}{Capitolul 8}): reperul pe care orice model cu memorie lungă sau rugos trebuie să îl bată
+    \item Estimat prin OLS, ușor de extins (salturi, semivarianțe, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol8_volatilitate_avansata.pdf}{Capitolul 8}): reperul pe care orice model cu memorie lungă sau de tip rough volatility trebuie să îl depășească
 \end{itemize}
 \end{frame}
 
@@ -916,9 +1006,9 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \itemsize{\small}
 \begin{itemize}
     \item Suma ponderilor HAR 0{,}946: aproape de o rădăcină unitară, așa își obține persistența un model de memorie scurtă
-    \item ACF la decalajul 100: eșantion 0{,}31, HAR 0{,}179; la 250: 0{,}18 față de 0{,}017
-    \item ACF implicată scade sub jumătatea ACF de eșantion după decalajul 112: HAR captează memoria pînă la circa o jumătate de an
-    \item Pentru prognoze de pînă la o lună aceasta ajunge, de aceea HAR este greu de bătut (secțiunea 7)
+    \item ACF la lagul 100: eșantion 0{,}31, HAR 0{,}179; la 250: 0{,}18 față de 0{,}017
+    \item ACF implicată scade sub jumătatea ACF de eșantion după lagul 112: HAR captează memoria pînă la circa o jumătate de an
+    \item Pentru prognoze de pînă la o lună aceasta ajunge, de aceea HAR este greu de depășit (secțiunea 7)
 \end{itemize}
 \end{frame}
 
@@ -936,7 +1026,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \section{Rough volatility}
 %=============================================================================
 
-\begin{frame}{Mișcarea browniană fracționară}
+\begin{frame}{Mișcarea browniană fracționară (1/2)}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.32\textwidth}
@@ -950,18 +1040,31 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \end{column}
 \begin{column}{0.66\textwidth}
 \begin{itemize}
-    \item $W^H_t$ gaussian, $W^H_0 = 0$, $\E W^H_t = 0$, $\E W^H_tW^H_s = \tfrac12\big(t^{2H} + s^{2H} - |t - s|^{2H}\big)$, $H \in (0, 1)$ \refMVN
+    \item fBm $W^H_t$ \refMVN: un proces gaussian centrat, cu $W^H_0 = 0$ și covarianța
+    \[ \E W^H_tW^H_s = \frac12\big(t^{2H} + s^{2H} - |t - s|^{2H}\big), \qquad H \in (0, 1) \]
     \begin{itemize}
-        \item creșteri staționare cu $\E|W^H_{t+\Delta} - W^H_t|^2 = \Delta^{2H}$; autosimilar: $W^H_{ct} \overset{d}{=} c^HW^H_t$
-    \end{itemize}
-    \item Traiectoriile sînt continue Hölder de orice ordin $< H$: $H < 1/2$ mai rugoase, $H > 1/2$ mai netede decît mișcarea browniană
-    \item Creșterile (fGn): $\rho(k) = \tfrac12\big(|k + 1|^{2H} - 2|k|^{2H} + |k - 1|^{2H}\big) \sim H(2H - 1)k^{2H-2}$
-    \begin{itemize}
-        \item memorie lungă pentru $H > 1/2$ ($d = H - 1/2$); corelație negativă pentru $H < 1/2$
+        \item $H$: exponentul Hurst; $H = 1/2$ dă mișcarea browniană standard
+        \item creșteri staționare, cu $\E|W^H_{t+\Delta} - W^H_t|^2 = \Delta^{2H}$
+        \item autosimilar: $W^H_{ct} \overset{d}{=} c^HW^H_t$ (egalitate în distribuție) pentru $c > 0$
     \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
+\end{frame}
+
+\begin{frame}{Mișcarea browniană fracționară (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Traiectoriile sînt continue Hölder de orice ordin $< H$
+    \begin{itemize}
+        \item ordinul Hölder: cît de repede poate scădea $|W^H_{t+\Delta} - W^H_t|$ cu $\Delta$; $H < 1/2$: traiectorii mai neregulate, $H > 1/2$: mai netede decît mișcarea browniană
+    \end{itemize}
+    \item Creșterile, zgomotul gaussian fracționar (fGn), au autocorelațiile
+    \[ \rho(k) = \frac12\big(|k + 1|^{2H} - 2|k|^{2H} + |k - 1|^{2H}\big) \sim H(2H - 1)k^{2H-2} \]
+    \begin{itemize}
+        \item memorie lungă pentru $H > 1/2$ ($d = H - 1/2$); corelație negativă pentru $H < 1/2$
+    \end{itemize}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Traiectorii browniene fracționare}
@@ -982,7 +1085,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
     \item Corelația de ordinul unu a creșterilor: \ensuremath{-}0{,}426 pentru $H = 0{,}1$, \ensuremath{-}0{,}242 pentru $H = 0{,}3$, 0 pentru $H = 0{,}5$, 0{,}320 pentru $H = 0{,}7$
     \item $H = 0{,}1$: fiecare creștere este probabil urmată de o scădere, deci traiectoria este zimțată la toate scările, dar se abate puțin
     \item $H = 0{,}7$: trendurile persistă; aceasta este lectura fBm a efectului Hurst
-    \item Rugozitatea este o afirmație despre scările mici, persistența despre cele mari: păstrați-le separate
+    \item Neregularitatea este o afirmație despre scările mici, persistența despre cele mari: păstrați-le separate
 \end{itemize}
 \end{frame}
 
@@ -990,10 +1093,13 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \itemsize{\small}
 \begin{itemize}
     \item Cholesky: $\Gamma = LL'$, $X = LZ$; exact, dar cu timp $O(n^3)$ și memorie $O(n^2)$
-    \item Davies--Harte \refDH, \refDN: scufundăm matricea Toeplitz $\Gamma$ a fGn într-o matrice circulantă de ordin $2(n - 1)$ cu primul rînd $(\gamma_0, \dots, \gamma_{n-1}, \gamma_{n-2}, \dots, \gamma_1)$
     \begin{itemize}
-        \item o matrice circulantă este diagonalizată de DFT: valorile proprii $\Lambda = \mathrm{FFT}(c)$
-        \item dacă $\Lambda \ge 0$: $Y = \mathrm{FFT}\big(\sqrt{\Lambda/M}\,(Z_1 + iZ_2)\big)$; $\mathrm{Re}\,Y$ și $\mathrm{Im}\,Y$ sînt două traiectorii exacte independente
+        \item $\Gamma$: matricea de covarianță $n \times n$ a traiectoriei; $L$: factorul ei Cholesky inferior triunghiular; $Z$: un vector de variabile i.i.d. $N(0, 1)$
+    \end{itemize}
+    \item Davies--Harte \refDH, \refDN: scufundăm matricea Toeplitz $\Gamma$ a fGn într-o matrice circulantă de ordin $M = 2(n - 1)$, cu primul rînd $c = (\gamma_0, \dots, \gamma_{n-1}, \gamma_{n-2}, \dots, \gamma_1)$
+    \begin{itemize}
+        \item $\gamma_k$: autocovarianțele fGn; o matrice circulantă este diagonalizată de transformata Fourier discretă: valorile proprii $\Lambda = \mathrm{FFT}(c)$
+        \item dacă $\Lambda \ge 0$: $Y = \mathrm{FFT}\big(\sqrt{\Lambda/M}\,(Z_1 + iZ_2)\big)$, cu $Z_1, Z_2$ vectori gaussieni standard independenți; $\mathrm{Re}\,Y$ și $\mathrm{Im}\,Y$ sînt două traiectorii exacte independente
     \end{itemize}
     \item $O(n\log n)$; pentru fGn $\Lambda \ge 0$ pentru orice $H$ (Seminarul 10, A7); fBm = fGn cumulat
     \item Același algoritm simulează exact ARFIMA$(0,d,0)$ (folosit în fiecare experiment Monte Carlo din acest capitol)
@@ -1001,15 +1107,18 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \end{frame}
 
 \begin{frame}{Schema hibridă pentru procesele Volterra}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{itemize}
-    \item Modelele de rough volatility folosesc procese Volterra $X_t = \int_0^tg(t - s)\,dW_s$, de exemplu Riemann--Liouville $g(x) = x^{H-1/2}$, nu fBm cu creșteri staționare \refBFG
+    \item Modelele de rough volatility folosesc procese Volterra, nu fBm cu creșteri staționare \refBFG
+    \[ X_t = \int_0^tg(t - s)\,dW_s, \qquad g(x) = x^{H-1/2} \ \ \text{(Riemann--Liouville)} \]
     \begin{itemize}
-        \item scufundarea circulantă nu se aplică (proces nestaționar, posibil negaussian cînd este cuplat cu un preț corelat)
+        \item $g$: nucleul, singular în 0 cînd $H < 1/2$; $W$: mișcarea browniană; scufundarea circulantă nu se aplică (proces nestaționar, posibil negaussian cînd este cuplat cu un preț corelat)
     \end{itemize}
-    \item Schema hibridă \refBLPa: lîngă singularitate integrăm nucleul exact (funcție putere înmulțită cu creșteri Wiener, gaussiene împreună); mai departe folosim o sumă Riemann în puncte optime
+    \item Schema hibridă \refBLPa: integrăm nucleul exact pe ultimul pas și folosim o sumă Riemann în puncte optime mai departe
+    \[ X_i \approx \int_{t_{i-1}}^{t_i}(t_i - s)^{H-1/2}dW_s + \sum_{k\ge2}\Big(\frac{b_k}{n}\Big)^{H-1/2}\Delta W_{i-k+1} \]
+    \[ b_k = \Big(\frac{k^{H+1/2} - (k - 1)^{H+1/2}}{H + 1/2}\Big)^{1/(H-1/2)} \]
     \begin{itemize}
-        \item $X_i \approx \int_{t_{i-1}}^{t_i}(t_i - s)^{H-1/2}dW_s + \sum_{k\ge2}(b_k/n)^{H-1/2}\Delta W_{i-k+1}$, $b_k = \Big(\dfrac{k^{H+1/2} - (k - 1)^{H+1/2}}{H + 1/2}\Big)^{1/(H-1/2)}$
+        \item $n$: numărul de pași pe unitatea de timp; $\Delta W_i$: creșterile browniene; $b_k$: punctul optim de evaluare din celula $k$; primul termen și $\Delta W_i$ sînt gaussiene împreună și se simulează exact
     \end{itemize}
     \item Suma este o convoluție: $O(n\log n)$ prin FFT; schema se extinde la procesele browniene semistaționare
 \end{itemize}
@@ -1036,19 +1145,31 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Evidența: scalarea logaritmului volatilității}
+\begin{frame}{Evidența: scalarea logaritmului volatilității (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refGJR, secțiunea 2: $\sigma_t = \sqrt{RV_t}$ zilnic din biblioteca Oxford-Man; $m(q, \Delta) = \dfrac1N\sum_t|\log\sigma_{t+\Delta} - \log\sigma_t|^q$
+    \item \refGJR, secțiunea 2: din $\sigma_t = \sqrt{RV_t}$ zilnic (biblioteca Oxford-Man), momentele empirice ale creșterilor lui $\log\sigma$
+    \[ m(q, \Delta) = \frac1N\sum_t|\log\sigma_{t+\Delta} - \log\sigma_t|^q \]
     \begin{itemize}
-        \item dacă $\log\sigma$ are creșteri de tip fBm: $m(q, \Delta) = K_q\nu^q\Delta^{\zeta_q}$ cu $\zeta_q = qH$ (scalare monofractală)
+        \item $\Delta$: lagul în zile; $q > 0$: ordinul momentului; $N$: numărul de perechi; $m(2, \Delta)$ este variograma
     \end{itemize}
+    \item Dacă $\log\sigma$ are creșteri de tip fBm, momentele se scalează ca o putere a lui $\Delta$ (scalare monofractală)
+    \[ m(q, \Delta) = K_q\nu^q\Delta^{\zeta_q}, \qquad \zeta_q = qH \]
+    \begin{itemize}
+        \item $\nu$: volatilitatea volatilității; $K_q = \E|Z|^q$, $Z \sim N(0, 1)$; $\zeta_q$: exponentul de scalare, liniar în $q$, cu panta $H$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Evidența: scalarea logaritmului volatilității (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Procedura: OLS al lui $\log m(q, \Delta)$ pe $\log\Delta$ pentru fiecare $q$ dă $\zeta_q$; regresăm $\zeta_q$ pe $q$ prin origine pentru a obține $H$
     \begin{itemize}
         \item folosim $q \in \{0{,}5; 1; 1{,}5; 2; 3\}$ și $\Delta = 1, \dots, 50$ de zile
     \end{itemize}
     \item Rezultatul lor: $\zeta_q$ liniar și $H$ de ordinul 0,1 pentru toți indicii; creșterile logaritmului volatilității sînt apropiate de distribuția Normală
-    \item Aceasta contrazice orice model SV markovian (Heston, log-OU), al cărui logaritm al volatilității are $H = 1/2$ la decalaje scurte
+    \item Aceasta contrazice orice model SV markovian (Heston, log-OU), al cărui logaritm al volatilității are $H = 1/2$ la laguri scurte
 \end{itemize}
 \end{frame}
 
@@ -1077,22 +1198,24 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \begin{frame}{Modelul RFSV}
 \itemsize{\small}
 \begin{itemize}
-    \item \refGJR: $\sigma_t = \exp(X_t)$, $dX_t = \nu\,dW^H_t - \alpha(X_t - m)\,dt$, un proces OU fracționar cu $H < 1/2$ și $\alpha$ foarte mic
+    \item \refGJR: rough fractional stochastic volatility (RFSV), logaritmul volatilității este un proces Ornstein--Uhlenbeck (OU) fracționar
+    \[ \sigma_t = \exp(X_t), \qquad dX_t = \nu\,dW^H_t - \alpha(X_t - m)\,dt, \qquad H < 1/2 \]
     \begin{itemize}
-        \item pentru $\alpha T \ll 1$ creșterile se comportă ca ale lui $\nu W^H$; staționaritatea apare doar pe orizonturi de ordinul $1/\alpha$
+        \item $\nu$: volatilitatea volatilității; $m$: media de termen lung a lui $X$; $\alpha > 0$: viteza revenirii la medie, foarte mică
+        \item pentru $\alpha T \ll 1$ ($T$: lungimea eșantionului) creșterile se comportă ca ale lui $\nu W^H$; staționaritatea apare doar pe orizonturi de ordinul $1/\alpha$
     \end{itemize}
     \item Legătura cu memoria lungă: pe orizonturile observabile, $\log\sigma$ este aproape de o fBm nestaționară cu $H \approx 0{,}1$, a cărei lectură ARFIMA este $d = H + 1/2 \approx 0{,}6$
     \begin{itemize}
         \item GJR arată că local Whittle și estimatori similari aplicați simulărilor RFSV dau valorile de „memorie lungă” găsite în literatură
     \end{itemize}
-    \item Evaluarea opțiunilor: rough Bergomi \refBFG\ și rough Heston \refER\ reproduc structura la termen a pantei volatilității implicite, $\propto \tau^{H-1/2}$, cu puțini parametri; estimările din opțiuni dau tot $H$ mic \refLMPR
+    \item Evaluarea opțiunilor: rough Bergomi \refBFG\ și rough Heston \refER\ reproduc structura la termen a pantei volatilității implicite, $\propto \tau^{H-1/2}$ ($\tau$: scadența opțiunii), cu puțini parametri; estimările din opțiuni dau tot $H$ mic \refLMPR
     \begin{itemize}
         \item partea de evaluare aparține MFM; aici testăm afirmația de serie de timp
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Rugozitatea pe mai multe piețe și proxy-uri}
+\begin{frame}{Neregularitatea pe mai multe piețe și proxy-uri}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.5\textheight,keepaspectratio]{ats_ch10_gjr_assets.pdf}
@@ -1104,7 +1227,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \quantlet{ATS\_ch10\_rough}{\qlurl{ATS_ch10_rough}}
 \end{frame}
 
-\begin{frame}{Interpretarea rugozității pe mai multe piețe}
+\begin{frame}{Interpretarea neregularității pe mai multe piețe}
 \itemsize{\small}
 \begin{itemize}
     \item RV: $H$ între 0{,}09 și 0{,}15 pentru șase indici și Bitcoin (S\&P 500 0{,}15, DAX 0{,}13, Euro Stoxx 50 0{,}09, Bitcoin 0{,}10)
@@ -1114,18 +1237,18 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Critici: este rugozitatea un artefact?}
+\begin{frame}{Critici: este neregularitatea un artefact?}
 \itemsize{\small}
 \begin{itemize}
     \item RV este o estimație a varianței integrate: $\log RV_t = \log\int_{t-1}^t\sigma_s^2ds + \epsilon_t$
     \begin{itemize}
         \item două deplasări opuse: integrarea pe zi netezește (împinge $\hat H$ în sus), eroarea $\epsilon_t$ adaugă un salt la origine în $m(2, \Delta)$ (împinge $\hat H$ în jos)
     \end{itemize}
-    \item \refFTW: un estimator de tip Whittle consistent sub asimptotica de înaltă frecvență cu eroare de măsurare; volatilitatea rămîne rugoasă, $H$ chiar sub 0,1
+    \item \refFTW: un estimator de tip Whittle consistent sub asimptotica de înaltă frecvență cu eroare de măsurare; volatilitatea rămîne neregulată, $H$ chiar sub 0,1
     \begin{itemize}
         \item \refBCPV: GMM pe momentele varianței integrate cu zgomot; tot $H$ mic
     \end{itemize}
-    \item \refCD: estimatorii de rugozitate aplicați RV pot raporta $H$ mic chiar și pentru o volatilitate netedă (markoviană): un artefact de eșantion finit al proxy-ului
+    \item \refCD: estimatorii neregularității aplicați RV pot raporta $H$ mic chiar și pentru o volatilitate netedă (markoviană): un artefact de eșantion finit al proxy-ului
     \begin{itemize}
         \item răspunsul depinde de mărimea erorii față de variația zilnică a logaritmului volatilității: simulați-o
     \end{itemize}
@@ -1150,22 +1273,22 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
     \item $H$ adevărat $= 0{,}1$: din IV 0{,}20, din RV 0{,}11, RV cu termen liber 0{,}11: deplasarea de integrare și cea de eroare aproape se anulează
     \item $H$ adevărat $= 0{,}5$: IV 0{,}48, RV 0{,}43, cu termen liber 0{,}43; $H$ adevărat $= 0{,}3$: 0{,}34; 0{,}28; 0{,}29
     \item Cu RV de 5 minute, eroarea este prea mică pentru a transforma $H = 0{,}5$ în valorile 0,1--0,15 observate în date
-    \item Un proxy mai zgomotos (Parkinson, randamente pătratice) sau un alt model de volatilitate ar putea; concluzia depinde de acest design
+    \item Un proxy mai zgomotos (Parkinson, randamente pătratice) sau un alt model de volatilitate ar putea; concluzia depinde de această schemă
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Rugozitate și persistență}
+\begin{frame}{Neregularitate și persistență}
 \itemsize{\small}
 \begin{itemize}
-    \item În fBm un singur parametru le fixează pe amîndouă: $H$ mic înseamnă traiectorii rugoase și (pentru creșteri) antipersistență
+    \item În fBm un singur parametru le fixează pe amîndouă: $H$ mic înseamnă traiectorii neregulate și (pentru creșteri) antipersistență
     \begin{itemize}
         \item modelele Cauchy și cu nucleu gamma separă dimensiunea fractală (scări mici) de efectul Hurst (scări mari) \refGS
     \end{itemize}
-    \item \refBLPb: modelul brownian semistaționar $X_t = \int_{-\infty}^tg(t - s)\,dW_s$, $g(x) \approx x^\alpha$ lîngă 0 (rugozitate, $H = \alpha + 1/2$), $g(x) \approx x^{-\beta}$ la infinit (memorie)
+    \item \refBLPb: modelul brownian semistaționar $X_t = \int_{-\infty}^tg(t - s)\,dW_s$, $g(x) \approx x^\alpha$ lîngă 0 (neregularitate, $H = \alpha + 1/2$), $g(x) \approx x^{-\beta}$ la infinit (memorie)
     \begin{itemize}
-        \item rezultatul lor: logaritmul volatilității este atît rugos ($\alpha < 0$), cît și persistent ($\beta < 1$); cele două se estimează separat
+        \item rezultatul lor: logaritmul volatilității este atît neregulat ($\alpha < 0$), cît și persistent ($\beta < 1$); cele două se estimează separat
     \end{itemize}
-    \item Verificarea empirică: panta variogramei la decalaje scurte față de descreșterea ACF la decalaje lungi
+    \item Verificarea empirică: panta variogramei la laguri scurte față de descreșterea ACF la laguri lungi
 \end{itemize}
 \end{frame}
 
@@ -1176,7 +1299,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Logaritmul volatilității pentru S\&P 500, decalaje 1--1000 de zile; stînga: variograma $m(2, \Delta)$ cu pantele pe decalajele 1--10 și 100--1000; dreapta: ACF de eșantion cu o ajustare $k^{2d-1}$ pe decalajele 10--250
+    \item Logaritmul volatilității pentru S\&P 500, laguri 1--1000 de zile; stînga: variograma $m(2, \Delta)$ cu pantele pe lagurile 1--10 și 100--1000; dreapta: ACF de eșantion cu o ajustare $k^{2d-1}$ pe lagurile 10--250
 \end{itemize}
 \quantlet{ATS\_ch10\_rough}{\qlurl{ATS_ch10_rough}}
 \end{frame}
@@ -1184,41 +1307,47 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \begin{frame}{Interpretarea celor două scări}
 \itemsize{\small}
 \begin{itemize}
-    \item Decalaje scurte: panta $2H = 0{,}32$, $H = 0{,}16$; decalaje lungi: panta 0{,}20, încă în creștere la 1000 de zile, peste $2\Var(\log\sigma)$
-    \item Citită ca proces fracționar nestaționar, panta la decalaje lungi $2d - 1$ dă $d = 0{,}60$; local Whittle cu $m = 74$ dă 0{,}56
+    \item Decalaje scurte: panta $2H = 0{,}32$, $H = 0{,}16$; laguri lungi: panta 0{,}20, încă în creștere la 1000 de zile, peste $2\Var(\log\sigma)$
+    \item Citită ca proces fracționar nestaționar, panta la laguri lungi $2d - 1$ dă $d = 0{,}60$; local Whittle cu $m = 74$ dă 0{,}56
     \item Ajustarea ACF dă doar $d = 0{,}31$: ACF de eșantion este deplasată în jos cînd $d$ este aproape de 1/2 sau peste
-    \item Rugoasă la scări mici, foarte persistentă la scări mari: ambele afirmații sînt valabile pentru aceeași serie
+    \item Neregulată la scări mici, foarte persistentă la scări mari: ambele afirmații sînt valabile pentru aceeași serie
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Recapitulare: rough volatility}
 \itemsize{\small}
 \begin{itemize}
-    \item fBm cu $H < 1/2$: traiectorii rugoase; se simulează exact prin scufundare circulantă, versiunile Volterra prin schema hibridă
+    \item fBm cu $H < 1/2$: traiectorii neregulate; se simulează exact prin scufundare circulantă, versiunile Volterra prin schema hibridă
     \item Scalarea logaritmului RV dă $H \approx 0{,}1$--0,15 pe toate piețele încercate, stabil în timp
-    \item Eroarea de măsurare și integrarea zilnică deplasează $\hat H$ în direcții opuse; rugozitatea și persistența sînt proprietăți separate
+    \item Eroarea de măsurare și integrarea zilnică deplasează $\hat H$ în direcții opuse; neregularitatea și persistența sînt proprietăți separate
 \end{itemize}
 \end{frame}
 
 
 %=============================================================================
-\section{Prognoza varianței realizate: rugoasă, memorie lungă, HAR}
+\section{Prognoza varianței realizate: rough volatility, memorie lungă, HAR}
 %=============================================================================
 
-\begin{frame}{Predictorul RFSV}
+\begin{frame}{Predictorul RFSV (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Pentru fBm (Nuzman--Poor), cu $\alpha \approx 0$, \refGJR, secțiunea 5:
+    \item Pentru fBm (Nuzman--Poor), cu $\alpha \approx 0$, \refGJR, secțiunea 5: prognoza logaritmului varianței este o medie ponderată a trecutului său
+    \[ \E[\log\sigma^2_{t+h} \mid \mathcal F_t] = \frac{\cos(H\pi)}{\pi}\,h^{H+1/2}\int_{-\infty}^t\frac{\log\sigma_s^2}{(t - s + h)(t - s)^{H+1/2}}\,ds \]
     \begin{itemize}
-        \item $\E[\log\sigma^2_{t+h} \mid \mathcal F_t] = \dfrac{\cos(H\pi)}{\pi}h^{H+1/2}\displaystyle\int_{-\infty}^t\dfrac{\log\sigma_s^2}{(t - s + h)(t - s)^{H+1/2}}\,ds$
-    \end{itemize}
-    \item Nucleul are integrala unu: o medie ponderată a logaritmului varianței trecute, cu mai multă pondere pe trecutul recent pentru $H$ mic
-    \begin{itemize}
+        \item $h$: orizontul prognozei; $\mathcal F_t$: trecutul volatilității pînă la $t$; nucleul are integrala unu, cu mai multă pondere pe trecutul recent pentru $H$ mic
         \item discretizat pe zile: $w_k = \int_k^{k+1}du/((u + h)u^{H+1/2})$, trunchiat la 500 de zile și normalizat
     \end{itemize}
-    \item Prognoza varianței: $\E[\sigma^2_{t+h} \mid \mathcal F_t] = \exp\big(\E[\log\sigma^2_{t+h} \mid \mathcal F_t] + 2c\nu^2h^{2H}\big)$, $c = \dfrac{\Gamma(3/2 - H)}{\Gamma(H + 1/2)\Gamma(2 - 2H)}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Predictorul RFSV (2/2): prognoza varianței}
+\itemsize{\small}
+\begin{itemize}
+    \item De la logaritmul varianței la varianță: o corecție lognormală
+    \[ \E[\sigma^2_{t+h} \mid \mathcal F_t] = \exp\big(\E[\log\sigma^2_{t+h} \mid \mathcal F_t] + 2c\nu^2h^{2H}\big) \]
+    \[ c = \frac{\Gamma(3/2 - H)}{\Gamma(H + 1/2)\Gamma(2 - 2H)} \]
     \begin{itemize}
-        \item corecția lognormală folosește varianța condiționată a lui $\log\sigma$; cu valorile pentru S\&P 500, $c = 0{,}707$
+        \item $2c\nu^2h^{2H}$: jumătate din varianța condiționată a lui $\log\sigma^2_{t+h}$, care crește cu orizontul; cu valorile pentru S\&P 500, $c = 0{,}707$
     \end{itemize}
     \item Doi parametri ($H$, $\nu$), ambii din variogramă: fără verosimilitate, fără optimizare
 \end{itemize}
@@ -1246,10 +1375,10 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{O comparație onestă în afara eșantionului}
+\begin{frame}{O comparație riguroasă în afara eșantionului}
 \itemsize{\small}
 \begin{itemize}
-    \item Designul fixat dinainte: fereastră mobilă de 1000 de zile, parametrii reestimați la fiecare 20 de zile doar cu datele pînă la $t$; ținta $RV_{t+h}$, $h \in \{1, 5, 22\}$
+    \item Schema fixată dinainte: fereastră mobilă de 1000 de zile, parametrii reestimați la fiecare 20 de zile doar cu datele pînă la $t$; ținta $RV_{t+h}$, $h \in \{1, 5, 22\}$
     \begin{itemize}
         \item HAR: regresie directă a lui $\log RV_{t+h}$; ARFIMA$(0,d,0)$: $d$ local Whittle (limitat la 0,49), AR($\infty$) iterat; RFSV: $H$, $\nu$ din fereastră
     \end{itemize}
@@ -1257,7 +1386,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
     \begin{itemize}
         \item prognozele de nivel din prognoze logaritmice cer corecția lognormală: $\exp(\hat\mu + \hat s^2/2)$ pentru HAR și ARFIMA, $2c\nu^2h^{2H}$ pentru RFSV
     \end{itemize}
-    \item Inferența: DM cu varianță Newey--West (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}) \refDM; diferențele de pierderi sînt ele însele persistente, deci valorile $p$ sînt optimiste
+    \item Inferența: DM cu varianță Newey--West (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}) \refDM; diferențele de pierderi sînt ele însele persistente, deci p-value-urile sînt optimiste
 \end{itemize}
 \end{frame}
 
@@ -1268,7 +1397,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item QLIKE mediu relativ la HAR (sub 1: mai bun decît HAR); o stea marchează o valoare $p$ DM sub 5\%; S\&P 500 6 ianuarie 2004 -- 24 ianuarie 2022 ($T = 4\,531$), DAX ($T = 4\,593$), Bitcoin 10 octombrie 2020 -- 27 august 2026 ($T = 2\,144$)
+    \item QLIKE mediu relativ la HAR (sub 1: mai bun decît HAR); o stea marchează un p-value DM sub 5\%; S\&P 500 6 ianuarie 2004 -- 24 ianuarie 2022 ($T = 4\,531$), DAX ($T = 4\,593$), Bitcoin 10 octombrie 2020 -- 27 august 2026 ($T = 2\,144$)
 \end{itemize}
 \quantlet{ATS\_ch10\_forecast}{\qlurl{ATS_ch10_forecast}}
 \end{frame}
@@ -1291,7 +1420,7 @@ $h = 22$ & 1{,}002 & 0{,}969 & 0{,}968 & 0{,}982 & 0{,}986 & 1{,}027 \\
     \item S\&P 500 și DAX: RFSV este cu 1{,}8\% pînă la 3{,}6\% mai bun decît HAR la 5 și 22 de zile, dar mai slab la o zi; DM la 5 zile: \ensuremath{-}1{,}78 ($p$ 0{,}07) și \ensuremath{-}1{,}62 ($p$ 0{,}11)
     \item Bitcoin: RFSV este mai slab la toate orizonturile (1{,}174 la 5 zile); $\hat H$ mobil variază între 0{,}04 și 0{,}15, cu mediana 0{,}08
     \item ARFIMA se află peste tot la cel mult 3{,}2\% de HAR; dintre cele 18 comparații QLIKE, niciuna este semnificativă la 5\%
-    \item Rugozitatea este un fapt stilizat robust; cîștigul ei în prognoză față de HAR este mic și depinde de orizont, ca în \refGJR\ și \refWXY
+    \item Neregularitatea este un fapt stilizat robust; cîștigul ei în prognoză față de HAR este mic și depinde de orizont, ca în \refGJR\ și \refWXY
 \end{itemize}
 \end{frame}
 
@@ -1300,7 +1429,7 @@ $h = 22$ & 1{,}002 & 0{,}969 & 0{,}968 & 0{,}982 & 0{,}986 & 1{,}027 \\
 \begin{itemize}
     \item RFSV prognozează cu un nucleu putere dependent de orizont și o corecție lognormală, din doi parametri ai variogramei
     \item În afara eșantionului, RFSV, ARFIMA și HAR sînt apropiate; RFSV cîștigă cîteva procente la orizonturi săptămînale și lunare pentru indicii bursieri
-    \item Preînregistrați designul, folosiți QLIKE și tratați cu prudență valorile $p$ DM cînd diferențele de pierderi sînt persistente
+    \item Preînregistrați schema, folosiți QLIKE și tratați cu prudență p-value-urile DM cînd diferențele de pierderi sînt persistente
 \end{itemize}
 \end{frame}
 
@@ -1312,12 +1441,12 @@ $h = 22$ & 1{,}002 & 0{,}969 & 0{,}968 & 0{,}982 & 0{,}986 & 1{,}027 \\
 \begin{frame}{O întrebare deschisă}
 \itemsize{\small}
 \begin{itemize}
-    \item Este rugozitatea volatilității o proprietate a procesului de volatilitate sau a felului în care o măsurăm?
+    \item Este neregularitatea volatilității o proprietate a procesului de volatilitate sau a felului în care o măsurăm?
     \begin{itemize}
         \item formal: $H_0$: $H \ge 0{,}3$ pentru varianța integrată; testat cu estimatori consistenți sub eroare de măsurare, pe active, măsuri și eșantioane preînregistrate
         \item infirmată dacă estimațiile corectate rămîn sub 0,2 pentru toate frecvențele de eșantionare și piețele
     \end{itemize}
-    \item Miza: modelele rugoase schimbă evaluarea opțiunilor și acoperirea; dacă rugozitatea este un artefact, modelele markoviene sînt suficiente
+    \item Miza: modelele de tip rough volatility schimbă evaluarea opțiunilor și acoperirea; dacă neregularitatea este un artefact, modelele markoviene sînt suficiente
     \begin{itemize}
         \item literatura de pornire: \refGJR, \refFTW, \refBCPV, \refCD, \refBLPb
     \end{itemize}
@@ -1332,7 +1461,7 @@ $h = 22$ & 1{,}002 & 0{,}969 & 0{,}968 & 0{,}982 & 0{,}986 & 1{,}027 \\
         \item \textbf{literatura}: \aiprompt{Listează articole recenzate din 2018 încoace care estimează exponentul Hurst al volatilității cu metode robuste la eroarea de măsurare; dă DOI-urile.} Apoi verificați fiecare DOI pe Crossref
         \item \textbf{ipoteza}: \aiprompt{Ce procese generatoare cu H = 0,5 ar face ca estimatorul momentelor pe RV de 5 minute să dea H aproape de 0,1?}
         \item \textbf{cod și replicare}: cereți regresia pe variogramă, apoi reproduceți întîi valoarea pentru S\&P 500 (0{,}149 aici) și tabelul de simulare
-        \item \textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră cum ar putea alegerea decalajelor, randamentele overnight, salturile și zgomotul de microstructură să deplaseze H.}
+        \item \textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră cum ar putea alegerea lagurilor, randamentele overnight, salturile și zgomotul de microstructură să deplaseze H.}
     \end{itemize}
     \item Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)
 \end{itemize}
@@ -1343,7 +1472,7 @@ $h = 22$ & 1{,}002 & 0{,}969 & 0{,}968 & 0{,}982 & 0{,}986 & 1{,}027 \\
 \begin{itemize}
     \item Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)
     \item Scara este precizată: $H$ pentru fBm, $d$ pentru ARFIMA, $H = d + 1/2$ pentru seriile staționare; logaritmul volatilității sau al varianței
-    \item Lățimile de bandă, decalajele și trimming-ul sînt raportate, cu estimații pe un interval de valori, nu o singură alegere convenabilă
+    \item Lățimile de bandă, lagurile și trimming-ul sînt raportate, cu estimații pe un interval de valori, nu o singură alegere convenabilă
     \item Rupturile și salturile de nivel sînt testate (Qu) înainte de a afirma memoria lungă
     \item Comparațiile prognozelor sînt în afara eșantionului, preînregistrate, cu QLIKE și DM
 \end{itemize}
@@ -1365,11 +1494,11 @@ $h = 22$ & 1{,}002 & 0{,}969 & 0{,}968 & 0{,}982 & 0{,}986 & 1{,}027 \\
 \begin{frame}{Idee de proiect}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Rugozitatea și persistența volatilității pe piețele din Europa Centrală și de Est}: întîi replicare, apoi extindere
+    \item \textbf{Neregularitatea și persistența volatilității pe piețele din Europa Centrală și de Est}: întîi replicare, apoi extindere
     \begin{itemize}
         \item replicați: \refGJR, secțiunea 2 pe datele Oxford-Man pentru S\&P 500 ($H = 0{,}149$ aici) și comparația prognozelor din secțiunea 5
-        \item extindeți: date intraday pentru BET, WIG20 și EUR/RON; estimatori robuști la zgomot (FTW, GMM); teste Qu; un model BSS cu rugozitate și memorie separate
-        \item preînregistrați: activele, măsurile, decalajele, lățimile de bandă, designul prognozei și pierderea
+        \item extindeți: date intraday pentru BET, WIG20 și EUR/RON; estimatori robuști la zgomot (FTW, GMM); teste Qu; un model BSS cu neregularitate și memorie separate
+        \item preînregistrați: activele, măsurile, lagurile, lățimile de bandă, schema prognozei și pierderea
     \end{itemize}
     \item Livrabilele urmează regulile cursului: repository, raport, AI\_USE.md, AI\_ERRORS.md, susținere orală
 \end{itemize}
@@ -1385,9 +1514,9 @@ $h = 22$ & 1{,}002 & 0{,}969 & 0{,}968 & 0{,}982 & 0{,}986 & 1{,}027 \\
 \begin{itemize}
     \item Memoria lungă este un pol în frecvența zero; estimați-o cu local Whittle sau local Whittle exact și raportați $\hat d(m)$
     \item Salturile de nivel imită memoria lungă: testați cu Qu (2011) și urmăriți semnătura lățimii de bandă
-    \item Volatilitatea este persistentă pe luni (FIGARCH, LMSV, HAR) și rugoasă pe zile ($H \approx 0{,}1$)
+    \item Volatilitatea este persistentă pe luni (FIGARCH, LMSV, HAR) și neregulată pe zile ($H \approx 0{,}1$)
     \item Proxy-urile contează: zgomotul scade $\hat d$ și $\hat H$; corecțiile există și trebuie raportate
-    \item În prognoză, HAR rămîne un reper greu de bătut; modelele rugoase cîștigă puțin și doar la unele orizonturi
+    \item În prognoză, HAR rămîne un reper greu de depășit; modelele de tip rough volatility cîștigă puțin și doar la unele orizonturi
 \end{itemize}
 \end{frame}
 
@@ -1401,7 +1530,7 @@ $h = 22$ & 1{,}002 & 0{,}969 & 0{,}968 & 0{,}982 & 0{,}986 & 1{,}027 \\
     \item De ce eșuează local Whittle pentru $d > 1$ și cum corectează local Whittle exact problema?
     \item Ce formă spectrală produce un salt aleator de nivel?
     \item De ce nu este FIGARCH staționar în covarianță?
-    \item Cum poate o serie să fie rugoasă și cu memorie lungă în același timp?
+    \item Cum poate o serie să fie neregulată și cu memorie lungă în același timp?
 \end{itemize}
 \end{block}
 \end{column}

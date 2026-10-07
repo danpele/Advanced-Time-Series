@@ -94,7 +94,6 @@ MSCA Digital Finance}
     \item \textbf{AR}: AutoRegressive (model); in event studies: Abnormal Return (model autoregresiv; în studiile de eveniment: randament anormal)
     \item \textbf{AUC}: Area Under the (ROC) Curve (aria de sub curba ROC)
     \item \textbf{BET}: Bucharest Exchange Trading (index) — indicele de referință al Bursei de Valori București
-    \item \textbf{BIC}: Bayesian Information Criterion (criteriul informațional bayesian (Schwarz))
     \item \textbf{BSADF}: Backward Supremum Augmented Dickey–Fuller (statistic) — statistica ADF supremum retrospectivă, pentru fiecare dată de sfîrșit
     \item \textbf{BUX}: Budapesti Értéktőzsde index (indicele Bursei din Budapesta)
     \item \textbf{CLT}: Central Limit Theorem (teorema limită centrală)
@@ -102,12 +101,11 @@ MSCA Digital Finance}
     \item \textbf{CUSUM}: CUmulative SUM (suma cumulată)
     \item \textbf{EODHD}: EOD Historical Data (market-data provider) — furnizor de date de piață
     \item \textbf{FCLT}: Functional Central Limit Theorem (teorema limită centrală funcțională)
+    \item \textbf{FRED}: Federal Reserve Economic Data (baza de date economice a Rezervei Federale din St. Louis)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{FMI}: Fondul Monetar Internațional
-    \item \textbf{FRED}: Federal Reserve Economic Data (baza de date economice a Rezervei Federale din St. Louis)
     \item \textbf{FW}: Family-Wise (error control) — controlul erorii de familie
     \item \textbf{FWER}: Family-Wise Error Rate (probabilitatea de cel puțin o eroare de tip I în familia de teste)
     \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity (heteroscedasticitate condiționată autoregresivă generalizată)
@@ -119,6 +117,8 @@ MSCA Digital Finance}
     \item \textbf{MC}: Monte Carlo (Monte Carlo)
     \item \textbf{MFM}: Modelling Financial Markets (Modelarea piețelor financiare, cursul de master)
     \item \textbf{OLS}: Ordinary Least Squares (metoda celor mai mici pătrate)
+    \item \textbf{PSY}: Phillips, Shi and Yu (2015) — Phillips, Shi și Yu (2015)
+    \item \textbf{PWY}: Phillips, Wu and Yu (2011) — Phillips, Wu și Yu (2011)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -128,8 +128,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{PSY}: Phillips, Shi and Yu (2015) — Phillips, Shi și Yu (2015)
-    \item \textbf{PWY}: Phillips, Wu and Yu (2011) — Phillips, Wu și Yu (2011)
     \item \textbf{PX}: Prague Stock Exchange index (index Burzy cenných papírů Praha) — indicele Bursei din Praga
     \item \textbf{ROC}: Receiver Operating Characteristic (curve) — curba caracteristică de operare
     \item \textbf{SADF}: Supremum Augmented Dickey–Fuller (test) — testul ADF supremum pe ferestre care cresc de la început
@@ -172,7 +170,7 @@ MSCA Digital Finance}
     \end{itemize}
     \item Rulați notebook-ul cursului: reproduce fiecare grafic și fiecare cifră, cu simulări Monte Carlo mai mici
     \begin{itemize}
-        \item modificați o alegere (fereastra minimă, numărul de decalaje, valoarea critică, pragul de crah) și notați cum se schimbă concluzia
+        \item modificați o alegere (fereastra minimă, numărul de laguri, valoarea critică, pragul de crah) și notați cum se schimbă concluzia
     \end{itemize}
     \item Autoevaluarea de la final are răspunsuri; quiz-ul capitolului de pe site-ul cursului se notează
     \item Cunoștințe necesare: asimptotica Dickey--Fuller (Hamilton, capitolul 17), teorema limită centrală funcțională, bootstrap pentru date dependente (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0})
@@ -255,27 +253,45 @@ Toate seriile de prețuri din datele cursului & EODHD, închideri lunare (analiz
 \section{Bule raționale}
 %=============================================================================
 
-\begin{frame}{Modelul valorii actualizate și soluțiile cu bulă}
+\begin{frame}{Modelul valorii actualizate și soluțiile cu bulă (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Lipsa arbitrajului cu un randament cerut constant $r > 0$: $P_t = (1 + r)^{-1}\E_t[P_{t+1} + D_{t+1}]$; $P_t$ prețul, $D_t$ dividendul (sau chiria)
-    \item Substituind înainte de $k$ ori: $P_t = \sum_{i=1}^{k}(1 + r)^{-i}\E_t D_{t+i} + (1 + r)^{-k}\E_t P_{t+k}$
+    \item \textbf{Lipsa arbitrajului} cu un randament cerut constant $r > 0$: prețul de azi este valoarea actualizată a prețului de mîine plus dividendul așteptat \[ P_t = (1 + r)^{-1}\E_t[P_{t+1} + D_{t+1}] \]
     \begin{itemize}
-        \item dacă \textbf{condiția de transversalitate} $\lim_k (1 + r)^{-k}\E_t P_{t+k} = 0$ este îndeplinită: $P_t = F_t := \sum_{i \ge 1}(1 + r)^{-i}\E_t D_{t+i}$, valoarea fundamentală
+        \item $P_t$: prețul; $D_t$: dividendul (sau chiria); $\E_t$: speranța condiționată de informația disponibilă la $t$
     \end{itemize}
-    \item Soluția generală: $P_t = F_t + B_t$ cu $\E_t B_{t+1} = (1 + r)B_t$: \textbf{bula} $B_t$ este o submartingală cu medie explozivă, $\E_t B_{t+k} = (1 + r)^k B_t$
+    \item \textbf{Substituția înainte} de $k$ ori: prețul este suma dividendelor actualizate din următoarele $k$ perioade plus prețul actualizat de la $t + k$ \[ P_t = \sum_{i=1}^{k}(1 + r)^{-i}\E_t D_{t+i} + (1 + r)^{-k}\E_t P_{t+k} \]
+    \item Dacă \textbf{condiția de transversalitate} $\lim_{k\to\infty} (1 + r)^{-k}\E_t P_{t+k} = 0$ este îndeplinită, prețul este egal cu \textbf{valoarea fundamentală} \[ P_t = F_t := \sum_{i \ge 1}(1 + r)^{-i}\E_t D_{t+i} \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Modelul valorii actualizate și soluțiile cu bulă (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Soluția generală}: fundamentul plus o \textbf{bulă} $B_t$, a cărei valoare așteptată crește cu rata $r$ \[ P_t = F_t + B_t, \qquad \E_t B_{t+1} = (1 + r)B_t, \qquad \E_t B_{t+k} = (1 + r)^k B_t \]
     \begin{itemize}
-        \item conținutul econometric: în $(1 - (1 + r)L)B_t = z_t$, rădăcina $1 + r > 1$ este explozivă: o \textbf{rădăcină autoregresivă explozivă}
+        \item $B_t$ este o submartingală cu medie explozivă: satisface ecuația de lipsă a arbitrajului, dar încalcă transversalitatea
     \end{itemize}
-    \item Limitele de echilibru general: cu agenți cu viață infinită, bulele sînt excluse în majoritatea economiilor; cu generații suprapuse pot exista dacă creșterea depășește $r$ \refTir; \refSW
+    \item \textbf{Conținutul econometric}: $B_t$ urmează $(1 - (1 + r)L)B_t = z_t$, un AR(1) cu coeficientul $1 + r > 1$
+    \begin{itemize}
+        \item $L$: operatorul lag ($LB_t = B_{t-1}$); $z_t$: o diferență de martingală ($\E_{t-1}z_t = 0$); o \textbf{rădăcină autoregresivă explozivă}
+    \end{itemize}
+    \item Limitele de echilibru general \refTir; \refSW
+    \begin{itemize}
+        \item cu agenți cu viață infinită, bulele sînt excluse în majoritatea economiilor
+        \item cu generații suprapuse pot exista dacă creșterea depășește $r$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Exemplu rezolvat: valoarea fundamentală cu dividende de tip mers aleator}
 \itemsize{\small}
 \begin{itemize}
-    \item Fie $D_t = \mu + D_{t-1} + \varepsilon_t$: atunci $\E_t D_{t+i} = D_t + i\mu$
-    \item $F_t = D_t\sum_{i \ge 1}(1 + r)^{-i} + \mu\sum_{i \ge 1} i(1 + r)^{-i} = \dfrac{D_t}{r} + \dfrac{\mu(1 + r)}{r^2}$
+    \item Fie dividendele un mers aleator cu derivă, $D_t = \mu + D_{t-1} + \varepsilon_t$: atunci $\E_t D_{t+i} = D_t + i\mu$
+    \begin{itemize}
+        \item $\mu$: variația așteptată pe perioadă (deriva); $\varepsilon_t$: un șoc cu media zero
+    \end{itemize}
+    \item Însumînd dividendele așteptate actualizate \[ F_t = D_t\sum_{i \ge 1}(1 + r)^{-i} + \mu\sum_{i \ge 1} i(1 + r)^{-i} = \dfrac{D_t}{r} + \dfrac{\mu(1 + r)}{r^2} \]
     \begin{itemize}
         \item folosind $\sum_{i \ge 1} x^i = x/(1 - x)$ și $\sum_{i \ge 1} i x^i = x/(1 - x)^2$ cu $x = (1 + r)^{-1}$
     \end{itemize}
@@ -298,7 +314,10 @@ Toate seriile de prețuri din datele cursului & EODHD, închideri lunare (analiz
 \end{column}
 \begin{column}{0.66\textwidth}
 \begin{itemize}
-    \item $B_{t+1} = \dfrac{1 + r}{\pi}B_t + \varepsilon_{t+1}$ cu probabilitatea $\pi$, $B_{t+1} = \varepsilon_{t+1}$ cu probabilitatea $1 - \pi$ \refBW
+    \item \refBW: în fiecare perioadă bula supraviețuiește cu probabilitatea $\pi$ și se sparge cu probabilitatea $1 - \pi$ \[ B_{t+1} = \begin{cases} \dfrac{1 + r}{\pi}B_t + \varepsilon_{t+1} & \text{cu probabilitatea}\ \pi \\[2mm] \varepsilon_{t+1} & \text{cu probabilitatea}\ 1 - \pi \end{cases} \]
+    \begin{itemize}
+        \item $\varepsilon_{t+1}$: un șoc cu media zero; $\pi \in (0, 1)$: probabilitatea de supraviețuire
+    \end{itemize}
     \item Verificare: $\E_t B_{t+1} = \pi\cdot\frac{1 + r}{\pi}B_t = (1 + r)B_t$: o bulă rațională validă
     \item Durata de supraviețuire este geometrică: durata așteptată $1/(1 - \pi)$; $\pi = 0{,}98$ dă 50 de perioade
     \item Cît timp supraviețuiește, crește cu $(1 + r)/\pi - 1 > r$: randamentul suplimentar compensează riscul de crah
@@ -395,7 +414,10 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \end{tabular}
 \end{center}
 }\begin{itemize}
-    \item $y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$ OLS fără termen liber; $W$ o mișcare browniană standard; $\mathcal C$ legea Cauchy standard
+    \item $y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS fără termen liber; $n$: mărimea eșantionului; $W$: o mișcare browniană standard; $\mathcal C$: legea Cauchy standard
+    \begin{itemize}
+        \item ușor exploziv: $c > 0$, iar $k_n \to \infty$ mai lent decît $n$ ($k_n = o(n)$, adică $k_n/n \to 0$); CLT/FCLT: teorema limită centrală (funcțională); $\Rightarrow$: convergență în distribuție
+    \end{itemize}
     \item Rata crește de la $\sqrt n$ la $n$ și la exponențialul $\rho^n$: cu cît sîntem mai departe de 1, cu atît învățăm mai repede $\rho$ (rădăcini unitare: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2} și \refHam, capitolul 17)
     \item Rădăcinile ușor explozive sînt cazul realist pentru bule: mai rapide decît orice rădăcină locală la unitate $1 + c/n$, mai lente decît orice rădăcină explozivă fixă
 \end{itemize}
@@ -449,7 +471,7 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
     \begin{itemize}
         \item $\ln(F_t + B_t)$ \textbf{accelerează} cît timp ponderea bulei crește: testele pe logaritmul prețului vizează accelerarea, ceea ce testează în practică PWY și PSY
     \end{itemize}
-    \item Specificația contează: termenul liber, o derivă slabă $dT^{-\eta}$ ($\eta > 1/2$) sub ipoteza nulă și numărul de decalaje schimbă limita sub ipoteza nulă și nivelul testului \refPSYs
+    \item Specificația contează: termenul liber, o derivă slabă $dT^{-\eta}$ ($\eta > 1/2$) sub ipoteza nulă și numărul de laguri schimbă limita sub ipoteza nulă și nivelul testului \refPSYs
     \item Prăbușirile: o scădere bruscă este o fază ușor \textbf{integrată} sau staționară după cea explozivă; \refPSi{} datează implozia cu o regresie inversă
 \end{itemize}
 \end{frame}
@@ -468,17 +490,31 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \section{Testele recursive: teorie și nivel}
 %=============================================================================
 
-\begin{frame}{Statisticile recursive}
-\itemsize{\footnotesize}
+\begin{frame}{Statisticile recursive (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item Regresia pe fereastră pentru logaritmul prețului: $\Delta y_t = a + \delta y_{t-1} + \sum_{j=1}^{k}\phi_j\Delta y_{t-j} + e_t$, $t$ de la $\lfloor r_1T\rfloor$ la $\lfloor r_2T\rfloor$; $\mathrm{ADF}_{r_1}^{r_2}$ este statistica $t$ a lui $\delta$
+    \item \textbf{Regresia pe fereastră} pentru logaritmul prețului $y_t$, pe fracțiunile de eșantion $[r_1, r_2]$ \[ \Delta y_t = a + \delta y_{t-1} + \sum_{j=1}^{k}\phi_j\Delta y_{t-j} + e_t, \qquad t = \lfloor r_1T\rfloor, \dots, \lfloor r_2T\rfloor \]
     \begin{itemize}
-        \item $H_0$: $\delta = 0$ (rădăcină unitară); $H_1$: $\delta > 0$ (explozivă); fereastra minimă $r_0 = 0{,}01 + 1{,}8/\sqrt T$
+        \item $\Delta y_t = y_t - y_{t-1}$; $a$: termenul liber; $\delta$: coeficientul testat; $\phi_j$: coeficienții celor $k$ diferențe cu lag; $e_t$: eroarea; $T$: mărimea eșantionului; $\lfloor\cdot\rfloor$: partea întreagă
+        \item $\mathrm{ADF}_{r_1}^{r_2}$: statistica $t$ a lui $\delta$ pe această fereastră
     \end{itemize}
-    \item $\mathrm{SADF} = \sup_{r_2 \in [r_0, 1]}\mathrm{ADF}_0^{r_2}$ \refPWY; $\mathrm{BSADF}_{r_2} = \sup_{r_1 \in [0, r_2 - r_0]}\mathrm{ADF}_{r_1}^{r_2}$; $\mathrm{GSADF} = \sup_{r_2}\mathrm{BSADF}_{r_2}$ \refPSYa
-    \item Limita sub ipoteza nulă (PSY, teorema 1), cu $r_w = r_2 - r_1$ și integrale pe $[r_1, r_2]$:
+    \item $H_0$: $\delta = 0$ (rădăcină unitară) față de $H_1$: $\delta > 0$ (explozivă): un test pe \textbf{coada din dreapta}
     \begin{itemize}
-        \item $\mathrm{ADF}_{r_1}^{r_2} \Rightarrow \dfrac{\frac12 r_w\left[W(r_2)^2 - W(r_1)^2 - r_w\right] - \int W\,dr\,\left[W(r_2) - W(r_1)\right]}{r_w^{1/2}\left\{r_w\int W^2dr - \left(\int W\,dr\right)^2\right\}^{1/2}}$
+        \item fracțiunea minimă a ferestrei $r_0 = 0{,}01 + 1{,}8/\sqrt T$
+    \end{itemize}
+    \item \textbf{Supremele} pe ferestre \refPWY, \refPSYa{} \[ \mathrm{SADF} = \sup_{r_2 \in [r_0, 1]}\mathrm{ADF}_0^{r_2}, \quad \mathrm{BSADF}_{r_2} = \sup_{r_1 \in [0, r_2 - r_0]}\mathrm{ADF}_{r_1}^{r_2}, \quad \mathrm{GSADF} = \sup_{r_2}\mathrm{BSADF}_{r_2} \]
+    \begin{itemize}
+        \item SADF: ferestre care încep cu prima observație; BSADF: toate ferestrele care se termină în $r_2$ (folosit la datare); GSADF: toate ferestrele
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Statisticile recursive (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Limita sub ipoteza nulă (PSY, teorema 1), cu $r_w = r_2 - r_1$ și integrale pe $[r_1, r_2]$: \[ \mathrm{ADF}_{r_1}^{r_2} \Rightarrow \dfrac{\frac12 r_w\left[W(r_2)^2 - W(r_1)^2 - r_w\right] - \int W\,dr\,\left[W(r_2) - W(r_1)\right]}{r_w^{1/2}\left\{r_w\int W^2dr - \left(\int W\,dr\right)^2\right\}^{1/2}} \]
+    \begin{itemize}
+        \item $W$: o mișcare browniană standard; $\Rightarrow$: convergență în distribuție cînd $T \to \infty$
         \item pivotală: nu depinde de $\sigma$ și de derivă, deci valorile critice depind doar de $r_0$, de termenii determiniști și, în eșantioane finite, de $T$
     \end{itemize}
     \item Calcul: pentru $T = 400$ există 65\,341 de regresii pe ferestre; produsele încrucișate cumulate le dau pe toate în $O(T^2)$ operații
@@ -492,7 +528,7 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Modelul nul $y_t = T^{-1} + y_{t-1} + e_t$, $e_t \sim N(0, 1)$, fără decalaje; valori critice de 95\% la $T = 100, 200, 400, 800$: SADF 1{,}34; 1{,}36; 1{,}43; 1{,}45; GSADF 2{,}01; 2{,}12; 2{,}23; 2{,}35
+    \item Modelul nul $y_t = T^{-1} + y_{t-1} + e_t$, $e_t \sim N(0, 1)$, fără laguri; valori critice de 95\% la $T = 100, 200, 400, 800$: SADF 1{,}34; 1{,}36; 1{,}43; 1{,}45; GSADF 2{,}01; 2{,}12; 2{,}23; 2{,}35
 \end{itemize}
 \quantlet{ATS\_ch16\_recursive\_tests}{\qlurl{ATS_ch16_recursive_tests}}
 \end{frame}
@@ -502,7 +538,7 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \begin{itemize}
     \item ADF pe tot eșantionul are cuantila de 95\% negativă (\ensuremath{-}0{,}07 la $T = 400$): folosind 1,645 nu s-ar respinge aproape niciodată, coada dreaptă a legii Dickey--Fuller este scurtă
     \item Fiecare suprem mută distribuția spre dreapta: SADF caută pe punctele de sfîrșit, GSADF pe punctele de început și de sfîrșit; pragul GSADF este prețul căutării
-    \item Valoarea critică GSADF crește cu $T$ (de la 2{,}01 la 2{,}35) deși $r_0$ scade: mai multe ferestre, un maxim mai mare; simulați valorile critice pentru propriile $T$, $r_0$ și număr de decalaje
+    \item Valoarea critică GSADF crește cu $T$ (de la 2{,}01 la 2{,}35) deși $r_0$ scade: mai multe ferestre, un maxim mai mare; simulați valorile critice pentru propriile $T$, $r_0$ și număr de laguri
     \item Cuantila punctuală de 95\% a BSADF la ultima dată (0{,}61 la $T = 400$) este mult sub cea GSADF: o singură dată este testată la 5\%, întreaga traiectorie nu
 \end{itemize}
 \end{frame}
@@ -564,7 +600,7 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \begin{frame}{Recapitulare: testele recursive}
 \itemsize{\small}
 \begin{itemize}
-    \item SADF, GSADF și BSADF sînt supreme ale statisticilor ADF pe ferestre, cu o limită pivotală sub ipoteza nulă; valorile critice trebuie să corespundă lui $T$, $r_0$, termenilor determiniști și decalajelor
+    \item SADF, GSADF și BSADF sînt supreme ale statisticilor ADF pe ferestre, cu o limită pivotală sub ipoteza nulă; valorile critice trebuie să corespundă lui $T$, $r_0$, termenilor determiniști și lagurilor
     \item Volatilitatea variabilă distorsionează nivelul; wild bootstrap păstrează tiparul volatilității și îl reface
     \item Datarea punctuală are o rată mare de episoade false pe un eșantion; pragurile de familie o controlează, cu prețul puterii
 \end{itemize}
@@ -578,16 +614,30 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \begin{frame}{Regulile de datare și acuratețea lor}
 \itemsize{\small}
 \begin{itemize}
-    \item Începutul și sfîrșitul \refPSYa: $\hat r_e = \inf\{r_2 \ge r_0: \mathrm{BSADF}_{r_2} > cv_{r_2}\}$, $\hat r_f = \inf\{r_2 \ge \hat r_e + \delta\ln(T)/T: \mathrm{BSADF}_{r_2} < cv_{r_2}\}$
+    \item \textbf{Începutul și sfîrșitul} \refPSYa: prima dată la care BSADF depășește valoarea critică și prima dată ulterioară la care coboară sub ea \[ \hat r_e = \inf\{r_2 \ge r_0: \mathrm{BSADF}_{r_2} > cv_{r_2}\}, \qquad \hat r_f = \inf\{r_2 \ge \hat r_e + \delta\ln(T)/T: \mathrm{BSADF}_{r_2} < cv_{r_2}\} \]
     \begin{itemize}
+        \item $cv_{r_2}$: valoarea critică punctuală de 95\% la $r_2$; $\delta\ln(T)/T$: o durată minimă (cu $\delta$ o constantă de calibrare)
         \item aici: un episod este o serie de cel puțin $\lceil\ln T\rceil$ depășiri consecutive, datată de la prima la ultima (ca în \texttt{exuber} \refVPM)
     \end{itemize}
     \item În timp real, un episod este \textbf{confirmat} doar după durata minimă: data alarmei este începutul plus $\lceil\ln T\rceil - 1$
-    \item Consistența lui $(\hat r_e, \hat r_f)$ este valabilă pentru bule ușor explozive cu durată fracționară fixă \refPSYb; începutul este datat tîrziu, fiindcă o fereastră trebuie să acumuleze întîi observații explozive
+    \item Consistența lui $(\hat r_e, \hat r_f)$ este valabilă pentru bule ușor explozive cu durată fracționară fixă \refPSYb
     \begin{itemize}
+        \item începutul este datat tîrziu, fiindcă o fereastră trebuie să acumuleze întîi observații explozive
         \item estimatori îmbunătățiți ai începutului și sfîrșitului, care folosesc toată perioada bulei: \refHLS
     \end{itemize}
-    \item Designul experimentului: mers aleator de la $y_0 = 100$, explozie $y_t = \rho y_{t-1} + e_t$ în perioadele 200--260, prăbușire la nivelul de dinaintea bulei, mers aleator; $T = 400$, 1\,000 de traiectorii pentru fiecare $\rho$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Datarea: designul experimentului}
+\itemsize{\small}
+\begin{itemize}
+    \item Traiectorii simulate: mers aleator de la $y_0 = 100$, apoi o fază explozivă, o prăbușire și din nou mers aleator
+    \begin{itemize}
+        \item faza explozivă $y_t = \rho y_{t-1} + e_t$, $\rho > 1$, în perioadele 200--260; $e_t$: zgomot cu distribuția Normală
+        \item prăbușire la nivelul de dinaintea bulei la sfîrșitul fazei explozive
+        \item $T = 400$, 1\,000 de traiectorii pentru fiecare valoare a lui $\rho$
+    \end{itemize}
+    \item Întrebările: cît de des este găsită bula, cît de tîrziu este datat începutul ei, cît de des este datat un episod fals înaintea ei?
 \end{itemize}
 \end{frame}
 
@@ -613,16 +663,33 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Monitorizarea în timp real}
+\begin{frame}{Monitorizarea în timp real (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Monitorizarea: un eșantion de antrenare de $n$ observații fără bulă, apoi o decizie la fiecare dată nouă $t > n$; rata de eroare se referă la \textbf{întregul} orizont de monitorizare \refCSW
-    \item CUSUM al randamentelor: $S_t = \sum_{j=n+1}^{t}(r_j - \bar r_n)/(\hat\sigma_n\sqrt n)$; alarmă cînd $S_t > b_t = \sqrt{\tfrac{t - n}{n}\cdot\tfrac{t}{n}\left[a^2 + \ln\tfrac{t}{t - n}\right]}$
+    \item \textbf{CUSUM} al randamentelor: abaterile cumulate ale randamentelor noi de la media din perioada de antrenare, în unități ale volatilității din antrenare \[ S_t = \sum_{j=n+1}^{t}\frac{r_j - \bar r_n}{\hat\sigma_n\sqrt n}, \qquad \text{alarmă cînd}\ S_t > b_t = \sqrt{\tfrac{t - n}{n}\cdot\tfrac{t}{n}\left[a^2 + \ln\tfrac{t}{t - n}\right]} \]
     \begin{itemize}
-        \item $\Pr\{S_t > b_t$ pentru un $t\} \to 1 - \Phi(a) + a\varphi(a)$ (demonstrația în \atsapplink{atsapp2}{atssrc1}{Anexă}); 5\% dă $a = 2{,}50$, $a^2 = 6{,}25$
-        \item nivelul simulat, $n = 100$, orizont $5n$, 2\,000 de traiectorii: 3{,}5\% cu randamente i.i.d., 6{,}0\% cu randamente GARCH
+        \item $r_j$: randamentul perioadei $j$; $\bar r_n$, $\hat\sigma_n$: media și abaterea standard a randamentelor din antrenare; $b_t$: frontiera, care se lărgește cu $t$; $a$: o constantă care fixează rata de eroare
     \end{itemize}
-    \item \refHB{} compară testele de bulă și schemele de monitorizare și recomandă în timp real monitorizarea de acest tip; \refAHLST{} propun statistici de monitorizare cu nivel controlat pentru bule explozive
+    \item Rata de eroare pe întregul orizont (demonstrația în \atsapplink{atsapp2}{atssrc1}{Anexă})
+    \begin{itemize}
+        \item $\Pr\{S_t > b_t$ pentru un $t\} \to 1 - \Phi(a) + a\varphi(a)$; $\Phi$, $\varphi$: funcția de repartiție și densitatea distribuției Normale standard
+        \item 5\% dă $a = 2{,}50$, $a^2 = 6{,}25$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Monitorizarea în timp real (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Nivelul simulat, $n = 100$, orizont $5n$, 2\,000 de traiectorii
+    \begin{itemize}
+        \item 3{,}5\% cu randamente i.i.d., 6{,}0\% cu randamente GARCH
+    \end{itemize}
+    \item \refHB{} compară testele de bulă și schemele de monitorizare și recomandă în timp real monitorizarea de acest tip
+    \begin{itemize}
+        \item \refAHLST{} propun statistici de monitorizare cu nivel controlat pentru bule explozive
+    \end{itemize}
     \item BSADF în timp real este și el un monitor: $\mathrm{BSADF}_t$ folosește doar datele pînă la $t$, dar valorile lui critice punctuale nu controlează eroarea pe orizont
 \end{itemize}
 \end{frame}
@@ -691,7 +758,7 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
     \item În modelul valorii actualizate, raportul preț/chirie (sau preț/dividend) este staționar; un \textbf{raport} exploziv cu un \textbf{fundament} neexploziv indică o bulă
     \item Dacă chiriile explodează ele însele, un preț exploziv nu dovedește o bulă: testați ambele (logica din \refDGb{} aplicată cu PSY)
     \item Lucrări de referință: \refPY{} datează exuberanța raportului preț/chirie din SUA dinaintea crizei subprime; \refPav{} aplică GSADF pe baza de date internațională a prețurilor locuințelor a Fed din Dallas
-    \item Prețurile lunare ale locuințelor sînt netezite (indici de vînzări repetate, evaluări): variațiile lor sînt autocorelate, deci numărul de decalaje $k$ contează; aici $k$ după BIC, pînă la 6 luni
+    \item Prețurile lunare ale locuințelor sînt netezite (indici de vînzări repetate, evaluări): variațiile lor sînt autocorelate, deci numărul de laguri $k$ contează; aici $k$ după BIC, pînă la 6 luni
 \end{itemize}
 \end{column}
 \end{columns}
@@ -704,7 +771,7 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Logaritmul raportului preț/chirie și al chiriei reale; BSADF cu $k$ decalaje (raportul SUA $k = 1$, chiria $k = 1$) și valori critice punctuale de 95\% prin wild bootstrap (999 de extrageri); zonele colorate: episoadele datate ale raportului
+    \item Logaritmul raportului preț/chirie și al chiriei reale; BSADF cu $k$ laguri (raportul SUA $k = 1$, chiria $k = 1$) și valori critice punctuale de 95\% prin wild bootstrap (999 de extrageri); zonele colorate: episoadele datate ale raportului
 \end{itemize}
 \quantlet{ATS\_ch16\_housing}{\qlurl{ATS_ch16_housing}}
 \end{frame}
@@ -723,7 +790,7 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \itemsize{\small}
 \begin{itemize}
     \item Testați separat raportul și fundamentul: un raport exploziv cu un fundament liniștit este semnătura bulei
-    \item Indicii netezîți ai locuințelor cer decalaje în regresie și un bootstrap sub ipoteza nulă AR; fără decalaje testele resping aproape peste tot
+    \item Indicii neteziți ai locuințelor cer laguri în regresie și un bootstrap sub ipoteza nulă AR; fără laguri testele resping aproape peste tot
     \item Eșantioanele scurte (România din 2009) au putere mică: lipsa respingerii nu dovedește lipsa bulei
 \end{itemize}
 \end{frame}
@@ -744,9 +811,12 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item $\ln p(t) = A + B(t_c - t)^m + C_1(t_c - t)^m\cos(\omega\ln(t_c - t)) + C_2(t_c - t)^m\sin(\omega\ln(t_c - t))$ \refJLS; $B < 0$, $0 < m < 1$: creștere mai rapidă decît exponențială spre un timp critic $t_c$
+    \item \refJLS: logaritmul prețului crește mai repede decît exponențial spre un timp critic $t_c$, cu oscilații care se accelerează \[ \ln p(t) = A + B(t_c - t)^m + C_1(t_c - t)^m\cos(\omega\ln(t_c - t)) + C_2(t_c - t)^m\sin(\omega\ln(t_c - t)) \]
+    \begin{itemize}
+        \item $A$: logaritmul prețului la $t_c$; $B < 0$ și $0 < m < 1$: creștere superexponențială; $C_1$, $C_2$: amplitudinile oscilațiilor; $\omega$: frecvența lor logaritmică
+    \end{itemize}
     \item Doi pași \refFS: pentru $(t_c, m, \omega)$ date, cei patru parametri liniari se obțin prin OLS; se minimizează suma de pătrate concentrată pe trei parametri neliniari
-    \item Ajustări calificate: filtrul din \refSZ{} (limite pentru $m$, $\omega$, $t_c$, numărul de oscilații, amortizare, eroarea relativă, testul Lomb al oscilațiilor, reziduuri staționare)
+    \item Ajustări calificate: filtrul din \refSZ{} (limite pentru $m$, $\omega$, $t_c$, numărul de oscilații, amortizare, eroarea relativă, testul Lomb, reziduuri staționare)
     \item \textbf{Indicatorul de încredere}: ponderea ajustărilor calificate pe multe ferestre care se încheie la aceeași dată (aici 29 de ferestre de 50--750 de zile)
 \end{itemize}
 \end{column}
@@ -757,9 +827,9 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \itemsize{\small}
 \begin{itemize}
     \item Estimația punctuală $\hat t_c$ se mută odată cu fereastra și datele; este nevoie de un \textbf{interval}
-    \item Verosimilitatea profil: pentru fiecare $t_c$ concentrăm $(m, \omega)$ și parametrii liniari; cu erori gaussiene $\ell(t_c) = -\frac n2\ln[\mathrm{SSR}(t_c)/n]$
+    \item \textbf{Verosimilitatea profil}: pentru fiecare $t_c$, ceilalți parametri iau valorile cele mai bune; cu erori gaussiene \[ \ell(t_c) = -\frac n2\ln\big[\mathrm{SSR}(t_c)/n\big], \qquad \text{intervalul de 95\%}: \{t_c: 2[\ell(\hat t_c) - \ell(t_c)] \le \chi^2_{1;0{,}95} = 3{,}84\} \]
     \begin{itemize}
-        \item intervalul de 95\%: $\{t_c: 2[\ell(\hat t_c) - \ell(t_c)] \le \chi^2_{1;0,95} = 3,84\}$
+        \item $n$: numărul de zile din fereastră; $\mathrm{SSR}(t_c)$: cea mai mică sumă a pătratelor reziduurilor pentru acest $t_c$
         \item prea îngust cînd reziduurile sînt autocorelate sau parametrii de deranj sînt mulți
     \end{itemize}
     \item \refFDS: verosimilitatea profil modificată (Barndorff-Nielsen) corectează pentru parametrii de deranj; intervalele pentru $t_c$ devin mai largi și asimetrice
@@ -830,7 +900,7 @@ $|\rho| > 1$ fix & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mat
 \begin{column}{0.64\textwidth}
 \begin{itemize}
     \item Logaritmul prețurilor săptămînale (închiderea de vineri): S\&P 500 și Nasdaq 100 1990--2004, Shanghai Composite 2010--2018, Bitcoin septembrie 2014 -- 2023, BET 2000--2012
-    \item Fără decalaje; $r_0 = 0{,}01 + 1{,}8/\sqrt T$; durata minimă $\lceil\ln T\rceil$ săptămîni; valori critice Monte Carlo (1000 de traiectorii) și wild bootstrap (499 de extrageri)
+    \item Fără laguri; $r_0 = 0{,}01 + 1{,}8/\sqrt T$; durata minimă $\lceil\ln T\rceil$ săptămîni; valori critice Monte Carlo (1000 de traiectorii) și wild bootstrap (499 de extrageri)
     \item Episoade datate cu valori wild punctuale și cu pragul wild de familie pe 52 de săptămîni; data alarmei este data confirmării
     \item Studii de caz: \refPWY{} (Nasdaq), \refPSYa{} (S\&P 500), \refSha{} (Shanghai), \refGDS{} (Bitcoin); pentru BET 2007, vezi și lectura suplimentară \refPMM
 \end{itemize}
@@ -868,7 +938,7 @@ BET & 663 & 3{,}53 & 2{,}29 & 3{,}21 & 3 / 7 / 1 & 213 / 217 \\
 \end{center}
 \begin{itemize}
     \item S\&P 500: GSADF sub ambele valori critice, totuși datarea punctuală marchează 6 episoade: capcana multiplicității pe date reale; niciun episod de familie
-    \item Valorile critice wild depășesc valorile Monte Carlo pentru toate seriile (grupări ale volatilității): Bitcoin și BET resping în continuare; Nasdaq (2{,}92 față de 3{,}22) și Shanghai (3{,}46 față de 3{,}90) nu resping
+    \item Valorile critice wild depășesc valorile Monte Carlo pentru toate seriile (volatility clustering): Bitcoin și BET resping în continuare; Nasdaq (2{,}92 față de 3{,}22) și Shanghai (3{,}46 față de 3{,}90) nu resping
     \item MC: Monte Carlo; FW: pragul wild de familie pe 52 de săptămîni; vc: valoarea critică de 95\% a GSADF
 \end{itemize}
 \end{frame}
@@ -914,7 +984,10 @@ BET, 20 iulie 2007 & 2 septembrie 2005 & 98 & nu & -- & 46\% \\
 \begin{itemize}
     \item Frecvențe de bază: 6{,}8\% dintre datele S\&P 500 și 47{,}6\% dintre datele Bitcoin sînt urmate de o scădere de 20\%: aceeași alarmă înseamnă lucruri foarte diferite pe cele două piețe
     \item S\&P 500, AUC cu intervale block bootstrap de 90\%: indicatorul 0{,}39 [0{,}32; 0{,}48], BSADF 0{,}41 [0{,}28; 0{,}58], momentum 0{,}23 [0{,}10; 0{,}40]: toate sub 0,5
-    \item Cele mai multe date S\&P 500 urmate de o scădere de 20\% se află în piețe în declin (2000--2002, 2008), cînd scorurile de exuberanță sînt mici, și puține la vîrful unei creșteri: scorurile sînt \textbf{mai mici} înaintea evenimentelor; alarmele BSADF au precizia 1\%, față de o frecvență de bază de 6{,}8\%
+    \item Cele mai multe date S\&P 500 urmate de o scădere de 20\% se află în piețe în declin (2000--2002, 2008), cînd scorurile de exuberanță sînt mici, și puține la vîrful unei creșteri
+    \begin{itemize}
+        \item deci scorurile sînt \textbf{mai mici} înaintea evenimentelor; alarmele BSADF au precizia 1\%, față de o frecvență de bază de 6{,}8\%
+    \end{itemize}
     \item Bitcoin: BSADF are putere predictivă, AUC 0{,}77 [0{,}69; 0{,}85], peste momentum 0{,}66; alarmele lui ating precizia 79\%, față de o frecvență de bază de 47{,}6\% (rata de detecție 32\%, alarme false 8\%)
     \item Indicatorul LPPLS este pozitiv în 35{,}9\% dintre datele S\&P 500 și în 4{,}6\% dintre datele Bitcoin; AUC este 0{,}39 și 0{,}49: în acest protocol nu separă datele dinaintea crahurilor de celelalte
 \end{itemize}
@@ -939,7 +1012,7 @@ BET, 20 iulie 2007 & 2 septembrie 2005 & 98 & nu & -- & 46\% \\
 \begin{itemize}
     \item Conțin alarmele bazate pe rădăcini explozive și pe LPPLS informație despre scăderile mari dincolo de momentum și volatilitate, după ce ținem seama de frecvențele de bază, de orizonturile suprapuse și de căutarea pe multe active?
     \begin{itemize}
-        \item formal: într-un model logit sau probit al evenimentului pe momentum, volatilitate și scorul alarmei (cu decalaj), $H_0$: coeficientul alarmei este zero, cu inferență block bootstrap și un panel de active preînregistrat
+        \item formal: într-un model logit sau probit al evenimentului pe momentum, volatilitate și scorul alarmei (cu lag), $H_0$: coeficientul alarmei este zero, cu inferență block bootstrap și un panel de active preînregistrat
         \item infirmată de un cîștig semnificativ în afara eșantionului într-o regulă de scor proprie (log score, Brier) față de modelul cu momentum și volatilitate, agregat pe active
     \end{itemize}
     \item De ce contează: autoritățile și investitorii citesc indicatorii de bulă ca avertismente; majoritatea dovezilor provin din cîteva episoade celebre, alese după ce s-au produs
@@ -968,8 +1041,8 @@ BET, 20 iulie 2007 & 2 septembrie 2005 & 98 & nu & -- & 46\% \\
 \begin{itemize}
     \item Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)
     \item Coada dreaptă, nu cea stîngă: un ADF scris de un AI folosește adesea valorile critice ale cozii stîngi sau cuantila normală 1,645
-    \item Valori critice simulate pentru aceleași $T$, $r_0$, decalaje și termeni determiniști; wild bootstrap cînd volatilitatea se schimbă
-    \item Fără informație din viitor: fereastra minimă, numărul de decalaje și scalarea se stabilesc din datele disponibile la fiecare dată
+    \item Valori critice simulate pentru aceleași $T$, $r_0$, laguri și termeni determiniști; wild bootstrap cînd volatilitatea se schimbă
+    \item Fără informație din viitor: fereastra minimă, numărul de laguri și scalarea se stabilesc din datele disponibile la fiecare dată
     \item Multiplicitatea pe date și pe active: ce rată de eroare controlează o bulă raportată?
 \end{itemize}
 \end{frame}
@@ -981,7 +1054,7 @@ BET, 20 iulie 2007 & 2 septembrie 2005 & 98 & nu & -- & 46\% \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item GSADF pe logaritmul prețului lunar pentru 71 de serii din datele cursului (din 1990 sau din prima lună disponibilă), valori $p$ din 1999 de extrageri wild bootstrap și 1999 Monte Carlo (cea mai mică valoare $p$ posibilă: 0{,}0005)
+    \item GSADF pe logaritmul prețului lunar pentru 71 de serii din datele cursului (din 1990 sau din prima lună disponibilă), p-value-uri din 1999 de extrageri wild bootstrap și 1999 Monte Carlo (cel mai mic p-value posibil: 0{,}0005)
     \item Respingeri la 5\%: 42 cu Monte Carlo, 20 cu wild bootstrap (3{,}6 așteptate din întîmplare); după Holm 2, după Benjamini--Hochberg 12. Un rezumat AI precum „bule în 42 dintre active” greșește de două ori: ipoteză nulă greșită și nicio corecție
 \end{itemize}
 \quantlet{ATS\_ch16\_ai\_screen}{\qlurl{ATS_ch16_ai_screen}}

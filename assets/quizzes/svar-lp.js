@@ -137,10 +137,10 @@ window.ATS_DATA.quizzes['svar-lp'] = {
                     "Înăsprirea monetară crește inflația pe termen lung",
                     "Benzile bootstrap sînt prea înguste",
                     "Șocul de politică conține încă reacția Fed la inflația așteptată, pe care VAR-ul o omite",
-                    "VAR-ul are prea multe decalaje"
+                    "VAR-ul are prea multe laguri"
                 ],
                 "correctExplanation": "Fed înăsprește politica atunci cînd anticipează inflație; dacă VAR-ul omite această informație, o parte din reacția sistematică este etichetată greșit drept șoc, iar prețurile par să crească după el.",
-                "incorrectExplanation": "Prețurile scad pe termen lung în răspunsurile CEE; anomalia privește estimația punctuală, nu lățimea benzilor; și apare și cu puține, și cu multe decalaje."
+                "incorrectExplanation": "Prețurile scad pe termen lung în răspunsurile CEE; anomalia privește estimația punctuală, nu lățimea benzilor; și apare și cu puține, și cu multe laguri."
             }
         },
         {
@@ -540,7 +540,7 @@ window.ATS_DATA.quizzes['svar-lp'] = {
                 "text": "Ce arată Plagborg-Møller și Wolf (2021) despre proiecțiile locale și VAR-uri?",
                 "options": [
                     "LP este întotdeauna nedeplasată, iar VAR întotdeauna deplasat",
-                    "Cu aceleași decalaje drept controale, estimează în populație aceleași răspunsuri pînă la orizontul $p$, iar cu decalaje nerestricționate, la toate orizonturile",
+                    "Cu aceleași laguri drept controale, estimează în populație aceleași răspunsuri pînă la orizontul $p$, iar cu laguri nerestricționate, la toate orizonturile",
                     "Identifică șocuri diferite",
                     "LP are nevoie de inversabilitate, iar VAR nu"
                 ],
@@ -572,7 +572,7 @@ window.ATS_DATA.quizzes['svar-lp'] = {
                     "VAR-ul folosește mai multe observații decît LP la orice orizont"
                 ],
                 "correctExplanation": "Li, Plagborg-Møller și Wolf (2024): LP are deplasare mică și varianță mare; acolo unde deplasarea VAR-ului este mică, varianța lui mai mică cîștigă în eroarea medie pătratică.",
-                "incorrectExplanation": "DGP-ul are un termen de medie mobilă în formă de cocoașă pe care un VAR(2) nu îl poate surprinde; LP este aproape nedeplasată; diferența de dimensiune a eșantionului este prea mică pentru a explica decalajul."
+                "incorrectExplanation": "DGP-ul are un termen de medie mobilă în formă de cocoașă pe care un VAR(2) nu îl poate surprinde; LP este aproape nedeplasată; diferența de dimensiune a eșantionului este prea mică pentru a explica diferența."
             }
         },
         {
@@ -591,14 +591,14 @@ window.ATS_DATA.quizzes['svar-lp'] = {
             },
             "ro": {
                 "title": "Inferența pentru proiecțiile locale",
-                "text": "Ce permit decalajele suplimentare (Montiel Olea și Plagborg-Møller 2021) în proiecțiile locale?",
+                "text": "Ce permite lag augmentation (Montiel Olea și Plagborg-Møller 2021) în proiecțiile locale?",
                 "options": [
                     "Renunțarea la toate controalele",
-                    "Folosirea erorilor standard Eicker--Huber--White, valabile și pentru date foarte persistente, după adăugarea unui decalaj suplimentar al controalelor",
-                    "Folosirea varianței i.i.d. fără vreun decalaj suplimentar",
+                    "Folosirea erorilor standard Eicker--Huber--White, valabile și pentru date foarte persistente, după adăugarea unui lag suplimentar al controalelor",
+                    "Folosirea varianței i.i.d. fără vreun lag suplimentar",
                     "Estimarea tuturor orizonturilor într-o singură regresie"
                 ],
-                "correctExplanation": "Cu un decalaj suplimentar, scorul regresiei devine necorelat serial, deci erorile robuste la heteroscedasticitate sînt suficiente, uniform după persistență.",
+                "correctExplanation": "Cu un lag suplimentar, scorul regresiei devine necorelat serial, deci erorile robuste la heteroscedasticitate sînt suficiente, uniform după persistență.",
                 "incorrectExplanation": "Controalele rămîn necesare; varianța i.i.d. ignoră heteroscedasticitatea; LP rămîne o regresie pentru fiecare orizont."
             }
         },
@@ -652,7 +652,7 @@ window.ATS_DATA.quizzes['svar-lp'] = {
                     "Prețurile din România nu se măsoară lunar",
                     "Anomaliile prețurilor și ale cursului semnalează eșecul identificării recursive, nu un efect cauzal"
                 ],
-                "correctExplanation": "Inovația ROBOR conține încă reacția sistematică a BNR la inflația așteptată și la presiunea asupra leului; anomalia rezistă la orice ordonare, ceea ce indică informație lipsă, nu un efect real.",
+                "correctExplanation": "Inovația ROBOR conține încă reacția sistematică a BNR la inflația așteptată și la presiunea asupra leului; anomalia se menține la orice ordonare, ceea ce indică informație lipsă, nu un efect real.",
                 "incorrectExplanation": "ROBOR transmite dobînda de politică; VAR-ul include un bloc al zonei euro; iar IAPC este lunar."
             }
         }

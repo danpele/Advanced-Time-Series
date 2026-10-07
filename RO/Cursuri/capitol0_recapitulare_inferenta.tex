@@ -403,7 +403,7 @@ MSCA Digital Finance}
     \item Să enunțați teoremele limită din spatele oricărei erori standard folosite pentru serii de timp: LGN ergodică, TLC pentru diferențe de martingală și pentru procese mixing
     \item Să derivați varianța de termen lung și consecințele ei pentru testele $t$ și intervalele de încredere
     \item Să alegeți și să argumentați un estimator HAC: nucleul, lățimea de bandă, valorile critice (standard sau fixed-$b$)
-    \item Să folosiți bootstrap pe blocuri (mobile, circulare, staționar) și să știți cînd wild bootstrap nu este suficient
+    \item Să folosiți bootstrap-ul pe blocuri (mobile, circulare, staționar) și să știți cînd wild bootstrap-ul nu este suficient
     \item Să măsurați distorsiunile de mărime prin Monte Carlo și să controlați data snooping
     \item Să construiți un pachet de replicare care reproduce fiecare rezultat al unui proiect
 \end{itemize}
@@ -451,15 +451,44 @@ Macro SUA & PIB real; randamentele titlurilor de stat la 10 ani și la 3 luni & 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Notații}
+\begin{frame}{Notații (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $\{x_t\}$ o serie (slab) staționară cu media $\mu$ și autocovarianțele $\gamma_j = \Cov(x_t, x_{t-j})$; $\rho_j = \gamma_j/\gamma_0$
-    \item Media de selecție $\bar{x} = T^{-1}\sum_{t=1}^{T} x_t$; autocovarianța de selecție $\hat\gamma_j = T^{-1}\sum_{t=j+1}^{T}(x_t - \bar x)(x_{t-j} - \bar x)$
-    \item Varianța de termen lung $\Omega = \sum_{j=-\infty}^{\infty}\gamma_j = 2\pi f(0)$, unde $f$ este densitatea spectrală
-    \item Nucleul $k(\cdot)$, lățimea de bandă $S$ (decalajele Newey--West $L = S - 1$ pentru Bartlett), $b = S/T$
-    \item Mărimea testului: probabilitatea de a respinge o ipoteză $H_0$ adevărată; nivelul nominal este $5\%$, dacă nu se precizează altfel
-    \item HAC: consistent la heteroscedasticitate și autocorelație; HAR: robust la heteroscedasticitate și autocorelație (testul construit pe un estimator HAC)
+    \item $\{x_t\}$, $t = 1, \dots, T$: o serie slab staționară observată pe $T$ perioade
+    \begin{itemize}
+        \item $\mu = E x_t$: media seriei; $\gamma_j = \Cov(x_t, x_{t-j})$: autocovarianța la lagul $j$, aceeași pentru orice $t$
+        \item $\gamma_0 = \Var(x_t)$; $\rho_j = \gamma_j/\gamma_0 \in [-1, 1]$: autocorelația la lagul $j$
+    \end{itemize}
+    \item Estimatorii de selecție (accentul circumflex marchează o valoare estimată)
+    \begin{itemize}
+        \item media de selecție $\bar{x} = T^{-1}\sum_{t=1}^{T} x_t$
+        \item autocovarianța de selecție $\hat\gamma_j = T^{-1}\sum_{t=j+1}^{T}(x_t - \bar x)(x_{t-j} - \bar x)$
+        \item $\hat\gamma_j$ face media produselor abaterilor de la medie aflate la distanța de $j$ perioade
+    \end{itemize}
+    \item Varianța de termen lung $\Omega = \sum_{j=-\infty}^{\infty}\gamma_j = 2\pi f(0)$
+    \begin{itemize}
+        \item suma tuturor autocovarianțelor ($\gamma_{-j} = \gamma_j$); ea determină precizia lui $\bar x$ (secțiunea următoare)
+        \item $f(\omega)$: densitatea spectrală la frecvența $\omega$; $f(0)$ măsoară varianța mișcărilor lente, de termen lung
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Notații (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Nucleul $k(\cdot)$: o funcție de ponderare cu $k(0) = 1$; lagul $j$ primește ponderea $k(j/S)$
+    \begin{itemize}
+        \item lățimea de bandă $S$: scala ponderilor; lagurile mult mai lungi decît $S$ primesc pondere (aproape) zero
+        \item Newey--West: $L = S - 1$ laguri pentru nucleul Bartlett; $b = S/T$: lățimea de bandă ca proporție din eșantion
+    \end{itemize}
+    \item Mărimea testului: probabilitatea de a respinge o ipoteză $H_0$ adevărată
+    \begin{itemize}
+        \item nivelul nominal este $5\%$, dacă nu se precizează altfel; un test respinge prea des cînd mărimea lui efectivă depășește nivelul nominal
+    \end{itemize}
+    \item HAC: consistent la heteroscedasticitate și autocorelație (un estimator al lui $\Omega$)
+    \begin{itemize}
+        \item HAR: robust la heteroscedasticitate și autocorelație (testul construit pe un estimator HAC)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -495,32 +524,57 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{frame}{Staționaritatea și reprezentarea Wold}
 \itemsize{\small}
 \begin{itemize}
-    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol1_procese_stochastice_stationaritate.pdf}{TSA, Capitolul 1}. Staționaritate slabă: medie constantă și $\gamma_j$ care depinde doar de $j$; strictă: toate distribuțiile finit-dimensionale sînt invariante la translație
+    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol1_procese_stochastice_stationaritate.pdf}{TSA, Capitolul 1}. Staționaritate slabă: medie constantă și $\gamma_j$ care depinde doar de $j$
     \begin{itemize}
-        \item Niciuna nu o implică pe cealaltă fără condiții de momente (Cauchy i.i.d.\ este strict, dar nu slab staționar)
+        \item staționaritate strictă: toate distribuțiile finit-dimensionale sînt invariante la o translație în timp
+        \item niciuna nu o implică pe cealaltă fără condiții de momente: Cauchy i.i.d.\ este strict, dar nu slab staționar (nu are varianță)
     \end{itemize}
-    \item Wold: orice serie slab staționară, pur nedeterministă, este $x_t - \mu = \sum_{j\ge 0}\psi_j\varepsilon_{t-j}$, $\sum\psi_j^2 < \infty$, $\varepsilon_t$ zgomot alb \refHamilton
+    \item Teorema lui Wold \refHamilton: orice serie slab staționară, pur nedeterministă, este o sumă ponderată de inovații trecute
     \begin{itemize}
+        \item $x_t - \mu = \sum_{j\ge 0}\psi_j\varepsilon_{t-j}$, $\quad \psi_0 = 1$, $\quad \sum_j\psi_j^2 < \infty$
+        \item $\varepsilon_t$: zgomot alb cu varianța $\sigma^2$, eroarea prognozei pe un pas; $\psi_j$: efectul unui șoc după $j$ perioade
         \item $\varepsilon_t$ este necorelat, nu neapărat independent: inovațiile GARCH sînt inovații Wold
-        \item De aceea „zgomotul alb” nu este suficient pentru inferența de tip i.i.d.\ pe pătrate sau pe valori extreme
     \end{itemize}
-    \item În acest capitol: $\Omega = \sigma^2 \big(\sum_j \psi_j\big)^2$ pentru forma Wold: varianța de termen lung este varianța componentei permanente
+    \item De aceea, zgomotul alb nu este suficient pentru inferența de tip i.i.d.\ pe pătrate sau pe valori extreme
+    \begin{itemize}
+        \item În acest capitol: $\Omega = \sigma^2 \big(\sum_j \psi_j\big)^2$; $\sum_j\psi_j$ este efectul cumulat (de termen lung) al unui șoc, deci $\Omega$ este varianța componentei permanente
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{ARMA și rădăcini unitare}
+\begin{frame}{ARMA și rădăcini unitare (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol2_modele_arma.pdf}{TSA, Capitolul 2}. ARMA$(p,q)$: $\phi(L)x_t = \theta(L)\varepsilon_t$; staționar dacă rădăcinile lui $\phi(z)$ sînt în afara cercului unitate, inversabil dacă și cele ale lui $\theta(z)$ sînt
+    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol2_modele_arma.pdf}{TSA, Capitolul 2}. ARMA$(p,q)$: $\phi(L)x_t = \theta(L)\varepsilon_t$
     \begin{itemize}
-        \item Varianța de termen lung în formă închisă: $\Omega = \sigma^2\,\theta(1)^2/\phi(1)^2$; AR(1): $\sigma^2/(1-\phi)^2$
+        \item $L$: operatorul lag, $Lx_t = x_{t-1}$; $\phi(L) = 1 - \phi_1L - \dots - \phi_pL^p$; $\theta(L) = 1 + \theta_1L + \dots + \theta_qL^q$
+        \item staționar dacă rădăcinile lui $\phi(z)$ sînt în afara cercului unitate; inversabil dacă și rădăcinile lui $\theta(z)$ sînt
     \end{itemize}
-    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol3_radacini_unitare_modele_arima.pdf}{TSA, Capitolul 3}. Rădăcină unitară $\phi(1) = 0$: $\Omega = \infty$, media nu este definită, iar statistica $t$ are o limită nestandard (Dickey--Fuller)
+    \item Varianța de termen lung în formă închisă: $\Omega = \sigma^2\,\theta(1)^2/\phi(1)^2$
     \begin{itemize}
-        \item Regresia unui mers aleator pe altul, independent, dă $|t| > 2$ în 76 din 100 de regresii la \refGN; statistica $t$ diverge cu viteza $\sqrt{T}$ \refPhillips
-        \item Niciun estimator HAC nu repară o regresie falsă (Seminarul 0, B5)
+        \item $\phi(1) = 1 - \sum_i\phi_i$ și $\theta(1) = 1 + \sum_i\theta_i$: cele două polinoame evaluate în $z = 1$
+        \item AR(1): $\Omega = \sigma^2/(1-\phi)^2$; cu cît $\phi(1)$ este mai aproape de 0 (persistență mai mare), cu atît $\Omega$ este mai mare
     \end{itemize}
-    \item Rădăcinile aproape unitare ($\phi$ aproape de 1) sînt cazul dificil al acestui capitol: toate metodele HAC resping prea des
+\end{itemize}
+\end{frame}
+
+\begin{frame}{ARMA și rădăcini unitare (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol3_radacini_unitare_modele_arima.pdf}{TSA, Capitolul 3}. Rădăcină unitară, $\phi(1) = 0$: $\Omega = \infty$, iar media nu este definită
+    \begin{itemize}
+        \item statistica $t$ are o limită nestandard (Dickey--Fuller)
+    \end{itemize}
+    \item Regresia falsă: un mers aleator regresat pe altul, independent
+    \begin{itemize}
+        \item $|t| > 2$ în 76 din 100 de regresii la \refGN
+        \item statistica $t$ diverge cu viteza $\sqrt{T}$ \refPhillips
+        \item niciun estimator HAC nu corectează o regresie falsă (Seminarul 0, B5)
+    \end{itemize}
+    \item Rădăcinile aproape unitare ($\phi$ aproape de 1) sînt cazul dificil al acestui capitol
+    \begin{itemize}
+        \item acolo, toate metodele HAC resping prea des (secțiunea Monte Carlo)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -529,6 +583,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{itemize}
     \item GARCH (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol5_volatilitate_conditionata_garch.pdf}{TSA, Capitolul 5}): $r_t = \sigma_t z_t$ este o diferență de martingală; $r_t^2$ este un ARMA(1,1) cu autocorelație puternică, care scade lent
     \begin{itemize}
+        \item $r_t$: randamentul; $\sigma_t$: volatilitatea lui condiționată; $z_t$: i.i.d.\ cu media 0 și varianța 1
         \item Mediile randamentelor: HAC contează puțin; mediile pătratelor (varianțe, prime de risc): HAC contează mult
     \end{itemize}
     \item VAR (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol6_modele_var_cauzalitate_granger.pdf}{TSA, Capitolul 6}): testele de cauzalitate Granger sînt teste Wald; cu erori heteroscedastice au nevoie de covarianțe robuste
@@ -576,7 +631,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item ACF de selecție, decalajele 1--24, cu banda $\pm 1{,}96/\sqrt{T}$ a ipotezei i.i.d.\ (hașurată)
+    \item ACF de selecție, lagurile 1--24, cu banda $\pm 1{,}96/\sqrt{T}$ a ipotezei i.i.d.\ (zona hașurată)
     \item $\hat\rho_1$: S\&P 500 $\ensuremath{-}0{,}10$, pătrate $0{,}31$, EUR/RON $0{,}17$, BET $0{,}11$, PIB $\ensuremath{-}0{,}03$, inflație $0{,}98$
 \end{itemize}
 \quantlet{ATS\_ch0\_dependence\_data}{\qlurl{ATS_ch0_dependence_data}}
@@ -585,7 +640,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{frame}{Interpretarea autocorelațiilor}
 \itemsize{\small}
 \begin{itemize}
-    \item Randamentele S\&P 500: $\hat\rho_1$ mic și negativ; pătratele: toate cele 24 de decalaje peste bandă, $\hat\rho_{12} = 0{,}22$
+    \item Randamentele S\&P 500: $\hat\rho_1$ mic și negativ; pătratele: toate cele 24 de laguri peste bandă, $\hat\rho_{12} = 0{,}22$
     \begin{itemize}
         \item Raportul dintre varianța de termen lung și varianță (lățimea Andrews): $0{,}8$ pentru randamente, $5{,}7$ pentru pătrate
     \end{itemize}
@@ -616,19 +671,26 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{frame}{Varianța unei medii în prezența dependenței}
 \itemsize{\small}
 \begin{itemize}
-    \item Exact, pentru orice serie slab staționară:
+    \item Exact, pentru orice serie slab staționară: varianța mediei scalate adună covarianțele tuturor perechilor de observații
     \begin{itemize}
         \item $\Var(\sqrt{T}\,\bar x) = \dfrac{1}{T}\sum_{t=1}^{T}\sum_{s=1}^{T}\gamma_{t-s} = \sum_{|j| < T}\Big(1 - \dfrac{|j|}{T}\Big)\gamma_j$
+        \item $\gamma_{t-s}$: covarianța dintre $x_t$ și $x_s$; $T - |j|$ perechi se află la distanța $j$, de unde ponderea $1 - |j|/T$
     \end{itemize}
-    \item Dacă $\sum_j |\gamma_j| < \infty$ (convergență dominată):
+    \item Dacă $\sum_j |\gamma_j| < \infty$, ponderile tind la 1 (convergență dominată):
     \begin{itemize}
         \item $\Var(\sqrt{T}\,\bar x) \to \Omega = \gamma_0 + 2\sum_{j\ge 1}\gamma_j = 2\pi f(0)$
     \end{itemize}
     \item Formula i.i.d.\ folosește doar $\gamma_0$; factorul de eroare este $\Omega/\gamma_0 = 1 + 2\sum_{j\ge1}\rho_j$
     \begin{itemize}
-        \item Mărimea efectivă a eșantionului $T\gamma_0/\Omega$: un AR(1) cu $\phi = 0{,}9$ face ca 1000 de observații să valoreze cît aproximativ 53
+        \item factor peste 1: eroarea standard naivă este prea mică; sub 1: prea mare
+        \item mărimea efectivă a eșantionului $T\gamma_0/\Omega$: numărul de observații independente care dau aceeași precizie
+        \item AR(1) cu $\phi = 0{,}9$: 1000 de observații echivalează cu aproximativ 53 de observații independente
     \end{itemize}
-    \item Două întrebări: cînd are loc $\bar x \to \mu$ (LGN)? cînd este $\sqrt{T}(\bar x - \mu)/\sqrt{\Omega}$ asimptotic $N(0,1)$ (TLC)?
+    \item Două întrebări pentru restul secțiunii
+    \begin{itemize}
+        \item LGN: cînd are loc $\bar x \to \mu$?
+        \item TLC: cînd este $\sqrt{T}(\bar x - \mu)/\sqrt{\Omega}$ asimptotic $N(0,1)$?
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -637,15 +699,15 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{columns}[T]
 \begin{column}{0.66\textwidth}
 \begin{itemize}
-    \item Un proces strict staționar $\{x_t\}$ este \textbf{ergodic} dacă orice eveniment invariant la translație are probabilitatea 0 sau 1
+    \item Un proces strict staționar $\{x_t\}$ este \textbf{ergodic} dacă orice eveniment invariant la translație (neschimbat cînd întreaga traiectorie este deplasată în timp) are probabilitatea 0 sau 1
     \begin{itemize}
         \item Intuiție: o singură traiectorie lungă parcurge întreaga distribuție; mediile în timp sînt egale cu mediile pe ansamblu
     \end{itemize}
     \item \textbf{Teorema ergodică} \refBirkhoff: staționar, ergodic, $E|x_t| < \infty$ $\Rightarrow$ $\bar x \to E x_t$ aproape sigur
     \begin{itemize}
-        \item Funcțiile de un număr finit de decalaje ale unui proces ergodic sînt ergodice: momente de selecție, autocovarianțe, MCMMP
+        \item Funcțiile de un număr finit de laguri ale unui proces ergodic sînt ergodice: momente de selecție, autocovarianțe, MCMMP
     \end{itemize}
-    \item Contraexemplu: $x_t = Z + \varepsilon_t$, cu $Z$ extras o singură dată: staționar, nu ergodic, $\bar x \to Z$
+    \item Contraexemplu: $x_t = Z + \varepsilon_t$, cu $Z$ un nivel aleator extras o singură dată și $\varepsilon_t$ i.i.d.: staționar, nu ergodic, $\bar x \to Z$
     \begin{itemize}
         \item Istoria unei singure economii este o singură extragere a lui $Z$: de aceea contează rupturile și regimurile (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{capitolele 2}, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol7_modele_schimbare_regim.pdf}{7})
     \end{itemize}
@@ -660,23 +722,40 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \end{columns}
 \end{frame}
 
-\begin{frame}{Mixing: dependență care se stinge}
-\itemsize{\footnotesize}
+\begin{frame}{Mixing: dependență care se stinge (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item Coeficientul de mixing tare ($\alpha$) \refRosenblatt: $\alpha(m) = \sup_t\,\sup\{|P(A\cap B) - P(A)P(B)|: A \in \mathcal{F}_{-\infty}^{t}, B \in \mathcal{F}_{t+m}^{\infty}\}$
+    \item Coeficientul de mixing tare ($\alpha$) \refRosenblatt:
     \begin{itemize}
-        \item $\alpha$-mixing: $\alpha(m) \to 0$; $\beta$-mixing și $\phi$-mixing sînt mai tari; mixing implică ergodicitate \refBradley
+        \item $\alpha(m) = \sup_t\,\sup\{|P(A\cap B) - P(A)P(B)|: A \in \mathcal{F}_{-\infty}^{t}, B \in \mathcal{F}_{t+m}^{\infty}\}$
+        \item $\mathcal{F}_{-\infty}^{t}$: evenimentele determinate de $x_s$, $s \le t$ (trecutul); $\mathcal{F}_{t+m}^{\infty}$: cele determinate de $x_s$, $s \ge t + m$ (viitorul de după un interval de $m$ perioade)
+        \item $|P(A\cap B) - P(A)P(B)|$ este 0 cînd $A$ și $B$ sînt independente: $\alpha(m)$ este cea mai mare dependență dintre un eveniment trecut și unul viitor aflate la $m$ perioade distanță
     \end{itemize}
-    \item Ce modele sînt mixing?
+    \item $\alpha$-mixing: $\alpha(m) \to 0$ cînd $m \to \infty$, adică trecutul și viitorul îndepărtat devin independente
+    \begin{itemize}
+        \item $\beta$-mixing și $\phi$-mixing sînt mai tari; mixing implică ergodicitate \refBradley
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Mixing: dependență care se stinge (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Modele care sînt mixing
     \begin{itemize}
         \item ARMA staționar cu inovații continue: $\beta$-mixing geometric \refMokkadem
         \item GARCH(1,1) strict staționar, volatilitate stochastică: $\beta$-mixing geometric \refCC
+        \item geometric: $\beta(m) \le C\lambda^m$ pentru niște constante $C > 0$ și $0 < \lambda < 1$
     \end{itemize}
-    \item Ce modele nu sînt?
+    \item Modele care nu sînt mixing
     \begin{itemize}
-        \item Rădăcini unitare, memorie lungă cu $d > 0$ (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol8_memorie_lunga_arfima.pdf}{TSA, Capitolul 8}), unele procese haotice deterministe: mixing nu are loc sau este prea lent pentru TLC standard
+        \item rădăcini unitare, memorie lungă cu $d > 0$ (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol8_memorie_lunga_arfima.pdf}{TSA, Capitolul 8}), unele procese haotice deterministe
+        \item în aceste cazuri, mixing nu are loc sau este prea lent pentru TLC standard
     \end{itemize}
-    \item Coeficienții de mixing nu pot fi estimați dintr-o singură traiectorie: ipoteza se verifică prin model, nu se testează
+    \item Coeficienții de mixing nu pot fi estimați dintr-o singură traiectorie
+    \begin{itemize}
+        \item ipoteza se verifică prin model, nu se testează
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -685,7 +764,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{itemize}
     \item \textbf{Legea în $L^2$}: slab staționar cu $\gamma_j \to 0$ $\Rightarrow$ $E(\bar x - \mu)^2 \to 0$
     \begin{itemize}
-        \item Demonstrație: $E(\bar x - \mu)^2 = T^{-1}\sum_{|j|<T}(1 - |j|/T)\gamma_j$, iar media Cesàro a lui $\gamma_j \to 0$ tinde la 0
+        \item Demonstrație: $E(\bar x - \mu)^2 = T^{-1}\sum_{|j|<T}(1 - |j|/T)\gamma_j$, iar media Cesàro (media aritmetică a primilor termeni) a șirului $\gamma_j \to 0$ tinde la 0
     \end{itemize}
     \item \textbf{Legea ergodică} \refBirkhoff: convergență aproape sigură, doar $E|x_t| < \infty$, fără moment de ordinul doi
     \begin{itemize}
@@ -701,30 +780,51 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{itemize}
     \item $\{u_t\}$ este o \textbf{secvență de diferențe de martingală} (MDS) dacă $E(u_t \mid \mathcal{F}_{t-1}) = 0$
     \begin{itemize}
+        \item $\mathcal{F}_{t-1}$: informația disponibilă la $t-1$; în medie, trecutul nu prognozează $u_t$
         \item Necorelat cu orice funcție de trecut, dar poate fi condiționat heteroscedastic: randamente GARCH, scoruri ale unei verosimilități corecte, erorile prognozelor optime pe un pas
     \end{itemize}
     \item \textbf{TLC pentru MDS} \refBillingsley: MDS staționară, ergodică, cu $E u_t^2 = \sigma^2 < \infty$ $\Rightarrow$ $\sqrt{T}\,\bar u \to_d N(0, \sigma^2)$
     \begin{itemize}
-        \item MDS nestaționare: condiții de tip Lindeberg \refBrown
-        \item Aici $\Omega = \gamma_0$: nu este nevoie de corecție pentru autocorelație, doar de erori robuste la heteroscedasticitate White (1980) \refWhiteH
+        \item $\to_d$: convergență în distribuție; MDS nestaționare: condiții de tip Lindeberg \refBrown
+        \item Aici $\Omega = \gamma_0$: nu este nevoie de corecție pentru autocorelație, doar de erori robuste la heteroscedasticitate \refWhiteH
     \end{itemize}
     \item Erorile prognozelor pe $h$ pași, suprapuse, nu sînt MDS: urmează un MA$(h-1)$ (secțiunea „Observații suprapuse”)
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Teoreme limită centrală dincolo de diferențele de martingală}
-\itemsize{\footnotesize}
+\begin{frame}{Teoreme limită centrală dincolo de diferențele de martingală (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item \textbf{TLC pentru procese mixing} \refIbragimov: staționar, $E|x_t|^{2+\delta} < \infty$, $\sum_m \alpha(m)^{\delta/(2+\delta)} < \infty$, $\Omega > 0$ $\Rightarrow$ $\sqrt{T}(\bar x - \mu) \to_d N(0, \Omega)$
+    \item \textbf{TLC pentru procese mixing} \refIbragimov: dacă $x_t$ este staționar și
     \begin{itemize}
-        \item Compromis: mai multe momente permit un mixing mai lent; prima TLC sub mixing tare este \refRosenblatt
+        \item $E|x_t|^{2+\delta} < \infty$, $\quad \sum_m \alpha(m)^{\delta/(2+\delta)} < \infty$, $\quad \Omega > 0$ $\;\Rightarrow\;$ $\sqrt{T}(\bar x - \mu) \to_d N(0, \Omega)$
+        \item $\delta > 0$: numărul de momente peste ordinul doi; $\alpha(m)$: coeficientul de mixing din secțiunea anterioară
+        \item compromis: mai multe momente ($\delta$ mai mare) permit un mixing mai lent; prima TLC sub mixing tare este \refRosenblatt
     \end{itemize}
     \item \textbf{Procese liniare} \refPS: $x_t - \mu = \sum\psi_j\varepsilon_{t-j}$ cu $\varepsilon_t$ i.i.d.\ sau MDS și $\sum j|\psi_j| < \infty$
     \begin{itemize}
-        \item Beveridge--Nelson: $\psi(L) = \psi(1) - (1-L)\tilde\psi(L)$, deci $\sqrt{T}(\bar x - \mu) = \psi(1)\sqrt{T}\bar\varepsilon + o_p(1)$, de unde $\Omega = \sigma^2\psi(1)^2$
+        \item condiția asupra lui $\psi_j$ cere ca efectul unui șoc să se stingă suficient de repede
     \end{itemize}
-    \item Versiunile funcționale (principii de invarianță) dau limitele de tip mișcare browniană din teoria rădăcinilor unitare și din teoria fixed-$b$
-    \item Toate trei cer $0 < \Omega < \infty$: rădăcinile unitare dau $\Omega = \infty$, supradiferențierea dă $\Omega = 0$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Teoreme limită centrală dincolo de diferențele de martingală (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Descompunerea Beveridge--Nelson a polinomului de laguri $\psi(L) = \sum_j\psi_jL^j$:
+    \begin{itemize}
+        \item $\psi(L) = \psi(1) - (1-L)\tilde\psi(L)$, $\quad$ deci $\quad \sqrt{T}(\bar x - \mu) = \psi(1)\sqrt{T}\bar\varepsilon + o_p(1)$
+        \item $\psi(1) = \sum_j\psi_j$: efectul de termen lung al unui șoc; $\tilde\psi(L)$: polinomul componentei tranzitorii; $o_p(1)$: un termen care tinde în probabilitate la 0
+        \item media lui $x_t$ se comportă ca $\psi(1)$ înmulțit cu media inovațiilor, de unde $\Omega = \sigma^2\psi(1)^2$
+    \end{itemize}
+    \item Versiunile funcționale (principii de invarianță) dau limitele de tip mișcare browniană
+    \begin{itemize}
+        \item pe ele se sprijină teoria rădăcinilor unitare și teoria fixed-$b$ (secțiunea următoare)
+    \end{itemize}
+    \item Toate cele trei TLC cer $0 < \Omega < \infty$
+    \begin{itemize}
+        \item rădăcinile unitare dau $\Omega = \infty$; supradiferențierea dă $\Omega = 0$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -735,7 +835,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Stînga: $T\Var(\bar x)/\gamma_0$ pentru un AR(1), teoria $(1+\phi)/(1-\phi)$ și 20\,000 de simulări cu $T = 200$; dreapta: mărimea asimptotică a testului naiv de 5\%, $2[1 - \Phi(1{,}96/\sqrt{(1+\phi)/(1-\phi)})]$
+    \item Stînga: $T\Var(\bar x)/\gamma_0$ pentru un AR(1), teoria $(1+\phi)/(1-\phi)$ și 20\,000 de simulări cu $T = 200$; dreapta: mărimea asimptotică a testului naiv de 5\%, $2[1 - \Phi(1{,}96/\sqrt{(1+\phi)/(1-\phi)})]$, unde $\Phi$ este funcția de repartiție a distribuției Normale standard
 \end{itemize}
 \quantlet{ATS\_ch0\_long\_run\_variance}{\qlurl{ATS_ch0_long_run_variance}}
 \end{frame}
@@ -755,19 +855,38 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Regresia cu erori dependente}
+\begin{frame}{Regresia cu erori dependente (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $y_t = x_t'\beta + u_t$, $E(x_t u_t) = 0$; sub o TLC pentru $x_t u_t$:
+    \item Modelul $y_t = x_t'\beta + u_t$, cu $E(x_t u_t) = 0$
+    \begin{itemize}
+        \item $x_t$: vectorul regresorilor; $\beta$: coeficienții; $u_t$: eroarea, necorelată cu $x_t$; $'$ notează transpunerea
+    \end{itemize}
+    \item Sub o TLC pentru produsele $x_t u_t$, estimatorul MCMMP este asimptotic normal:
     \begin{itemize}
         \item $\sqrt{T}(\hat\beta - \beta) \to_d N\big(0,\; Q^{-1}\Omega_{xu} Q^{-1}\big)$, $\quad Q = E(x_t x_t'),\quad \Omega_{xu} = \sum_{j}E(x_t u_t u_{t-j} x_{t-j}')$
+        \item $Q$: matricea momentelor de ordinul doi ale regresorilor; $\Omega_{xu}$: varianța de termen lung a lui $x_t u_t$
+        \item forma $Q^{-1}\Omega_{xu}Q^{-1}$ se numește sandwich: $\Omega_{xu}$ între două copii ale lui $Q^{-1}$
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Regresia cu erori dependente (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Panta scalară, $x_t$ și $u_t$ serii staționare independente: factorul de eroare este
     \begin{itemize}
         \item $\Omega_{xu}/(\gamma_{x,0}\gamma_{u,0}) = 1 + 2\sum_{j\ge 1}\rho_{x}(j)\rho_{u}(j)$
-        \item Atît regresorul, cît și eroarea trebuie să fie persistente pentru o distorsiune mare: un predictor persistent cu erori persistente este cazul cel mai rău
+        \item $\gamma_{x,0}, \gamma_{u,0}$: varianțele lui $x_t$ și $u_t$; $\rho_x(j), \rho_u(j)$: autocorelațiile lor la lagul $j$
     \end{itemize}
-    \item Forma sandwich $\hat Q^{-1}\hat\Omega_{xu}\hat Q^{-1}$, cu o estimare prin nucleu a lui $\Omega_{xu}$, este matricea de covarianță Newey--West \refNW
+    \item O distorsiune mare cere atît un regresor persistent, cît și o eroare persistentă
+    \begin{itemize}
+        \item dacă una dintre autocorelații este zero, factorul este 1; un predictor persistent cu erori persistente este cazul cel mai nefavorabil
+    \end{itemize}
+    \item Matricea de covarianță Newey--West \refNW: forma sandwich $\hat Q^{-1}\hat\Omega_{xu}\hat Q^{-1}$
+    \begin{itemize}
+        \item $\hat Q$: media de selecție a lui $x_tx_t'$; $\hat\Omega_{xu}$: o estimare prin nucleu a lui $\Omega_{xu}$ (secțiunea următoare)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -789,36 +908,53 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{frame}{Estimarea varianței de termen lung}
 \itemsize{\small}
 \begin{itemize}
-    \item Înlocuirea tuturor autocovarianțelor de selecție: $\sum_{|j|<T}\hat\gamma_j = 0$ identic (date centrate): inutil
+    \item Înlocuirea tuturor autocovarianțelor de selecție eșuează: $\sum_{|j|<T}\hat\gamma_j = 0$ identic pentru datele centrate
     \begin{itemize}
-        \item Autocovarianțele $\hat\gamma_j$ de ordin mare folosesc puține perechi și sînt zgomot
+        \item autocovarianțele $\hat\gamma_j$ de ordin mare folosesc puține perechi și sînt în mare parte zgomot
     \end{itemize}
-    \item \textbf{Estimatorul prin nucleu}: $\hat\Omega = \sum_{|j|<T} k(j/S)\,\hat\gamma_j$, cu $k(0) = 1$, $k$ descrescătoare în $|x|$
+    \item \textbf{Estimatorul prin nucleu}: o sumă ponderată a autocovarianțelor de selecție
     \begin{itemize}
-        \item Echivalent, o periodogramă netezită la frecvența 0: $\hat\Omega = 2\pi\hat f(0)$ \refSS
+        \item $\hat\Omega = \sum_{|j|<T} k(j/S)\,\hat\gamma_j$, $\quad k(0) = 1$, $\quad k(x)$ descrescătoare în $|x|$
+        \item $k(j/S)$: ponderea lagului $j$; $S$: lățimea de bandă; echivalent, o periodogramă netezită la frecvența 0, $\hat\Omega = 2\pi\hat f(0)$ \refSS
     \end{itemize}
-    \item Consistență: $S \to \infty$ și $S/T \to 0$ (Andrews 1991, sub condiții de mixing și de momente) \refAndrews
+    \item Consistență: $S \to \infty$ și $S/T \to 0$, sub condiții de mixing și de momente \refAndrews
     \begin{itemize}
-        \item Deplasarea vine din decalajele subponderate, varianța din cele incluse: $S$ echilibrează cele două
+        \item lagurile subponderate produc deplasare, cele incluse produc varianță: $S$ echilibrează cele două
     \end{itemize}
     \item Un estimator de varianță trebuie să fie nenegativ: nu orice nucleu garantează acest lucru
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Studiu de caz: Newey și West (1987)}
-\itemsize{\footnotesize}
+\begin{frame}{Studiu de caz: Newey și West (1987) (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item \refNW, Econometrica 55(3): nucleul Bartlett $k(x) = 1 - |x|$ pentru $|x| \le 1$, cu $L$ decalaje:
+    \item \refNW, Econometrica 55(3): nucleul Bartlett $k(x) = 1 - |x|$ pentru $|x| \le 1$, cu $L$ laguri
     \begin{itemize}
-        \item $\hat\Omega_{NW} = \hat\Gamma_0 + \sum_{j=1}^{L}\Big(1 - \dfrac{j}{L+1}\Big)\big(\hat\Gamma_j + \hat\Gamma_j'\big)$, $\quad\hat\Gamma_j = T^{-1}\sum_{t>j}\hat h_t\hat h_{t-j}'$, $\hat h_t = x_t\hat u_t$
+        \item $\hat\Omega_{NW} = \hat\Gamma_0 + \sum_{j=1}^{L}\Big(1 - \dfrac{j}{L+1}\Big)\big(\hat\Gamma_j + \hat\Gamma_j'\big)$, $\quad\hat\Gamma_j = T^{-1}\sum_{t>j}\hat h_t\hat h_{t-j}'$
     \end{itemize}
+    \item Notațiile
+    \begin{itemize}
+        \item $\hat h_t = x_t\hat u_t$: regresorul înmulțit cu reziduul MCMMP $\hat u_t$ (scorul observației $t$)
+        \item $\hat\Gamma_j$: matricea autocovarianțelor de selecție ale lui $\hat h_t$ la lagul $j$; $\hat\Gamma_0$: matricea ei de varianță
+        \item $1 - j/(L+1)$: ponderi care scad liniar de la 1 la $1/(L+1)$; lagurile de după $L$ primesc pondere 0
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Studiu de caz: Newey și West (1987) (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item \textbf{Pozitiv semidefinit prin construcție}: ponderile Bartlett sînt autocovarianțele unei sume mobile
     \begin{itemize}
-        \item $\hat\Omega_{NW}$ este egal (pînă la efectele de capăt) cu $\frac{1}{(L+1)T}\sum_t\big(\sum_{i=0}^{L}\hat h_{t-i}\big)\big(\sum_{i=0}^{L}\hat h_{t-i}\big)'$: o sumă de produse exterioare
-        \item Perspectiva spectrală: fereastra Bartlett (Fejér) este nenegativă la orice frecvență
+        \item pînă la efectele de capăt, $\hat\Omega_{NW} = \frac{1}{(L+1)T}\sum_t\big(\sum_{i=0}^{L}\hat h_{t-i}\big)\big(\sum_{i=0}^{L}\hat h_{t-i}\big)'$
+        \item o sumă de produse exterioare $vv'$, fiecare pozitiv semidefinit, deci și suma este
+        \item perspectiva spectrală: fereastra Bartlett (Fejér) este nenegativă la orice frecvență
     \end{itemize}
-    \item Consistență cu $L \to \infty$, $L = o(T^{1/4})$ în lucrarea originală; Andrews (1991) rafinează ratele
-    \item O pagină de algebră, astăzi eroarea standard „robustă” implicită în orice pachet econometric
+    \item Consistență cu $L \to \infty$, $L = o(T^{1/4})$ în lucrarea originală
+    \begin{itemize}
+        \item $L = o(T^{1/4})$: $L$ crește mai lent decît $T^{1/4}$; Andrews (1991) rafinează ratele
+    \end{itemize}
+    \item O pagină de algebră, astăzi eroarea standard robustă implicită în orice pachet econometric
 \end{itemize}
 \end{frame}
 
@@ -845,7 +981,8 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \le 1$); QS: $\frac{25}{12\pi^2x^2}\big[\frac{\sin(6\pi x/5)}{6\pi x/5} - \cos(6\pi x/5)\big]$, toate decalajele
+    \item Ponderea $k(x)$ în funcție de $x = j/S$, lagul raportat la lățimea de bandă; Bartlett: $1 - |x|$ ($|x| \le 1$)
+    \item Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \le 1$); QS (quadratic spectral): $\frac{25}{12\pi^2x^2}\big[\frac{\sin(6\pi x/5)}{6\pi x/5} - \cos(6\pi x/5)\big]$, toate lagurile
 \end{itemize}
 \quantlet{ATS\_ch0\_long\_run\_variance}{\qlurl{ATS_ch0_long_run_variance}}
 \end{frame}
@@ -853,35 +990,52 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{frame}{Interpretarea nucleelor}
 \itemsize{\small}
 \begin{itemize}
-    \item Bartlett, Parzen și QS au ferestre spectrale nenegative: întotdeauna $\hat\Omega \ge 0$
+    \item Bartlett, Parzen și QS au ferestre spectrale (transformata Fourier a ponderilor) nenegative: întotdeauna $\hat\Omega \ge 0$
     \begin{itemize}
         \item QS are ponderi negative mici (minimum $\ensuremath{-}0{,}086$), dar rămîne pozitiv semidefinit
     \end{itemize}
-    \item Ordinul nucleului $q$: $1 - k(x) \sim c|x|^q$ lîngă 0; Bartlett $q = 1$, Parzen și QS $q = 2$
+    \item Ordinul nucleului $q$: $1 - k(x) \sim c|x|^q$ lîngă 0, cu $c > 0$ o constantă; Bartlett $q = 1$, Parzen și QS $q = 2$
     \begin{itemize}
-        \item Deplasare $O(S^{-q})$, varianță $O(S/T)$: $S$ optim $\propto T^{1/(2q+1)}$, adică $T^{1/3}$ (Bartlett) și $T^{1/5}$ (QS)
+        \item deplasare de ordinul $S^{-q}$, varianță de ordinul $S/T$: $S$ optim crește ca $T^{1/(2q+1)}$
+        \item adică $T^{1/3}$ pentru Bartlett și $T^{1/5}$ pentru QS
     \end{itemize}
     \item \refAndrews: QS minimizează eroarea pătratică medie asimptotică printre nucleele cu estimări nenegative
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Studiu de caz: Andrews (1991) și alegerea lățimii de bandă}
-\itemsize{\footnotesize}
+\begin{frame}{Studiu de caz: Andrews (1991) și alegerea lățimii de bandă (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item Lățimea optimă în sensul erorii pătratice medii: $S^* = c_k\,(\alpha(q)\,T)^{1/(2q+1)}$, cu $\alpha(q)$ dependent de spectrul necunoscut \refAndrews
+    \item Lățimea optimă în sensul erorii pătratice medii \refAndrews: valoarea $S$ care minimizează eroarea pătratică medie a lui $\hat\Omega$
     \begin{itemize}
+        \item $S^* = c_k\,(\alpha(q)\,T)^{1/(2q+1)}$
+        \item $q$: ordinul nucleului; $c_k$: o constantă a nucleului; $\alpha(q)$: o funcție de spectrul necunoscut, mare pentru seriile persistente
         \item Bartlett: $S^* = 1{,}1447(\hat\alpha(1)T)^{1/3}$; Parzen: $2{,}6614(\hat\alpha(2)T)^{1/5}$; QS: $1{,}3221(\hat\alpha(2)T)^{1/5}$
     \end{itemize}
-    \item \textbf{Înlocuirea AR(1)}: estimăm $\hat\rho$ pe $\hat h_t$, apoi
+    \item \textbf{Metoda plug-in AR(1)}: estimăm un AR(1) cu coeficientul $\hat\rho$ pe $\hat h_t$, apoi
     \begin{itemize}
         \item $\hat\alpha(1) = \dfrac{4\hat\rho^2}{(1-\hat\rho)^2(1+\hat\rho)^2}$, $\qquad \hat\alpha(2) = \dfrac{4\hat\rho^2}{(1-\hat\rho)^4}$
+        \item ambele cresc nemărginit cînd $\hat\rho \to 1$: persistență mai mare, lățime de bandă mai mare
     \end{itemize}
-    \item Alternative
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Studiu de caz: Andrews (1991) și alegerea lățimii de bandă (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Regula practică Newey--West: $L = \lfloor 4(T/100)^{2/9}\rfloor$
     \begin{itemize}
-        \item Regula practică Newey--West $L = \lfloor 4(T/100)^{2/9}\rfloor$ și selecția lor automată neparametrică \refNWb
-        \item Prealbirea cu un VAR(1), apoi recolorarea \refAM: mai puțină deplasare pentru seriile persistente
+        \item $\lfloor\cdot\rfloor$: partea întreagă; $L$ depinde doar de $T$, nu de date
+        \item selecția lor automată neparametrică \refNWb{} estimează în schimb spectrul
     \end{itemize}
-    \item Criteriul erorii pătratice medii vizează $\hat\Omega$, nu testul: de aici provin distorsiunile de mărime (secțiunile următoare)
+    \item Prealbirea cu un VAR(1), apoi recolorarea \refAM
+    \begin{itemize}
+        \item se elimină componenta AR(1), se estimează $\Omega$ pe reziduuri, apoi se inversează filtrul: deplasare mai mică pentru seriile persistente
+    \end{itemize}
+    \item Criteriul erorii pătratice medii vizează $\hat\Omega$, nu testul
+    \begin{itemize}
+        \item de aici provin distorsiunile de mărime din secțiunile următoare
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -892,7 +1046,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Raportul dintre eroarea standard HAC Bartlett a mediei și cea naivă, $S$ de la 1 la $\min(400, T/2)$; puncte: înlocuirea AR(1) Andrews
+    \item Raportul dintre eroarea standard HAC Bartlett a mediei și cea naivă, $S$ de la 1 la $\min(400, T/2)$; puncte: metoda plug-in AR(1) a lui Andrews
 \end{itemize}
 \quantlet{ATS\_ch0\_hac}{\qlurl{ATS_ch0_hac}}
 \end{frame}
@@ -902,7 +1056,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{itemize}
     \item Pătratele randamentelor S\&P 500: raport $2{,}04$ cu regula practică ($S = 11$), $2{,}38$ cu Andrews ($S = 17$), în creștere pînă la $4{,}72$ la $S = 400$
     \begin{itemize}
-        \item Fără platou: înlocuirea AR(1) nu surprinde scăderea lentă a autocorelației volatilității (memorie lungă, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol10_memorie_lunga_rough_volatility.pdf}{Capitolul 10})
+        \item Fără platou: metoda plug-in AR(1) nu surprinde scăderea lentă a autocorelației volatilității (memorie lungă, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol10_memorie_lunga_rough_volatility.pdf}{Capitolul 10})
     \end{itemize}
     \item Inflația în România: $2{,}18$ cu regula practică, $5{,}19$ cu Andrews ($S = 96$ luni)
     \begin{itemize}
@@ -915,14 +1069,16 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{frame}{Asimptotica fixed-$b$}
 \itemsize{\small}
 \begin{itemize}
-    \item Teoria standard: $S/T \to 0$, $\hat\Omega \to_p \Omega$, statistica $t$ este $N(0,1)$: eroarea de selecție a lui $\hat\Omega$ este ignorată
+    \item Teoria standard: $S/T \to 0$, $\hat\Omega \to_p \Omega$, statistica $t$ este $N(0,1)$
     \begin{itemize}
-        \item În eșantioane de 100--300 de observații, $\hat\Omega$ este zgomotos și deplasat în jos: valorile critice normale sînt prea mici
+        \item $\to_p$: convergență în probabilitate; eroarea de selecție a lui $\hat\Omega$ este ignorată
+        \item cu 100--300 de observații, $\hat\Omega$ este zgomotos și deplasat în jos: valorile critice normale sînt prea mici
     \end{itemize}
     \item \textbf{Fixed-$b$} \refKVB, \refKVb, \refKV: păstrăm $b = S/T$ fix cînd $T \to \infty$
     \begin{itemize}
-        \item $\hat\Omega/\Omega \to_d Q_k(b)$, o funcțională a unei punți browniene $\tilde W(r) = W(r) - rW(1)$; $t \to_d W(1)/\sqrt{Q_k(b)}$
-        \item Nestandard, dar pivotal: valorile critice depind doar de nucleu și de $b$
+        \item $\hat\Omega/\Omega \to_d Q_k(b)$, $\qquad t \to_d W(1)/\sqrt{Q_k(b)}$
+        \item $W(r)$: o mișcare browniană standard pe $r \in [0,1]$ ($r$: fracțiunea din eșantion); $Q_k(b)$: o funcțională aleatoare a punții browniene $\tilde W(r) = W(r) - rW(1)$
+        \item nestandard, dar pivotal (nu depinde de parametri necunoscuți): valorile critice depind doar de nucleu și de $b$
     \end{itemize}
     \item Teoria de ordin superior: valorile critice fixed-$b$ elimină termenul principal al distorsiunii de mărime din aproximarea normală \refSPJ
 \end{itemize}
@@ -953,16 +1109,33 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recomandări practice: Lazarus, Lewis, Stock și Watson (2018)}
-\itemsize{\footnotesize}
+\begin{frame}{Recomandări practice: Lazarus, Lewis, Stock și Watson (2018) (1/2)}
+\itemsize{\small}
 \begin{itemize}
     \item \refLLSW{} aleg lățimea de bandă pentru \emph{test}: o frontieră mărime--putere, nu eroarea pătratică medie a lui $\hat\Omega$
     \begin{itemize}
-        \item Newey--West cu $S = 1{,}3\sqrt{T}$ și valori critice fixed-$b$
-        \item Cosinus cu ponderi egale (EWC): $\hat\Omega = \nu^{-1}\sum_{j=1}^{\nu}\hat\Lambda_j^2$, $\hat\Lambda_j = \sqrt{2/T}\sum_t \cos[\pi j(t - 1/2)/T]\hat h_t$, $\nu = 0{,}4T^{2/3}$, valori critice Student $t_\nu$
+        \item prima recomandare: Newey--West cu $S = 1{,}3\sqrt{T}$ și valori critice fixed-$b$
     \end{itemize}
-    \item Compromisul mărime--putere este inevitabil: \refLLS{} dau frontiera pentru testele cu nucleu
-    \item Serii foarte persistente ($\phi$ aproape de 1): nicio regulă cu nucleu sau EWC nu este fiabilă; \refMuller{} propune teste valide sub dependență local-unitară
+    \item A doua recomandare: estimatorul cosinus cu ponderi egale (EWC)
+    \begin{itemize}
+        \item $\hat\Omega = \nu^{-1}\sum_{j=1}^{\nu}\hat\Lambda_j^2$, $\qquad \hat\Lambda_j = \sqrt{2/T}\sum_t \cos[\pi j(t - 1/2)/T]\,\hat h_t$, $\qquad \nu = 0{,}4T^{2/3}$
+        \item $\hat\Lambda_j$: proiecția lui $\hat h_t$ pe cosinusul $j$, o componentă de frecvență joasă; fiecare $\hat\Lambda_j^2$ estimează $\Omega$
+        \item $\nu$: numărul de cosinusuri mediate, egal cu numărul de grade de libertate: valori critice din distribuția Student $t_\nu$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Recomandări practice: Lazarus, Lewis, Stock și Watson (2018) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Compromisul mărime--putere este inevitabil
+    \begin{itemize}
+        \item \refLLS{} dau frontiera pentru testele cu nucleu
+    \end{itemize}
+    \item Serii foarte persistente ($\phi$ aproape de 1): nicio regulă cu nucleu sau EWC nu este fiabilă
+    \begin{itemize}
+        \item \refMuller{} propune teste valide sub dependență de tip local-to-unity (o rădăcină care tinde la 1 odată cu creșterea lui $T$)
+    \end{itemize}
     \item Acestea sînt opțiunile implicite ale cursului începînd cu \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}
 \end{itemize}
 \end{frame}
@@ -970,7 +1143,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{frame}{Recapitulare: estimarea HAC}
 \itemsize{\small}
 \begin{itemize}
-    \item Estimatorii prin nucleu subponderează decalajele îndepărtate; Bartlett (Newey--West), Parzen și QS sînt întotdeauna nenegativi; nucleul trunchiat nu este
+    \item Estimatorii prin nucleu subponderează lagurile îndepărtate; Bartlett (Newey--West), Parzen și QS sînt întotdeauna nenegativi; nucleul trunchiat nu este
     \item Lățimile Andrews (1991) sînt optime pentru eroarea pătratică medie a lui $\hat\Omega$ și se adaptează persistenței; regula practică nu
     \item Valorile critice fixed-$b$ țin cont de zgomotul din $\hat\Omega$; LLSW: NW cu $S = 1{,}3\sqrt{T}$ sau EWC cu $\nu = 0{,}4T^{2/3}$
 \end{itemize}
@@ -986,6 +1159,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \begin{itemize}
     \item DGP: $x_t = \phi x_{t-1} + \varepsilon_t$, $\varepsilon_t \sim N(0,1)$ i.i.d., 200 de valori inițiale eliminate; $H_0: \mu = 0$ este adevărată
     \begin{itemize}
+        \item $\phi$: coeficientul AR(1), adică persistența; valorile inițiale se elimină pentru ca seria să pornească din distribuția ei staționară
         \item $\phi \in \{0; 0,3; 0,5; 0,7; 0,9\}$, $T \in \{100; 400\}$; 5\,000 de replicări (1\,000 pentru bootstrap, cu cîte 399 de reeșantionări); sămînța 2026
     \end{itemize}
     \item Șapte teste la nivelul nominal de 5\%
@@ -993,7 +1167,10 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
         \item naiv i.i.d.; NW cu regula practică; NW și QS cu lățimea Andrews AR(1) (valori critice normale)
         \item NW cu $S = 1{,}3\sqrt{T}$ și valori fixed-$b$; EWC cu $t_\nu$; bootstrap circular pe blocuri cu lungimea Politis--White
     \end{itemize}
-    \item Eroarea standard Monte Carlo a unei rate de respingere $p$: $\sqrt{p(1-p)/R}$, aproximativ $0,3$ pp la $p = 5\%$ și $R = 5000$
+    \item Eroarea standard Monte Carlo a unei rate de respingere $p$ estimate din $R$ replicări: $\sqrt{p(1-p)/R}$
+    \begin{itemize}
+        \item aproximativ $0,3$ puncte procentuale (pp) la $p = 5\%$ și $R = 5000$
+    \end{itemize}
     \item Același plan ca în secțiunile Monte Carlo din \refAndrews{} și \refKV: date AR(1), rate de respingere sub ipoteza nulă
 \end{itemize}
 \end{frame}
@@ -1045,7 +1222,7 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
     \begin{itemize}
         \item La $T = 400$ și $\phi = 0,5$: $6{,}0\%$ și $5{,}2\%$, practic exacte
     \end{itemize}
-    \item Bootstrap pe blocuri nu rezolvă totul: $30{,}8\%$ la $\phi = 0,9$, $T = 100$, între NW și fixed-$b$
+    \item Bootstrap-ul pe blocuri nu rezolvă totul: $30{,}8\%$ la $\phi = 0,9$, $T = 100$, între NW și fixed-$b$
     \item Seria noastră de inflație are $\hat\rho_1 = 0{,}98$: în afara domeniului în care vreunul dintre aceste teste este fiabil (mini-studiul de caz AI)
 \end{itemize}
 \end{frame}
@@ -1053,7 +1230,7 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
 \begin{frame}{Recapitulare: distorsiunile de mărime}
 \itemsize{\small}
 \begin{itemize}
-    \item Raportați întotdeauna mărimea efectivă a procedurii folosite, la persistența datelor voastre
+    \item Raportați întotdeauna mărimea efectivă a procedurii folosite, la persistența datelor analizate
     \item NW fixed-$b$ și EWC (LLSW 2018) domină alegerile clasice în privința mărimii, cu un cost modest în putere
     \item Un studiu Monte Carlo este un experiment: fixați sămînța, raportați $R$ și eroarea standard Monte Carlo
 \end{itemize}
@@ -1069,13 +1246,14 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
 \begin{columns}[T]
 \begin{column}{0.66\textwidth}
 \begin{itemize}
-    \item Bootstrap Efron \refEfron{} reeșantionează observații individuale: dependența este distrusă
+    \item Bootstrap-ul lui Efron \refEfron{} reeșantionează observații individuale: dependența este distrusă
     \begin{itemize}
-        \item $\Var^*(\sqrt{T}\bar x^*) = \hat\gamma_0$, nu $\Omega$: bootstrap i.i.d.\ reproduce eroarea standard naivă
+        \item asteriscul marchează o mărime bootstrap: $\bar x^*$ este media unui eșantion reeșantionat, $\Var^*$ varianța pe reeșantionări
+        \item $\Var^*(\sqrt{T}\bar x^*) = \hat\gamma_0$, nu $\Omega$: bootstrap-ul i.i.d.\ reproduce eroarea standard naivă
     \end{itemize}
-    \item \refSingh: chiar pentru date $m$-dependente, bootstrap i.i.d.\ pentru medie este inconsistent
+    \item \refSingh: chiar pentru date $m$-dependente (independente la distanțe mai mari de $m$), bootstrap-ul i.i.d.\ al mediei este inconsistent
     \begin{itemize}
-        \item Ideea bootstrap pe blocuri: reeșantionăm blocuri suficient de lungi pentru a păstra dependența în interiorul lor
+        \item Ideea bootstrap-ului pe blocuri: reeșantionăm blocuri suficient de lungi pentru a păstra dependența în interiorul lor
     \end{itemize}
     \item Prețul: dependența de la granițele blocurilor se pierde, iar lungimea blocului devine un parametru de reglaj
 \end{itemize}
@@ -1094,16 +1272,19 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
 \begin{columns}[T]
 \begin{column}{0.64\textwidth}
 \begin{itemize}
-    \item \refKunsch: blocurile $B_i = (x_i, \dots, x_{i+l-1})$, $i = 1, \dots, T - l + 1$
+    \item \refKunsch: blocuri suprapuse $B_i = (x_i, \dots, x_{i+l-1})$ de lungime $l$, $i = 1, \dots, T - l + 1$
     \begin{itemize}
-        \item Extragem $k = \lceil T/l\rceil$ blocuri cu întoarcere, le concatenăm și păstrăm primele $T$ valori
+        \item extragem $k = \lceil T/l\rceil$ blocuri cu întoarcere ($\lceil\cdot\rceil$: rotunjire în sus), le concatenăm și păstrăm primele $T$ valori
     \end{itemize}
-    \item Consistent pentru funcții netede de medii dacă $l \to \infty$, $l/T \to 0$
+    \item Consistent pentru funcții netede de medii, dacă $l \to \infty$, $l/T \to 0$
     \begin{itemize}
         \item $\Var^*(\sqrt{T}\bar x^*) \approx \sum_{|j|<l}(1 - |j|/l)\hat\gamma_j$: o estimare Bartlett cu $S = l$
         \item $l$ optim $\propto T^{1/3}$ pentru varianță și deplasare, ca pentru lățimea Bartlett \refLahiri
     \end{itemize}
-    \item Efect de capăt: observațiile de la margini intră în mai puține blocuri, deci $E^*\bar x^* \ne \bar x$; centrăm în $E^*\bar x^*$
+    \item Efect de capăt: observațiile de la margini intră în mai puține blocuri, deci $E^*\bar x^* \ne \bar x$
+    \begin{itemize}
+        \item $E^*$: media pe reeșantionări; statisticile bootstrap se centrează în $E^*\bar x^*$
+    \end{itemize}
 \end{itemize}
 \end{column}
 \begin{column}{0.32\textwidth}
@@ -1122,45 +1303,80 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
     \begin{itemize}
         \item Fiecare observație intră în $l$ blocuri: $E^*\bar x^* = \bar x$ exact (Seminarul 0, A5--A6)
     \end{itemize}
-    \item \textbf{Bootstrap staționar} \refPR: lungimile blocurilor $\sim$ geometrice cu media $1/p$, începuturi uniforme, cu înfășurare
+    \item \textbf{Bootstrap-ul staționar} \refPR: lungimile blocurilor au distribuție geometrică cu media $1/p$, începuturile sînt uniforme, datele sînt așezate pe cerc
     \begin{itemize}
         \item Echivalent: la fiecare pas blocul continuă cu probabilitatea $1 - p$ sau sare într-un punct aleator cu probabilitatea $p$
         \item Seria reeșantionată este staționară; metoda este mai puțin sensibilă la alegerea lui $1/p$ decît MBB la alegerea lui $l$
     \end{itemize}
-    \item Eficiență: MBB și CBB au eroarea pătratică medie asimptotică mai mică pentru varianță decît bootstrap staționar, la lungimile optime \refLahiri
-    \item Bootstrap staționar este motorul testului Reality Check (White 2000) și al testului SPA (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
+    \item Eficiență: MBB și CBB au eroarea pătratică medie asimptotică mai mică pentru varianță decît bootstrap-ul staționar, la lungimile optime \refLahiri
+    \item Bootstrap-ul staționar stă la baza testului Reality Check (White 2000) și a testului SPA (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Alegerea lungimii blocului}
-\itemsize{\footnotesize}
+\begin{frame}{Alegerea lungimii blocului (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item \refPW, corectată de \refPPW: estimări prin înlocuire ale lungimii medii optime a blocului
+    \item \refPW, corectată de \refPPW: estimarea plug-in a lungimii medii optime a blocului
     \begin{itemize}
         \item $\hat b_{opt} = \Big(\dfrac{2\hat G^2}{\hat D}\Big)^{1/3} T^{1/3}$, $\quad \hat G = \sum_{|k|\le M}\lambda(k/M)\,|k|\,\hat\gamma_k$, $\quad \hat g = \sum_{|k|\le M}\lambda(k/M)\,\hat\gamma_k$
-        \item $\hat D_{SB} = 2\hat g^2$, $\hat D_{CB} = \tfrac{4}{3}\hat g^2$; $\lambda$ nucleul flat-top (trapez); $M = 2\hat m$, $\hat m$ primul decalaj după care $K_T$ autocorelații sînt nesemnificative
+        \item $\hat D_{SB} = 2\hat g^2$ (staționar), $\hat D_{CB} = \tfrac{4}{3}\hat g^2$ (circular)
     \end{itemize}
-    \item Aceeași structură ca lățimea Andrews: termenul de deplasare $G$ raportat la termenul de varianță $D$, rata $T^{1/3}$
+    \item Notațiile
     \begin{itemize}
-        \item Implementat în pachetul Python \texttt{arch} (\texttt{optimal\_block\_length}); codul nostru îl reproduce pînă la ultima zecimală
+        \item $\hat G$: autocovarianțele ponderate cu lagul lor, termenul de deplasare; $\hat g$: o estimare a lui $\Omega$; $\hat D$: termenul de varianță
+        \item $\lambda$: nucleul flat-top (trapez); $M = 2\hat m$: lagul de trunchiere
+        \item $\hat m$: primul lag după care $K_T$ autocorelații consecutive sînt nesemnificative
     \end{itemize}
-    \item Datele noastre: aproximativ 145 de zile pentru pătratele randamentelor S\&P 500, 25 de luni pentru inflație, 0{,}8 pentru creșterea PIB (adică bootstrap i.i.d.)
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Wild bootstrap și limitele lui}
-\itemsize{\footnotesize}
+\begin{frame}{Alegerea lungimii blocului (2/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item \textbf{Wild bootstrap} \refWu, \refLiu, \refMammen: $y_t^* = x_t'\hat\beta + \hat u_t\eta_t$, $\eta_t$ i.i.d., $E\eta_t = 0$, $E\eta_t^2 = 1$ (Rademacher sau distribuția în două puncte Mammen)
+    \item Aceeași structură ca lățimea Andrews
     \begin{itemize}
-        \item Păstrează heteroscedasticitatea fiecărui $\hat u_t$; distruge orice autocorelație
-        \item Valid cînd scorurile sînt o MDS: modele AR cu erori de tip GARCH \refGK
+        \item termenul de deplasare $G$ raportat la termenul de varianță $D$, rata $T^{1/3}$: seriile persistente primesc blocuri mai lungi
     \end{itemize}
-    \item \textbf{Nu} este valid pentru prognoze suprapuse, proiecții locale sau media pătratelor randamentelor
+    \item Implementat în pachetul Python \texttt{arch} (\texttt{optimal\_block\_length})
     \begin{itemize}
-        \item Dependent wild bootstrap \refShao: $\eta_t$ extrase dintr-un proces staționar cu corelația $a(|t-s|/l)$: wild ca formă, de tip bloc ca efect
+        \item codul nostru dă aceleași lungimi ale blocurilor
     \end{itemize}
-    \item Sieve bootstrap \refBuhlmann: estimăm un AR$(p)$ cu $p \to \infty$ și reeșantionăm reziduurile: eficient pentru procese liniare, fragil pentru cele neliniare
+    \item Datele noastre
+    \begin{itemize}
+        \item aproximativ 145 de zile pentru pătratele randamentelor S\&P 500, 25 de luni pentru inflație
+        \item 0{,}8 pentru creșterea PIB, adică bootstrap-ul i.i.d.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Wild bootstrap și limitele lui (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Wild bootstrap} \refWu, \refLiu, \refMammen: fiecare reziduu este înmulțit cu o pondere aleatoare de tip semn
+    \begin{itemize}
+        \item $y_t^* = x_t'\hat\beta + \hat u_t\eta_t$, $\quad \eta_t$ i.i.d., $E\eta_t = 0$, $E\eta_t^2 = 1$
+        \item $y_t^*$: observația bootstrap; $\eta_t$: Rademacher ($\pm 1$, fiecare cu probabilitatea $1/2$) sau distribuția în două puncte a lui Mammen
+    \end{itemize}
+    \item Păstrează heteroscedasticitatea fiecărui $\hat u_t$ și distruge orice autocorelație
+    \begin{itemize}
+        \item valid cînd scorurile sînt o MDS: modele AR cu erori de tip GARCH \refGK
+        \item \textbf{nu} este valid pentru prognoze suprapuse, proiecții locale sau media pătratelor randamentelor
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Wild bootstrap și limitele lui (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Dependent wild bootstrap \refShao: $\eta_t$ extrase dintr-un proces staționar
+    \begin{itemize}
+        \item $\Corr(\eta_t, \eta_s) = a(|t-s|/l)$, cu $a(\cdot)$ un nucleu și $l$ o lățime de bandă
+        \item wild ca formă, de tip bloc ca efect: reziduurile apropiate își păstrează semnele comune
+    \end{itemize}
+    \item Sieve bootstrap \refBuhlmann: estimăm un AR$(p)$ cu $p \to \infty$ și reeșantionăm reziduurile
+    \begin{itemize}
+        \item eficient pentru procesele liniare, fragil pentru cele neliniare
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1183,11 +1399,11 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
     \begin{itemize}
         \item Bootstrap-urile pe blocuri: MBB $0{,}276$, CBB $0{,}268$, staționar $0{,}269$: de aproximativ 4{,}2 ori valoarea naivă
     \end{itemize}
-    \item HAC cu lățimea Andrews: $0{,}152$ (de aproximativ 2{,}4 ori valoarea naivă): mai mică decît la bootstrap pe blocuri
+    \item HAC cu lățimea Andrews: $0{,}152$ (de aproximativ 2{,}4 ori valoarea naivă): mai mică decît la bootstrap-urile pe blocuri
     \begin{itemize}
-        \item Lungimea blocului 145 față de lățimea Andrews de 17: două reguli prin înlocuire, două imagini diferite ale aceleiași ACF care scade lent
+        \item Lungimea blocului 145 față de lățimea Andrews de 17: două reguli plug-in, două imagini diferite ale aceleiași ACF care scade lent
     \end{itemize}
-    \item Cînd două metode valide diferă de două ori, le raportați pe amîndouă și explicați de ce: aici, volatilitatea volatilității are memorie lungă
+    \item Cînd două metode valide diferă de două ori, raportați-le pe amîndouă și explicați diferența: aici, volatilitatea volatilității are memorie lungă
 \end{itemize}
 \end{frame}
 
@@ -1206,12 +1422,12 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
 \begin{frame}{Interpretarea traiectoriilor în funcție de lungimea blocului}
 \itemsize{\small}
 \begin{itemize}
-    \item $l = 1$ este bootstrap i.i.d.\ (raport 1); raportul crește odată cu $l$ cît timp $l$ este mai scurt decît memoria seriei
+    \item $l = 1$ este bootstrap-ul i.i.d.\ (raport 1); raportul crește odată cu $l$ cît timp $l$ este mai scurt decît memoria seriei
     \begin{itemize}
         \item Inflația: raportul 4{,}2 la lungimea Politis--White de 25 de luni
     \end{itemize}
     \item Creșterea PIB: aproape constant în jurul lui 1 (și puțin sub 1 pentru blocuri lungi): nu există dependență de captat
-    \item Blocuri foarte lungi: puține blocuri distincte, varianță zgomotoasă și deplasată în jos (deplasarea lui $\hat\gamma_j$ la decalaje mari)
+    \item Blocuri foarte lungi: puține blocuri distincte, varianță zgomotoasă și deplasată în jos (deplasarea lui $\hat\gamma_j$ la laguri mari)
     \item Ce credeți? De ce curba inflației continuă să crească pînă cînd $l$ ajunge la aproximativ un sfert din eșantion?
 \end{itemize}
 \end{frame}
@@ -1254,9 +1470,9 @@ Inflația RO & 248 & 4{,}799 & 0{,}98 & 0{,}218 & 1{,}131 & 0{,}957 & 22{,}05 / 
 \begin{frame}{Recapitulare: bootstrap pentru date dependente}
 \itemsize{\small}
 \begin{itemize}
-    \item Bootstrap i.i.d.\ reproduce eroarea standard naivă; reeșantionați în schimb blocuri
-    \item MBB (Künsch 1989) este un estimator HAC Bartlett deghizat; CBB elimină deplasarea de capăt; bootstrap staționar păstrează staționaritatea
-    \item Lungimea blocului $\propto T^{1/3}$, aleasă prin Politis--White; wild bootstrap tratează doar heteroscedasticitatea
+    \item Bootstrap-ul i.i.d.\ reproduce eroarea standard naivă; reeșantionați în schimb blocuri
+    \item MBB (Künsch 1989) este, în esență, un estimator HAC Bartlett; CBB elimină deplasarea de capăt; bootstrap-ul staționar păstrează staționaritatea
+    \item Lungimea blocului $\propto T^{1/3}$, aleasă prin Politis--White; wild bootstrap-ul tratează doar heteroscedasticitatea
 \end{itemize}
 \end{frame}
 
@@ -1265,18 +1481,35 @@ Inflația RO & 248 & 4{,}799 & 0{,}98 & 0{,}218 & 1{,}131 & 0{,}957 & 22{,}05 / 
 \section{Observații suprapuse: marja la termen și creșterea}
 %=============================================================================
 
-\begin{frame}{Studiu de caz: Estrella și Hardouvelis (1991)}
+\begin{frame}{Studiu de caz: Estrella și Hardouvelis (1991) (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refEH: prognozează panta curbei randamentelor creșterea reală din SUA? Regresia creșterii cumulate pe următoarele $k$ trimestre pe marja la termen
+    \item \refEH: prognozează panta curbei randamentelor creșterea reală din SUA?
     \begin{itemize}
+        \item regresia creșterii medii pe următoarele $h$ trimestre pe marja la termen
         \item $y_t^{(h)} = \dfrac{400}{h}\ln\dfrac{\mathrm{GDP}_{t+h}}{\mathrm{GDP}_t} = \beta_0 + \beta_1 (i^{10y}_t - i^{3m}_t) + u_t$, $\quad h = 4$
     \end{itemize}
-    \item Suprapunere: $y_t^{(4)}$ și $y_{t+1}^{(4)}$ au trei trimestre comune, deci $u_t$ este cel puțin MA(3) sub $H_0$
+    \item Notațiile
     \begin{itemize}
-        \item Soluția clasică: \refHH{} (nucleu trunchiat, $h - 1$ decalaje) sau Newey--West cu $L = h - 1$
+        \item $y_t^{(h)}$: creșterea PIB-ului real din trimestrul $t$ pînă în $t + h$, anualizată, în \%; factorul $400/h$ transformă o variație logaritmică pe $h$ trimestre în \% pe an
+        \item $i^{10y}_t$, $i^{3m}_t$: randamentele titlurilor de stat la 10 ani și la 3 luni; diferența lor este marja la termen
+        \item $\beta_1 > 0$: o curbă mai abruptă anunță o creștere mai rapidă; $u_t$: eroarea de prognoză
     \end{itemize}
-    \item Datele noastre: PIB real, randamentele titlurilor de stat la 10 ani și la 3 luni (medii trimestriale) din FRED, 1962Q1 -- 2025Q2, $T = 254$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Studiu de caz: Estrella și Hardouvelis (1991) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Suprapunere: $y_t^{(4)}$ și $y_{t+1}^{(4)}$ au trei trimestre comune
+    \begin{itemize}
+        \item deci $u_t$ este cel puțin MA(3) sub $H_0$, chiar dacă șocurile trimestriale sînt independente
+        \item soluția clasică: \refHH{} (nucleu trunchiat, $h - 1$ laguri) sau Newey--West cu $L = h - 1$
+    \end{itemize}
+    \item Datele noastre: PIB real, randamentele titlurilor de stat la 10 ani și la 3 luni (medii trimestriale) din FRED
+    \begin{itemize}
+        \item 1962Q1 -- 2025Q2, $T = 254$
+    \end{itemize}
     \item Același plan pentru proiecțiile locale (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol3_modele_var_structurale_proiectii_locale.pdf}{Capitolul 3}) și pentru regresiile randamentelor pe orizonturi lungi (MFM)
 \end{itemize}
 \end{frame}
@@ -1303,8 +1536,8 @@ Eroarea standard & $\widehat{se}(\hat\beta_1)$ & $t$ & Valoarea critică \\
 \midrule
 MCMMP clasic & 0{,}11 & 4{,}72 & 1.96 \\
 White (doar heteroscedasticitate) & 0{,}10 & -- & 1.96 \\
-Hansen--Hodrick, 3 decalaje & 0{,}20 & -- & 1.96 \\
-Newey--West, 3 decalaje & 0{,}17 & 3{,}10 & 1.96 \\
+Hansen--Hodrick, 3 laguri & 0{,}20 & -- & 1.96 \\
+Newey--West, 3 laguri & 0{,}17 & 3{,}10 & 1.96 \\
 NW, Andrews ($S = 14$) & 0{,}23 & 2{,}25 & 1.96 \\
 NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \bottomrule
@@ -1318,11 +1551,11 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{frame}{Interpretarea regresiei marjei la termen}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item Reziduurile sînt mai persistente decît MA(3) implicat de suprapunere ($\hat\rho_4 = 0{,}11$): 3 decalaje nu sînt suficiente
+    \item Reziduurile sînt mai persistente decît MA(3) implicat de suprapunere ($\hat\rho_4 = 0{,}11$): 3 laguri nu sînt suficiente
     \begin{itemize}
         \item Eroarea standard se dublează de la MCMMP clasic la fixed-$b$: $t$ scade de la $4{,}72$ la $2{,}04$, puțin sub valoarea critică $2{,}18$
     \end{itemize}
-    \item Subeșantioane (NW, 3 decalaje): 1962--1988 $\hat\beta_1 = 1{,}12$ ($t = 4{,}6$); 1989--2025 $\hat\beta_1 = 0{,}15$ ($t = 0{,}9$)
+    \item Subeșantioane (NW, 3 laguri): 1962--1988 $\hat\beta_1 = 1{,}12$ ($t = 4{,}6$); 1989--2025 $\hat\beta_1 = 0{,}15$ ($t = 0{,}9$)
     \begin{itemize}
         \item Puterea predictivă a marjei a scăzut după eșantionul original: o problemă de rupturi (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2}) și o problemă de evaluare în afara eșantionului (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
     \end{itemize}
@@ -1345,10 +1578,14 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
     \end{itemize}
     \item Ratele de eroare pentru $K$ teste
     \begin{itemize}
-        \item FWER: probabilitatea a cel puțin unei respingeri false; Bonferroni ($\alpha/K$) și Holm (pas cu pas descendent) o controlează
-        \item FDR: proporția așteptată a respingerilor false printre respingeri, controlată de \refBH
+        \item FWER (rata de eroare la nivelul familiei de teste): probabilitatea a cel puțin unei respingeri false printre cele $K$ teste la nivelul $\alpha$
+        \item Bonferroni testează fiecare ipoteză la $\alpha/K$; Holm (descendent, pas cu pas) relaxează pragul treptat; ambele controlează FWER
+        \item FDR (false discovery rate): proporția așteptată a respingerilor false printre respingeri, controlată de \refBH
     \end{itemize}
-    \item În prognoză: multe modele, multe orizonturi, multe eșantioane; valoarea $p$ onestă este cea a \emph{căutării}, nu a cîștigătorului
+    \item În prognoză: multe modele, multe orizonturi, multe eșantioane
+    \begin{itemize}
+        \item p-value-ul corect este cel al \emph{căutării}, nu cel al modelului cîștigător
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1379,19 +1616,35 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Studiu de caz: testul Reality Check, White (2000)}
-\itemsize{\footnotesize}
+\begin{frame}{Studiu de caz: testul Reality Check, White (2000) (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item $K$ modele comparate cu un reper; $f_{k,t}$ diferența de performanță (de exemplu randamentul regulii $k$ minus buy-and-hold) \refWhite
+    \item $K$ modele comparate cu un reper, evaluate pe $n$ perioade \refWhite
+    \begin{itemize}
+        \item $f_{k,t}$: diferența de performanță a modelului $k$ la momentul $t$ (de exemplu randamentul regulii $k$ minus buy-and-hold); $\bar f_k$: media ei pe cele $n$ perioade
+    \end{itemize}
+    \item Ipoteza și statistica
     \begin{itemize}
         \item $H_0: \max_k E f_{k,t} \le 0$ (niciun model nu bate reperul); $\quad \bar V = \max_k \sqrt{n}\,\bar f_k$
+        \item $\bar V$: avantajul mediu, scalat, al celui mai bun model; o valoare $\bar V$ mare este o dovadă împotriva lui $H_0$
     \end{itemize}
-    \item Distribuția sub $H_0$ prin bootstrap staționar al întregului vector $f_t$ (păstrează corelația dintre reguli și în timp):
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Studiu de caz: testul Reality Check, White (2000) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Distribuția sub $H_0$ prin bootstrap-ul staționar al întregului vector $f_t$ (păstrează corelația dintre reguli și în timp):
     \begin{itemize}
         \item $\bar V^*_b = \max_k \sqrt{n}\,(\bar f^*_{k,b} - \bar f_k)$, $\quad p = B^{-1}\sum_b \mathbf{1}\{\bar V^*_b > \bar V\}$
+        \item $b = 1, \dots, B$: reeșantionările; $\bar f^*_{k,b}$: media regulii $k$ în reeșantionarea $b$; $\mathbf{1}\{\cdot\}$: 1 dacă este îndeplinită condiția, 0 altfel
+        \item $p$: proporția reeșantionărilor cu un maxim mai mare decît cel observat, adică un p-value pentru întreaga căutare
     \end{itemize}
     \item \refSTW{} îl aplică pentru 7846 de reguli tehnice pe Dow Jones; \refHansen{} (SPA) și \refRW{} (StepM) îl rafinează: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}
-    \item Aplicația noastră: 50 de reguli „poziție lungă dacă închiderea este peste media mobilă pe $n$ zile”, $n = 5, 10, \dots, 250$, pe BET, comparate cu buy-and-hold, fără costuri; bloc mediu de 10 zile
+    \item Aplicația noastră: 50 de reguli „poziție lungă dacă închiderea este peste media mobilă pe $n$ zile”, $n = 5, 10, \dots, 250$, pe BET
+    \begin{itemize}
+        \item comparate cu buy-and-hold, fără costuri; bloc mediu de 10 zile
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1410,12 +1663,15 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{frame}{Interpretarea testului Reality Check}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item 2001--2012 ($n = 2\,993$ zile): cea mai bună regulă, MA(5), bate buy-and-hold cu $0{,}055\%$ pe zi, $t = 2{,}51$, $p$ naiv unilateral $= 0{,}006$
+    \item 2001--2012 ($n = 2\,993$ zile): cea mai bună regulă, MA(5), bate buy-and-hold cu $0{,}055\%$ pe zi, $t = 2{,}51$, p-value naiv unilateral $= 0{,}006$
     \begin{itemize}
-        \item Reality Check $p = 0{,}06$: nesemnificativ la 5\% după ce se ține seama de căutarea printre 50 de reguli
+        \item p-value Reality Check $= 0{,}06$: nesemnificativ la 5\% după ce se ține seama de căutarea printre 50 de reguli
     \end{itemize}
-    \item 2014--2026: aceeași regulă, $t = 0{,}97$, Reality Check $p = 0{,}38$: orice ar fi existat nu a supraviețuit
-    \item Cîștigătoarea cu medie mobilă scurtă se potrivește cu $\hat\rho_1$ pozitiv al randamentelor BET (prețuri învechite), iar costurile de tranzacționare l-ar anula
+    \item 2014--2026: aceeași regulă, $t = 0{,}97$, p-value Reality Check $= 0{,}38$: avantajul, dacă a existat, a dispărut
+    \item Regula cîștigătoare, cu medie mobilă scurtă, exploatează $\hat\rho_1$ pozitiv al randamentelor BET (prețuri stale, neactualizate)
+    \begin{itemize}
+        \item costurile de tranzacționare ar anula cîștigul
+    \end{itemize}
     \item Preînregistrați universul de reguli și împărțirea eșantionului înainte de a vedea rezultatele (Etapa 1 a proiectului)
 \end{itemize}
 \end{frame}
@@ -1423,7 +1679,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{frame}{Recapitulare: testarea multiplă}
 \itemsize{\small}
 \begin{itemize}
-    \item Valoarea $p$ a celui mai bun dintre $K$ teste nu este valoarea $p$ a unui test specificat dinainte
+    \item P-value-ul celui mai bun dintre $K$ teste nu este p-value-ul unui test specificat dinainte
     \item FWER (Bonferroni, Holm) sau FDR (Benjamini--Hochberg); pentru prognoze corelate: bootstrap pentru maxim (Reality Check)
     \item Testele de comparare a prognozelor (Diebold--Mariano, SPA, Model Confidence Set) sînt subiectul \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolului 1}
 \end{itemize}
@@ -1469,7 +1725,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{frame}{Pachete de replicare}
 \itemsize{\small}
 \begin{itemize}
-    \item Ce cer acum revistele de economie \refVilhuber, \refCM
+    \item Cerințele actuale ale revistelor de economie \refVilhuber, \refCM
     \begin{itemize}
         \item un README cu declarația de disponibilitate a datelor, ordinea scripturilor și timpul de rulare estimat
         \item cod care regenerează fiecare tabel și grafic din datele brute, fără pași manuali
@@ -1535,7 +1791,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{itemize}
     \item \textbf{Literatura}: \aiprompt{"Listează testele publicate pentru media unei serii foarte persistente, din 2010 încoace, cu DOI și planul Monte Carlo."}
     \begin{itemize}
-        \item Verificare: rezolvați fiecare DOI în Crossref; citiți voi tabelele de mărime (Semantic Scholar, Elicit pentru căutare)
+        \item Verificare: rezolvați fiecare DOI în Crossref; citiți personal tabelele de mărime (Semantic Scholar, Elicit pentru căutare)
     \end{itemize}
     \item \textbf{Ipoteză și cod}: \aiprompt{"Scrie cod Python pentru testele NW fixed-b și EWC ale unei medii și un Monte Carlo al mărimii lor la phi = 0,98, T = 164."}
     \begin{itemize}
@@ -1564,7 +1820,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{frame}{Interpretarea mini-studiului de caz}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item O propunere tipică a unui asistent: „NW cu $\lfloor 4(T/100)^{2/9}\rfloor$ decalaje” dă $t = 2{,}69$ și respinge $\mu = 2,5$
+    \item O propunere tipică a unui asistent AI: „NW cu $\lfloor 4(T/100)^{2/9}\rfloor$ laguri” dă $t = 2{,}69$ și respinge $\mu = 2,5$
     \begin{itemize}
         \item Mărimea lui efectivă la această persistență: $79\%$ în loc de 5\%; testul naiv: $90\%$
     \end{itemize}
@@ -1572,7 +1828,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
     \begin{itemize}
         \item Dar mărimile lor sînt tot $58\%$--$63\%$: nici nerespingerea nu este o dovadă în favoarea țintei
     \end{itemize}
-    \item Concluzia onestă: cu 14 ani dintr-o serie aproape integrată, datele nu pot tranșa întrebarea; aceasta este partea deschisă
+    \item Concluzia prudentă: cu 14 ani dintr-o serie aproape integrată, datele nu pot tranșa întrebarea; aceasta este partea deschisă
 \end{itemize}
 \end{frame}
 
@@ -1603,9 +1859,9 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
     \item Precizia unei medii sau a unei pante este dată de varianța de termen lung $\Omega = 2\pi f(0)$, nu de $\gamma_0$
     \item Ergodicitatea dă consistența; structura MDS sau mixing dă TLC; estimatorul HAC dă eroarea standard
     \item Nucleul, lățimea de bandă și valorile critice sînt o singură decizie: implicit, NW cu $1{,}3\sqrt{T}$ și fixed-$b$ sau EWC
-    \item Bootstrap pe blocuri reeșantionează dependența; wild bootstrap nu o face
-    \item Rădăcinile aproape unitare le înving pe toate: măsurați mărimea testului prin Monte Carlo, la persistența datelor voastre
-    \item Căutările au nevoie de valori $p$ ajustate pentru căutare; proiectele au nevoie de pachete de replicare și de un plan fixat dinainte
+    \item Bootstrap-ul pe blocuri reeșantionează dependența; wild bootstrap-ul nu o face
+    \item În prezența rădăcinilor aproape unitare toate aceste metode eșuează: măsurați mărimea testului prin Monte Carlo, la persistența datelor analizate
+    \item Căutările cer p-value-uri ajustate pentru căutare; proiectele au nevoie de pachete de replicare și de un plan fixat dinainte
 \end{itemize}
 \end{frame}
 
@@ -1616,8 +1872,8 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
     \item De ce poate nucleul trunchiat să dea o varianță negativă, iar nucleul Bartlett nu?
     \item Ce eroare standard ați folosi pentru media randamentelor zilnice S\&P 500?
     \item Ce eroare standard ați folosi pentru media pătratelor lor?
-    \item De ce este wild bootstrap invalid pentru o regresie cu creșteri pe patru trimestre suprapuse?
-    \item Ați încercat 40 de specificații și o raportați pe cea mai bună: ce valoare $p$ ar trebui să raportați?
+    \item De ce este wild bootstrap-ul invalid pentru o regresie cu creșteri pe patru trimestre suprapuse?
+    \item Ați încercat 40 de specificații și o raportați pe cea mai bună: ce p-value ar trebui să raportați?
 \end{itemize}
 \end{frame}
 
@@ -1626,7 +1882,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
 \begin{itemize}
     \item \textbf{Urmează}: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}, evaluarea prognozelor, reguli de scor și combinarea prognozelor
     \begin{itemize}
-        \item Diebold--Mariano este un test $t$ HAC pe diferențele de pierdere; SPA și Model Confidence Set folosesc bootstrap staționar din acest capitol
+        \item Diebold--Mariano este un test $t$ HAC pe diferențele de pierdere; SPA și Model Confidence Set folosesc bootstrap-ul staționar din acest capitol
     \end{itemize}
     \item \textbf{Lecturi suplimentare}
     \begin{itemize}

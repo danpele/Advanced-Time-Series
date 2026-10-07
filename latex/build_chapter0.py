@@ -333,7 +333,7 @@ frame('⟦Learning outcomes||Rezultatele învățării⟧', items(
     '⟦State the limit theorems behind every standard error used with time series: ergodic LLN, martingale-difference and mixing CLT||Să enunțați teoremele limită din spatele oricărei erori standard folosite pentru serii de timp: LGN ergodică, TLC pentru diferențe de martingală și pentru procese mixing⟧',
     '⟦Derive the long-run variance and its consequences for $t$-tests and confidence intervals||Să derivați varianța de termen lung și consecințele ei pentru testele $t$ și intervalele de încredere⟧',
     '⟦Choose and defend a HAC estimator: kernel, bandwidth, critical values (standard or fixed-$b$)||Să alegeți și să argumentați un estimator HAC: nucleul, lățimea de bandă, valorile critice (standard sau fixed-$b$)⟧',
-    '⟦Use block bootstraps (moving, circular, stationary) and know when the wild bootstrap is not enough||Să folosiți bootstrap pe blocuri (mobile, circulare, staționar) și să știți cînd wild bootstrap nu este suficient⟧',
+    '⟦Use block bootstraps (moving, circular, stationary) and know when the wild bootstrap is not enough||Să folosiți bootstrap-ul pe blocuri (mobile, circulare, staționar) și să știți cînd wild bootstrap-ul nu este suficient⟧',
     '⟦Measure size distortions by Monte Carlo and control data snooping||Să măsurați distorsiunile de mărime prin Monte Carlo și să controlați data snooping⟧',
     '⟦Build a replication package that reproduces every number of a project||Să construiți un pachet de replicare care reproduce fiecare rezultat al unui proiect⟧'))
 
@@ -354,13 +354,26 @@ frame('⟦Where the data come from||Proveniența datelor⟧', cols(
     '0.48', '0.48') + items(
     '⟦A central bank publishes the series we test: the inflation target of the BNR is 2.5\\% $\\pm$ 1 pp since 2013 (the AI mini-case at the end)||O bancă centrală publică seriile pe care le testăm: ținta de inflație a BNR este 2,5\\% $\\pm$ 1 pp din 2013 (mini-studiul de caz de la final)⟧'), 'footnotesize')
 
-frame('⟦Notation||Notații⟧', items(
-    '⟦$\\{x_t\\}$ a (weakly) stationary series with mean $\\mu$ and autocovariances $\\gamma_j = \\Cov(x_t, x_{t-j})$; $\\rho_j = \\gamma_j/\\gamma_0$||$\\{x_t\\}$ o serie (slab) staționară cu media $\\mu$ și autocovarianțele $\\gamma_j = \\Cov(x_t, x_{t-j})$; $\\rho_j = \\gamma_j/\\gamma_0$⟧',
-    '⟦Sample mean $\\bar{x} = T^{-1}\\sum_{t=1}^{T} x_t$; sample autocovariance $\\hat\\gamma_j = T^{-1}\\sum_{t=j+1}^{T}(x_t - \\bar x)(x_{t-j} - \\bar x)$||Media de selecție $\\bar{x} = T^{-1}\\sum_{t=1}^{T} x_t$; autocovarianța de selecție $\\hat\\gamma_j = T^{-1}\\sum_{t=j+1}^{T}(x_t - \\bar x)(x_{t-j} - \\bar x)$⟧',
-    '⟦Long-run variance $\\Omega = \\sum_{j=-\\infty}^{\\infty}\\gamma_j = 2\\pi f(0)$, with $f$ the spectral density||Varianța de termen lung $\\Omega = \\sum_{j=-\\infty}^{\\infty}\\gamma_j = 2\\pi f(0)$, unde $f$ este densitatea spectrală⟧',
-    '⟦Kernel $k(\\cdot)$, bandwidth $S$ (Newey--West lags $L = S - 1$ for Bartlett), $b = S/T$||Nucleul $k(\\cdot)$, lățimea de bandă $S$ (decalajele Newey--West $L = S - 1$ pentru Bartlett), $b = S/T$⟧',
-    '⟦Size: the probability of rejecting a true $H_0$; nominal level $5\\%$ unless stated||Mărimea testului: probabilitatea de a respinge o ipoteză $H_0$ adevărată; nivelul nominal este $5\\%$, dacă nu se precizează altfel⟧',
-    '⟦HAC: heteroskedasticity and autocorrelation consistent; HAR: heteroskedasticity and autocorrelation robust (the test built on a HAC estimator)||HAC: consistent la heteroscedasticitate și autocorelație; HAR: robust la heteroscedasticitate și autocorelație (testul construit pe un estimator HAC)⟧'))
+frame('⟦Notation (1/2)||Notații (1/2)⟧', items(
+    ('⟦$\\{x_t\\}$, $t = 1, \\dots, T$: a weakly stationary series observed over $T$ periods||$\\{x_t\\}$, $t = 1, \\dots, T$: o serie slab staționară observată pe $T$ perioade⟧',
+     ['⟦$\\mu = E x_t$: its mean; $\\gamma_j = \\Cov(x_t, x_{t-j})$: the autocovariance at lag $j$, the same for every $t$||$\\mu = E x_t$: media seriei; $\\gamma_j = \\Cov(x_t, x_{t-j})$: autocovarianța la lagul $j$, aceeași pentru orice $t$⟧',
+      '⟦$\\gamma_0 = \\Var(x_t)$; $\\rho_j = \\gamma_j/\\gamma_0 \\in [-1, 1]$: the autocorrelation at lag $j$||$\\gamma_0 = \\Var(x_t)$; $\\rho_j = \\gamma_j/\\gamma_0 \\in [-1, 1]$: autocorelația la lagul $j$⟧']),
+    ('⟦Sample counterparts (a hat marks an estimated value)||Estimatorii de selecție (accentul circumflex marchează o valoare estimată)⟧',
+     ['⟦sample mean $\\bar{x} = T^{-1}\\sum_{t=1}^{T} x_t$||media de selecție $\\bar{x} = T^{-1}\\sum_{t=1}^{T} x_t$⟧',
+      '⟦sample autocovariance $\\hat\\gamma_j = T^{-1}\\sum_{t=j+1}^{T}(x_t - \\bar x)(x_{t-j} - \\bar x)$||autocovarianța de selecție $\\hat\\gamma_j = T^{-1}\\sum_{t=j+1}^{T}(x_t - \\bar x)(x_{t-j} - \\bar x)$⟧',
+      '⟦$\\hat\\gamma_j$ averages the products of deviations from the mean that lie $j$ periods apart||$\\hat\\gamma_j$ face media produselor abaterilor de la medie aflate la distanța de $j$ perioade⟧']),
+    ('⟦Long-run variance $\\Omega = \\sum_{j=-\\infty}^{\\infty}\\gamma_j = 2\\pi f(0)$||Varianța de termen lung $\\Omega = \\sum_{j=-\\infty}^{\\infty}\\gamma_j = 2\\pi f(0)$⟧',
+     ['⟦the sum of all autocovariances ($\\gamma_{-j} = \\gamma_j$); it governs the precision of $\\bar x$ (next section)||suma tuturor autocovarianțelor ($\\gamma_{-j} = \\gamma_j$); ea determină precizia lui $\\bar x$ (secțiunea următoare)⟧',
+      '⟦$f(\\omega)$: the spectral density at frequency $\\omega$; $f(0)$ measures the variance of the slow, long-run movements||$f(\\omega)$: densitatea spectrală la frecvența $\\omega$; $f(0)$ măsoară varianța mișcărilor lente, de termen lung⟧'])))
+
+frame('⟦Notation (2/2)||Notații (2/2)⟧', items(
+    ('⟦Kernel $k(\\cdot)$: a weight function with $k(0) = 1$; lag $j$ receives the weight $k(j/S)$||Nucleul $k(\\cdot)$: o funcție de ponderare cu $k(0) = 1$; lagul $j$ primește ponderea $k(j/S)$⟧',
+     ['⟦bandwidth $S$: the scale of the weights; lags much longer than $S$ get (almost) zero weight||lățimea de bandă $S$: scala ponderilor; lagurile mult mai lungi decît $S$ primesc pondere (aproape) zero⟧',
+      '⟦Newey--West: $L = S - 1$ lags for the Bartlett kernel; $b = S/T$: the bandwidth as a share of the sample||Newey--West: $L = S - 1$ laguri pentru nucleul Bartlett; $b = S/T$: lățimea de bandă ca proporție din eșantion⟧']),
+    ('⟦Size of a test: the probability of rejecting a true $H_0$||Mărimea testului: probabilitatea de a respinge o ipoteză $H_0$ adevărată⟧',
+     ['⟦nominal level $5\\%$ unless stated; a test over-rejects when its actual size exceeds the nominal level||nivelul nominal este $5\\%$, dacă nu se precizează altfel; un test respinge prea des cînd mărimea lui efectivă depășește nivelul nominal⟧']),
+    ('⟦HAC: heteroskedasticity and autocorrelation consistent (an estimator of $\\Omega$)||HAC: consistent la heteroscedasticitate și autocorelație (un estimator al lui $\\Omega$)⟧',
+     ['⟦HAR: heteroskedasticity and autocorrelation robust (the test built on a HAC estimator)||HAR: robust la heteroscedasticitate și autocorelație (testul construit pe un estimator HAC)⟧'])))
 
 # ===============================================================================================================
 D.section('A refresher map of TSA', 'Harta recapitulării din TSA')
@@ -380,24 +393,38 @@ D.frame('⟦What you already know (TSA, bachelor)||Cunoștințe din TSA (licenț
     'footnotesize')
 
 frame('⟦Stationarity and the Wold representation||Staționaritatea și reprezentarea Wold⟧', items(
-    ('⟦TSA, Chapter 1. Weak stationarity: constant mean and $\\gamma_j$ depending only on $j$; strict: all finite-dimensional distributions shift-invariant||TSA, Capitolul 1. Staționaritate slabă: medie constantă și $\\gamma_j$ care depinde doar de $j$; strictă: toate distribuțiile finit-dimensionale sînt invariante la translație⟧',
-     ['⟦Neither implies the other without moment conditions (Cauchy i.i.d.\\ is strictly but not weakly stationary)||Niciuna nu o implică pe cealaltă fără condiții de momente (Cauchy i.i.d.\\ este strict, dar nu slab staționar)⟧']),
-    ('⟦Wold: every weakly stationary, purely nondeterministic series is $x_t - \\mu = \\sum_{j\\ge 0}\\psi_j\\varepsilon_{t-j}$, $\\sum\\psi_j^2 < \\infty$, $\\varepsilon_t$ white noise \\refHamilton||Wold: orice serie slab staționară, pur nedeterministă, este $x_t - \\mu = \\sum_{j\\ge 0}\\psi_j\\varepsilon_{t-j}$, $\\sum\\psi_j^2 < \\infty$, $\\varepsilon_t$ zgomot alb \\refHamilton⟧',
-     ['⟦$\\varepsilon_t$ is uncorrelated, not necessarily independent: GARCH innovations are Wold innovations||$\\varepsilon_t$ este necorelat, nu neapărat independent: inovațiile GARCH sînt inovații Wold⟧',
-      '⟦This is why ``white noise\'\' is not enough for i.i.d.-based inference on squares or on extremes||De aceea „zgomotul alb” nu este suficient pentru inferența de tip i.i.d.\\ pe pătrate sau pe valori extreme⟧']),
-    '⟦In this chapter: $\\Omega = \\sigma^2 \\big(\\sum_j \\psi_j\\big)^2$ for the Wold form: the long-run variance is the variance of the permanent component||În acest capitol: $\\Omega = \\sigma^2 \\big(\\sum_j \\psi_j\\big)^2$ pentru forma Wold: varianța de termen lung este varianța componentei permanente⟧'))
+    ('⟦TSA, Chapter 1. Weak stationarity: constant mean and $\\gamma_j$ depending only on $j$||TSA, Capitolul 1. Staționaritate slabă: medie constantă și $\\gamma_j$ care depinde doar de $j$⟧',
+     ['⟦strict stationarity: all finite-dimensional distributions are invariant to a shift in time||staționaritate strictă: toate distribuțiile finit-dimensionale sînt invariante la o translație în timp⟧',
+      '⟦neither implies the other without moment conditions: Cauchy i.i.d.\\ is strictly but not weakly stationary (no variance)||niciuna nu o implică pe cealaltă fără condiții de momente: Cauchy i.i.d.\\ este strict, dar nu slab staționar (nu are varianță)⟧']),
+    ('⟦Wold theorem \\refHamilton: every weakly stationary, purely nondeterministic series is a weighted sum of past innovations||Teorema lui Wold \\refHamilton: orice serie slab staționară, pur nedeterministă, este o sumă ponderată de inovații trecute⟧',
+     ['$x_t - \\mu = \\sum_{j\\ge 0}\\psi_j\\varepsilon_{t-j}$, $\\quad \\psi_0 = 1$, $\\quad \\sum_j\\psi_j^2 < \\infty$',
+      '⟦$\\varepsilon_t$: white noise with variance $\\sigma^2$, the one-step forecast error; $\\psi_j$: the effect of a shock after $j$ periods||$\\varepsilon_t$: zgomot alb cu varianța $\\sigma^2$, eroarea prognozei pe un pas; $\\psi_j$: efectul unui șoc după $j$ perioade⟧',
+      '⟦$\\varepsilon_t$ is uncorrelated, not necessarily independent: GARCH innovations are Wold innovations||$\\varepsilon_t$ este necorelat, nu neapărat independent: inovațiile GARCH sînt inovații Wold⟧']),
+    ('⟦Hence white noise is not enough for i.i.d.-based inference on squares or on extremes||De aceea, zgomotul alb nu este suficient pentru inferența de tip i.i.d.\\ pe pătrate sau pe valori extreme⟧',
+     ['⟦In this chapter: $\\Omega = \\sigma^2 \\big(\\sum_j \\psi_j\\big)^2$; $\\sum_j\\psi_j$ is the cumulative (long-run) effect of a shock, so $\\Omega$ is the variance of the permanent component||În acest capitol: $\\Omega = \\sigma^2 \\big(\\sum_j \\psi_j\\big)^2$; $\\sum_j\\psi_j$ este efectul cumulat (de termen lung) al unui șoc, deci $\\Omega$ este varianța componentei permanente⟧'])))
 
-frame('⟦ARMA and unit roots||ARMA și rădăcini unitare⟧', items(
-    ('⟦TSA, Chapter 2. ARMA$(p,q)$: $\\phi(L)x_t = \\theta(L)\\varepsilon_t$; stationary if the roots of $\\phi(z)$ lie outside the unit circle, invertible if those of $\\theta(z)$ do||TSA, Capitolul 2. ARMA$(p,q)$: $\\phi(L)x_t = \\theta(L)\\varepsilon_t$; staționar dacă rădăcinile lui $\\phi(z)$ sînt în afara cercului unitate, inversabil dacă și cele ale lui $\\theta(z)$ sînt⟧',
-     ['⟦Long-run variance in closed form: $\\Omega = \\sigma^2\\,\\theta(1)^2/\\phi(1)^2$; AR(1): $\\sigma^2/(1-\\phi)^2$||Varianța de termen lung în formă închisă: $\\Omega = \\sigma^2\\,\\theta(1)^2/\\phi(1)^2$; AR(1): $\\sigma^2/(1-\\phi)^2$⟧']),
-    ('⟦TSA, Chapter 3. Unit root $\\phi(1) = 0$: $\\Omega = \\infty$, the mean is not defined and the $t$-statistic has a nonstandard (Dickey--Fuller) limit||TSA, Capitolul 3. Rădăcină unitară $\\phi(1) = 0$: $\\Omega = \\infty$, media nu este definită, iar statistica $t$ are o limită nestandard (Dickey--Fuller)⟧',
-     ['⟦Regressing one random walk on an independent one gives $|t| > 2$ in 76 of 100 regressions in \\refGN; the $t$-statistic diverges at rate $\\sqrt{T}$ \\refPhillips||Regresia unui mers aleator pe altul, independent, dă $|t| > 2$ în 76 din 100 de regresii la \\refGN; statistica $t$ diverge cu viteza $\\sqrt{T}$ \\refPhillips⟧',
-      '⟦No HAC estimator repairs a spurious regression (Seminar 0, B5)||Niciun estimator HAC nu repară o regresie falsă (Seminarul 0, B5)⟧']),
-    '⟦Near unit roots ($\\phi$ close to 1) are the hard case of this chapter: every HAC method over-rejects||Rădăcinile aproape unitare ($\\phi$ aproape de 1) sînt cazul dificil al acestui capitol: toate metodele HAC resping prea des⟧'))
+frame('⟦ARMA and unit roots (1/2)||ARMA și rădăcini unitare (1/2)⟧', items(
+    ('⟦TSA, Chapter 2. ARMA$(p,q)$: $\\phi(L)x_t = \\theta(L)\\varepsilon_t$||TSA, Capitolul 2. ARMA$(p,q)$: $\\phi(L)x_t = \\theta(L)\\varepsilon_t$⟧',
+     ['⟦$L$: the lag operator, $Lx_t = x_{t-1}$; $\\phi(L) = 1 - \\phi_1L - \\dots - \\phi_pL^p$; $\\theta(L) = 1 + \\theta_1L + \\dots + \\theta_qL^q$||$L$: operatorul lag, $Lx_t = x_{t-1}$; $\\phi(L) = 1 - \\phi_1L - \\dots - \\phi_pL^p$; $\\theta(L) = 1 + \\theta_1L + \\dots + \\theta_qL^q$⟧',
+      '⟦stationary if the roots of $\\phi(z)$ lie outside the unit circle; invertible if those of $\\theta(z)$ do||staționar dacă rădăcinile lui $\\phi(z)$ sînt în afara cercului unitate; inversabil dacă și rădăcinile lui $\\theta(z)$ sînt⟧']),
+    ('⟦Long-run variance in closed form: $\\Omega = \\sigma^2\\,\\theta(1)^2/\\phi(1)^2$||Varianța de termen lung în formă închisă: $\\Omega = \\sigma^2\\,\\theta(1)^2/\\phi(1)^2$⟧',
+     ['⟦$\\phi(1) = 1 - \\sum_i\\phi_i$ and $\\theta(1) = 1 + \\sum_i\\theta_i$: the two polynomials evaluated at $z = 1$||$\\phi(1) = 1 - \\sum_i\\phi_i$ și $\\theta(1) = 1 + \\sum_i\\theta_i$: cele două polinoame evaluate în $z = 1$⟧',
+      '⟦AR(1): $\\Omega = \\sigma^2/(1-\\phi)^2$; the closer $\\phi(1)$ is to 0 (more persistence), the larger $\\Omega$||AR(1): $\\Omega = \\sigma^2/(1-\\phi)^2$; cu cît $\\phi(1)$ este mai aproape de 0 (persistență mai mare), cu atît $\\Omega$ este mai mare⟧'])))
+
+frame('⟦ARMA and unit roots (2/2)||ARMA și rădăcini unitare (2/2)⟧', items(
+    ('⟦TSA, Chapter 3. Unit root, $\\phi(1) = 0$: $\\Omega = \\infty$ and the mean is not defined||TSA, Capitolul 3. Rădăcină unitară, $\\phi(1) = 0$: $\\Omega = \\infty$, iar media nu este definită⟧',
+     ['⟦the $t$-statistic has a nonstandard (Dickey--Fuller) limit||statistica $t$ are o limită nestandard (Dickey--Fuller)⟧']),
+    ('⟦Spurious regression: one random walk regressed on an independent one||Regresia falsă: un mers aleator regresat pe altul, independent⟧',
+     ['⟦$|t| > 2$ in 76 of 100 regressions in \\refGN||$|t| > 2$ în 76 din 100 de regresii la \\refGN⟧',
+      '⟦the $t$-statistic diverges at rate $\\sqrt{T}$ \\refPhillips||statistica $t$ diverge cu viteza $\\sqrt{T}$ \\refPhillips⟧',
+      '⟦no HAC estimator repairs a spurious regression (Seminar 0, B5)||niciun estimator HAC nu corectează o regresie falsă (Seminarul 0, B5)⟧']),
+    ('⟦Near unit roots ($\\phi$ close to 1) are the hard case of this chapter||Rădăcinile aproape unitare ($\\phi$ aproape de 1) sînt cazul dificil al acestui capitol⟧',
+     ['⟦every HAC method over-rejects there (Monte Carlo section)||acolo, toate metodele HAC resping prea des (secțiunea Monte Carlo)⟧'])))
 
 frame('⟦GARCH, VAR, cointegration, state space||GARCH, VAR, cointegrare, spațiul stărilor⟧', items(
     ('⟦GARCH (TSA, Chapter 5): $r_t = \\sigma_t z_t$ is a martingale difference; $r_t^2$ is an ARMA(1,1) with strong, slowly decaying autocorrelation||GARCH (TSA, Capitolul 5): $r_t = \\sigma_t z_t$ este o diferență de martingală; $r_t^2$ este un ARMA(1,1) cu autocorelație puternică, care scade lent⟧',
-     ['⟦Means of returns: HAC barely matters; means of squared returns (variances, risk premia): HAC matters a lot||Mediile randamentelor: HAC contează puțin; mediile pătratelor (varianțe, prime de risc): HAC contează mult⟧']),
+     ['⟦$r_t$: the return; $\\sigma_t$: its conditional volatility; $z_t$: i.i.d.\\ with mean 0 and variance 1||$r_t$: randamentul; $\\sigma_t$: volatilitatea lui condiționată; $z_t$: i.i.d.\\ cu media 0 și varianța 1⟧',
+      '⟦Means of returns: HAC barely matters; means of squared returns (variances, risk premia): HAC matters a lot||Mediile randamentelor: HAC contează puțin; mediile pătratelor (varianțe, prime de risc): HAC contează mult⟧']),
     ('⟦VAR (TSA, Chapter 6): Granger causality tests are Wald tests; with heteroskedastic errors they need robust covariances||VAR (TSA, Capitolul 6): testele de cauzalitate Granger sînt teste Wald; cu erori heteroscedastice au nevoie de covarianțe robuste⟧',
      ['⟦Local projections (Chapter 3) have serially correlated errors by construction: HAC is part of the method||Proiecțiile locale (Capitolul 3) au erori autocorelate prin construcție: HAC face parte din metodă⟧']),
     '⟦Cointegration (TSA, Chapter 7): long-run relations; the long-run variance reappears in FM-OLS and in the KPSS statistic||Cointegrare (TSA, Capitolul 7): relații de termen lung; varianța de termen lung reapare în FM-OLS și în statistica KPSS⟧',
@@ -417,12 +444,12 @@ interp('the four series', 'celor patru serii', [
     '⟦What do you think? Which of the four series has the largest long-run variance relative to its variance?||Ce credeți? Care dintre cele patru serii are cea mai mare varianță de termen lung raportată la varianța ei?⟧'])
 
 chart('⟦Autocorrelation in six series||Autocorelația în șase serii⟧', 'ats_ch0_acf_panel', 'ATS_ch0_dependence_data', [
-    '⟦Sample ACF, lags 1--24, with the $\\pm 1.96/\\sqrt{T}$ band of the i.i.d.\\ hypothesis (shaded)||ACF de selecție, decalajele 1--24, cu banda $\\pm 1.96/\\sqrt{T}$ a ipotezei i.i.d.\\ (hașurată)⟧',
+    '⟦Sample ACF, lags 1--24, with the $\\pm 1.96/\\sqrt{T}$ band of the i.i.d.\\ hypothesis (shaded)||ACF de selecție, lagurile 1--24, cu banda $\\pm 1.96/\\sqrt{T}$ a ipotezei i.i.d.\\ (zona hașurată)⟧',
     '⟦$\\hat\\rho_1$: S\\&P 500 $@{a.sp.r1}$, squared $@{a.sq.r1}$, EUR/RON $@{a.eur.r1}$, BET $@{a.bet.r1}$, GDP $@{a.gdp.r1}$, inflation $@{a.inf.r1}$||$\\hat\\rho_1$: S\\&P 500 $@{a.sp.r1}$, pătrate $@{a.sq.r1}$, EUR/RON $@{a.eur.r1}$, BET $@{a.bet.r1}$, PIB $@{a.gdp.r1}$, inflație $@{a.inf.r1}$⟧'],
     h='0.55\\textheight')
 
 interp('the autocorrelations', 'autocorelațiilor', [
-    ('⟦S\\&P 500 returns: small negative $\\hat\\rho_1$; squared returns: all 24 lags above the band, $\\hat\\rho_{12} = @{a.sq.r12}$||Randamentele S\\&P 500: $\\hat\\rho_1$ mic și negativ; pătratele: toate cele 24 de decalaje peste bandă, $\\hat\\rho_{12} = @{a.sq.r12}$⟧',
+    ('⟦S\\&P 500 returns: small negative $\\hat\\rho_1$; squared returns: all 24 lags above the band, $\\hat\\rho_{12} = @{a.sq.r12}$||Randamentele S\\&P 500: $\\hat\\rho_1$ mic și negativ; pătratele: toate cele 24 de laguri peste bandă, $\\hat\\rho_{12} = @{a.sq.r12}$⟧',
      ['⟦Long-run variance over variance (Andrews bandwidth): $@{a.sp.ra}$ for returns, $@{a.sq.ra}$ for squared returns||Raportul dintre varianța de termen lung și varianță (lățimea Andrews): $@{a.sp.ra}$ pentru randamente, $@{a.sq.ra}$ pentru pătrate⟧']),
     ('⟦BET and EUR/RON: positive $\\hat\\rho_1$ (thin trading, central-bank smoothing of the reference rate)||BET și EUR/RON: $\\hat\\rho_1$ pozitiv (tranzacționare redusă, netezirea cursului de referință de către banca centrală)⟧',
      ['⟦Ratios $@{a.bet.ra}$ and $@{a.eur.ra}$: modest, but enough to move a borderline $t$-statistic||Rapoarte de $@{a.bet.ra}$ și $@{a.eur.ra}$: modeste, dar suficiente pentru a schimba o statistică $t$ aflată la limită⟧']),
@@ -439,37 +466,51 @@ D.recap(('the refresher map', 'harta recapitulării'), [
 D.section('Asymptotics for dependent data', 'Asimptotică pentru date dependente')
 # ===============================================================================================================
 frame('⟦The variance of a mean under dependence||Varianța unei medii în prezența dependenței⟧', items(
-    ('⟦Exact, for any weakly stationary series:||Exact, pentru orice serie slab staționară:⟧',
-     ['$\\Var(\\sqrt{T}\\,\\bar x) = \\dfrac{1}{T}\\sum_{t=1}^{T}\\sum_{s=1}^{T}\\gamma_{t-s} = \\sum_{|j| < T}\\Big(1 - \\dfrac{|j|}{T}\\Big)\\gamma_j$']),
-    ('⟦If $\\sum_j |\\gamma_j| < \\infty$ (dominated convergence):||Dacă $\\sum_j |\\gamma_j| < \\infty$ (convergență dominată):⟧',
+    ('⟦Exact, for any weakly stationary series: the variance of the scaled mean adds up the covariances of all pairs of observations||Exact, pentru orice serie slab staționară: varianța mediei scalate adună covarianțele tuturor perechilor de observații⟧',
+     ['$\\Var(\\sqrt{T}\\,\\bar x) = \\dfrac{1}{T}\\sum_{t=1}^{T}\\sum_{s=1}^{T}\\gamma_{t-s} = \\sum_{|j| < T}\\Big(1 - \\dfrac{|j|}{T}\\Big)\\gamma_j$',
+      '⟦$\\gamma_{t-s}$: the covariance of $x_t$ and $x_s$; $T - |j|$ pairs lie at distance $j$, hence the weight $1 - |j|/T$||$\\gamma_{t-s}$: covarianța dintre $x_t$ și $x_s$; $T - |j|$ perechi se află la distanța $j$, de unde ponderea $1 - |j|/T$⟧']),
+    ('⟦If $\\sum_j |\\gamma_j| < \\infty$, the weights tend to 1 (dominated convergence):||Dacă $\\sum_j |\\gamma_j| < \\infty$, ponderile tind la 1 (convergență dominată):⟧',
      ['$\\Var(\\sqrt{T}\\,\\bar x) \\to \\Omega = \\gamma_0 + 2\\sum_{j\\ge 1}\\gamma_j = 2\\pi f(0)$']),
     ('⟦The i.i.d.\\ formula uses $\\gamma_0$ only; the error factor is $\\Omega/\\gamma_0 = 1 + 2\\sum_{j\\ge1}\\rho_j$||Formula i.i.d.\\ folosește doar $\\gamma_0$; factorul de eroare este $\\Omega/\\gamma_0 = 1 + 2\\sum_{j\\ge1}\\rho_j$⟧',
-     ['⟦Effective sample size $T\\gamma_0/\\Omega$: AR(1) with $\\phi = 0.9$ makes 1000 observations worth about 53||Mărimea efectivă a eșantionului $T\\gamma_0/\\Omega$: un AR(1) cu $\\phi = 0.9$ face ca 1000 de observații să valoreze cît aproximativ 53⟧']),
-    '⟦Two questions: when does $\\bar x \\to \\mu$ (LLN)? when is $\\sqrt{T}(\\bar x - \\mu)/\\sqrt{\\Omega}$ asymptotically $N(0,1)$ (CLT)?||Două întrebări: cînd are loc $\\bar x \\to \\mu$ (LGN)? cînd este $\\sqrt{T}(\\bar x - \\mu)/\\sqrt{\\Omega}$ asimptotic $N(0,1)$ (TLC)?⟧'))
+     ['⟦factor above 1: the naive standard error is too small; below 1: too large||factor peste 1: eroarea standard naivă este prea mică; sub 1: prea mare⟧',
+      '⟦effective sample size $T\\gamma_0/\\Omega$: the number of independent observations with the same precision||mărimea efectivă a eșantionului $T\\gamma_0/\\Omega$: numărul de observații independente care dau aceeași precizie⟧',
+      '⟦AR(1) with $\\phi = 0.9$: 1000 observations are worth about 53 independent ones||AR(1) cu $\\phi = 0.9$: 1000 de observații echivalează cu aproximativ 53 de observații independente⟧']),
+    ('⟦Two questions for the rest of the section||Două întrebări pentru restul secțiunii⟧',
+     ['⟦LLN: when does $\\bar x \\to \\mu$?||LGN: cînd are loc $\\bar x \\to \\mu$?⟧',
+      '⟦CLT: when is $\\sqrt{T}(\\bar x - \\mu)/\\sqrt{\\Omega}$ asymptotically $N(0,1)$?||TLC: cînd este $\\sqrt{T}(\\bar x - \\mu)/\\sqrt{\\Omega}$ asimptotic $N(0,1)$?⟧'])))
 
 frame('⟦Ergodicity||Ergodicitate⟧', cols(
     items(
-        ('⟦A strictly stationary $\\{x_t\\}$ is \\textbf{ergodic} if every shift-invariant event has probability 0 or 1||Un proces strict staționar $\\{x_t\\}$ este \\textbf{ergodic} dacă orice eveniment invariant la translație are probabilitatea 0 sau 1⟧',
+        ('⟦A strictly stationary $\\{x_t\\}$ is \\textbf{ergodic} if every shift-invariant event (unchanged when the whole path is shifted in time) has probability 0 or 1||Un proces strict staționar $\\{x_t\\}$ este \\textbf{ergodic} dacă orice eveniment invariant la translație (neschimbat cînd întreaga traiectorie este deplasată în timp) are probabilitatea 0 sau 1⟧',
          ['⟦Intuition: one long path visits the whole distribution; time averages equal ensemble averages||Intuiție: o singură traiectorie lungă parcurge întreaga distribuție; mediile în timp sînt egale cu mediile pe ansamblu⟧']),
         ('⟦\\textbf{Ergodic theorem} \\refBirkhoff: stationary, ergodic, $E|x_t| < \\infty$ $\\Rightarrow$ $\\bar x \\to E x_t$ almost surely||\\textbf{Teorema ergodică} \\refBirkhoff: staționar, ergodic, $E|x_t| < \\infty$ $\\Rightarrow$ $\\bar x \\to E x_t$ aproape sigur⟧',
-         ['⟦Functions of finitely many lags of an ergodic process are ergodic: sample moments, autocovariances, OLS||Funcțiile de un număr finit de decalaje ale unui proces ergodic sînt ergodice: momente de selecție, autocovarianțe, MCMMP⟧']),
-        ('⟦Counterexample: $x_t = Z + \\varepsilon_t$ with $Z$ drawn once: stationary, not ergodic, $\\bar x \\to Z$||Contraexemplu: $x_t = Z + \\varepsilon_t$, cu $Z$ extras o singură dată: staționar, nu ergodic, $\\bar x \\to Z$⟧',
+         ['⟦Functions of finitely many lags of an ergodic process are ergodic: sample moments, autocovariances, OLS||Funcțiile de un număr finit de laguri ale unui proces ergodic sînt ergodice: momente de selecție, autocovarianțe, MCMMP⟧']),
+        ('⟦Counterexample: $x_t = Z + \\varepsilon_t$, with $Z$ a random level drawn once and $\\varepsilon_t$ i.i.d.: stationary, not ergodic, $\\bar x \\to Z$||Contraexemplu: $x_t = Z + \\varepsilon_t$, cu $Z$ un nivel aleator extras o singură dată și $\\varepsilon_t$ i.i.d.: staționar, nu ergodic, $\\bar x \\to Z$⟧',
          ['⟦A single history of one economy is a single draw of $Z$: why regime and break questions matter (Chapters 2, 7)||Istoria unei singure economii este o singură extragere a lui $Z$: de aceea contează rupturile și regimurile (capitolele 2, 7)⟧'])),
     ph('birkhoff', 'George David Birkhoff (1884--1944)', '0.42\\textheight'), '0.66', '0.30'), 'footnotesize')
 
-frame('⟦Mixing: dependence that fades||Mixing: dependență care se stinge⟧', items(
-    ('⟦Strong ($\\alpha$-) mixing coefficient \\refRosenblatt: $\\alpha(m) = \\sup_t\\,\\sup\\{|P(A\\cap B) - P(A)P(B)|: A \\in \\mathcal{F}_{-\\infty}^{t}, B \\in \\mathcal{F}_{t+m}^{\\infty}\\}$||Coeficientul de mixing tare ($\\alpha$) \\refRosenblatt: $\\alpha(m) = \\sup_t\\,\\sup\\{|P(A\\cap B) - P(A)P(B)|: A \\in \\mathcal{F}_{-\\infty}^{t}, B \\in \\mathcal{F}_{t+m}^{\\infty}\\}$⟧',
-     ['⟦$\\alpha$-mixing: $\\alpha(m) \\to 0$; $\\beta$- and $\\phi$-mixing are stronger; mixing implies ergodicity \\refBradley||$\\alpha$-mixing: $\\alpha(m) \\to 0$; $\\beta$-mixing și $\\phi$-mixing sînt mai tari; mixing implică ergodicitate \\refBradley⟧']),
-    ('⟦Which models mix?||Ce modele sînt mixing?⟧',
-     ['⟦Stationary ARMA with continuous innovations: geometrically $\\beta$-mixing \\refMokkadem||ARMA staționar cu inovații continue: $\\beta$-mixing geometric \\refMokkadem⟧',
-      '⟦Strictly stationary GARCH(1,1), stochastic volatility: geometrically $\\beta$-mixing \\refCC||GARCH(1,1) strict staționar, volatilitate stochastică: $\\beta$-mixing geometric \\refCC⟧']),
-    ('⟦Which do not?||Ce modele nu sînt?⟧',
-     ['⟦Unit roots, long memory with $d > 0$ (TSA, Chapter 8), some deterministic chaos: mixing fails or is too slow for the standard CLT||Rădăcini unitare, memorie lungă cu $d > 0$ (TSA, Capitolul 8), unele procese haotice deterministe: mixing nu are loc sau este prea lent pentru TLC standard⟧']),
-    '⟦Mixing coefficients cannot be estimated from one path: the assumption is checked through the model, not tested||Coeficienții de mixing nu pot fi estimați dintr-o singură traiectorie: ipoteza se verifică prin model, nu se testează⟧'), 'footnotesize')
+frame('⟦Mixing: dependence that fades (1/2)||Mixing: dependență care se stinge (1/2)⟧', items(
+    ('⟦Strong ($\\alpha$-) mixing coefficient \\refRosenblatt:||Coeficientul de mixing tare ($\\alpha$) \\refRosenblatt:⟧',
+     ['$\\alpha(m) = \\sup_t\\,\\sup\\{|P(A\\cap B) - P(A)P(B)|: A \\in \\mathcal{F}_{-\\infty}^{t}, B \\in \\mathcal{F}_{t+m}^{\\infty}\\}$',
+      '⟦$\\mathcal{F}_{-\\infty}^{t}$: the events determined by $x_s$, $s \\le t$ (the past); $\\mathcal{F}_{t+m}^{\\infty}$: those determined by $x_s$, $s \\ge t + m$ (the future after a gap of $m$ periods)||$\\mathcal{F}_{-\\infty}^{t}$: evenimentele determinate de $x_s$, $s \\le t$ (trecutul); $\\mathcal{F}_{t+m}^{\\infty}$: cele determinate de $x_s$, $s \\ge t + m$ (viitorul de după un interval de $m$ perioade)⟧',
+      '⟦$|P(A\\cap B) - P(A)P(B)|$ is 0 when $A$ and $B$ are independent: $\\alpha(m)$ is the largest dependence between a past and a future event $m$ periods apart||$|P(A\\cap B) - P(A)P(B)|$ este 0 cînd $A$ și $B$ sînt independente: $\\alpha(m)$ este cea mai mare dependență dintre un eveniment trecut și unul viitor aflate la $m$ perioade distanță⟧']),
+    ('⟦$\\alpha$-mixing: $\\alpha(m) \\to 0$ as $m \\to \\infty$, i.e.\\ the distant past and future become independent||$\\alpha$-mixing: $\\alpha(m) \\to 0$ cînd $m \\to \\infty$, adică trecutul și viitorul îndepărtat devin independente⟧',
+     ['⟦$\\beta$- and $\\phi$-mixing are stronger; mixing implies ergodicity \\refBradley||$\\beta$-mixing și $\\phi$-mixing sînt mai tari; mixing implică ergodicitate \\refBradley⟧'])))
+
+frame('⟦Mixing: dependence that fades (2/2)||Mixing: dependență care se stinge (2/2)⟧', items(
+    ('⟦Models that are mixing||Modele care sînt mixing⟧',
+     ['⟦stationary ARMA with continuous innovations: geometrically $\\beta$-mixing \\refMokkadem||ARMA staționar cu inovații continue: $\\beta$-mixing geometric \\refMokkadem⟧',
+      '⟦strictly stationary GARCH(1,1), stochastic volatility: geometrically $\\beta$-mixing \\refCC||GARCH(1,1) strict staționar, volatilitate stochastică: $\\beta$-mixing geometric \\refCC⟧',
+      '⟦geometric: $\\beta(m) \\le C\\lambda^m$ for some constants $C > 0$ and $0 < \\lambda < 1$||geometric: $\\beta(m) \\le C\\lambda^m$ pentru niște constante $C > 0$ și $0 < \\lambda < 1$⟧']),
+    ('⟦Models that are not||Modele care nu sînt mixing⟧',
+     ['⟦unit roots, long memory with $d > 0$ (TSA, Chapter 8), some deterministic chaos||rădăcini unitare, memorie lungă cu $d > 0$ (TSA, Capitolul 8), unele procese haotice deterministe⟧',
+      '⟦there mixing fails, or is too slow for the standard CLT||în aceste cazuri, mixing nu are loc sau este prea lent pentru TLC standard⟧']),
+    ('⟦Mixing coefficients cannot be estimated from one path||Coeficienții de mixing nu pot fi estimați dintr-o singură traiectorie⟧',
+     ['⟦the assumption is checked through the model, not tested||ipoteza se verifică prin model, nu se testează⟧'])))
 
 frame('⟦Laws of large numbers for dependent data||Legi ale numerelor mari pentru date dependente⟧', items(
     ('⟦\\textbf{$L^2$ law}: weakly stationary with $\\gamma_j \\to 0$ $\\Rightarrow$ $E(\\bar x - \\mu)^2 \\to 0$||\\textbf{Legea în $L^2$}: slab staționar cu $\\gamma_j \\to 0$ $\\Rightarrow$ $E(\\bar x - \\mu)^2 \\to 0$⟧',
-     ['⟦Proof: $E(\\bar x - \\mu)^2 = T^{-1}\\sum_{|j|<T}(1 - |j|/T)\\gamma_j$, and the Cesàro mean of $\\gamma_j \\to 0$ tends to 0||Demonstrație: $E(\\bar x - \\mu)^2 = T^{-1}\\sum_{|j|<T}(1 - |j|/T)\\gamma_j$, iar media Cesàro a lui $\\gamma_j \\to 0$ tinde la 0⟧']),
+     ['⟦Proof: $E(\\bar x - \\mu)^2 = T^{-1}\\sum_{|j|<T}(1 - |j|/T)\\gamma_j$, and the Cesàro mean (the average of the first terms) of the sequence $\\gamma_j \\to 0$ tends to 0||Demonstrație: $E(\\bar x - \\mu)^2 = T^{-1}\\sum_{|j|<T}(1 - |j|/T)\\gamma_j$, iar media Cesàro (media aritmetică a primilor termeni) a șirului $\\gamma_j \\to 0$ tinde la 0⟧']),
     ('⟦\\textbf{Ergodic law} \\refBirkhoff: almost sure convergence, only $E|x_t| < \\infty$, no second moment||\\textbf{Legea ergodică} \\refBirkhoff: convergență aproape sigură, doar $E|x_t| < \\infty$, fără moment de ordinul doi⟧',
      ['⟦Covers squared returns of a GARCH with infinite fourth moment: means converge, but the CLT may fail||Acoperă pătratele randamentelor unui GARCH cu moment de ordinul patru infinit: mediile converg, dar TLC poate să nu aibă loc⟧']),
     '⟦\\textbf{Mixingale and near-epoch dependence}: the versions used in econometric theory for functions of mixing processes \\refHamilton||\\textbf{Mixingale și dependență near-epoch}: variantele folosite în teoria econometrică pentru funcții de procese mixing \\refHamilton⟧',
@@ -477,22 +518,33 @@ frame('⟦Laws of large numbers for dependent data||Legi ale numerelor mari pent
 
 frame('⟦Martingale differences and their central limit theorem||Diferențele de martingală și teorema limită centrală⟧', items(
     ('⟦$\\{u_t\\}$ is a \\textbf{martingale difference sequence} (MDS) if $E(u_t \\mid \\mathcal{F}_{t-1}) = 0$||$\\{u_t\\}$ este o \\textbf{secvență de diferențe de martingală} (MDS) dacă $E(u_t \\mid \\mathcal{F}_{t-1}) = 0$⟧',
-     ['⟦Uncorrelated with every function of the past, but may be conditionally heteroskedastic: GARCH returns, scores of a correct likelihood, one-step forecast errors of an optimal forecast||Necorelat cu orice funcție de trecut, dar poate fi condiționat heteroscedastic: randamente GARCH, scoruri ale unei verosimilități corecte, erorile prognozelor optime pe un pas⟧']),
+     ['⟦$\\mathcal{F}_{t-1}$: the information available at $t-1$; the past does not predict $u_t$ on average||$\\mathcal{F}_{t-1}$: informația disponibilă la $t-1$; în medie, trecutul nu prognozează $u_t$⟧',
+      '⟦Uncorrelated with every function of the past, but may be conditionally heteroskedastic: GARCH returns, scores of a correct likelihood, one-step forecast errors of an optimal forecast||Necorelat cu orice funcție de trecut, dar poate fi condiționat heteroscedastic: randamente GARCH, scoruri ale unei verosimilități corecte, erorile prognozelor optime pe un pas⟧']),
     ('⟦\\textbf{MDS CLT} \\refBillingsley: stationary, ergodic MDS with $E u_t^2 = \\sigma^2 < \\infty$ $\\Rightarrow$ $\\sqrt{T}\\,\\bar u \\to_d N(0, \\sigma^2)$||\\textbf{TLC pentru MDS} \\refBillingsley: MDS staționară, ergodică, cu $E u_t^2 = \\sigma^2 < \\infty$ $\\Rightarrow$ $\\sqrt{T}\\,\\bar u \\to_d N(0, \\sigma^2)$⟧',
-     ['⟦Nonstationary MDS: Lindeberg-type conditions \\refBrown||MDS nestaționare: condiții de tip Lindeberg \\refBrown⟧',
-      '⟦Here $\\Omega = \\gamma_0$: no autocorrelation correction is needed, only White (1980) heteroskedasticity-robust errors \\refWhiteH||Aici $\\Omega = \\gamma_0$: nu este nevoie de corecție pentru autocorelație, doar de erori robuste la heteroscedasticitate White (1980) \\refWhiteH⟧']),
+     ['⟦$\\to_d$: convergence in distribution; nonstationary MDS: Lindeberg-type conditions \\refBrown||$\\to_d$: convergență în distribuție; MDS nestaționare: condiții de tip Lindeberg \\refBrown⟧',
+      '⟦Here $\\Omega = \\gamma_0$: no autocorrelation correction is needed, only heteroskedasticity-robust errors \\refWhiteH||Aici $\\Omega = \\gamma_0$: nu este nevoie de corecție pentru autocorelație, doar de erori robuste la heteroscedasticitate \\refWhiteH⟧']),
     '⟦Overlapping $h$-step forecast errors are not an MDS: they follow an MA$(h-1)$ (Section ``Overlapping observations\'\')||Erorile prognozelor pe $h$ pași, suprapuse, nu sînt MDS: urmează un MA$(h-1)$ (secțiunea „Observații suprapuse”)⟧'))
 
-frame('⟦Central limit theorems beyond martingale differences||Teoreme limită centrală dincolo de diferențele de martingală⟧', items(
-    ('⟦\\textbf{Mixing CLT} \\refIbragimov: stationary, $E|x_t|^{2+\\delta} < \\infty$, $\\sum_m \\alpha(m)^{\\delta/(2+\\delta)} < \\infty$, $\\Omega > 0$ $\\Rightarrow$ $\\sqrt{T}(\\bar x - \\mu) \\to_d N(0, \\Omega)$||\\textbf{TLC pentru procese mixing} \\refIbragimov: staționar, $E|x_t|^{2+\\delta} < \\infty$, $\\sum_m \\alpha(m)^{\\delta/(2+\\delta)} < \\infty$, $\\Omega > 0$ $\\Rightarrow$ $\\sqrt{T}(\\bar x - \\mu) \\to_d N(0, \\Omega)$⟧',
-     ['⟦Trade-off: more moments allow slower mixing; the first CLT under strong mixing is \\refRosenblatt||Compromis: mai multe momente permit un mixing mai lent; prima TLC sub mixing tare este \\refRosenblatt⟧']),
+frame('⟦Central limit theorems beyond martingale differences (1/2)||Teoreme limită centrală dincolo de diferențele de martingală (1/2)⟧', items(
+    ('⟦\\textbf{Mixing CLT} \\refIbragimov: if $x_t$ is stationary and||\\textbf{TLC pentru procese mixing} \\refIbragimov: dacă $x_t$ este staționar și⟧',
+     ['$E|x_t|^{2+\\delta} < \\infty$, $\\quad \\sum_m \\alpha(m)^{\\delta/(2+\\delta)} < \\infty$, $\\quad \\Omega > 0$ $\\;\\Rightarrow\\;$ $\\sqrt{T}(\\bar x - \\mu) \\to_d N(0, \\Omega)$',
+      '⟦$\\delta > 0$: the number of moments beyond the second; $\\alpha(m)$: the mixing coefficient of the previous section||$\\delta > 0$: numărul de momente peste ordinul doi; $\\alpha(m)$: coeficientul de mixing din secțiunea anterioară⟧',
+      '⟦trade-off: more moments (larger $\\delta$) allow slower mixing; the first CLT under strong mixing is \\refRosenblatt||compromis: mai multe momente ($\\delta$ mai mare) permit un mixing mai lent; prima TLC sub mixing tare este \\refRosenblatt⟧']),
     ('⟦\\textbf{Linear processes} \\refPS: $x_t - \\mu = \\sum\\psi_j\\varepsilon_{t-j}$ with i.i.d.\\ or MDS $\\varepsilon_t$ and $\\sum j|\\psi_j| < \\infty$||\\textbf{Procese liniare} \\refPS: $x_t - \\mu = \\sum\\psi_j\\varepsilon_{t-j}$ cu $\\varepsilon_t$ i.i.d.\\ sau MDS și $\\sum j|\\psi_j| < \\infty$⟧',
-     ['⟦Beveridge--Nelson: $\\psi(L) = \\psi(1) - (1-L)\\tilde\\psi(L)$, so $\\sqrt{T}(\\bar x - \\mu) = \\psi(1)\\sqrt{T}\\bar\\varepsilon + o_p(1)$, hence $\\Omega = \\sigma^2\\psi(1)^2$||Beveridge--Nelson: $\\psi(L) = \\psi(1) - (1-L)\\tilde\\psi(L)$, deci $\\sqrt{T}(\\bar x - \\mu) = \\psi(1)\\sqrt{T}\\bar\\varepsilon + o_p(1)$, de unde $\\Omega = \\sigma^2\\psi(1)^2$⟧']),
-    '⟦Functional versions (invariance principles) give the Brownian-motion limits behind unit-root and fixed-$b$ theory||Versiunile funcționale (principii de invarianță) dau limitele de tip mișcare browniană din teoria rădăcinilor unitare și din teoria fixed-$b$⟧',
-    '⟦All three need $0 < \\Omega < \\infty$: unit roots give $\\Omega = \\infty$, over-differencing gives $\\Omega = 0$||Toate trei cer $0 < \\Omega < \\infty$: rădăcinile unitare dau $\\Omega = \\infty$, supradiferențierea dă $\\Omega = 0$⟧'), 'footnotesize')
+     ['⟦the condition on $\\psi_j$ requires the effect of a shock to die out fast enough||condiția asupra lui $\\psi_j$ cere ca efectul unui șoc să se stingă suficient de repede⟧'])))
+
+frame('⟦Central limit theorems beyond martingale differences (2/2)||Teoreme limită centrală dincolo de diferențele de martingală (2/2)⟧', items(
+    ('⟦Beveridge--Nelson decomposition of the lag polynomial $\\psi(L) = \\sum_j\\psi_jL^j$:||Descompunerea Beveridge--Nelson a polinomului de laguri $\\psi(L) = \\sum_j\\psi_jL^j$:⟧',
+     ['$\\psi(L) = \\psi(1) - (1-L)\\tilde\\psi(L)$, $\\quad$ ⟦so||deci⟧ $\\quad \\sqrt{T}(\\bar x - \\mu) = \\psi(1)\\sqrt{T}\\bar\\varepsilon + o_p(1)$',
+      '⟦$\\psi(1) = \\sum_j\\psi_j$: the long-run effect of a shock; $\\tilde\\psi(L)$: the polynomial of the transitory part; $o_p(1)$: a term that tends to 0 in probability||$\\psi(1) = \\sum_j\\psi_j$: efectul de termen lung al unui șoc; $\\tilde\\psi(L)$: polinomul componentei tranzitorii; $o_p(1)$: un termen care tinde în probabilitate la 0⟧',
+      '⟦the mean of $x_t$ behaves like $\\psi(1)$ times the mean of the innovations, hence $\\Omega = \\sigma^2\\psi(1)^2$||media lui $x_t$ se comportă ca $\\psi(1)$ înmulțit cu media inovațiilor, de unde $\\Omega = \\sigma^2\\psi(1)^2$⟧']),
+    ('⟦Functional versions (invariance principles) give the Brownian-motion limits||Versiunile funcționale (principii de invarianță) dau limitele de tip mișcare browniană⟧',
+     ['⟦they underlie the unit-root theory and the fixed-$b$ theory (next section)||pe ele se sprijină teoria rădăcinilor unitare și teoria fixed-$b$ (secțiunea următoare)⟧']),
+    ('⟦All three CLTs need $0 < \\Omega < \\infty$||Toate cele trei TLC cer $0 < \\Omega < \\infty$⟧',
+     ['⟦unit roots give $\\Omega = \\infty$; over-differencing gives $\\Omega = 0$||rădăcinile unitare dau $\\Omega = \\infty$; supradiferențierea dă $\\Omega = 0$⟧'])))
 
 chart('⟦How much information does dependence remove?||Cîtă informație elimină dependența?⟧', 'ats_ch0_lrv_ar1', 'ATS_ch0_long_run_variance', [
-    '⟦Left: $T\\Var(\\bar x)/\\gamma_0$ for an AR(1), theory $(1+\\phi)/(1-\\phi)$ and @{l.reps} simulations with $T = @{l.T}$; right: asymptotic size of the naive 5\\% test, $2[1 - \\Phi(1.96/\\sqrt{(1+\\phi)/(1-\\phi)})]$||Stînga: $T\\Var(\\bar x)/\\gamma_0$ pentru un AR(1), teoria $(1+\\phi)/(1-\\phi)$ și @{l.reps} simulări cu $T = @{l.T}$; dreapta: mărimea asimptotică a testului naiv de 5\\%, $2[1 - \\Phi(1.96/\\sqrt{(1+\\phi)/(1-\\phi)})]$⟧'],
+    '⟦Left: $T\\Var(\\bar x)/\\gamma_0$ for an AR(1), theory $(1+\\phi)/(1-\\phi)$ and @{l.reps} simulations with $T = @{l.T}$; right: asymptotic size of the naive 5\\% test, $2[1 - \\Phi(1.96/\\sqrt{(1+\\phi)/(1-\\phi)})]$, with $\\Phi$ the standard normal distribution function||Stînga: $T\\Var(\\bar x)/\\gamma_0$ pentru un AR(1), teoria $(1+\\phi)/(1-\\phi)$ și @{l.reps} simulări cu $T = @{l.T}$; dreapta: mărimea asimptotică a testului naiv de 5\\%, $2[1 - \\Phi(1.96/\\sqrt{(1+\\phi)/(1-\\phi)})]$, unde $\\Phi$ este funcția de repartiție a distribuției Normale standard⟧'],
     h='0.56\\textheight')
 
 interp('the variance inflation', 'creșterii varianței', [
@@ -502,13 +554,22 @@ interp('the variance inflation', 'creșterii varianței', [
      ['⟦The S\\&P 500 mean return is an example: its HAC standard error is smaller than the naive one||Media randamentelor S\\&P 500 este un exemplu: eroarea ei standard HAC este mai mică decît cea naivă⟧']),
     '⟦Confidence intervals inherit the factor: a naive 95\\% interval covers $\\mu$ only about $@{l.c05}\\%$ of the time at $\\phi = 0.5$||Intervalele de încredere moștenesc factorul: un interval naiv de 95\\% acoperă $\\mu$ doar în aproximativ $@{l.c05}\\%$ din cazuri la $\\phi = 0,5$⟧'])
 
-frame('⟦Regression with dependent errors||Regresia cu erori dependente⟧', items(
-    ('⟦$y_t = x_t\'\\beta + u_t$, $E(x_t u_t) = 0$; under a CLT for $x_t u_t$:||$y_t = x_t\'\\beta + u_t$, $E(x_t u_t) = 0$; sub o TLC pentru $x_t u_t$:⟧',
-     ['$\\sqrt{T}(\\hat\\beta - \\beta) \\to_d N\\big(0,\\; Q^{-1}\\Omega_{xu} Q^{-1}\\big)$, $\\quad Q = E(x_t x_t\'),\\quad \\Omega_{xu} = \\sum_{j}E(x_t u_t u_{t-j} x_{t-j}\')$']),
+frame('⟦Regression with dependent errors (1/2)||Regresia cu erori dependente (1/2)⟧', items(
+    ('⟦Model $y_t = x_t\'\\beta + u_t$ with $E(x_t u_t) = 0$||Modelul $y_t = x_t\'\\beta + u_t$, cu $E(x_t u_t) = 0$⟧',
+     ['⟦$x_t$: the vector of regressors; $\\beta$: the coefficients; $u_t$: the error, uncorrelated with $x_t$; $\'$ denotes transposition||$x_t$: vectorul regresorilor; $\\beta$: coeficienții; $u_t$: eroarea, necorelată cu $x_t$; $\'$ notează transpunerea⟧']),
+    ('⟦Under a CLT for the products $x_t u_t$, the OLS estimator is asymptotically normal:||Sub o TLC pentru produsele $x_t u_t$, estimatorul MCMMP este asimptotic normal:⟧',
+     ['$\\sqrt{T}(\\hat\\beta - \\beta) \\to_d N\\big(0,\\; Q^{-1}\\Omega_{xu} Q^{-1}\\big)$, $\\quad Q = E(x_t x_t\'),\\quad \\Omega_{xu} = \\sum_{j}E(x_t u_t u_{t-j} x_{t-j}\')$',
+      '⟦$Q$: the second-moment matrix of the regressors; $\\Omega_{xu}$: the long-run variance of $x_t u_t$||$Q$: matricea momentelor de ordinul doi ale regresorilor; $\\Omega_{xu}$: varianța de termen lung a lui $x_t u_t$⟧',
+      '⟦the form $Q^{-1}\\Omega_{xu}Q^{-1}$ is called a sandwich: $\\Omega_{xu}$ between two copies of $Q^{-1}$||forma $Q^{-1}\\Omega_{xu}Q^{-1}$ se numește sandwich: $\\Omega_{xu}$ între două copii ale lui $Q^{-1}$⟧'])))
+
+frame('⟦Regression with dependent errors (2/2)||Regresia cu erori dependente (2/2)⟧', items(
     ('⟦Scalar slope, $x_t$ and $u_t$ independent stationary series: the error factor is||Panta scalară, $x_t$ și $u_t$ serii staționare independente: factorul de eroare este⟧',
      ['$\\Omega_{xu}/(\\gamma_{x,0}\\gamma_{u,0}) = 1 + 2\\sum_{j\\ge 1}\\rho_{x}(j)\\rho_{u}(j)$',
-      '⟦Both regressor and error must be persistent for a large distortion: a persistent predictor with persistent errors is the worst case||Atît regresorul, cît și eroarea trebuie să fie persistente pentru o distorsiune mare: un predictor persistent cu erori persistente este cazul cel mai rău⟧']),
-    '⟦The sandwich $\\hat Q^{-1}\\hat\\Omega_{xu}\\hat Q^{-1}$ with a kernel estimate of $\\Omega_{xu}$ is the Newey--West covariance matrix \\refNW||Forma sandwich $\\hat Q^{-1}\\hat\\Omega_{xu}\\hat Q^{-1}$, cu o estimare prin nucleu a lui $\\Omega_{xu}$, este matricea de covarianță Newey--West \\refNW⟧'))
+      '⟦$\\gamma_{x,0}, \\gamma_{u,0}$: the variances of $x_t$ and $u_t$; $\\rho_x(j), \\rho_u(j)$: their autocorrelations at lag $j$||$\\gamma_{x,0}, \\gamma_{u,0}$: varianțele lui $x_t$ și $u_t$; $\\rho_x(j), \\rho_u(j)$: autocorelațiile lor la lagul $j$⟧']),
+    ('⟦A large distortion needs both a persistent regressor and a persistent error||O distorsiune mare cere atît un regresor persistent, cît și o eroare persistentă⟧',
+     ['⟦if either autocorrelation is zero, the factor is 1; a persistent predictor with persistent errors is the worst case||dacă una dintre autocorelații este zero, factorul este 1; un predictor persistent cu erori persistente este cazul cel mai nefavorabil⟧']),
+    ('⟦The Newey--West covariance matrix \\refNW: the sandwich $\\hat Q^{-1}\\hat\\Omega_{xu}\\hat Q^{-1}$||Matricea de covarianță Newey--West \\refNW: forma sandwich $\\hat Q^{-1}\\hat\\Omega_{xu}\\hat Q^{-1}$⟧',
+     ['⟦$\\hat Q$: the sample mean of $x_tx_t\'$; $\\hat\\Omega_{xu}$: a kernel estimate of $\\Omega_{xu}$ (next section)||$\\hat Q$: media de selecție a lui $x_tx_t\'$; $\\hat\\Omega_{xu}$: o estimare prin nucleu a lui $\\Omega_{xu}$ (secțiunea următoare)⟧'])))
 
 D.recap(('asymptotics for dependent data', 'asimptotică pentru date dependente'), [
     '⟦$\\Var(\\sqrt{T}\\bar x) \\to \\Omega = \\sum_j\\gamma_j = 2\\pi f(0)$; the i.i.d.\\ formula keeps only $\\gamma_0$||$\\Var(\\sqrt{T}\\bar x) \\to \\Omega = \\sum_j\\gamma_j = 2\\pi f(0)$; formula i.i.d.\\ păstrează doar $\\gamma_0$⟧',
@@ -520,22 +581,31 @@ D.recap(('asymptotics for dependent data', 'asimptotică pentru date dependente'
 D.section('HAC estimation', 'Estimarea HAC')
 # ===============================================================================================================
 frame('⟦Estimating the long-run variance||Estimarea varianței de termen lung⟧', items(
-    ('⟦Plug in all sample autocovariances: $\\sum_{|j|<T}\\hat\\gamma_j = 0$ identically (demeaned data): useless||Înlocuirea tuturor autocovarianțelor de selecție: $\\sum_{|j|<T}\\hat\\gamma_j = 0$ identic (date centrate): inutil⟧',
-     ['⟦High-order $\\hat\\gamma_j$ use few pairs and are noise||Autocovarianțele $\\hat\\gamma_j$ de ordin mare folosesc puține perechi și sînt zgomot⟧']),
-    ('⟦\\textbf{Kernel estimator}: $\\hat\\Omega = \\sum_{|j|<T} k(j/S)\\,\\hat\\gamma_j$, with $k(0) = 1$, $k$ decreasing in $|x|$||\\textbf{Estimatorul prin nucleu}: $\\hat\\Omega = \\sum_{|j|<T} k(j/S)\\,\\hat\\gamma_j$, cu $k(0) = 1$, $k$ descrescătoare în $|x|$⟧',
-     ['⟦Equivalently a smoothed periodogram at frequency 0: $\\hat\\Omega = 2\\pi\\hat f(0)$ \\refSS||Echivalent, o periodogramă netezită la frecvența 0: $\\hat\\Omega = 2\\pi\\hat f(0)$ \\refSS⟧']),
-    ('⟦Consistency: $S \\to \\infty$ and $S/T \\to 0$ (Andrews 1991, under mixing and moment conditions) \\refAndrews||Consistență: $S \\to \\infty$ și $S/T \\to 0$ (Andrews 1991, sub condiții de mixing și de momente) \\refAndrews⟧',
-     ['⟦Bias from the down-weighted lags, variance from the included ones: $S$ trades them off||Deplasarea vine din decalajele subponderate, varianța din cele incluse: $S$ echilibrează cele două⟧']),
+    ('⟦Plugging in all sample autocovariances fails: $\\sum_{|j|<T}\\hat\\gamma_j = 0$ identically for demeaned data||Înlocuirea tuturor autocovarianțelor de selecție eșuează: $\\sum_{|j|<T}\\hat\\gamma_j = 0$ identic pentru datele centrate⟧',
+     ['⟦high-order $\\hat\\gamma_j$ use few pairs and are mostly noise||autocovarianțele $\\hat\\gamma_j$ de ordin mare folosesc puține perechi și sînt în mare parte zgomot⟧']),
+    ('⟦\\textbf{Kernel estimator}: a weighted sum of sample autocovariances||\\textbf{Estimatorul prin nucleu}: o sumă ponderată a autocovarianțelor de selecție⟧',
+     ['$\\hat\\Omega = \\sum_{|j|<T} k(j/S)\\,\\hat\\gamma_j$, $\\quad k(0) = 1$, $\\quad k(x)$ ⟦decreasing in $|x|$||descrescătoare în $|x|$⟧',
+      '⟦$k(j/S)$: the weight of lag $j$; $S$: the bandwidth; equivalently a smoothed periodogram at frequency 0, $\\hat\\Omega = 2\\pi\\hat f(0)$ \\refSS||$k(j/S)$: ponderea lagului $j$; $S$: lățimea de bandă; echivalent, o periodogramă netezită la frecvența 0, $\\hat\\Omega = 2\\pi\\hat f(0)$ \\refSS⟧']),
+    ('⟦Consistency: $S \\to \\infty$ and $S/T \\to 0$, under mixing and moment conditions \\refAndrews||Consistență: $S \\to \\infty$ și $S/T \\to 0$, sub condiții de mixing și de momente \\refAndrews⟧',
+     ['⟦the down-weighted lags create bias, the included ones create variance: $S$ balances the two||lagurile subponderate produc deplasare, cele incluse produc varianță: $S$ echilibrează cele două⟧']),
     '⟦A variance estimator must be nonnegative: not every kernel guarantees this||Un estimator de varianță trebuie să fie nenegativ: nu orice nucleu garantează acest lucru⟧'))
 
-frame('⟦Case study: Newey and West (1987)||Studiu de caz: Newey și West (1987)⟧', items(
-    ('⟦\\refNW, Econometrica 55(3): the Bartlett kernel $k(x) = 1 - |x|$ for $|x| \\le 1$, with $L$ lags:||\\refNW, Econometrica 55(3): nucleul Bartlett $k(x) = 1 - |x|$ pentru $|x| \\le 1$, cu $L$ decalaje:⟧',
-     ['$\\hat\\Omega_{NW} = \\hat\\Gamma_0 + \\sum_{j=1}^{L}\\Big(1 - \\dfrac{j}{L+1}\\Big)\\big(\\hat\\Gamma_j + \\hat\\Gamma_j\'\\big)$, $\\quad\\hat\\Gamma_j = T^{-1}\\sum_{t>j}\\hat h_t\\hat h_{t-j}\'$, $\\hat h_t = x_t\\hat u_t$']),
+frame('⟦Case study: Newey and West (1987) (1/2)||Studiu de caz: Newey și West (1987) (1/2)⟧', items(
+    ('⟦\\refNW, Econometrica 55(3): the Bartlett kernel $k(x) = 1 - |x|$ for $|x| \\le 1$, with $L$ lags||\\refNW, Econometrica 55(3): nucleul Bartlett $k(x) = 1 - |x|$ pentru $|x| \\le 1$, cu $L$ laguri⟧',
+     ['$\\hat\\Omega_{NW} = \\hat\\Gamma_0 + \\sum_{j=1}^{L}\\Big(1 - \\dfrac{j}{L+1}\\Big)\\big(\\hat\\Gamma_j + \\hat\\Gamma_j\'\\big)$, $\\quad\\hat\\Gamma_j = T^{-1}\\sum_{t>j}\\hat h_t\\hat h_{t-j}\'$']),
+    ('⟦Notation||Notațiile⟧',
+     ['⟦$\\hat h_t = x_t\\hat u_t$: regressor times OLS residual $\\hat u_t$ (the score of observation $t$)||$\\hat h_t = x_t\\hat u_t$: regresorul înmulțit cu reziduul MCMMP $\\hat u_t$ (scorul observației $t$)⟧',
+      '⟦$\\hat\\Gamma_j$: the sample autocovariance matrix of $\\hat h_t$ at lag $j$; $\\hat\\Gamma_0$: its variance matrix||$\\hat\\Gamma_j$: matricea autocovarianțelor de selecție ale lui $\\hat h_t$ la lagul $j$; $\\hat\\Gamma_0$: matricea ei de varianță⟧',
+      '⟦$1 - j/(L+1)$: weights that decrease linearly from 1 to $1/(L+1)$; lags beyond $L$ get weight 0||$1 - j/(L+1)$: ponderi care scad liniar de la 1 la $1/(L+1)$; lagurile de după $L$ primesc pondere 0⟧'])))
+
+frame('⟦Case study: Newey and West (1987) (2/2)||Studiu de caz: Newey și West (1987) (2/2)⟧', items(
     ('⟦\\textbf{Positive semi-definite by construction}: Bartlett weights are the autocovariances of a moving sum||\\textbf{Pozitiv semidefinit prin construcție}: ponderile Bartlett sînt autocovarianțele unei sume mobile⟧',
-     ['⟦$\\hat\\Omega_{NW}$ equals (up to end effects) $\\frac{1}{(L+1)T}\\sum_t\\big(\\sum_{i=0}^{L}\\hat h_{t-i}\\big)\\big(\\sum_{i=0}^{L}\\hat h_{t-i}\\big)\'$: a sum of outer products||$\\hat\\Omega_{NW}$ este egal (pînă la efectele de capăt) cu $\\frac{1}{(L+1)T}\\sum_t\\big(\\sum_{i=0}^{L}\\hat h_{t-i}\\big)\\big(\\sum_{i=0}^{L}\\hat h_{t-i}\\big)\'$: o sumă de produse exterioare⟧',
-      '⟦Spectral view: the Bartlett (Fejér) window is nonnegative at every frequency||Perspectiva spectrală: fereastra Bartlett (Fejér) este nenegativă la orice frecvență⟧']),
-    '⟦Consistency with $L \\to \\infty$, $L = o(T^{1/4})$ in the original paper; Andrews (1991) refines the rates||Consistență cu $L \\to \\infty$, $L = o(T^{1/4})$ în lucrarea originală; Andrews (1991) rafinează ratele⟧',
-    '⟦One page of algebra, now the default ``robust standard error\'\' in every econometrics package||O pagină de algebră, astăzi eroarea standard „robustă” implicită în orice pachet econometric⟧'), 'footnotesize')
+     ['⟦up to end effects, $\\hat\\Omega_{NW} = \\frac{1}{(L+1)T}\\sum_t\\big(\\sum_{i=0}^{L}\\hat h_{t-i}\\big)\\big(\\sum_{i=0}^{L}\\hat h_{t-i}\\big)\'$||pînă la efectele de capăt, $\\hat\\Omega_{NW} = \\frac{1}{(L+1)T}\\sum_t\\big(\\sum_{i=0}^{L}\\hat h_{t-i}\\big)\\big(\\sum_{i=0}^{L}\\hat h_{t-i}\\big)\'$⟧',
+      '⟦a sum of outer products $vv\'$, each positive semi-definite, so the sum is too||o sumă de produse exterioare $vv\'$, fiecare pozitiv semidefinit, deci și suma este⟧',
+      '⟦spectral view: the Bartlett (Fejér) window is nonnegative at every frequency||perspectiva spectrală: fereastra Bartlett (Fejér) este nenegativă la orice frecvență⟧']),
+    ('⟦Consistency with $L \\to \\infty$, $L = o(T^{1/4})$ in the original paper||Consistență cu $L \\to \\infty$, $L = o(T^{1/4})$ în lucrarea originală⟧',
+     ['⟦$L = o(T^{1/4})$: $L$ grows more slowly than $T^{1/4}$; Andrews (1991) refines the rates||$L = o(T^{1/4})$: $L$ crește mai lent decît $T^{1/4}$; Andrews (1991) rafinează ratele⟧']),
+    '⟦One page of algebra, now the default robust standard error in every econometrics package||O pagină de algebră, astăzi eroarea standard robustă implicită în orice pachet econometric⟧'))
 
 frame('⟦A truncated kernel can give a negative variance||Un nucleu trunchiat poate da o varianță negativă⟧', items(
     ('⟦Truncated (uniform) kernel: $k(x) = 1$ for $|x| \\le 1$: $\\hat\\Omega = \\hat\\gamma_0 + 2\\sum_{j=1}^{L}\\hat\\gamma_j$ (used by \\refHH for overlapping forecasts)||Nucleul trunchiat (uniform): $k(x) = 1$ pentru $|x| \\le 1$: $\\hat\\Omega = \\hat\\gamma_0 + 2\\sum_{j=1}^{L}\\hat\\gamma_j$ (folosit de \\refHH pentru prognozele suprapuse)⟧',
@@ -546,43 +616,55 @@ frame('⟦A truncated kernel can give a negative variance||Un nucleu trunchiat p
     '⟦Lesson: a negative variance is not a numerical accident; it is a property of the kernel (Seminar 0, A3--A4)||Lecția: o varianță negativă nu este un accident numeric; este o proprietate a nucleului (Seminarul 0, A3--A4)⟧'))
 
 chart('⟦Kernels||Nucleele⟧', 'ats_ch0_kernels', 'ATS_ch0_long_run_variance', [
-    '⟦Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \\le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \\le 1$); QS: $\\frac{25}{12\\pi^2x^2}\\big[\\frac{\\sin(6\\pi x/5)}{6\\pi x/5} - \\cos(6\\pi x/5)\\big]$, all lags||Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \\le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \\le 1$); QS: $\\frac{25}{12\\pi^2x^2}\\big[\\frac{\\sin(6\\pi x/5)}{6\\pi x/5} - \\cos(6\\pi x/5)\\big]$, toate decalajele⟧'],
+    '⟦Weight $k(x)$ against $x = j/S$, the lag relative to the bandwidth; Bartlett: $1 - |x|$ ($|x| \\le 1$)||Ponderea $k(x)$ în funcție de $x = j/S$, lagul raportat la lățimea de bandă; Bartlett: $1 - |x|$ ($|x| \\le 1$)⟧',
+    '⟦Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \\le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \\le 1$); QS (quadratic spectral): $\\frac{25}{12\\pi^2x^2}\\big[\\frac{\\sin(6\\pi x/5)}{6\\pi x/5} - \\cos(6\\pi x/5)\\big]$, all lags||Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \\le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \\le 1$); QS (quadratic spectral): $\\frac{25}{12\\pi^2x^2}\\big[\\frac{\\sin(6\\pi x/5)}{6\\pi x/5} - \\cos(6\\pi x/5)\\big]$, toate lagurile⟧'],
     h='0.52\\textheight')
 
 interp('the kernels', 'nucleelor', [
-    ('⟦Bartlett, Parzen and QS have nonnegative spectral windows: $\\hat\\Omega \\ge 0$ always||Bartlett, Parzen și QS au ferestre spectrale nenegative: întotdeauna $\\hat\\Omega \\ge 0$⟧',
+    ('⟦Bartlett, Parzen and QS have nonnegative spectral windows (the Fourier transform of the weights): $\\hat\\Omega \\ge 0$ always||Bartlett, Parzen și QS au ferestre spectrale (transformata Fourier a ponderilor) nenegative: întotdeauna $\\hat\\Omega \\ge 0$⟧',
      ['⟦QS takes small negative weights (minimum $@{k.qsmin}$) yet stays positive semi-definite||QS are ponderi negative mici (minimum $@{k.qsmin}$), dar rămîne pozitiv semidefinit⟧']),
-    ('⟦Kernel order $q$: $1 - k(x) \\sim c|x|^q$ near 0; Bartlett $q = 1$, Parzen and QS $q = 2$||Ordinul nucleului $q$: $1 - k(x) \\sim c|x|^q$ lîngă 0; Bartlett $q = 1$, Parzen și QS $q = 2$⟧',
-     ['⟦Bias $O(S^{-q})$, variance $O(S/T)$: optimal $S \\propto T^{1/(2q+1)}$, i.e.\\ $T^{1/3}$ (Bartlett) and $T^{1/5}$ (QS)||Deplasare $O(S^{-q})$, varianță $O(S/T)$: $S$ optim $\\propto T^{1/(2q+1)}$, adică $T^{1/3}$ (Bartlett) și $T^{1/5}$ (QS)⟧']),
+    ('⟦Kernel order $q$: $1 - k(x) \\sim c|x|^q$ near 0, with $c > 0$ a constant; Bartlett $q = 1$, Parzen and QS $q = 2$||Ordinul nucleului $q$: $1 - k(x) \\sim c|x|^q$ lîngă 0, cu $c > 0$ o constantă; Bartlett $q = 1$, Parzen și QS $q = 2$⟧',
+     ['⟦bias of order $S^{-q}$, variance of order $S/T$: the optimal $S$ grows like $T^{1/(2q+1)}$||deplasare de ordinul $S^{-q}$, varianță de ordinul $S/T$: $S$ optim crește ca $T^{1/(2q+1)}$⟧',
+      '⟦i.e.\\ $T^{1/3}$ for Bartlett and $T^{1/5}$ for QS||adică $T^{1/3}$ pentru Bartlett și $T^{1/5}$ pentru QS⟧']),
     '⟦\\refAndrews: QS minimises the asymptotic MSE among kernels with nonnegative estimates||\\refAndrews: QS minimizează eroarea pătratică medie asimptotică printre nucleele cu estimări nenegative⟧'])
 
-frame('⟦Case study: Andrews (1991) and the choice of bandwidth||Studiu de caz: Andrews (1991) și alegerea lățimii de bandă⟧', items(
-    ('⟦MSE-optimal bandwidth: $S^* = c_k\\,(\\alpha(q)\\,T)^{1/(2q+1)}$, with $\\alpha(q)$ depending on the unknown spectrum \\refAndrews||Lățimea optimă în sensul erorii pătratice medii: $S^* = c_k\\,(\\alpha(q)\\,T)^{1/(2q+1)}$, cu $\\alpha(q)$ dependent de spectrul necunoscut \\refAndrews⟧',
-     ['⟦Bartlett: $S^* = 1.1447(\\hat\\alpha(1)T)^{1/3}$; Parzen: $2.6614(\\hat\\alpha(2)T)^{1/5}$; QS: $1.3221(\\hat\\alpha(2)T)^{1/5}$||Bartlett: $S^* = 1.1447(\\hat\\alpha(1)T)^{1/3}$; Parzen: $2.6614(\\hat\\alpha(2)T)^{1/5}$; QS: $1.3221(\\hat\\alpha(2)T)^{1/5}$⟧']),
-    ('⟦\\textbf{AR(1) plug-in}: fit $\\hat\\rho$ to $\\hat h_t$, then||\\textbf{Înlocuirea AR(1)}: estimăm $\\hat\\rho$ pe $\\hat h_t$, apoi⟧',
-     ['$\\hat\\alpha(1) = \\dfrac{4\\hat\\rho^2}{(1-\\hat\\rho)^2(1+\\hat\\rho)^2}$, $\\qquad \\hat\\alpha(2) = \\dfrac{4\\hat\\rho^2}{(1-\\hat\\rho)^4}$']),
-    ('⟦Alternatives||Alternative⟧',
-     ['⟦Newey--West rule of thumb $L = \\lfloor 4(T/100)^{2/9}\\rfloor$ and their nonparametric automatic selection \\refNWb||Regula practică Newey--West $L = \\lfloor 4(T/100)^{2/9}\\rfloor$ și selecția lor automată neparametrică \\refNWb⟧',
-      '⟦Prewhitening with a VAR(1), then recolouring \\refAM: less bias for persistent series||Prealbirea cu un VAR(1), apoi recolorarea \\refAM: mai puțină deplasare pentru seriile persistente⟧']),
-    '⟦The MSE criterion targets $\\hat\\Omega$, not the test: it is the reason for size distortions (next sections)||Criteriul erorii pătratice medii vizează $\\hat\\Omega$, nu testul: de aici provin distorsiunile de mărime (secțiunile următoare)⟧'), 'footnotesize')
+frame('⟦Case study: Andrews (1991) and the choice of bandwidth (1/2)||Studiu de caz: Andrews (1991) și alegerea lățimii de bandă (1/2)⟧', items(
+    ('⟦MSE-optimal bandwidth \\refAndrews: the $S$ that minimises the mean squared error of $\\hat\\Omega$||Lățimea optimă în sensul erorii pătratice medii \\refAndrews: valoarea $S$ care minimizează eroarea pătratică medie a lui $\\hat\\Omega$⟧',
+     ['$S^* = c_k\\,(\\alpha(q)\\,T)^{1/(2q+1)}$',
+      '⟦$q$: the order of the kernel; $c_k$: a constant of the kernel; $\\alpha(q)$: a function of the unknown spectrum, large for persistent series||$q$: ordinul nucleului; $c_k$: o constantă a nucleului; $\\alpha(q)$: o funcție de spectrul necunoscut, mare pentru seriile persistente⟧',
+      '⟦Bartlett: $S^* = 1.1447(\\hat\\alpha(1)T)^{1/3}$; Parzen: $2.6614(\\hat\\alpha(2)T)^{1/5}$; QS: $1.3221(\\hat\\alpha(2)T)^{1/5}$||Bartlett: $S^* = 1.1447(\\hat\\alpha(1)T)^{1/3}$; Parzen: $2.6614(\\hat\\alpha(2)T)^{1/5}$; QS: $1.3221(\\hat\\alpha(2)T)^{1/5}$⟧']),
+    ('⟦\\textbf{AR(1) plug-in}: fit an AR(1) with coefficient $\\hat\\rho$ to $\\hat h_t$, then||\\textbf{Metoda plug-in AR(1)}: estimăm un AR(1) cu coeficientul $\\hat\\rho$ pe $\\hat h_t$, apoi⟧',
+     ['$\\hat\\alpha(1) = \\dfrac{4\\hat\\rho^2}{(1-\\hat\\rho)^2(1+\\hat\\rho)^2}$, $\\qquad \\hat\\alpha(2) = \\dfrac{4\\hat\\rho^2}{(1-\\hat\\rho)^4}$',
+      '⟦both grow without bound as $\\hat\\rho \\to 1$: more persistence, wider bandwidth||ambele cresc nemărginit cînd $\\hat\\rho \\to 1$: persistență mai mare, lățime de bandă mai mare⟧'])))
+
+frame('⟦Case study: Andrews (1991) and the choice of bandwidth (2/2)||Studiu de caz: Andrews (1991) și alegerea lățimii de bandă (2/2)⟧', items(
+    ('⟦Newey--West rule of thumb: $L = \\lfloor 4(T/100)^{2/9}\\rfloor$||Regula practică Newey--West: $L = \\lfloor 4(T/100)^{2/9}\\rfloor$⟧',
+     ['⟦$\\lfloor\\cdot\\rfloor$: the integer part; $L$ depends only on $T$, not on the data||$\\lfloor\\cdot\\rfloor$: partea întreagă; $L$ depinde doar de $T$, nu de date⟧',
+      '⟦their nonparametric automatic selection \\refNWb estimates the spectrum instead||selecția lor automată neparametrică \\refNWb estimează în schimb spectrul⟧']),
+    ('⟦Prewhitening with a VAR(1), then recolouring \\refAM||Prealbirea cu un VAR(1), apoi recolorarea \\refAM⟧',
+     ['⟦filter out the AR(1) part, estimate $\\Omega$ on the residuals, then undo the filter: less bias for persistent series||se elimină componenta AR(1), se estimează $\\Omega$ pe reziduuri, apoi se inversează filtrul: deplasare mai mică pentru seriile persistente⟧']),
+    ('⟦The MSE criterion targets $\\hat\\Omega$, not the test||Criteriul erorii pătratice medii vizează $\\hat\\Omega$, nu testul⟧',
+     ['⟦this is the source of the size distortions of the next sections||de aici provin distorsiunile de mărime din secțiunile următoare⟧'])))
 
 chart('⟦HAC standard errors as a function of the bandwidth||Erorile standard HAC în funcție de lățimea de bandă⟧', 'ats_ch0_hac_bandwidth', 'ATS_ch0_hac', [
-    '⟦Ratio of the Bartlett HAC standard error of the mean to the naive one, $S$ from 1 to $\\min(400, T/2)$; dots: Andrews AR(1) plug-in||Raportul dintre eroarea standard HAC Bartlett a mediei și cea naivă, $S$ de la 1 la $\\min(400, T/2)$; puncte: înlocuirea AR(1) Andrews⟧'],
+    '⟦Ratio of the Bartlett HAC standard error of the mean to the naive one, $S$ from 1 to $\\min(400, T/2)$; dots: Andrews AR(1) plug-in||Raportul dintre eroarea standard HAC Bartlett a mediei și cea naivă, $S$ de la 1 la $\\min(400, T/2)$; puncte: metoda plug-in AR(1) a lui Andrews⟧'],
     h='0.56\\textheight')
 
 interp('the bandwidth paths', 'traiectoriilor în funcție de lățimea de bandă', [
     ('⟦Squared S\\&P 500 returns: ratio $@{bw.sq.rn}$ with the rule of thumb ($S = @{bw.sq.Sn}$), $@{bw.sq.ra}$ with Andrews ($S = @{bw.sq.Sa}$), still rising to $@{bw.sq.rmax}$ at $S = 400$||Pătratele randamentelor S\\&P 500: raport $@{bw.sq.rn}$ cu regula practică ($S = @{bw.sq.Sn}$), $@{bw.sq.ra}$ cu Andrews ($S = @{bw.sq.Sa}$), în creștere pînă la $@{bw.sq.rmax}$ la $S = 400$⟧',
-     ['⟦No plateau: the AR(1) plug-in misses the slow decay of volatility autocorrelation (long memory, Chapter 10)||Fără platou: înlocuirea AR(1) nu surprinde scăderea lentă a autocorelației volatilității (memorie lungă, Capitolul 10)⟧']),
+     ['⟦No plateau: the AR(1) plug-in misses the slow decay of volatility autocorrelation (long memory, Chapter 10)||Fără platou: metoda plug-in AR(1) nu surprinde scăderea lentă a autocorelației volatilității (memorie lungă, Capitolul 10)⟧']),
     ('⟦Romanian inflation: $@{bw.inf.rn}$ with the rule of thumb, $@{bw.inf.ra}$ with Andrews ($S = @{bw.inf.Sa}$ months)||Inflația în România: $@{bw.inf.rn}$ cu regula practică, $@{bw.inf.ra}$ cu Andrews ($S = @{bw.inf.Sa}$ luni)⟧',
      ['⟦The rule of thumb ignores the data: with $T$ fixed it gives the same $S$ for white noise and for a near unit root||Regula practică ignoră datele: la $T$ fix dă același $S$ pentru un zgomot alb și pentru o rădăcină aproape unitară⟧']),
     '⟦S\\&P 500 returns: ratio below 1 at every $S$ (negative $\\hat\\rho_1$); EUR/RON: flat near $@{bw.eur.ra}$||Randamentele S\\&P 500: raport sub 1 la orice $S$ ($\\hat\\rho_1$ negativ); EUR/RON: aproape constant, în jur de $@{bw.eur.ra}$⟧'])
 
 frame('⟦Fixed-$b$ asymptotics||Asimptotica fixed-$b$⟧', items(
-    ('⟦Standard theory: $S/T \\to 0$, $\\hat\\Omega \\to_p \\Omega$, the $t$-statistic is $N(0,1)$: the sampling error of $\\hat\\Omega$ is ignored||Teoria standard: $S/T \\to 0$, $\\hat\\Omega \\to_p \\Omega$, statistica $t$ este $N(0,1)$: eroarea de selecție a lui $\\hat\\Omega$ este ignorată⟧',
-     ['⟦In samples of 100--300, $\\hat\\Omega$ is noisy and downward biased: the normal critical values are too small||În eșantioane de 100--300 de observații, $\\hat\\Omega$ este zgomotos și deplasat în jos: valorile critice normale sînt prea mici⟧']),
+    ('⟦Standard theory: $S/T \\to 0$, $\\hat\\Omega \\to_p \\Omega$, the $t$-statistic is $N(0,1)$||Teoria standard: $S/T \\to 0$, $\\hat\\Omega \\to_p \\Omega$, statistica $t$ este $N(0,1)$⟧',
+     ['⟦$\\to_p$: convergence in probability; the sampling error of $\\hat\\Omega$ is ignored||$\\to_p$: convergență în probabilitate; eroarea de selecție a lui $\\hat\\Omega$ este ignorată⟧',
+      '⟦with 100--300 observations, $\\hat\\Omega$ is noisy and biased downwards: the normal critical values are too small||cu 100--300 de observații, $\\hat\\Omega$ este zgomotos și deplasat în jos: valorile critice normale sînt prea mici⟧']),
     ('⟦\\textbf{Fixed-$b$} \\refKVB, \\refKVb, \\refKV: keep $b = S/T$ fixed as $T \\to \\infty$||\\textbf{Fixed-$b$} \\refKVB, \\refKVb, \\refKV: păstrăm $b = S/T$ fix cînd $T \\to \\infty$⟧',
-     ['⟦$\\hat\\Omega/\\Omega \\to_d Q_k(b)$, a functional of a Brownian bridge $\\tilde W(r) = W(r) - rW(1)$; $t \\to_d W(1)/\\sqrt{Q_k(b)}$||$\\hat\\Omega/\\Omega \\to_d Q_k(b)$, o funcțională a unei punți browniene $\\tilde W(r) = W(r) - rW(1)$; $t \\to_d W(1)/\\sqrt{Q_k(b)}$⟧',
-      '⟦Nonstandard but pivotal: critical values depend only on the kernel and on $b$||Nestandard, dar pivotal: valorile critice depind doar de nucleu și de $b$⟧']),
+     ['$\\hat\\Omega/\\Omega \\to_d Q_k(b)$, $\\qquad t \\to_d W(1)/\\sqrt{Q_k(b)}$',
+      '⟦$W(r)$: a standard Brownian motion on $r \\in [0,1]$ ($r$: the fraction of the sample); $Q_k(b)$: a random functional of the Brownian bridge $\\tilde W(r) = W(r) - rW(1)$||$W(r)$: o mișcare browniană standard pe $r \\in [0,1]$ ($r$: fracțiunea din eșantion); $Q_k(b)$: o funcțională aleatoare a punții browniene $\\tilde W(r) = W(r) - rW(1)$⟧',
+      '⟦nonstandard but pivotal (free of unknown parameters): critical values depend only on the kernel and on $b$||nestandard, dar pivotal (nu depinde de parametri necunoscuți): valorile critice depind doar de nucleu și de $b$⟧']),
     '⟦Higher-order theory: fixed-$b$ critical values remove the leading size distortion of the normal approximation \\refSPJ||Teoria de ordin superior: valorile critice fixed-$b$ elimină termenul principal al distorsiunii de mărime din aproximarea normală \\refSPJ⟧'))
 
 chart('⟦Fixed-$b$ critical values||Valorile critice fixed-$b$⟧', 'ats_ch0_fixed_b', 'ATS_ch0_hac', [
@@ -596,16 +678,23 @@ interp('the fixed-$b$ critical values', 'valorilor critice fixed-$b$', [
     '⟦Larger $b$: less bias in $\\hat\\Omega$, more variance, compensated by a larger critical value: better size, lower power||$b$ mai mare: deplasare mai mică a lui $\\hat\\Omega$, varianță mai mare, compensată de o valoare critică mai mare: mărime mai bună, putere mai mică⟧',
     '⟦What do you think? Why does the critical value at $b \\to 0$ tend to 1.96?||Ce credeți? De ce tinde valoarea critică la 1,96 cînd $b \\to 0$?⟧'])
 
-frame('⟦Recommendations for practice: Lazarus, Lewis, Stock and Watson (2018)||Recomandări practice: Lazarus, Lewis, Stock și Watson (2018)⟧', items(
+frame('⟦Recommendations for practice: Lazarus, Lewis, Stock and Watson (2018) (1/2)||Recomandări practice: Lazarus, Lewis, Stock și Watson (2018) (1/2)⟧', items(
     ('⟦\\refLLSW choose the bandwidth for the \\emph{test}: a size--power frontier, not the MSE of $\\hat\\Omega$||\\refLLSW aleg lățimea de bandă pentru \\emph{test}: o frontieră mărime--putere, nu eroarea pătratică medie a lui $\\hat\\Omega$⟧',
-     ['⟦Newey--West with $S = 1.3\\sqrt{T}$ and fixed-$b$ critical values||Newey--West cu $S = 1.3\\sqrt{T}$ și valori critice fixed-$b$⟧',
-      '⟦Equal-weighted cosine (EWC): $\\hat\\Omega = \\nu^{-1}\\sum_{j=1}^{\\nu}\\hat\\Lambda_j^2$, $\\hat\\Lambda_j = \\sqrt{2/T}\\sum_t \\cos[\\pi j(t - 1/2)/T]\\hat h_t$, $\\nu = 0.4T^{2/3}$, Student $t_\\nu$ critical values||Cosinus cu ponderi egale (EWC): $\\hat\\Omega = \\nu^{-1}\\sum_{j=1}^{\\nu}\\hat\\Lambda_j^2$, $\\hat\\Lambda_j = \\sqrt{2/T}\\sum_t \\cos[\\pi j(t - 1/2)/T]\\hat h_t$, $\\nu = 0.4T^{2/3}$, valori critice Student $t_\\nu$⟧']),
-    '⟦Size--power trade-off is unavoidable: \\refLLS give the frontier for kernel tests||Compromisul mărime--putere este inevitabil: \\refLLS dau frontiera pentru testele cu nucleu⟧',
-    '⟦Very persistent series ($\\phi$ near 1): no kernel or EWC rule is reliable; \\refMuller proposes tests valid under local-to-unity dependence||Serii foarte persistente ($\\phi$ aproape de 1): nicio regulă cu nucleu sau EWC nu este fiabilă; \\refMuller propune teste valide sub dependență local-unitară⟧',
-    '⟦These are the defaults of the course from Chapter 1 on||Acestea sînt opțiunile implicite ale cursului începînd cu Capitolul 1⟧'), 'footnotesize')
+     ['⟦first recommendation: Newey--West with $S = 1.3\\sqrt{T}$ and fixed-$b$ critical values||prima recomandare: Newey--West cu $S = 1.3\\sqrt{T}$ și valori critice fixed-$b$⟧']),
+    ('⟦Second recommendation: the equal-weighted cosine (EWC) estimator||A doua recomandare: estimatorul cosinus cu ponderi egale (EWC)⟧',
+     ['$\\hat\\Omega = \\nu^{-1}\\sum_{j=1}^{\\nu}\\hat\\Lambda_j^2$, $\\qquad \\hat\\Lambda_j = \\sqrt{2/T}\\sum_t \\cos[\\pi j(t - 1/2)/T]\\,\\hat h_t$, $\\qquad \\nu = 0.4T^{2/3}$',
+      '⟦$\\hat\\Lambda_j$: the projection of $\\hat h_t$ on the $j$-th cosine, a low-frequency component; each $\\hat\\Lambda_j^2$ estimates $\\Omega$||$\\hat\\Lambda_j$: proiecția lui $\\hat h_t$ pe cosinusul $j$, o componentă de frecvență joasă; fiecare $\\hat\\Lambda_j^2$ estimează $\\Omega$⟧',
+      '⟦$\\nu$: the number of cosines averaged, also the degrees of freedom: critical values from Student $t_\\nu$||$\\nu$: numărul de cosinusuri mediate, egal cu numărul de grade de libertate: valori critice din distribuția Student $t_\\nu$⟧'])))
+
+frame('⟦Recommendations for practice: Lazarus, Lewis, Stock and Watson (2018) (2/2)||Recomandări practice: Lazarus, Lewis, Stock și Watson (2018) (2/2)⟧', items(
+    ('⟦The size--power trade-off is unavoidable||Compromisul mărime--putere este inevitabil⟧',
+     ['⟦\\refLLS give the frontier for kernel tests||\\refLLS dau frontiera pentru testele cu nucleu⟧']),
+    ('⟦Very persistent series ($\\phi$ near 1): no kernel or EWC rule is reliable||Serii foarte persistente ($\\phi$ aproape de 1): nicio regulă cu nucleu sau EWC nu este fiabilă⟧',
+     ['⟦\\refMuller proposes tests valid under local-to-unity dependence (a root that tends to 1 as $T$ grows)||\\refMuller propune teste valide sub dependență de tip local-to-unity (o rădăcină care tinde la 1 odată cu creșterea lui $T$)⟧']),
+    '⟦These are the defaults of the course from Chapter 1 on||Acestea sînt opțiunile implicite ale cursului începînd cu Capitolul 1⟧'))
 
 D.recap(('HAC estimation', 'estimarea HAC'), [
-    '⟦Kernel estimators down-weight distant lags; Bartlett (Newey--West), Parzen and QS are always nonnegative; the truncated kernel is not||Estimatorii prin nucleu subponderează decalajele îndepărtate; Bartlett (Newey--West), Parzen și QS sînt întotdeauna nenegativi; nucleul trunchiat nu este⟧',
+    '⟦Kernel estimators down-weight distant lags; Bartlett (Newey--West), Parzen and QS are always nonnegative; the truncated kernel is not||Estimatorii prin nucleu subponderează lagurile îndepărtate; Bartlett (Newey--West), Parzen și QS sînt întotdeauna nenegativi; nucleul trunchiat nu este⟧',
     '⟦Andrews (1991) bandwidths are MSE-optimal for $\\hat\\Omega$ and adapt to persistence; the rule of thumb does not||Lățimile Andrews (1991) sînt optime pentru eroarea pătratică medie a lui $\\hat\\Omega$ și se adaptează persistenței; regula practică nu⟧',
     '⟦Fixed-$b$ critical values account for the noise in $\\hat\\Omega$; LLSW: NW with $S = 1.3\\sqrt{T}$ or EWC with $\\nu = 0.4T^{2/3}$||Valorile critice fixed-$b$ țin cont de zgomotul din $\\hat\\Omega$; LLSW: NW cu $S = 1.3\\sqrt{T}$ sau EWC cu $\\nu = 0.4T^{2/3}$⟧'])
 
@@ -614,11 +703,13 @@ D.section('Size distortions: a Monte Carlo study', 'Distorsiuni de mărime: un s
 # ===============================================================================================================
 frame('⟦Monte Carlo design||Planul Monte Carlo⟧', items(
     ('⟦DGP: $x_t = \\phi x_{t-1} + \\varepsilon_t$, $\\varepsilon_t \\sim N(0,1)$ i.i.d., 200 burn-in values; $H_0: \\mu = 0$ is true||DGP: $x_t = \\phi x_{t-1} + \\varepsilon_t$, $\\varepsilon_t \\sim N(0,1)$ i.i.d., 200 de valori inițiale eliminate; $H_0: \\mu = 0$ este adevărată⟧',
-     ['⟦$\\phi \\in \\{0, 0.3, 0.5, 0.7, 0.9\\}$, $T \\in \\{100, 400\\}$; @{mc.reps} replications (@{mc.breps} for the bootstrap, 399 resamples each); seed 2026||$\\phi \\in \\{0; 0,3; 0,5; 0,7; 0,9\\}$, $T \\in \\{100; 400\\}$; @{mc.reps} de replicări (@{mc.breps} pentru bootstrap, cu cîte 399 de reeșantionări); sămînța 2026⟧']),
+     ['⟦$\\phi$: the AR(1) coefficient, i.e.\\ the persistence; burn-in: initial values dropped so that the series starts from its stationary distribution||$\\phi$: coeficientul AR(1), adică persistența; valorile inițiale se elimină pentru ca seria să pornească din distribuția ei staționară⟧',
+      '⟦$\\phi \\in \\{0, 0.3, 0.5, 0.7, 0.9\\}$, $T \\in \\{100, 400\\}$; @{mc.reps} replications (@{mc.breps} for the bootstrap, 399 resamples each); seed 2026||$\\phi \\in \\{0; 0,3; 0,5; 0,7; 0,9\\}$, $T \\in \\{100; 400\\}$; @{mc.reps} de replicări (@{mc.breps} pentru bootstrap, cu cîte 399 de reeșantionări); sămînța 2026⟧']),
     ('⟦Seven tests at nominal 5\\%||Șapte teste la nivelul nominal de 5\\%⟧',
      ['⟦naive i.i.d.; NW rule of thumb; NW and QS with the Andrews AR(1) bandwidth (normal critical values)||naiv i.i.d.; NW cu regula practică; NW și QS cu lățimea Andrews AR(1) (valori critice normale)⟧',
       '⟦NW with $S = 1.3\\sqrt{T}$ and fixed-$b$ values; EWC with $t_\\nu$; circular block bootstrap with the Politis--White block length||NW cu $S = 1.3\\sqrt{T}$ și valori fixed-$b$; EWC cu $t_\\nu$; bootstrap circular pe blocuri cu lungimea Politis--White⟧']),
-    '⟦Monte Carlo standard error of a rejection rate $p$: $\\sqrt{p(1-p)/R}$, about $0.3$ pp at $p = 5\\%$ and $R = 5000$||Eroarea standard Monte Carlo a unei rate de respingere $p$: $\\sqrt{p(1-p)/R}$, aproximativ $0,3$ pp la $p = 5\\%$ și $R = 5000$⟧',
+    ('⟦Monte Carlo standard error of a rejection rate $p$ estimated from $R$ replications: $\\sqrt{p(1-p)/R}$||Eroarea standard Monte Carlo a unei rate de respingere $p$ estimate din $R$ replicări: $\\sqrt{p(1-p)/R}$⟧',
+     ['⟦about $0.3$ percentage points (pp) at $p = 5\\%$ and $R = 5000$||aproximativ $0,3$ puncte procentuale (pp) la $p = 5\\%$ și $R = 5000$⟧']),
     '⟦The same design as the Monte Carlo sections of \\refAndrews and \\refKV: AR(1) data, rejection rates under the null||Același plan ca în secțiunile Monte Carlo din \\refAndrews și \\refKV: date AR(1), rate de respingere sub ipoteza nulă⟧'))
 
 chart('⟦Size of seven tests under AR(1) dependence||Mărimea a șapte teste sub dependență AR(1)⟧', 'ats_ch0_mc_size', 'ATS_ch0_size_monte_carlo', [
@@ -640,11 +731,11 @@ interp('the Monte Carlo', 'studiului Monte Carlo', [
      ['⟦The distortion is a property of the estimator, not of the sample size||Distorsiunea este o proprietate a estimatorului, nu a mărimii eșantionului⟧']),
     ('⟦NW with the rule of thumb: $@{mc.100.9.nw}\\%$ at $\\phi = 0.9$, $T = 100$; Andrews bandwidths halve the excess; fixed-$b$ and EWC come closest ($@{mc.100.9.llsw}\\%$, $@{mc.100.9.ewc}\\%$)||NW cu regula practică: $@{mc.100.9.nw}\\%$ la $\\phi = 0,9$, $T = 100$; lățimile Andrews reduc excesul la jumătate; fixed-$b$ și EWC se apropie cel mai mult ($@{mc.100.9.llsw}\\%$, $@{mc.100.9.ewc}\\%$)⟧',
      ['⟦At $T = 400$ and $\\phi = 0.5$: $@{mc.400.5.llsw}\\%$ and $@{mc.400.5.ewc}\\%$, essentially exact||La $T = 400$ și $\\phi = 0,5$: $@{mc.400.5.llsw}\\%$ și $@{mc.400.5.ewc}\\%$, practic exacte⟧']),
-    '⟦The block bootstrap is not a free lunch: $@{mc.100.9.cbb}\\%$ at $\\phi = 0.9$, $T = 100$, between NW and fixed-$b$||Bootstrap pe blocuri nu rezolvă totul: $@{mc.100.9.cbb}\\%$ la $\\phi = 0,9$, $T = 100$, între NW și fixed-$b$⟧',
+    '⟦The block bootstrap is not a free lunch: $@{mc.100.9.cbb}\\%$ at $\\phi = 0.9$, $T = 100$, between NW and fixed-$b$||Bootstrap-ul pe blocuri nu rezolvă totul: $@{mc.100.9.cbb}\\%$ la $\\phi = 0,9$, $T = 100$, între NW și fixed-$b$⟧',
     '⟦Our inflation series has $\\hat\\rho_1 = @{a.inf.r1}$: outside the range where any of these tests is reliable (AI mini-case)||Seria noastră de inflație are $\\hat\\rho_1 = @{a.inf.r1}$: în afara domeniului în care vreunul dintre aceste teste este fiabil (mini-studiul de caz AI)⟧'], 'footnotesize')
 
 D.recap(('size distortions', 'distorsiunile de mărime'), [
-    '⟦Always report the actual size of the procedure you use, at the persistence of your data||Raportați întotdeauna mărimea efectivă a procedurii folosite, la persistența datelor voastre⟧',
+    '⟦Always report the actual size of the procedure you use, at the persistence of your data||Raportați întotdeauna mărimea efectivă a procedurii folosite, la persistența datelor analizate⟧',
     '⟦Fixed-$b$ NW and EWC (LLSW 2018) dominate the classical choices in size at a modest cost in power||NW fixed-$b$ și EWC (LLSW 2018) domină alegerile clasice în privința mărimii, cu un cost modest în putere⟧',
     '⟦A Monte Carlo is an experiment: fix the seed, report $R$ and the Monte Carlo standard error||Un studiu Monte Carlo este un experiment: fixați sămînța, raportați $R$ și eroarea standard Monte Carlo⟧'])
 
@@ -653,47 +744,66 @@ D.section('Bootstrap for dependent data', 'Bootstrap pentru date dependente')
 # ===============================================================================================================
 frame('⟦Why the i.i.d.\\ bootstrap fails||Eșecul bootstrap-ului i.i.d.⟧', cols(
     items(
-        ('⟦Efron\'s bootstrap \\refEfron resamples single observations: the dependence is destroyed||Bootstrap Efron \\refEfron reeșantionează observații individuale: dependența este distrusă⟧',
-         ['$\\Var^*(\\sqrt{T}\\bar x^*) = \\hat\\gamma_0$, ⟦not||nu⟧ $\\Omega$: ⟦the i.i.d.\\ bootstrap reproduces the naive standard error||bootstrap i.i.d.\\ reproduce eroarea standard naivă⟧']),
-        ('⟦\\refSingh: even for $m$-dependent data the i.i.d.\\ bootstrap of the mean is inconsistent||\\refSingh: chiar pentru date $m$-dependente, bootstrap i.i.d.\\ pentru medie este inconsistent⟧',
-         ['⟦Idea of the block bootstrap: resample blocks long enough to keep the dependence inside them||Ideea bootstrap pe blocuri: reeșantionăm blocuri suficient de lungi pentru a păstra dependența în interiorul lor⟧']),
+        ('⟦Efron\'s bootstrap \\refEfron resamples single observations: the dependence is destroyed||Bootstrap-ul lui Efron \\refEfron reeșantionează observații individuale: dependența este distrusă⟧',
+         ['⟦a star marks a bootstrap quantity: $\\bar x^*$ is the mean of one resample, $\\Var^*$ the variance over resamples||asteriscul marchează o mărime bootstrap: $\\bar x^*$ este media unui eșantion reeșantionat, $\\Var^*$ varianța pe reeșantionări⟧',
+          '$\\Var^*(\\sqrt{T}\\bar x^*) = \\hat\\gamma_0$, ⟦not||nu⟧ $\\Omega$: ⟦the i.i.d.\\ bootstrap reproduces the naive standard error||bootstrap-ul i.i.d.\\ reproduce eroarea standard naivă⟧']),
+        ('⟦\\refSingh: even for $m$-dependent data (independent beyond distance $m$) the i.i.d.\\ bootstrap of the mean is inconsistent||\\refSingh: chiar pentru date $m$-dependente (independente la distanțe mai mari de $m$), bootstrap-ul i.i.d.\\ al mediei este inconsistent⟧',
+         ['⟦Idea of the block bootstrap: resample blocks long enough to keep the dependence inside them||Ideea bootstrap-ului pe blocuri: reeșantionăm blocuri suficient de lungi pentru a păstra dependența în interiorul lor⟧']),
         '⟦Price to pay: dependence across block joints is lost, and the block length becomes a tuning parameter||Prețul: dependența de la granițele blocurilor se pierde, iar lungimea blocului devine un parametru de reglaj⟧'),
     ph('efron', 'Bradley Efron (2007)', '0.40\\textheight'), '0.66', '0.30'), 'footnotesize')
 
 frame('⟦Case study: the moving-block bootstrap of Künsch (1989)||Studiu de caz: bootstrap pe blocuri mobile, Künsch (1989)⟧', cols(
     items(
-        ('⟦\\refKunsch: blocks $B_i = (x_i, \\dots, x_{i+l-1})$, $i = 1, \\dots, T - l + 1$||\\refKunsch: blocurile $B_i = (x_i, \\dots, x_{i+l-1})$, $i = 1, \\dots, T - l + 1$⟧',
-         ['⟦Draw $k = \\lceil T/l\\rceil$ blocks with replacement, concatenate, keep the first $T$ values||Extragem $k = \\lceil T/l\\rceil$ blocuri cu întoarcere, le concatenăm și păstrăm primele $T$ valori⟧']),
-        ('⟦Consistency for smooth functions of means if $l \\to \\infty$, $l/T \\to 0$||Consistent pentru funcții netede de medii dacă $l \\to \\infty$, $l/T \\to 0$⟧',
+        ('⟦\\refKunsch: overlapping blocks $B_i = (x_i, \\dots, x_{i+l-1})$ of length $l$, $i = 1, \\dots, T - l + 1$||\\refKunsch: blocuri suprapuse $B_i = (x_i, \\dots, x_{i+l-1})$ de lungime $l$, $i = 1, \\dots, T - l + 1$⟧',
+         ['⟦draw $k = \\lceil T/l\\rceil$ blocks with replacement ($\\lceil\\cdot\\rceil$: rounding up), concatenate, keep the first $T$ values||extragem $k = \\lceil T/l\\rceil$ blocuri cu întoarcere ($\\lceil\\cdot\\rceil$: rotunjire în sus), le concatenăm și păstrăm primele $T$ valori⟧']),
+        ('⟦Consistency for smooth functions of means if $l \\to \\infty$, $l/T \\to 0$||Consistent pentru funcții netede de medii, dacă $l \\to \\infty$, $l/T \\to 0$⟧',
          ['$\\Var^*(\\sqrt{T}\\bar x^*) \\approx \\sum_{|j|<l}(1 - |j|/l)\\hat\\gamma_j$: ⟦a Bartlett estimate with $S = l$||o estimare Bartlett cu $S = l$⟧',
           '⟦Optimal $l \\propto T^{1/3}$ for variance and bias, as for the Bartlett bandwidth \\refLahiri||$l$ optim $\\propto T^{1/3}$ pentru varianță și deplasare, ca pentru lățimea Bartlett \\refLahiri⟧']),
-        '⟦Edge effect: end observations enter fewer blocks, so $E^*\\bar x^* \\ne \\bar x$; centre at $E^*\\bar x^*$||Efect de capăt: observațiile de la margini intră în mai puține blocuri, deci $E^*\\bar x^* \\ne \\bar x$; centrăm în $E^*\\bar x^*$⟧'),
+        ('⟦Edge effect: end observations enter fewer blocks, so $E^*\\bar x^* \\ne \\bar x$||Efect de capăt: observațiile de la margini intră în mai puține blocuri, deci $E^*\\bar x^* \\ne \\bar x$⟧',
+         ['⟦$E^*$: the expectation over resamples; centre the bootstrap statistics at $E^*\\bar x^*$||$E^*$: media pe reeșantionări; statisticile bootstrap se centrează în $E^*\\bar x^*$⟧'])),
     ph('kunsch', 'Hans Rudolf Künsch (2007)', '0.34\\textheight'), '0.64', '0.32'), 'footnotesize')
 
 frame('⟦Circular and stationary bootstrap||Bootstrap circular și bootstrap staționar⟧', items(
     ('⟦\\textbf{Circular block bootstrap} (Politis and Romano, 1992; \\refLahiri): wrap the data on a circle, $x_{T+i} = x_i$||\\textbf{Bootstrap circular pe blocuri} (Politis și Romano, 1992; \\refLahiri): așezăm datele pe un cerc, $x_{T+i} = x_i$⟧',
      ['⟦Every observation enters $l$ blocks: $E^*\\bar x^* = \\bar x$ exactly (Seminar 0, A5--A6)||Fiecare observație intră în $l$ blocuri: $E^*\\bar x^* = \\bar x$ exact (Seminarul 0, A5--A6)⟧']),
-    ('⟦\\textbf{Stationary bootstrap} \\refPR: block lengths $\\sim$ geometric with mean $1/p$, starts uniform, wrapped||\\textbf{Bootstrap staționar} \\refPR: lungimile blocurilor $\\sim$ geometrice cu media $1/p$, începuturi uniforme, cu înfășurare⟧',
+    ('⟦\\textbf{Stationary bootstrap} \\refPR: block lengths geometric with mean $1/p$, uniform starting points, data wrapped on a circle||\\textbf{Bootstrap-ul staționar} \\refPR: lungimile blocurilor au distribuție geometrică cu media $1/p$, începuturile sînt uniforme, datele sînt așezate pe cerc⟧',
      ['⟦Equivalently: each step continues the block with probability $1 - p$ or jumps to a random point with probability $p$||Echivalent: la fiecare pas blocul continuă cu probabilitatea $1 - p$ sau sare într-un punct aleator cu probabilitatea $p$⟧',
       '⟦The resampled series is stationary; the method is less sensitive to the choice of $1/p$ than MBB to $l$||Seria reeșantionată este staționară; metoda este mai puțin sensibilă la alegerea lui $1/p$ decît MBB la alegerea lui $l$⟧']),
-    '⟦Efficiency: MBB and CBB have a smaller asymptotic MSE for the variance than the stationary bootstrap at their optimal lengths \\refLahiri||Eficiență: MBB și CBB au eroarea pătratică medie asimptotică mai mică pentru varianță decît bootstrap staționar, la lungimile optime \\refLahiri⟧',
-    '⟦The stationary bootstrap is the engine of the Reality Check (White 2000) and of the SPA test (Chapter 1)||Bootstrap staționar este motorul testului Reality Check (White 2000) și al testului SPA (Capitolul 1)⟧'), 'footnotesize')
+    '⟦Efficiency: MBB and CBB have a smaller asymptotic MSE for the variance than the stationary bootstrap at their optimal lengths \\refLahiri||Eficiență: MBB și CBB au eroarea pătratică medie asimptotică mai mică pentru varianță decît bootstrap-ul staționar, la lungimile optime \\refLahiri⟧',
+    '⟦The stationary bootstrap is the engine of the Reality Check (White 2000) and of the SPA test (Chapter 1)||Bootstrap-ul staționar stă la baza testului Reality Check (White 2000) și a testului SPA (Capitolul 1)⟧'), 'footnotesize')
 
-frame('⟦Choosing the block length||Alegerea lungimii blocului⟧', items(
-    ('⟦\\refPW, corrected by \\refPPW: plug-in estimates of the MSE-optimal mean block length||\\refPW, corectată de \\refPPW: estimări prin înlocuire ale lungimii medii optime a blocului⟧',
+frame('⟦Choosing the block length (1/2)||Alegerea lungimii blocului (1/2)⟧', items(
+    ('⟦\\refPW, corrected by \\refPPW: plug-in estimate of the MSE-optimal mean block length||\\refPW, corectată de \\refPPW: estimarea plug-in a lungimii medii optime a blocului⟧',
      ['$\\hat b_{opt} = \\Big(\\dfrac{2\\hat G^2}{\\hat D}\\Big)^{1/3} T^{1/3}$, $\\quad \\hat G = \\sum_{|k|\\le M}\\lambda(k/M)\\,|k|\\,\\hat\\gamma_k$, $\\quad \\hat g = \\sum_{|k|\\le M}\\lambda(k/M)\\,\\hat\\gamma_k$',
-      '$\\hat D_{SB} = 2\\hat g^2$, $\\hat D_{CB} = \\tfrac{4}{3}\\hat g^2$; ⟦$\\lambda$ the flat-top (trapezoid) kernel; $M = 2\\hat m$, $\\hat m$ the first lag after which $K_T$ autocorrelations are insignificant||$\\lambda$ nucleul flat-top (trapez); $M = 2\\hat m$, $\\hat m$ primul decalaj după care $K_T$ autocorelații sînt nesemnificative⟧']),
-    ('⟦The same structure as the Andrews bandwidth: bias term $G$ over variance term $D$, rate $T^{1/3}$||Aceeași structură ca lățimea Andrews: termenul de deplasare $G$ raportat la termenul de varianță $D$, rata $T^{1/3}$⟧',
-     ['⟦Implemented in the Python package \\texttt{arch} (\\texttt{optimal\\_block\\_length}); our code reproduces it to the last digit||Implementat în pachetul Python \\texttt{arch} (\\texttt{optimal\\_block\\_length}); codul nostru îl reproduce pînă la ultima zecimală⟧']),
-    '⟦Our data: about @{bo.bsb} days for squared S\\&P 500 returns, @{bl.inf.b} months for inflation, @{bl.gdp.b} for GDP growth (i.e.\\ the i.i.d.\\ bootstrap)||Datele noastre: aproximativ @{bo.bsb} zile pentru pătratele randamentelor S\\&P 500, @{bl.inf.b} luni pentru inflație, @{bl.gdp.b} pentru creșterea PIB (adică bootstrap i.i.d.)⟧'), 'footnotesize')
+      '$\\hat D_{SB} = 2\\hat g^2$ ⟦(stationary)||(staționar)⟧, $\\hat D_{CB} = \\tfrac{4}{3}\\hat g^2$ ⟦(circular)||(circular)⟧']),
+    ('⟦Notation||Notațiile⟧',
+     ['⟦$\\hat G$: autocovariances weighted by their lag, the bias term; $\\hat g$: an estimate of $\\Omega$; $\\hat D$: the variance term||$\\hat G$: autocovarianțele ponderate cu lagul lor, termenul de deplasare; $\\hat g$: o estimare a lui $\\Omega$; $\\hat D$: termenul de varianță⟧',
+      '⟦$\\lambda$: the flat-top (trapezoid) kernel; $M = 2\\hat m$: the truncation lag||$\\lambda$: nucleul flat-top (trapez); $M = 2\\hat m$: lagul de trunchiere⟧',
+      '⟦$\\hat m$: the first lag after which $K_T$ consecutive autocorrelations are insignificant||$\\hat m$: primul lag după care $K_T$ autocorelații consecutive sînt nesemnificative⟧'])))
 
-frame('⟦The wild bootstrap and its limits||Wild bootstrap și limitele lui⟧', items(
-    ('⟦\\textbf{Wild bootstrap} \\refWu, \\refLiu, \\refMammen: $y_t^* = x_t\'\\hat\\beta + \\hat u_t\\eta_t$, $\\eta_t$ i.i.d., $E\\eta_t = 0$, $E\\eta_t^2 = 1$ (Rademacher or Mammen two-point)||\\textbf{Wild bootstrap} \\refWu, \\refLiu, \\refMammen: $y_t^* = x_t\'\\hat\\beta + \\hat u_t\\eta_t$, $\\eta_t$ i.i.d., $E\\eta_t = 0$, $E\\eta_t^2 = 1$ (Rademacher sau distribuția în două puncte Mammen)⟧',
-     ['⟦Keeps the heteroskedasticity of each $\\hat u_t$; destroys every autocorrelation||Păstrează heteroscedasticitatea fiecărui $\\hat u_t$; distruge orice autocorelație⟧',
-      '⟦Valid when the scores are an MDS: AR models with GARCH-type errors \\refGK||Valid cînd scorurile sînt o MDS: modele AR cu erori de tip GARCH \\refGK⟧']),
-    ('⟦\\textbf{Not} valid for overlapping forecasts, local projections or the mean of squared returns||\\textbf{Nu} este valid pentru prognoze suprapuse, proiecții locale sau media pătratelor randamentelor⟧',
-     ['⟦Dependent wild bootstrap \\refShao: $\\eta_t$ drawn from a stationary process with correlation $a(|t-s|/l)$: wild in form, block-like in effect||Dependent wild bootstrap \\refShao: $\\eta_t$ extrase dintr-un proces staționar cu corelația $a(|t-s|/l)$: wild ca formă, de tip bloc ca efect⟧']),
-    '⟦Sieve bootstrap \\refBuhlmann: fit an AR$(p)$ with $p \\to \\infty$, resample its residuals: efficient for linear processes, fragile for nonlinear ones||Sieve bootstrap \\refBuhlmann: estimăm un AR$(p)$ cu $p \\to \\infty$ și reeșantionăm reziduurile: eficient pentru procese liniare, fragil pentru cele neliniare⟧'), 'footnotesize')
+frame('⟦Choosing the block length (2/2)||Alegerea lungimii blocului (2/2)⟧', items(
+    ('⟦The same structure as the Andrews bandwidth||Aceeași structură ca lățimea Andrews⟧',
+     ['⟦bias term $G$ over variance term $D$, rate $T^{1/3}$: persistent series get longer blocks||termenul de deplasare $G$ raportat la termenul de varianță $D$, rata $T^{1/3}$: seriile persistente primesc blocuri mai lungi⟧']),
+    ('⟦Implemented in the Python package \\texttt{arch} (\\texttt{optimal\\_block\\_length})||Implementat în pachetul Python \\texttt{arch} (\\texttt{optimal\\_block\\_length})⟧',
+     ['⟦our code gives the same block lengths||codul nostru dă aceleași lungimi ale blocurilor⟧']),
+    ('⟦Our data||Datele noastre⟧',
+     ['⟦about @{bo.bsb} days for squared S\\&P 500 returns, @{bl.inf.b} months for inflation||aproximativ @{bo.bsb} zile pentru pătratele randamentelor S\\&P 500, @{bl.inf.b} luni pentru inflație⟧',
+      '⟦@{bl.gdp.b} for GDP growth, i.e.\\ the i.i.d.\\ bootstrap||@{bl.gdp.b} pentru creșterea PIB, adică bootstrap-ul i.i.d.⟧'])))
+
+frame('⟦The wild bootstrap and its limits (1/2)||Wild bootstrap și limitele lui (1/2)⟧', items(
+    ('⟦\\textbf{Wild bootstrap} \\refWu, \\refLiu, \\refMammen: each residual is multiplied by a random sign-like weight||\\textbf{Wild bootstrap} \\refWu, \\refLiu, \\refMammen: fiecare reziduu este înmulțit cu o pondere aleatoare de tip semn⟧',
+     ['$y_t^* = x_t\'\\hat\\beta + \\hat u_t\\eta_t$, $\\quad \\eta_t$ ⟦i.i.d., $E\\eta_t = 0$, $E\\eta_t^2 = 1$||i.i.d., $E\\eta_t = 0$, $E\\eta_t^2 = 1$⟧',
+      '⟦$y_t^*$: the bootstrap observation; $\\eta_t$: Rademacher ($\\pm 1$ with probability $1/2$ each) or the Mammen two-point distribution||$y_t^*$: observația bootstrap; $\\eta_t$: Rademacher ($\\pm 1$, fiecare cu probabilitatea $1/2$) sau distribuția în două puncte a lui Mammen⟧']),
+    ('⟦It keeps the heteroskedasticity of each $\\hat u_t$ and destroys every autocorrelation||Păstrează heteroscedasticitatea fiecărui $\\hat u_t$ și distruge orice autocorelație⟧',
+     ['⟦valid when the scores are an MDS: AR models with GARCH-type errors \\refGK||valid cînd scorurile sînt o MDS: modele AR cu erori de tip GARCH \\refGK⟧',
+      '⟦\\textbf{not} valid for overlapping forecasts, local projections or the mean of squared returns||\\textbf{nu} este valid pentru prognoze suprapuse, proiecții locale sau media pătratelor randamentelor⟧'])))
+
+frame('⟦The wild bootstrap and its limits (2/2)||Wild bootstrap și limitele lui (2/2)⟧', items(
+    ('⟦Dependent wild bootstrap \\refShao: $\\eta_t$ drawn from a stationary process||Dependent wild bootstrap \\refShao: $\\eta_t$ extrase dintr-un proces staționar⟧',
+     ['⟦$\\Corr(\\eta_t, \\eta_s) = a(|t-s|/l)$, with $a(\\cdot)$ a kernel and $l$ a bandwidth||$\\Corr(\\eta_t, \\eta_s) = a(|t-s|/l)$, cu $a(\\cdot)$ un nucleu și $l$ o lățime de bandă⟧',
+      '⟦wild in form, block-like in effect: neighbouring residuals keep their joint signs||wild ca formă, de tip bloc ca efect: reziduurile apropiate își păstrează semnele comune⟧']),
+    ('⟦Sieve bootstrap \\refBuhlmann: fit an AR$(p)$ with $p \\to \\infty$, resample its residuals||Sieve bootstrap \\refBuhlmann: estimăm un AR$(p)$ cu $p \\to \\infty$ și reeșantionăm reziduurile⟧',
+     ['⟦efficient for linear processes, fragile for nonlinear ones||eficient pentru procesele liniare, fragil pentru cele neliniare⟧'])))
 
 chart('⟦Three bootstraps of one mean||Trei bootstrap-uri ale aceleiași medii⟧', 'ats_ch0_bootstrap', 'ATS_ch0_block_bootstrap', [
     '⟦Mean of squared daily S\\&P 500 returns ($@{bo.mean}$, $T = @{t.sq.T}$); 1999 resamples each; block lengths from Politis--White||Media pătratelor randamentelor zilnice S\\&P 500 ($@{bo.mean}$, $T = @{t.sq.T}$); cîte 1999 de reeșantionări; lungimile blocurilor Politis--White⟧'],
@@ -702,19 +812,19 @@ chart('⟦Three bootstraps of one mean||Trei bootstrap-uri ale aceleiași medii�
 interp('the three bootstraps', 'celor trei bootstrap-uri', [
     ('⟦i.i.d.\\ bootstrap: standard error $@{bo.se_iid}$, equal to the naive $@{bo.se_naive}$, as theory says||Bootstrap i.i.d.: eroare standard $@{bo.se_iid}$, egală cu cea naivă, $@{bo.se_naive}$, cum spune teoria⟧',
      ['⟦Block bootstraps: MBB $@{bo.se_mbb}$, CBB $@{bo.se_cbb}$, stationary $@{bo.se_sb}$: about @{bo.rsb} times the naive value||Bootstrap-urile pe blocuri: MBB $@{bo.se_mbb}$, CBB $@{bo.se_cbb}$, staționar $@{bo.se_sb}$: de aproximativ @{bo.rsb} ori valoarea naivă⟧']),
-    ('⟦HAC with the Andrews bandwidth: $@{bo.se_and}$ (about @{bo.rand} times the naive value): smaller than the block bootstraps||HAC cu lățimea Andrews: $@{bo.se_and}$ (de aproximativ @{bo.rand} ori valoarea naivă): mai mică decît la bootstrap pe blocuri⟧',
-     ['⟦Block length @{bo.bsb} against an Andrews bandwidth of @{bw.sq.Sa}: two plug-in rules, two different views of the same slowly decaying ACF||Lungimea blocului @{bo.bsb} față de lățimea Andrews de @{bw.sq.Sa}: două reguli prin înlocuire, două imagini diferite ale aceleiași ACF care scade lent⟧']),
-    '⟦When two valid methods disagree by a factor of two, report both and explain why: here, the volatility of volatility has long memory||Cînd două metode valide diferă de două ori, le raportați pe amîndouă și explicați de ce: aici, volatilitatea volatilității are memorie lungă⟧'])
+    ('⟦HAC with the Andrews bandwidth: $@{bo.se_and}$ (about @{bo.rand} times the naive value): smaller than the block bootstraps||HAC cu lățimea Andrews: $@{bo.se_and}$ (de aproximativ @{bo.rand} ori valoarea naivă): mai mică decît la bootstrap-urile pe blocuri⟧',
+     ['⟦Block length @{bo.bsb} against an Andrews bandwidth of @{bw.sq.Sa}: two plug-in rules, two different views of the same slowly decaying ACF||Lungimea blocului @{bo.bsb} față de lățimea Andrews de @{bw.sq.Sa}: două reguli plug-in, două imagini diferite ale aceleiași ACF care scade lent⟧']),
+    '⟦When two valid methods disagree by a factor of two, report both and explain why: here, the volatility of volatility has long memory||Cînd două metode valide diferă de două ori, raportați-le pe amîndouă și explicați diferența: aici, volatilitatea volatilității are memorie lungă⟧'])
 
 chart('⟦Bootstrap standard error against the block length||Eroarea standard bootstrap în funcție de lungimea blocului⟧', 'ats_ch0_block_length', 'ATS_ch0_block_bootstrap', [
     '⟦Circular block bootstrap, 999 resamples per length; ratio to the naive standard error||Bootstrap circular pe blocuri, 999 de reeșantionări pentru fiecare lungime; raportul față de eroarea standard naivă⟧'],
     h='0.55\\textheight')
 
 interp('the block-length paths', 'traiectoriilor în funcție de lungimea blocului', [
-    ('⟦$l = 1$ is the i.i.d.\\ bootstrap (ratio 1); the ratio grows with $l$ while $l$ is shorter than the memory of the series||$l = 1$ este bootstrap i.i.d.\\ (raport 1); raportul crește odată cu $l$ cît timp $l$ este mai scurt decît memoria seriei⟧',
+    ('⟦$l = 1$ is the i.i.d.\\ bootstrap (ratio 1); the ratio grows with $l$ while $l$ is shorter than the memory of the series||$l = 1$ este bootstrap-ul i.i.d.\\ (raport 1); raportul crește odată cu $l$ cît timp $l$ este mai scurt decît memoria seriei⟧',
      ['⟦Inflation: ratio @{bl.inf.r} at the Politis--White length of @{bl.inf.b} months||Inflația: raportul @{bl.inf.r} la lungimea Politis--White de @{bl.inf.b} luni⟧']),
     '⟦GDP growth: flat near 1 (and slightly below for long blocks): no dependence to capture||Creșterea PIB: aproape constant în jurul lui 1 (și puțin sub 1 pentru blocuri lungi): nu există dependență de captat⟧',
-    '⟦Very long blocks: few distinct blocks, noisy and downward-biased variance (the bias of $\\hat\\gamma_j$ at large lags)||Blocuri foarte lungi: puține blocuri distincte, varianță zgomotoasă și deplasată în jos (deplasarea lui $\\hat\\gamma_j$ la decalaje mari)⟧',
+    '⟦Very long blocks: few distinct blocks, noisy and downward-biased variance (the bias of $\\hat\\gamma_j$ at large lags)||Blocuri foarte lungi: puține blocuri distincte, varianță zgomotoasă și deplasată în jos (deplasarea lui $\\hat\\gamma_j$ la laguri mari)⟧',
     '⟦What do you think? Why does the inflation curve keep rising until $l$ is about a quarter of the sample?||Ce credeți? De ce curba inflației continuă să crească pînă cînd $l$ ajunge la aproximativ un sfert din eșantion?⟧'])
 
 ROWS = (('sp', 'S\\&P 500 ⟦returns||randamente⟧'), ('sq', 'S\\&P 500 ⟦squared||pătrate⟧'), ('bet', '⟦BET returns||randamente BET⟧'),
@@ -734,19 +844,28 @@ interp('the table', 'tabelului', [
     '⟦GDP growth: all methods agree; the question there is the two crisis quarters, not the dependence (Seminar 0, B2)||Creșterea PIB: toate metodele sînt de acord; problema acolo sînt cele două trimestre de criză, nu dependența (Seminarul 0, B2)⟧'], 'footnotesize')
 
 D.recap(('the bootstrap for dependent data', 'bootstrap pentru date dependente'), [
-    '⟦The i.i.d.\\ bootstrap reproduces the naive standard error; resample blocks instead||Bootstrap i.i.d.\\ reproduce eroarea standard naivă; reeșantionați în schimb blocuri⟧',
-    '⟦MBB (Künsch 1989) is a Bartlett HAC estimator in disguise; CBB removes the edge bias; the stationary bootstrap keeps stationarity||MBB (Künsch 1989) este un estimator HAC Bartlett deghizat; CBB elimină deplasarea de capăt; bootstrap staționar păstrează staționaritatea⟧',
-    '⟦Block length $\\propto T^{1/3}$, chosen by Politis--White; the wild bootstrap handles heteroskedasticity only||Lungimea blocului $\\propto T^{1/3}$, aleasă prin Politis--White; wild bootstrap tratează doar heteroscedasticitatea⟧'])
+    '⟦The i.i.d.\\ bootstrap reproduces the naive standard error; resample blocks instead||Bootstrap-ul i.i.d.\\ reproduce eroarea standard naivă; reeșantionați în schimb blocuri⟧',
+    '⟦MBB (Künsch 1989) is a Bartlett HAC estimator in disguise; CBB removes the edge bias; the stationary bootstrap keeps stationarity||MBB (Künsch 1989) este, în esență, un estimator HAC Bartlett; CBB elimină deplasarea de capăt; bootstrap-ul staționar păstrează staționaritatea⟧',
+    '⟦Block length $\\propto T^{1/3}$, chosen by Politis--White; the wild bootstrap handles heteroskedasticity only||Lungimea blocului $\\propto T^{1/3}$, aleasă prin Politis--White; wild bootstrap-ul tratează doar heteroscedasticitatea⟧'])
 
 # ===============================================================================================================
 D.section('Overlapping observations: the term spread and growth', 'Observații suprapuse: marja la termen și creșterea')
 # ===============================================================================================================
-frame('⟦Case study: Estrella and Hardouvelis (1991)||Studiu de caz: Estrella și Hardouvelis (1991)⟧', items(
-    ('⟦\\refEH: does the slope of the yield curve predict US real growth? Regression of cumulative growth over the next $k$ quarters on the spread||\\refEH: prognozează panta curbei randamentelor creșterea reală din SUA? Regresia creșterii cumulate pe următoarele $k$ trimestre pe marja la termen⟧',
-     ['$y_t^{(h)} = \\dfrac{400}{h}\\ln\\dfrac{\\mathrm{GDP}_{t+h}}{\\mathrm{GDP}_t} = \\beta_0 + \\beta_1 (i^{10y}_t - i^{3m}_t) + u_t$, $\\quad h = 4$']),
-    ('⟦Overlap: $y_t^{(4)}$ and $y_{t+1}^{(4)}$ share three quarters, so $u_t$ is at least MA(3) under $H_0$||Suprapunere: $y_t^{(4)}$ și $y_{t+1}^{(4)}$ au trei trimestre comune, deci $u_t$ este cel puțin MA(3) sub $H_0$⟧',
-     ['⟦Classical remedy: \\refHH (truncated kernel, $h - 1$ lags) or Newey--West with $L = h - 1$||Soluția clasică: \\refHH (nucleu trunchiat, $h - 1$ decalaje) sau Newey--West cu $L = h - 1$⟧']),
-    '⟦Our data: FRED real GDP, 10-year and 3-month Treasury yields (quarterly averages), @{ts.first} -- @{ts.last}, $T = @{ts.T}$||Datele noastre: PIB real, randamentele titlurilor de stat la 10 ani și la 3 luni (medii trimestriale) din FRED, @{ts.first} -- @{ts.last}, $T = @{ts.T}$⟧',
+frame('⟦Case study: Estrella and Hardouvelis (1991) (1/2)||Studiu de caz: Estrella și Hardouvelis (1991) (1/2)⟧', items(
+    ('⟦\\refEH: does the slope of the yield curve predict US real growth?||\\refEH: prognozează panta curbei randamentelor creșterea reală din SUA?⟧',
+     ['⟦regression of the average growth over the next $h$ quarters on the term spread||regresia creșterii medii pe următoarele $h$ trimestre pe marja la termen⟧',
+      '$y_t^{(h)} = \\dfrac{400}{h}\\ln\\dfrac{\\mathrm{GDP}_{t+h}}{\\mathrm{GDP}_t} = \\beta_0 + \\beta_1 (i^{10y}_t - i^{3m}_t) + u_t$, $\\quad h = 4$']),
+    ('⟦Notation||Notațiile⟧',
+     ['⟦$y_t^{(h)}$: real GDP growth from quarter $t$ to $t + h$, annualised, in \\%; the factor $400/h$ turns a log change over $h$ quarters into \\% a year||$y_t^{(h)}$: creșterea PIB-ului real din trimestrul $t$ pînă în $t + h$, anualizată, în \\%; factorul $400/h$ transformă o variație logaritmică pe $h$ trimestre în \\% pe an⟧',
+      '⟦$i^{10y}_t$, $i^{3m}_t$: the 10-year and 3-month Treasury yields; their difference is the term spread||$i^{10y}_t$, $i^{3m}_t$: randamentele titlurilor de stat la 10 ani și la 3 luni; diferența lor este marja la termen⟧',
+      '⟦$\\beta_1 > 0$: a steeper curve announces faster growth; $u_t$: the forecast error||$\\beta_1 > 0$: o curbă mai abruptă anunță o creștere mai rapidă; $u_t$: eroarea de prognoză⟧'])))
+
+frame('⟦Case study: Estrella and Hardouvelis (1991) (2/2)||Studiu de caz: Estrella și Hardouvelis (1991) (2/2)⟧', items(
+    ('⟦Overlap: $y_t^{(4)}$ and $y_{t+1}^{(4)}$ share three quarters||Suprapunere: $y_t^{(4)}$ și $y_{t+1}^{(4)}$ au trei trimestre comune⟧',
+     ['⟦so $u_t$ is at least MA(3) under $H_0$, even if quarterly shocks are independent||deci $u_t$ este cel puțin MA(3) sub $H_0$, chiar dacă șocurile trimestriale sînt independente⟧',
+      '⟦classical remedy: \\refHH (truncated kernel, $h - 1$ lags) or Newey--West with $L = h - 1$||soluția clasică: \\refHH (nucleu trunchiat, $h - 1$ laguri) sau Newey--West cu $L = h - 1$⟧']),
+    ('⟦Our data: FRED real GDP, 10-year and 3-month Treasury yields (quarterly averages)||Datele noastre: PIB real, randamentele titlurilor de stat la 10 ani și la 3 luni (medii trimestriale) din FRED⟧',
+     ['@{ts.first} -- @{ts.last}, $T = @{ts.T}$']),
     '⟦Same design for local projections (Chapter 3) and for long-horizon return regressions (MFM)||Același plan pentru proiecțiile locale (Capitolul 3) și pentru regresiile randamentelor pe orizonturi lungi (MFM)⟧'))
 
 chart('⟦The spread and future growth||Marja la termen și creșterea viitoare⟧', 'ats_ch0_term_spread', 'ATS_ch0_term_spread', [
@@ -757,16 +876,16 @@ D.frame('⟦One slope, five standard errors||O pantă, cinci erori standard⟧',
     'lrrr', '⟦Standard error||Eroarea standard⟧ & $\\widehat{se}(\\hat\\beta_1)$ & $t$ & ⟦Critical value||Valoarea critică⟧', [
         '⟦Classical OLS||MCMMP clasic⟧ & @{ts.se_classic} & @{ts.t_classic} & 1.96',
         '⟦White (heteroskedasticity only)||White (doar heteroscedasticitate)⟧ & @{ts.se_white} & -- & 1.96',
-        '⟦Hansen--Hodrick, 3 lags||Hansen--Hodrick, 3 decalaje⟧ & @{ts.se_hh} & -- & 1.96',
-        '⟦Newey--West, 3 lags||Newey--West, 3 decalaje⟧ & @{ts.se_nw} & @{ts.t_nw} & 1.96',
+        '⟦Hansen--Hodrick, 3 lags||Hansen--Hodrick, 3 laguri⟧ & @{ts.se_hh} & -- & 1.96',
+        '⟦Newey--West, 3 lags||Newey--West, 3 laguri⟧ & @{ts.se_nw} & @{ts.t_nw} & 1.96',
         '⟦NW, Andrews ($S = @{ts.Sa}$)||NW, Andrews ($S = @{ts.Sa}$)⟧ & @{ts.se_and} & @{ts.t_and} & 1.96',
         '⟦NW, $S = 1.3\\sqrt{T} = @{ts.Sl}$, fixed-$b$||NW, $S = 1.3\\sqrt{T} = @{ts.Sl}$, fixed-$b$⟧ & @{ts.se_ll} & @{ts.t_ll} & @{ts.cv_ll}'], 'footnotesize') +
     items('⟦$\\hat\\beta_1 = @{ts.b1}$ pp of annual growth per pp of spread, $R^2 = @{ts.r2}$||$\\hat\\beta_1 = @{ts.b1}$ pp de creștere anuală la fiecare pp de marjă, $R^2 = @{ts.r2}$⟧'), 'footnotesize')
 
 interp('the term-spread regression', 'regresiei marjei la termen', [
-    ('⟦The residuals are more persistent than the MA(3) implied by overlap ($\\hat\\rho_4 = @{ts.rho4}$): 3 lags are not enough||Reziduurile sînt mai persistente decît MA(3) implicat de suprapunere ($\\hat\\rho_4 = @{ts.rho4}$): 3 decalaje nu sînt suficiente⟧',
+    ('⟦The residuals are more persistent than the MA(3) implied by overlap ($\\hat\\rho_4 = @{ts.rho4}$): 3 lags are not enough||Reziduurile sînt mai persistente decît MA(3) implicat de suprapunere ($\\hat\\rho_4 = @{ts.rho4}$): 3 laguri nu sînt suficiente⟧',
      ['⟦The standard error doubles from classical OLS to fixed-$b$: $t$ from $@{ts.t_classic}$ to $@{ts.t_ll}$, just below the critical value $@{ts.cv_ll}$||Eroarea standard se dublează de la MCMMP clasic la fixed-$b$: $t$ scade de la $@{ts.t_classic}$ la $@{ts.t_ll}$, puțin sub valoarea critică $@{ts.cv_ll}$⟧']),
-    ('⟦Subsamples (NW, 3 lags): 1962--1988 $\\hat\\beta_1 = @{ts.early.b}$ ($t = @{ts.early.t}$); 1989--2025 $\\hat\\beta_1 = @{ts.late.b}$ ($t = @{ts.late.t}$)||Subeșantioane (NW, 3 decalaje): 1962--1988 $\\hat\\beta_1 = @{ts.early.b}$ ($t = @{ts.early.t}$); 1989--2025 $\\hat\\beta_1 = @{ts.late.b}$ ($t = @{ts.late.t}$)⟧',
+    ('⟦Subsamples (NW, 3 lags): 1962--1988 $\\hat\\beta_1 = @{ts.early.b}$ ($t = @{ts.early.t}$); 1989--2025 $\\hat\\beta_1 = @{ts.late.b}$ ($t = @{ts.late.t}$)||Subeșantioane (NW, 3 laguri): 1962--1988 $\\hat\\beta_1 = @{ts.early.b}$ ($t = @{ts.early.t}$); 1989--2025 $\\hat\\beta_1 = @{ts.late.b}$ ($t = @{ts.late.t}$)⟧',
      ['⟦The predictive power of the spread weakened after the original sample: a break question (Chapter 2) and an out-of-sample question (Chapter 1)||Puterea predictivă a marjei a scăzut după eșantionul original: o problemă de rupturi (Capitolul 2) și o problemă de evaluare în afara eșantionului (Capitolul 1)⟧']),
     '⟦Robust inference first, then stability: a full-sample $t$ of $@{ts.t_classic}$ hides both problems||Întîi inferența robustă, apoi stabilitatea: un $t$ de $@{ts.t_classic}$ pe întregul eșantion ascunde ambele probleme⟧'], 'footnotesize')
 
@@ -778,9 +897,11 @@ frame('⟦Data snooping||Data snooping⟧', items(
      ['⟦\\refLM: sorting portfolios on characteristics already known to be related to returns biases asset-pricing tests||\\refLM: sortarea portofoliilor după caracteristici despre care se știe deja că sînt legate de randamente deplasează testele de evaluare a activelor⟧',
       '⟦\\refHLZ: more than 300 published return factors; a new factor needs $t > 3$, not $t > 2$||\\refHLZ: peste 300 de factori de randament publicați; un factor nou are nevoie de $t > 3$, nu de $t > 2$⟧']),
     ('⟦Error rates for $K$ tests||Ratele de eroare pentru $K$ teste⟧',
-     ['⟦FWER: probability of at least one false rejection; Bonferroni ($\\alpha/K$) and Holm (step-down) control it||FWER: probabilitatea a cel puțin unei respingeri false; Bonferroni ($\\alpha/K$) și Holm (pas cu pas descendent) o controlează⟧',
-      '⟦FDR: expected share of false rejections among rejections, controlled by \\refBH||FDR: proporția așteptată a respingerilor false printre respingeri, controlată de \\refBH⟧']),
-    '⟦In forecasting: many models, many horizons, many samples; the honest $p$-value is the one of the \\emph{search}, not of the winner||În prognoză: multe modele, multe orizonturi, multe eșantioane; valoarea $p$ onestă este cea a \\emph{căutării}, nu a cîștigătorului⟧'), 'footnotesize')
+     ['⟦FWER (family-wise error rate): probability of at least one false rejection among the $K$ tests at level $\\alpha$||FWER (rata de eroare la nivelul familiei de teste): probabilitatea a cel puțin unei respingeri false printre cele $K$ teste la nivelul $\\alpha$⟧',
+      '⟦Bonferroni tests each hypothesis at $\\alpha/K$; Holm (step-down) relaxes the threshold step by step; both control the FWER||Bonferroni testează fiecare ipoteză la $\\alpha/K$; Holm (descendent, pas cu pas) relaxează pragul treptat; ambele controlează FWER⟧',
+      '⟦FDR (false discovery rate): expected share of false rejections among rejections, controlled by \\refBH||FDR (false discovery rate): proporția așteptată a respingerilor false printre respingeri, controlată de \\refBH⟧']),
+    ('⟦In forecasting: many models, many horizons, many samples||În prognoză: multe modele, multe orizonturi, multe eșantioane⟧',
+     ['⟦the honest $p$-value is the one of the \\emph{search}, not of the winner||p-value-ul corect este cel al \\emph{căutării}, nu cel al modelului cîștigător⟧'])), 'footnotesize')
 
 chart('⟦The best of $K$ tests||Cel mai bun dintre $K$ teste⟧', 'ats_ch0_snooping', 'ATS_ch0_data_snooping', [
     '⟦Probability that the largest $|t|$ of $K$ tests exceeds 1.96 when all nulls are true: independent and equicorrelated statistics (20\\,000 simulations)||Probabilitatea ca cel mai mare $|t|$ din $K$ teste să depășească 1,96 cînd toate ipotezele nule sînt adevărate: statistici independente și echicorelate (20\\,000 de simulări)⟧'],
@@ -793,27 +914,36 @@ interp('the family-wise error', 'erorii la nivelul familiei de teste', [
      ['⟦Bonferroni ignores the correlation and is conservative: the bootstrap of the maximum (next slide) uses it||Bonferroni ignoră corelația și este conservator: bootstrap-ul maximului (slide-ul următor) o folosește⟧']),
     '⟦What do you think? With 50 moving-average rules, how many ``significant\'\' rules do you expect by chance at 5\\%?||Ce credeți? Cu 50 de reguli de medie mobilă, cîte reguli „semnificative” vă așteptați să obțineți din întîmplare la 5\\%?⟧'])
 
-frame('⟦Case study: the Reality Check of White (2000)||Studiu de caz: testul Reality Check, White (2000)⟧', items(
-    ('⟦$K$ models against a benchmark; $f_{k,t}$ the performance difference (e.g.\\ return of rule $k$ minus buy-and-hold) \\refWhite||$K$ modele comparate cu un reper; $f_{k,t}$ diferența de performanță (de exemplu randamentul regulii $k$ minus buy-and-hold) \\refWhite⟧',
-     ['$H_0: \\max_k E f_{k,t} \\le 0$ ⟦(no model beats the benchmark)||(niciun model nu bate reperul)⟧; $\\quad \\bar V = \\max_k \\sqrt{n}\\,\\bar f_k$']),
-    ('⟦Null distribution by the stationary bootstrap of the whole vector $f_t$ (keeps the correlation across rules and over time):||Distribuția sub $H_0$ prin bootstrap staționar al întregului vector $f_t$ (păstrează corelația dintre reguli și în timp):⟧',
-     ['$\\bar V^*_b = \\max_k \\sqrt{n}\\,(\\bar f^*_{k,b} - \\bar f_k)$, $\\quad p = B^{-1}\\sum_b \\mathbf{1}\\{\\bar V^*_b > \\bar V\\}$']),
+frame('⟦Case study: the Reality Check of White (2000) (1/2)||Studiu de caz: testul Reality Check, White (2000) (1/2)⟧', items(
+    ('⟦$K$ models against a benchmark, evaluated on $n$ periods \\refWhite||$K$ modele comparate cu un reper, evaluate pe $n$ perioade \\refWhite⟧',
+     ['⟦$f_{k,t}$: the performance difference of model $k$ at $t$ (e.g.\\ return of rule $k$ minus buy-and-hold); $\\bar f_k$: its mean over the $n$ periods||$f_{k,t}$: diferența de performanță a modelului $k$ la momentul $t$ (de exemplu randamentul regulii $k$ minus buy-and-hold); $\\bar f_k$: media ei pe cele $n$ perioade⟧']),
+    ('⟦Hypothesis and statistic||Ipoteza și statistica⟧',
+     ['$H_0: \\max_k E f_{k,t} \\le 0$ ⟦(no model beats the benchmark)||(niciun model nu bate reperul)⟧; $\\quad \\bar V = \\max_k \\sqrt{n}\\,\\bar f_k$',
+      '⟦$\\bar V$: the scaled average outperformance of the best model; a large $\\bar V$ is evidence against $H_0$||$\\bar V$: avantajul mediu, scalat, al celui mai bun model; o valoare $\\bar V$ mare este o dovadă împotriva lui $H_0$⟧'])))
+
+frame('⟦Case study: the Reality Check of White (2000) (2/2)||Studiu de caz: testul Reality Check, White (2000) (2/2)⟧', items(
+    ('⟦Null distribution by the stationary bootstrap of the whole vector $f_t$ (keeps the correlation across rules and over time):||Distribuția sub $H_0$ prin bootstrap-ul staționar al întregului vector $f_t$ (păstrează corelația dintre reguli și în timp):⟧',
+     ['$\\bar V^*_b = \\max_k \\sqrt{n}\\,(\\bar f^*_{k,b} - \\bar f_k)$, $\\quad p = B^{-1}\\sum_b \\mathbf{1}\\{\\bar V^*_b > \\bar V\\}$',
+      '⟦$b = 1, \\dots, B$: the resamples; $\\bar f^*_{k,b}$: the mean of rule $k$ in resample $b$; $\\mathbf{1}\\{\\cdot\\}$: 1 if the condition holds, 0 otherwise||$b = 1, \\dots, B$: reeșantionările; $\\bar f^*_{k,b}$: media regulii $k$ în reeșantionarea $b$; $\\mathbf{1}\\{\\cdot\\}$: 1 dacă este îndeplinită condiția, 0 altfel⟧',
+      '⟦$p$: the share of resamples with a larger maximum than the observed one, i.e.\\ a $p$-value for the whole search||$p$: proporția reeșantionărilor cu un maxim mai mare decît cel observat, adică un p-value pentru întreaga căutare⟧']),
     '⟦\\refSTW apply it to 7846 technical rules on the Dow Jones; \\refHansen (SPA) and \\refRW (StepM) refine it: Chapter 1||\\refSTW îl aplică pentru 7846 de reguli tehnice pe Dow Jones; \\refHansen (SPA) și \\refRW (StepM) îl rafinează: Capitolul 1⟧',
-    '⟦Our application: 50 rules ``long if the close is above its $n$-day moving average\'\', $n = 5, 10, \\dots, 250$, on the BET, against buy-and-hold, no costs; mean block 10 days||Aplicația noastră: 50 de reguli „poziție lungă dacă închiderea este peste media mobilă pe $n$ zile”, $n = 5, 10, \\dots, 250$, pe BET, comparate cu buy-and-hold, fără costuri; bloc mediu de 10 zile⟧'), 'footnotesize')
+    ('⟦Our application: 50 rules ``long if the close is above its $n$-day moving average\'\', $n = 5, 10, \\dots, 250$, on the BET||Aplicația noastră: 50 de reguli „poziție lungă dacă închiderea este peste media mobilă pe $n$ zile”, $n = 5, 10, \\dots, 250$, pe BET⟧',
+     ['⟦against buy-and-hold, no costs; mean block of 10 days||comparate cu buy-and-hold, fără costuri; bloc mediu de 10 zile⟧'])))
 
 chart('⟦The Reality Check on the BET||Testul Reality Check pe BET⟧', 'ats_ch0_reality_check', 'ATS_ch0_data_snooping', [
     '⟦Bootstrap distribution of $\\bar V^*$ under $H_0$ (999 stationary-bootstrap resamples) and the observed $\\bar V$; two subsamples||Distribuția bootstrap a lui $\\bar V^*$ sub $H_0$ (999 de reeșantionări prin bootstrap staționar) și valoarea observată $\\bar V$; două subeșantioane⟧'],
     h='0.55\\textheight')
 
 interp('the Reality Check', 'testului Reality Check', [
-    ('⟦2001--2012 ($n = @{rc.e.N}$ days): the best rule MA(@{rc.e.n}) beats buy-and-hold by $@{rc.e.m}\\%$ a day, $t = @{rc.e.t}$, naive one-sided $p = @{rc.e.p}$||2001--2012 ($n = @{rc.e.N}$ zile): cea mai bună regulă, MA(@{rc.e.n}), bate buy-and-hold cu $@{rc.e.m}\\%$ pe zi, $t = @{rc.e.t}$, $p$ naiv unilateral $= @{rc.e.p}$⟧',
-     ['⟦Reality Check $p = @{rc.e.prc}$: not significant at 5\\% once the search over 50 rules is accounted for||Reality Check $p = @{rc.e.prc}$: nesemnificativ la 5\\% după ce se ține seama de căutarea printre 50 de reguli⟧']),
-    '⟦2014--2026: the same rule, $t = @{rc.l.t}$, Reality Check $p = @{rc.l.prc}$: whatever existed did not survive||2014--2026: aceeași regulă, $t = @{rc.l.t}$, Reality Check $p = @{rc.l.prc}$: orice ar fi existat nu a supraviețuit⟧',
-    '⟦The short-MA winner fits the positive $\\hat\\rho_1$ of BET returns (stale prices), and costs would eat it||Cîștigătoarea cu medie mobilă scurtă se potrivește cu $\\hat\\rho_1$ pozitiv al randamentelor BET (prețuri învechite), iar costurile de tranzacționare l-ar anula⟧',
+    ('⟦2001--2012 ($n = @{rc.e.N}$ days): the best rule MA(@{rc.e.n}) beats buy-and-hold by $@{rc.e.m}\\%$ a day, $t = @{rc.e.t}$, naive one-sided $p = @{rc.e.p}$||2001--2012 ($n = @{rc.e.N}$ zile): cea mai bună regulă, MA(@{rc.e.n}), bate buy-and-hold cu $@{rc.e.m}\\%$ pe zi, $t = @{rc.e.t}$, p-value naiv unilateral $= @{rc.e.p}$⟧',
+     ['⟦Reality Check $p = @{rc.e.prc}$: not significant at 5\\% once the search over 50 rules is accounted for||p-value Reality Check $= @{rc.e.prc}$: nesemnificativ la 5\\% după ce se ține seama de căutarea printre 50 de reguli⟧']),
+    '⟦2014--2026: the same rule, $t = @{rc.l.t}$, Reality Check $p = @{rc.l.prc}$: whatever existed did not survive||2014--2026: aceeași regulă, $t = @{rc.l.t}$, p-value Reality Check $= @{rc.l.prc}$: avantajul, dacă a existat, a dispărut⟧',
+    ('⟦The short-MA winner fits the positive $\\hat\\rho_1$ of BET returns (stale prices)||Regula cîștigătoare, cu medie mobilă scurtă, exploatează $\\hat\\rho_1$ pozitiv al randamentelor BET (prețuri stale, neactualizate)⟧',
+     ['⟦transaction costs would eat the gain||costurile de tranzacționare ar anula cîștigul⟧']),
     '⟦Pre-register the rule universe and the sample split before looking at the results (Stage 1 of the project)||Preînregistrați universul de reguli și împărțirea eșantionului înainte de a vedea rezultatele (Etapa 1 a proiectului)⟧'], 'footnotesize')
 
 D.recap(('multiple testing', 'testarea multiplă'), [
-    '⟦The $p$-value of the best of $K$ is not the $p$-value of a pre-specified test||Valoarea $p$ a celui mai bun dintre $K$ teste nu este valoarea $p$ a unui test specificat dinainte⟧',
+    '⟦The $p$-value of the best of $K$ is not the $p$-value of a pre-specified test||P-value-ul celui mai bun dintre $K$ teste nu este p-value-ul unui test specificat dinainte⟧',
     '⟦FWER (Bonferroni, Holm) or FDR (Benjamini--Hochberg); for correlated forecasts: bootstrap the maximum (Reality Check)||FWER (Bonferroni, Holm) sau FDR (Benjamini--Hochberg); pentru prognoze corelate: bootstrap pentru maxim (Reality Check)⟧',
     '⟦Forecast comparison tests (Diebold--Mariano, SPA, Model Confidence Set) are the subject of Chapter 1||Testele de comparare a prognozelor (Diebold--Mariano, SPA, Model Confidence Set) sînt subiectul Capitolului 1⟧'])
 
@@ -837,7 +967,7 @@ frame('⟦Versioned data||Date versionate⟧', items(
     '⟦A forecast evaluated on revised data answers a different question than the one asked in real time||O prognoză evaluată pe date revizuite răspunde la altă întrebare decît cea pusă în timp real⟧'))
 
 frame('⟦Replication packages||Pachete de replicare⟧', items(
-    ('⟦What economics journals now require \\refVilhuber, \\refCM||Ce cer acum revistele de economie \\refVilhuber, \\refCM⟧',
+    ('⟦What economics journals now require \\refVilhuber, \\refCM||Cerințele actuale ale revistelor de economie \\refVilhuber, \\refCM⟧',
      ['⟦a README with a data availability statement, the order of the scripts and the expected run time||un README cu declarația de disponibilitate a datelor, ordinea scripturilor și timpul de rulare estimat⟧',
       '⟦code that regenerates every table and figure from raw data, without manual steps||cod care regenerează fiecare tabel și grafic din datele brute, fără pași manuali⟧',
       '⟦the computational environment: \\texttt{requirements.txt} with versions, or a Colab notebook||mediul de calcul: \\texttt{requirements.txt} cu versiuni sau un notebook Colab⟧']),
@@ -872,7 +1002,7 @@ frame('⟦An open question: valid inference for a near-integrated mean||O între
 
 frame('⟦The AI-assisted discovery loop||Bucla de descoperire asistată de AI⟧', items(
     ('⟦\\textbf{Literature}: \\aiprompt{"List peer-reviewed tests for the mean of a highly persistent series since 2010, with DOI and the Monte Carlo design."}||\\textbf{Literatura}: \\aiprompt{"Listează testele publicate pentru media unei serii foarte persistente, din 2010 încoace, cu DOI și planul Monte Carlo."}⟧',
-     ['⟦Check: resolve every DOI on Crossref; read the size tables yourself (Semantic Scholar, Elicit for search)||Verificare: rezolvați fiecare DOI în Crossref; citiți voi tabelele de mărime (Semantic Scholar, Elicit pentru căutare)⟧']),
+     ['⟦Check: resolve every DOI on Crossref; read the size tables yourself (Semantic Scholar, Elicit for search)||Verificare: rezolvați fiecare DOI în Crossref; citiți personal tabelele de mărime (Semantic Scholar, Elicit pentru căutare)⟧']),
     ('⟦\\textbf{Hypothesis and code}: \\aiprompt{"Write Python for NW fixed-b and EWC tests of a mean, and a Monte Carlo of their size at phi = 0.98, T = 164."}||\\textbf{Ipoteză și cod}: \\aiprompt{"Scrie cod Python pentru testele NW fixed-b și EWC ale unei medii și un Monte Carlo al mărimii lor la phi = 0,98, T = 164."}⟧',
      ['⟦Check: reproduce a published size number first (e.g.\\ the LLSW tables), then change one thing at a time||Verificare: reproduceți întîi o mărime publicată (de exemplu tabelele LLSW), apoi modificați un singur element pe rînd⟧']),
     ('⟦\\textbf{Robustness and critique}: \\aiprompt{"Act as a hostile referee: why could this test of the inflation mean be misleading?"}||\\textbf{Robustețe și critică}: \\aiprompt{"Joacă rolul unui recenzent ostil: de ce ar putea acest test al mediei inflației să inducă în eroare?"}⟧',
@@ -884,11 +1014,11 @@ chart('⟦Mini-case: one hypothesis, six answers||Mini-studiu de caz: o ipoteză
     h='0.52\\textheight')
 
 interp('the mini-case', 'mini-studiului de caz', [
-    ('⟦A typical assistant proposal: ``NW with $\\lfloor 4(T/100)^{2/9}\\rfloor$ lags\'\' gives $t = @{ai.t_nw}$ and rejects $\\mu = 2.5$||O propunere tipică a unui asistent: „NW cu $\\lfloor 4(T/100)^{2/9}\\rfloor$ decalaje” dă $t = @{ai.t_nw}$ și respinge $\\mu = 2,5$⟧',
+    ('⟦A typical assistant proposal: ``NW with $\\lfloor 4(T/100)^{2/9}\\rfloor$ lags\'\' gives $t = @{ai.t_nw}$ and rejects $\\mu = 2.5$||O propunere tipică a unui asistent AI: „NW cu $\\lfloor 4(T/100)^{2/9}\\rfloor$ laguri” dă $t = @{ai.t_nw}$ și respinge $\\mu = 2,5$⟧',
      ['⟦Its actual size at this persistence: $@{ai.mc.nw}\\%$ instead of 5\\%; the naive test: $@{ai.mc.naive}\\%$||Mărimea lui efectivă la această persistență: $@{ai.mc.nw}\\%$ în loc de 5\\%; testul naiv: $@{ai.mc.naive}\\%$⟧']),
     ('⟦NW-Andrews ($t = @{ai.t_andrews}$), fixed-$b$ ($t = @{ai.t_llsw}$, critical value $@{ai.cv_llsw}$) and EWC ($t = @{ai.t_ewc}$, $\\nu = @{ai.nu}$) do not reject||NW-Andrews ($t = @{ai.t_andrews}$), fixed-$b$ ($t = @{ai.t_llsw}$, valoarea critică $@{ai.cv_llsw}$) și EWC ($t = @{ai.t_ewc}$, $\\nu = @{ai.nu}$) nu resping⟧',
      ['⟦But their sizes are still $@{ai.mc.andrews}\\%$--$@{ai.mc.ewc}\\%$: a non-rejection is not evidence for the target either||Dar mărimile lor sînt tot $@{ai.mc.andrews}\\%$--$@{ai.mc.ewc}\\%$: nici nerespingerea nu este o dovadă în favoarea țintei⟧']),
-    '⟦Honest conclusion: with 14 years of a near-integrated series the data cannot settle the question; that is the open part||Concluzia onestă: cu 14 ani dintr-o serie aproape integrată, datele nu pot tranșa întrebarea; aceasta este partea deschisă⟧'], 'footnotesize')
+    '⟦Honest conclusion: with 14 years of a near-integrated series the data cannot settle the question; that is the open part||Concluzia prudentă: cu 14 ani dintr-o serie aproape integrată, datele nu pot tranșa întrebarea; aceasta este partea deschisă⟧'], 'footnotesize')
 
 frame('⟦Project idea||Idee de proiect⟧', items(
     ('⟦\\textbf{Question}: which HAR test is reliable for the mean of Romanian and euro-area inflation, 2005--2026?||\\textbf{Întrebarea}: ce test HAR este fiabil pentru media inflației din România și din zona euro, 2005--2026?⟧',
@@ -905,21 +1035,21 @@ frame('⟦Key takeaways||Idei de reținut⟧', items(
     '⟦The precision of a mean or a slope is governed by the long-run variance $\\Omega = 2\\pi f(0)$, not by $\\gamma_0$||Precizia unei medii sau a unei pante este dată de varianța de termen lung $\\Omega = 2\\pi f(0)$, nu de $\\gamma_0$⟧',
     '⟦Ergodicity gives consistency; MDS or mixing structure gives the CLT; the HAC estimator gives the standard error||Ergodicitatea dă consistența; structura MDS sau mixing dă TLC; estimatorul HAC dă eroarea standard⟧',
     '⟦Kernel, bandwidth and critical values are one decision: NW with $1.3\\sqrt{T}$ and fixed-$b$, or EWC, by default||Nucleul, lățimea de bandă și valorile critice sînt o singură decizie: implicit, NW cu $1.3\\sqrt{T}$ și fixed-$b$ sau EWC⟧',
-    '⟦Block bootstraps resample dependence; the wild bootstrap does not||Bootstrap pe blocuri reeșantionează dependența; wild bootstrap nu o face⟧',
-    '⟦Near unit roots defeat all of them: measure the size of your test by Monte Carlo at your persistence||Rădăcinile aproape unitare le înving pe toate: măsurați mărimea testului prin Monte Carlo, la persistența datelor voastre⟧',
-    '⟦Searches need search-adjusted $p$-values; projects need replication packages and a plan fixed in advance||Căutările au nevoie de valori $p$ ajustate pentru căutare; proiectele au nevoie de pachete de replicare și de un plan fixat dinainte⟧'))
+    '⟦Block bootstraps resample dependence; the wild bootstrap does not||Bootstrap-ul pe blocuri reeșantionează dependența; wild bootstrap-ul nu o face⟧',
+    '⟦Near unit roots defeat all of them: measure the size of your test by Monte Carlo at your persistence||În prezența rădăcinilor aproape unitare toate aceste metode eșuează: măsurați mărimea testului prin Monte Carlo, la persistența datelor analizate⟧',
+    '⟦Searches need search-adjusted $p$-values; projects need replication packages and a plan fixed in advance||Căutările cer p-value-uri ajustate pentru căutare; proiectele au nevoie de pachete de replicare și de un plan fixat dinainte⟧'))
 
 frame('⟦Self-assessment||Autoevaluare⟧', items(
     '⟦What is the long-run variance of an MA(1) with $\\theta = -0.5$ and $\\sigma^2 = 1$?||Care este varianța de termen lung a unui MA(1) cu $\\theta = -0,5$ și $\\sigma^2 = 1$?⟧',
     '⟦Why can the truncated kernel give a negative variance while the Bartlett kernel cannot?||De ce poate nucleul trunchiat să dea o varianță negativă, iar nucleul Bartlett nu?⟧',
     '⟦Which standard error would you use for the mean of daily S\\&P 500 returns?||Ce eroare standard ați folosi pentru media randamentelor zilnice S\\&P 500?⟧',
     '⟦Which standard error would you use for the mean of their squares?||Ce eroare standard ați folosi pentru media pătratelor lor?⟧',
-    '⟦Why is the wild bootstrap invalid for a regression with overlapping four-quarter growth?||De ce este wild bootstrap invalid pentru o regresie cu creșteri pe patru trimestre suprapuse?⟧',
-    '⟦You tried 40 specifications and report the best one: which $p$-value should you report?||Ați încercat 40 de specificații și o raportați pe cea mai bună: ce valoare $p$ ar trebui să raportați?⟧'))
+    '⟦Why is the wild bootstrap invalid for a regression with overlapping four-quarter growth?||De ce este wild bootstrap-ul invalid pentru o regresie cu creșteri pe patru trimestre suprapuse?⟧',
+    '⟦You tried 40 specifications and report the best one: which $p$-value should you report?||Ați încercat 40 de specificații și o raportați pe cea mai bună: ce p-value ar trebui să raportați?⟧'))
 
 frame('⟦Next chapter and further reading||Capitolul următor și lecturi suplimentare⟧', items(
     ('⟦\\textbf{Next}: Chapter 1, forecast evaluation, scoring rules and combination||\\textbf{Urmează}: Capitolul 1, evaluarea prognozelor, reguli de scor și combinarea prognozelor⟧',
-     ['⟦Diebold--Mariano is a HAC $t$-test on loss differentials; SPA and the Model Confidence Set use the stationary bootstrap of this chapter||Diebold--Mariano este un test $t$ HAC pe diferențele de pierdere; SPA și Model Confidence Set folosesc bootstrap staționar din acest capitol⟧']),
+     ['⟦Diebold--Mariano is a HAC $t$-test on loss differentials; SPA and the Model Confidence Set use the stationary bootstrap of this chapter||Diebold--Mariano este un test $t$ HAC pe diferențele de pierdere; SPA și Model Confidence Set folosesc bootstrap-ul staționar din acest capitol⟧']),
     ('⟦\\textbf{Further reading}||\\textbf{Lecturi suplimentare}⟧',
      ['⟦Theory: \\refHamilton (Ch.\\ 7 and 10), \\refBradley, \\refLahiri||Teorie: \\refHamilton (cap.\\ 7 și 10), \\refBradley, \\refLahiri⟧',
       '⟦Practice: \\refLLSW, \\refLLS, \\refMuller||Practică: \\refLLSW, \\refLLS, \\refMuller⟧',

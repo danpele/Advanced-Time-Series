@@ -124,8 +124,8 @@ MSCA Digital Finance}
     \item \textbf{IP}: Industrial Production (producția industrială)
     \item \textbf{IPC}: Indicele prețurilor de consum
     \item \textbf{LARGE}: the large system of BGR (all series observed over the sample) — sistemul mare din BGR (toate seriile observate pe eșantion)
-    \item \textbf{LASSO}: Least Absolute Shrinkage and Selection Operator (regresie penalizată L1 cu selecția variabilelor)
     \item \textbf{LLM}: Large Language Model (model lingvistic de mari dimensiuni)
+    \item \textbf{MCMC}: Markov Chain Monte Carlo (metode Monte Carlo cu lanțuri Markov)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -135,7 +135,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{MCMC}: Markov Chain Monte Carlo (metode Monte Carlo cu lanțuri Markov)
     \item \textbf{MEDIUM}: the 20-variable system of BGR (sistemul cu 20 de variabile din BGR)
     \item \textbf{MIDAS}: MIxed DAta Sampling (regression) — regresie cu date de frecvențe mixte
     \item \textbf{ML}: Machine Learning (învățare automată)
@@ -148,11 +147,11 @@ MSCA Digital Finance}
     \item \textbf{PCA}: Principal Component Analysis (analiza componentelor principale)
     \item \textbf{PIB}: Produsul intern brut
     \item \textbf{RMSE}: Root Mean Squared Error (rădăcina erorii pătratice medii)
+    \item \textbf{SE}: Standard Error (eroare standard)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{SE}: Standard Error (eroare standard)
     \item \textbf{SMALL}: the 3-variable system of BGR (employment, CPI, federal funds rate) — sistemul cu 3 variabile din BGR (ocupare, IPC, dobînda federal funds)
     \item \textbf{SUA}: Statele Unite ale Americii
     \item \textbf{SVAR}: Structural Vector AutoRegression (model vector autoregresiv structural)
@@ -171,7 +170,7 @@ MSCA Digital Finance}
 \begin{itemize}
     \item \textbf{Întrebarea}: cum prognozăm și analizăm o economie descrisă de o sută de serii, unele publicate lunar și cu întîrziere, altele trimestrial?
     \begin{itemize}
-        \item un VAR nerestricționat cu 100 de variabile și 13 decalaje are peste 130\,000 de coeficienți: datele singure nu îi pot determina
+        \item un VAR nerestricționat cu 100 de variabile și 13 laguri are peste 130\,000 de coeficienți: datele singure nu îi pot determina
     \end{itemize}
     \item \textbf{Traseul} capitolului
     \begin{itemize}
@@ -232,7 +231,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Shrinkage-ul s-a născut la Minneapolis}
+\begin{frame}{Originea shrinkage-ului: Minneapolis}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.40\textwidth}
@@ -293,7 +292,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \begin{itemize}
     \item OLS: MSE relativ urcă la 6{,}52 pentru $n = 24$ ($k = 97$ de regresori pentru 116 observații)
     \item BVAR: 1{,}25 pentru $n = 24$; gradul de strîngere ales prin verosimilitatea marginală scade de la 0{,}31 ($n = 2$) la 0{,}14 ($n = 24$)
-    \item Un AR(4) univariat rămîne în jurul valorii 1{,}08: informația dintre variabile există, dar este mică, iar OLS o risipește pe zgomot
+    \item Un AR(4) univariat rămîne în jurul valorii 1{,}08: informația dintre variabile există, dar este mică, iar OLS o irosește pe zgomot
     \item Cu cît sistemul este mai mare, cu atît distribuția a priori trebuie să fie mai strînsă: tema întregului capitol \refDGRa
 \end{itemize}
 \end{frame}
@@ -302,14 +301,14 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \itemsize{\small}
 \begin{itemize}
     \item Parametrii cresc cu $n^2p$; observațiile nu
-    \item Shrinkage-ul schimbă o deplasare mică pe o reducere mare a varianței
+    \item Shrinkage-ul acceptă o deplasare mică în schimbul unei reduceri mari a varianței
     \item Factorii rezumă multe serii prin cîteva componente comune
 \end{itemize}
 \end{frame}
 
 
 %=============================================================================
-\section{Inferența bayesiană: ce ne trebuie}
+\section{Inferența bayesiană: noțiunile necesare}
 %=============================================================================
 
 \begin{frame}{Distribuția a priori, verosimilitatea, distribuția a posteriori}
@@ -325,7 +324,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \begin{itemize}
     \item Bayes: $p(\theta\mid y) = p(y\mid\theta)p(\theta)/p(y)$, cu $p(y) = \int p(y\mid\theta)p(\theta)\,d\theta$
     \begin{itemize}
-        \item $p(\theta)$: distribuția \textbf{a priori}; $p(y\mid\theta)$: verosimilitatea; $p(\theta\mid y)$: distribuția \textbf{a posteriori}
+        \item $\theta$: parametrii; $y$: datele; $p(\theta)$: distribuția \textbf{a priori}; $p(y\mid\theta)$: verosimilitatea; $p(\theta\mid y)$: distribuția \textbf{a posteriori}
         \item $p(y)$: \textbf{verosimilitatea marginală}, evidența în favoarea modelului și a distribuției a priori
     \end{itemize}
     \item Conjugarea: distribuția a priori și cea a posteriori sînt din aceeași familie, deci cea a posteriori are formă închisă
@@ -338,19 +337,36 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{columns}
 \end{frame}
 
-\begin{frame}{Actualizarea Normală este o medie ponderată cu precizii}
+\begin{frame}{Actualizarea Normală este o medie ponderată cu precizii (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Datele: $\hat\beta\mid\beta \sim N(\beta, s^2)$ cu $s^2 = \sigma^2/\sum x_t^2$; distribuția a priori: $\beta \sim N(m_0, v_0)$
     \begin{itemize}
-        \item completăm pătratul în $\beta$: $\beta\mid y \sim N(m_1, v_1)$, $v_1^{-1} = v_0^{-1} + s^{-2}$
-        \item $m_1 = w\,m_0 + (1 - w)\hat\beta$ cu $w = v_0^{-1}/(v_0^{-1} + s^{-2})$: preciziile se adună, mediile se mediază
+        \item $\hat\beta$: estimația OLS a pantei $\beta$ pentru regresorul $x_t$; $\sigma^2$: varianța erorii, considerată cunoscută; $s^2$: varianța de eșantionare a lui $\hat\beta$
+        \item $m_0$, $v_0$: media și varianța a priori; precizia = 1/varianța
     \end{itemize}
-    \item În forma de regresie: $\bar\beta = (V_0^{-1} + X'X/\sigma^2)^{-1}(V_0^{-1}m_0 + X'y/\sigma^2)$
+    \item Completăm pătratul în $\beta$: distribuția a posteriori este Normală, $\beta\mid y \sim N(m_1, v_1)$
     \begin{itemize}
-        \item cu $m_0 = 0$ și $V_0 = \tau^2I$ aceasta este regresia ridge cu penalizarea $\sigma^2/\tau^2$
-        \item cînd $T \to \infty$, $X'X$ crește și ponderea distribuției a priori $w \to 0$: distribuția a priori contează în eșantioane mici și în modele mari
+        \item preciziile se adună: $v_1^{-1} = v_0^{-1} + s^{-2}$
+        \item mediile se mediază: $m_1 = w\,m_0 + (1 - w)\hat\beta$, cu ponderea distribuției a priori $w = v_0^{-1}/(v_0^{-1} + s^{-2}) \in (0, 1)$
+        \item $w$ este mare cînd distribuția a priori este strînsă ($v_0$ mic) sau datele sînt puțin informative ($s^2$ mare)
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Actualizarea Normală este o medie ponderată cu precizii (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item În forma de regresie: \[ \bar\beta = (V_0^{-1} + X'X/\sigma^2)^{-1}(V_0^{-1}m_0 + X'y/\sigma^2) \]
+    \begin{itemize}
+        \item $y$ ($T\times 1$), $X$ ($T\times k$): datele; $m_0$, $V_0$: vectorul mediilor și matricea de covarianță a priori; $\bar\beta$: media a posteriori
+        \item aceeași ponderare: precizia a priori $V_0^{-1}$ plus precizia datelor $X'X/\sigma^2$
+    \end{itemize}
+    \item Cu $m_0 = 0$ și $V_0 = \tau^2I$ aceasta este regresia ridge cu penalizarea $\sigma^2/\tau^2$
+    \begin{itemize}
+        \item $\tau^2$: varianța a priori a fiecărui coeficient; un $\tau^2$ mic strînge mai mult spre 0
+    \end{itemize}
+    \item Cînd $T \to \infty$, $X'X$ crește și ponderea distribuției a priori $w \to 0$: distribuția a priori contează în eșantioane mici și în modele mari
     \item Seminarul 5, A1: actualizarea de mînă și alegerea bayesiană empirică a lui $\tau^2$
 \end{itemize}
 \end{frame}
@@ -381,7 +397,8 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \begin{itemize}
     \item $p(y\mid M) = \int p(y\mid\theta, M)p(\theta\mid M)\,d\theta$: densitatea datelor \emph{înainte} de a le vedea
     \begin{itemize}
-        \item descompunerea erorilor de predicție: $\ln p(y) = \sum_t \ln p(y_t\mid y_{1:t-1})$, o sumă de scoruri logaritmice la un pas (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
+        \item $M$: un model, adică o verosimilitate împreună cu distribuția ei a priori; integrala mediază verosimilitatea după distribuția a priori
+        \item descompunerea erorilor de predicție: $\ln p(y) = \sum_t \ln p(y_t\mid y_{1:t-1})$, o sumă de scoruri logaritmice la un pas (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}); $y_{1:t-1}$: datele pînă la $t - 1$
         \item penalizează automat complexitatea: o distribuție a priori difuză împrăștie probabilitatea pe date care nu apar
     \end{itemize}
     \item Factorul Bayes $B_{12} = p(y\mid M_1)/p(y\mid M_2)$; $2\ln B_{12} > 6$ este o evidență „puternică” \refKR
@@ -392,47 +409,63 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Eșantionarea Gibbs}
+\begin{frame}{Eșantionarea Gibbs (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Cînd distribuția a posteriori comună nu are formă închisă, dar fiecare \textbf{distribuție condiționată completă} are: extragem $\theta_1\mid\theta_2, y$, apoi $\theta_2\mid\theta_1, y$ și repetăm \refGG, \refGS
     \begin{itemize}
+        \item $\theta_1$, $\theta_2$: două blocuri de parametri; distribuția condiționată completă: distribuția unui bloc dat fiind celălalt și datele
         \item extragerile formează un lanț Markov a cărui distribuție staționară este cea a posteriori
         \item eliminăm o perioadă inițială (burn-in), apoi mediem funcții ale extragerilor (teorema ergodică)
     \end{itemize}
-    \item Regresie cu distribuții a priori independente $\beta \sim N(b_0, V_0)$, $\sigma^2 \sim IG(a_0, d_0)$:
-    \begin{itemize}
-        \item $\beta\mid\sigma^2, y \sim N(\bar b, \bar V)$, $\bar V = (V_0^{-1} + X'X/\sigma^2)^{-1}$, $\bar b = \bar V(V_0^{-1}b_0 + X'y/\sigma^2)$
-        \item $\sigma^2\mid\beta, y \sim IG(a_0 + T/2,\ d_0 + e'e/2)$ cu $e = y - X\beta$
-    \end{itemize}
     \item În VAR: volatilitatea stochastică, distribuțiile a priori neconjugate și SVAR identificate pe mulțimi (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol3_modele_var_structurale_proiectii_locale.pdf}{Capitolul 3}) cer pași Gibbs sau Metropolis--Hastings
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Eșantionarea Gibbs (2/2): regresia liniară}
+\itemsize{\small}
+\begin{itemize}
+    \item Regresia $y = X\beta + e$ cu distribuții a priori independente $\beta \sim N(b_0, V_0)$, $\sigma^2 \sim IG(a_0, d_0)$
+    \begin{itemize}
+        \item $b_0$, $V_0$: media și covarianța a priori ale lui $\beta$; $IG(a_0, d_0)$: distribuția inverse gamma cu parametrul de formă $a_0$ și de scală $d_0$
+    \end{itemize}
+    \item Pasul 1, coeficienții dată fiind varianța: $\beta\mid\sigma^2, y \sim N(\bar b, \bar V)$
+    \begin{itemize}
+        \item $\bar V = (V_0^{-1} + X'X/\sigma^2)^{-1}$, $\bar b = \bar V(V_0^{-1}b_0 + X'y/\sigma^2)$: actualizarea Normală de pe slide-urile anterioare
+    \end{itemize}
+    \item Pasul 2, varianța dați fiind coeficienții: $\sigma^2\mid\beta, y \sim IG(a_0 + T/2,\ d_0 + e'e/2)$
+    \begin{itemize}
+        \item $e = y - X\beta$: reziduurile la extragerea curentă a lui $\beta$; datele adaugă $T/2$ la parametrul de formă și jumătate din suma pătratelor reziduurilor la scală
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Diagnosticarea MCMC}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Mărimea efectivă a eșantionului}: $\mathrm{ESS} = M/(1 + 2\sum_{k\ge1}\rho_k)$, cu $\rho_k$ autocorelațiile extragerilor
+    \item \textbf{Mărimea efectivă a eșantionului}: $\mathrm{ESS} = M/(1 + 2\sum_{k\ge1}\rho_k)$: numărul de extrageri independente cu aceeași precizie
     \begin{itemize}
+        \item $M$: numărul de extrageri păstrate; $\rho_k$: autocorelația extragerilor la lagul $k$
         \item lanț de tip AR(1): $\mathrm{ESS} = M(1 - \rho)/(1 + \rho)$; $\rho = 0{,}9$ păstrează aproximativ 5\% din extrageri
     \end{itemize}
     \item \textbf{$\widehat R$} \refGR: mai multe lanțuri din puncte de pornire dispersate; $\widehat R = \sqrt{\hat V/W}$, $\hat V = \frac{n-1}{n}W + B/n$
     \begin{itemize}
-        \item $W$: varianța în interiorul lanțurilor, $B$: $n\times$ varianța mediilor lanțurilor; practica actuală: $\widehat R$ cu ranguri normalizate și lanțuri divizate $< 1{,}01$ \refVGS
+        \item $n$: numărul de extrageri pe lanț; $W$: varianța în interiorul lanțurilor; $B$: $n\times$ varianța mediilor lanțurilor; $\hat V$: estimația comună a varianței
+        \item $\widehat R \approx 1$: lanțurile sînt de acord; practica actuală: $\widehat R$ cu ranguri normalizate și lanțuri divizate $< 1{,}01$ \refVGS
     \end{itemize}
-    \item Statistica $z$ \textbf{Geweke}: compară media primelor 10\% și a ultimelor 50\% din lanț, cu varianțe spectrale
+    \item Statistica $z$ \textbf{Geweke}: compară media primelor 10\% și a ultimelor 50\% din lanț, cu varianțe spectrale; $|z| > 2$ semnalează lipsa convergenței
     \item Niciuna nu demonstrează convergența; fiecare poate dezvălui un eșec
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Eșantionarea Gibbs: o parametrizare proastă și una bună}
+\begin{frame}{Eșantionarea Gibbs: o parametrizare ineficientă și una eficientă}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.56\textheight,keepaspectratio]{ats_ch5_gibbs.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Creșterea lunară a IP din SUA pe gradul de utilizare a capacităților decalat (media 79{,}0\%, abaterea standard 4{,}7), 1967--2019, $T = 635$; Gibbs pe cîte un parametru, patru lanțuri, 4\,000 de extrageri, burn-in 1\,000
+    \item Creșterea lunară a IP din SUA pe gradul de utilizare a capacităților cu lag (media 79{,}0\%, abaterea standard 4{,}7), 1967--2019, $T = 635$; Gibbs pe cîte un parametru, patru lanțuri, 4\,000 de extrageri, burn-in 1\,000
 \end{itemize}
 \quantlet{ATS\_ch5\_bayes}{\qlurl{ATS_ch5_bayes}}
 \end{frame}
@@ -469,11 +502,12 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \begin{frame}{Distribuția a priori Minnesota}
 \itemsize{\small}
 \begin{itemize}
-    \item Mediile a priori \refLit: $\E[(A_1)_{ii}] = \delta_i$, toți ceilalți coeficienți 0; $\delta_i = 1$ (mers aleator) pentru serii persistente, 0 (zgomot alb) în rest
+    \item VAR($p$): $y_t = c + A_1y_{t-1} + \dots + A_py_{t-p} + u_t$; $(A_l)_{ij}$: efectul variabilei $j$ cu lagul $l$ asupra variabilei $i$
     \begin{itemize}
+        \item mediile a priori \refLit: $\E[(A_1)_{ii}] = \delta_i$, toți ceilalți coeficienți 0; $\delta_i = 1$ (mers aleator) pentru serii persistente, 0 (zgomot alb) în rest
         \item varianțele a priori \refBGR, ec.~(2): $\Var[(A_l)_{ij}] = \lambda^2/l^2$ dacă $j = i$, $\vartheta\lambda^2\sigma_i^2/(l^2\sigma_j^2)$ dacă $j \ne i$
     \end{itemize}
-    \item Hiperparametri: $\lambda$ gradul general de strîngere, $1/l^2$ descreșterea cu decalajul, $\vartheta \in (0, 1]$ shrinkage-ul între variabile
+    \item Hiperparametri: $\lambda$ gradul general de strîngere, $1/l^2$ descreșterea cu lagul, $\vartheta \in (0, 1]$ shrinkage-ul între variabile
     \begin{itemize}
         \item $\sigma_i^2$: varianța reziduală a unui AR univariat pentru $y_i$, astfel încît $\sigma_i^2/\sigma_j^2$ fixează unitățile de măsură
         \item $\lambda = 0$: a posteriori = a priori; $\lambda \to \infty$: media a posteriori = OLS
@@ -482,14 +516,29 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Distribuția a priori natural conjugată}
+\begin{frame}{Distribuția a priori natural conjugată (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Regresia multivariată $Y = XB + U$, liniile lui $U$ i.i.d.\ $N(0, \Sigma)$; distribuția a priori \refKK: $\mathrm{vec}(B)\mid\Sigma \sim N(\mathrm{vec}(B_0), \Sigma\otimes\Omega_0)$, $\Sigma \sim IW(\Psi, d)$
+    \item VAR-ul ca regresie multivariată $Y = XB + U$, liniile lui $U$ i.i.d.\ $N(0, \Sigma)$
     \begin{itemize}
-        \item a posteriori: $\bar\Omega^{-1} = \Omega_0^{-1} + X'X$, $\bar B = \bar\Omega(\Omega_0^{-1}B_0 + X'Y)$
+        \item $Y$ ($T\times n$): observațiile; $X$ ($T\times k$): constanta și cele $p$ laguri; $B$ ($k\times n$): coeficienții, cîte o coloană pentru fiecare ecuație
+    \end{itemize}
+    \item Distribuția a priori \refKK: $\mathrm{vec}(B)\mid\Sigma \sim N(\mathrm{vec}(B_0), \Sigma\otimes\Omega_0)$, $\Sigma \sim IW(\Psi, d)$
+    \begin{itemize}
+        \item $\mathrm{vec}$: așază coloanele una sub alta; $\otimes$: produsul Kronecker; $B_0$: media a priori; $\Omega_0$ ($k\times k$): covarianța a priori între regresori
+        \item $IW(\Psi, d)$: distribuția inverse Wishart cu matricea de scală $\Psi$ și $d$ grade de libertate
+    \end{itemize}
+    \item Distribuția a posteriori: aceleași familii, cu parametri actualizați
+    \begin{itemize}
+        \item $\bar\Omega^{-1} = \Omega_0^{-1} + X'X$, $\bar B = \bar\Omega(\Omega_0^{-1}B_0 + X'Y)$: din nou media ponderată cu precizii
         \item $\Sigma\mid Y \sim IW(\bar\Psi, T + d)$, $\bar\Psi = \Psi + \hat U'\hat U + (\bar B - B_0)'\Omega_0^{-1}(\bar B - B_0)$, $\hat U = Y - X\bar B$
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Distribuția a priori natural conjugată (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Prețul conjugării: structura Kronecker dă fiecărei ecuații același $\Omega_0$, deci $\vartheta = 1$
     \begin{itemize}
         \item momentele Minnesota cu $\Omega_0 = \mathrm{diag}(\lambda^2/(l^2\sigma_j^2))$ și $\E\Sigma = \mathrm{diag}(\sigma_i^2)$ ($d = n + 2$, $\Psi = \mathrm{diag}(\sigma_i^2)$)
@@ -501,18 +550,19 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \begin{frame}{Observații fictive}
 \itemsize{\small}
 \begin{itemize}
-    \item Estimarea mixtă Theil: adăugăm $T_d$ linii artificiale $(Y_d, X_d)$ și aplicăm OLS pe $\binom{Y_d}{Y}$, $\binom{X_d}{X}$
+    \item Estimarea mixtă Theil: adăugăm $T_d$ linii artificiale $(Y_d, X_d)$ și aplicăm OLS pe $\binom{Y_d}{Y}$, $\binom{X_d}{X}$; fiecare linie exprimă o convingere a priori ca și cum ar fi date
     \begin{itemize}
         \item echivalent cu distribuția a priori NIW cu $B_0 = (X_d'X_d)^{-1}X_d'Y_d$, $\Omega_0 = (X_d'X_d)^{-1}$ \refBGR, ec.~(5)
         \item blocul Minnesota: $Y_d = \mathrm{diag}(\delta_i\sigma_i)/\lambda$, $X_d = J_p\otimes\mathrm{diag}(\sigma_i)/\lambda$, $J_p = \mathrm{diag}(1, \dots, p)$
     \end{itemize}
     \item \textbf{Suma coeficienților} \refDLS: $Y_d = \mathrm{diag}(\bar y_i)/\mu$, $X_d = (\mathbf{1}_p'\otimes\mathrm{diag}(\bar y_i)/\mu,\ 0)$
     \begin{itemize}
+        \item $\bar y_i$: media primelor $p$ observații ale lui $y_i$; $\mathbf{1}_p$: un vector de $p$ unități; $\mu > 0$: gradul de strîngere al acestei distribuții
         \item strînge $\Pi = I - \sum_l A_l$ spre 0 („diferențiere inexactă”): $\mu \to 0$ dă un VAR în diferențe, fără cointegrare
     \end{itemize}
     \item \textbf{Observația inițială fictivă} \refSims, \refSZ: o linie $y = \bar y'/\phi$, $x = (\bar y'/\phi, \dots, \bar y'/\phi, 1/\phi)$
     \begin{itemize}
-        \item împinge spre rădăcini unitare \emph{sau} spre un model staționar cu media $\bar y$: permite cointegrarea (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol4_cointegrare_vecm_ardl_panel.pdf}{Capitolul 4})
+        \item $\bar y$: vectorul valorilor $\bar y_i$; $\phi > 0$: gradul de strîngere; împinge spre rădăcini unitare \emph{sau} spre un model staționar cu media $\bar y$: permite cointegrarea (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol4_cointegrare_vecm_ardl_panel.pdf}{Capitolul 4})
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -541,7 +591,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \begin{frame}{Recapitulare: distribuțiile a priori Minnesota și NIW}
 \itemsize{\small}
 \begin{itemize}
-    \item Minnesota: centrăm fiecare ecuație pe un mers aleator sau pe zgomot alb; strîngem mai mult decalajele îndepărtate și celelalte variabile
+    \item Minnesota: centrăm fiecare ecuație pe un mers aleator sau pe zgomot alb; strîngem mai mult lagurile îndepărtate și celelalte variabile
     \item Forma natural conjugată păstrează formulele închise cu prețul $\vartheta = 1$
     \item Observațiile fictive implementează distribuția a priori prin OLS și adaugă convingeri despre suma coeficienților și observația inițială
 \end{itemize}
@@ -595,6 +645,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
     \item \textbf{Regula potrivirii BGR}: alegem $\lambda$ astfel încît potrivirea în eșantion la un pas a variabilelor-cheie să fie egală cu cea a unui VAR mic estimat prin OLS \refBGR, secțiunea~3
     \begin{itemize}
         \item $\mathrm{Fit}(\lambda) = \frac13\sum_{i\in I}\mathrm{msfe}_i^{(\lambda)}/\mathrm{msfe}_i^{(0)}$ pe 1960--1969; aici ținta este 0{,}43
+        \item $I$: cele trei variabile-cheie; $\mathrm{msfe}_i^{(\lambda)}$: eroarea pătratică medie la un pas, în eșantion, a variabilei $i$ cu gradul de strîngere $\lambda$; $\lambda = 0$: doar media a priori
         \item valorile noastre: MEDIUM 0{,}158, LARGE 0{,}059 (BGR, tabelul~1: 0,108 și 0,035 pe setul lor de date)
     \end{itemize}
     \item \textbf{Verosimilitatea marginală GLP}: reestimată pe fiecare fereastră; pe ferestre de 10 ani modul median este 0{,}34 (SMALL) și 0{,}28 (MEDIUM)
@@ -654,7 +705,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
     \begin{itemize}
         \item IPC: 0{,}78; 0{,}51; 0{,}48; dobînda federal funds: 1{,}65; 0{,}74; 0{,}78
     \end{itemize}
-    \item Adăugarea de variabile cu mai mult shrinkage ajută: LARGE bate SMALL pentru fiecare variabilă la $h \le 6$
+    \item Adăugarea de variabile cu mai mult shrinkage ajută: LARGE este superior lui SMALL pentru fiecare variabilă la $h \le 6$
     \item GLP SMALL este aproape la fel de bun ca sistemele mari pentru ocupare și IPC (0{,}57; 0{,}50): mare parte din cîștig vine din distribuția a priori, nu doar din variabile
     \item Dobînda federal funds după 3 luni este dificilă pentru toate modelele (LARGE 1{,}20 la $h = 12$)
 \end{itemize}
@@ -716,7 +767,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
     \item Ocuparea: minimum \ensuremath{-}0{,}49\% (SMALL, luna 28), \ensuremath{-}0{,}39\% (LARGE, luna 23); după patru ani LARGE revine la \ensuremath{-}0{,}11\% (banda [\ensuremath{-}0{,}39; 0{,}15])
     \item IPC: anomalia prețurilor scade de la 0{,}26\% (SMALL) la 0{,}13\% (LARGE); după patru ani LARGE dă \ensuremath{-}0{,}43\% (banda [\ensuremath{-}0{,}97; 0{,}11])
     \item Ca în BGR: mai multă informație face răspunsul ocupării mai puțin persistent și răspunsul prețurilor mai plauzibil
-    \item Benzile nu se lărgesc cu 102 variabile: distribuția a priori plătește coeficienții suplimentari
+    \item Benzile nu se lărgesc cu 102 variabile: distribuția a priori compensează coeficienții suplimentari
 \end{itemize}
 \end{frame}
 
@@ -739,10 +790,12 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \begin{itemize}
     \item \textbf{Volatilitate comună} \refCCMa: $u_t = \sqrt{f_t}\,\varepsilon_t$, $\varepsilon_t \sim N(0, \Sigma)$, $\ln f_t = \phi\ln f_{t-1} + \nu_t$
     \begin{itemize}
+        \item $u_t$: reziduul VAR; $f_t > 0$: un factor de volatilitate comun tuturor ecuațiilor; $\phi$: persistența lui; $\nu_t$: șocul lui
         \item dat fiind $f_{1:T}$, modelul este un BVAR conjugat ponderat (liniile împărțite la $\sqrt{f_t}$); $f_t$ se extrage cu un pas Kim--Shephard--Chib
     \end{itemize}
     \item \textbf{Volatilități specifice fiecărei variabile} \refCCMb, \refClark: $\Sigma_t = A^{-1}H_tA^{-1\prime}$, $H_t$ diagonală cu volatilități log-AR \refPrim
     \begin{itemize}
+        \item $A$: inferior triunghiulară cu diagonala unu (relațiile contemporane); $H_t$: varianțele variabile în timp ale șocurilor ortogonalizate
         \item conjugarea se pierde; algoritmul triunghiular extrage ecuațiile una cîte una și face posibil $n = 100$
     \end{itemize}
     \item Cîștigurile: mai ales în prognozele de densitate (intervale calibrate) și în robustețea la valori extreme precum 2020
@@ -781,13 +834,14 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
     \item $x_{it} = \lambda_i'F_t + e_{it}$, $i = 1, \dots, N$, $t = 1, \dots, T$; $F_t$: $r$ factori comuni, $\lambda_i$: ponderi factoriale (loadings), $e_{it}$: componente idiosincratice
     \begin{itemize}
         \item \emph{aproximativ} \refCR: $e_{it}$ pot fi slab corelate între $i$ și în timp, cu condiția ca acea corelație să rămînă mărginită cînd $N \to \infty$
-        \item caracterul general: $\Lambda'\Lambda/N \to \Sigma_\Lambda > 0$; cele mai mari $r$ valori proprii ale lui $XX'$ cresc cu $N$, celelalte nu
+        \item $\Lambda$ ($N\times r$): ponderile factoriale așezate pe linii; $X$ ($T\times N$): panelul; $\Sigma_\Lambda$: o limită pozitiv definită
+        \item caracterul general (pervasiveness): $\Lambda'\Lambda/N \to \Sigma_\Lambda > 0$, fiecare factor afectează multe serii; cele mai mari $r$ valori proprii ale lui $XX'$ cresc cu $N$, celelalte nu
     \end{itemize}
     \item Identificarea: $\Lambda F_t = (\Lambda H)(H^{-1}F_t)$ pentru orice $H$ inversabilă: este identificat doar spațiul factorilor
     \begin{itemize}
         \item normalizarea pentru PCA: $F'F/T = I_r$ și $\Lambda'\Lambda$ diagonală
     \end{itemize}
-    \item Forma statică a unui model dinamic: decalajele factorilor dinamici sînt așezate în $F_t$ \refSWc; modelul dinamic generalizat lucrează în domeniul frecvențelor \refFHLR
+    \item Forma statică a unui model dinamic: lagurile factorilor dinamici sînt așezate în $F_t$ \refSWc; modelul dinamic generalizat lucrează în domeniul frecvențelor \refFHLR
 \end{itemize}
 \end{frame}
 
@@ -800,6 +854,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
     \end{itemize}
     \item Consistența \refSWa, \refBai: $\hat F_t \to HF_t$ cînd $N, T \to \infty$, cu viteza $\min(\sqrt N, \sqrt T)$
     \begin{itemize}
+        \item $H$: o rotație inversabilă de $r\times r$; PCA recuperează factorii pînă la această rotație
         \item dacă $\sqrt T/N \to 0$, factorii estimați pot fi folosiți ca regresori ca și cum ar fi observați (fără corecția pentru regresori generați)
     \end{itemize}
     \item Valori lipsă și date de început diferite: EM \refSWb, \refMN: completăm cu 0, aplicăm PCA, recompletăm celulele lipsă cu $\hat\lambda_i'\hat F_t$, iterăm
@@ -849,7 +904,8 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
     \item $V(k) = (NT)^{-1}\sum_{i,t}(x_{it} - \hat\lambda_i'\hat F_t)^2$ după $k$ componente; scade cu $k$, deci are nevoie de o penalizare \refBN
     \begin{itemize}
         \item $IC_{p1}(k) = \ln V(k) + k\frac{N + T}{NT}\ln\frac{NT}{N + T}$, $IC_{p2}(k) = \ln V(k) + k\frac{N + T}{NT}\ln C_{NT}^2$, $C_{NT}^2 = \min(N, T)$
-        \item variantele $PC_{p}$: $V(k) + k\hat\sigma^2 g(N, T)$ cu $\hat\sigma^2 = V(k_{\max})$: depind de $k_{\max}$
+        \item $IC_{p3}(k) = \ln V(k) + k\ln C_{NT}^2/C_{NT}^2$; alegem $k$ care minimizează criteriul; penalizarea crește cu $k$ și dispare cînd $N, T \to \infty$
+        \item variantele $PC_{p}$: $V(k) + k\hat\sigma^2 g(N, T)$ cu $\hat\sigma^2 = V(k_{\max})$, $g(N, T)$ aceleași penalizări: depind de $k_{\max}$, cel mai mare $k$ încercat
     \end{itemize}
     \item Panelul nostru ($k_{\max} = 15$): $IC_{p1}$ = 8, $IC_{p2}$ = 8, $IC_{p3}$ = 10, $PC_{p1}$ = 13, $PC_{p2}$ = 11
     \begin{itemize}
@@ -886,8 +942,9 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \begin{itemize}
     \item \refSWb: $y_{t+h}^h = \alpha_h + \beta_h'\hat F_t + \sum_{j=0}^{p}\gamma_{hj}z_{t-j} + \varepsilon_{t+h}$ (prognoză directă, o ecuație pentru fiecare $h$)
     \begin{itemize}
-        \item serii reale: $y_{t+h}^h = \frac{1200}{h}\ln(Y_{t+h}/Y_t)$; prețuri: $\frac{1200}{h}\ln(P_{t+h}/P_t) - 1200\ln(P_t/P_{t-1})$
-        \item DI: doar factori, $k \in \{1, \dots, 12\}$ prin BIC; DI-AR, Lag: factori și $p \in \{0, \dots, 5\}$ decalaje prin BIC; reperul: AR cu decalaje alese prin BIC
+        \item $y_{t+h}^h$: ținta pe următoarele $h$ luni, anualizată; $\hat F_t$: factorii estimați; $z_t$: creșterea curentă a țintei; $\alpha_h$, $\beta_h$, $\gamma_{hj}$: coeficienți estimați prin OLS pentru fiecare $h$
+        \item serii reale: $y_{t+h}^h = \frac{1200}{h}\ln(Y_{t+h}/Y_t)$; prețuri: $\frac{1200}{h}\ln(P_{t+h}/P_t) - 1200\ln(P_t/P_{t-1})$ ($Y_t$, $P_t$: nivelurile)
+        \item DI: doar factori, $k \in \{1, \dots, 12\}$ prin BIC; DI-AR, Lag: factori și $p \in \{0, \dots, 5\}$ laguri prin BIC; reperul: AR cu laguri alese prin BIC
     \end{itemize}
     \item Recursiv: factorii sînt reestimați la fiecare origine prin EM pe datele disponibile atunci; originile încep în 1970:1
     \begin{itemize}
@@ -904,7 +961,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item MSE relativ la prognoza AR cu decalaje alese prin BIC (sub 1 = mai bine)
+    \item MSE relativ la prognoza AR cu laguri alese prin BIC (sub 1 = mai bine)
 \end{itemize}
 \quantlet{ATS\_ch5\_factors}{\qlurl{ATS_ch5_factors}}
 \end{frame}
@@ -912,7 +969,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \begin{frame}{Interpretarea indicilor de difuziune}
 \itemsize{\small}
 \begin{itemize}
-    \item 1970--1998: cîștiguri mari pentru activitatea reală la $h = 12$: IP 0{,}58, ocupare 0{,}62; pentru inflație doar cu decalajele proprii (DI-AR, Lag 0{,}68)
+    \item 1970--1998: cîștiguri mari pentru activitatea reală la $h = 12$: IP 0{,}58, ocupare 0{,}62; pentru inflație doar cu lagurile proprii (DI-AR, Lag 0{,}68)
     \item 1999--2019: cîștigurile dispar (IP 1{,}07, ocupare 1{,}09, inflație 1{,}35): Marea Moderație a făcut activitatea mai puțin previzibilă din panel
     \item BIC alege în mediană 7 factori (10\%--90\%: 5--12) pentru DI-AR, Lag la $h = 12$
     \item Shrinkage-ul bayesian și componentele principale dau prognoze puternic corelate în panelurile mari \refDGRa: două căi pentru aceeași informație
@@ -946,6 +1003,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \begin{itemize}
     \item \refBBE: $\binom{F_t}{Y_t} = \Phi(L)\binom{F_{t-1}}{Y_{t-1}} + v_t$, $X_t = \Lambda^fF_t + \Lambda^yY_t + e_t$, $Y_t$ = dobînda federal funds
     \begin{itemize}
+        \item $F_t$: $K$ factori neobservați; $X_t$: panelul mare; $\Lambda^f$, $\Lambda^y$: ponderile factoriale; $\Phi(L)$: un polinom în operatorul lag; $v_t$, $e_t$: erorile
         \item VAR-ul vede informația a 100 de serii prin $K$ factori; răspunsurile sînt disponibile pentru fiecare serie din $X_t$
     \end{itemize}
     \item Estimarea în doi pași (secțiunea III): componentele principale $\hat C_t$ ale lui $X_t$; factorii lenți din seriile lente; eliminăm $Y_t$: $\hat F_t = \hat C_t - \hat b_Y Y_t$
@@ -990,7 +1048,8 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \begin{itemize}
     \item Ecuația de măsurare: $x_t = \Lambda f_t + e_t$, $e_t \sim N(0, \Psi)$, $\Psi$ diagonală; ecuația de tranziție: $f_t = A_1f_{t-1} + \dots + A_qf_{t-q} + u_t$, $u_t \sim N(0, Q)$
     \begin{itemize}
-        \item un model în spațiul stărilor (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol10_spatiul_starilor_kalman_markov_switching.pdf}{TSA, Capitolul 10}; \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6}): starea $s_t = (f_t', \dots, f_{t-m}')'$, filtrul și netezitorul Kalman
+        \item $x_t$: cele $N$ serii observate; $f_t$: cei $r$ factori; $\Lambda$: ponderile factoriale; $e_t$: erorile idiosincratice, cu covarianța diagonală $\Psi$; $A_j$: matricele VAR($q$) ale factorilor; $Q$: covarianța șocurilor factorilor $u_t$
+        \item un model în spațiul stărilor (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol10_spatiul_starilor_kalman_markov_switching.pdf}{TSA, Capitolul 10}; \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6}): starea $s_t = (f_t', \dots, f_{t-m}')'$, cu $m \ge q - 1$ laguri; filtrul și netezitorul Kalman
     \end{itemize}
     \item \textbf{În doi pași} \refDGRb: PCA pentru $\hat f_t$, OLS pentru $\Lambda$ și $\Psi$, un VAR pe $\hat f_t$ pentru $A$ și $Q$, apoi netezitorul Kalman reestimează $f_t$
     \begin{itemize}
@@ -1054,7 +1113,8 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
     \end{itemize}
     \item \textbf{MIDAS} \refGSV: $y_\tau = \beta_0 + \beta_1\sum_{j=0}^{K-1}w_j(\theta)x_{m_\tau - j} + \rho y_{\tau - s} + \varepsilon_\tau$, cu ultima valoare lunară disponibilă $x_{m_\tau}$
     \begin{itemize}
-        \item Almon exponențial: $w_j(\theta) = e^{\theta_1j + \theta_2j^2}/\sum_ke^{\theta_1k + \theta_2k^2}$; doi parametri pentru $K$ decalaje, estimați prin NLS
+        \item $\tau$: trimestrul; $m_\tau$: ultima lună disponibilă a lui; $x$: un indicator lunar cu $K$ laguri; $w_j(\theta)$: ponderi cu suma 1; $y_{\tau - s}$: creșterea PIB cu lag
+        \item Almon exponențial: $w_j(\theta) = e^{\theta_1j + \theta_2j^2}/\sum_ke^{\theta_1k + \theta_2k^2}$; doi parametri pentru $K$ laguri, estimați prin NLS
         \item MIDAS cu valori anticipate \refAGK, \refCG: o regresie pentru fiecare set de informații; U-MIDAS lasă $w_j$ nerestricționate cînd $K$ este mic \refFMS
     \end{itemize}
     \item Niciuna nu folosește dinamica comună a indicatorilor; DFM o folosește
@@ -1069,8 +1129,9 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
         \item aproximarea prin media geometrică: $\ln Y_t^Q \approx \frac13(\ln Y_t^M + \ln Y_{t-1}^M + \ln Y_{t-2}^M)$
         \item creșterea trimestrială $y_t^Q = \ln Y_t^Q - \ln Y_{t-3}^Q = \frac13(y_t + 2y_{t-1} + 3y_{t-2} + 2y_{t-3} + y_{t-4})$, $y_t$ = creșterea lunară \refMM
     \end{itemize}
-    \item În DFM: $y_t^Q = \lambda_y'\sum_{j=0}^{4}w_jf_{t-j} + e_t^Q$, $w = (1, 2, 3, 2, 1)/3$: starea trebuie să conțină cinci decalaje ale lui $f_t$
+    \item În DFM: $y_t^Q = \lambda_y'\sum_{j=0}^{4}w_jf_{t-j} + e_t^Q$, $w = (1, 2, 3, 2, 1)/3$: starea trebuie să conțină cinci laguri ale lui $f_t$
     \begin{itemize}
+        \item $\lambda_y$: ponderile factoriale ale creșterii PIB; $w_j$: ponderile Mariano--Murasawa; $e_t^Q$: eroarea idiosincratică a PIB
         \item PIB-ul este o variabilă lunară observată din trei în trei luni: lipsește în lunile 1 și 2 ale fiecărui trimestru
     \end{itemize}
     \item Seminarul 5, A7: ponderile de mînă
@@ -1138,9 +1199,9 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \begin{frame}{Interpretarea ponderilor MIDAS}
 \itemsize{\small}
 \begin{itemize}
-    \item IP: ponderi în formă de cocoașă, cu maximul la decalajul 2 (0{,}25): contează lunile trimestrului însuși, cum prezic ponderile Mariano--Murasawa
+    \item IP: ponderi în formă de cocoașă, cu maximul la lagul 2 (0{,}25): contează lunile trimestrului însuși, cum prezic ponderile Mariano--Murasawa
     \item ESI: ponderea 0{,}92 pe ultima lună: un indicator de nivel rezumă deja trecutul
-    \item Creșterea PIB decalată are coeficientul \ensuremath{-}0{,}28: seria zgomotoasă t/t revine la medie
+    \item Creșterea PIB cu lag are coeficientul \ensuremath{-}0{,}28: seria zgomotoasă t/t revine la medie
 \end{itemize}
 \end{frame}
 
@@ -1175,7 +1236,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \itemsize{\small}
 \begin{itemize}
     \item AR: 1{,}33 pp peste tot; DFM: de la 1{,}34 (luna 1) la 1{,}20 (luna 1 de după); MIDAS: de la 1{,}60 la 1{,}15
-    \item Ecuația punte nu bate AR (1{,}39); estimarea EM a DFM este apropiată de AR (1{,}31 în luna 3)
+    \item Ecuația punte nu este superioară modelului AR (1{,}39); estimarea EM a DFM este apropiată de AR (1{,}31 în luna 3)
     \item Diebold--Mariano DFM comparat cu AR în luna 3: $t = \ensuremath{-}0{,}30$, $p = 0{,}76$: cîștigul nu este semnificativ pe 54 de trimestre
     \item Cu 2020: AR 1{,}90, DFM 1{,}30 în luna 1 de după: datele lunare surprind prăbușirea, AR nu poate
 \end{itemize}
@@ -1186,10 +1247,12 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \begin{itemize}
     \item Seturile de informații $\Omega_v \subset \Omega_{v+1}$; noile publicări $x_j$, $j \in J_{v+1}$; \textbf{știrea} este $I_j = x_j - \E[x_j\mid\Omega_v]$, nu $x_j$
     \begin{itemize}
-        \item cu parametri ficși: $\E[y\mid\Omega_{v+1}] - \E[y\mid\Omega_v] = \E[yI']\E[II']^{-1}I = \sum_j w_jI_j$ \refBM
+        \item cu parametri ficși, revizuirea nowcast-ului lui $y$ este o sumă ponderată a știrilor: $\E[y\mid\Omega_{v+1}] - \E[y\mid\Omega_v] = \E[yI']\E[II']^{-1}I = \sum_j w_jI_j$ \refBM
+        \item $I$: vectorul știrilor $I_j$; $w_j$: ponderea publicării $j$
     \end{itemize}
     \item În DFM: $I_j = \lambda_j'(f_{t_j} - \hat f_{t_j\mid v}) + e_j$, deci $\E[II'] = H P_{\mid v}H' + \Psi_J$ și $\E[yI'] = z_y'P_{\mid v}H'$
     \begin{itemize}
+        \item $\lambda_j$: ponderile factoriale ale publicării $j$; $t_j$: luna la care se referă; $\hat f_{t_j\mid v}$: estimația factorului dat fiind $\Omega_v$; $H$: vectorii $\lambda_j'$ așezați pe linii; $\Psi_J$: varianțele lor idiosincratice; $z_y$: ponderea factorială a țintei
         \item $P_{\mid v}$: covarianța stării stivuite dat fiind $\Omega_v$, din filtrul Kalman
     \end{itemize}
     \item O publicare mare dar așteptată nu schimbă nimic; o surpriză mică într-o serie cu pondere mare schimbă mult; publicările corelate își împart ponderea
@@ -1236,12 +1299,12 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \begin{frame}{O întrebare deschisă}
 \itemsize{\small}
 \begin{itemize}
-    \item Poate un model de nowcasting să bată în mod semnificativ statistic un AR simplu pentru creșterea PIB-ului României și ce publicări poartă informația?
+    \item Poate un model de nowcasting să fie semnificativ statistic superior unui AR simplu pentru creșterea PIB-ului României și ce publicări poartă informația?
     \begin{itemize}
-        \item formal: $H_0$: MSE egal pentru nowcast-urile DFM și AR la sfîrșitul lunii 3 (Diebold--Mariano, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}), cu eșantionul, modelele și decalajele preînregistrate
+        \item formal: $H_0$: MSE egal pentru nowcast-urile DFM și AR la sfîrșitul lunii 3 (Diebold--Mariano, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}), cu eșantionul, modelele și lagurile preînregistrate
         \item infirmată de o respingere pe trimestre pe care modelul nu le-a văzut, cu ediții în timp real ale PIB
     \end{itemize}
-    \item De ce contează: deciziile fiscale și monetare din 2025--2026 s-au luat cu PIB-ul cunoscut la cîteva săptămîni după fiecare trimestru
+    \item Miza: deciziile fiscale și monetare din 2025--2026 s-au luat cu PIB-ul cunoscut la cîteva săptămîni după fiecare trimestru
     \begin{itemize}
         \item literatura de pornire: \refGRS, \refBM, \refBGMR, \refGLPb, \refSS
     \end{itemize}
@@ -1256,7 +1319,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
         \item \textbf{literatura}: \aiprompt{Listează articole recenzate care fac nowcasting pentru PIB-ul țărilor din Europa Centrală și de Est cu modele factoriale sau MIDAS; dă DOI-urile.} Apoi verificați fiecare DOI pe Crossref
         \item \textbf{ipoteza}: \aiprompt{Ce publicări lunare din România ar trebui să conțină știri despre PIB și în ce lună a trimestrului?}
         \item \textbf{cod și replicare}: cereți un filtru Kalman cu date lipsă, apoi reproduceți întîi o cifră cunoscută (suma știrilor din acest curs)
-        \item \textbf{robustețe și critică}: \aiprompt{Joacă rolul unui recenzent ostil al unui articol de nowcasting: enumeră felurile în care designul în pseudo timp real ar putea avantaja modelul.}
+        \item \textbf{robustețe și critică}: \aiprompt{Joacă rolul unui recenzent ostil al unui articol de nowcasting: enumeră felurile în care designul în pseudo timp real ar putea favoriza artificial modelul.}
     \end{itemize}
     \item Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)
 \end{itemize}
@@ -1267,7 +1330,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \begin{itemize}
     \item Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)
     \item Setul de informații la fiecare dată conține doar datele publicate pînă atunci; datele din ediția curentă supraestimează acuratețea
-    \item Hiperparametrii, factorii și decalajele se aleg în interiorul fiecărei ferestre de estimare, niciodată pe eșantionul de evaluare
+    \item Hiperparametrii, factorii și lagurile se aleg în interiorul fiecărei ferestre de estimare, niciodată pe eșantionul de evaluare
     \item Perioada de evaluare și tratarea anului 2020 sînt fixate înaintea rezultatelor; toate variantele sînt raportate
     \item O afirmație despre „nowcast-uri mai bune” se sprijină pe un test, nu doar pe un RMSE mai mic
 \end{itemize}
@@ -1281,7 +1344,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \vspace{-0.25cm}
 \begin{itemize}
     \item RMSE al nowcast-ului DFM relativ la AR la sfîrșitul lunii 3, 2013--2026, pentru diferite numere de factori, începuturi ale eșantionului, întîrzieri de publicare și tratări ale anului 2020
-    \item Cele 16 variante variază între 0{,}71 și 1{,}03; DFM cîștigă în 14 dintre ele: un rezumat AI care raportează cea mai bună variantă drept „rezultatul” greșește
+    \item Cele 16 variante variază între 0{,}71 și 1{,}03; DFM este superior în 14 dintre ele: un rezumat AI care raportează cea mai bună variantă drept „rezultatul” greșește
 \end{itemize}
 \quantlet{ATS\_ch5\_nowcast}{\qlurl{ATS_ch5_nowcast}}
 \end{frame}

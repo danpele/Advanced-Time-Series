@@ -31,7 +31,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
                     "O matrice de zerouri pentru toate variabilele",
                     "Estimațiile obținute cu $\\lambda = \\infty$"
                 ],
-                "correctExplanation": "Cu $\\lambda \\to 0$ variațiile a priori dispar, deci datele nu primesc nicio pondere, iar media a posteriori este media a priori ($\\delta_i$ pe primul decalaj propriu, 0 în rest).",
+                "correctExplanation": "Cu $\\lambda \\to 0$ variațiile a priori dispar, deci datele nu primesc nicio pondere, iar media a posteriori este media a priori ($\\delta_i$ pe primul lag propriu, 0 în rest).",
                 "incorrectExplanation": "OLS este limita $\\lambda \\to \\infty$; media a priori nu este zero pentru seriile persistente ($\\delta_i = 1$)."
             }
         },
@@ -58,7 +58,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
                     "Pentru că altfel verosimilitatea marginală este infinită",
                     "Pentru că o cere distribuția pentru suma coeficienților"
                 ],
-                "correctExplanation": "Structura Kronecker scalează un singur $\\Omega_0$ comun cu $\\Sigma_{ii}$ în fiecare ecuație, deci decalajele proprii și cele încrucișate nu pot fi strînse diferit de la o ecuație la alta.",
+                "correctExplanation": "Structura Kronecker scalează un singur $\\Omega_0$ comun cu $\\Sigma_{ii}$ în fiecare ecuație, deci lagurile proprii și cele încrucișate nu pot fi strînse diferit de la o ecuație la alta.",
                 "incorrectExplanation": "Gradele de libertate, caracterul finit al verosimilității marginale și observațiile fictive pentru suma coeficienților nu au legătură cu această restricție."
             }
         },
@@ -167,7 +167,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
                     "Schimbă doar distribuția a priori a covarianței erorilor"
                 ],
                 "correctExplanation": "Linia fictivă unică $\\bar y/\\phi$ este potrivită fie prin rădăcini unitare, fie printr-un model staționar cu media $\\bar y$, deci trendurile comune și cointegrarea rămîn posibile.",
-                "incorrectExplanation": "Nu impune rădăcini unitare fiecărei variabile, implică împreună coeficienții decalajelor și termenul liber și lasă $\\Sigma$ distribuției inverse-Wishart."
+                "incorrectExplanation": "Nu impune rădăcini unitare fiecărei variabile, implică împreună coeficienții lagurilor și termenul liber și lasă $\\Sigma$ distribuției inverse-Wishart."
             }
         },
         {
@@ -510,14 +510,14 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
             },
             "ro": {
                 "title": "Almon exponențial",
-                "text": "De ce folosește MIDAS un polinom parametric al decalajelor, precum Almon exponențial $w_j(\\theta) \\propto e^{\\theta_1 j + \\theta_2 j^2}$?",
+                "text": "De ce folosește MIDAS un polinom parametric al lagurilor, precum Almon exponențial $w_j(\\theta) \\propto e^{\\theta_1 j + \\theta_2 j^2}$?",
                 "options": [
                     "Pentru că OLS nu poate fi folosit cu frecvențe mixte",
                     "Pentru că ponderile trebuie să fie negative",
-                    "Pentru că doi parametri descriu ponderile multor decalaje de frecvență înaltă, evitînd înmulțirea parametrilor",
+                    "Pentru că doi parametri descriu ponderile multor laguri de frecvență înaltă, evitînd înmulțirea parametrilor",
                     "Pentru că face regresia liniară în $\\theta$"
                 ],
-                "correctExplanation": "Cu $K$ decalaje lunare sau zilnice un polinom nerestricționat cere $K$ coeficienți; forma Almon cere doi, estimați prin cele mai mici pătrate neliniare.",
+                "correctExplanation": "Cu $K$ laguri lunare sau zilnice un polinom nerestricționat cere $K$ coeficienți; forma Almon cere doi, estimați prin cele mai mici pătrate neliniare.",
                 "incorrectExplanation": "MIDAS nerestricționat se estimează prin OLS cînd $K$ este mic; ponderile sînt pozitive; modelul este neliniar în $\\theta$."
             }
         },
@@ -568,11 +568,11 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
                 "options": [
                     "Cu $k = 1\\,327$ de regresori și $T = 120$, $X'X$ este singulară: OLS nu există, iar nedeplasarea nu ar implica oricum un MSE mic",
                     "Nimic: OLS este cel mai bun estimator liniar nedeplasat",
-                    "VAR-ul ar trebui să aibă 26 de decalaje, nu 13",
+                    "VAR-ul ar trebui să aibă 26 de laguri, nu 13",
                     "Prognozele OLS sînt deplasate doar pentru dobînda federal funds"
                 ],
                 "correctExplanation": "Cînd regresorii depășesc observațiile, ecuațiile normale nu au soluție unică; chiar cu $k < T$ varianța domină eroarea de prognoză, de aceea shrinkage-ul cîștigă.",
-                "incorrectExplanation": "Nedeplasarea nu spune nimic despre varianță; numărul de decalaje nu este problema; problema privește fiecare ecuație."
+                "incorrectExplanation": "Nedeplasarea nu spune nimic despre varianță; numărul de laguri nu este problema; problema privește fiecare ecuație."
             }
         },
         {

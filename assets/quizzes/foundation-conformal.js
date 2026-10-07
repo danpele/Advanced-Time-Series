@@ -32,7 +32,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
                     "Orice valoare care nu a apărut în context"
                 ],
                 "correctExplanation": "Cea mai mare valoare reprezentabilă este $15s = 15 \\cdot 40 = 600$; valorile mai mari cad în ultimul interval.",
-                "incorrectExplanation": "Intervalele acoperă $[-15s, 15s]$, inclusiv valori negative și valori neobservate; doar valorile peste $15s = 600$ sînt tăiate."
+                "incorrectExplanation": "Intervalele acoperă $[-15s, 15s]$, inclusiv valori negative și valori neobservate; doar valorile peste $15s = 600$ sînt trunchiate."
             }
         },
         {
@@ -58,8 +58,8 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
                     "Cuantila de 10% împărțită la 10",
                     "Mediana minus de trei ori abaterea intercuartilică"
                 ],
-                "correctExplanation": "Modelul nu poate produce niveluri în afara intervalului 0,1-0,9 (cererile sînt tăiate); un prag conformal pe scorul $\\hat q_{0,1} - y$ la nivelul 0,01 dă rata corectă de depășire.",
-                "incorrectExplanation": "O cerere pentru 0,01 este tăiată fără avertisment la 0,1; scalarea unei cuantile sau folosirea abaterii intercuartilice presupun o distribuție pe care nu a verificat-o nimeni."
+                "correctExplanation": "Modelul nu poate produce niveluri în afara intervalului 0,1-0,9 (cererile sînt trunchiate); un prag conformal pe scorul $\\hat q_{0,1} - y$ la nivelul 0,01 dă rata corectă de depășire.",
+                "incorrectExplanation": "O cerere pentru 0,01 este trunchiată fără avertisment la 0,1; scalarea unei cuantile sau folosirea abaterii intercuartilice presupun o distribuție pe care nu a verificat-o nimeni."
             }
         },
         {
@@ -193,8 +193,8 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
                     "Septembrie 2025 -- septembrie 2026",
                     "Din noiembrie 2025 încolo"
                 ],
-                "correctExplanation": "Doar datele de după lansarea (sau data-limită declarată) a fiecărui model din comparație nu pot fi fost în corpusurile lor de antrenare.",
-                "incorrectExplanation": "Lungimea nu protejează de scurgere; seriile publice ale oricărei țări pot face parte dintr-un corpus; septembrie și octombrie 2025 preced lansarea Chronos-2."
+                "correctExplanation": "Doar datele de după lansarea (sau data-limită declarată) a fiecărui model din comparație nu pot să fi fost incluse în corpusurile lor de antrenare.",
+                "incorrectExplanation": "Lungimea ferestrei nu protejează de leakage; seriile publice ale oricărei țări pot face parte dintr-un corpus; septembrie și octombrie 2025 preced lansarea Chronos-2."
             }
         },
         {
@@ -216,7 +216,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
                 "text": "Se aplică 27 de teste DM pe țări. Ce afirmație este corectă?",
                 "options": [
                     "Holm controlează rata descoperirilor false și este mai puternic decît Benjamini-Hochberg",
-                    "Holm controlează eroarea pe familie; Benjamini-Hochberg controlează rata descoperirilor false și respinge cel puțin la fel de des",
+                    "Holm controlează FWER (probabilitatea a cel puțin unei respingeri false); Benjamini-Hochberg controlează rata descoperirilor false și respinge cel puțin la fel de des",
                     "Ambele corecții sînt necesare doar cînd testele sînt independente",
                     "Fără corecție, aproximativ 27% dintre teste resping sub ipoteza nulă la 5%"
                 ],
@@ -299,7 +299,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
                     "LLM-urile mai noi au ferestre de context mai scurte",
                     "LLM-urile mai noi nu pot citi virgulele",
                     "LLM-urile mai noi au fost antrenate fără niciun număr",
-                    "Felul în care tokenizatorul împarte numerele în token-uri și alinierea care strică calibrarea"
+                    "Felul în care tokenizatorul împarte numerele în token-uri și alinierea, care deteriorează calibrarea"
                 ],
                 "correctExplanation": "Lucrarea pune rezultatul pe seama tokenizării numerelor și a alinierii (RLHF), care degradează calibrarea.",
                 "incorrectExplanation": "Lungimea contextului, punctuația și lipsa numerelor din antrenare nu sînt motivele indicate; tokenizarea cifrelor este."
@@ -488,7 +488,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
                     "$\\sum_i \\tilde w_i\\, d_{\\mathrm{TV}}(Z, Z^i)$, distanța în variație totală ponderată după schimbarea punctului de test cu punctul $i$",
                     "$1/(n + 1)$",
                     "$\\gamma$, pasul",
-                    "Coeficientul de mixing al scorurilor la decalajul unu"
+                    "Coeficientul de mixing al scorurilor la lagul unu"
                 ],
                 "correctExplanation": "Marginea este $1 - \\alpha - \\sum_i \\tilde w_i d_{\\mathrm{TV}}(Z, Z^i)$; ponderile mici pe punctele vechi țin abaterea mică sub o derivă.",
                 "incorrectExplanation": "$1/(n + 1)$ este rezerva superioară a metodei split conformal, $\\gamma$ aparține ACI, iar coeficienții de mixing apar în alte analize ale metodei split conformal."

@@ -175,12 +175,12 @@ MSCA Digital Finance}
     \item \textbf{LS}: Least Squares (cele mai mici pătrate)
     \item \textbf{LSTAR}: Logistic Smooth Transition AutoRegression (autoregresie cu tranziție netedă logistică)
     \item \textbf{LWZ}: Liu, Wu and Zidek (modified Schwarz criterion) — Liu, Wu și Zidek (criteriul Schwarz modificat)
+    \item \textbf{MCMMP}: Metoda celor mai mici pătrate
     \item \textbf{MFM}: Modelling Financial Markets (Modelarea piețelor financiare, cursul de master)
     \item \textbf{MOSUM}: MOving SUM (of residuals) — suma mobilă (a reziduurilor)
     \item \textbf{MPQ}: McConnell and Perez-Quiros (2000) — McConnell și Perez-Quiros (2000)
     \item \textbf{MSFE}: Mean Squared Forecast Error (eroarea medie pătratică de prognoză)
     \item \textbf{OECD}: Organisation for Economic Co-operation and Development (Organizația pentru Cooperare și Dezvoltare Economică)
-    \item \textbf{OLS}: Ordinary Least Squares (metoda celor mai mici pătrate)
     \item \textbf{OLS-CUSUM}: CUSUM of OLS residuals (CUSUM al reziduurilor OLS)
 \end{itemize}
 \end{column}
@@ -317,32 +317,47 @@ Linxi capturați în Canada, 1821--1934 & set de date R citit prin statsmodels &
 \begin{itemize}
     \item Modelul liniar $y_t = x_t'\beta_t + u_t$, $t = 1, \dots, T$; stabilitatea înseamnă $H_0$: $\beta_t = \beta$ pentru orice $t$
     \begin{itemize}
-        \item o ruptură la $T_1 = [\pi T]$: $\beta_t = \beta_1$ pentru $t \le T_1$ și $\beta_t = \beta_2$ după; $\pi \in (0, 1)$ este \textbf{fracția rupturii}
+        \item $x_t$: vectorul celor $k$ regresori; $\beta_t$: coeficienții la momentul $t$; $u_t$: eroarea
+        \item o ruptură la $T_1 = [\pi T]$ ($[\cdot]$: partea întreagă): $\beta_t = \beta_1$ pentru $t \le T_1$ și $\beta_t = \beta_2$ după; $\pi \in (0, 1)$ este \textbf{fracția rupturii}
         \item $m$ rupturi $T_1 < \dots < T_m$ împart eșantionul în $m + 1$ regimuri
     \end{itemize}
     \item Tipuri de schimbare
     \begin{itemize}
         \item schimbare \textbf{totală} (toți coeficienții) sau \textbf{parțială} ($y_t = x_t'\beta + z_t'\delta_j + u_t$: doar $\delta$ se schimbă)
+        \item $z_t$: regresorii ai căror coeficienți se schimbă; $\delta_j$: valoarea lor în regimul $j$; $\beta$: coeficienții comuni tuturor regimurilor
         \item în medie, în dinamică, în varianță; bruscă sau graduală (coeficienți de tip mers aleator, \refSW)
     \end{itemize}
     \item În \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol3_radacini_unitare_modele_arima.pdf}{TSA, Capitolul 3} ruptura era un obstacol pentru testele de rădăcină unitară; aici ruptura este obiectul inferenței
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testul Chow}
+\begin{frame}{Testul Chow (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Dată cunoscută $T_1$, $k$ regresori, erori i.i.d.\ Normale; SSR al regresiei comune $S_0$, al celor două subeșantioane $S_1$, $S_2$ \refChow
+    \item Dată cunoscută $T_1$, $k$ regresori, erori i.i.d.\ Normale \refChow
+    \begin{itemize}
+        \item SSR: suma pătratelor reziduurilor; $S_0$: a regresiei comune pe toate cele $T$ observații; $S_1$, $S_2$: a regresiilor dinainte și de după $T_1$
+    \end{itemize}
+    \item Testul: cît se îmbunătățește ajustarea cînd fiecare subeșantion are coeficienții lui
     \begin{itemize}
         \item $F = \dfrac{(S_0 - S_1 - S_2)/k}{(S_1 + S_2)/(T - 2k)} \sim F(k, T - 2k)$ sub $H_0$
-        \item echivalent cu testul $F$ pentru $\delta = 0$ în $y_t = x_t'\beta + (x_t \mathbf 1\{t > T_1\})'\delta + u_t$
+        \item $S_0 - S_1 - S_2 \ge 0$: reducerea SSR, pe fiecare coeficient suplimentar; un $F$ mare este o dovadă a rupturii
+        \item echivalent cu testul $F$ pentru $\delta = 0$ în $y_t = x_t'\beta + (x_t \mathbf 1\{t > T_1\})'\delta + u_t$; $\delta$: schimbarea coeficienților după $T_1$
     \end{itemize}
-    \item Varianta robustă: statistica Wald $W_T(T_1) = \hat\delta'\hat V_\delta^{-1}\hat\delta$ cu $\hat V_\delta$ robustă la heteroscedasticitate sau HAC (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}), asimptotic $\chi^2(k)$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testul Chow (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Varianta robustă: statistica Wald $W_T(T_1) = \hat\delta'\hat V_\delta^{-1}\hat\delta$, asimptotic $\chi^2(k)$
     \begin{itemize}
+        \item $\hat V_\delta$: o matrice de covarianță a lui $\hat\delta$ robustă la heteroscedasticitate sau HAC (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0})
         \item $F$ clasic presupune și varianțe egale în cele două regimuri
     \end{itemize}
-    \item Testul Chow \textbf{predictiv} cînd $T - T_1 < k$: $F = \dfrac{(S_0 - S_1)/(T - T_1)}{S_1/(T_1 - k)}$
+    \item Testul Chow \textbf{predictiv} cînd $T - T_1 < k$ (prea puține observații după ruptură pentru a estima modelul):
     \begin{itemize}
+        \item $F = \dfrac{(S_0 - S_1)/(T - T_1)}{S_1/(T_1 - k)}$
         \item întreabă dacă modelul estimat pînă la $T_1$ prognozează ultimele observații; precursorul testelor de eșec al prognozelor (secțiunea 7)
     \end{itemize}
 \end{itemize}
@@ -402,19 +417,32 @@ Linxi capturați în Canada, 1821--1934 & set de date R citit prin statsmodels &
 \section{O ruptură la o dată necunoscută}
 %=============================================================================
 
-\begin{frame}{Testul sup-Wald al lui Andrews (1993)}
+\begin{frame}{Testul sup-Wald al lui Andrews (1993) (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Calculăm $W_T(\pi)$ pentru orice $\pi \in \Pi = [\pi_0, 1 - \pi_0]$ și luăm $\sup_{\pi \in \Pi} W_T(\pi)$ \refAnd; \refQua\ a folosit varianta LR
+    \item Calculăm statistica Chow--Wald $W_T(\pi)$ pentru fiecare fracție candidată a rupturii și o luăm pe cea mai mare \refAnd
     \begin{itemize}
-        \item variantele LM, Wald și LR au aceeași limită; $\pi_0 = 0{,}15$ este \textbf{trunchierea} obișnuită
+        \item $\sup_{\pi \in \Pi} W_T(\pi)$, $\quad \Pi = [\pi_0, 1 - \pi_0]$
+        \item $\Pi$: fracțiile candidate; $\pi_0$: \textbf{trunchierea}, de obicei 0,15, astfel încît fiecare regim să aibă cel puțin 15\% din eșantion
+        \item variantele LM, Wald și LR au aceeași limită; \refQua\ a folosit varianta LR
     \end{itemize}
     \item \textbf{Teoremă} \refAnd: sub $H_0$ și în condiții de regularitate (regresori staționari, cu dependență slabă)
     \begin{itemize}
-        \item $W_T(\cdot) \Rightarrow Q_p(\pi) = \dfrac{\|B_p(\pi) - \pi B_p(1)\|^2}{\pi(1 - \pi)}$, $B_p$ o mișcare browniană $p$-dimensională
-        \item $\sup W_T \to_d \sup_{\pi \in \Pi} Q_p(\pi)$: o punte browniană la pătrat, standardizată (deducerea în \atsapplink{atsapp1}{atssrc1}{Anexă})
+        \item $W_T(\cdot) \Rightarrow Q_p(\pi) = \dfrac{\|B_p(\pi) - \pi B_p(1)\|^2}{\pi(1 - \pi)}$
+        \item $\Rightarrow$: convergența întregului proces în $\pi$; $B_p$: o mișcare browniană standard $p$-dimensională; $p$: numărul coeficienților care se pot schimba
+        \item $B_p(\pi) - \pi B_p(1)$ este o punte browniană; $\pi(1 - \pi)$ este varianța ei: $Q_p(\pi)$ este o punte la pătrat, standardizată (\atsapplink{atsapp1}{atssrc1}{Anexă})
     \end{itemize}
-    \item De ce trunchiere: la $\pi$ fixat, $Q_p(\pi) \sim \chi^2(p)$, dar $\sup_{\pi \in (0,1)} Q_p(\pi) = \infty$ aproape sigur (legea logaritmului iterat)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testul sup-Wald al lui Andrews (1993) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Limita: $\sup W_T \to_d \sup_{\pi \in \Pi} Q_p(\pi)$
+    \begin{itemize}
+        \item la un $\pi$ fixat, $Q_p(\pi) \sim \chi^2(p)$; supremumul peste multe valori $\pi$ este mult mai mare
+    \end{itemize}
+    \item De ce este necesară trunchierea: $\sup_{\pi \in (0,1)} Q_p(\pi) = \infty$ aproape sigur (legea logaritmului iterat)
     \begin{itemize}
         \item valorile critice depind de $p$ și $\pi_0$; aici simulate: $p = 1$: 7{,}11 (10\%), 8{,}65 (5\%), 12{,}17 (1\%)
     \end{itemize}
@@ -426,6 +454,7 @@ Linxi capturați în Canada, 1821--1934 & set de date R citit prin statsmodels &
 \begin{itemize}
     \item Supremumul nu este singura funcțională; medierea este optimă împotriva alternativelor apropiate de $H_0$ \refAP
     \begin{itemize}
+        \item $|\Pi| = 1 - 2\pi_0$: lungimea mulțimii fracțiilor candidate; ambele statistici mediază peste ea
         \item $\mathrm{expW} = \ln\Big(\dfrac{1}{|\Pi|}\displaystyle\int_\Pi \exp\big(\tfrac12 W_T(\pi)\big)d\pi\Big)$: putere medie ponderată, pentru rupturi medii și mari
         \item $\mathrm{aveW} = \dfrac{1}{|\Pi|}\displaystyle\int_\Pi W_T(\pi)\,d\pi$: optim pentru rupturi foarte mici, apropiat de testul Nyblom pentru coeficienți de tip mers aleator
     \end{itemize}
@@ -437,15 +466,33 @@ Linxi capturați în Canada, 1821--1934 & set de date R citit prin statsmodels &
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Estimarea datei rupturii}
+\begin{frame}{Estimarea datei rupturii (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Cele mai mici pătrate: $\hat T_1 = \arg\min_{T_1} [S_1(T_1) + S_2(T_1)]$, echivalent cu $\arg\max$ al statisticii Wald sub homoscedasticitate
+    \item Cele mai mici pătrate: alegem data care minimizează SSR total al celor două regimuri
     \begin{itemize}
-        \item pentru o ruptură de mărime fixă, $\hat T_1 - T_1 = O_p(1)$: \textbf{data} se estimează cu o eroare care nu crește cu $T$, fracția cu rata $T$ \refBai
+        \item $\hat T_1 = \arg\min_{T_1} [S_1(T_1) + S_2(T_1)]$
+        \item $S_1(T_1)$, $S_2(T_1)$: SSR înainte și după o dată candidată $T_1$; echivalent cu data celei mai mari statistici Wald sub homoscedasticitate
+    \end{itemize}
+    \item Precizia \refBai
+    \begin{itemize}
+        \item pentru o ruptură de mărime fixă, $\hat T_1 - T_1 = O_p(1)$: eroarea \textbf{datei} este mărginită în probabilitate și nu crește cu $T$
+        \item deci fracția $\hat\pi = \hat T_1/T$ converge cu rata $T$, mai repede decît rata obișnuită $\sqrt T$
         \item coeficienții regimurilor sînt $\sqrt T$-consistenți și asimptotic Normali ca și cum data ar fi cunoscută
     \end{itemize}
-    \item Interval de încredere pentru dată: cu o ruptură care scade, $\Delta_T \to 0$, $\Delta_T^2\sigma^{-2}(\hat T_1 - T_1) \to_d \arg\max_s Z(s)$, $Z(s) = W(s) - |s|/2$ (mișcare browniană bilaterală) \refBai
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimarea datei rupturii (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Interval de încredere pentru dată \refBai: cu o ruptură care scade, $\Delta_T \to 0$
+    \begin{itemize}
+        \item $\Delta_T^2\sigma^{-2}(\hat T_1 - T_1) \to_d \arg\max_s Z(s)$, $\quad Z(s) = W(s) - |s|/2$
+        \item $\Delta_T$: mărimea schimbării mediei; $\sigma^2$: varianța erorii; $W(s)$: o mișcare browniană bilaterală, $s \in \mathbb R$
+        \item intervalul este data $\pm$ cuantile ale lui $\arg\max Z$, rescalate cu $\sigma^2/\hat\Delta^2$
+    \end{itemize}
+    \item Interpretare
     \begin{itemize}
         \item rupturi mari, zgomot mic: interval scurt; intervalul este asimetric cînd varianțele diferă între regimuri
     \end{itemize}
@@ -465,10 +512,11 @@ Linxi capturați în Canada, 1821--1934 & set de date R citit prin statsmodels &
 \begin{itemize}
     \item Lucrarea: creșterea PIB real în SUA, T2 1953--T2 1999; AR(1) pentru media condiționată; apoi o ruptură în media lui $\sqrt{\pi/2}\,|\hat e_t|$, o estimare nedeplasată a abaterii standard sub distribuția Normală \refMPQ
     \begin{itemize}
+        \item $\hat e_t$: reziduul AR(1); aici $\pi = 3{,}14\ldots$; dacă $e_t \sim N(0, \sigma^2)$, $\E|e_t| = \sigma\sqrt{2/\pi}$, de unde factorul
         \item teste: sup-, exp-, ave-Wald \refAnd, \refAP; rezultatul lor: o ruptură în varianță în T1 1984, „Marea Moderație” (Great Moderation)
     \end{itemize}
-    \item Replicarea noastră: aceiași doi pași pe FRED GDPC1 (versiunea de azi), statistici Wald robuste, valori $p$ simulate; apoi eșantionul extins pînă în 2026
-    \item Întrebarea: supraviețuiește ruptura în varianță datelor revizuite și trimestrelor COVID-19?
+    \item Replicarea noastră: aceiași doi pași pe FRED GDPC1 (versiunea de azi), statistici Wald robuste, p-value-uri simulate; apoi eșantionul extins pînă în 2026
+    \item Întrebarea: se menține ruptura în varianță pe datele revizuite și după trimestrele COVID-19?
 \end{itemize}
 \end{column}
 \end{columns}
@@ -493,7 +541,7 @@ Linxi capturați în Canada, 1821--1934 & set de date R citit prin statsmodels &
     \begin{itemize}
         \item abaterea standard reziduală 1{,}06 înainte, 0{,}45 după: varianța scade de 5{,}5 ori; nicio ruptură în ecuația mediei (sup 3{,}2, $p$ 0{,}861)
     \end{itemize}
-    \item Pînă în 2019: ruptura se mută cu un trimestru (T2 1984), raportul varianțelor 4{,}1; Marea Moderație a supraviețuit recesiunii din 2008--2009
+    \item Pînă în 2019: ruptura se mută cu un trimestru (T2 1984), raportul varianțelor 4{,}1; Marea Moderație s-a menținut și după recesiunea din 2008--2009
     \item Pînă în 2026: sup-Wald scade la 10{,}7 ($p$ 0{,}019) și raportul la 1{,}1: două valori extreme (T2 2020: \ensuremath{-}8{,}2\%) domină varianța de după ruptură
     \begin{itemize}
         \item o a doua ruptură sau valori extreme? Un test cu o singură ruptură nu poate decide; sînt necesari estimatori robuști ai scalei sau o a doua ruptură
@@ -521,6 +569,7 @@ Linxi capturați în Canada, 1821--1934 & set de date R citit prin statsmodels &
 \begin{itemize}
     \item $y_t = x_t'\beta + z_t'\delta_j + u_t$, $t = T_{j-1} + 1, \dots, T_j$, $j = 1, \dots, m + 1$, cu $T_0 = 0$, $T_{m+1} = T$ \refBPa
     \begin{itemize}
+        \item $T_1 < \dots < T_m$: datele rupturilor; $\delta_j$: coeficienții lui $z_t$ în regimul $j$; $\beta$: cei ai lui $x_t$, comuni tuturor regimurilor
         \item schimbare totală: fără $x_t$; modelul cu schimbări de medie: $z_t = 1$
         \item lungimea minimă a unui segment $h = [\varepsilon T]$, de obicei $\varepsilon = 0{,}15$; erorile pot fi autocorelate și heteroscedastice între regimuri
     \end{itemize}
@@ -539,6 +588,7 @@ Linxi capturați în Canada, 1821--1934 & set de date R citit prin statsmodels &
     \item Pasul 2: recursia Bellman pentru cea mai bună partiție cu $r$ rupturi a primelor $n$ observații
     \begin{itemize}
         \item $\mathrm{SSR}(\{T_{r,n}\}) = \min_{rh \le j \le n - h}\big[\mathrm{SSR}(\{T_{r-1,j}\}) + \mathrm{SSR}(j + 1, n)\big]$
+        \item $\{T_{r,n}\}$: cea mai bună partiție a observațiilor $1, \dots, n$ cu $r$ rupturi; $j$: data ultimei ei rupturi; $h$: lungimea minimă a unui segment
         \item partiția optimă cu $m$ rupturi conține partiții optime ale prefixelor ei (principiul lui Bellman)
     \end{itemize}
     \item O singură trecere dă partițiile optime pentru orice $m \le M$: datele de intrare ale tuturor testelor și criteriilor
@@ -548,20 +598,35 @@ Linxi capturați în Canada, 1821--1934 & set de date R citit prin statsmodels &
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testarea și alegerea numărului de rupturi}
+\begin{frame}{Testarea și alegerea numărului de rupturi (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item $\sup F_T(k)$: nicio ruptură față de exact $k$ rupturi, la partiția optimă după SSR, cu varianță robustă \refBPa
     \begin{itemize}
-        \item \textbf{UDmax} $= \max_{k \le M}\sup F_T(k)$; \textbf{WDmax} ponderează fiecare $k$ prin raportul valorilor critice: nicio ruptură față de un număr necunoscut
+        \item $M$: numărul maxim de rupturi luat în calcul (aici 5)
+        \item \textbf{UDmax} $= \max_{k \le M}\sup F_T(k)$: nicio ruptură față de un număr necunoscut de rupturi, cel mult $M$
+        \item \textbf{WDmax}: la fel, cu fiecare $k$ ponderat prin raportul valorilor critice
     \end{itemize}
-    \item Testul \textbf{secvențial} $\sup F_T(\ell + 1 \mid \ell)$: pentru fiecare dintre cele $\ell + 1$ segmente, cea mai mare statistică pentru o ruptură; adăugăm o ruptură cît timp respinge
+    \item Testul \textbf{secvențial} $\sup F_T(\ell + 1 \mid \ell)$: $\ell$ rupturi față de $\ell + 1$
     \begin{itemize}
+        \item pentru fiecare dintre cele $\ell + 1$ segmente, cea mai mare statistică pentru o ruptură; adăugăm o ruptură cît timp testul respinge
         \item strategia recomandată \refBPb: întîi UDmax sau WDmax, apoi testele secvențiale
     \end{itemize}
-    \item Criterii informaționale: $\mathrm{BIC}(m) = \ln(\mathrm{SSR}_m/T) + p^*\ln T/T$; \textbf{LWZ}: $\ln\frac{\mathrm{SSR}_m}{T - p^*} + p^*\frac{0{,}299}{T}(\ln T)^{2{,}1}$ \refLWZ
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testarea și alegerea numărului de rupturi (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Criterii informaționale: alegem $m$ cu cea mai mică valoare
     \begin{itemize}
-        \item $p^*$ numără coeficienții și datele rupturilor; BIC alege prea multe rupturi cu autocorelație, LWZ prea puține cu rupturi mici
+        \item $\mathrm{BIC}(m) = \ln(\mathrm{SSR}_m/T) + p^*\ln T/T$
+        \item \textbf{LWZ}: $\ln\frac{\mathrm{SSR}_m}{T - p^*} + p^*\frac{0{,}299}{T}(\ln T)^{2{,}1}$ \refLWZ
+        \item $\mathrm{SSR}_m$: SSR al celei mai bune partiții cu $m$ rupturi; $p^*$: numărul coeficienților și al datelor rupturilor; al doilea termen penalizează rupturile suplimentare
+    \end{itemize}
+    \item Slăbiciuni cunoscute
+    \begin{itemize}
+        \item BIC alege prea multe rupturi cu autocorelație, LWZ prea puține cu rupturi mici
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -659,6 +724,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{itemize}
     \item Segmentare penalizată: minimizăm $\sum_j \mathrm{cost}(\text{segmentul } j) + \beta\,m$ după partiții
     \begin{itemize}
+        \item $\mathrm{cost}$: de exemplu SSR sau minus log-verosimilitatea unui segment; $\beta > 0$: penalizarea pentru fiecare ruptură; $m$: numărul rupturilor
         \item PELT reduce recursia Bellman la $O(T)$ în condiții slabe \refKFE; segmentarea binară și segmentarea binară aleatoare (wild binary segmentation) \refFry\ funcționează pe serii lungi
         \item pachetul Python \texttt{ruptures} le conține \refTOV; BIC-ul din Bai--Perron este o penalizare particulară
     \end{itemize}
@@ -685,13 +751,29 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \section{Teste de fluctuație și monitorizare în timp real}
 %=============================================================================
 
-\begin{frame}{Testele CUSUM și MOSUM}
+\begin{frame}{Testele CUSUM și MOSUM (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Reziduurile recursive $w_t = (y_t - x_t'\hat\beta_{t-1})/\sqrt{1 + x_t'(X_{t-1}'X_{t-1})^{-1}x_t}$ sînt i.i.d.\ $N(0, \sigma^2)$ sub $H_0$ cu erori Normale \refBDE
+    \item Reziduurile recursive \refBDE: eroarea de prognoză pe un pas, standardizată, a modelului estimat pînă la $t - 1$
     \begin{itemize}
-        \item CUSUM $W_r = \hat\sigma^{-1}\sum_{t = k+1}^{r} w_t$ se comportă ca o mișcare browniană; frontiera de 5\% $\pm 0{,}948[\sqrt{T - k} + 2(r - k)/\sqrt{T - k}]$
-        \item detectează schimbări în termenul liber și o derivă sistematică a erorilor de prognoză; slab împotriva schimbărilor care se compensează
+        \item $w_t = (y_t - x_t'\hat\beta_{t-1})/\sqrt{1 + x_t'(X_{t-1}'X_{t-1})^{-1}x_t}$
+        \item $\hat\beta_{t-1}$: MCMMP pe observațiile $1, \dots, t - 1$; $X_{t-1}$: matricea regresorilor lor; radicalul corectează pentru incertitudinea estimării
+        \item sub $H_0$ și cu erori Normale, $w_t$ sînt i.i.d.\ $N(0, \sigma^2)$
+    \end{itemize}
+    \item CUSUM: suma cumulată a reziduurilor recursive standardizate
+    \begin{itemize}
+        \item $W_r = \hat\sigma^{-1}\sum_{t = k+1}^{r} w_t$, frontiera de 5\% $\pm 0{,}948[\sqrt{T - k} + 2(r - k)/\sqrt{T - k}]$
+        \item $k$: numărul regresorilor (primele $k$ observații pornesc recursia); $W_r$ se comportă ca o mișcare browniană; depășirea frontierei semnalează o ruptură
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testele CUSUM și MOSUM (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Ce detectează CUSUM
+    \begin{itemize}
+        \item schimbări în termenul liber și o derivă sistematică a erorilor de prognoză; slab împotriva schimbărilor care se compensează
     \end{itemize}
     \item OLS-CUSUM folosește reziduurile obișnuite: limita este o punte browniană \refPK; MOSUM însumează pe o fereastră mobilă de lățime fixă \refCHK
     \begin{itemize}
@@ -701,16 +783,28 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Monitorizarea: de ce eșuează testele repetate}
+\begin{frame}{Monitorizarea: de ce eșuează testele repetate (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item O bancă centrală estimează un model pe $m$ observații istorice și întreabă, la fiecare nouă publicare, „s-a stricat?”
     \begin{itemize}
         \item un test de 5\% repetat la $n = m + 1, m + 2, \dots$ respinge pînă la urmă o ipoteză nulă adevărată cu probabilitatea 1: legea logaritmului iterat
     \end{itemize}
-    \item \refCSW: monitorizăm $Q_n = \hat\sigma^{-1}\sum_{t = m+1}^{n} w_t$ și ne oprim prima dată cînd $|Q_n| > \sqrt{n\,[a^2 + \ln(n/m)]}$
+    \item \refCSW: monitorizăm CUSUM al noilor reziduuri recursive și ne oprim prima dată cînd depășește o frontieră care se lărgește
     \begin{itemize}
-        \item frontiera vine din \refRS: $P\{\exists u \ge 1: |W(u) - W(1)| \ge \sqrt{u(a^2 + \ln u)}\} = 2[1 - \Phi(a) + a\varphi(a)]$
+        \item $Q_n = \hat\sigma^{-1}\sum_{t = m+1}^{n} w_t$, $\quad$ alarmă dacă $|Q_n| > \sqrt{n\,[a^2 + \ln(n/m)]}$
+        \item $n$: dimensiunea curentă a eșantionului; $a$: o constantă aleasă pentru a fixa probabilitatea unei alarme false; termenul $\ln(n/m)$ lărgește frontiera pe măsură ce trece timpul
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Monitorizarea: de ce eșuează testele repetate (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Frontiera vine din \refRS:
+    \begin{itemize}
+        \item $P\{\exists u \ge 1: |W(u) - W(1)| \ge \sqrt{u(a^2 + \ln u)}\} = 2[1 - \Phi(a) + a\varphi(a)]$
+        \item $W$: o mișcare browniană standard; $u = n/m$; $\Phi$, $\varphi$: funcția de repartiție și densitatea distribuției Normale standard
         \item $a^2 = 7{,}78$: mărimea 5{,}1\% pe un orizont \emph{infinit}; $a^2 = 6{,}25$: 10{,}0\%
     \end{itemize}
     \item Monitorizarea pe baza prognozelor: eșecul prognozelor \refGRa\ și testul de fluctuație al acurateței relative \refGRb\ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
@@ -750,7 +844,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
     \item CUSUM și MOSUM ale reziduurilor recursive: teste de fluctuație retrospective
     \item Repetarea unui test unic pe măsură ce sosesc datele garantează o alarmă falsă
     \item Frontiera CSW $\sqrt{n[a^2 + \ln(n/m)]}$ controlează mărimea pe un orizont infinit
-    \item Inflația din România: detectare la sfîrșitul lui 2022, o întîrziere lungă, dar onestă
+    \item Inflația din România: detectare la sfîrșitul lui 2022, o întîrziere lungă, dar cu rata alarmelor false controlată
 \end{itemize}
 \end{frame}
 
@@ -759,19 +853,33 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \section{Rupturi în varianță}
 %=============================================================================
 
-\begin{frame}{Algoritmul ICSS și corecția lui}
+\begin{frame}{Algoritmul ICSS și corecția lui (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refIT: $C_k = \sum_{t \le k} a_t^2$, $D_k = C_k/C_T - k/T$; $\mathrm{IT} = \sqrt{T/2}\max_k|D_k| \Rightarrow \sup|B^0(r)|$, valoarea de 5\% 1,358
+    \item \refIT: comparăm suma cumulată a pătratelor cu o dreaptă
     \begin{itemize}
-        \item ICSS: aplicăm testul iterativ pe subsegmente (segmentare binară), apoi reverificăm fiecare ruptură între vecinele ei
+        \item $C_k = \sum_{t \le k} a_t^2$, $\quad D_k = C_k/C_T - k/T$, $\quad \mathrm{IT} = \sqrt{T/2}\max_k|D_k| \Rightarrow \sup|B^0(r)|$
+        \item $a_t$: randamentele centrate; $C_k/C_T$: proporția din suma totală a pătratelor atinsă la $k$; cu varianță constantă ea crește ca $k/T$
+        \item $B^0$: o punte browniană pe $[0,1]$; valoarea critică de 5\% este 1,358; data este valoarea $k$ cu cel mai mare $|D_k|$
     \end{itemize}
+    \item ICSS (sume cumulate de pătrate, iterate)
+    \begin{itemize}
+        \item aplicăm testul iterativ pe subsegmente (segmentare binară), apoi reverificăm fiecare ruptură între vecinele ei
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Algoritmul ICSS și corecția lui (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Factorul $\sqrt{T/2}$ presupune $\Var(a_t^2) = 2\sigma^4$: date i.i.d.\ Normale
     \begin{itemize}
-        \item cu coeficientul de boltire $\kappa$, statistica este mărită de $\sqrt{(\kappa - 1)/2}$ ori; cu GARCH, $a_t^2$ este și autocorelat
+        \item cu coeficientul de boltire $\kappa = \E a_t^4/\sigma^4$, statistica este mărită artificial de $\sqrt{(\kappa - 1)/2}$ ori; cu GARCH, $a_t^2$ este și autocorelat
     \end{itemize}
-    \item $\kappa_2$ din \refSAC: $\max_k|C_k - (k/T)C_T|/\sqrt{T\hat\omega_4}$, $\hat\omega_4$ varianța de termen lung a lui $a_t^2 - \hat\sigma^2$ (Bartlett)
+    \item $\kappa_2$ din \refSAC: același CUSUM, scalat printr-o varianță de termen lung
     \begin{itemize}
+        \item $\kappa_2 = \max_k|C_k - (k/T)C_T|/\sqrt{T\hat\omega_4}$
+        \item $\hat\omega_4$: varianța de termen lung a lui $a_t^2 - \hat\sigma^2$ (nucleul Bartlett, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0})
         \item aceeași limită, validă cu cozi groase și heteroscedasticitate condiționată
     \end{itemize}
 \end{itemize}
@@ -885,6 +993,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
     \item Schimbare de medie $\delta$ după $n_1$ observații înainte de ruptură, $n_2$ după; prognozăm cu ultimele $w \ge n_2$ observații \refPT
     \begin{itemize}
         \item $\mathrm{MSFE}(w) = \sigma^2\big(1 + \tfrac1w\big) + \Big(\dfrac{(w - n_2)\delta}{w}\Big)^2$: varianța scade cu $w$, pătratul deplasării crește
+        \item MSFE: eroarea pătratică medie de prognoză a mediei calculate pe fereastră; $\sigma^2$: varianța zgomotului; $(w - n_2)/w$: ponderea datelor dinaintea rupturii în fereastră
         \item fereastra optimă include \emph{cîteva} date dinaintea rupturii cînd $\delta/\sigma$ este mic sau $n_2$ scurt (Seminarul 2, A8)
     \end{itemize}
     \item Reguli aplicabile: estimăm data (Bai--Perron) și folosim eșantionul de după ruptură; alegem $w$ prin validare încrucișată \refPT; mediem prognozele peste ferestre (AveW) \refPP
@@ -959,15 +1068,30 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \end{columns}
 \end{frame}
 
-\begin{frame}{Autoregresia cu prag și autoregresia cu prag autoexcitată}
+\begin{frame}{Autoregresia cu prag și autoregresia cu prag autoexcitată (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{TAR} cu două regimuri: $y_t = (\phi_{1,0} + \phi_1'\mathbf y_{t-1})\mathbf 1\{q_{t-1} \le \gamma\} + (\phi_{2,0} + \phi_2'\mathbf y_{t-1})\mathbf 1\{q_{t-1} > \gamma\} + \varepsilon_t$
+    \item \textbf{TAR} cu două regimuri: un model AR ai cărui coeficienți depind de poziția lui $q_{t-1}$ sub sau peste pragul $\gamma$
     \begin{itemize}
-        \item $\mathbf y_{t-1} = (y_{t-1}, \dots, y_{t-p})'$, variabila de prag $q_{t-1}$, pragul $\gamma$; varianțele pot diferi între regimuri
-        \item \textbf{SETAR}: $q_{t-1} = y_{t-d}$, seria însăși cu \textbf{decalajul} $d$; notația SETAR$(k; p_1, \dots, p_k)$ \refTL
+        \item $y_t = (\phi_{1,0} + \phi_1'\mathbf y_{t-1})\mathbf 1\{q_{t-1} \le \gamma\} + (\phi_{2,0} + \phi_2'\mathbf y_{t-1})\mathbf 1\{q_{t-1} > \gamma\} + \varepsilon_t$
+        \item $\mathbf y_{t-1} = (y_{t-1}, \dots, y_{t-p})'$: ultimele $p$ valori; $\phi_{j,0}$, $\phi_j$: termenul liber și coeficienții AR ai regimului $j$
+        \item $q_{t-1}$: variabila de prag, observată; $\gamma$: pragul; $\mathbf 1\{\cdot\}$ selectează regimul; varianțele pot diferi între regimuri
     \end{itemize}
-    \item Dinamica: \textbf{scheletul} $y_t = F(\mathbf y_{t-1})$ (fără zgomot) poate converge către un punct, un ciclu limită sau un atractor haotic
+    \item \textbf{SETAR} (autoexcitat): $q_{t-1} = y_{t-d}$, seria însăși, cu lagul de întîrziere (delay) $d$
+    \begin{itemize}
+        \item notația SETAR$(k; p_1, \dots, p_k)$: $k$ regimuri cu ordinele AR $p_1, \dots, p_k$ \refTL
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Autoregresia cu prag și autoregresia cu prag autoexcitată (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Dinamica: \textbf{scheletul} $y_t = F(\mathbf y_{t-1})$, modelul fără zgomot
+    \begin{itemize}
+        \item $F$: media condiționată, dependentă de regim; scheletul poate converge către un punct, un ciclu limită sau un atractor haotic
+    \end{itemize}
+    \item Staționaritatea este o proprietate a întregului model, nu a fiecărui regim
     \begin{itemize}
         \item SETAR(2; 1, 1) este ergodic dacă și numai dacă $\phi_1 < 1$, $\phi_2 < 1$ și $\phi_1\phi_2 < 1$: un regim poate fi exploziv luat separat (Seminarul 2, A5)
     \end{itemize}
@@ -975,20 +1099,36 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Estimare și inferență}
+\begin{frame}{Estimare și inferență (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Cele mai mici pătrate concentrate: pentru fiecare $\gamma$ (și $d$) aplicăm OLS în ambele regimuri; $\hat\gamma = \arg\min_\gamma S_T(\gamma)$ peste cele 70\% centrale ale valorilor lui $q$
+    \item Cele mai mici pătrate concentrate: pentru fiecare $\gamma$ (și $d$) candidat aplicăm MCMMP în ambele regimuri
     \begin{itemize}
+        \item $\hat\gamma = \arg\min_\gamma S_T(\gamma)$
+        \item $S_T(\gamma)$: SSR total pentru un $\gamma$ dat; căutarea parcurge cele 70\% centrale ale valorilor observate ale lui $q$
         \item $\hat\gamma$ este superconsistent, $T(\hat\gamma - \gamma) = O_p(1)$, cu o limită nestandard \refChan; pantele sînt asimptotic Normale ca și cum $\gamma$ ar fi cunoscut
     \end{itemize}
-    \item Testarea liniarității: $\gamma$ nu este identificat sub $H_0$: $\phi_1 = \phi_2$ (din nou problema Davies) \refHa
+    \item Testarea liniarității, $H_0$: $\phi_1 = \phi_2$: $\gamma$ nu este identificat sub $H_0$ (din nou problema Davies) \refHa
     \begin{itemize}
-        \item $\sup_\gamma W_T(\gamma)$ are o limită care depinde de date; \textbf{bootstrap cu regresori ficși}: $y_t^* = \hat e_t\eta_t$, $\eta_t \sim N(0, 1)$, aceiași regresori, recalculăm $\sup W^*$
+        \item $\sup_\gamma W_T(\gamma)$, cu $W_T(\gamma)$ statistica Wald pentru $\phi_1 = \phi_2$ la pragul $\gamma$, are o limită care depinde de date
+        \item \textbf{bootstrap cu regresori ficși}: $y_t^* = \hat e_t\eta_t$, $\eta_t \sim N(0, 1)$, aceiași regresori, recalculăm $\sup W^*$; $\hat e_t$: reziduurile
     \end{itemize}
-    \item Mulțimea de încredere pentru prag \refHc: inversăm $\mathrm{LR}_T(\gamma) = T\,\dfrac{S_T(\gamma) - S_T(\hat\gamma)}{S_T(\hat\gamma)}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimare și inferență (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Mulțimea de încredere pentru prag \refHc: toate valorile $\gamma$ cu un raport de verosimilitate mic
     \begin{itemize}
-        \item limita $\xi = \max_s[2W(s) - |s|]$, $P(\xi \le x) = (1 - e^{-x/2})^2$; valoarea de 95\% $-2\ln(1 - \sqrt{0{,}95}) = 7{,}35$; împărțim LR la $\hat\eta^2$ sub heteroscedasticitate
+        \item $\mathrm{LR}_T(\gamma) = T\,\dfrac{S_T(\gamma) - S_T(\hat\gamma)}{S_T(\hat\gamma)}$
+        \item creșterea relativă a SSR cînd pragul este mutat de la $\hat\gamma$ la $\gamma$
+    \end{itemize}
+    \item Distribuția limită și valoarea critică
+    \begin{itemize}
+        \item $\xi = \max_s[2W(s) - |s|]$, $W$ o mișcare browniană bilaterală; $P(\xi \le x) = (1 - e^{-x/2})^2$
+        \item valoarea de 95\% $-2\ln(1 - \sqrt{0{,}95}) = 7{,}35$: mulțimea de 95\% este $\{\gamma: \mathrm{LR}_T(\gamma) \le 7{,}35\}$
+        \item sub heteroscedasticitate împărțim LR la $\hat\eta^2$, o corecție de tip raport de varianțe estimată din reziduuri (\atsapplink{atsapp2}{atssrc2}{Anexă})
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1000,7 +1140,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
     \begin{itemize}
         \item $d = 2$ are o interpretare ecologică: un linx devine adult în toamna celui de-al doilea an
     \end{itemize}
-    \item Replicarea noastră cu pragul din lucrare: regimul inferior $y_t = 0{,}546 + 1{,}032y_{t-1} \ensuremath{-}0{,}173y_{t-2} + \dots$ (șapte decalaje), regimul superior $2{,}345 + 1{,}533y_{t-1} \ensuremath{-}1{,}276y_{t-2}$
+    \item Replicarea noastră cu pragul din lucrare: regimul inferior $y_t = 0{,}546 + 1{,}032y_{t-1} \ensuremath{-}0{,}173y_{t-2} + \dots$ (șapte laguri), regimul superior $2{,}345 + 1{,}533y_{t-1} \ensuremath{-}1{,}276y_{t-2}$
     \begin{itemize}
         \item regimul inferior reproduce coeficienții publicați cu trei zecimale; pragul liber, după cele mai mici pătrate, este 3{,}310 (SSR 3{,}764 față de 3{,}943)
     \end{itemize}
@@ -1027,7 +1167,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
     \begin{itemize}
         \item un AR(11) liniar are nevoie de zgomot pentru a întreține oscilația; scheletul lui converge la medie
     \end{itemize}
-    \item Creșterea este lentă (regimul inferior, șapte decalaje), scăderea rapidă (regimul superior, un AR(2) exploziv luat separat): asimetria din date
+    \item Creșterea este lentă (regimul inferior, șapte laguri), scăderea rapidă (regimul superior, un AR(2) exploziv luat separat): asimetria din date
     \item Varianța reziduală 0{,}0352 față de 0{,}0364 pentru AR(11): un cîștig mic în eșantion, un cîștig mare în descrierea dinamicii
 \end{itemize}
 \end{frame}
@@ -1035,10 +1175,10 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{frame}{Studiu de caz: Hansen (1997), șomajul din SUA}
 \itemsize{\small}
 \begin{itemize}
-    \item Lucrarea, secțiunea 5: rata șomajului bărbaților de 20 de ani și peste (șomeri / forța de muncă), lunar 1959.1--1996.7; $\Delta y_t$ pe o constantă și 12 decalaje \refHb
+    \item Lucrarea, secțiunea 5: rata șomajului bărbaților de 20 de ani și peste (șomeri / forța de muncă), lunar 1959.1--1996.7; $\Delta y_t$ pe o constantă și 12 laguri \refHb
     \begin{itemize}
-        \item variabila de prag $q_{t-1} = y_{t-1} - y_{t-d}$, $d = 2, \dots, 12$: tendința recentă a șomajului; trunchiere 15\%
-        \item test sup-Wald robust, valori $p$ bootstrap (1000 de replicări); estimarea LS $\hat d = 12$, $\hat\gamma = 0{,}302$, intervalul de 95\% [0,213; 0,340], 314 și 124 de observații
+        \item $y_t$: rata șomajului, în \%; variabila de prag $q_{t-1} = y_{t-1} - y_{t-d}$, $d = 2, \dots, 12$: variația din ultimele $d - 1$ luni; trunchiere 15\%
+        \item test sup-Wald robust, p-value-uri bootstrap (1000 de replicări); estimarea LS $\hat d = 12$, $\hat\gamma = 0{,}302$, intervalul de 95\% [0,213; 0,340], 314 și 124 de observații
     \end{itemize}
     \item Replicarea noastră: aceeași construcție din seriile BLS de pe FRED (ajustarea sezonieră de azi), același model, $d = 12$
     \item Întrebarea: există un „regim de recesiune” cu altă dinamică și cît de precis este estimat pragul lui?
@@ -1062,13 +1202,13 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{itemize}
     \item $\hat\gamma = 0{,}261$ pp (lucrarea: 0,302), regimuri de 314 și 124 de luni, exact împărțirea din lucrare; mulțimea de 95\% [0{,}131; 0{,}917]
     \begin{itemize}
-        \item sup-Wald 47{,}2, $p$ bootstrap 0{,}015; liniaritatea este respinsă la 5\% pentru 10 din cele 11 decalaje
+        \item sup-Wald 47{,}2, p-value bootstrap 0{,}015; liniaritatea este respinsă la 5\% pentru 10 din cele 11 laguri $d$
     \end{itemize}
     \item Regimul de creștere: termen liber 0{,}065, AR(1) 0{,}18, AR(2) 0{,}28; celelalte luni: \ensuremath{-}0{,}019; \ensuremath{-}0{,}15; 0{,}06
     \begin{itemize}
         \item creșterile se autoalimentează; în expansiune șomajul este aproape un mers aleator cu o ușoară tendință descendentă
     \end{itemize}
-    \item Cu datele de azi, SSR este minim la $d = 3$ ($\hat\gamma = \ensuremath{-}0{,}24$): decalajul este fragil, efectul de prag nu; 1959--2019: $\hat\gamma = 0{,}261$, $p$ $<$\,0{,}001
+    \item Cu datele de azi, SSR este minim la $d = 3$ ($\hat\gamma = \ensuremath{-}0{,}24$): lagul $d$ este fragil, efectul de prag nu; 1959--2019: $\hat\gamma = 0{,}261$, $p$ $<$\,0{,}001
 \end{itemize}
 \end{frame}
 
@@ -1087,17 +1227,33 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \section{Autoregresia cu tranziție netedă}
 %=============================================================================
 
-\begin{frame}{Modelele STAR}
+\begin{frame}{Modelele STAR (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $y_t = \phi_1'\mathbf x_t[1 - G(s_t; \gamma, c)] + \phi_2'\mathbf x_t G(s_t; \gamma, c) + \varepsilon_t$, $\mathbf x_t = (1, y_{t-1}, \dots, y_{t-p})'$, $0 \le G \le 1$ \refTer
+    \item O medie ponderată a două regimuri AR, cu o pondere $G$ care variază continuu între 0 și 1 \refTer
     \begin{itemize}
-        \item \textbf{LSTAR}: $G = [1 + \exp\{-\gamma(s_t - c)/\hat\sigma_s\}]^{-1}$: valori mici și mari ale lui $s_t$; $\gamma \to \infty$ dă TAR, $\gamma \to 0$ dă AR liniar
-        \item \textbf{ESTAR}: $G = 1 - \exp\{-\gamma(s_t - c)^2\}$: \emph{abateri} mici și mari de la $c$, simetric
+        \item $y_t = \phi_1'\mathbf x_t[1 - G(s_t; \gamma, c)] + \phi_2'\mathbf x_t G(s_t; \gamma, c) + \varepsilon_t$, $\quad \mathbf x_t = (1, y_{t-1}, \dots, y_{t-p})'$
+        \item $s_t$: variabila de tranziție (de exemplu un lag al lui $y_t$); $c$: locul tranziției; $\gamma > 0$: viteza ei
+        \item $G = 0$: regimul 1, cu coeficienții $\phi_1$; $G = 1$: regimul 2, cu $\phi_2$; între ele, o combinație
     \end{itemize}
-    \item Un continuu de regimuri: agregarea mai multor agenți cu praguri diferite sau agregarea temporală produc o comutare netedă
+    \item Un continuu de regimuri
     \begin{itemize}
-        \item împărțirea la $\hat\sigma_s$ face ca $\gamma$ să nu depindă de scală și să fie mai ușor de estimat
+        \item agregarea mai multor agenți cu praguri diferite sau agregarea temporală produc o comutare netedă
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Modelele STAR (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{LSTAR} (logistic): valori mici față de valori mari ale lui $s_t$
+    \begin{itemize}
+        \item $G = [1 + \exp\{-\gamma(s_t - c)/\hat\sigma_s\}]^{-1}$
+        \item $\gamma \to \infty$ dă TAR, $\gamma \to 0$ dă AR liniar; $\hat\sigma_s$: abaterea standard a lui $s_t$, care face ca $\gamma$ să nu depindă de scală și să fie mai ușor de estimat
+    \end{itemize}
+    \item \textbf{ESTAR} (exponențial): \emph{abateri} mici față de abateri mari de la $c$, simetric
+    \begin{itemize}
+        \item $G = 1 - \exp\{-\gamma(s_t - c)^2\}$
     \end{itemize}
     \item Sinteză cu ciclul de modelare (specificare, estimare, evaluare): \refVDTF
 \end{itemize}
@@ -1108,8 +1264,9 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{itemize}
     \item Sub $H_0$: $\gamma = 0$, parametrii $c$ și $\phi_2$ nu sînt identificați: înlocuim $G$ printr-o dezvoltare Taylor de ordinul trei în jurul lui $\gamma = 0$ \refLST
     \begin{itemize}
-        \item regresia auxiliară $\hat\varepsilon_t = \beta_0'\mathbf x_t + \beta_1'\tilde{\mathbf x}_t s_t + \beta_2'\tilde{\mathbf x}_t s_t^2 + \beta_3'\tilde{\mathbf x}_t s_t^3 + v_t$, $\tilde{\mathbf x}_t$ fără constantă
-        \item LM3: $\beta_1 = \beta_2 = \beta_3 = 0$, un test $F$ cu $3p$ restricții; repetăm pentru fiecare $s_t$ candidat și alegem cea mai mică valoare $p$
+        \item regresia auxiliară $\hat\varepsilon_t = \beta_0'\mathbf x_t + \beta_1'\tilde{\mathbf x}_t s_t + \beta_2'\tilde{\mathbf x}_t s_t^2 + \beta_3'\tilde{\mathbf x}_t s_t^3 + v_t$
+        \item $\hat\varepsilon_t$: reziduurile AR-ului liniar; $\tilde{\mathbf x}_t$: $\mathbf x_t$ fără constantă; $\beta_k$: coeficienții interacțiunilor cu $s_t^k$; $v_t$: eroarea
+        \item LM3: $\beta_1 = \beta_2 = \beta_3 = 0$, un test $F$ cu $3p$ restricții; repetăm pentru fiecare $s_t$ candidat și alegem cel mai mic p-value
     \end{itemize}
     \item \textbf{Alegerea familiei} \refTer: testăm $H_{04}$: $\beta_3 = 0$, apoi $H_{03}$: $\beta_2 = 0 \mid \beta_3 = 0$, apoi $H_{02}$: $\beta_1 = 0 \mid \beta_2 = \beta_3 = 0$
     \begin{itemize}
@@ -1124,10 +1281,10 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{itemize}
     \item Lucrarea, secțiunea 7: rata neajustată a șomajului bărbaților de 20 de ani și peste din SUA, iunie 1968--decembrie 1999; estimare pînă în 1989, prognoze pentru 1990--1999 \refVDTF
     \begin{itemize}
-        \item $\Delta y_t$ pe o constantă, 11 variabile dummy lunare, $y_{t-1}$ și 15 decalaje ale lui $\Delta y_t$; variabila de tranziție $s_t = \Delta_{12}y_{t-d}$, $d = 1, \dots, 6$
+        \item $\Delta y_t$ pe o constantă, 11 variabile dummy lunare, $y_{t-1}$ și 15 laguri ale lui $\Delta y_t$; variabila de tranziție $s_t = \Delta_{12}y_{t-d}$ (variația pe 12 luni, cu lagul $d$), $d = 1, \dots, 6$
         \item LSTAR-ul lor cu $d = 1$: $\hat\gamma = 23{,}15$, $\hat c = 0{,}27$, abaterea standard reziduală 0,92 din cea a AR
     \end{itemize}
-    \item Replicarea noastră: aceeași serie (BLS prin FRED), același eșantion, aceiași regresori și aceeași tranziție; decalajele nerestricționate, fără eliminarea termenilor nesemnificativi din lucrare
+    \item Replicarea noastră: aceeași serie (BLS prin FRED), același eșantion, aceiași regresori și aceeași tranziție; lagurile nerestricționate, fără eliminarea termenilor nesemnificativi din lucrare
     \item Întrebarea: bate un LSTAR modelul liniar în afara eșantionului?
 \end{itemize}
 \end{frame}
@@ -1147,7 +1304,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{frame}{Interpretarea modelului LSTAR}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item Valorile $p$ LM3: $d = 1$: 0{,}124, $d = 2$: 0{,}052, $d = 3$: 0{,}275; pentru $d = 2$: $H_{04}$ 0{,}008, $H_{03}$ 0{,}548, $H_{02}$ 0{,}461: LSTAR
+    \item P-value-urile LM3: $d = 1$: 0{,}124, $d = 2$: 0{,}052, $d = 3$: 0{,}275; pentru $d = 2$: $H_{04}$ 0{,}008, $H_{03}$ 0{,}548, $H_{02}$ 0{,}461: LSTAR
     \begin{itemize}
         \item ca în lucrare: dovezi slabe, cele mai puternice pentru $d = 2$, care indică familia logistică
     \end{itemize}
@@ -1173,13 +1330,16 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \end{column}
 \begin{column}{0.64\textwidth}
 \begin{itemize}
-    \item PPC (Cassel, 1918): $q_t = s_t - p_t + p_t^*$ ar trebui să fie staționar; după sfîrșitul sistemului Bretton Woods (1973), testele de rădăcină unitară resping rar
+    \item PPC (Cassel, 1918): cursul real $q_t = s_t - p_t + p_t^*$ ar trebui să fie staționar
     \begin{itemize}
+        \item $s_t$: logaritmul cursului nominal (moneda națională pentru o unitate de monedă străină); $p_t$, $p_t^*$: logaritmii nivelurilor prețurilor interne și externe
+        \item după sfîrșitul sistemului Bretton Woods (1973), testele de rădăcină unitară resping rar
         \item primul paradox PPC: nicio revenire la medie; al doilea: timpi de înjumătățire de 3--5 ani, prea lenți pentru șocuri nominale
     \end{itemize}
     \item Costurile de tranzacție creează o bandă de inacțiune: aproape de paritate $q_t$ este aproape un mers aleator, departe de ea arbitrajul îl trage înapoi \refMNP
     \begin{itemize}
         \item \refTPS: ESTAR $q_t - \mu = (q_{t-1} - \mu)\exp\{-\theta^2(q_{t-1} - \mu)^2\} + \varepsilon_t$
+        \item $\mu$: echilibrul; aproape de el coeficientul AR $\exp\{\cdot\}$ este aproape de 1 (mers aleator), departe de el aproape de 0 (revenire rapidă); $\theta^2$: viteza
     \end{itemize}
     \item PPC (PPP): paritatea puterii de cumpărare
 \end{itemize}
@@ -1192,7 +1352,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{itemize}
     \item Lucrarea: cursurile reale lunare ale lirei sterline, mărcii, francului și yenului față de dolar, 1973M01--1996M12, date FMI IFS, $q(1973M01) = 0$; ESTAR cu $p = d = 1$ și $\beta_1 = -\beta_1^* = 1$ (ec.\ 8) \refTPS
     \begin{itemize}
-        \item dolar--liră: $\hat\theta^2 = 0{,}452$, $\hat\mu = -0{,}149$, $s = 0{,}033$; valoarea $p$ Monte Carlo a lui $\hat\theta$ sub un mers aleator 0,002
+        \item dolar--liră: $\hat\theta^2 = 0{,}452$, $\hat\mu = -0{,}149$, $s = 0{,}033$ (abaterea standard reziduală); p-value-ul Monte Carlo al lui $\hat\theta$ sub un mers aleator: 0,002
         \item timpi de înjumătățire din răspunsuri la impuls generalizate, condiționate de istoria medie: sub un an pentru un șoc de 40\%, puțin sub trei ani pentru 1\%
     \end{itemize}
     \item Replicarea noastră pentru dolar--liră: DEXUSUK la sfîrșit de lună, IPC SUA (CPIAUCNS), IPC britanic (OECD pînă în 1987, apoi ONS); același model, aceeași procedură pentru timpii de înjumătățire; extensie pînă în august 2026
@@ -1215,7 +1375,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{frame}{Interpretarea modelului ESTAR}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item 1973--1996: $\hat\theta^2 = 0{,}527$ (eroarea standard 0{,}219), $\hat\mu = 0{,}106$, $s = 0{,}033$; valoarea $p$ Monte Carlo a raportului $t$ 0{,}165 (lucrarea: 0,002)
+    \item 1973--1996: $\hat\theta^2 = 0{,}527$ (eroarea standard 0{,}219), $\hat\mu = 0{,}106$, $s = 0{,}033$; p-value-ul Monte Carlo al raportului $t$ 0{,}165 (lucrarea: 0,002)
     \begin{itemize}
         \item $\theta^2$ și $s$ sînt apropiate de lucrare; $\mu$ diferă pentru că IPC britanic din lucrare (IFS) nu este seria publicată astăzi
     \end{itemize}
@@ -1247,6 +1407,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{itemize}
     \item \textbf{BDS} \refBDSL: integrala de corelație $C_{m}(\varepsilon)$ a istoriilor de lungime $m$; sub i.i.d.\ $C_m = C_1^m$; se aplică reziduurilor unui model liniar
     \begin{itemize}
+        \item $C_m(\varepsilon)$: proporția perechilor de istorii de lungime $m$, $(y_t, \dots, y_{t+m-1})$, aflate la distanță mai mică decît $\varepsilon$ în fiecare coordonată
         \item putere împotriva oricărei dependențe rămase în reziduuri, inclusiv ARCH: o respingere nu spune ce neliniaritate este
     \end{itemize}
     \item \textbf{Keenan} (valorile ajustate la pătrat) și testul din \refTsa\ (toate produsele $y_{t-i}y_{t-j}$, ortogonalizate): teste $F$ pentru termeni Volterra de ordinul doi
@@ -1267,7 +1428,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Valori $p$; mai închis: respingere mai puternică a liniarității. BDS pe reziduurile AR ($m = 3$, $\varepsilon = \hat\sigma$); LM3 și sup-Wald cu $s = q = y_{t-d}$; sup-Wald cu 200 de replicări bootstrap
+    \item P-value-uri; mai închis: respingere mai puternică a liniarității. BDS pe reziduurile AR ($m = 3$, $\varepsilon = \hat\sigma$); LM3 și sup-Wald cu $s = q = y_{t-d}$; sup-Wald cu 200 de replicări bootstrap
 \end{itemize}
 \quantlet{ATS\_ch2\_nonlinearity\_tests}{\qlurl{ATS_ch2_nonlinearity_tests}}
 \end{frame}
@@ -1278,7 +1439,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
     \item Linxul și șomajul: toate testele specifice resping; neliniaritatea este reală și de tipul cu prag
     \item Randamentele EUR/RON: BDS, Keenan, Tsay și LM3 resping toate cu $p$ $<$\,0{,}001, dar sup-Wald pentru TAR nu ($p$ 0{,}150)
     \begin{itemize}
-        \item volatility clustering și valori extreme, nu o medie condiționată neliniară: testul robust la heteroscedasticitate este cel onest
+        \item volatility clustering și valori extreme, nu o medie condiționată neliniară: testul robust la heteroscedasticitate este cel corect
     \end{itemize}
     \item Creșterea PIB din România: doar BDS și sup-Wald resping ($p$ $<$\,0{,}001): trimestrele din 2009 și 2020 acționează ca un „regim”; un model cu ruptură sau cu valori extreme poate explica aceleași date
 \end{itemize}
@@ -1289,6 +1450,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{itemize}
     \item \refBF: termenul de corecție a erorii $z_t = y_t - \beta x_t$ se ajustează doar în afara unei benzi: $\Delta z_t = \rho\,z_{t-1}\mathbf 1\{|z_{t-1}| > \gamma\} + \varepsilon_t$
     \begin{itemize}
+        \item $y_t, x_t$: două prețuri cointegrate; $\beta$: coeficientul de cointegrare; $\rho < 0$: viteza de ajustare în afara benzii $[-\gamma, \gamma]$
         \item același argument al costurilor de tranzacție ca la ESTAR, pentru o pereche de prețuri: prețul unei mărfuri pe două piețe, transmiterea dobînzilor, legea prețului unic
     \end{itemize}
     \item Ajustare asimetrică (TAR cu momentum) \refES; testul VECM liniar față de VECM cu prag, cu bootstrap \refHS
@@ -1309,6 +1471,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \begin{itemize}
     \item Pentru $h = 1$: $\E(y_{t+1}\mid\mathcal F_t) = F(\mathbf y_t)$; pentru $h \ge 2$: $\E[F(F(\mathbf y_t) + \varepsilon_{t+1}, \dots)] \ne F(F(\mathbf y_t))$ (Jensen)
     \begin{itemize}
+        \item $F$: funcția medie condiționată a modelului; Jensen: media unei funcții neliniare nu este funcția mediei
         \item iterarea scheletului (prognoza „naivă”) este deplasată; simulăm traiectorii cu reziduuri bootstrap și le mediem \refCFS
         \item densitatea predictivă poate fi asimetrică sau bimodală: raportați densități, evaluate cu CRPS sau scorul logaritmic (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
     \end{itemize}
@@ -1401,7 +1564,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Mini studiu de caz: dovezi ESTAR sau schimbări de medie?}
+\begin{frame}{Mini-studiu de caz: dovezi ESTAR sau schimbări de medie?}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.46\textheight,keepaspectratio]{ats_ch2_ai_case.pdf}
@@ -1485,7 +1648,7 @@ LWZ & 2{,}550 & 2{,}082 & 1{,}901 & 2{,}043 & -- & -- \\
 \end{frame}
 
 \begin{frame}{Anexă: valoarea critică 7,35 a LR pentru prag}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Înapoi}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item \refHc: cu un efect de prag care scade, $\mathrm{LR}_T(\gamma_0) \to_d \eta^2\xi$, $\xi = \max_{s}[2W(s) - |s|]$, $W$ o mișcare browniană bilaterală

@@ -78,7 +78,7 @@ window.ATS_DATA.quizzes['spectral-wavelet'] = {
             },
             "ro": {
                 "title": "Lățimea de bandă optimă",
-                "text": "Pentru o fereastră de decalaje cu exponentul caracteristic $q = 2$ (Parzen, pătratic spectral), trunchierea optimă în MSE $M^*$ crește cu mărimea eșantionului ca:",
+                "text": "Pentru o fereastră de laguri cu exponentul caracteristic $q = 2$ (Parzen, pătratic spectral), trunchierea optimă în MSE $M^*$ crește cu mărimea eșantionului ca:",
                 "options": [
                     "$n^{1/5}$",
                     "$n^{1/3}$",
@@ -105,7 +105,7 @@ window.ATS_DATA.quizzes['spectral-wavelet'] = {
             },
             "ro": {
                 "title": "Grade de libertate echivalente",
-                "text": "O estimare Bartlett cu fereastră de decalaje, cu $n = 200$ și $M = 20$ ($\\int k^2 = 2/3$), este aproximativ $f\\chi^2_\\nu/\\nu$, cu $\\nu$ egal cu:",
+                "text": "O estimare Bartlett cu fereastră de laguri, cu $n = 200$ și $M = 20$ ($\\int k^2 = 2/3$), este aproximativ $f\\chi^2_\\nu/\\nu$, cu $\\nu$ egal cu:",
                 "options": [
                     "10",
                     "20",
@@ -275,7 +275,7 @@ window.ATS_DATA.quizzes['spectral-wavelet'] = {
                     "$3\\omega$: $x$ conduce $y$ cu 3 perioade"
                 ],
                 "correctExplanation": "$\\Cov(x_{t+h}, x_{t-3})$ este nenul pentru $h = -3$, deci $f_{xy} \\propto e^{3i\\omega}$: faza $3\\omega$, un avans de $\\phi/\\omega = 3$ perioade pentru $x$.",
-                "incorrectExplanation": "Semnul rezultă din convenția pentru $\\gamma_{xy}$; un decalaj pur dă o fază liniară în $\\omega$, nu nulă sau constantă."
+                "incorrectExplanation": "Semnul rezultă din convenția pentru $\\gamma_{xy}$; o întîrziere pură dă o fază liniară în $\\omega$, nu nulă sau constantă."
             }
         },
         {

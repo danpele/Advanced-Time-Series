@@ -318,32 +318,47 @@ Canadian lynx trappings, 1821--1934 & R data set read by statsmodels & SETAR \\
 \begin{itemize}
     \item Linear model $y_t = x_t'\beta_t + u_t$, $t = 1, \dots, T$; stability means $H_0$: $\beta_t = \beta$ for all $t$
     \begin{itemize}
-        \item one break at $T_1 = [\pi T]$: $\beta_t = \beta_1$ for $t \le T_1$ and $\beta_t = \beta_2$ after; $\pi \in (0, 1)$ is the \textbf{break fraction}
+        \item $x_t$: the $k \times 1$ vector of regressors; $\beta_t$: the coefficients at date $t$; $u_t$: the error
+        \item one break at $T_1 = [\pi T]$ ($[\cdot]$: the integer part): $\beta_t = \beta_1$ for $t \le T_1$ and $\beta_t = \beta_2$ after; $\pi \in (0, 1)$ is the \textbf{break fraction}
         \item $m$ breaks $T_1 < \dots < T_m$ split the sample into $m + 1$ regimes
     \end{itemize}
     \item Kinds of change
     \begin{itemize}
         \item \textbf{pure} change (all coefficients) or \textbf{partial} change ($y_t = x_t'\beta + z_t'\delta_j + u_t$: only $\delta$ moves)
+        \item $z_t$: the regressors whose coefficients change; $\delta_j$: their value in regime $j$; $\beta$: the coefficients common to all regimes
         \item in the mean, in the dynamics, in the variance; abrupt or gradual (random-walk coefficients, \refSW)
     \end{itemize}
     \item In \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter3_unit_roots_arima_models.pdf}{TSA, Chapter 3} a break was a nuisance for unit-root tests; here the break is the object of inference
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The Chow test}
+\begin{frame}{The Chow test (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Known date $T_1$, $k$ regressors, i.i.d.\ Normal errors; SSR of the pooled fit $S_0$, of the two sub-samples $S_1$, $S_2$ \refChow
+    \item Known date $T_1$, $k$ regressors, i.i.d.\ Normal errors \refChow
+    \begin{itemize}
+        \item SSR: the sum of squared residuals; $S_0$: of the pooled regression on all $T$ observations; $S_1$, $S_2$: of the regressions before and after $T_1$
+    \end{itemize}
+    \item The test: how much the fit improves when each sub-sample has its own coefficients
     \begin{itemize}
         \item $F = \dfrac{(S_0 - S_1 - S_2)/k}{(S_1 + S_2)/(T - 2k)} \sim F(k, T - 2k)$ under $H_0$
-        \item equivalent to the $F$ test of $\delta = 0$ in $y_t = x_t'\beta + (x_t \mathbf 1\{t > T_1\})'\delta + u_t$
+        \item $S_0 - S_1 - S_2 \ge 0$: the reduction of the SSR, per extra coefficient; a large $F$ is evidence of a break
+        \item equivalent to the $F$ test of $\delta = 0$ in $y_t = x_t'\beta + (x_t \mathbf 1\{t > T_1\})'\delta + u_t$; $\delta$: the change of the coefficients after $T_1$
     \end{itemize}
-    \item Robust version: the Wald statistic $W_T(T_1) = \hat\delta'\hat V_\delta^{-1}\hat\delta$ with a heteroskedasticity- or HAC-robust $\hat V_\delta$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}), asymptotically $\chi^2(k)$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The Chow test (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Robust version: the Wald statistic $W_T(T_1) = \hat\delta'\hat V_\delta^{-1}\hat\delta$, asymptotically $\chi^2(k)$
     \begin{itemize}
+        \item $\hat V_\delta$: a heteroskedasticity- or HAC-robust covariance matrix of $\hat\delta$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0})
         \item the classical $F$ also assumes equal variances in the two regimes
     \end{itemize}
-    \item \textbf{Predictive} Chow test when $T - T_1 < k$: $F = \dfrac{(S_0 - S_1)/(T - T_1)}{S_1/(T_1 - k)}$
+    \item \textbf{Predictive} Chow test when $T - T_1 < k$ (too few observations after the break to estimate the model):
     \begin{itemize}
+        \item $F = \dfrac{(S_0 - S_1)/(T - T_1)}{S_1/(T_1 - k)}$
         \item it asks whether the model estimated up to $T_1$ forecasts the last observations; the ancestor of forecast-breakdown tests (Section 7)
     \end{itemize}
 \end{itemize}
@@ -403,19 +418,32 @@ Canadian lynx trappings, 1821--1934 & R data set read by statsmodels & SETAR \\
 \section{One break at an unknown date}
 %=============================================================================
 
-\begin{frame}{The sup-Wald test of Andrews (1993)}
+\begin{frame}{The sup-Wald test of Andrews (1993) (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Compute $W_T(\pi)$ for every $\pi \in \Pi = [\pi_0, 1 - \pi_0]$ and take $\sup_{\pi \in \Pi} W_T(\pi)$ \refAnd; \refQua\ used the LR version
+    \item Compute the Chow--Wald statistic $W_T(\pi)$ at every candidate break fraction and take the largest \refAnd
     \begin{itemize}
-        \item LM, Wald and LR versions share the same limit; $\pi_0 = 0.15$ is the usual \textbf{trimming}
+        \item $\sup_{\pi \in \Pi} W_T(\pi)$, $\quad \Pi = [\pi_0, 1 - \pi_0]$
+        \item $\Pi$: the candidate fractions; $\pi_0$: the \textbf{trimming}, usually 0.15, so that each regime has at least 15\% of the sample
+        \item LM, Wald and LR versions share the same limit; \refQua\ used the LR version
     \end{itemize}
     \item \textbf{Theorem} \refAnd: under $H_0$ and regularity conditions (stationary, mixing regressors)
     \begin{itemize}
-        \item $W_T(\cdot) \Rightarrow Q_p(\pi) = \dfrac{\|B_p(\pi) - \pi B_p(1)\|^2}{\pi(1 - \pi)}$, $B_p$ a $p$-dimensional Brownian motion
-        \item $\sup W_T \to_d \sup_{\pi \in \Pi} Q_p(\pi)$: a squared, standardised Brownian bridge (derivation in the \atsapplink{atsapp1}{atssrc1}{Appendix})
+        \item $W_T(\cdot) \Rightarrow Q_p(\pi) = \dfrac{\|B_p(\pi) - \pi B_p(1)\|^2}{\pi(1 - \pi)}$
+        \item $\Rightarrow$: convergence of the whole process in $\pi$; $B_p$: a $p$-dimensional standard Brownian motion; $p$: the number of coefficients allowed to break
+        \item $B_p(\pi) - \pi B_p(1)$ is a Brownian bridge; $\pi(1 - \pi)$ is its variance: $Q_p(\pi)$ is a squared, standardised bridge (\atsapplink{atsapp1}{atssrc1}{Appendix})
     \end{itemize}
-    \item Why trimming: at fixed $\pi$, $Q_p(\pi) \sim \chi^2(p)$, but $\sup_{\pi \in (0,1)} Q_p(\pi) = \infty$ almost surely (law of the iterated logarithm)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The sup-Wald test of Andrews (1993) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Limit: $\sup W_T \to_d \sup_{\pi \in \Pi} Q_p(\pi)$
+    \begin{itemize}
+        \item at a fixed $\pi$, $Q_p(\pi) \sim \chi^2(p)$; the supremum over many $\pi$ is much larger
+    \end{itemize}
+    \item Why trimming: $\sup_{\pi \in (0,1)} Q_p(\pi) = \infty$ almost surely (law of the iterated logarithm)
     \begin{itemize}
         \item critical values depend on $p$ and $\pi_0$; here simulated: $p = 1$: 7.11 (10\%), 8.65 (5\%), 12.17 (1\%)
     \end{itemize}
@@ -427,6 +455,7 @@ Canadian lynx trappings, 1821--1934 & R data set read by statsmodels & SETAR \\
 \begin{itemize}
     \item The supremum is not the only functional; averaging is optimal against alternatives close to $H_0$ \refAP
     \begin{itemize}
+        \item $|\Pi| = 1 - 2\pi_0$: the length of the set of candidate fractions; both statistics average over it
         \item $\mathrm{expW} = \ln\Big(\dfrac{1}{|\Pi|}\displaystyle\int_\Pi \exp\big(\tfrac12 W_T(\pi)\big)d\pi\Big)$: weighted average power, for medium and large breaks
         \item $\mathrm{aveW} = \dfrac{1}{|\Pi|}\displaystyle\int_\Pi W_T(\pi)\,d\pi$: optimal for very small breaks, close to the Nyblom test of random-walk coefficients
     \end{itemize}
@@ -438,15 +467,33 @@ Canadian lynx trappings, 1821--1934 & R data set read by statsmodels & SETAR \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Estimating the break date}
+\begin{frame}{Estimating the break date (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Least squares: $\hat T_1 = \arg\min_{T_1} [S_1(T_1) + S_2(T_1)]$, equivalently $\arg\max$ of the Wald statistic under homoskedasticity
+    \item Least squares: choose the date that minimises the total SSR of the two regimes
     \begin{itemize}
-        \item for a fixed break size, $\hat T_1 - T_1 = O_p(1)$: the \textbf{date} is estimated with an error that does not grow with $T$, the fraction at rate $T$ \refBai
+        \item $\hat T_1 = \arg\min_{T_1} [S_1(T_1) + S_2(T_1)]$
+        \item $S_1(T_1)$, $S_2(T_1)$: the SSR before and after a candidate date $T_1$; equivalently the date of the largest Wald statistic under homoskedasticity
+    \end{itemize}
+    \item Precision \refBai
+    \begin{itemize}
+        \item for a fixed break size, $\hat T_1 - T_1 = O_p(1)$: the \textbf{date} error is bounded in probability and does not grow with $T$
+        \item so the fraction $\hat\pi = \hat T_1/T$ converges at rate $T$, faster than the usual $\sqrt T$
         \item the regime coefficients are $\sqrt T$-consistent and asymptotically Normal as if the date were known
     \end{itemize}
-    \item Confidence interval for the date: with a shrinking break $\Delta_T \to 0$, $\Delta_T^2\sigma^{-2}(\hat T_1 - T_1) \to_d \arg\max_s Z(s)$, $Z(s) = W(s) - |s|/2$ (two-sided Brownian motion) \refBai
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimating the break date (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Confidence interval for the date \refBai: with a shrinking break $\Delta_T \to 0$
+    \begin{itemize}
+        \item $\Delta_T^2\sigma^{-2}(\hat T_1 - T_1) \to_d \arg\max_s Z(s)$, $\quad Z(s) = W(s) - |s|/2$
+        \item $\Delta_T$: the size of the change in the mean; $\sigma^2$: the error variance; $W(s)$: a two-sided Brownian motion, $s \in \mathbb R$
+        \item the interval is the date $\pm$ quantiles of $\arg\max Z$, rescaled by $\sigma^2/\hat\Delta^2$
+    \end{itemize}
+    \item Reading
     \begin{itemize}
         \item large breaks, small noise: a short interval; the interval is asymmetric when variances differ across regimes
     \end{itemize}
@@ -466,6 +513,7 @@ Canadian lynx trappings, 1821--1934 & R data set read by statsmodels & SETAR \\
 \begin{itemize}
     \item The paper: US real GDP growth, 1953Q2--1999Q2; AR(1) for the conditional mean; then a break in the mean of $\sqrt{\pi/2}\,|\hat e_t|$, an unbiased estimate of the standard deviation under Normality \refMPQ
     \begin{itemize}
+        \item $\hat e_t$: the AR(1) residual; here $\pi = 3.14\ldots$; if $e_t \sim N(0, \sigma^2)$, $\E|e_t| = \sigma\sqrt{2/\pi}$, hence the factor
         \item tests: sup-, exp-, ave-Wald \refAnd, \refAP; their result: a variance break in 1984Q1, the ``Great Moderation''
     \end{itemize}
     \item Our replication: the same two steps on FRED GDPC1 (today's vintage), robust Wald statistics, simulated $p$-values; then the sample extended to 2026
@@ -522,6 +570,7 @@ Canadian lynx trappings, 1821--1934 & R data set read by statsmodels & SETAR \\
 \begin{itemize}
     \item $y_t = x_t'\beta + z_t'\delta_j + u_t$, $t = T_{j-1} + 1, \dots, T_j$, $j = 1, \dots, m + 1$, with $T_0 = 0$, $T_{m+1} = T$ \refBPa
     \begin{itemize}
+        \item $T_1 < \dots < T_m$: the break dates; $\delta_j$: the coefficients of $z_t$ in regime $j$; $\beta$: those of $x_t$, common to all regimes
         \item pure change: no $x_t$; mean-shift model: $z_t = 1$
         \item minimum segment length $h = [\varepsilon T]$, usually $\varepsilon = 0.15$; errors may be autocorrelated and heteroskedastic across regimes
     \end{itemize}
@@ -540,6 +589,7 @@ Canadian lynx trappings, 1821--1934 & R data set read by statsmodels & SETAR \\
     \item Step 2: Bellman recursion for the best $r$-break partition of the first $n$ observations
     \begin{itemize}
         \item $\mathrm{SSR}(\{T_{r,n}\}) = \min_{rh \le j \le n - h}\big[\mathrm{SSR}(\{T_{r-1,j}\}) + \mathrm{SSR}(j + 1, n)\big]$
+        \item $\{T_{r,n}\}$: the best partition of observations $1, \dots, n$ with $r$ breaks; $j$: the date of its last break; $h$: the minimum segment length
         \item the optimal $m$-break partition contains optimal partitions of its prefixes (Bellman's principle)
     \end{itemize}
     \item One pass gives the optimal partitions for every $m \le M$: the input of all tests and criteria
@@ -549,20 +599,35 @@ Canadian lynx trappings, 1821--1934 & R data set read by statsmodels & SETAR \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testing and selecting the number of breaks}
+\begin{frame}{Testing and selecting the number of breaks (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item $\sup F_T(k)$: no break against exactly $k$ breaks, at the SSR-optimal partition, with robust variance \refBPa
     \begin{itemize}
-        \item \textbf{UDmax} $= \max_{k \le M}\sup F_T(k)$; \textbf{WDmax} weights each $k$ by the ratio of critical values: no break against an unknown number
+        \item $M$: the largest number of breaks considered (here 5)
+        \item \textbf{UDmax} $= \max_{k \le M}\sup F_T(k)$: no break against an unknown number of breaks, up to $M$
+        \item \textbf{WDmax}: the same, with each $k$ weighted by the ratio of critical values
     \end{itemize}
-    \item \textbf{Sequential} $\sup F_T(\ell + 1 \mid \ell)$: for each of the $\ell + 1$ segments, the largest single-break statistic; add a break while it rejects
+    \item \textbf{Sequential} $\sup F_T(\ell + 1 \mid \ell)$: $\ell$ breaks against $\ell + 1$
     \begin{itemize}
+        \item for each of the $\ell + 1$ segments, the largest single-break statistic; add a break while it rejects
         \item recommended strategy \refBPb: UDmax or WDmax first, then the sequential tests
     \end{itemize}
-    \item Information criteria: $\mathrm{BIC}(m) = \ln(\mathrm{SSR}_m/T) + p^*\ln T/T$; \textbf{LWZ}: $\ln\frac{\mathrm{SSR}_m}{T - p^*} + p^*\frac{0.299}{T}(\ln T)^{2.1}$ \refLWZ
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testing and selecting the number of breaks (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Information criteria: pick the $m$ with the smallest value
     \begin{itemize}
-        \item $p^*$ counts coefficients and break dates; BIC picks too many breaks under serial correlation, LWZ too few with small breaks
+        \item $\mathrm{BIC}(m) = \ln(\mathrm{SSR}_m/T) + p^*\ln T/T$
+        \item \textbf{LWZ}: $\ln\frac{\mathrm{SSR}_m}{T - p^*} + p^*\frac{0.299}{T}(\ln T)^{2.1}$ \refLWZ
+        \item $\mathrm{SSR}_m$: the SSR of the best $m$-break partition; $p^*$: the number of coefficients and break dates; the second term penalises extra breaks
+    \end{itemize}
+    \item Known weaknesses
+    \begin{itemize}
+        \item BIC picks too many breaks under serial correlation, LWZ too few with small breaks
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -660,6 +725,7 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \begin{itemize}
     \item Penalised segmentation: minimise $\sum_j \mathrm{cost}(\text{segment } j) + \beta\,m$ over partitions
     \begin{itemize}
+        \item $\mathrm{cost}$: e.g.\ the SSR or minus the log-likelihood of a segment; $\beta > 0$: the penalty per break; $m$: the number of breaks
         \item PELT prunes the Bellman recursion to $O(T)$ under mild conditions \refKFE; binary segmentation and wild binary segmentation \refFry\ scale to long series
         \item the Python package \texttt{ruptures} implements them \refTOV; the BIC of Bai--Perron is a particular penalty
     \end{itemize}
@@ -686,13 +752,29 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \section{Fluctuation tests and real-time monitoring}
 %=============================================================================
 
-\begin{frame}{CUSUM and MOSUM tests}
+\begin{frame}{CUSUM and MOSUM tests (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Recursive residuals $w_t = (y_t - x_t'\hat\beta_{t-1})/\sqrt{1 + x_t'(X_{t-1}'X_{t-1})^{-1}x_t}$ are i.i.d.\ $N(0, \sigma^2)$ under $H_0$ with Normal errors \refBDE
+    \item Recursive residuals \refBDE: the standardised one-step forecast error of the model estimated up to $t - 1$
     \begin{itemize}
-        \item CUSUM $W_r = \hat\sigma^{-1}\sum_{t = k+1}^{r} w_t$ behaves like a Brownian motion; 5\% boundary $\pm 0.948[\sqrt{T - k} + 2(r - k)/\sqrt{T - k}]$
-        \item detects changes in the intercept and a systematic drift of forecast errors; weak against changes that average out
+        \item $w_t = (y_t - x_t'\hat\beta_{t-1})/\sqrt{1 + x_t'(X_{t-1}'X_{t-1})^{-1}x_t}$
+        \item $\hat\beta_{t-1}$: OLS on observations $1, \dots, t - 1$; $X_{t-1}$: the matrix of their regressors; the root rescales for estimation uncertainty
+        \item under $H_0$ with Normal errors, $w_t$ are i.i.d.\ $N(0, \sigma^2)$
+    \end{itemize}
+    \item CUSUM: the cumulated standardised recursive residuals
+    \begin{itemize}
+        \item $W_r = \hat\sigma^{-1}\sum_{t = k+1}^{r} w_t$, 5\% boundary $\pm 0.948[\sqrt{T - k} + 2(r - k)/\sqrt{T - k}]$
+        \item $k$: the number of regressors (the first $k$ observations start the recursion); $W_r$ behaves like a Brownian motion; a crossing signals a break
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{CUSUM and MOSUM tests (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item What CUSUM detects
+    \begin{itemize}
+        \item changes in the intercept and a systematic drift of forecast errors; weak against changes that average out
     \end{itemize}
     \item OLS-CUSUM uses ordinary residuals: a Brownian bridge limit \refPK; MOSUM sums over a moving window of fixed width \refCHK
     \begin{itemize}
@@ -702,16 +784,28 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Monitoring: why repeated tests fail}
+\begin{frame}{Monitoring: why repeated tests fail (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item A central bank estimates a model on $m$ historical observations and asks, at every new release, ``has it broken down?''
     \begin{itemize}
         \item a 5\% test repeated at $n = m + 1, m + 2, \dots$ rejects a true $H_0$ eventually with probability 1: the law of the iterated logarithm
     \end{itemize}
-    \item \refCSW: monitor $Q_n = \hat\sigma^{-1}\sum_{t = m+1}^{n} w_t$ and stop the first time $|Q_n| > \sqrt{n\,[a^2 + \ln(n/m)]}$
+    \item \refCSW: monitor the CUSUM of the new recursive residuals and stop the first time it crosses a widening boundary
     \begin{itemize}
-        \item the boundary comes from \refRS: $P\{\exists u \ge 1: |W(u) - W(1)| \ge \sqrt{u(a^2 + \ln u)}\} = 2[1 - \Phi(a) + a\varphi(a)]$
+        \item $Q_n = \hat\sigma^{-1}\sum_{t = m+1}^{n} w_t$, $\quad$ alarm if $|Q_n| > \sqrt{n\,[a^2 + \ln(n/m)]}$
+        \item $n$: the current sample size; $a$: a constant chosen to fix the false-alarm probability; the $\ln(n/m)$ term widens the boundary as time passes
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Monitoring: why repeated tests fail (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item The boundary comes from \refRS:
+    \begin{itemize}
+        \item $P\{\exists u \ge 1: |W(u) - W(1)| \ge \sqrt{u(a^2 + \ln u)}\} = 2[1 - \Phi(a) + a\varphi(a)]$
+        \item $W$: a standard Brownian motion; $u = n/m$; $\Phi$, $\varphi$: the standard Normal distribution and density functions
         \item $a^2 = 7.78$: size 5.1\% over an \emph{infinite} horizon; $a^2 = 6.25$: 10.0\%
     \end{itemize}
     \item Forecast-based monitoring: forecast breakdowns \refGRa\ and the fluctuation test of relative accuracy \refGRb\ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
@@ -760,19 +854,33 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \section{Breaks in variance}
 %=============================================================================
 
-\begin{frame}{The ICSS algorithm and its correction}
+\begin{frame}{The ICSS algorithm and its correction (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refIT: $C_k = \sum_{t \le k} a_t^2$, $D_k = C_k/C_T - k/T$; $\mathrm{IT} = \sqrt{T/2}\max_k|D_k| \Rightarrow \sup|B^0(r)|$, 5\% value 1.358
+    \item \refIT: compare the cumulated sum of squares with a straight line
     \begin{itemize}
-        \item ICSS: apply the test iteratively to sub-segments (binary segmentation), then re-check each break between its neighbours
+        \item $C_k = \sum_{t \le k} a_t^2$, $\quad D_k = C_k/C_T - k/T$, $\quad \mathrm{IT} = \sqrt{T/2}\max_k|D_k| \Rightarrow \sup|B^0(r)|$
+        \item $a_t$: the demeaned returns; $C_k/C_T$: the share of the total sum of squares reached at $k$; with a constant variance it grows like $k/T$
+        \item $B^0$: a Brownian bridge on $[0,1]$; 5\% critical value 1.358; the date is the $k$ of the largest $|D_k|$
     \end{itemize}
+    \item ICSS (iterated cumulative sums of squares)
+    \begin{itemize}
+        \item apply the test iteratively to sub-segments (binary segmentation), then re-check each break between its neighbours
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The ICSS algorithm and its correction (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item The factor $\sqrt{T/2}$ assumes $\Var(a_t^2) = 2\sigma^4$: i.i.d.\ Normal data
     \begin{itemize}
-        \item with kurtosis $\kappa$ the statistic is inflated by $\sqrt{(\kappa - 1)/2}$; with GARCH, $a_t^2$ is also autocorrelated
+        \item with kurtosis $\kappa = \E a_t^4/\sigma^4$ the statistic is inflated by $\sqrt{(\kappa - 1)/2}$; with GARCH, $a_t^2$ is also autocorrelated
     \end{itemize}
-    \item $\kappa_2$ of \refSAC: $\max_k|C_k - (k/T)C_T|/\sqrt{T\hat\omega_4}$, $\hat\omega_4$ the long-run variance of $a_t^2 - \hat\sigma^2$ (Bartlett)
+    \item $\kappa_2$ of \refSAC: the same CUSUM, scaled by a long-run variance
     \begin{itemize}
+        \item $\kappa_2 = \max_k|C_k - (k/T)C_T|/\sqrt{T\hat\omega_4}$
+        \item $\hat\omega_4$: the long-run variance of $a_t^2 - \hat\sigma^2$ (Bartlett kernel, \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0})
         \item same limit, valid under fat tails and conditional heteroskedasticity
     \end{itemize}
 \end{itemize}
@@ -886,6 +994,7 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
     \item Mean shift $\delta$ after $n_1$ pre-break observations, $n_2$ post-break; forecast with the last $w \ge n_2$ observations \refPT
     \begin{itemize}
         \item $\mathrm{MSFE}(w) = \sigma^2\big(1 + \tfrac1w\big) + \Big(\dfrac{(w - n_2)\delta}{w}\Big)^2$: variance falls with $w$, squared bias grows
+        \item MSFE: the mean squared forecast error of the sample mean over the window; $\sigma^2$: the noise variance; $(w - n_2)/w$: the share of pre-break data in the window
         \item the optimal window includes \emph{some} pre-break data when $\delta/\sigma$ is small or $n_2$ short (Seminar 2, A8)
     \end{itemize}
     \item Feasible rules: estimate the date (Bai--Perron) and use the post-break sample; cross-validate $w$ \refPT; average forecasts across windows (AveW) \refPP
@@ -960,15 +1069,30 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \end{columns}
 \end{frame}
 
-\begin{frame}{Threshold and self-exciting threshold autoregression}
+\begin{frame}{Threshold and self-exciting threshold autoregression (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Two-regime \textbf{TAR}: $y_t = (\phi_{1,0} + \phi_1'\mathbf y_{t-1})\mathbf 1\{q_{t-1} \le \gamma\} + (\phi_{2,0} + \phi_2'\mathbf y_{t-1})\mathbf 1\{q_{t-1} > \gamma\} + \varepsilon_t$
+    \item Two-regime \textbf{TAR}: an AR model whose coefficients depend on whether $q_{t-1}$ is below or above the threshold $\gamma$
     \begin{itemize}
-        \item $\mathbf y_{t-1} = (y_{t-1}, \dots, y_{t-p})'$, threshold variable $q_{t-1}$, threshold $\gamma$; variances may differ across regimes
-        \item \textbf{SETAR}: $q_{t-1} = y_{t-d}$, the series itself with \textbf{delay} $d$; notation SETAR$(k; p_1, \dots, p_k)$ \refTL
+        \item $y_t = (\phi_{1,0} + \phi_1'\mathbf y_{t-1})\mathbf 1\{q_{t-1} \le \gamma\} + (\phi_{2,0} + \phi_2'\mathbf y_{t-1})\mathbf 1\{q_{t-1} > \gamma\} + \varepsilon_t$
+        \item $\mathbf y_{t-1} = (y_{t-1}, \dots, y_{t-p})'$: the last $p$ values; $\phi_{j,0}$, $\phi_j$: the intercept and AR coefficients of regime $j$
+        \item $q_{t-1}$: the observed threshold variable; $\gamma$: the threshold; $\mathbf 1\{\cdot\}$ selects the regime; variances may differ across regimes
     \end{itemize}
-    \item Dynamics: the \textbf{skeleton} $y_t = F(\mathbf y_{t-1})$ (noise switched off) can converge to a point, a limit cycle or a chaotic attractor
+    \item \textbf{SETAR} (self-exciting): $q_{t-1} = y_{t-d}$, the series itself with the \textbf{delay} lag $d$
+    \begin{itemize}
+        \item notation SETAR$(k; p_1, \dots, p_k)$: $k$ regimes with AR orders $p_1, \dots, p_k$ \refTL
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Threshold and self-exciting threshold autoregression (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Dynamics: the \textbf{skeleton} $y_t = F(\mathbf y_{t-1})$, the model with the noise switched off
+    \begin{itemize}
+        \item $F$: the regime-dependent conditional mean; the skeleton can converge to a point, a limit cycle or a chaotic attractor
+    \end{itemize}
+    \item Stationarity is a property of the whole model, not of each regime
     \begin{itemize}
         \item SETAR(2; 1, 1) is ergodic iff $\phi_1 < 1$, $\phi_2 < 1$ and $\phi_1\phi_2 < 1$: a regime may be explosive on its own (Seminar 2, A5)
     \end{itemize}
@@ -976,20 +1100,36 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Estimation and inference}
+\begin{frame}{Estimation and inference (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Concentrated least squares: for each $\gamma$ (and $d$) run OLS in both regimes; $\hat\gamma = \arg\min_\gamma S_T(\gamma)$ over the central 70\% of the values of $q$
+    \item Concentrated least squares: for each candidate $\gamma$ (and $d$) run OLS in both regimes
     \begin{itemize}
+        \item $\hat\gamma = \arg\min_\gamma S_T(\gamma)$
+        \item $S_T(\gamma)$: the total SSR given $\gamma$; the search runs over the central 70\% of the observed values of $q$
         \item $\hat\gamma$ is super-consistent, $T(\hat\gamma - \gamma) = O_p(1)$, with a nonstandard limit \refChan; the slopes are asymptotically Normal as if $\gamma$ were known
     \end{itemize}
-    \item Testing linearity: $\gamma$ is not identified under $H_0$: $\phi_1 = \phi_2$ (the Davies problem again) \refHa
+    \item Testing linearity, $H_0$: $\phi_1 = \phi_2$: $\gamma$ is not identified under $H_0$ (the Davies problem again) \refHa
     \begin{itemize}
-        \item $\sup_\gamma W_T(\gamma)$ has a limit that depends on the data; \textbf{fixed-regressor bootstrap}: $y_t^* = \hat e_t\eta_t$, $\eta_t \sim N(0, 1)$, same regressors, recompute $\sup W^*$
+        \item $\sup_\gamma W_T(\gamma)$, with $W_T(\gamma)$ the Wald statistic of $\phi_1 = \phi_2$ at threshold $\gamma$, has a limit that depends on the data
+        \item \textbf{fixed-regressor bootstrap}: $y_t^* = \hat e_t\eta_t$, $\eta_t \sim N(0, 1)$, same regressors, recompute $\sup W^*$; $\hat e_t$: the residuals
     \end{itemize}
-    \item Confidence set for the threshold \refHc: invert $\mathrm{LR}_T(\gamma) = T\,\dfrac{S_T(\gamma) - S_T(\hat\gamma)}{S_T(\hat\gamma)}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimation and inference (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Confidence set for the threshold \refHc: all $\gamma$ with a small likelihood ratio
     \begin{itemize}
-        \item limit $\xi = \max_s[2W(s) - |s|]$, $P(\xi \le x) = (1 - e^{-x/2})^2$; 95\% value $-2\ln(1 - \sqrt{0.95}) = 7.35$; divide LR by $\hat\eta^2$ under heteroskedasticity
+        \item $\mathrm{LR}_T(\gamma) = T\,\dfrac{S_T(\gamma) - S_T(\hat\gamma)}{S_T(\hat\gamma)}$
+        \item the relative increase of the SSR when the threshold is moved from $\hat\gamma$ to $\gamma$
+    \end{itemize}
+    \item Limit distribution and critical value
+    \begin{itemize}
+        \item $\xi = \max_s[2W(s) - |s|]$, $W$ a two-sided Brownian motion; $P(\xi \le x) = (1 - e^{-x/2})^2$
+        \item 95\% value $-2\ln(1 - \sqrt{0.95}) = 7.35$: the 95\% set is $\{\gamma: \mathrm{LR}_T(\gamma) \le 7.35\}$
+        \item under heteroskedasticity divide LR by $\hat\eta^2$, a variance-ratio correction estimated from the residuals (\atsapplink{atsapp2}{atssrc2}{Appendix})
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1038,7 +1178,7 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \begin{itemize}
     \item The paper, Section 5: unemployment rate of men aged 20 and over (unemployed / labour force), monthly 1959.1--1996.7; $\Delta y_t$ on a constant and 12 lags \refHb
     \begin{itemize}
-        \item threshold variable $q_{t-1} = y_{t-1} - y_{t-d}$, $d = 2, \dots, 12$: the recent trend of unemployment; trimming 15\%
+        \item $y_t$: the unemployment rate in \%; threshold variable $q_{t-1} = y_{t-1} - y_{t-d}$, $d = 2, \dots, 12$: the change over the last $d - 1$ months; trimming 15\%
         \item robust sup-Wald test, bootstrap $p$-values (1000 replications); the LS estimate $\hat d = 12$, $\hat\gamma = 0.302$, 95\% interval [0.213; 0.340], 314 and 124 observations
     \end{itemize}
     \item Our replication: the same construction from the BLS series on FRED (today's seasonal adjustment), the same model, $d = 12$
@@ -1088,17 +1228,33 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \section{Smooth transition autoregression}
 %=============================================================================
 
-\begin{frame}{STAR models}
+\begin{frame}{STAR models (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $y_t = \phi_1'\mathbf x_t[1 - G(s_t; \gamma, c)] + \phi_2'\mathbf x_t G(s_t; \gamma, c) + \varepsilon_t$, $\mathbf x_t = (1, y_{t-1}, \dots, y_{t-p})'$, $0 \le G \le 1$ \refTer
+    \item A weighted average of two AR regimes, with a weight $G$ that moves smoothly between 0 and 1 \refTer
     \begin{itemize}
-        \item \textbf{LSTAR}: $G = [1 + \exp\{-\gamma(s_t - c)/\hat\sigma_s\}]^{-1}$: low and high values of $s_t$; $\gamma \to \infty$ gives the TAR, $\gamma \to 0$ the linear AR
-        \item \textbf{ESTAR}: $G = 1 - \exp\{-\gamma(s_t - c)^2\}$: small and large \emph{deviations} from $c$, symmetric
+        \item $y_t = \phi_1'\mathbf x_t[1 - G(s_t; \gamma, c)] + \phi_2'\mathbf x_t G(s_t; \gamma, c) + \varepsilon_t$, $\quad \mathbf x_t = (1, y_{t-1}, \dots, y_{t-p})'$
+        \item $s_t$: the transition variable (e.g.\ a lag of $y_t$); $c$: the location of the transition; $\gamma > 0$: its speed
+        \item $G = 0$: regime 1 with coefficients $\phi_1$; $G = 1$: regime 2 with $\phi_2$; in between, a mixture
     \end{itemize}
-    \item A continuum of regimes: smooth aggregation of many agents with different thresholds, or time aggregation, produces smooth switching
+    \item A continuum of regimes
     \begin{itemize}
-        \item dividing by $\hat\sigma_s$ makes $\gamma$ scale free and easier to estimate
+        \item smooth aggregation of many agents with different thresholds, or time aggregation, produces smooth switching
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{STAR models (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{LSTAR} (logistic): low against high values of $s_t$
+    \begin{itemize}
+        \item $G = [1 + \exp\{-\gamma(s_t - c)/\hat\sigma_s\}]^{-1}$
+        \item $\gamma \to \infty$ gives the TAR, $\gamma \to 0$ the linear AR; $\hat\sigma_s$: the standard deviation of $s_t$, which makes $\gamma$ scale free and easier to estimate
+    \end{itemize}
+    \item \textbf{ESTAR} (exponential): small against large \emph{deviations} from $c$, symmetric
+    \begin{itemize}
+        \item $G = 1 - \exp\{-\gamma(s_t - c)^2\}$
     \end{itemize}
     \item Survey with the modelling cycle (specification, estimation, evaluation): \refVDTF
 \end{itemize}
@@ -1109,7 +1265,8 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \begin{itemize}
     \item Under $H_0$: $\gamma = 0$, the parameters $c$ and $\phi_2$ are not identified: replace $G$ by a third-order Taylor expansion around $\gamma = 0$ \refLST
     \begin{itemize}
-        \item auxiliary regression $\hat\varepsilon_t = \beta_0'\mathbf x_t + \beta_1'\tilde{\mathbf x}_t s_t + \beta_2'\tilde{\mathbf x}_t s_t^2 + \beta_3'\tilde{\mathbf x}_t s_t^3 + v_t$, $\tilde{\mathbf x}_t$ without the constant
+        \item auxiliary regression $\hat\varepsilon_t = \beta_0'\mathbf x_t + \beta_1'\tilde{\mathbf x}_t s_t + \beta_2'\tilde{\mathbf x}_t s_t^2 + \beta_3'\tilde{\mathbf x}_t s_t^3 + v_t$
+        \item $\hat\varepsilon_t$: the residuals of the linear AR; $\tilde{\mathbf x}_t$: $\mathbf x_t$ without the constant; $\beta_k$: the coefficients of the interactions with $s_t^k$; $v_t$: the error
         \item LM3: $\beta_1 = \beta_2 = \beta_3 = 0$, an $F$ test with $3p$ restrictions; repeat for each candidate $s_t$ and take the smallest $p$-value
     \end{itemize}
     \item \textbf{Choice of the family} \refTer: test $H_{04}$: $\beta_3 = 0$, then $H_{03}$: $\beta_2 = 0 \mid \beta_3 = 0$, then $H_{02}$: $\beta_1 = 0 \mid \beta_2 = \beta_3 = 0$
@@ -1125,7 +1282,7 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \begin{itemize}
     \item The paper, Section 7: unadjusted unemployment rate of US men aged 20+, June 1968--December 1999; estimation to 1989, forecasts for 1990--1999 \refVDTF
     \begin{itemize}
-        \item $\Delta y_t$ on a constant, 11 monthly dummies, $y_{t-1}$ and 15 lags of $\Delta y_t$; transition variable $s_t = \Delta_{12}y_{t-d}$, $d = 1, \dots, 6$
+        \item $\Delta y_t$ on a constant, 11 monthly dummies, $y_{t-1}$ and 15 lags of $\Delta y_t$; transition variable $s_t = \Delta_{12}y_{t-d}$ (the 12-month change, lagged $d$ months), $d = 1, \dots, 6$
         \item their LSTAR with $d = 1$: $\hat\gamma = 23.15$, $\hat c = 0.27$, residual s.d.\ 0.92 of the AR
     \end{itemize}
     \item Our replication: the same series (BLS via FRED), sample, regressors and transition; the unrestricted lags, without their pruning of insignificant terms
@@ -1174,13 +1331,16 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \end{column}
 \begin{column}{0.64\textwidth}
 \begin{itemize}
-    \item PPP (Cassel, 1918): $q_t = s_t - p_t + p_t^*$ should be stationary; after Bretton Woods ended (1973) unit-root tests rarely reject
+    \item PPP (Cassel, 1918): the real exchange rate $q_t = s_t - p_t + p_t^*$ should be stationary
     \begin{itemize}
+        \item $s_t$: the log nominal rate (domestic per foreign currency); $p_t$, $p_t^*$: log domestic and foreign price levels
+        \item after Bretton Woods ended (1973) unit-root tests rarely reject
         \item first PPP puzzle: no mean reversion; second: half-lives of 3--5 years, too slow for nominal shocks
     \end{itemize}
     \item Transaction costs create a band of inaction: near parity $q_t$ is close to a random walk, far from it arbitrage pulls it back \refMNP
     \begin{itemize}
         \item \refTPS: ESTAR $q_t - \mu = (q_{t-1} - \mu)\exp\{-\theta^2(q_{t-1} - \mu)^2\} + \varepsilon_t$
+        \item $\mu$: the equilibrium; near it the AR coefficient $\exp\{\cdot\}$ is close to 1 (random walk), far from it close to 0 (fast reversion); $\theta^2$: the speed
     \end{itemize}
     \item PPP: purchasing power parity
 \end{itemize}
@@ -1193,7 +1353,7 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \begin{itemize}
     \item The paper: monthly real dollar rates of sterling, mark, franc and yen, 1973M01--1996M12, IMF IFS data, $q(1973M01) = 0$; ESTAR with $p = d = 1$ and $\beta_1 = -\beta_1^* = 1$ (eq.\ 8) \refTPS
     \begin{itemize}
-        \item dollar--sterling: $\hat\theta^2 = 0.452$, $\hat\mu = -0.149$, $s = 0.033$; Monte Carlo $p$-value of $\hat\theta$ under a random walk 0.002
+        \item dollar--sterling: $\hat\theta^2 = 0.452$, $\hat\mu = -0.149$, $s = 0.033$ (residual standard deviation); Monte Carlo $p$-value of $\hat\theta$ under a random walk: 0.002
         \item half-lives from generalised impulse responses conditional on the average history: under one year for a 40\% shock, just under three years for 1\%
     \end{itemize}
     \item Our replication for dollar--sterling: end-of-month DEXUSUK, US CPI (CPIAUCNS), UK CPI (OECD to 1987, then ONS); same model, same half-life procedure; extension to August 2026
@@ -1248,6 +1408,7 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \begin{itemize}
     \item \textbf{BDS} \refBDSL: correlation integral $C_{m}(\varepsilon)$ of $m$-histories; under i.i.d.\ $C_m = C_1^m$; applied to the residuals of a linear model
     \begin{itemize}
+        \item $C_m(\varepsilon)$: the share of pairs of $m$-histories $(y_t, \dots, y_{t+m-1})$ that are within distance $\varepsilon$ in every coordinate
         \item power against any dependence left in the residuals, including ARCH: a rejection does not say which nonlinearity
     \end{itemize}
     \item \textbf{Keenan} (squared fitted values) and the test of \refTsa\ (all cross products $y_{t-i}y_{t-j}$, orthogonalised): $F$ tests of second-order Volterra terms
@@ -1290,6 +1451,7 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \begin{itemize}
     \item \refBF: the error-correction term $z_t = y_t - \beta x_t$ adjusts only outside a band: $\Delta z_t = \rho\,z_{t-1}\mathbf 1\{|z_{t-1}| > \gamma\} + \varepsilon_t$
     \begin{itemize}
+        \item $y_t, x_t$: two cointegrated prices; $\beta$: the cointegrating coefficient; $\rho < 0$: the speed of adjustment outside the band $[-\gamma, \gamma]$
         \item the same transaction-cost argument as ESTAR, for a pair of prices: commodity prices in two markets, interest-rate pass-through, the law of one price
     \end{itemize}
     \item Asymmetric adjustment (momentum TAR) \refES; the test of linear against threshold VECM with a bootstrap \refHS
@@ -1310,6 +1472,7 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \begin{itemize}
     \item For $h = 1$: $\E(y_{t+1}\mid\mathcal F_t) = F(\mathbf y_t)$; for $h \ge 2$: $\E[F(F(\mathbf y_t) + \varepsilon_{t+1}, \dots)] \ne F(F(\mathbf y_t))$ (Jensen)
     \begin{itemize}
+        \item $F$: the conditional mean function of the model; Jensen: the mean of a nonlinear function is not the function of the mean
         \item iterating the skeleton (the ``naive'' forecast) is biased; simulate paths with bootstrapped residuals and average them \refCFS
         \item the predictive density can be skewed or bimodal: report densities, scored by the CRPS or the log score (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
     \end{itemize}
@@ -1486,7 +1649,7 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \end{frame}
 
 \begin{frame}{Appendix: the critical value 7.35 of the threshold LR}
-\hypertarget{atsapp2}{}\atsappback{atssrc1}{Back}
+\hypertarget{atsapp2}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item \refHc: with a shrinking threshold effect, $\mathrm{LR}_T(\gamma_0) \to_d \eta^2\xi$, $\xi = \max_{s}[2W(s) - |s|]$, $W$ a two-sided Brownian motion

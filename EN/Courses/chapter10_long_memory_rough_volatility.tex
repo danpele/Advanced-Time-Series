@@ -108,13 +108,11 @@ MSCA Digital Finance}
     \item \textbf{BSS}: Brownian Semistationary (process)
     \item \textbf{CPI}: Consumer Price Index
     \item \textbf{CPIAUCSL}: Consumer Price Index for All Urban Consumers (FRED series code)
-    \item \textbf{DFA}: Detrended Fluctuation Analysis
+    \item \textbf{DM}: Diebold–Mariano (test)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{DFT}: Discrete Fourier Transform
-    \item \textbf{DM}: Diebold–Mariano (test)
     \item \textbf{ELW}: Exact Local Whittle (estimator)
     \item \textbf{EODHD}: EOD Historical Data (market-data provider)
     \item \textbf{FCVAR}: Fractionally Cointegrated VAR
@@ -126,6 +124,8 @@ MSCA Digital Finance}
     \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity
     \item \textbf{GJR}: Gatheral, Jaisson and Rosenbaum (2018)
     \item \textbf{GMM}: Generalized Method of Moments
+    \item \textbf{GPH}: Geweke–Porter-Hudak (estimator)
+    \item \textbf{HAC}: Heteroskedasticity and Autocorrelation Consistent (standard errors)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -135,8 +135,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{GPH}: Geweke–Porter-Hudak (estimator)
-    \item \textbf{HAC}: Heteroskedasticity and Autocorrelation Consistent (standard errors)
     \item \textbf{HAR}: Heterogeneous AutoRegressive (model)
     \item \textbf{HICP}: Harmonised Index of Consumer Prices
     \item \textbf{HYGARCH}: Hyperbolic GARCH (Davidson)
@@ -144,15 +142,16 @@ MSCA Digital Finance}
     \item \textbf{LMSV}: Long-Memory Stochastic Volatility
     \item \textbf{LR}: Likelihood Ratio (test)
     \item \textbf{LW}: Local Whittle (estimator)
+    \item \textbf{MA}: Moving Average
     \item \textbf{MFM}: Modelling Financial Markets
     \item \textbf{ML}: Machine Learning
     \item \textbf{MSE}: Mean Squared Error
     \item \textbf{NBLS}: Narrow-Band Least Squares
+    \item \textbf{OHLC}: Open, High, Low, Close
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{OHLC}: Open, High, Low, Close
     \item \textbf{OLS}: Ordinary Least Squares
     \item \textbf{OU}: Ornstein–Uhlenbeck (process)
     \item \textbf{QLIKE}: Quasi-LIKElihood loss
@@ -163,8 +162,9 @@ MSCA Digital Finance}
     \item \textbf{SD}: Standard Deviation
     \item \textbf{SE}: Standard Error
     \item \textbf{SV}: Stochastic Volatility
-    \item \textbf{TED}: Technology, Entertainment, Design (conference)
     \item \textbf{TSA}: Time Series Analysis
+    \item \textbf{US}: United States
+    \item \textbf{VAR}: Vector AutoRegression
 \end{itemize}
 \end{column}
 \end{columns}
@@ -174,8 +174,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{US}: United States
-    \item \textbf{VAR}: Vector AutoRegression
     \item \textbf{VECM}: Vector Error Correction Model
     \item \textbf{VIX}: CBOE Volatility IndeX
     \item \textbf{WIG20}: Warszawski Indeks Giełdowy 20 (the Warsaw Stock Exchange index of the 20 largest companies)
@@ -334,35 +332,67 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Two definitions of long memory}
+\begin{frame}{Two definitions of long memory (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Time domain}: $\gamma(k) \sim c_\gamma\,k^{2d-1}$ as $k \to \infty$, $0 < d < 1/2$; then $\sum_k|\gamma(k)| = \infty$
+    \item \textbf{Time domain}: the autocovariances decay hyperbolically and are not summable
+    \[ \gamma(k) \sim c_\gamma\,k^{2d-1} \ \ (k \to \infty), \quad 0 < d < 1/2 \ \Rightarrow\ \sum_k|\gamma(k)| = \infty \]
     \begin{itemize}
-        \item $a_k \sim b_k$ means $a_k/b_k \to 1$; short memory: $\sum_k|\gamma(k)| < \infty$
+        \item $\gamma(k)$: autocovariance at lag $k$; $d$: memory parameter; $c_\gamma > 0$: a constant; $a_k \sim b_k$ means $a_k/b_k \to 1$
+        \item short memory: $\sum_k|\gamma(k)| < \infty$ (e.g.\ ARMA, with geometric decay)
     \end{itemize}
-    \item \textbf{Frequency domain}: $f(\lambda) \sim c_f\,\lambda^{-2d}$ as $\lambda \to 0^+$: a pole at frequency zero
+    \item \textbf{Frequency domain}: the spectral density has a pole at frequency zero
+    \[ f(\lambda) \sim c_f\,\lambda^{-2d} \quad (\lambda \to 0^+) \]
     \begin{itemize}
+        \item $f(\lambda)$: spectral density at frequency $\lambda \in (0, \pi]$; $c_f > 0$: a constant
         \item $d < 0$: antipersistence, $f(0) = 0$, $\sum_k\gamma(k) = 0$; $d = 0$: short memory
     \end{itemize}
-    \item Equivalence: under quasi-monotone $\gamma$, $c_f = c_\gamma\,\Gamma(2d)\sin(\pi/2 - \pi d)/\pi$ (Abelian--Tauberian theorems) \refBFGK
-    \begin{itemize}
-        \item without regularity the two definitions differ; semiparametric estimators use only the frequency-domain one
-    \end{itemize}
-    \item Hurst scale: $H = d + 1/2$ for the stationary series; $H > 1/2$ persistent, $H < 1/2$ antipersistent
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Fractional integration and ARFIMA}
+\begin{frame}{Two definitions of long memory (2/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $(1 - L)^d = \sum_{k\ge0}\pi_k L^k$, $\pi_0 = 1$, $\pi_k = \pi_{k-1}\dfrac{k - 1 - d}{k}$, $\pi_k \sim k^{-d-1}/\Gamma(-d)$ \refGJ, \refHos
-    \item ARFIMA$(p,d,q)$: $\phi(L)(1 - L)^d(X_t - \mu) = \theta(L)\varepsilon_t$; stationary and invertible for $-1/2 < d < 1/2$
+    \item Equivalence: for quasi-monotone $\gamma$ the constants are linked (Abelian--Tauberian theorems) \refBFGK
+    \[ c_f = c_\gamma\,\Gamma(2d)\,\frac{\sin(\pi/2 - \pi d)}{\pi} \]
     \begin{itemize}
-        \item spectrum $f(\lambda) = \dfrac{\sigma^2}{2\pi}\,\bigl|2\sin(\lambda/2)\bigr|^{-2d}\,\dfrac{|\theta(e^{-i\lambda})|^2}{|\phi(e^{-i\lambda})|^2} = |2\sin(\lambda/2)|^{-2d}f^*(\lambda)$
-        \item $f^*$: the smooth short-memory part; near zero $f(\lambda) \approx f^*(0)\lambda^{-2d}$
+        \item $\Gamma(\cdot)$: the gamma function; without such regularity the two definitions differ
+        \item semiparametric estimators use only the frequency-domain definition
     \end{itemize}
-    \item ARFIMA$(0,d,0)$: $\gamma(0) = \sigma^2\dfrac{\Gamma(1 - 2d)}{\Gamma(1 - d)^2}$, $\rho(k) = \dfrac{\Gamma(k + d)\Gamma(1 - d)}{\Gamma(k - d + 1)\Gamma(d)} \sim \dfrac{\Gamma(1 - d)}{\Gamma(d)}k^{2d-1}$
+    \item Hurst scale: $H = d + 1/2$ for the stationary series
+    \begin{itemize}
+        \item $H > 1/2$: persistent; $H < 1/2$: antipersistent; $H = 1/2$: short memory
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Fractional integration and ARFIMA (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item The fractional difference operator is a power series in the lag operator $L$ ($LX_t = X_{t-1}$) \refGJ, \refHos
+    \[ (1 - L)^d = \sum_{k\ge0}\pi_k L^k, \qquad \pi_0 = 1, \quad \pi_k = \pi_{k-1}\frac{k - 1 - d}{k}, \quad \pi_k \sim \frac{k^{-d-1}}{\Gamma(-d)} \]
+    \begin{itemize}
+        \item $\pi_k$: the weight of $X_{t-k}$; it decays hyperbolically, so the filter has infinite memory; $d = 1$ gives the usual difference $1 - L$
+    \end{itemize}
+    \item ARFIMA$(p,d,q)$: an ARMA for the fractionally differenced series
+    \[ \phi(L)(1 - L)^d(X_t - \mu) = \theta(L)\varepsilon_t \]
+    \begin{itemize}
+        \item $\phi(L)$, $\theta(L)$: AR and MA polynomials of orders $p$, $q$; $\mu$: mean; $\varepsilon_t$: white noise with variance $\sigma^2$
+        \item stationary and invertible for $-1/2 < d < 1/2$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Fractional integration and ARFIMA (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Spectrum: a pole at zero times the spectrum of the ARMA part
+    \[ f(\lambda) = \frac{\sigma^2}{2\pi}\,\big|2\sin(\lambda/2)\big|^{-2d}\,\frac{|\theta(e^{-i\lambda})|^2}{|\phi(e^{-i\lambda})|^2} = |2\sin(\lambda/2)|^{-2d}f^*(\lambda) \]
+    \begin{itemize}
+        \item $f^*$: the smooth short-memory (ARMA) part; near zero $|2\sin(\lambda/2)| \approx \lambda$, so $f(\lambda) \approx f^*(0)\lambda^{-2d}$
+    \end{itemize}
+    \item ARFIMA$(0,d,0)$: variance and autocorrelations in closed form
+    \[ \gamma(0) = \sigma^2\frac{\Gamma(1 - 2d)}{\Gamma(1 - d)^2}, \qquad \rho(k) = \frac{\Gamma(k + d)\Gamma(1 - d)}{\Gamma(k - d + 1)\Gamma(d)} \sim \frac{\Gamma(1 - d)}{\Gamma(d)}k^{2d-1} \]
     \begin{itemize}
         \item recursion $\rho(k) = \rho(k - 1)\,(k - 1 + d)/(k - d)$, $\rho(1) = d/(1 - d)$
     \end{itemize}
@@ -394,13 +424,15 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \begin{frame}{Where long memory comes from: aggregation}
 \itemsize{\small}
 \begin{itemize}
-    \item \refGra: $X_t = N^{-1/2}\sum_{i=1}^N x_{it}$, $x_{it} = \phi_i x_{i,t-1} + \varepsilon_{it}$, independent units with random $\phi_i$
+    \item \refGra: the scaled sum of $N$ independent AR(1) series with random coefficients
+    \[ X_t = \frac{1}{\sqrt N}\sum_{i=1}^N x_{it}, \qquad x_{it} = \phi_i x_{i,t-1} + \varepsilon_{it}, \qquad \phi_i^2 \sim \mathrm{Beta}(p, q) \]
     \begin{itemize}
-        \item $\phi_i^2 \sim \mathrm{Beta}(p, q)$, i.e.\ density $\propto \phi^{2p-1}(1 - \phi^2)^{q-1}$ on $(0, 1)$
+        \item $\phi_i$: persistence of unit $i$, drawn once; Beta density $\propto \phi^{2p-1}(1 - \phi^2)^{q-1}$ on $(0, 1)$; $q$ controls the mass near the unit root
     \end{itemize}
-    \item Derivation: $\gamma_X(k) = \E\big[\phi^k/(1 - \phi^2)\big] \propto \int_0^1\phi^{k+2p-1}(1 - \phi^2)^{q-2}d\phi \propto B\big(\tfrac{k}{2} + p, q - 1\big) \sim c\,k^{-(q-1)}$
+    \item Derivation: average the AR(1) autocovariances over the distribution of $\phi$
+    \[ \gamma_X(k) = \E\Big[\frac{\phi^k}{1 - \phi^2}\Big] \propto \int_0^1\phi^{k+2p-1}(1 - \phi^2)^{q-2}d\phi \propto B\Big(\frac{k}{2} + p, q - 1\Big) \sim c\,k^{-(q-1)} \]
     \begin{itemize}
-        \item match $k^{2d-1}$: $d = 1 - q/2$, long memory for $1 < q < 2$
+        \item $B(\cdot, \cdot)$: the beta function; matching $k^{2d-1}$ gives $d = 1 - q/2$, long memory for $1 < q < 2$
     \end{itemize}
     \item Economic reading: aggregate inflation, volatility or output mixes many short-memory agents with heterogeneous persistence; a few near-unit-root units dominate the low frequencies
     \item Long memory can therefore be structural, not a curiosity of the estimator
@@ -432,7 +464,8 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \begin{frame}{Consequences for inference: the sample mean}
 \itemsize{\small}
 \begin{itemize}
-    \item $\Var(\bar X_n) = \dfrac1n\sum_{|k|<n}\Big(1 - \dfrac{|k|}{n}\Big)\gamma(k) \sim \dfrac{c_\gamma}{d(2d + 1)}\,n^{2d-1}$
+    \item The variance of the sample mean $\bar X_n$ decays more slowly than $1/n$
+    \[ \Var(\bar X_n) = \frac1n\sum_{|k|<n}\Big(1 - \frac{|k|}{n}\Big)\gamma(k) \sim \frac{c_\gamma}{d(2d + 1)}\,n^{2d-1} \]
     \begin{itemize}
         \item the mean converges at rate $n^{1/2-d}$, not $n^{1/2}$; with $d = 0.4$: $n^{0.1}$
     \end{itemize}
@@ -440,7 +473,10 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
     \begin{itemize}
         \item the same holds for DM tests (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}) on loss differences that inherit long memory
     \end{itemize}
-    \item Regression with long-memory regressors and errors: OLS slopes converge slowly; spurious regression between independent fractional series when $d_x + d_u > 1/2$
+    \item Regression with long-memory regressors and errors: OLS slopes converge slowly
+    \begin{itemize}
+        \item spurious regression between independent fractional series when $d_x + d_u > 1/2$ ($d_x$, $d_u$: memory of the regressor and of the error)
+    \end{itemize}
     \item Every test of this course built on $\sqrt n$ asymptotics needs a second look when $d > 0$
 \end{itemize}
 \end{frame}
@@ -462,17 +498,19 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \begin{frame}{The periodogram near frequency zero}
 \itemsize{\small}
 \begin{itemize}
-    \item $I(\lambda_j) = \dfrac{1}{2\pi n}\Big|\sum_{t=1}^n X_te^{-i\lambda_jt}\Big|^2$ at $\lambda_j = 2\pi j/n$, $j = 1, \dots, m$
+    \item The periodogram: the squared modulus of the discrete Fourier transform, at the Fourier frequencies
+    \[ I(\lambda_j) = \frac{1}{2\pi n}\Big|\sum_{t=1}^n X_te^{-i\lambda_jt}\Big|^2, \qquad \lambda_j = \frac{2\pi j}{n}, \quad j = 1, \dots, m \]
     \begin{itemize}
-        \item short memory: $I(\lambda_j)/f(\lambda_j)$ asymptotically i.i.d.\ $\mathrm{Exp}(1)$
+        \item $n$: sample size; $m$: bandwidth, the number of lowest frequencies used; short memory: $I(\lambda_j)/f(\lambda_j)$ asymptotically i.i.d.\ $\mathrm{Exp}(1)$
     \end{itemize}
     \item Long memory: for fixed $j$, $\E\,I(\lambda_j)/f(\lambda_j) \not\to 1$ and the ordinates stay correlated \refRobB
     \begin{itemize}
         \item the distortion vanishes as $j \to \infty$: the proofs need $m \to \infty$, $m/n \to 0$, and handle the first frequencies separately
     \end{itemize}
-    \item Semiparametric model: $f(\lambda) = G\lambda^{-2d}\big(1 + O(\lambda^\beta)\big)$ as $\lambda \to 0$, $\beta \in (0, 2]$; nothing is assumed away from zero
+    \item Semiparametric model: only the behaviour near zero is specified
+    \[ f(\lambda) = G\lambda^{-2d}\big(1 + O(\lambda^\beta)\big), \qquad \lambda \to 0, \quad \beta \in (0, 2] \]
     \begin{itemize}
-        \item $\beta = 2$ for ARFIMA: $f^*$ is smooth and even, so $f^*(\lambda) = f^*(0)(1 + \tfrac12\tfrac{f^{*\prime\prime}(0)}{f^*(0)}\lambda^2 + \dots)$
+        \item $G > 0$: level of the spectrum at low frequencies; $\beta$: smoothness of the remainder; $\beta = 2$ for ARFIMA, because $f^*$ is smooth and even
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -480,46 +518,61 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \begin{frame}{GPH: the log-periodogram regression}
 \itemsize{\small}
 \begin{itemize}
-    \item $\log I(\lambda_j) = \log G - 2d\log\lambda_j + \log\xi_j$, $\xi_j = I(\lambda_j)/f(\lambda_j)$ \refGPH
+    \item Taking logs of $I = f\xi$ gives a linear regression in $\log\lambda_j$ with slope $-2d$ \refGPH
+    \[ \log I(\lambda_j) = \log G - 2d\log\lambda_j + \log\xi_j, \qquad \xi_j = \frac{I(\lambda_j)}{f(\lambda_j)} \]
     \begin{itemize}
-        \item OLS on $j = 1, \dots, m$; with $\xi_j \sim \mathrm{Exp}(1)$: $\E\log\xi_j = -\gamma_E$ (Euler), $\Var\log\xi_j = \pi^2/6$
+        \item OLS on $j = 1, \dots, m$; with $\xi_j \sim \mathrm{Exp}(1)$: $\E\log\xi_j = -\gamma_E$ ($\gamma_E \approx 0.577$, Euler's constant), $\Var\log\xi_j = \pi^2/6$
     \end{itemize}
-    \item \refRobB: for $|d| < 1/2$ and Gaussian $X$, $\sqrt m(\hat d_{GPH} - d) \to N(0, \pi^2/24)$ if $m \to \infty$ and $m^5/n^4 \to 0$
+    \item \refRobB: for $|d| < 1/2$ and Gaussian $X$, if $m \to \infty$ and $m^5/n^4 \to 0$
+    \[ \sqrt m(\hat d_{GPH} - d) \to N(0, \pi^2/24) \]
     \begin{itemize}
-        \item where $\pi^2/24$ comes from: $\Var(\hat d) = \dfrac{\pi^2/6}{4\sum_j\nu_j^2}$, $\nu_j = \log j - \overline{\log j}$, and $\sum_j\nu_j^2 \sim m$
+        \item origin of $\pi^2/24$: $\Var(\hat d) = \dfrac{\pi^2/6}{4\sum_j\nu_j^2}$, with $\nu_j = \log j - \overline{\log j}$ the centred regressor and $\sum_j\nu_j^2 \sim m$
     \end{itemize}
-    \item MSE and bias for ARFIMA \refHDB: $\E\hat d - d \approx -\dfrac{2\pi^2}{9}\dfrac{f^{*\prime\prime}(0)}{f^*(0)}\dfrac{m^2}{n^2}$
+    \item Bias for ARFIMA \refHDB: $\E\hat d - d \approx -\dfrac{2\pi^2}{9}\dfrac{f^{*\prime\prime}(0)}{f^*(0)}\dfrac{m^2}{n^2}$
     \begin{itemize}
         \item the condition $m^5/n^4 \to 0$ makes the bias negligible relative to the standard deviation $m^{-1/2}$
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Local Whittle: derivation}
+\begin{frame}{Local Whittle (1/2): the objective}
 \itemsize{\small}
 \begin{itemize}
-    \item Whittle approximation of the Gaussian log-likelihood restricted to $j \le m$, with $f(\lambda_j) = G\lambda_j^{-2d}$:
+    \item Whittle approximation of the Gaussian log-likelihood, restricted to $j \le m$, with $f(\lambda_j) = G\lambda_j^{-2d}$
+    \[ Q(G, d) = \frac1m\sum_{j=1}^m\Big[\log\big(G\lambda_j^{-2d}\big) + \frac{I(\lambda_j)}{G\lambda_j^{-2d}}\Big] \]
     \begin{itemize}
-        \item $Q(G, d) = \dfrac1m\sum_{j=1}^m\Big[\log\big(G\lambda_j^{-2d}\big) + \dfrac{I(\lambda_j)}{G\lambda_j^{-2d}}\Big]$
+        \item the same form as QLIKE (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter8_advanced_volatility.pdf}{Chapter 8}): the model spectrum $G\lambda_j^{-2d}$ is fitted to the periodogram ordinate by ordinate
     \end{itemize}
-    \item Concentrate $G$: $\hat G(d) = \dfrac1m\sum_j\lambda_j^{2d}I(\lambda_j)$, so \refRobC
+    \item Concentrate out $G$ \refRobC: for given $d$ the optimal level is the average of $\lambda_j^{2d}I(\lambda_j)$
+    \[ \hat G(d) = \frac1m\sum_j\lambda_j^{2d}I(\lambda_j), \qquad \hat d_{LW} = \arg\min_d R(d) \]
+    \[ R(d) = \log\hat G(d) - \frac{2d}{m}\sum_{j=1}^m\log\lambda_j \]
     \begin{itemize}
-        \item $\hat d_{LW} = \arg\min_d R(d)$, $R(d) = \log\hat G(d) - \dfrac{2d}{m}\sum_{j=1}^m\log\lambda_j$
+        \item a one-dimensional minimisation in $d$
     \end{itemize}
-    \item Score at the truth: $R'(d) = \dfrac{2}{m}\sum_j\nu_j\Big(\dfrac{\lambda_j^{2d}I(\lambda_j)}{\hat G(d)} - 1\Big)$, a weighted sum of $\xi_j - 1$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Local Whittle (2/2): the variance}
+\itemsize{\small}
+\begin{itemize}
+    \item Score at the truth: a weighted sum of $\xi_j - 1$
+    \[ R'(d) = \frac{2}{m}\sum_j\nu_j\Big(\frac{\lambda_j^{2d}I(\lambda_j)}{\hat G(d)} - 1\Big) \]
     \begin{itemize}
-        \item $\Var(\xi_j) = 1$ and $R''(d) \to 4$: $\sqrt m(\hat d - d) \to N(0, 4/16) = N(0, 1/4)$
+        \item $\nu_j = \log\lambda_j - \overline{\log\lambda}$: centred log frequency; with $\Var(\xi_j) = 1$ and $R''(d) \to 4$: $\sqrt m(\hat d - d) \to N(0, 4/16) = N(0, 1/4)$
     \end{itemize}
-    \item No distributional assumption beyond a linear process with martingale-difference innovations; efficiency relative to GPH: $(\pi^2/24)/(1/4) = \pi^2/6 \approx 1.64$
+    \item No distributional assumption beyond a linear process with martingale-difference innovations
+    \begin{itemize}
+        \item efficiency relative to GPH: $(\pi^2/24)/(1/4) = \pi^2/6 \approx 1.64$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Local Whittle: the theorem and its limits}
 \itemsize{\small}
 \begin{itemize}
-    \item \refRobC: for $d \in (-1/2, 1/2)$, $f(\lambda) = G\lambda^{-2d}(1 + O(\lambda^\beta))$, $1/m + m^{1+2\beta}(\log m)^2/n^{2\beta} \to 0$:
+    \item \refRobC: for $d \in (-1/2, 1/2)$, $f(\lambda) = G\lambda^{-2d}(1 + O(\lambda^\beta))$ and a bandwidth with $1/m + m^{1+2\beta}(\log m)^2/n^{2\beta} \to 0$
     \begin{itemize}
-        \item $\hat d \to_p d$ and $\sqrt m(\hat d - d) \to N(0, 1/4)$
+        \item $\hat d \to_p d$ and $\sqrt m(\hat d - d) \to N(0, 1/4)$; the condition on $m$: it grows, but slowly enough for the bias to vanish
     \end{itemize}
     \item Non-stationary $d$: consistent for $d < 1$, asymptotically Normal for $d < 3/4$ \refVel
     \begin{itemize}
@@ -532,15 +585,13 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \begin{frame}{Exact local Whittle}
 \itemsize{\small}
 \begin{itemize}
-    \item \refSP: replace $\lambda_j^{2d}I_X(\lambda_j)$ by the periodogram of the fractionally differenced data $\Delta^dX_t = \sum_{k=0}^{t-1}\pi_kX_{t-k}$
+    \item \refSP: replace $\lambda_j^{2d}I_X(\lambda_j)$ by the periodogram of the fractionally differenced data
+    \[ \Delta^dX_t = \sum_{k=0}^{t-1}\pi_kX_{t-k}, \qquad R_E(d) = \log\Big(\frac1m\sum_jI_{\Delta^dX}(\lambda_j)\Big) - \frac{2d}{m}\sum_j\log\lambda_j \]
     \begin{itemize}
-        \item $R_E(d) = \log\Big(\dfrac1m\sum_jI_{\Delta^dX}(\lambda_j)\Big) - \dfrac{2d}{m}\sum_j\log\lambda_j$
+        \item $\Delta^d = (1 - L)^d$ truncated at the start of the sample; $I_{\Delta^dX}$: periodogram of the differenced series
+        \item $\lambda^{2d}I_X(\lambda)$ approximates $I_{\Delta^dX}(\lambda)$ only for $d < 1/2$; the exact version removes the error that breaks LW for large $d$: $\sqrt m(\hat d_{ELW} - d) \to N(0, 1/4)$ on any search interval of width $< 9/2$
     \end{itemize}
-    \item Why it works: $\lambda^{2d}I_X(\lambda)$ approximates $I_{\Delta^dX}(\lambda)$ only for $d < 1/2$; the exact version removes the approximation error that breaks LW for large $d$
-    \begin{itemize}
-        \item $\sqrt m(\hat d_{ELW} - d) \to N(0, 1/4)$ for any $d$ in a search interval of width $< 9/2$
-    \end{itemize}
-    \item Unknown mean \refShi: $X_t - \hat\mu(d)$ with $\hat\mu(d) = w(d)\bar X + (1 - w(d))X_1$
+    \item Unknown mean \refShi: subtract $\hat\mu(d) = w(d)\bar X + (1 - w(d))X_1$
     \begin{itemize}
         \item $w(d) = 1$ for $d \le 1/2$, $0$ for $d \ge 3/4$, smooth in between: the sample mean is a bad estimator of the level when $d > 1/2$
     \end{itemize}
@@ -573,12 +624,14 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \begin{frame}{Bandwidth: bias against variance}
 \itemsize{\small}
 \begin{itemize}
-    \item Leading bias (GPH and LW): regress $\log f^*(\lambda_j) \approx \log f^*(0) + b\lambda_j^2$, $b = \tfrac12f^{*\prime\prime}(0)/f^*(0)$, on $-2\nu_j$:
+    \item Leading bias (GPH and LW): the curvature of $\log f^*$ near zero leaks into the slope
+    \[ \E\hat d - d \approx -\frac{2\pi^2}{9}\,\frac{f^{*\prime\prime}(0)}{f^*(0)}\Big(\frac mn\Big)^2 = C\Big(\frac mn\Big)^2 \]
     \begin{itemize}
-        \item $\E\hat d - d \approx -\dfrac12\,b\Big(\dfrac{2\pi m}{n}\Big)^2\dfrac{\int_0^1(1 + \log x)x^2dx}{\int_0^1(1 + \log x)^2dx} = -\dfrac{2\pi^2}{9}\dfrac{f^{*\prime\prime}(0)}{f^*(0)}\Big(\dfrac mn\Big)^2$
-        \item the integrals equal $2/9$ and $1$; ARFIMA$(1,d,0)$: $f^{*\prime\prime}(0)/f^*(0) = -2\phi/(1 - \phi)^2$, upward bias for $\phi > 0$
+        \item from regressing $\log f^*(\lambda_j) \approx \log f^*(0) + b\lambda_j^2$, $b = \tfrac12f^{*\prime\prime}(0)/f^*(0)$, on $-2\nu_j$; $C$: the bias constant
+        \item ARFIMA$(1,d,0)$: $f^{*\prime\prime}(0)/f^*(0) = -2\phi/(1 - \phi)^2$, upward bias for $\phi > 0$
     \end{itemize}
-    \item MSE $\approx C^2(m/n)^4 + 1/(4m)$ with bias constant $C$; minimise: $m^* = \big(n^4/(16C^2)\big)^{1/5} \propto n^{4/5}$ \refHR
+    \item MSE: squared bias plus variance; minimising over $m$ gives the optimal bandwidth \refHR
+    \[ \mathrm{MSE}(m) \approx C^2\Big(\frac mn\Big)^4 + \frac{1}{4m}, \qquad m^* = \Big(\frac{n^4}{16C^2}\Big)^{1/5} \propto n^{4/5} \]
     \begin{itemize}
         \item $C$ is unknown: plug-in rules estimate it; local polynomial Whittle \refAnSu\ removes the $\lambda^2$ term at a variance cost
     \end{itemize}
@@ -611,9 +664,10 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \begin{frame}{Parametric alternative: Whittle and exact ML}
 \itemsize{\small}
 \begin{itemize}
-    \item Whittle: $\hat\vartheta = \arg\min\sum_{j=1}^{\lfloor (n-1)/2\rfloor}\Big[\log f(\lambda_j; \vartheta) + \dfrac{I(\lambda_j)}{f(\lambda_j; \vartheta)}\Big]$ over all frequencies \refFT
+    \item Whittle: fit a fully specified spectral density over all frequencies \refFT
+    \[ \hat\vartheta = \arg\min_\vartheta\sum_{j=1}^{\lfloor (n-1)/2\rfloor}\Big[\log f(\lambda_j; \vartheta) + \frac{I(\lambda_j)}{f(\lambda_j; \vartheta)}\Big] \]
     \begin{itemize}
-        \item $\sqrt n$-consistent and efficient for a correctly specified ARFIMA$(p,d,q)$; $\Var(\hat d) \approx 6/(\pi^2n)$ for $(0,d,0)$
+        \item $\vartheta$: all ARFIMA$(p,d,q)$ parameters ($d$, the AR and MA coefficients, $\sigma^2$); $\sqrt n$-consistent and efficient if the model is right; $\Var(\hat d) \approx 6/(\pi^2n)$ for $(0,d,0)$
     \end{itemize}
     \item The trade-off is robustness against efficiency: a wrong $(p, q)$ biases $\hat d$ for every $n$
     \begin{itemize}
@@ -640,13 +694,14 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \begin{frame}{Mechanisms of spurious long memory}
 \itemsize{\small}
 \begin{itemize}
-    \item \refDI: Markov switching in the mean with switching probability $p_n \to 0$ as $n \to \infty$ produces $\Var(\sum_{t\le n}X_t) = O(n^{2d+1})$ like an I($d$) process
+    \item \refDI: Markov switching in the mean with switching probability $p_n \to 0$ as $n \to \infty$ produces $\Var(\sum_{t\le n}X_t) = O(n^{2d+1})$, like an I($d$) process
     \begin{itemize}
         \item rare breaks are invisible at high frequencies and look like a pole at low ones \refGH
     \end{itemize}
-    \item Random level shifts \refLP: $X_t = \mu_t + u_t$, $\mu_t = \mu_{t-1} + \delta_t\eta_t$, $\delta_t \sim$ Bernoulli($p$)
+    \item Random level shifts \refLP: a short-memory series $u_t$ around a level that jumps rarely
+    \[ X_t = \mu_t + u_t, \qquad \mu_t = \mu_{t-1} + \delta_t\eta_t, \qquad \delta_t \sim \mathrm{Bernoulli}(p) \]
     \begin{itemize}
-        \item spectrum $\approx \dfrac{p\sigma_\eta^2}{2\pi\lambda^2}$ above frequency $\approx p$ plus the flat $f_u$: a slope $-2$ that fades into a plateau
+        \item $\delta_t$: 1 on the (rare) days with a shift; $\eta_t$: shift size, variance $\sigma^2_\eta$; spectrum $\approx p\sigma_\eta^2/(2\pi\lambda^2)$ above frequency $\approx p$, plus the flat $f_u$: a slope $-2$ that fades into a plateau
     \end{itemize}
     \item Signature \refPQ: under level shifts $\hat d(m)$ falls steeply as $m$ grows; under true long memory it is flat
     \begin{itemize}
@@ -659,16 +714,17 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \begin{frame}{The Qu (2011) test}
 \itemsize{\small}
 \begin{itemize}
-    \item Under $H_0$ (stationary long memory) the LW score has mean zero at every frequency band; under level shifts the low frequencies are over-weighted \refQu
-    \item $W = \sup_{r\in[\varepsilon, 1]}\Big(\sum_{j=1}^m\nu_j^2\Big)^{-1/2}\Big|\sum_{j=1}^{\lfloor mr\rfloor}\nu_j\Big(\dfrac{I(\lambda_j)}{\hat G\lambda_j^{-2\hat d}} - 1\Big)\Big|$
+    \item Under $H_0$ (stationary long memory) the LW score has mean zero in every frequency band; under level shifts the low frequencies are over-weighted \refQu
+    \[ W = \sup_{r\in[\varepsilon, 1]}\Big(\sum_{j=1}^m\nu_j^2\Big)^{-1/2}\Big|\sum_{j=1}^{\lfloor mr\rfloor}\nu_j\Big(\frac{I(\lambda_j)}{\hat G\lambda_j^{-2\hat d}} - 1\Big)\Big| \]
     \begin{itemize}
-        \item $\hat d, \hat G$: local Whittle on the same $m$; $\nu_j = \log\lambda_j - \overline{\log\lambda}$; the partial sum at $r = 1$ is zero by the first-order condition
+        \item $\hat d, \hat G$: local Whittle on the same $m$; $\nu_j = \log\lambda_j - \overline{\log\lambda}$; $r$: the share of the $m$ frequencies included; $\varepsilon$: trimming of the lowest band
+        \item the partial sum at $r = 1$ is zero by the first-order condition; $W$: the largest standardised partial sum
     \end{itemize}
     \item Limit: the supremum of a Gaussian process free of $d$ and $G$; Qu recommends $m = n^{0.7}$, $\varepsilon = 0.02$ (large $n$) or $0.05$
     \begin{itemize}
         \item our simulated critical values: $\varepsilon = 0.02$: 1.09, 1.22, 1.56; $\varepsilon = 0.05$: 1.00, 1.14, 1.45 (10\%, 5\%, 1\%)
+        \item reject for large $W$: evidence against stationary long memory, typically breaks, level shifts or trends
     \end{itemize}
-    \item Reject for large $W$: evidence against stationary long memory, typically breaks, level shifts or trends
 \end{itemize}
 \end{frame}
 
@@ -730,27 +786,44 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \section{Fractional cointegration}
 %=============================================================================
 
-\begin{frame}{Fractional cointegration and the FCVAR}
+\begin{frame}{Fractional cointegration and the FCVAR (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $X_t \in \mathbb R^p$ is I($d$); it is \textbf{fractionally cointegrated} if $\beta'X_t$ is I($d - b$), $b > 0$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter4_cointegration_vecm_ardl_panel.pdf}{Chapter 4} is the case $d = b = 1$)
-    \item FCVAR \refJN: $\Delta^dX_t = \alpha\beta'L_b\Delta^{d-b}X_t + \sum_{i=1}^k\Gamma_i\Delta^dL_b^iX_t + \varepsilon_t$, $L_b = 1 - \Delta^b$
+    \item $X_t \in \mathbb R^p$ is I($d$); it is \textbf{fractionally cointegrated} if $\beta'X_t$ is I($d - b$), $b > 0$
     \begin{itemize}
-        \item $L_b$ is a fractional lag ($L_1 = L$): with $d = b = 1$ it is the VECM; $\alpha$: adjustment, $\beta$: cointegrating vectors, rank $r$
+        \item $d$: memory of the series; $b$: reduction of memory achieved by the combination $\beta'X_t$; \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter4_cointegration_vecm_ardl_panel.pdf}{Chapter 4} is the case $d = b = 1$
     \end{itemize}
-    \item Estimation: for fixed $(d, b)$ the model is a reduced-rank regression of $Z_0 = \Delta^dX$ on $Z_1 = L_b\Delta^{d-b}X$; profile the likelihood over $(d, b)$
+    \item FCVAR \refJN: the VECM with the difference $\Delta$ replaced by fractional differences
+    \[ \Delta^dX_t = \alpha\beta'L_b\Delta^{d-b}X_t + \sum_{i=1}^k\Gamma_i\Delta^dL_b^iX_t + \varepsilon_t, \qquad L_b = 1 - \Delta^b \]
     \begin{itemize}
-        \item $\ell_r(d, b) = -\tfrac T2\big[\log\det S_{00} + \sum_{i\le r}\log(1 - \hat\lambda_i)\big]$, $\hat\lambda_i$ the Johansen eigenvalues
+        \item $\Delta^d = (1 - L)^d$; $L_b$: fractional lag operator ($L_1 = L$), so $d = b = 1$ gives the VECM
+        \item $\alpha$ ($p \times r$): adjustment; $\beta$ ($p \times r$): cointegrating vectors, rank $r$; $\Gamma_i$: short-run matrices, $k$ lags; $\varepsilon_t$: i.i.d. errors
     \end{itemize}
-    \item Rank tests: for $b < 1/2$ the LR trace statistic is asymptotically $\chi^2_{(p-r)^2}$; for $b > 1/2$ use the fractional Dickey--Fuller distributions of \refMN
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Fractional cointegration and the FCVAR (2/2): estimation and rank}
+\itemsize{\small}
+\begin{itemize}
+    \item For fixed $(d, b)$: a reduced-rank regression of $Z_0 = \Delta^dX$ on $Z_1 = L_b\Delta^{d-b}X$; then profile the likelihood over $(d, b)$
+    \[ \ell_r(d, b) = -\frac T2\Big[\log\det S_{00} + \sum_{i\le r}\log(1 - \hat\lambda_i)\Big] \]
+    \begin{itemize}
+        \item $S_{00}$: residual covariance of $Z_0$ (after the short-run terms); $\hat\lambda_i$: the Johansen eigenvalues, in decreasing order; $T$: sample size
+    \end{itemize}
+    \item Rank tests: the LR trace statistic for rank $r$ against $p$
+    \begin{itemize}
+        \item for $b < 1/2$ it is asymptotically $\chi^2_{(p-r)^2}$; for $b > 1/2$ use the fractional Dickey--Fuller distributions of \refMN
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Semiparametric co-memory}
 \itemsize{\small}
 \begin{itemize}
-    \item Narrow-band least squares \refRobA, \refCN: $\hat\beta = \mathrm{Re}\sum_{j=1}^mI_{xy}(\lambda_j)\big/\sum_{j=1}^mI_{xx}(\lambda_j)$
+    \item Narrow-band least squares (NBLS) \refRobA, \refCN: regress $y$ on $x$ using only the $m$ lowest frequencies
+    \[ \hat\beta = \frac{\mathrm{Re}\sum_{j=1}^mI_{xy}(\lambda_j)}{\sum_{j=1}^mI_{xx}(\lambda_j)} \]
     \begin{itemize}
+        \item $I_{xy}$: cross-periodogram of $x$ and $y$; $I_{xx}$: periodogram of $x$; $\mathrm{Re}$: real part
         \item only the low frequencies, where the common long-memory component lives: robust to short-run correlation between $x$ and the error that biases OLS
     \end{itemize}
     \item Rank by ELW \refNS: estimate $d$ of each series, test equal $d$, then count the small eigenvalues of the low-frequency spectral matrix
@@ -797,19 +870,32 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \section{Long memory in volatility}
 %=============================================================================
 
-\begin{frame}{FIGARCH}
+\begin{frame}{FIGARCH (1/2): hyperbolic ARCH weights}
 \itemsize{\small}
 \begin{itemize}
-    \item GARCH(1,1) as ARCH($\infty$): $\sigma_t^2 = \omega/(1 - \beta) + \sum_k\alpha\beta^{k-1}\varepsilon_{t-k}^2$: geometric weights
-    \item FIGARCH(1,$d$,1) \refBBM: $\sigma_t^2 = \dfrac{\omega}{1 - \beta} + \Big[1 - \dfrac{(1 - \phi L)(1 - L)^d}{1 - \beta L}\Big]\varepsilon_t^2 = \dfrac{\omega}{1 - \beta} + \sum_{k\ge1}\lambda_k\varepsilon_{t-k}^2$
+    \item GARCH(1,1) as ARCH($\infty$): the weights on past squared shocks decay geometrically
+    \[ \sigma_t^2 = \frac{\omega}{1 - \beta} + \sum_{k\ge1}\alpha\beta^{k-1}\varepsilon_{t-k}^2 \]
+    \item FIGARCH(1,$d$,1) \refBBM: a fractional difference makes them decay hyperbolically
+    \[ \sigma_t^2 = \frac{\omega}{1 - \beta} + \Big[1 - \frac{(1 - \phi L)(1 - L)^d}{1 - \beta L}\Big]\varepsilon_t^2 = \frac{\omega}{1 - \beta} + \sum_{k\ge1}\lambda_k\varepsilon_{t-k}^2 \]
     \begin{itemize}
-        \item $\lambda_k \sim c\,k^{-d-1}$: hyperbolic weights; positivity needs e.g.\ $\beta - d \le \phi \le (2 - d)/3$
+        \item $d \in (0, 1)$: memory of volatility; $\phi$, $\beta$: short-run ARCH and GARCH terms; $\lambda_k \sim c\,k^{-d-1}$: the ARCH($\infty$) weights
+        \item positivity of all $\lambda_k$ needs restrictions, e.g.\ $\beta - d \le \phi \le (2 - d)/3$
     \end{itemize}
-    \item Paradox: $\sum_k\lambda_k = 1$, so $\E\varepsilon_t^2 = \infty$: FIGARCH is not covariance stationary for any $d > 0$, yet strictly stationary
+\end{itemize}
+\end{frame}
+
+\begin{frame}{FIGARCH (2/2): the variance paradox and HYGARCH}
+\itemsize{\small}
+\begin{itemize}
+    \item Paradox: $\sum_k\lambda_k = 1$, so $\E\varepsilon_t^2 = \infty$
     \begin{itemize}
+        \item FIGARCH is not covariance stationary for any $d > 0$, yet strictly stationary
         \item the long memory of $\varepsilon_t^2$ is therefore not defined by an autocovariance
     \end{itemize}
-    \item HYGARCH \refDav: $(1 - L)^d$ replaced by $1 + a\big((1 - L)^d - 1\big)$; $a < 1$ gives a finite variance and hyperbolic memory, $a = 1$ is FIGARCH
+    \item HYGARCH \refDav: $(1 - L)^d$ is replaced by $1 + a\big((1 - L)^d - 1\big)$
+    \begin{itemize}
+        \item $a \ge 0$: amplitude of the hyperbolic part; $a < 1$ gives a finite variance and hyperbolic memory, $a = 1$ is FIGARCH, $a = 0$ is GARCH
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -850,13 +936,16 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \begin{frame}{Long-memory stochastic volatility and noise}
 \itemsize{\small}
 \begin{itemize}
-    \item LMSV \refBCL: $r_t = \sigma_t\eta_t$, $\log\sigma_t^2 = \mu + h_t$, $h_t$ ARFIMA$(p,d,q)$; then $\log r_t^2 = \mu + \E\log\eta^2 + h_t + \xi_t$
+    \item LMSV \refBCL: log variance is a long-memory process; squaring and taking logs makes the model linear
+    \[ r_t = \sigma_t\eta_t, \quad \log\sigma_t^2 = \mu + h_t \ \Rightarrow\ \log r_t^2 = \mu + \E\log\eta^2 + h_t + \xi_t \]
     \begin{itemize}
-        \item $\xi_t = \log\eta_t^2 - \E\log\eta^2$: i.i.d.\ noise with variance $\pi^2/2$ for Gaussian $\eta$, often larger than $\Var(h_t)$
+        \item $h_t$: ARFIMA$(p,d,q)$; $\eta_t$: i.i.d. shock; $\xi_t = \log\eta_t^2 - \E\log\eta^2$: i.i.d.\ noise with variance $\pi^2/2$ for Gaussian $\eta$, often larger than $\Var(h_t)$
     \end{itemize}
-    \item Spectrum of $\log r_t^2$: $f(\lambda) = G\lambda^{-2d} + \sigma_\xi^2/(2\pi)$: the flat noise flattens the low-frequency slope and biases $\hat d$ down
+    \item Spectrum of $\log r_t^2$: a pole plus a flat noise floor
+    \[ f(\lambda) = G\lambda^{-2d} + \frac{\sigma_\xi^2}{2\pi} \]
     \begin{itemize}
-        \item LW with noise \refHMS: $f(\lambda) = G(\lambda^{-2d} + \theta)$, $\theta \ge 0$ estimated jointly; consistent, with a slower rate
+        \item the flat noise flattens the low-frequency slope and biases $\hat d$ down
+        \item LW with noise \refHMS: $f(\lambda) = G(\lambda^{-2d} + \theta)$, with the noise-to-signal ratio $\theta \ge 0$ estimated jointly; consistent, at a slower rate
     \end{itemize}
     \item Realised variance reduces the noise by averaging intraday returns \refABDL: $\log RV_t = \log IV_t + $ small error
     \item Continuous-time long memory in volatility: \refCR; the rough alternative follows in Section 6
@@ -888,9 +977,10 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \begin{frame}{HAR as an approximation of long memory}
 \itemsize{\small}
 \begin{itemize}
-    \item HAR \refCor: $y_{t+1} = \beta_0 + \beta_dy_t + \beta_w\bar y_t^{(5)} + \beta_m\bar y_t^{(22)} + u_{t+1}$, $y = \log RV$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter8_advanced_volatility.pdf}{Chapter 8})
+    \item HAR \refCor\ on $y = \log RV$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter8_advanced_volatility.pdf}{Chapter 8})
+    \[ y_{t+1} = \beta_0 + \beta_dy_t + \beta_w\bar y_t^{(5)} + \beta_m\bar y_t^{(22)} + u_{t+1} \]
     \begin{itemize}
-        \item an AR(22) with three free parameters: a step-function approximation of hyperbolically decaying AR weights
+        \item $\bar y_t^{(5)}$, $\bar y_t^{(22)}$: averages of $y$ over the last 5 and 22 days; an AR(22) with three free slopes: a step-function approximation of hyperbolically decaying AR weights
     \end{itemize}
     \item Formally short memory: its ACF decays geometrically, but over horizons up to a few months it mimics $k^{2d-1}$
     \begin{itemize}
@@ -936,7 +1026,7 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \section{Rough volatility}
 %=============================================================================
 
-\begin{frame}{Fractional Brownian motion}
+\begin{frame}{Fractional Brownian motion (1/2)}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.32\textwidth}
@@ -950,18 +1040,31 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \end{column}
 \begin{column}{0.66\textwidth}
 \begin{itemize}
-    \item $W^H_t$ Gaussian, $W^H_0 = 0$, $\E W^H_t = 0$, $\E W^H_tW^H_s = \tfrac12\big(t^{2H} + s^{2H} - |t - s|^{2H}\big)$, $H \in (0, 1)$ \refMVN
+    \item fBm $W^H_t$ \refMVN: a centred Gaussian process with $W^H_0 = 0$ and covariance
+    \[ \E W^H_tW^H_s = \frac12\big(t^{2H} + s^{2H} - |t - s|^{2H}\big), \qquad H \in (0, 1) \]
     \begin{itemize}
-        \item stationary increments with $\E|W^H_{t+\Delta} - W^H_t|^2 = \Delta^{2H}$; self-similar: $W^H_{ct} \overset{d}{=} c^HW^H_t$
-    \end{itemize}
-    \item Paths are Hölder continuous of every order $< H$: $H < 1/2$ rougher, $H > 1/2$ smoother than Brownian motion
-    \item Increments (fGn): $\rho(k) = \tfrac12\big(|k + 1|^{2H} - 2|k|^{2H} + |k - 1|^{2H}\big) \sim H(2H - 1)k^{2H-2}$
-    \begin{itemize}
-        \item long memory for $H > 1/2$ ($d = H - 1/2$); negative correlation for $H < 1/2$
+        \item $H$: the Hurst exponent; $H = 1/2$ gives standard Brownian motion
+        \item stationary increments with $\E|W^H_{t+\Delta} - W^H_t|^2 = \Delta^{2H}$
+        \item self-similar: $W^H_{ct} \overset{d}{=} c^HW^H_t$ (equal in distribution) for $c > 0$
     \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
+\end{frame}
+
+\begin{frame}{Fractional Brownian motion (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Paths are Hölder continuous of every order $< H$
+    \begin{itemize}
+        \item Hölder order: how fast $|W^H_{t+\Delta} - W^H_t|$ can shrink with $\Delta$; $H < 1/2$: rougher (more irregular), $H > 1/2$: smoother than Brownian motion
+    \end{itemize}
+    \item The increments, fractional Gaussian noise (fGn), have autocorrelations
+    \[ \rho(k) = \frac12\big(|k + 1|^{2H} - 2|k|^{2H} + |k - 1|^{2H}\big) \sim H(2H - 1)k^{2H-2} \]
+    \begin{itemize}
+        \item long memory for $H > 1/2$ ($d = H - 1/2$); negative correlation for $H < 1/2$
+    \end{itemize}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Fractional Brownian paths}
@@ -990,10 +1093,13 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \itemsize{\small}
 \begin{itemize}
     \item Cholesky: $\Gamma = LL'$, $X = LZ$; exact but $O(n^3)$ time and $O(n^2)$ memory
-    \item Davies--Harte \refDH, \refDN: embed the Toeplitz $\Gamma$ of fGn in a $2(n - 1)$ circulant with first row $(\gamma_0, \dots, \gamma_{n-1}, \gamma_{n-2}, \dots, \gamma_1)$
     \begin{itemize}
-        \item a circulant is diagonalised by the DFT: eigenvalues $\Lambda = \mathrm{FFT}(c)$
-        \item if $\Lambda \ge 0$: $Y = \mathrm{FFT}\big(\sqrt{\Lambda/M}\,(Z_1 + iZ_2)\big)$; $\mathrm{Re}\,Y$ and $\mathrm{Im}\,Y$ are two independent exact paths
+        \item $\Gamma$: the $n \times n$ covariance matrix of the path; $L$: its lower-triangular Cholesky factor; $Z$: a vector of i.i.d. $N(0, 1)$
+    \end{itemize}
+    \item Davies--Harte \refDH, \refDN: embed the Toeplitz $\Gamma$ of fGn in a circulant matrix of order $M = 2(n - 1)$ with first row $c = (\gamma_0, \dots, \gamma_{n-1}, \gamma_{n-2}, \dots, \gamma_1)$
+    \begin{itemize}
+        \item $\gamma_k$: autocovariances of fGn; a circulant matrix is diagonalised by the discrete Fourier transform: eigenvalues $\Lambda = \mathrm{FFT}(c)$
+        \item if $\Lambda \ge 0$: $Y = \mathrm{FFT}\big(\sqrt{\Lambda/M}\,(Z_1 + iZ_2)\big)$, $Z_1, Z_2$ independent standard Gaussian vectors; $\mathrm{Re}\,Y$ and $\mathrm{Im}\,Y$ are two independent exact paths
     \end{itemize}
     \item $O(n\log n)$; for fGn $\Lambda \ge 0$ for every $H$ (Seminar 10, A7); fBm = cumulated fGn
     \item The same algorithm simulates ARFIMA$(0,d,0)$ exactly (used in every Monte Carlo of this chapter)
@@ -1001,15 +1107,18 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \end{frame}
 
 \begin{frame}{The hybrid scheme for Volterra processes}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{itemize}
-    \item Rough volatility models use Volterra processes $X_t = \int_0^tg(t - s)\,dW_s$, e.g.\ Riemann--Liouville $g(x) = x^{H-1/2}$, not stationary-increment fBm \refBFG
+    \item Rough volatility models use Volterra processes, not stationary-increment fBm \refBFG
+    \[ X_t = \int_0^tg(t - s)\,dW_s, \qquad g(x) = x^{H-1/2} \ \ \text{(Riemann--Liouville)} \]
     \begin{itemize}
-        \item circulant embedding does not apply (non-stationary, possibly non-Gaussian when driven by a correlated price)
+        \item $g$: the kernel, singular at 0 when $H < 1/2$; $W$: Brownian motion; circulant embedding does not apply (non-stationary, possibly non-Gaussian when driven by a correlated price)
     \end{itemize}
-    \item Hybrid scheme \refBLPa: near the singularity integrate the kernel exactly (power function times Wiener increments, jointly Gaussian); further away use a Riemann sum at optimal points
+    \item Hybrid scheme \refBLPa: integrate the kernel exactly on the last step, use a Riemann sum at optimal points further away
+    \[ X_i \approx \int_{t_{i-1}}^{t_i}(t_i - s)^{H-1/2}dW_s + \sum_{k\ge2}\Big(\frac{b_k}{n}\Big)^{H-1/2}\Delta W_{i-k+1} \]
+    \[ b_k = \Big(\frac{k^{H+1/2} - (k - 1)^{H+1/2}}{H + 1/2}\Big)^{1/(H-1/2)} \]
     \begin{itemize}
-        \item $X_i \approx \int_{t_{i-1}}^{t_i}(t_i - s)^{H-1/2}dW_s + \sum_{k\ge2}(b_k/n)^{H-1/2}\Delta W_{i-k+1}$, $b_k = \Big(\dfrac{k^{H+1/2} - (k - 1)^{H+1/2}}{H + 1/2}\Big)^{1/(H-1/2)}$
+        \item $n$: steps per unit of time; $\Delta W_i$: Brownian increments; $b_k$: the optimal evaluation point in cell $k$; the first term and $\Delta W_i$ are jointly Gaussian and simulated exactly
     \end{itemize}
     \item The sum is a convolution: $O(n\log n)$ by FFT; the scheme extends to Brownian semistationary processes
 \end{itemize}
@@ -1036,13 +1145,25 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The evidence: scaling of log volatility}
+\begin{frame}{The evidence: scaling of log volatility (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refGJR, Section 2: daily $\sigma_t = \sqrt{RV_t}$ from the Oxford-Man library; $m(q, \Delta) = \dfrac1N\sum_t|\log\sigma_{t+\Delta} - \log\sigma_t|^q$
+    \item \refGJR, Section 2: from daily $\sigma_t = \sqrt{RV_t}$ (Oxford-Man library), the empirical moments of the increments of $\log\sigma$
+    \[ m(q, \Delta) = \frac1N\sum_t|\log\sigma_{t+\Delta} - \log\sigma_t|^q \]
     \begin{itemize}
-        \item if $\log\sigma$ has fBm-like increments: $m(q, \Delta) = K_q\nu^q\Delta^{\zeta_q}$ with $\zeta_q = qH$ (monofractal scaling)
+        \item $\Delta$: lag in days; $q > 0$: order of the moment; $N$: number of pairs; $m(2, \Delta)$ is the variogram
     \end{itemize}
+    \item If $\log\sigma$ has fBm-like increments, the moments scale as a power of $\Delta$ (monofractal scaling)
+    \[ m(q, \Delta) = K_q\nu^q\Delta^{\zeta_q}, \qquad \zeta_q = qH \]
+    \begin{itemize}
+        \item $\nu$: volatility of volatility; $K_q = \E|Z|^q$, $Z \sim N(0, 1)$; $\zeta_q$: scaling exponent, linear in $q$ with slope $H$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The evidence: scaling of log volatility (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Procedure: OLS of $\log m(q, \Delta)$ on $\log\Delta$ for each $q$ gives $\zeta_q$; regress $\zeta_q$ on $q$ through the origin to get $H$
     \begin{itemize}
         \item we use $q \in \{0.5, 1, 1.5, 2, 3\}$ and $\Delta = 1, \dots, 50$ days
@@ -1077,15 +1198,17 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \begin{frame}{The RFSV model}
 \itemsize{\small}
 \begin{itemize}
-    \item \refGJR: $\sigma_t = \exp(X_t)$, $dX_t = \nu\,dW^H_t - \alpha(X_t - m)\,dt$, a fractional OU process with $H < 1/2$ and tiny $\alpha$
+    \item \refGJR: rough fractional stochastic volatility (RFSV), log volatility a fractional Ornstein--Uhlenbeck (OU) process
+    \[ \sigma_t = \exp(X_t), \qquad dX_t = \nu\,dW^H_t - \alpha(X_t - m)\,dt, \qquad H < 1/2 \]
     \begin{itemize}
-        \item for $\alpha T \ll 1$ the increments behave like those of $\nu W^H$; stationarity only shows at horizons of order $1/\alpha$
+        \item $\nu$: volatility of volatility; $m$: long-run mean of $X$; $\alpha > 0$: speed of mean reversion, very small
+        \item for $\alpha T \ll 1$ ($T$: sample span) the increments behave like those of $\nu W^H$; stationarity only shows at horizons of order $1/\alpha$
     \end{itemize}
-    \item Why it looks like long memory: over observable horizons $\log\sigma$ is close to a non-stationary fBm with $H \approx 0.1$, whose ARFIMA reading is $d = H + 1/2 \approx 0.6$
+    \item The link with long memory: over observable horizons $\log\sigma$ is close to a non-stationary fBm with $H \approx 0.1$, whose ARFIMA reading is $d = H + 1/2 \approx 0.6$
     \begin{itemize}
         \item GJR show that local Whittle and similar estimators applied to RFSV simulations return the ``long-memory'' values found in the literature
     \end{itemize}
-    \item Pricing: rough Bergomi \refBFG\ and rough Heston \refER\ fit the term structure of the implied-volatility skew, $\propto \tau^{H-1/2}$, with few parameters; option-based estimates also give small $H$ \refLMPR
+    \item Pricing: rough Bergomi \refBFG\ and rough Heston \refER\ fit the term structure of the implied-volatility skew, $\propto \tau^{H-1/2}$ ($\tau$: option maturity), with few parameters; option-based estimates also give small $H$ \refLMPR
     \begin{itemize}
         \item the pricing side belongs to MFM; here we test the time-series claim
     \end{itemize}
@@ -1205,20 +1328,26 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \section{Forecasting realised variance: rough, long memory, HAR}
 %=============================================================================
 
-\begin{frame}{The RFSV predictor}
+\begin{frame}{The RFSV predictor (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item For fBm (Nuzman--Poor), with $\alpha \approx 0$, \refGJR, Section 5:
+    \item For fBm (Nuzman--Poor), with $\alpha \approx 0$, \refGJR, Section 5: the forecast of log variance is a weighted average of its past
+    \[ \E[\log\sigma^2_{t+h} \mid \mathcal F_t] = \frac{\cos(H\pi)}{\pi}\,h^{H+1/2}\int_{-\infty}^t\frac{\log\sigma_s^2}{(t - s + h)(t - s)^{H+1/2}}\,ds \]
     \begin{itemize}
-        \item $\E[\log\sigma^2_{t+h} \mid \mathcal F_t] = \dfrac{\cos(H\pi)}{\pi}h^{H+1/2}\displaystyle\int_{-\infty}^t\dfrac{\log\sigma_s^2}{(t - s + h)(t - s)^{H+1/2}}\,ds$
-    \end{itemize}
-    \item The kernel integrates to one: a weighted average of past log variance, more weight on the recent past for small $H$
-    \begin{itemize}
+        \item $h$: forecast horizon; $\mathcal F_t$: the past of volatility up to $t$; the kernel integrates to one, with more weight on the recent past for small $H$
         \item discretised on days: $w_k = \int_k^{k+1}du/((u + h)u^{H+1/2})$, truncated at 500 days and normalised
     \end{itemize}
-    \item Variance forecast: $\E[\sigma^2_{t+h} \mid \mathcal F_t] = \exp\big(\E[\log\sigma^2_{t+h} \mid \mathcal F_t] + 2c\nu^2h^{2H}\big)$, $c = \dfrac{\Gamma(3/2 - H)}{\Gamma(H + 1/2)\Gamma(2 - 2H)}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The RFSV predictor (2/2): the variance forecast}
+\itemsize{\small}
+\begin{itemize}
+    \item From log variance to variance: a lognormal correction
+    \[ \E[\sigma^2_{t+h} \mid \mathcal F_t] = \exp\big(\E[\log\sigma^2_{t+h} \mid \mathcal F_t] + 2c\nu^2h^{2H}\big) \]
+    \[ c = \frac{\Gamma(3/2 - H)}{\Gamma(H + 1/2)\Gamma(2 - 2H)} \]
     \begin{itemize}
-        \item the lognormal correction uses the conditional variance of $\log\sigma$; with the S\&P 500 values $c = 0.707$
+        \item $2c\nu^2h^{2H}$: half the conditional variance of $\log\sigma^2_{t+h}$, which grows with the horizon; with the S\&P 500 values $c = 0.707$
     \end{itemize}
     \item Two parameters ($H$, $\nu$), both from the variogram: no likelihood, no optimisation
 \end{itemize}

@@ -105,7 +105,7 @@ window.ATS_DATA.quizzes['ml-dl'] = {
             },
             "ro": {
                 "title": "Pragul moale",
-                "text": "Cu design ortonormal, coeficientul OLS al unui predictor este $z = 1{,}2$. Care este coeficientul lui lasso pentru $\\lambda = 0{,}5$?",
+                "text": "Cu predictori ortonormali, coeficientul OLS al unui predictor este $z = 1{,}2$. Care este coeficientul lui lasso pentru $\\lambda = 0{,}5$?",
                 "options": [
                     "0,8",
                     "1,2",
@@ -299,10 +299,10 @@ window.ATS_DATA.quizzes['ml-dl'] = {
                     "$\\|W\\|/(T - t)$",
                     "$\\gamma^{-(T-t)}\\|W\\|$",
                     "$(\\gamma\\|W\\|)^{T-t}$ cu $\\gamma = \\max|\\tanh'| \\le 1$",
-                    "$1$ pentru orice decalaj"
+                    "$1$ pentru orice lag"
                 ],
                 "correctExplanation": "Jacobianul este un produs de $T - t$ factori $\\mathrm{diag}(1 - h_k^2)W$, fiecare mărginit de $\\gamma\\|W\\|$.",
-                "incorrectExplanation": "Stingerea este geometrică în decalaj, nu hiperbolică, și nu rămîne la unu."
+                "incorrectExplanation": "Stingerea este geometrică în lag, nu hiperbolică, și nu rămîne la unu."
             }
         },
         {
@@ -433,10 +433,10 @@ window.ATS_DATA.quizzes['ml-dl'] = {
                 "options": [
                     "Transformers pe segmente sînt întotdeauna mai slabe decît modelele liniare",
                     "Transformers nu pot fi antrenate pe mai mult de 336 de pași",
-                    "Modelele liniare bat orice model deep în competiția M4",
-                    "Modelele liniare cu un strat bat Informer, Autoformer și succesorii lor pe majoritatea seturilor standard pentru orizonturi lungi"
+                    "Modelele liniare sînt mai bune decît orice model deep în competiția M4",
+                    "Modelele liniare cu un strat sînt mai bune decît Informer, Autoformer și succesorii lor pe majoritatea seturilor standard pentru orizonturi lungi"
                 ],
-                "correctExplanation": "Au comparat Transformers cu tokeni punctuali cu Linear, NLinear și DLinear pe seturi pentru orizonturi lungi; PatchTST a apărut ulterior și a bătut DLinear.",
+                "correctExplanation": "Au comparat Transformers cu tokeni punctuali cu Linear, NLinear și DLinear pe seturi pentru orizonturi lungi; PatchTST a apărut ulterior și a depășit DLinear.",
                 "incorrectExplanation": "Afirmația lor privește Transformers testate pe acele seturi, nu Transformers pe segmente sau datele M4."
             }
         },
@@ -456,7 +456,7 @@ window.ATS_DATA.quizzes['ml-dl'] = {
             },
             "ro": {
                 "title": "PatchTST",
-                "text": "Care este principala schimbare de design a PatchTST (Nie et al. 2023) față de Transformers anterioare pentru orizonturi lungi?",
+                "text": "Care este principala schimbare de arhitectură a PatchTST (Nie et al. 2023) față de Transformers anterioare pentru orizonturi lungi?",
                 "options": [
                     "Tokenii sînt segmente de valori consecutive, iar fiecare canal este modelat separat",
                     "Atenția este înlocuită cu o medie mobilă",
@@ -569,10 +569,10 @@ window.ATS_DATA.quizzes['ml-dl'] = {
                     "Estimează un singur set de coeficienți din toate seriile, deci numărul de observații pe parametru este de circa 27 de ori mai mare",
                     "Modelele globale sînt imune la rupturi structurale",
                     "Reunirea datelor elimină autocorelația erorilor",
-                    "Modelele globale nu au nevoie de decalaje"
+                    "Modelele globale nu au nevoie de laguri"
                 ],
                 "correctExplanation": "Cu $NT$ rînduri pentru un singur vector de coeficienți, varianța coeficienților cu memorie lungă rămîne mică (Montero-Manso și Hyndman 2021).",
-                "incorrectExplanation": "Reunirea nu elimină rupturile sau autocorelația reziduală; decalajele rămîn intrările modelului."
+                "incorrectExplanation": "Reunirea nu elimină rupturile sau autocorelația reziduală; lagurile rămîn intrările modelului."
             }
         },
         {

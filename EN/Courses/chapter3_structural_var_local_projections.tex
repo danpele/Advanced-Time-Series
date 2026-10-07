@@ -134,12 +134,13 @@ MSCA Digital Finance}
     \item \textbf{MA}: Moving Average
     \item \textbf{MSE}: Mean Squared Error
     \item \textbf{OLS}: Ordinary Least Squares
+    \item \textbf{QR}: Quick Response (code)
     \item \textbf{RMSE}: Root Mean Squared Error
-    \item \textbf{ROBOR}: Romanian Interbank Offer Rate
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{ROBOR}: Romanian Interbank Offer Rate
     \item \textbf{RZ}: Ramey–Zubairy (state-dependent multipliers, 2018)
     \item \textbf{SCA}: Seasonally and Calendar Adjusted
     \item \textbf{SE}: Standard Error
@@ -250,30 +251,44 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \section{The identification problem}
 %=============================================================================
 
-\begin{frame}{Reduced form and structural form}
+\begin{frame}{Reduced form and structural form (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Reduced form (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter6_var_models_granger_causality.pdf}{TSA, Chapter 6}): $y_t = \nu + A_1y_{t-1} + \dots + A_py_{t-p} + u_t$, $\E u_tu_t' = \Sigma_u$
     \begin{itemize}
+        \item $y_t$: the vector of $n$ variables; $\nu$: the intercepts; $A_i$: $n \times n$ coefficient matrices; $\Sigma_u$: the covariance matrix of $u_t$
         \item $u_t$ are one-step forecast errors: they mix all the economic shocks that hit in period $t$
     \end{itemize}
     \item Structural form: $u_t = B_0\varepsilon_t$, with structural shocks $\varepsilon_t$ mutually uncorrelated, $\E\varepsilon_t\varepsilon_t' = I_n$
     \begin{itemize}
-        \item equivalently $B_0^{-1}y_t = B_0^{-1}\nu + B_0^{-1}A_1y_{t-1} + \dots + \varepsilon_t$: contemporaneous relations among the variables
+        \item $B_0$: the $n \times n$ impact matrix, column $j$ = the impact effect of shock $j$; $I_n$: the identity matrix (shocks of unit variance)
         \item a \textbf{shock} is primitive, exogenous, uncorrelated with other shocks and economically meaningful \refRam
     \end{itemize}
-    \item Structural impulse responses: $\Theta_h = \Phi_hB_0$, with $\Phi_h$ the reduced-form MA coefficients
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Reduced form and structural form (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Equivalent structural equations: multiply by $B_0^{-1}$
     \begin{itemize}
+        \item $B_0^{-1}y_t = B_0^{-1}\nu + B_0^{-1}A_1y_{t-1} + \dots + \varepsilon_t$
+        \item the off-diagonal elements of $B_0^{-1}$ are the contemporaneous relations among the variables
+    \end{itemize}
+    \item Structural impulse responses: $\Theta_h = \Phi_hB_0$
+    \begin{itemize}
+        \item $\Phi_h$: the reduced-form MA coefficients, $y_t = \mu + \sum_h\Phi_hu_{t-h}$, $\Phi_0 = I_n$
         \item element $(i, j)$ of $\Theta_h$: effect of a one-standard-deviation shock $j$ on variable $i$ after $h$ periods
     \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Counting: the data do not pin down $B_0$}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{itemize}
     \item The data identify $\Sigma_u = B_0B_0'$: $n(n + 1)/2$ distinct moments; $B_0$ has $n^2$ unknowns
     \begin{itemize}
+        \item $n$: the number of variables; $\Sigma_u$ is symmetric, so it has $n(n + 1)/2$ distinct elements
         \item order condition: at least $n(n - 1)/2$ restrictions (3 for $n = 3$, 28 for $n = 8$)
         \item the rank condition must also hold locally \refRWZ: counting is necessary, not sufficient
     \end{itemize}
@@ -282,7 +297,10 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
         \item the two models fit the data equally well and imply different impulse responses
         \item identification = a rule that selects one $Q$ (point identification) or a set of $Q$ (set identification)
     \end{itemize}
-    \item A useful parametrisation: $B_0 = PQ$ with $P$ the Cholesky factor of $\Sigma_u$; every identification scheme is a choice of $Q$
+    \item A useful parametrisation: $B_0 = PQ$ with $P$ the Cholesky factor of $\Sigma_u$
+    \begin{itemize}
+        \item $P$: the lower-triangular matrix with $PP' = \Sigma_u$; every identification scheme is a choice of $Q$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -320,7 +338,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{frame}{Recursive identification}
 \itemsize{\small}
 \begin{itemize}
-    \item $B_0 = P$ lower triangular: variable $i$ does not respond within the period to shocks ordered after it
+    \item $B_0 = P$ lower triangular (zeros above the diagonal): variable $i$ does not respond within the period to shocks ordered after it
     \begin{itemize}
         \item exactly $n(n - 1)/2$ zeros: just identified; the ordering is the assumption (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter6_var_models_granger_causality.pdf}{TSA, Chapter 6} showed that it matters)
     \end{itemize}
@@ -380,7 +398,9 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{itemize}
     \item \textbf{AB model} \refLut, \refKL: $Au_t = B\varepsilon_t$; zeros and known values anywhere in $A$ and $B$
     \begin{itemize}
-        \item estimated by maximum likelihood: maximise $-\frac T2\ln|A^{-1}BB'A^{-1\prime}| - \frac T2\mathrm{tr}[(A^{-1}BB'A^{-1\prime})^{-1}\hat\Sigma_u]$
+        \item $A$: the contemporaneous relations among $u_t$; $B$: the impact of the shocks; then $\Sigma_u = A^{-1}BB'A^{-1\prime}$
+        \item estimated by maximum likelihood: maximise $-\frac T2\ln|\Sigma_u(A, B)| - \frac T2\mathrm{tr}[\Sigma_u(A, B)^{-1}\hat\Sigma_u]$
+        \item $|\cdot|$: the determinant; $\mathrm{tr}$: the trace; $\hat\Sigma_u$: the residual covariance matrix of the reduced form
         \item over-identifying restrictions can be tested by a likelihood-ratio test against the just-identified model
     \end{itemize}
     \item \textbf{Blanchard--Perotti} \refBP: the automatic response of taxes to output is an \emph{external} elasticity (from tax codes)
@@ -505,15 +525,28 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \section{Long-run restrictions}
 %=============================================================================
 
-\begin{frame}{Blanchard and Quah: the long-run multiplier}
+\begin{frame}{Blanchard and Quah: the long-run multiplier (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item For $y_t = (\Delta\text{output}_t, u_t)'$, the cumulative response of output is $\Theta(1) = \sum_h\Theta_h = (I - A_1 - \dots - A_p)^{-1}B_0 = A(1)^{-1}B_0$
+    \item For $y_t = (\Delta\text{output}_t, u_t)'$ the cumulative responses are
     \begin{itemize}
-        \item restriction \refBQ: demand shocks have no long-run effect on the level of output, $[\Theta(1)]_{12} = 0$
+        \item $\Theta(1) = \sum_h\Theta_h = (I - A_1 - \dots - A_p)^{-1}B_0 = A(1)^{-1}B_0$
+        \item here $u_t$ is the unemployment rate; $A(1) = I - A_1 - \dots - A_p$: the VAR polynomial at 1; the first row of $\Theta(1)$ is the long-run effect on the \emph{level} of output
     \end{itemize}
-    \item Algorithm: $\Theta(1)\Theta(1)' = A(1)^{-1}\Sigma_uA(1)^{-1\prime}$; take its Cholesky factor $L$, then $B_0 = A(1)L$
+    \item Restriction \refBQ: demand shocks have no long-run effect on the level of output
     \begin{itemize}
+        \item $[\Theta(1)]_{12} = 0$
+        \item $[\cdot]_{12}$: the element in row 1 (output) and column 2 (the demand shock)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Blanchard and Quah: the long-run multiplier (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Algorithm: $\Theta(1)\Theta(1)' = A(1)^{-1}\Sigma_uA(1)^{-1\prime}$ is known from the reduced form
+    \begin{itemize}
+        \item take its lower-triangular Cholesky factor $L$ (the zero in position $(1,2)$), then $B_0 = A(1)L$
         \item the zero is placed on the long-run matrix, not on the impact matrix; derivation in the \atsapplink{atsapp1}{atssrc1}{Appendix} and in Seminar 3, A3
     \end{itemize}
     \item Interpretation: ``supply'' = all shocks with permanent effects (technology, labour supply); \refGali\ uses the same idea for technology shocks and hours
@@ -584,14 +617,25 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \section{Sign restrictions and set identification}
 %=============================================================================
 
-\begin{frame}{Identification by signs}
+\begin{frame}{Identification by signs (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Restrict only the \textbf{signs} of some responses for some horizons: a contractionary monetary shock raises the rate and lowers prices \refUhl
     \begin{itemize}
         \item the response of interest (output) is left unrestricted: an ``agnostic'' procedure
     \end{itemize}
-    \item Algorithm \refRWZ: draw $X$ with i.i.d.\ $N(0, 1)$ entries, $X = QR$, normalise the signs of $\mathrm{diag}(R)$; $Q$ is Haar-uniform on the orthogonal group
+    \item Algorithm \refRWZ: draw a random rotation $Q$
+    \begin{itemize}
+        \item draw $X$ ($n \times n$) with i.i.d.\ $N(0, 1)$ entries and compute its QR decomposition $X = QR$ ($Q$ orthogonal, $R$ upper triangular)
+        \item normalise the signs of $\mathrm{diag}(R)$ to be positive: then $Q$ is uniform (Haar) on the set of orthogonal matrices
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Identification by signs (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Accept or reject the rotation
     \begin{itemize}
         \item compute $\Theta_h = \Phi_hPQ$ and keep $Q$ if all signs hold; repeat for draws of $(A, \Sigma_u)$ from the posterior
         \item zero restrictions together with signs need the importance-sampling algorithm of \refARW
@@ -707,6 +751,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{itemize}
     \item If the variances of the structural shocks change across regimes while $B_0$ stays fixed: $\Sigma_1 = B_0B_0'$, $\Sigma_2 = B_0\Lambda B_0'$, $\Lambda$ diagonal \refRig
     \begin{itemize}
+        \item $\Sigma_1, \Sigma_2$: the reduced-form covariance matrices of the two regimes; $\Lambda = \mathrm{diag}(\lambda_1, \dots, \lambda_n)$: the relative variances of the shocks in regime 2
         \item then $\Sigma_1^{-1}\Sigma_2 = B_0^{-1\prime}\Lambda B_0'$: the columns of $B_0$ follow from an eigendecomposition, unique if the $\lambda_i$ are distinct
         \item regimes: known dates (crises, policy announcements) or estimated (Markov switching, GARCH) \refLL
     \end{itemize}
@@ -733,16 +778,32 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \section{External instruments}
 %=============================================================================
 
-\begin{frame}{The proxy SVAR}
+\begin{frame}{The proxy SVAR (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item An external variable $z_t$ (the proxy) with \textbf{relevance} $\E z_t\varepsilon_{1t} = \alpha \ne 0$ and \textbf{exogeneity} $\E z_t\varepsilon_{jt} = 0$, $j \ne 1$
+    \item An external variable $z_t$ (the proxy), correlated with the shock of interest $\varepsilon_{1t}$ and with no other shock
     \begin{itemize}
-        \item then $\E u_tz_t = B_0\E\varepsilon_tz_t = \alpha b_1$: the covariance of the residuals with the proxy is proportional to the impact column $b_1$
+        \item \textbf{relevance}: $\E z_t\varepsilon_{1t} = \alpha \ne 0$; \textbf{exogeneity}: $\E z_t\varepsilon_{jt} = 0$ for $j \ne 1$
     \end{itemize}
-    \item Normalise $b_{11} = 1$ (or a 25 bp rate increase): $b_{i1}/b_{11} = \E(u_{it}z_t)/\E(u_{1t}z_t)$, a 2SLS of $u_{it}$ on $u_{1t}$ with instrument $z_t$ \refSWb, \refMR
+    \item Then the covariance of the residuals with the proxy is proportional to the impact column $b_1$
     \begin{itemize}
-        \item responses $\Theta_{h,\cdot1} = \Phi_hb_1$; the proxy may be noisy, short or available only for a sub-sample
+        \item $\E u_tz_t = B_0\E\varepsilon_tz_t = \alpha b_1$
+        \item $b_1$: the first column of $B_0$, the impact effects of shock 1 on all $n$ variables
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The proxy SVAR (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Normalise $b_{11} = 1$ (or a 25 bp rate increase) and estimate the relative impacts \refSWb, \refMR
+    \begin{itemize}
+        \item $b_{i1}/b_{11} = \E(u_{it}z_t)/\E(u_{1t}z_t)$
+        \item $b_{i1}$: the impact on variable $i$; numerically a 2SLS regression of $u_{it}$ on $u_{1t}$ with instrument $z_t$
+    \end{itemize}
+    \item Responses $\Theta_{h,\cdot1} = \Phi_hb_1$: the first column of $\Theta_h$
+    \begin{itemize}
+        \item the proxy may be noisy, short or available only for a sub-sample
     \end{itemize}
     \item Only one column of $B_0$ is identified, and no zero restriction is needed
 \end{itemize}
@@ -805,6 +866,10 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{itemize}
     \item Weak instruments: when $\alpha$ is small, the ratio $\E(u_iz)/\E(u_1z)$ is badly estimated and delta-method bands undercover
     \begin{itemize}
+        \item first-stage $F$: the $F$ statistic of the regression of $u_{1t}$ on $z_t$; it measures the strength of the instrument
+    \end{itemize}
+    \item Remedies
+    \begin{itemize}
         \item \refMSW: Anderson--Rubin-type confidence sets, valid for any strength; they can be unbounded
         \item report the first-stage $F$ with HAC variance; the rule $F > 10$ is a heuristic, not a test
     \end{itemize}
@@ -836,7 +901,8 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{itemize}
     \item $\hat\Theta_h = g(\hat\beta, \hat\sigma)$ is a smooth function of the VAR estimates: $\sqrt T(\hat\Theta_h - \Theta_h) \to N(0, G\Sigma G')$ \refLut
     \begin{itemize}
-        \item $G = \partial g/\partial(\beta, \sigma)$ in closed form; quick, but symmetric bands
+        \item $\hat\beta$: the VAR coefficients; $\hat\sigma$: the distinct elements of $\hat\Sigma_u$; $\Sigma$: their joint asymptotic covariance
+        \item $G = \partial g/\partial(\beta, \sigma)$: the Jacobian, in closed form; quick, but the bands are symmetric
     \end{itemize}
     \item It fails where we need it most
     \begin{itemize}
@@ -871,6 +937,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{itemize}
     \item \refKilA: (1) bootstrap the bias $\hat b = \bar A^* - \hat A$; (2) correct $\tilde A = \hat A - \hat b$, shrinking the correction if $\tilde A$ is not stationary; (3) bootstrap again from $\tilde A$ and correct each replicate
     \begin{itemize}
+        \item $\hat A$: the OLS estimate of the VAR coefficients; $\bar A^*$: the mean of the bootstrap estimates; $\tilde A$: the bias-corrected estimate
         \item the ``bootstrap after bootstrap'' recentres the distribution where OLS bias is large: persistent series, short samples
     \end{itemize}
     \item Oil VAR: mean absolute bias 0.009 per coefficient; largest root 0.994 before, 0.9999 after the (shrunk) correction
@@ -888,6 +955,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
     \begin{itemize}
         \item questions about the \emph{shape} (``output falls for two years'') need simultaneous bands \refMOPa
         \item sup-$t$ band: scale the pointwise standard errors by the $1 - \alpha$ quantile of $\max_h|t_h|$ from the bootstrap
+        \item $t_h$: the bootstrap response at horizon $h$ minus the estimate, over its standard error; $\max_h|t_h|$: the largest deviation along the whole path
     \end{itemize}
     \item Bayesian bands (posterior quantiles) answer a different question: probability statements given the prior
     \begin{itemize}
@@ -917,6 +985,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \begin{itemize}
     \item \refJorda: one regression per horizon, $y_{i,t+h} = \mu_h + \beta_hx_t + \gamma_h'w_t + \xi_{t+h}$, $h = 0, 1, \dots, H$
     \begin{itemize}
+        \item $y_{i,t+h}$: variable $i$, $h$ periods after the shock; $\mu_h$: an intercept; $\xi_{t+h}$: the projection error; $H$: the longest horizon
         \item $x_t$: the shock (or the policy variable with controls $w_t$ that make it as good as random); $\hat\beta_h$ is the impulse response
         \item no iteration of a model: a misspecified dynamic does not compound across horizons
     \end{itemize}
@@ -950,7 +1019,7 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item DGP: $x_t = 0.5x_{t-1} + e_t$, $y_t = 0.6y_{t-1} + \sum_{j=0}^{11}\psi_je_{t-j} + u_t$ (hump-shaped $\psi_j$), $T = 240$, 500 replications; a VAR(2) is misspecified
+    \item DGP: $x_t = 0.5x_{t-1} + e_t$, $y_t = 0.6y_{t-1} + \sum_{j=0}^{11}\psi_je_{t-j} + u_t$ (hump-shaped $\psi_j$), $T = 240$, 500 replications; $e_t, u_t$: independent white noises; a VAR(2) is misspecified
 \end{itemize}
 \quantlet{ATS\_ch3\_lp\_vs\_var}{\qlurl{ATS_ch3_lp_vs_var}}
 \end{frame}
@@ -975,11 +1044,12 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
     \begin{itemize}
         \item $\theta_{h,i}$ = response of $y_i$ after $h$ periods to a shock that raises $y_1$ by one unit on impact
         \item conditions: relevance, contemporaneous exogeneity and \textbf{lead-lag exogeneity} $\E z_t\varepsilon_{t+j} = 0$ for $j \ne 0$, given $w_t$
+        \item lead-lag exogeneity: the instrument is unrelated to past and future shocks, not only to current ones
     \end{itemize}
     \item Same identifying information as the proxy SVAR; different estimator
     \begin{itemize}
         \item the proxy SVAR needs invertibility of the shock; LP-IV does not, but pays in variance
-        \item cumulative LP-IV gives multipliers: $\sum_{j\le h}y_{t+j}$ on $\sum_{j\le h}g_{t+j}$ instrumented by $z_t$ \refRZ
+        \item cumulative LP-IV gives multipliers: $\sum_{j\le h}y_{t+j}$ on $\sum_{j\le h}g_{t+j}$ instrumented by $z_t$ \refRZ; $y$: output, $g$: government spending
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1008,17 +1078,29 @@ ECB monetary policy shocks; EA 1-year rate & \refJK\ (authors' update); ECB Data
 \end{itemize}
 \end{frame}
 
-\begin{frame}{State-dependent local projections}
+\begin{frame}{State-dependent local projections (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Interact everything with a lagged state indicator $I_{t-1}$: $y_{t+h} = I_{t-1}[\alpha_{A,h} + \beta_{A,h}x_t + \dots] + (1 - I_{t-1})[\alpha_{B,h} + \beta_{B,h}x_t + \dots] + \xi_{t+h}$
+    \item Interact everything with the state indicator of the previous period, $I_{t-1}$:
+    \begin{itemize}
+        \item $y_{t+h} = I_{t-1}[\alpha_{A,h} + \beta_{A,h}x_t + \dots] + (1 - I_{t-1})[\alpha_{B,h} + \beta_{B,h}x_t + \dots] + \xi_{t+h}$
+        \item $I_{t-1} = 1$ in state A (e.g.\ slack), 0 in state B; $\beta_{A,h}$, $\beta_{B,h}$: the responses at horizon $h$ in each state; $\alpha$: state-specific intercepts
+    \end{itemize}
+    \item What LP measures here
     \begin{itemize}
         \item the state may change after the shock: LP measures the average response given the initial state, including transitions
         \item no need to model the state dynamics, unlike a threshold or a smooth-transition VAR (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter2_structural_breaks_nonlinear_models.pdf}{Chapter 2})
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{State-dependent local projections (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item Case study \refRZ: are government spending multipliers larger in slack times?
     \begin{itemize}
-        \item US quarterly data 1889--2015; military news shock (Ramey) scaled by potential GDP; slack = unemployment $\ge 6.5\%$ in $t - 1$ (36\% of quarters)
+        \item US quarterly data 1889--2015; military news shock (Ramey) scaled by potential GDP
+        \item slack = unemployment $\ge 6.5\%$ in $t - 1$ (36\% of quarters)
         \item cumulative LP-IV of output on government spending, 4 lags of news, output and spending, Newey--West with $h + 1$ lags
     \end{itemize}
 \end{itemize}

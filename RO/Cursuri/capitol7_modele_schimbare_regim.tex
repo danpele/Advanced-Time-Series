@@ -293,12 +293,13 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
 \begin{itemize}
     \item MS($K$)-AR($p$): $y_t = \nu_{S_t} + \sum_{k=1}^p \phi_{k,S_t} y_{t-k} + \sigma_{S_t}\varepsilon_t$, $\varepsilon_t \sim$ i.i.d.\ $N(0, 1)$, $S_t \in \{1, \dots, K\}$
     \begin{itemize}
-        \item $S_t$ un lanț Markov omogen, $p_{ij} = \Pr(S_t = j \mid S_{t-1} = i)$, independent de $\varepsilon$ \refKro
+        \item $S_t$: regimul la momentul $t$, una dintre $K$ valori; $\nu_{S_t}$, $\phi_{k,S_t}$, $\sigma_{S_t}$: termenul liber, coeficienții AR($p$) și abaterea standard a șocului în regimul curent
+        \item $S_t$ un lanț Markov omogen, $p_{ij} = \Pr(S_t = j \mid S_{t-1} = i)$, independent de $\varepsilon$ \refKro; $\mathbf{P} = (p_{ij})$: matricea de tranziție, cu suma pe fiecare rînd egală cu 1
     \end{itemize}
     \item Parametrii care comută dau numele:
     \begin{itemize}
         \item \textbf{MSI}: termenul liber $\nu$; \textbf{MSIH}: termenul liber și varianța; \textbf{MSIAH}: termenul liber, coeficienții AR și varianța
-        \item \textbf{MSM} (Hamilton 1989): comută \emph{media}, $y_t - \mu_{S_t} = \sum_k \phi_k(y_{t-k} - \mu_{S_{t-k}}) + \sigma\varepsilon_t$
+        \item \textbf{MSM} (Hamilton 1989): comută \emph{media} $\mu_{S_t}$, $y_t - \mu_{S_t} = \sum_k \phi_k(y_{t-k} - \mu_{S_{t-k}}) + \sigma\varepsilon_t$
     \end{itemize}
     \item MSI: după o comutare media se ajustează treptat; MSM: sare imediat; MSM cere regimurile a $p + 1$ perioade
     \item Cazuri particulare: $p_{ij} = \pi_j$ pentru orice $i$ dă un amestec i.i.d.; o matrice $\mathbf{P}$ superior triunghiulară dă un model cu puncte de schimbare \refChibC
@@ -310,11 +311,12 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
 \begin{itemize}
     \item Probabilitățile ergodice: $\boldsymbol\pi'\mathbf{P} = \boldsymbol\pi'$, $\mathbf{1}'\boldsymbol\pi = 1$; pentru $K = 2$, $\pi_1 = (1 - p_{22})/(2 - p_{11} - p_{22})$
     \begin{itemize}
-        \item duratele sînt geometrice: $\Pr(D_i = d) = p_{ii}^{d-1}(1 - p_{ii})$, $\E D_i = 1/(1 - p_{ii})$ (fără memorie)
+        \item $\boldsymbol\pi$: proporția pe termen lung a timpului petrecut în fiecare regim; $\mathbf{1}$: un vector de unități
+        \item duratele sînt geometrice: $\Pr(D_i = d) = p_{ii}^{d-1}(1 - p_{ii})$, $\E D_i = 1/(1 - p_{ii})$ (fără memorie); $D_i$: numărul de perioade cît durează o vizită în regimul $i$
     \end{itemize}
     \item Reprezentarea AR(1) \refHam, \S22.2: $\xi_t = \mathbf{1}\{S_t = 1\}$ verifică $\xi_t = (1 - p_{22}) + \lambda\xi_{t-1} + v_t$, $\lambda = p_{11} + p_{22} - 1$
     \begin{itemize}
-        \item $v_t$ este o diferență de martingală, dar nu este independent de trecut (varianța lui depinde de $S_{t-1}$)
+        \item $\mathbf{1}\{\cdot\}$: indicatorul (1 dacă este adevărat, 0 altfel); $v_t$: inovația; este o diferență de martingală, dar nu este independentă de trecut (varianța ei depinde de $S_{t-1}$)
         \item $\Pr(S_{t+h} = 1 \mid S_t) \to \pi_1$ cu viteza $\lambda^h$: $\lambda$ este persistența procesului de regim
     \end{itemize}
     \item Dependența de durată (recesiuni care se încheie mai probabil cu cît durează mai mult) cere o stare extinsă sau un lanț semi-Markov \refMM
@@ -372,7 +374,7 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
     \item Cost: $O(TK^2)$; la MSM-AR($p$) starea este $(S_t, \dots, S_{t-p})$, $M = K^{p+1}$ ($32$ pentru $K = 2$, $p = 4$ ale lui Hamilton)
     \begin{itemize}
         \item matricea de tranziție extinsă este rară: din $(i_0, \dots, i_p)$ se trece doar în $(j, i_0, \dots, i_{p-1})$, cu probabilitatea $p_{i_0 j}$
-        \item MSI-AR($p$) cere doar $K$ stări: valorile întîrziate ale lui $y$ intră ca regresori
+        \item MSI-AR($p$) cere doar $K$ stări: valorile cu lag ale lui $y$ intră ca regresori
     \end{itemize}
     \item Filtrul nostru numpy și \texttt{statsmodels} dau aceeași log-verosimilitate, la precizia mașinii, cînd distribuția inițială este aceeași
 \end{itemize}
@@ -388,7 +390,7 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
     \end{itemize}
     \item Bayes pentru pereche: $\Pr(S_t = i, S_{t+1} = j \mid Y_T) = \dfrac{\hat\xi_{i,t|t}\,p_{ij}}{\hat\xi_{j,t+1|t}}\,\hat\xi_{j,t+1|T}$
     \begin{itemize}
-        \item sumăm după $j$: $\hat\xi_{t|T} = \hat\xi_{t|t}\odot\left[\mathbf{P}(\hat\xi_{t+1|T}\oslash\hat\xi_{t+1|t})\right]$, înapoi de la $\hat\xi_{T|T}$
+        \item sumăm după $j$: $\hat\xi_{t|T} = \hat\xi_{t|t}\odot\left[\mathbf{P}(\hat\xi_{t+1|T}\oslash\hat\xi_{t+1|t})\right]$, înapoi de la $\hat\xi_{T|T}$; $\oslash$: împărțirea element cu element
     \end{itemize}
     \item Probabilitățile comune ale perechii $(S_t, S_{t+1})$ sînt pasul E al algoritmului EM; eșantionarea în locul sumării dă FFBS (secțiunea 7)
 \end{itemize}
@@ -430,9 +432,10 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
     \item Dacă $S_1, \dots, S_T$ ar fi observate, log-verosimilitatea s-ar separa \refDLR, \refHamB:
     \begin{itemize}
         \item $\ln L_c = \sum_j \mathbf{1}\{S_1 = j\}\ln\rho_j + \sum_{t\ge2}\sum_{i,j}\mathbf{1}\{S_{t-1} = i, S_t = j\}\ln p_{ij} + \sum_t\sum_j \mathbf{1}\{S_t = j\}\ln\eta_{jt}(\theta_j)$
-        \item numărători de tranziții și regresii regim cu regim: forme închise
+        \item $\rho_j = \Pr(S_1 = j)$: probabilitățile inițiale; $\eta_{jt}(\theta_j)$: densitatea lui $y_t$ în regimul $j$, cu parametrii $\theta_j$
+        \item numărarea tranzițiilor și regresii regim cu regim: forme închise
     \end{itemize}
-    \item \textbf{Pasul E}: înlocuim indicatorii cu așteptările lor date fiind $Y_T$ și $\theta^{(m)}$ curent
+    \item \textbf{Pasul E}: înlocuim indicatorii cu speranțele lor condiționate de $Y_T$ și de $\theta^{(m)}$ curent ($m$: iterația)
     \begin{itemize}
         \item $\hat\xi_{j,t|T}$ și $\hat\xi_{ij,t|T} = \Pr(S_{t-1} = i, S_t = j \mid Y_T)$: exact ieșirea netezitorului Kim
     \end{itemize}
@@ -444,7 +447,7 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
 \itemsize{\small}
 \begin{itemize}
     \item Tranzițiile: $p_{ij}^{(m+1)} = \dfrac{\sum_{t=2}^T \hat\xi_{ij,t|T}}{\sum_{t=2}^T \hat\xi_{i,t-1|T}}$ (tranziții așteptate raportate la vizite așteptate); $\rho^{(m+1)} = \hat\xi_{1|T}$
-    \item Coeficienți care comută (MSIAH): cele mai mici pătrate ponderate $\beta_j^{(m+1)} = (X'W_jX)^{-1}X'W_jy$, $W_j = \mathrm{diag}(\hat\xi_{j,t|T})$
+    \item Coeficienți care comută (MSIAH): cele mai mici pătrate ponderate $\beta_j^{(m+1)} = (X'W_jX)^{-1}X'W_jy$, $W_j = \mathrm{diag}(\hat\xi_{j,t|T})$; $X$: liniile $x_t'$ (constanta și lagurile), $y$: observațiile; fiecare dată contează cu probabilitatea de a fi în regimul $j$
     \item Varianțele: $\sigma_j^{2(m+1)} = \sum_t\hat\xi_{j,t|T}(y_t - x_t'\beta_j)^2/\sum_t\hat\xi_{j,t|T}$; MS-VAR: același lucru cu matrice
     \item Coeficienți comuni (MSIH-AR): o singură regresie ponderată stivuită, cu ponderile $\hat\xi_{j,t|T}/\sigma_j^2$ (un pas M condiționat, ECM)
     \item MSM-AR: $\mu$ și $\phi$ apar ca produse, deci nu există formă închisă: maximizare numerică (sau EM cu un pas M numeric)
@@ -531,7 +534,7 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
         \item (ii) ipoteza nulă se poate scrie $p_{11} = 1$: un parametru pe \textbf{frontieră}
         \item (iii) scorul în raport cu $\mu_2 - \mu_1$ este \textbf{identic zero} sub $H_0$: matricea informațională este singulară
     \end{itemize}
-    \item Fiecare dintre cele trei încalcă una dintre condițiile pentru $2\ln\Lambda \to \chi^2_q$: numărarea parametrilor nu dă valoarea critică
+    \item Fiecare dintre cele trei încalcă una dintre condițiile pentru $2\ln\Lambda \to \chi^2_q$ ($\Lambda$: raportul de verosimilitate; $q$: numărul de restricții): numărarea parametrilor nu dă valoarea critică
     \item Aceeași structură ca testarea liniarității față de TAR sau STAR (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2}), cu o comutare latentă în locul uneia observate
 \end{itemize}
 \end{frame}
@@ -541,11 +544,11 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
 \begin{itemize}
     \item \refHan: tratează verosimilitatea ca un proces empiric în parametrii de perturbare și mărginește LR standardizat; conservator, greu de calculat
     \begin{itemize}
-        \item aplicat modelului PNB al lui Hamilton: nicio evidență împotriva unui singur regim la nivelurile uzuale
+        \item aplicat modelului PNB al lui Hamilton: nicio dovadă împotriva unui singur regim la nivelurile uzuale
     \end{itemize}
     \item \refGar: distribuția asimptotică sub $H_0$ a statisticii sup-LR pentru modele cu medie (și varianță) care comută, cu valori critice tabelate
-    \item \refCW: LR quasi față de un amestec cu două componente (o comutare i.i.d.\ are același comportament sub $H_0$); \refCHP: un test optim față de schimbarea de regim de tip Markov care cere doar modelul nul (de tip scor, cu termeni de ordinul doi)
-    \item În practică: \textbf{bootstrap parametric} al LR: simulăm din modelul nul estimat, reestimăm ambele modele (cu mai multe puncte de pornire) pe fiecare eșantion, $p = (1 + \#\{LR^* \ge LR\})/(B + 1)$
+    \item \refCW: quasi-LR față de un amestec cu două componente (o comutare i.i.d.\ are același comportament sub $H_0$); \refCHP: un test optim față de schimbarea de regim de tip Markov care cere doar modelul nul (de tip scor, cu termeni de ordinul doi)
+    \item În practică: \textbf{bootstrap parametric} al LR: simulăm din modelul nul estimat, reestimăm ambele modele (cu mai multe puncte de pornire) pe fiecare eșantion, $p = (1 + \#\{LR^* \ge LR\})/(B + 1)$; $LR^*$: cele $B$ statistici bootstrap, $\#$: numărul celor mai mari decît $LR$
     \item Selecție în loc de testare: AIC, BIC, HQ sau factori Bayes prin verosimilitatea marginală \refChibA
 \end{itemize}
 \end{frame}
@@ -566,7 +569,7 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
 \itemsize{\small}
 \begin{itemize}
     \item Cuantila bootstrap de 95\% este 12{,}32, față de 5{,}99 ($\chi^2_2$) și 9{,}49 ($\chi^2_4$); media extragerilor sub $H_0$ 5{,}79: numărarea parametrilor dă o valoare critică greșită
-    \item LR observat = 71{,}7, valoarea $p$ bootstrap 0{,}005 (cea mai mică posibilă cu $B = 199$): două regimuri
+    \item LR observat = 71{,}7, p-value-ul bootstrap 0{,}005 (cea mai mică posibilă cu $B = 199$): două regimuri
     \item Dar ce regimuri? Abaterile standard 0{,}46 și 1{,}11 pp, $p_{ii}$ = 0{,}990 și 0{,}985: ere de volatilitate (Marea Moderație), nu recesiuni
     \item BIC: 755{,}5 ($K = 1$), 706{,}4 ($K = 2$), 734{,}7 ($K = 3$); AIC: 744{,}5; 680{,}8; 687{,}0
 \end{itemize}
@@ -576,7 +579,7 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
 \itemsize{\small}
 \begin{itemize}
     \item Parametri de perturbare neidentificați, o frontieră și un scor nul: nicio limită chi-pătrat
-    \item Folosiți valori $p$ bootstrap sau valori critice de tip Garcia; criterii informaționale pentru selecție
+    \item Folosiți p-value-uri bootstrap sau valori critice de tip Garcia; criterii informaționale pentru selecție
     \item Un test semnificativ spune că modelul se potrivește mai bine, nu că regimurile înseamnă ce am sperat
 \end{itemize}
 \end{frame}
@@ -621,7 +624,7 @@ statsmodels & 1{,}164 & \ensuremath{-}0{,}359 & 0{,}013 & \ensuremath{-}0{,}058 
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item Tranziții: $p_{00} = 0{,}755$ (rămînerea în regimul scăzut), $p_{11} = 0{,}904$; durate așteptate de 4{,}1 și 10{,}4 trimestre; $T = 131$ după 4 decalaje
+    \item Tranziții: $p_{00} = 0{,}755$ (rămînerea în regimul scăzut), $p_{11} = 0{,}904$; durate așteptate de 4{,}1 și 10{,}4 trimestre; $T = 131$ după 4 laguri
     \item Cea mai mare diferență între cele două traiectorii ale probabilităților netezite: $<10^{-4}$
     \item Estimarea: BFGS pe starea extinsă de 32 de combinații de regimuri, 8 puncte de pornire aleatoare; erorile standard din hessiana numerică
 \end{itemize}
@@ -690,6 +693,7 @@ statsmodels & 1{,}164 & \ensuremath{-}0{,}359 & 0{,}013 & \ensuremath{-}0{,}058 
 \begin{itemize}
     \item \refDLW, \refFil: $p_{ii,t} = \Pr(S_t = i \mid S_{t-1} = i, z_{t-1}) = \dfrac{\exp(z_{t-1}'\gamma_i)}{1 + \exp(z_{t-1}'\gamma_i)}$
     \begin{itemize}
+        \item $z_{t-1}$: variabile observate cunoscute la $t - 1$ (cu o constantă); $\gamma_i$: coeficienții lor; funcția logistică menține $p_{ii,t}$ în $(0, 1)$
         \item un indicator avansat, panta curbei randamentelor sau dobînda de politică pot face mai probabil sau mai puțin probabil începutul sau sfîrșitul unei recesiuni
         \item duratele așteptate variază acum în timp; lanțul nu mai este omogen
     \end{itemize}
@@ -754,7 +758,8 @@ tranziții constante & & 2{,}77 & $p_{00} = 0{,}983$ & $p_{11} = 0{,}14$ & \ensu
 \begin{itemize}
     \item MSIAH($K$)-VAR($p$): $y_t = \nu_{S_t} + \sum_{k=1}^p A_{k,S_t}y_{t-k} + \Sigma_{S_t}^{1/2}\varepsilon_t$, $y_t \in \R^n$ \refKro
     \begin{itemize}
-        \item EM: pasul M este o regresie multivariată ponderată pe fiecare regim; $\Sigma_j = \sum_t\hat\xi_{j,t|T}\hat u_{jt}\hat u_{jt}'/\sum_t\hat\xi_{j,t|T}$
+        \item $\nu_{S_t}$, $A_{k,S_t}$, $\Sigma_{S_t}$: vectorul termenilor liberi, matricele lagurilor și covarianța erorilor în regimul curent; $\varepsilon_t \sim N(0, I_n)$
+        \item EM: pasul M este o regresie multivariată ponderată pe fiecare regim; $\Sigma_j = \sum_t\hat\xi_{j,t|T}\hat u_{jt}\hat u_{jt}'/\sum_t\hat\xi_{j,t|T}$ ($\hat u_{jt}$: reziduurile regimului $j$)
         \item parametrii cresc ca $K(n + n^2p + n(n + 1)/2)$: shrinkage sau comutare restrînsă (MSIH) în sistemele mai mari (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol5_bvar_modele_factoriale_nowcasting.pdf}{Capitolul 5})
     \end{itemize}
     \item \textbf{Răspunsuri la impuls dependente de regim} \refEEV: $\partial y_{t+h}/\partial\varepsilon_t$ calculat cu $(A_j, \Sigma_j)$, presupunînd că regimul $j$ persistă pe orizont
@@ -815,7 +820,7 @@ tranziții constante & & 2{,}77 & $p_{00} = 0{,}983$ & $p_{11} = 0{,}14$ & \ensu
 \begin{frame}{Problema dependenței de traiectorie}
 \itemsize{\small}
 \begin{itemize}
-    \item MS-GARCH naiv: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$, cu $h_{t-1}$ dependent la rîndul lui de regim
+    \item MS-GARCH naiv: $h_t = \omega_{S_t} + \alpha_{S_t}\varepsilon_{t-1}^2 + \beta_{S_t}h_{t-1}$, cu $h_{t-1}$ dependent la rîndul lui de regim; $h_t$: varianța condiționată; $\varepsilon_{t-1}$: ultimul șoc al randamentului; $\omega$, $\alpha$, $\beta$: parametrii GARCH ai regimului
     \begin{itemize}
         \item $h_t$ depinde de întreaga traiectorie $(S_1, \dots, S_t)$: $K^t$ istorii, deci filtrul Hamilton nu se poate aplica ($2^{100} \approx 10^{30}$)
     \end{itemize}
@@ -932,7 +937,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \itemsize{\small}
 \begin{itemize}
     \item \refAB: cu schimbare de regim, portofoliile optime depind de probabilitățile curente ale regimurilor; preferința pentru piața internă și valoarea diversificării internaționale se schimbă de la un regim la altul
-    \item Ponderea mediei-varianței pentru acțiuni față de numerar, aversiunea la risc $\gamma = 5$: $w = \mu/(\gamma\sigma^2)$ (momente săptămînale)
+    \item Ponderea acțiunilor față de numerar în portofoliul medie--varianță, cu aversiunea la risc $\gamma = 5$: $w = \mu/(\gamma\sigma^2)$; $\mu$, $\sigma^2$: media și varianța săptămînale ale randamentului în regim
     \begin{itemize}
         \item S\&P 500: 2{,}79 în regimul calm, \ensuremath{-}0{,}51 în cel agitat, 0{,}39 cu momente constante
         \item cu momentele amestecului la un pas, ponderea se mișcă între \ensuremath{-}0{,}47 și 2{,}02
@@ -952,13 +957,13 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \begin{itemize}
     \item Tratăm $S = (S_1, \dots, S_T)$ ca parametri \refAC: dat fiind $S$, modelul este un set de regresii; dat fiind $\theta$, $S$ este un lanț Markov ascuns
     \begin{itemize}
-        \item 1. $S \mid \theta, Y$; 2. $\mathbf{P} \mid S$: rîndurile $\sim$ Dirichlet$(a_{i\cdot} + n_{i\cdot})$, $n_{ij}$ numărul de tranziții
+        \item 1. $S \mid \theta, Y$; 2. $\mathbf{P} \mid S$: rîndurile $\sim$ Dirichlet$(a_{i\cdot} + n_{i\cdot})$, $n_{ij}$ numărul de tranziții, $a_{ij}$ parametrii Dirichlet a priori
         \item 3. $\mu_j \mid \sigma_j^2, S, Y \sim$ Normală și $\sigma_j^2 \mid \mu_j, S, Y \sim$ inverse gamma: actualizări conjugate pe observațiile regimului $j$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol5_bvar_modele_factoriale_nowcasting.pdf}{Capitolul 5})
     \end{itemize}
     \item \textbf{FFBS} \refChibB: extragem toată traiectoria odată: $S_T \sim \hat\xi_{T|T}$, apoi înapoi $\Pr(S_t = i \mid S_{t+1} = j, Y_t) \propto \hat\xi_{i,t|t}p_{ij}$
     \begin{itemize}
-        \item eșantionarea cîte un $S_t$, dat fiind $S_{t-1}$ și $S_{t+1}$, se amestecă foarte lent cînd regimurile sînt persistente
-        \item analogul discret al netezitorului prin simulare din \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6} \refCK
+        \item eșantionarea cîte un $S_t$, dat fiind $S_{t-1}$ și $S_{t+1}$, are o amestecare (mixing) foarte lentă cînd regimurile sînt persistente
+        \item analogul discret al simulation smoother-ului din \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6} \refCK
     \end{itemize}
     \item Distribuțiile a priori țin $\sigma_j$ departe de 0 și $p_{ii}$ departe de frontieră: maximele degenerate ale verosimilității dispar
 \end{itemize}
@@ -970,7 +975,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
     \item \textbf{Eșantionatorul cu permutări aleatoare} \refFSa: permutăm aleator etichetele după fiecare iterație; eșantionatorul vizitează astfel toate cele $K!$ moduri
     \begin{itemize}
         \item rezultatul nerestricționat arată ce parametri separă regimurile; identificăm apoi prin restricția care le separă
-        \item o restricție proastă (de exemplu pe parametri aproape egali) taie un mod în două și deplasează ambele regimuri \refCHR
+        \item o restricție nepotrivită (de exemplu pe parametri aproape egali) taie un mod în două și deplasează ambele regimuri \refCHR
     \end{itemize}
     \item Alegerea lui $K$: verosimilitatea marginală $p(Y \mid K)$ din rezultatele Gibbs \refChibA, $\ln p(Y) = \ln f(Y \mid \theta^*) + \ln p(\theta^*) - \ln p(\theta^* \mid Y)$
     \begin{itemize}
@@ -1020,7 +1025,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \begin{frame}{Comutările rare arată ca memoria lungă}
 \itemsize{\small}
 \begin{itemize}
-    \item \refDI: $y_t = \mu_{S_t} + \varepsilon_t$ cu $p_{ii} = 1 - c/T^\delta$: varianța sumelor parțiale crește ca la un proces I($d$), $d > 0$
+    \item \refDI: $y_t = \mu_{S_t} + \varepsilon_t$ cu $p_{ii} = 1 - c/T^\delta$ ($c, \delta > 0$: comutările devin mai rare cînd $T$ crește): varianța sumelor parțiale crește ca la un proces I($d$), $d > 0$
     \begin{itemize}
         \item autocorelațiile $\propto\lambda^k$, cu $\lambda \to 1$, scad atît de lent încît, în orice eșantion finit, par hiperbolice
     \end{itemize}
@@ -1050,7 +1055,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \begin{itemize}
     \item Comutări rare ($p = 1 - 5/T$): media $\hat d$ = 0{,}43; 0{,}51; 0{,}60; 0{,}63 pentru $T$ = 250; 1\,000; 4\,000; 16\,000: nu dispare cînd $T$ crește
     \item $p = 0{,}95$ fix: 0{,}30; 0{,}18; 0{,}08; 0{,}01: memorie scurtă, $\hat d \to 0$ pe măsură ce frecvențele folosite se apropie de zero
-    \item Traiectoria din stînga are 6 comutări în 4000 de observații; autocorelația ei este 0{,}12 la decalajul 50 și 0{,}06 la decalajul 200
+    \item Traiectoria din stînga are 6 comutări în 4000 de observații; autocorelația ei este 0{,}12 la lagul 50 și 0{,}06 la lagul 200
 \end{itemize}
 \end{frame}
 
@@ -1116,7 +1121,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \end{column}
 \begin{column}{0.62\textwidth}
 \begin{itemize}
-    \item 1999--2005: depreciere graduală a leului vechi într-un regim de flotare controlată
+    \item 1999--2005: depreciere graduală a leului vechi într-un regim de managed float
     \item Iulie 2005: denominarea (10\,000 ROL = 1 RON); august 2005: țintirea inflației, cu un regim de managed float; contul de capital complet liberalizat în 2006
     \item Episoade: octombrie 2008, 2011--2012, martie 2020, mai 2025 (alegerile prezidențiale și tensiunile fiscale)
     \item Modelul: variații logaritmice săptămînale, MSIH(3) ordonat după volatilitate; regimurile sînt rezultate ale politicii, nu regimul anunțat
@@ -1143,7 +1148,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
     \item Abaterea standard săptămînală pe regim: 0{,}07; 0{,}39 și 1{,}51\%; durate așteptate de 16; 17 și 20 de săptămîni
     \item Înainte de iulie 2005 regimul agitat cuprinde 87\% din săptămîni (deprecierea continuă a leului vechi, media 0{,}25\% pe săptămînă), după aceea 18\%; regimul calm trece de la 2\% la 25\%
     \item Probabilitatea regimului agitat atinge 1{,}00 în octombrie 2008--martie 2009 și 1{,}00 în primăvara lui 2025; cea mai mare variație săptămînală din 2025, 2{,}76\%, în săptămîna încheiată la 9 mai 2025
-    \item EUR/RON a avut media 4{,}9773 în aprilie 2025 și era 5{,}2644 la sfîrșitul eșantionului: o schimbare de nivel urmată de revenirea la calm, cum prevede un regim de flotare controlată
+    \item EUR/RON a avut media 4{,}9773 în aprilie 2025 și era 5{,}2644 la sfîrșitul eșantionului: o schimbare de nivel urmată de revenirea la calm, cum prevede un regim de managed float
 \end{itemize}
 \end{frame}
 
@@ -1162,9 +1167,9 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
     \item La mai mulți pași, cu termeni AR: media nu este liniară în regimurile trecute (MSM) sau cere traiectoria regimurilor; simulăm traiectorii ale perechii $(S, y)$
     \item Evaluarea (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}): prognozele punctuale prin RMSE și Diebold--Mariano; densitățile prin scorul logaritmic, PIT și CRPS; probabilitățile regimurilor prin QPS
     \begin{itemize}
-        \item QPS $= \frac2T\sum_t(\hat p_t - d_t)^2$ \refDR: scorul Brier al unei probabilități de recesiune față de indicatorul NBER
+        \item QPS $= \frac2T\sum_t(\hat p_t - d_t)^2$ \refDR: scorul Brier al unei probabilități de recesiune $\hat p_t$ față de indicatorul NBER $d_t$ (1 în recesiune); 0 este perfect, 2 cel mai slab
     \end{itemize}
-    \item \refCKr: modelele MS bat rar modelele AR liniare în prognozele punctuale ale PIB; valoarea lor stă în densități și în probabilitățile punctelor de întoarcere
+    \item \refCKr: modelele MS sînt rareori superioare modelelor AR liniare în prognozele punctuale ale PIB; valoarea lor stă în densități și în probabilitățile punctelor de întoarcere
 \end{itemize}
 \end{frame}
 
@@ -1212,7 +1217,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
         \item formal: $H_0$: QPS egal pentru probabilitatea filtrată a regimului și pentru regula celor două trimestre negative, față de o cronologie de referință, pe trimestre preînregistrate
         \item infirmată de o diferență semnificativă pe trimestre pe care modelul nu le-a văzut, cu ediții ale PIB
     \end{itemize}
-    \item De ce contează: România nu are un comitet oficial de datare a ciclului economic; politica reacționează la regimuri pe care le vede doar cu întîrziere
+    \item Miza: România nu are un comitet oficial de datare a ciclului economic; politica reacționează la regimuri pe care le vede doar cu întîrziere
     \begin{itemize}
         \item literatura de pornire: \refHamA, \refCP, \refCKr, \refHamC
     \end{itemize}

@@ -387,21 +387,30 @@ D.section('Parameter instability and a known break date', 'Instabilitatea parame
 
 D.frame(T('Setting and notation', 'Cadrul și notațiile'), items(
     (T('Linear model $y_t = x_t\'\\beta_t + u_t$, $t = 1, \\dots, T$; stability means $H_0$: $\\beta_t = \\beta$ for all $t$', 'Modelul liniar $y_t = x_t\'\\beta_t + u_t$, $t = 1, \\dots, T$; stabilitatea înseamnă $H_0$: $\\beta_t = \\beta$ pentru orice $t$'),
-     [T('one break at $T_1 = [\\pi T]$: $\\beta_t = \\beta_1$ for $t \\le T_1$ and $\\beta_t = \\beta_2$ after; $\\pi \\in (0, 1)$ is the \\textbf{break fraction}', 'o ruptură la $T_1 = [\\pi T]$: $\\beta_t = \\beta_1$ pentru $t \\le T_1$ și $\\beta_t = \\beta_2$ după; $\\pi \\in (0, 1)$ este \\textbf{fracția rupturii}'),
+     [T('$x_t$: the $k \\times 1$ vector of regressors; $\\beta_t$: the coefficients at date $t$; $u_t$: the error', '$x_t$: vectorul celor $k$ regresori; $\\beta_t$: coeficienții la momentul $t$; $u_t$: eroarea'),
+      T('one break at $T_1 = [\\pi T]$ ($[\\cdot]$: the integer part): $\\beta_t = \\beta_1$ for $t \\le T_1$ and $\\beta_t = \\beta_2$ after; $\\pi \\in (0, 1)$ is the \\textbf{break fraction}', 'o ruptură la $T_1 = [\\pi T]$ ($[\\cdot]$: partea întreagă): $\\beta_t = \\beta_1$ pentru $t \\le T_1$ și $\\beta_t = \\beta_2$ după; $\\pi \\in (0, 1)$ este \\textbf{fracția rupturii}'),
       T('$m$ breaks $T_1 < \\dots < T_m$ split the sample into $m + 1$ regimes', '$m$ rupturi $T_1 < \\dots < T_m$ împart eșantionul în $m + 1$ regimuri')]),
     (T('Kinds of change', 'Tipuri de schimbare'),
      [T('\\textbf{pure} change (all coefficients) or \\textbf{partial} change ($y_t = x_t\'\\beta + z_t\'\\delta_j + u_t$: only $\\delta$ moves)', 'schimbare \\textbf{totală} (toți coeficienții) sau \\textbf{parțială} ($y_t = x_t\'\\beta + z_t\'\\delta_j + u_t$: doar $\\delta$ se schimbă)'),
+      T('$z_t$: the regressors whose coefficients change; $\\delta_j$: their value in regime $j$; $\\beta$: the coefficients common to all regimes', '$z_t$: regresorii ai căror coeficienți se schimbă; $\\delta_j$: valoarea lor în regimul $j$; $\\beta$: coeficienții comuni tuturor regimurilor'),
       T('in the mean, in the dynamics, in the variance; abrupt or gradual (random-walk coefficients, \\refSW)', 'în medie, în dinamică, în varianță; bruscă sau graduală (coeficienți de tip mers aleator, \\refSW)')]),
     T('In TSA, Chapter 3 a break was a nuisance for unit-root tests; here the break is the object of inference', 'În TSA, Capitolul 3 ruptura era un obstacol pentru testele de rădăcină unitară; aici ruptura este obiectul inferenței')), 'small')
 
-D.frame(T('The Chow test', 'Testul Chow'), items(
-    (T('Known date $T_1$, $k$ regressors, i.i.d.\\ Normal errors; SSR of the pooled fit $S_0$, of the two sub-samples $S_1$, $S_2$ \\refChow', 'Dată cunoscută $T_1$, $k$ regresori, erori i.i.d.\\ Normale; SSR al regresiei comune $S_0$, al celor două subeșantioane $S_1$, $S_2$ \\refChow'),
-     [T('$F = \\dfrac{(S_0 - S_1 - S_2)/k}{(S_1 + S_2)/(T - 2k)} \\sim F(k, T - 2k)$ under $H_0$', '$F = \\dfrac{(S_0 - S_1 - S_2)/k}{(S_1 + S_2)/(T - 2k)} \\sim F(k, T - 2k)$ sub $H_0$'),
-      T('equivalent to the $F$ test of $\\delta = 0$ in $y_t = x_t\'\\beta + (x_t \\mathbf 1\\{t > T_1\\})\'\\delta + u_t$', 'echivalent cu testul $F$ pentru $\\delta = 0$ în $y_t = x_t\'\\beta + (x_t \\mathbf 1\\{t > T_1\\})\'\\delta + u_t$')]),
-    (T('Robust version: the Wald statistic $W_T(T_1) = \\hat\\delta\'\\hat V_\\delta^{-1}\\hat\\delta$ with a heteroskedasticity- or HAC-robust $\\hat V_\\delta$ (Chapter 0), asymptotically $\\chi^2(k)$', 'Varianta robustă: statistica Wald $W_T(T_1) = \\hat\\delta\'\\hat V_\\delta^{-1}\\hat\\delta$ cu $\\hat V_\\delta$ robustă la heteroscedasticitate sau HAC (Capitolul 0), asimptotic $\\chi^2(k)$'),
-     [T('the classical $F$ also assumes equal variances in the two regimes', '$F$ clasic presupune și varianțe egale în cele două regimuri')]),
-    (T('\\textbf{Predictive} Chow test when $T - T_1 < k$: $F = \\dfrac{(S_0 - S_1)/(T - T_1)}{S_1/(T_1 - k)}$', 'Testul Chow \\textbf{predictiv} cînd $T - T_1 < k$: $F = \\dfrac{(S_0 - S_1)/(T - T_1)}{S_1/(T_1 - k)}$'),
-     [T('it asks whether the model estimated up to $T_1$ forecasts the last observations; the ancestor of forecast-breakdown tests (Section 7)', 'întreabă dacă modelul estimat pînă la $T_1$ prognozează ultimele observații; precursorul testelor de eșec al prognozelor (secțiunea 7)')])), 'small')
+D.frame(T('The Chow test (1/2)', 'Testul Chow (1/2)'), items(
+    (T('Known date $T_1$, $k$ regressors, i.i.d.\\ Normal errors \\refChow', 'Dată cunoscută $T_1$, $k$ regresori, erori i.i.d.\\ Normale \\refChow'),
+     [T('SSR: the sum of squared residuals; $S_0$: of the pooled regression on all $T$ observations; $S_1$, $S_2$: of the regressions before and after $T_1$', 'SSR: suma pătratelor reziduurilor; $S_0$: a regresiei comune pe toate cele $T$ observații; $S_1$, $S_2$: a regresiilor dinainte și de după $T_1$')]),
+    (T('The test: how much the fit improves when each sub-sample has its own coefficients', 'Testul: cît se îmbunătățește ajustarea cînd fiecare subeșantion are coeficienții lui'),
+     ['$F = \\dfrac{(S_0 - S_1 - S_2)/k}{(S_1 + S_2)/(T - 2k)} \\sim F(k, T - 2k)$ ⟦under||sub⟧ $H_0$',
+      T('$S_0 - S_1 - S_2 \\ge 0$: the reduction of the SSR, per extra coefficient; a large $F$ is evidence of a break', '$S_0 - S_1 - S_2 \\ge 0$: reducerea SSR, pe fiecare coeficient suplimentar; un $F$ mare este o dovadă a rupturii'),
+      T('equivalent to the $F$ test of $\\delta = 0$ in $y_t = x_t\'\\beta + (x_t \\mathbf 1\\{t > T_1\\})\'\\delta + u_t$; $\\delta$: the change of the coefficients after $T_1$', 'echivalent cu testul $F$ pentru $\\delta = 0$ în $y_t = x_t\'\\beta + (x_t \\mathbf 1\\{t > T_1\\})\'\\delta + u_t$; $\\delta$: schimbarea coeficienților după $T_1$')])))
+
+D.frame(T('The Chow test (2/2)', 'Testul Chow (2/2)'), items(
+    (T('Robust version: the Wald statistic $W_T(T_1) = \\hat\\delta\'\\hat V_\\delta^{-1}\\hat\\delta$, asymptotically $\\chi^2(k)$', 'Varianta robustă: statistica Wald $W_T(T_1) = \\hat\\delta\'\\hat V_\\delta^{-1}\\hat\\delta$, asimptotic $\\chi^2(k)$'),
+     [T('$\\hat V_\\delta$: a heteroskedasticity- or HAC-robust covariance matrix of $\\hat\\delta$ (Chapter 0)', '$\\hat V_\\delta$: o matrice de covarianță a lui $\\hat\\delta$ robustă la heteroscedasticitate sau HAC (Capitolul 0)'),
+      T('the classical $F$ also assumes equal variances in the two regimes', '$F$ clasic presupune și varianțe egale în cele două regimuri')]),
+    (T('\\textbf{Predictive} Chow test when $T - T_1 < k$ (too few observations after the break to estimate the model):', 'Testul Chow \\textbf{predictiv} cînd $T - T_1 < k$ (prea puține observații după ruptură pentru a estima modelul):'),
+     ['$F = \\dfrac{(S_0 - S_1)/(T - T_1)}{S_1/(T_1 - k)}$',
+      T('it asks whether the model estimated up to $T_1$ forecasts the last observations; the ancestor of forecast-breakdown tests (Section 7)', 'întreabă dacă modelul estimat pînă la $T_1$ prognozează ultimele observații; precursorul testelor de eșec al prognozelor (secțiunea 7)')])))
 
 D.frame(T('The date chosen by looking at the data', 'Data aleasă privind datele'), items(
     (T('In practice $T_1$ is rarely known: the researcher sees a jump in the plot and tests there', 'În practică $T_1$ este rar cunoscut: cercetătorul vede un salt în grafic și testează acolo'),
@@ -431,36 +440,55 @@ D.recap(('Instability and known dates', 'instabilitatea și datele cunoscute'), 
 # =============================================================================
 D.section('One break at an unknown date', 'O ruptură la o dată necunoscută')
 
-D.frame(T('The sup-Wald test of Andrews (1993)', 'Testul sup-Wald al lui Andrews (1993)'), items(
-    (T('Compute $W_T(\\pi)$ for every $\\pi \\in \\Pi = [\\pi_0, 1 - \\pi_0]$ and take $\\sup_{\\pi \\in \\Pi} W_T(\\pi)$ \\refAnd; \\refQua\\ used the LR version', 'Calculăm $W_T(\\pi)$ pentru orice $\\pi \\in \\Pi = [\\pi_0, 1 - \\pi_0]$ și luăm $\\sup_{\\pi \\in \\Pi} W_T(\\pi)$ \\refAnd; \\refQua\\ a folosit varianta LR'),
-     [T('LM, Wald and LR versions share the same limit; $\\pi_0 = 0.15$ is the usual \\textbf{trimming}', 'variantele LM, Wald și LR au aceeași limită; $\\pi_0 = 0{,}15$ este \\textbf{trunchierea} obișnuită')]),
+D.frame(T('The sup-Wald test of Andrews (1993) (1/2)', 'Testul sup-Wald al lui Andrews (1993) (1/2)'), items(
+    (T('Compute the Chow--Wald statistic $W_T(\\pi)$ at every candidate break fraction and take the largest \\refAnd', 'Calculăm statistica Chow--Wald $W_T(\\pi)$ pentru fiecare fracție candidată a rupturii și o luăm pe cea mai mare \\refAnd'),
+     ['$\\sup_{\\pi \\in \\Pi} W_T(\\pi)$, $\\quad \\Pi = [\\pi_0, 1 - \\pi_0]$',
+      T('$\\Pi$: the candidate fractions; $\\pi_0$: the \\textbf{trimming}, usually 0.15, so that each regime has at least 15\\% of the sample', '$\\Pi$: fracțiile candidate; $\\pi_0$: \\textbf{trunchierea}, de obicei 0,15, astfel încît fiecare regim să aibă cel puțin 15\\% din eșantion'),
+      T('LM, Wald and LR versions share the same limit; \\refQua\\ used the LR version', 'variantele LM, Wald și LR au aceeași limită; \\refQua\\ a folosit varianta LR')]),
     (T('\\textbf{Theorem} \\refAnd: under $H_0$ and regularity conditions (stationary, mixing regressors)', '\\textbf{Teoremă} \\refAnd: sub $H_0$ și în condiții de regularitate (regresori staționari, cu dependență slabă)'),
-     [T('$W_T(\\cdot) \\Rightarrow Q_p(\\pi) = \\dfrac{\\|B_p(\\pi) - \\pi B_p(1)\\|^2}{\\pi(1 - \\pi)}$, $B_p$ a $p$-dimensional Brownian motion', '$W_T(\\cdot) \\Rightarrow Q_p(\\pi) = \\dfrac{\\|B_p(\\pi) - \\pi B_p(1)\\|^2}{\\pi(1 - \\pi)}$, $B_p$ o mișcare browniană $p$-dimensională'),
-      T('$\\sup W_T \\to_d \\sup_{\\pi \\in \\Pi} Q_p(\\pi)$: a squared, standardised Brownian bridge (derivation in the Appendix)', '$\\sup W_T \\to_d \\sup_{\\pi \\in \\Pi} Q_p(\\pi)$: o punte browniană la pătrat, standardizată (deducerea în Anexă)')]),
-    (T('Why trimming: at fixed $\\pi$, $Q_p(\\pi) \\sim \\chi^2(p)$, but $\\sup_{\\pi \\in (0,1)} Q_p(\\pi) = \\infty$ almost surely (law of the iterated logarithm)', 'De ce trunchiere: la $\\pi$ fixat, $Q_p(\\pi) \\sim \\chi^2(p)$, dar $\\sup_{\\pi \\in (0,1)} Q_p(\\pi) = \\infty$ aproape sigur (legea logaritmului iterat)'),
-     [T('critical values depend on $p$ and $\\pi_0$; here simulated: $p = 1$: @{ch.cv1a} (10\\%), @{ch.cv1} (5\\%), @{ch.cv1b} (1\\%)', 'valorile critice depind de $p$ și $\\pi_0$; aici simulate: $p = 1$: @{ch.cv1a} (10\\%), @{ch.cv1} (5\\%), @{ch.cv1b} (1\\%)')])), 'small')
+     ['$W_T(\\cdot) \\Rightarrow Q_p(\\pi) = \\dfrac{\\|B_p(\\pi) - \\pi B_p(1)\\|^2}{\\pi(1 - \\pi)}$',
+      T('$\\Rightarrow$: convergence of the whole process in $\\pi$; $B_p$: a $p$-dimensional standard Brownian motion; $p$: the number of coefficients allowed to break', '$\\Rightarrow$: convergența întregului proces în $\\pi$; $B_p$: o mișcare browniană standard $p$-dimensională; $p$: numărul coeficienților care se pot schimba'),
+      T('$B_p(\\pi) - \\pi B_p(1)$ is a Brownian bridge; $\\pi(1 - \\pi)$ is its variance: $Q_p(\\pi)$ is a squared, standardised bridge (Appendix)', '$B_p(\\pi) - \\pi B_p(1)$ este o punte browniană; $\\pi(1 - \\pi)$ este varianța ei: $Q_p(\\pi)$ este o punte la pătrat, standardizată (Anexă)')])))
+
+D.frame(T('The sup-Wald test of Andrews (1993) (2/2)', 'Testul sup-Wald al lui Andrews (1993) (2/2)'), items(
+    (T('Limit: $\\sup W_T \\to_d \\sup_{\\pi \\in \\Pi} Q_p(\\pi)$', 'Limita: $\\sup W_T \\to_d \\sup_{\\pi \\in \\Pi} Q_p(\\pi)$'),
+     [T('at a fixed $\\pi$, $Q_p(\\pi) \\sim \\chi^2(p)$; the supremum over many $\\pi$ is much larger', 'la un $\\pi$ fixat, $Q_p(\\pi) \\sim \\chi^2(p)$; supremumul peste multe valori $\\pi$ este mult mai mare')]),
+    (T('Why trimming: $\\sup_{\\pi \\in (0,1)} Q_p(\\pi) = \\infty$ almost surely (law of the iterated logarithm)', 'De ce este necesară trunchierea: $\\sup_{\\pi \\in (0,1)} Q_p(\\pi) = \\infty$ aproape sigur (legea logaritmului iterat)'),
+     [T('critical values depend on $p$ and $\\pi_0$; here simulated: $p = 1$: @{ch.cv1a} (10\\%), @{ch.cv1} (5\\%), @{ch.cv1b} (1\\%)', 'valorile critice depind de $p$ și $\\pi_0$; aici simulate: $p = 1$: @{ch.cv1a} (10\\%), @{ch.cv1} (5\\%), @{ch.cv1b} (1\\%)')])))
 
 D.frame(T('Optimal tests: Andrews and Ploberger (1994)', 'Teste optime: Andrews și Ploberger (1994)'), items(
     (T('The supremum is not the only functional; averaging is optimal against alternatives close to $H_0$ \\refAP', 'Supremumul nu este singura funcțională; medierea este optimă împotriva alternativelor apropiate de $H_0$ \\refAP'),
-     [T('$\\mathrm{expW} = \\ln\\Big(\\dfrac{1}{|\\Pi|}\\displaystyle\\int_\\Pi \\exp\\big(\\tfrac12 W_T(\\pi)\\big)d\\pi\\Big)$: weighted average power, for medium and large breaks', '$\\mathrm{expW} = \\ln\\Big(\\dfrac{1}{|\\Pi|}\\displaystyle\\int_\\Pi \\exp\\big(\\tfrac12 W_T(\\pi)\\big)d\\pi\\Big)$: putere medie ponderată, pentru rupturi medii și mari'),
+     [T('$|\\Pi| = 1 - 2\\pi_0$: the length of the set of candidate fractions; both statistics average over it', '$|\\Pi| = 1 - 2\\pi_0$: lungimea mulțimii fracțiilor candidate; ambele statistici mediază peste ea'),
+      T('$\\mathrm{expW} = \\ln\\Big(\\dfrac{1}{|\\Pi|}\\displaystyle\\int_\\Pi \\exp\\big(\\tfrac12 W_T(\\pi)\\big)d\\pi\\Big)$: weighted average power, for medium and large breaks', '$\\mathrm{expW} = \\ln\\Big(\\dfrac{1}{|\\Pi|}\\displaystyle\\int_\\Pi \\exp\\big(\\tfrac12 W_T(\\pi)\\big)d\\pi\\Big)$: putere medie ponderată, pentru rupturi medii și mari'),
       T('$\\mathrm{aveW} = \\dfrac{1}{|\\Pi|}\\displaystyle\\int_\\Pi W_T(\\pi)\\,d\\pi$: optimal for very small breaks, close to the Nyblom test of random-walk coefficients', '$\\mathrm{aveW} = \\dfrac{1}{|\\Pi|}\\displaystyle\\int_\\Pi W_T(\\pi)\\,d\\pi$: optim pentru rupturi foarte mici, apropiat de testul Nyblom pentru coeficienți de tip mers aleator')]),
     T('5\\% values for $p = 1$, $\\pi_0 = 0.15$ (simulated): sup @{ch.cv1}, exp @{ch.exp1}, ave @{ch.ave1}', 'Valori de 5\\% pentru $p = 1$, $\\pi_0 = 0{,}15$ (simulate): sup @{ch.cv1}, exp @{ch.exp1}, ave @{ch.ave1}'),
     (T('The sup-Wald test has power against \\emph{any} kind of instability, not only a single break', 'Testul sup-Wald are putere împotriva \\emph{oricărui} tip de instabilitate, nu doar a unei singure rupturi'),
      [T('a rejection says ``unstable\'\', not ``one break at $\\hat\\pi$\'\'; the number of breaks is the subject of Section 3', 'o respingere spune „instabil”, nu „o ruptură la $\\hat\\pi$”; numărul rupturilor este subiectul secțiunii 3')])), 'small')
 
-D.frame(T('Estimating the break date', 'Estimarea datei rupturii'), items(
-    (T('Least squares: $\\hat T_1 = \\arg\\min_{T_1} [S_1(T_1) + S_2(T_1)]$, equivalently $\\arg\\max$ of the Wald statistic under homoskedasticity', 'Cele mai mici pătrate: $\\hat T_1 = \\arg\\min_{T_1} [S_1(T_1) + S_2(T_1)]$, echivalent cu $\\arg\\max$ al statisticii Wald sub homoscedasticitate'),
-     [T('for a fixed break size, $\\hat T_1 - T_1 = O_p(1)$: the \\textbf{date} is estimated with an error that does not grow with $T$, the fraction at rate $T$ \\refBai', 'pentru o ruptură de mărime fixă, $\\hat T_1 - T_1 = O_p(1)$: \\textbf{data} se estimează cu o eroare care nu crește cu $T$, fracția cu rata $T$ \\refBai'),
-      T('the regime coefficients are $\\sqrt T$-consistent and asymptotically Normal as if the date were known', 'coeficienții regimurilor sînt $\\sqrt T$-consistenți și asimptotic Normali ca și cum data ar fi cunoscută')]),
-    (T('Confidence interval for the date: with a shrinking break $\\Delta_T \\to 0$, $\\Delta_T^2\\sigma^{-2}(\\hat T_1 - T_1) \\to_d \\arg\\max_s Z(s)$, $Z(s) = W(s) - |s|/2$ (two-sided Brownian motion) \\refBai', 'Interval de încredere pentru dată: cu o ruptură care scade, $\\Delta_T \\to 0$, $\\Delta_T^2\\sigma^{-2}(\\hat T_1 - T_1) \\to_d \\arg\\max_s Z(s)$, $Z(s) = W(s) - |s|/2$ (mișcare browniană bilaterală) \\refBai'),
-     [T('large breaks, small noise: a short interval; the interval is asymmetric when variances differ across regimes', 'rupturi mari, zgomot mic: interval scurt; intervalul este asimetric cînd varianțele diferă între regimuri')])), 'small')
+D.frame(T('Estimating the break date (1/2)', 'Estimarea datei rupturii (1/2)'), items(
+    (T('Least squares: choose the date that minimises the total SSR of the two regimes', 'Cele mai mici pătrate: alegem data care minimizează SSR total al celor două regimuri'),
+     ['$\\hat T_1 = \\arg\\min_{T_1} [S_1(T_1) + S_2(T_1)]$',
+      T('$S_1(T_1)$, $S_2(T_1)$: the SSR before and after a candidate date $T_1$; equivalently the date of the largest Wald statistic under homoskedasticity', '$S_1(T_1)$, $S_2(T_1)$: SSR înainte și după o dată candidată $T_1$; echivalent cu data celei mai mari statistici Wald sub homoscedasticitate')]),
+    (T('Precision \\refBai', 'Precizia \\refBai'),
+     [T('for a fixed break size, $\\hat T_1 - T_1 = O_p(1)$: the \\textbf{date} error is bounded in probability and does not grow with $T$', 'pentru o ruptură de mărime fixă, $\\hat T_1 - T_1 = O_p(1)$: eroarea \\textbf{datei} este mărginită în probabilitate și nu crește cu $T$'),
+      T('so the fraction $\\hat\\pi = \\hat T_1/T$ converges at rate $T$, faster than the usual $\\sqrt T$', 'deci fracția $\\hat\\pi = \\hat T_1/T$ converge cu rata $T$, mai repede decît rata obișnuită $\\sqrt T$'),
+      T('the regime coefficients are $\\sqrt T$-consistent and asymptotically Normal as if the date were known', 'coeficienții regimurilor sînt $\\sqrt T$-consistenți și asimptotic Normali ca și cum data ar fi cunoscută')])))
+
+D.frame(T('Estimating the break date (2/2)', 'Estimarea datei rupturii (2/2)'), items(
+    (T('Confidence interval for the date \\refBai: with a shrinking break $\\Delta_T \\to 0$', 'Interval de încredere pentru dată \\refBai: cu o ruptură care scade, $\\Delta_T \\to 0$'),
+     ['$\\Delta_T^2\\sigma^{-2}(\\hat T_1 - T_1) \\to_d \\arg\\max_s Z(s)$, $\\quad Z(s) = W(s) - |s|/2$',
+      T('$\\Delta_T$: the size of the change in the mean; $\\sigma^2$: the error variance; $W(s)$: a two-sided Brownian motion, $s \\in \\mathbb R$', '$\\Delta_T$: mărimea schimbării mediei; $\\sigma^2$: varianța erorii; $W(s)$: o mișcare browniană bilaterală, $s \\in \\mathbb R$'),
+      T('the interval is the date $\\pm$ quantiles of $\\arg\\max Z$, rescaled by $\\sigma^2/\\hat\\Delta^2$', 'intervalul este data $\\pm$ cuantile ale lui $\\arg\\max Z$, rescalate cu $\\sigma^2/\\hat\\Delta^2$')]),
+    (T('Reading', 'Interpretare'),
+     [T('large breaks, small noise: a short interval; the interval is asymmetric when variances differ across regimes', 'rupturi mari, zgomot mic: interval scurt; intervalul este asimetric cînd varianțele diferă între regimuri')])))
 
 D.frame(T('Case study: McConnell and Perez-Quiros (2000)', 'Studiu de caz: McConnell și Perez-Quiros (2000)'), two(
     ph('gas', T('Gasoline queue, Maryland, 15 June 1979', 'Coadă la benzină, Maryland, 15 iunie 1979'), h='0.36\\textheight'),
     items((T('The paper: US real GDP growth, 1953Q2--1999Q2; AR(1) for the conditional mean; then a break in the mean of $\\sqrt{\\pi/2}\\,|\\hat e_t|$, an unbiased estimate of the standard deviation under Normality \\refMPQ', 'Lucrarea: creșterea PIB real în SUA, T2 1953--T2 1999; AR(1) pentru media condiționată; apoi o ruptură în media lui $\\sqrt{\\pi/2}\\,|\\hat e_t|$, o estimare nedeplasată a abaterii standard sub distribuția Normală \\refMPQ'),
-           [T('tests: sup-, exp-, ave-Wald \\refAnd, \\refAP; their result: a variance break in 1984Q1, the ``Great Moderation\'\'', 'teste: sup-, exp-, ave-Wald \\refAnd, \\refAP; rezultatul lor: o ruptură în varianță în T1 1984, „Marea Moderație” (Great Moderation)')]),
-          (T('Our replication: the same two steps on FRED GDPC1 (today\'s vintage), robust Wald statistics, simulated $p$-values; then the sample extended to 2026', 'Replicarea noastră: aceiași doi pași pe FRED GDPC1 (versiunea de azi), statistici Wald robuste, valori $p$ simulate; apoi eșantionul extins pînă în 2026'), []),
-          T('Question: does the variance break survive revised data and the COVID-19 quarters?', 'Întrebarea: supraviețuiește ruptura în varianță datelor revizuite și trimestrelor COVID-19?')), '0.36', '0.62'), 'footnotesize')
+           [T('$\\hat e_t$: the AR(1) residual; here $\\pi = 3.14\\ldots$; if $e_t \\sim N(0, \\sigma^2)$, $\\E|e_t| = \\sigma\\sqrt{2/\\pi}$, hence the factor', '$\\hat e_t$: reziduul AR(1); aici $\\pi = 3{,}14\\ldots$; dacă $e_t \\sim N(0, \\sigma^2)$, $\\E|e_t| = \\sigma\\sqrt{2/\\pi}$, de unde factorul'),
+            T('tests: sup-, exp-, ave-Wald \\refAnd, \\refAP; their result: a variance break in 1984Q1, the ``Great Moderation\'\'', 'teste: sup-, exp-, ave-Wald \\refAnd, \\refAP; rezultatul lor: o ruptură în varianță în T1 1984, „Marea Moderație” (Great Moderation)')]),
+          (T('Our replication: the same two steps on FRED GDPC1 (today\'s vintage), robust Wald statistics, simulated $p$-values; then the sample extended to 2026', 'Replicarea noastră: aceiași doi pași pe FRED GDPC1 (versiunea de azi), statistici Wald robuste, p-value-uri simulate; apoi eșantionul extins pînă în 2026'), []),
+          T('Question: does the variance break survive revised data and the COVID-19 quarters?', 'Întrebarea: se menține ruptura în varianță pe datele revizuite și după trimestrele COVID-19?')), '0.36', '0.62'), 'footnotesize')
 
 chart(T('The Great Moderation in US output growth', 'Marea Moderație în creșterea PIB din SUA'), 'ats_ch2_great_moderation', 'ATS_ch2_great_moderation', [
     T('Top: growth with $\\pm 2$ residual standard deviations before and after the estimated break; bottom: the Wald sequence for a break in $\\E\\sqrt{\\pi/2}|e_t|$ (HAC), two samples',
@@ -469,7 +497,7 @@ chart(T('The Great Moderation in US output growth', 'Marea Moderație în creșt
 interp(('the variance break', 'rupturii în varianță'), [
     (T('MPQ sample ($T = @{mpq.p.n}$): sup-Wald @{mpq.p.sup} ($p$ @{mpq.p.psup}), exp @{mpq.p.exp}, ave @{mpq.p.ave}; date @{mpq.p.date}, as in the paper', 'Eșantionul MPQ ($T = @{mpq.p.n}$): sup-Wald @{mpq.p.sup} ($p$ @{mpq.p.psup}), exp @{mpq.p.exp}, ave @{mpq.p.ave}; data @{mpq.p.date}, ca în lucrare'),
      [T('residual s.d. @{mpq.p.s1} before, @{mpq.p.s2} after: the variance falls by a factor of @{mpq.p.ratio}; no break in the mean equation (sup @{mpq.p.msup}, $p$ @{mpq.p.pmsup})', 'abaterea standard reziduală @{mpq.p.s1} înainte, @{mpq.p.s2} după: varianța scade de @{mpq.p.ratio} ori; nicio ruptură în ecuația mediei (sup @{mpq.p.msup}, $p$ @{mpq.p.pmsup})')]),
-    T('To 2019: the break moves by one quarter (@{mpq.x.date}), variance ratio @{mpq.x.ratio}; the Great Moderation survived the 2008--2009 recession', 'Pînă în 2019: ruptura se mută cu un trimestru (@{mpq.x.date}), raportul varianțelor @{mpq.x.ratio}; Marea Moderație a supraviețuit recesiunii din 2008--2009'),
+    T('To 2019: the break moves by one quarter (@{mpq.x.date}), variance ratio @{mpq.x.ratio}; the Great Moderation survived the 2008--2009 recession', 'Pînă în 2019: ruptura se mută cu un trimestru (@{mpq.x.date}), raportul varianțelor @{mpq.x.ratio}; Marea Moderație s-a menținut și după recesiunea din 2008--2009'),
     (T('To 2026: sup-Wald falls to @{mpq.e.sup} ($p$ @{mpq.e.psup}) and the ratio to @{mpq.e.ratio}: two outliers (@{mpq.mind}: @{mpq.min}\\%) dominate the post-break variance', 'Pînă în 2026: sup-Wald scade la @{mpq.e.sup} ($p$ @{mpq.e.psup}) și raportul la @{mpq.e.ratio}: două valori extreme (@{mpq.mind}: @{mpq.min}\\%) domină varianța de după ruptură'),
      [T('a second break, or outliers? A one-break test cannot say; robust scale estimators or a second break are needed', 'o a doua ruptură sau valori extreme? Un test cu o singură ruptură nu poate decide; sînt necesari estimatori robuști ai scalei sau o a doua ruptură')])])
 
@@ -486,7 +514,8 @@ D.section('Multiple breaks: Bai and Perron', 'Rupturi multiple: Bai și Perron')
 
 D.frame(T('The multiple-break model', 'Modelul cu rupturi multiple'), items(
     (T('$y_t = x_t\'\\beta + z_t\'\\delta_j + u_t$, $t = T_{j-1} + 1, \\dots, T_j$, $j = 1, \\dots, m + 1$, with $T_0 = 0$, $T_{m+1} = T$ \\refBPa', '$y_t = x_t\'\\beta + z_t\'\\delta_j + u_t$, $t = T_{j-1} + 1, \\dots, T_j$, $j = 1, \\dots, m + 1$, cu $T_0 = 0$, $T_{m+1} = T$ \\refBPa'),
-     [T('pure change: no $x_t$; mean-shift model: $z_t = 1$', 'schimbare totală: fără $x_t$; modelul cu schimbări de medie: $z_t = 1$'),
+     [T('$T_1 < \\dots < T_m$: the break dates; $\\delta_j$: the coefficients of $z_t$ in regime $j$; $\\beta$: those of $x_t$, common to all regimes', '$T_1 < \\dots < T_m$: datele rupturilor; $\\delta_j$: coeficienții lui $z_t$ în regimul $j$; $\\beta$: cei ai lui $x_t$, comuni tuturor regimurilor'),
+      T('pure change: no $x_t$; mean-shift model: $z_t = 1$', 'schimbare totală: fără $x_t$; modelul cu schimbări de medie: $z_t = 1$'),
       T('minimum segment length $h = [\\varepsilon T]$, usually $\\varepsilon = 0.15$; errors may be autocorrelated and heteroskedastic across regimes', 'lungimea minimă a unui segment $h = [\\varepsilon T]$, de obicei $\\varepsilon = 0{,}15$; erorile pot fi autocorelate și heteroscedastice între regimuri')]),
     (T('Estimator: the \\textbf{global} minimiser of the SSR over all admissible partitions $(T_1, \\dots, T_m)$', 'Estimatorul: minimul \\textbf{global} al SSR peste toate partițiile admisibile $(T_1, \\dots, T_m)$'),
      [T('break fractions consistent at rate $T$, as for one break; the dates are estimated jointly, not one at a time', 'fracțiile rupturilor sînt consistente cu rata $T$, ca pentru o ruptură; datele se estimează împreună, nu una cîte una')]),
@@ -496,17 +525,27 @@ D.frame(T('Dynamic programming', 'Programarea dinamică'), items(
     (T('Step 1: compute $\\mathrm{SSR}(i, j)$ of one regression on every segment $[i, j]$ with $j - i + 1 \\ge h$ (recursive residuals: $O(T^2)$ operations)', 'Pasul 1: calculăm $\\mathrm{SSR}(i, j)$ al unei regresii pe fiecare segment $[i, j]$ cu $j - i + 1 \\ge h$ (reziduuri recursive: $O(T^2)$ operații)'), []),
     (T('Step 2: Bellman recursion for the best $r$-break partition of the first $n$ observations', 'Pasul 2: recursia Bellman pentru cea mai bună partiție cu $r$ rupturi a primelor $n$ observații'),
      [T('$\\mathrm{SSR}(\\{T_{r,n}\\}) = \\min_{rh \\le j \\le n - h}\\big[\\mathrm{SSR}(\\{T_{r-1,j}\\}) + \\mathrm{SSR}(j + 1, n)\\big]$', '$\\mathrm{SSR}(\\{T_{r,n}\\}) = \\min_{rh \\le j \\le n - h}\\big[\\mathrm{SSR}(\\{T_{r-1,j}\\}) + \\mathrm{SSR}(j + 1, n)\\big]$'),
+      T('$\\{T_{r,n}\\}$: the best partition of observations $1, \\dots, n$ with $r$ breaks; $j$: the date of its last break; $h$: the minimum segment length', '$\\{T_{r,n}\\}$: cea mai bună partiție a observațiilor $1, \\dots, n$ cu $r$ rupturi; $j$: data ultimei ei rupturi; $h$: lungimea minimă a unui segment'),
       T('the optimal $m$-break partition contains optimal partitions of its prefixes (Bellman\'s principle)', 'partiția optimă cu $m$ rupturi conține partiții optime ale prefixelor ei (principiul lui Bellman)')]),
     (T('One pass gives the optimal partitions for every $m \\le M$: the input of all tests and criteria', 'O singură trecere dă partițiile optime pentru orice $m \\le M$: datele de intrare ale tuturor testelor și criteriilor'),
      [T('partial change ($\\beta$ common) needs an iteration between $\\beta$ and the partition \\refBPb; Seminar 2, A3 runs the recursion by hand', 'schimbarea parțială ($\\beta$ comun) cere o iterație între $\\beta$ și partiție \\refBPb; Seminarul 2, A3 parcurge recursia de mînă')])), 'small')
 
-D.frame(T('Testing and selecting the number of breaks', 'Testarea și alegerea numărului de rupturi'), items(
+D.frame(T('Testing and selecting the number of breaks (1/2)', 'Testarea și alegerea numărului de rupturi (1/2)'), items(
     (T('$\\sup F_T(k)$: no break against exactly $k$ breaks, at the SSR-optimal partition, with robust variance \\refBPa', '$\\sup F_T(k)$: nicio ruptură față de exact $k$ rupturi, la partiția optimă după SSR, cu varianță robustă \\refBPa'),
-     [T('\\textbf{UDmax} $= \\max_{k \\le M}\\sup F_T(k)$; \\textbf{WDmax} weights each $k$ by the ratio of critical values: no break against an unknown number', '\\textbf{UDmax} $= \\max_{k \\le M}\\sup F_T(k)$; \\textbf{WDmax} ponderează fiecare $k$ prin raportul valorilor critice: nicio ruptură față de un număr necunoscut')]),
-    (T('\\textbf{Sequential} $\\sup F_T(\\ell + 1 \\mid \\ell)$: for each of the $\\ell + 1$ segments, the largest single-break statistic; add a break while it rejects', 'Testul \\textbf{secvențial} $\\sup F_T(\\ell + 1 \\mid \\ell)$: pentru fiecare dintre cele $\\ell + 1$ segmente, cea mai mare statistică pentru o ruptură; adăugăm o ruptură cît timp respinge'),
-     [T('recommended strategy \\refBPb: UDmax or WDmax first, then the sequential tests', 'strategia recomandată \\refBPb: întîi UDmax sau WDmax, apoi testele secvențiale')]),
-    (T('Information criteria: $\\mathrm{BIC}(m) = \\ln(\\mathrm{SSR}_m/T) + p^*\\ln T/T$; \\textbf{LWZ}: $\\ln\\frac{\\mathrm{SSR}_m}{T - p^*} + p^*\\frac{0.299}{T}(\\ln T)^{2.1}$ \\refLWZ', 'Criterii informaționale: $\\mathrm{BIC}(m) = \\ln(\\mathrm{SSR}_m/T) + p^*\\ln T/T$; \\textbf{LWZ}: $\\ln\\frac{\\mathrm{SSR}_m}{T - p^*} + p^*\\frac{0{,}299}{T}(\\ln T)^{2{,}1}$ \\refLWZ'),
-     [T('$p^*$ counts coefficients and break dates; BIC picks too many breaks under serial correlation, LWZ too few with small breaks', '$p^*$ numără coeficienții și datele rupturilor; BIC alege prea multe rupturi cu autocorelație, LWZ prea puține cu rupturi mici')])), 'small')
+     [T('$M$: the largest number of breaks considered (here 5)', '$M$: numărul maxim de rupturi luat în calcul (aici 5)'),
+      T('\\textbf{UDmax} $= \\max_{k \\le M}\\sup F_T(k)$: no break against an unknown number of breaks, up to $M$', '\\textbf{UDmax} $= \\max_{k \\le M}\\sup F_T(k)$: nicio ruptură față de un număr necunoscut de rupturi, cel mult $M$'),
+      T('\\textbf{WDmax}: the same, with each $k$ weighted by the ratio of critical values', '\\textbf{WDmax}: la fel, cu fiecare $k$ ponderat prin raportul valorilor critice')]),
+    (T('\\textbf{Sequential} $\\sup F_T(\\ell + 1 \\mid \\ell)$: $\\ell$ breaks against $\\ell + 1$', 'Testul \\textbf{secvențial} $\\sup F_T(\\ell + 1 \\mid \\ell)$: $\\ell$ rupturi față de $\\ell + 1$'),
+     [T('for each of the $\\ell + 1$ segments, the largest single-break statistic; add a break while it rejects', 'pentru fiecare dintre cele $\\ell + 1$ segmente, cea mai mare statistică pentru o ruptură; adăugăm o ruptură cît timp testul respinge'),
+      T('recommended strategy \\refBPb: UDmax or WDmax first, then the sequential tests', 'strategia recomandată \\refBPb: întîi UDmax sau WDmax, apoi testele secvențiale')])))
+
+D.frame(T('Testing and selecting the number of breaks (2/2)', 'Testarea și alegerea numărului de rupturi (2/2)'), items(
+    (T('Information criteria: pick the $m$ with the smallest value', 'Criterii informaționale: alegem $m$ cu cea mai mică valoare'),
+     ['$\\mathrm{BIC}(m) = \\ln(\\mathrm{SSR}_m/T) + p^*\\ln T/T$',
+      '\\textbf{LWZ}: $\\ln\\frac{\\mathrm{SSR}_m}{T - p^*} + p^*\\frac{0.299}{T}(\\ln T)^{2.1}$ \\refLWZ',
+      T('$\\mathrm{SSR}_m$: the SSR of the best $m$-break partition; $p^*$: the number of coefficients and break dates; the second term penalises extra breaks', '$\\mathrm{SSR}_m$: SSR al celei mai bune partiții cu $m$ rupturi; $p^*$: numărul coeficienților și al datelor rupturilor; al doilea termen penalizează rupturile suplimentare')]),
+    (T('Known weaknesses', 'Slăbiciuni cunoscute'),
+     [T('BIC picks too many breaks under serial correlation, LWZ too few with small breaks', 'BIC alege prea multe rupturi cu autocorelație, LWZ prea puține cu rupturi mici')])))
 
 D.frame(T('Case study: Bai and Perron (2003), the US real interest rate', 'Studiu de caz: Bai și Perron (2003), rata reală a dobînzii în SUA'), two(
     ph('volcker', T('Paul Volcker (left) and Ronald Reagan, December 1981', 'Paul Volcker (stînga) și Ronald Reagan, decembrie 1981'), h='0.33\\textheight'),
@@ -545,7 +584,8 @@ interp(('the Romanian inflation regimes', 'regimurilor inflației din România')
 
 D.frame(T('Change-point detection in statistics and machine learning', 'Detectarea punctelor de schimbare în statistică și machine learning'), items(
     (T('Penalised segmentation: minimise $\\sum_j \\mathrm{cost}(\\text{segment } j) + \\beta\\,m$ over partitions', 'Segmentare penalizată: minimizăm $\\sum_j \\mathrm{cost}(\\text{segmentul } j) + \\beta\\,m$ după partiții'),
-     [T('PELT prunes the Bellman recursion to $O(T)$ under mild conditions \\refKFE; binary segmentation and wild binary segmentation \\refFry\\ scale to long series', 'PELT reduce recursia Bellman la $O(T)$ în condiții slabe \\refKFE; segmentarea binară și segmentarea binară aleatoare (wild binary segmentation) \\refFry\\ funcționează pe serii lungi'),
+     [T('$\\mathrm{cost}$: e.g.\\ the SSR or minus the log-likelihood of a segment; $\\beta > 0$: the penalty per break; $m$: the number of breaks', '$\\mathrm{cost}$: de exemplu SSR sau minus log-verosimilitatea unui segment; $\\beta > 0$: penalizarea pentru fiecare ruptură; $m$: numărul rupturilor'),
+      T('PELT prunes the Bellman recursion to $O(T)$ under mild conditions \\refKFE; binary segmentation and wild binary segmentation \\refFry\\ scale to long series', 'PELT reduce recursia Bellman la $O(T)$ în condiții slabe \\refKFE; segmentarea binară și segmentarea binară aleatoare (wild binary segmentation) \\refFry\\ funcționează pe serii lungi'),
       T('the Python package \\texttt{ruptures} implements them \\refTOV; the BIC of Bai--Perron is a particular penalty', 'pachetul Python \\texttt{ruptures} le conține \\refTOV; BIC-ul din Bai--Perron este o penalizare particulară')]),
     (T('What econometrics adds: inference on the number of breaks and confidence intervals for dates under serial correlation', 'Ce adaugă econometria: inferența pentru numărul rupturilor și intervale de încredere pentru date cu autocorelație'),
      [T('common breaks in systems of equations \\refOP; survey \\refCP', 'rupturi comune în sisteme de ecuații \\refOP; sinteză \\refCP')]),
@@ -562,21 +602,35 @@ D.recap(('Multiple breaks', 'rupturi multiple'), [
 # =============================================================================
 D.section('Fluctuation tests and real-time monitoring', 'Teste de fluctuație și monitorizare în timp real')
 
-D.frame(T('CUSUM and MOSUM tests', 'Testele CUSUM și MOSUM'), items(
-    (T('Recursive residuals $w_t = (y_t - x_t\'\\hat\\beta_{t-1})/\\sqrt{1 + x_t\'(X_{t-1}\'X_{t-1})^{-1}x_t}$ are i.i.d.\\ $N(0, \\sigma^2)$ under $H_0$ with Normal errors \\refBDE', 'Reziduurile recursive $w_t = (y_t - x_t\'\\hat\\beta_{t-1})/\\sqrt{1 + x_t\'(X_{t-1}\'X_{t-1})^{-1}x_t}$ sînt i.i.d.\\ $N(0, \\sigma^2)$ sub $H_0$ cu erori Normale \\refBDE'),
-     [T('CUSUM $W_r = \\hat\\sigma^{-1}\\sum_{t = k+1}^{r} w_t$ behaves like a Brownian motion; 5\\% boundary $\\pm 0.948[\\sqrt{T - k} + 2(r - k)/\\sqrt{T - k}]$', 'CUSUM $W_r = \\hat\\sigma^{-1}\\sum_{t = k+1}^{r} w_t$ se comportă ca o mișcare browniană; frontiera de 5\\% $\\pm 0{,}948[\\sqrt{T - k} + 2(r - k)/\\sqrt{T - k}]$'),
-      T('detects changes in the intercept and a systematic drift of forecast errors; weak against changes that average out', 'detectează schimbări în termenul liber și o derivă sistematică a erorilor de prognoză; slab împotriva schimbărilor care se compensează')]),
+D.frame(T('CUSUM and MOSUM tests (1/2)', 'Testele CUSUM și MOSUM (1/2)'), items(
+    (T('Recursive residuals \\refBDE: the standardised one-step forecast error of the model estimated up to $t - 1$', 'Reziduurile recursive \\refBDE: eroarea de prognoză pe un pas, standardizată, a modelului estimat pînă la $t - 1$'),
+     ['$w_t = (y_t - x_t\'\\hat\\beta_{t-1})/\\sqrt{1 + x_t\'(X_{t-1}\'X_{t-1})^{-1}x_t}$',
+      T('$\\hat\\beta_{t-1}$: OLS on observations $1, \\dots, t - 1$; $X_{t-1}$: the matrix of their regressors; the root rescales for estimation uncertainty', '$\\hat\\beta_{t-1}$: MCMMP pe observațiile $1, \\dots, t - 1$; $X_{t-1}$: matricea regresorilor lor; radicalul corectează pentru incertitudinea estimării'),
+      T('under $H_0$ with Normal errors, $w_t$ are i.i.d.\\ $N(0, \\sigma^2)$', 'sub $H_0$ și cu erori Normale, $w_t$ sînt i.i.d.\\ $N(0, \\sigma^2)$')]),
+    (T('CUSUM: the cumulated standardised recursive residuals', 'CUSUM: suma cumulată a reziduurilor recursive standardizate'),
+     ['$W_r = \\hat\\sigma^{-1}\\sum_{t = k+1}^{r} w_t$, ⟦5\\% boundary||frontiera de 5\\%⟧ $\\pm 0.948[\\sqrt{T - k} + 2(r - k)/\\sqrt{T - k}]$',
+      T('$k$: the number of regressors (the first $k$ observations start the recursion); $W_r$ behaves like a Brownian motion; a crossing signals a break', '$k$: numărul regresorilor (primele $k$ observații pornesc recursia); $W_r$ se comportă ca o mișcare browniană; depășirea frontierei semnalează o ruptură')])))
+
+D.frame(T('CUSUM and MOSUM tests (2/2)', 'Testele CUSUM și MOSUM (2/2)'), items(
+    (T('What CUSUM detects', 'Ce detectează CUSUM'),
+     [T('changes in the intercept and a systematic drift of forecast errors; weak against changes that average out', 'schimbări în termenul liber și o derivă sistematică a erorilor de prognoză; slab împotriva schimbărilor care se compensează')]),
     (T('OLS-CUSUM uses ordinary residuals: a Brownian bridge limit \\refPK; MOSUM sums over a moving window of fixed width \\refCHK', 'OLS-CUSUM folosește reziduurile obișnuite: limita este o punte browniană \\refPK; MOSUM însumează pe o fereastră mobilă de lățime fixă \\refCHK'),
      [T('MOSUM reacts faster to a break in the middle of the sample and to temporary changes', 'MOSUM reacționează mai repede la o ruptură în mijlocul eșantionului și la schimbări temporare')]),
-    T('These are \\textbf{retrospective} tests: the whole sample is available when the test is run', 'Acestea sînt teste \\textbf{retrospective}: întregul eșantion este disponibil cînd se aplică testul')), 'small')
+    T('These are \\textbf{retrospective} tests: the whole sample is available when the test is run', 'Acestea sînt teste \\textbf{retrospective}: întregul eșantion este disponibil cînd se aplică testul')))
 
-D.frame(T('Monitoring: why repeated tests fail', 'Monitorizarea: de ce eșuează testele repetate'), items(
+D.frame(T('Monitoring: why repeated tests fail (1/2)', 'Monitorizarea: de ce eșuează testele repetate (1/2)'), items(
     (T('A central bank estimates a model on $m$ historical observations and asks, at every new release, ``has it broken down?\'\'', 'O bancă centrală estimează un model pe $m$ observații istorice și întreabă, la fiecare nouă publicare, „s-a stricat?”'),
      [T('a 5\\% test repeated at $n = m + 1, m + 2, \\dots$ rejects a true $H_0$ eventually with probability 1: the law of the iterated logarithm', 'un test de 5\\% repetat la $n = m + 1, m + 2, \\dots$ respinge pînă la urmă o ipoteză nulă adevărată cu probabilitatea 1: legea logaritmului iterat')]),
-    (T('\\refCSW: monitor $Q_n = \\hat\\sigma^{-1}\\sum_{t = m+1}^{n} w_t$ and stop the first time $|Q_n| > \\sqrt{n\\,[a^2 + \\ln(n/m)]}$', '\\refCSW: monitorizăm $Q_n = \\hat\\sigma^{-1}\\sum_{t = m+1}^{n} w_t$ și ne oprim prima dată cînd $|Q_n| > \\sqrt{n\\,[a^2 + \\ln(n/m)]}$'),
-     [T('the boundary comes from \\refRS: $P\\{\\exists u \\ge 1: |W(u) - W(1)| \\ge \\sqrt{u(a^2 + \\ln u)}\\} = 2[1 - \\Phi(a) + a\\varphi(a)]$', 'frontiera vine din \\refRS: $P\\{\\exists u \\ge 1: |W(u) - W(1)| \\ge \\sqrt{u(a^2 + \\ln u)}\\} = 2[1 - \\Phi(a) + a\\varphi(a)]$'),
+    (T('\\refCSW: monitor the CUSUM of the new recursive residuals and stop the first time it crosses a widening boundary', '\\refCSW: monitorizăm CUSUM al noilor reziduuri recursive și ne oprim prima dată cînd depășește o frontieră care se lărgește'),
+     ['$Q_n = \\hat\\sigma^{-1}\\sum_{t = m+1}^{n} w_t$, $\\quad$ ⟦alarm if||alarmă dacă⟧ $|Q_n| > \\sqrt{n\\,[a^2 + \\ln(n/m)]}$',
+      T('$n$: the current sample size; $a$: a constant chosen to fix the false-alarm probability; the $\\ln(n/m)$ term widens the boundary as time passes', '$n$: dimensiunea curentă a eșantionului; $a$: o constantă aleasă pentru a fixa probabilitatea unei alarme false; termenul $\\ln(n/m)$ lărgește frontiera pe măsură ce trece timpul')])))
+
+D.frame(T('Monitoring: why repeated tests fail (2/2)', 'Monitorizarea: de ce eșuează testele repetate (2/2)'), items(
+    (T('The boundary comes from \\refRS:', 'Frontiera vine din \\refRS:'),
+     ['$P\\{\\exists u \\ge 1: |W(u) - W(1)| \\ge \\sqrt{u(a^2 + \\ln u)}\\} = 2[1 - \\Phi(a) + a\\varphi(a)]$',
+      T('$W$: a standard Brownian motion; $u = n/m$; $\\Phi$, $\\varphi$: the standard Normal distribution and density functions', '$W$: o mișcare browniană standard; $u = n/m$; $\\Phi$, $\\varphi$: funcția de repartiție și densitatea distribuției Normale standard'),
       T('$a^2 = 7.78$: size @{mo.size}\\% over an \\emph{infinite} horizon; $a^2 = 6.25$: @{mo.size2}\\%', '$a^2 = 7{,}78$: mărimea @{mo.size}\\% pe un orizont \\emph{infinit}; $a^2 = 6{,}25$: @{mo.size2}\\%')]),
-    T('Forecast-based monitoring: forecast breakdowns \\refGRa\\ and the fluctuation test of relative accuracy \\refGRb\\ (Chapter 1)', 'Monitorizarea pe baza prognozelor: eșecul prognozelor \\refGRa\\ și testul de fluctuație al acurateței relative \\refGRb\\ (Capitolul 1)')), 'small')
+    T('Forecast-based monitoring: forecast breakdowns \\refGRa\\ and the fluctuation test of relative accuracy \\refGRb\\ (Chapter 1)', 'Monitorizarea pe baza prognozelor: eșecul prognozelor \\refGRa\\ și testul de fluctuație al acurateței relative \\refGRb\\ (Capitolul 1)')))
 
 chart(T('False alarms and real-time monitoring of Romanian inflation', 'Alarme false și monitorizarea în timp real a inflației din România'), 'ats_ch2_monitoring', 'ATS_ch2_monitoring', [
     T('Left: white noise, $m = 100$, @{mo.reps} replications; right: mean of monthly HICP inflation (m/m), historical sample 2015--2019, monitoring from January 2020',
@@ -593,20 +647,28 @@ D.recap(('Monitoring', 'monitorizarea'), [
     T('CUSUM and MOSUM of recursive residuals: retrospective fluctuation tests', 'CUSUM și MOSUM ale reziduurilor recursive: teste de fluctuație retrospective'),
     T('Repeating a one-shot test as data arrive guarantees a false alarm', 'Repetarea unui test unic pe măsură ce sosesc datele garantează o alarmă falsă'),
     T('CSW boundary $\\sqrt{n[a^2 + \\ln(n/m)]}$ controls the size over an infinite horizon', 'Frontiera CSW $\\sqrt{n[a^2 + \\ln(n/m)]}$ controlează mărimea pe un orizont infinit'),
-    T('Romanian inflation: detection in late 2022, a long but honest delay', 'Inflația din România: detectare la sfîrșitul lui 2022, o întîrziere lungă, dar onestă')])
+    T('Romanian inflation: detection in late 2022, a long but honest delay', 'Inflația din România: detectare la sfîrșitul lui 2022, o întîrziere lungă, dar cu rata alarmelor false controlată')])
 
 # =============================================================================
 # 5. RUPTURI ÎN VARIANȚĂ
 # =============================================================================
 D.section('Breaks in variance', 'Rupturi în varianță')
 
-D.frame(T('The ICSS algorithm and its correction', 'Algoritmul ICSS și corecția lui'), items(
-    (T('\\refIT: $C_k = \\sum_{t \\le k} a_t^2$, $D_k = C_k/C_T - k/T$; $\\mathrm{IT} = \\sqrt{T/2}\\max_k|D_k| \\Rightarrow \\sup|B^0(r)|$, 5\\% value 1.358', '\\refIT: $C_k = \\sum_{t \\le k} a_t^2$, $D_k = C_k/C_T - k/T$; $\\mathrm{IT} = \\sqrt{T/2}\\max_k|D_k| \\Rightarrow \\sup|B^0(r)|$, valoarea de 5\\% 1,358'),
-     [T('ICSS: apply the test iteratively to sub-segments (binary segmentation), then re-check each break between its neighbours', 'ICSS: aplicăm testul iterativ pe subsegmente (segmentare binară), apoi reverificăm fiecare ruptură între vecinele ei')]),
+D.frame(T('The ICSS algorithm and its correction (1/2)', 'Algoritmul ICSS și corecția lui (1/2)'), items(
+    (T('\\refIT: compare the cumulated sum of squares with a straight line', '\\refIT: comparăm suma cumulată a pătratelor cu o dreaptă'),
+     ['$C_k = \\sum_{t \\le k} a_t^2$, $\\quad D_k = C_k/C_T - k/T$, $\\quad \\mathrm{IT} = \\sqrt{T/2}\\max_k|D_k| \\Rightarrow \\sup|B^0(r)|$',
+      T('$a_t$: the demeaned returns; $C_k/C_T$: the share of the total sum of squares reached at $k$; with a constant variance it grows like $k/T$', '$a_t$: randamentele centrate; $C_k/C_T$: proporția din suma totală a pătratelor atinsă la $k$; cu varianță constantă ea crește ca $k/T$'),
+      T('$B^0$: a Brownian bridge on $[0,1]$; 5\\% critical value 1.358; the date is the $k$ of the largest $|D_k|$', '$B^0$: o punte browniană pe $[0,1]$; valoarea critică de 5\\% este 1,358; data este valoarea $k$ cu cel mai mare $|D_k|$')]),
+    (T('ICSS (iterated cumulative sums of squares)', 'ICSS (sume cumulate de pătrate, iterate)'),
+     [T('apply the test iteratively to sub-segments (binary segmentation), then re-check each break between its neighbours', 'aplicăm testul iterativ pe subsegmente (segmentare binară), apoi reverificăm fiecare ruptură între vecinele ei')])))
+
+D.frame(T('The ICSS algorithm and its correction (2/2)', 'Algoritmul ICSS și corecția lui (2/2)'), items(
     (T('The factor $\\sqrt{T/2}$ assumes $\\Var(a_t^2) = 2\\sigma^4$: i.i.d.\\ Normal data', 'Factorul $\\sqrt{T/2}$ presupune $\\Var(a_t^2) = 2\\sigma^4$: date i.i.d.\\ Normale'),
-     [T('with kurtosis $\\kappa$ the statistic is inflated by $\\sqrt{(\\kappa - 1)/2}$; with GARCH, $a_t^2$ is also autocorrelated', 'cu coeficientul de boltire $\\kappa$, statistica este mărită de $\\sqrt{(\\kappa - 1)/2}$ ori; cu GARCH, $a_t^2$ este și autocorelat')]),
-    (T('$\\kappa_2$ of \\refSAC: $\\max_k|C_k - (k/T)C_T|/\\sqrt{T\\hat\\omega_4}$, $\\hat\\omega_4$ the long-run variance of $a_t^2 - \\hat\\sigma^2$ (Bartlett)', '$\\kappa_2$ din \\refSAC: $\\max_k|C_k - (k/T)C_T|/\\sqrt{T\\hat\\omega_4}$, $\\hat\\omega_4$ varianța de termen lung a lui $a_t^2 - \\hat\\sigma^2$ (Bartlett)'),
-     [T('same limit, valid under fat tails and conditional heteroskedasticity', 'aceeași limită, validă cu cozi groase și heteroscedasticitate condiționată')])), 'small')
+     [T('with kurtosis $\\kappa = \\E a_t^4/\\sigma^4$ the statistic is inflated by $\\sqrt{(\\kappa - 1)/2}$; with GARCH, $a_t^2$ is also autocorrelated', 'cu coeficientul de boltire $\\kappa = \\E a_t^4/\\sigma^4$, statistica este mărită artificial de $\\sqrt{(\\kappa - 1)/2}$ ori; cu GARCH, $a_t^2$ este și autocorelat')]),
+    (T('$\\kappa_2$ of \\refSAC: the same CUSUM, scaled by a long-run variance', '$\\kappa_2$ din \\refSAC: același CUSUM, scalat printr-o varianță de termen lung'),
+     ['$\\kappa_2 = \\max_k|C_k - (k/T)C_T|/\\sqrt{T\\hat\\omega_4}$',
+      T('$\\hat\\omega_4$: the long-run variance of $a_t^2 - \\hat\\sigma^2$ (Bartlett kernel, Chapter 0)', '$\\hat\\omega_4$: varianța de termen lung a lui $a_t^2 - \\hat\\sigma^2$ (nucleul Bartlett, Capitolul 0)'),
+      T('same limit, valid under fat tails and conditional heteroskedasticity', 'aceeași limită, validă cu cozi groase și heteroscedasticitate condiționată')])))
 
 chart(T('Variance regimes of EUR/RON', 'Regimuri de varianță pentru EUR/RON'), 'ats_ch2_variance_breaks', 'ATS_ch2_variance_breaks', [
     T('Daily log returns of the BNR reference rate, @{va.n} days; red ticks: ICSS with the Inclán--Tiao statistic; green ticks and shaded bands: ICSS with $\\kappa_2$',
@@ -663,6 +725,7 @@ D.frame(T('Location shifts cause forecast failure', 'Schimbările de nivel produ
 D.frame(T('The choice of the estimation window', 'Alegerea ferestrei de estimare'), items(
     (T('Mean shift $\\delta$ after $n_1$ pre-break observations, $n_2$ post-break; forecast with the last $w \\ge n_2$ observations \\refPT', 'Schimbare de medie $\\delta$ după $n_1$ observații înainte de ruptură, $n_2$ după; prognozăm cu ultimele $w \\ge n_2$ observații \\refPT'),
      [T('$\\mathrm{MSFE}(w) = \\sigma^2\\big(1 + \\tfrac1w\\big) + \\Big(\\dfrac{(w - n_2)\\delta}{w}\\Big)^2$: variance falls with $w$, squared bias grows', '$\\mathrm{MSFE}(w) = \\sigma^2\\big(1 + \\tfrac1w\\big) + \\Big(\\dfrac{(w - n_2)\\delta}{w}\\Big)^2$: varianța scade cu $w$, pătratul deplasării crește'),
+      T('MSFE: the mean squared forecast error of the sample mean over the window; $\\sigma^2$: the noise variance; $(w - n_2)/w$: the share of pre-break data in the window', 'MSFE: eroarea pătratică medie de prognoză a mediei calculate pe fereastră; $\\sigma^2$: varianța zgomotului; $(w - n_2)/w$: ponderea datelor dinaintea rupturii în fereastră'),
       T('the optimal window includes \\emph{some} pre-break data when $\\delta/\\sigma$ is small or $n_2$ short (Seminar 2, A8)', 'fereastra optimă include \\emph{cîteva} date dinaintea rupturii cînd $\\delta/\\sigma$ este mic sau $n_2$ scurt (Seminarul 2, A8)')]),
     (T('Feasible rules: estimate the date (Bai--Perron) and use the post-break sample; cross-validate $w$ \\refPT; average forecasts across windows (AveW) \\refPP', 'Reguli aplicabile: estimăm data (Bai--Perron) și folosim eșantionul de după ruptură; alegem $w$ prin validare încrucișată \\refPT; mediem prognozele peste ferestre (AveW) \\refPP'),
      [T('the date is estimated with error exactly when the break is small: post-break windows are then too short', 'data este estimată cu eroare exact cînd ruptura este mică: ferestrele de după ruptură sînt atunci prea scurte')])), 'small')
@@ -697,26 +760,43 @@ D.frame(T('Why nonlinear dynamics', 'Motivația modelelor neliniare'), two(
           (T('Ecology: the 9--10 year cycle of the Canadian lynx is asymmetric (slow rise, fast fall); a linear AR cannot produce a stable cycle without noise', 'Ecologie: ciclul de 9--10 ani al linxului canadian este asimetric (creștere lentă, scădere rapidă); un AR liniar nu poate produce un ciclu stabil fără zgomot'), []),
           T('A nonlinear model can: limit cycles, asymmetry, state-dependent persistence and impulse responses', 'Un model neliniar poate: cicluri limită, asimetrie, persistență și răspunsuri la impuls care depind de stare')), '0.36', '0.62'), 'footnotesize')
 
-D.frame(T('Threshold and self-exciting threshold autoregression', 'Autoregresia cu prag și autoregresia cu prag autoexcitată'), items(
-    (T('Two-regime \\textbf{TAR}: $y_t = (\\phi_{1,0} + \\phi_1\'\\mathbf y_{t-1})\\mathbf 1\\{q_{t-1} \\le \\gamma\\} + (\\phi_{2,0} + \\phi_2\'\\mathbf y_{t-1})\\mathbf 1\\{q_{t-1} > \\gamma\\} + \\varepsilon_t$', '\\textbf{TAR} cu două regimuri: $y_t = (\\phi_{1,0} + \\phi_1\'\\mathbf y_{t-1})\\mathbf 1\\{q_{t-1} \\le \\gamma\\} + (\\phi_{2,0} + \\phi_2\'\\mathbf y_{t-1})\\mathbf 1\\{q_{t-1} > \\gamma\\} + \\varepsilon_t$'),
-     [T('$\\mathbf y_{t-1} = (y_{t-1}, \\dots, y_{t-p})\'$, threshold variable $q_{t-1}$, threshold $\\gamma$; variances may differ across regimes', '$\\mathbf y_{t-1} = (y_{t-1}, \\dots, y_{t-p})\'$, variabila de prag $q_{t-1}$, pragul $\\gamma$; varianțele pot diferi între regimuri'),
-      T('\\textbf{SETAR}: $q_{t-1} = y_{t-d}$, the series itself with \\textbf{delay} $d$; notation SETAR$(k; p_1, \\dots, p_k)$ \\refTL', '\\textbf{SETAR}: $q_{t-1} = y_{t-d}$, seria însăși cu \\textbf{decalajul} $d$; notația SETAR$(k; p_1, \\dots, p_k)$ \\refTL')]),
-    (T('Dynamics: the \\textbf{skeleton} $y_t = F(\\mathbf y_{t-1})$ (noise switched off) can converge to a point, a limit cycle or a chaotic attractor', 'Dinamica: \\textbf{scheletul} $y_t = F(\\mathbf y_{t-1})$ (fără zgomot) poate converge către un punct, un ciclu limită sau un atractor haotic'),
-     [T('SETAR(2; 1, 1) is ergodic iff $\\phi_1 < 1$, $\\phi_2 < 1$ and $\\phi_1\\phi_2 < 1$: a regime may be explosive on its own (Seminar 2, A5)', 'SETAR(2; 1, 1) este ergodic dacă și numai dacă $\\phi_1 < 1$, $\\phi_2 < 1$ și $\\phi_1\\phi_2 < 1$: un regim poate fi exploziv luat separat (Seminarul 2, A5)')]),
-    T('Survey of threshold models in economics: \\refHe', 'Sinteza modelelor cu prag în economie: \\refHe')), 'small')
+D.frame(T('Threshold and self-exciting threshold autoregression (1/2)', 'Autoregresia cu prag și autoregresia cu prag autoexcitată (1/2)'), items(
+    (T('Two-regime \\textbf{TAR}: an AR model whose coefficients depend on whether $q_{t-1}$ is below or above the threshold $\\gamma$', '\\textbf{TAR} cu două regimuri: un model AR ai cărui coeficienți depind de poziția lui $q_{t-1}$ sub sau peste pragul $\\gamma$'),
+     ['$y_t = (\\phi_{1,0} + \\phi_1\'\\mathbf y_{t-1})\\mathbf 1\\{q_{t-1} \\le \\gamma\\} + (\\phi_{2,0} + \\phi_2\'\\mathbf y_{t-1})\\mathbf 1\\{q_{t-1} > \\gamma\\} + \\varepsilon_t$',
+      T('$\\mathbf y_{t-1} = (y_{t-1}, \\dots, y_{t-p})\'$: the last $p$ values; $\\phi_{j,0}$, $\\phi_j$: the intercept and AR coefficients of regime $j$', '$\\mathbf y_{t-1} = (y_{t-1}, \\dots, y_{t-p})\'$: ultimele $p$ valori; $\\phi_{j,0}$, $\\phi_j$: termenul liber și coeficienții AR ai regimului $j$'),
+      T('$q_{t-1}$: the observed threshold variable; $\\gamma$: the threshold; $\\mathbf 1\\{\\cdot\\}$ selects the regime; variances may differ across regimes', '$q_{t-1}$: variabila de prag, observată; $\\gamma$: pragul; $\\mathbf 1\\{\\cdot\\}$ selectează regimul; varianțele pot diferi între regimuri')]),
+    (T('\\textbf{SETAR} (self-exciting): $q_{t-1} = y_{t-d}$, the series itself with the \\textbf{delay} lag $d$', '\\textbf{SETAR} (autoexcitat): $q_{t-1} = y_{t-d}$, seria însăși, cu lagul de întîrziere (delay) $d$'),
+     [T('notation SETAR$(k; p_1, \\dots, p_k)$: $k$ regimes with AR orders $p_1, \\dots, p_k$ \\refTL', 'notația SETAR$(k; p_1, \\dots, p_k)$: $k$ regimuri cu ordinele AR $p_1, \\dots, p_k$ \\refTL')])))
 
-D.frame(T('Estimation and inference', 'Estimare și inferență'), items(
-    (T('Concentrated least squares: for each $\\gamma$ (and $d$) run OLS in both regimes; $\\hat\\gamma = \\arg\\min_\\gamma S_T(\\gamma)$ over the central 70\\% of the values of $q$', 'Cele mai mici pătrate concentrate: pentru fiecare $\\gamma$ (și $d$) aplicăm OLS în ambele regimuri; $\\hat\\gamma = \\arg\\min_\\gamma S_T(\\gamma)$ peste cele 70\\% centrale ale valorilor lui $q$'),
-     [T('$\\hat\\gamma$ is super-consistent, $T(\\hat\\gamma - \\gamma) = O_p(1)$, with a nonstandard limit \\refChan; the slopes are asymptotically Normal as if $\\gamma$ were known', '$\\hat\\gamma$ este superconsistent, $T(\\hat\\gamma - \\gamma) = O_p(1)$, cu o limită nestandard \\refChan; pantele sînt asimptotic Normale ca și cum $\\gamma$ ar fi cunoscut')]),
-    (T('Testing linearity: $\\gamma$ is not identified under $H_0$: $\\phi_1 = \\phi_2$ (the Davies problem again) \\refHa', 'Testarea liniarității: $\\gamma$ nu este identificat sub $H_0$: $\\phi_1 = \\phi_2$ (din nou problema Davies) \\refHa'),
-     [T('$\\sup_\\gamma W_T(\\gamma)$ has a limit that depends on the data; \\textbf{fixed-regressor bootstrap}: $y_t^* = \\hat e_t\\eta_t$, $\\eta_t \\sim N(0, 1)$, same regressors, recompute $\\sup W^*$', '$\\sup_\\gamma W_T(\\gamma)$ are o limită care depinde de date; \\textbf{bootstrap cu regresori ficși}: $y_t^* = \\hat e_t\\eta_t$, $\\eta_t \\sim N(0, 1)$, aceiași regresori, recalculăm $\\sup W^*$')]),
-    (T('Confidence set for the threshold \\refHc: invert $\\mathrm{LR}_T(\\gamma) = T\\,\\dfrac{S_T(\\gamma) - S_T(\\hat\\gamma)}{S_T(\\hat\\gamma)}$', 'Mulțimea de încredere pentru prag \\refHc: inversăm $\\mathrm{LR}_T(\\gamma) = T\\,\\dfrac{S_T(\\gamma) - S_T(\\hat\\gamma)}{S_T(\\hat\\gamma)}$'),
-     [T('limit $\\xi = \\max_s[2W(s) - |s|]$, $P(\\xi \\le x) = (1 - e^{-x/2})^2$; 95\\% value $-2\\ln(1 - \\sqrt{0.95}) = 7.35$; divide LR by $\\hat\\eta^2$ under heteroskedasticity', 'limita $\\xi = \\max_s[2W(s) - |s|]$, $P(\\xi \\le x) = (1 - e^{-x/2})^2$; valoarea de 95\\% $-2\\ln(1 - \\sqrt{0{,}95}) = 7{,}35$; împărțim LR la $\\hat\\eta^2$ sub heteroscedasticitate')])), 'small')
+D.frame(T('Threshold and self-exciting threshold autoregression (2/2)', 'Autoregresia cu prag și autoregresia cu prag autoexcitată (2/2)'), items(
+    (T('Dynamics: the \\textbf{skeleton} $y_t = F(\\mathbf y_{t-1})$, the model with the noise switched off', 'Dinamica: \\textbf{scheletul} $y_t = F(\\mathbf y_{t-1})$, modelul fără zgomot'),
+     [T('$F$: the regime-dependent conditional mean; the skeleton can converge to a point, a limit cycle or a chaotic attractor', '$F$: media condiționată, dependentă de regim; scheletul poate converge către un punct, un ciclu limită sau un atractor haotic')]),
+    (T('Stationarity is a property of the whole model, not of each regime', 'Staționaritatea este o proprietate a întregului model, nu a fiecărui regim'),
+     [T('SETAR(2; 1, 1) is ergodic iff $\\phi_1 < 1$, $\\phi_2 < 1$ and $\\phi_1\\phi_2 < 1$: a regime may be explosive on its own (Seminar 2, A5)', 'SETAR(2; 1, 1) este ergodic dacă și numai dacă $\\phi_1 < 1$, $\\phi_2 < 1$ și $\\phi_1\\phi_2 < 1$: un regim poate fi exploziv luat separat (Seminarul 2, A5)')]),
+    T('Survey of threshold models in economics: \\refHe', 'Sinteza modelelor cu prag în economie: \\refHe')))
+
+D.frame(T('Estimation and inference (1/2)', 'Estimare și inferență (1/2)'), items(
+    (T('Concentrated least squares: for each candidate $\\gamma$ (and $d$) run OLS in both regimes', 'Cele mai mici pătrate concentrate: pentru fiecare $\\gamma$ (și $d$) candidat aplicăm MCMMP în ambele regimuri'),
+     ['$\\hat\\gamma = \\arg\\min_\\gamma S_T(\\gamma)$',
+      T('$S_T(\\gamma)$: the total SSR given $\\gamma$; the search runs over the central 70\\% of the observed values of $q$', '$S_T(\\gamma)$: SSR total pentru un $\\gamma$ dat; căutarea parcurge cele 70\\% centrale ale valorilor observate ale lui $q$'),
+      T('$\\hat\\gamma$ is super-consistent, $T(\\hat\\gamma - \\gamma) = O_p(1)$, with a nonstandard limit \\refChan; the slopes are asymptotically Normal as if $\\gamma$ were known', '$\\hat\\gamma$ este superconsistent, $T(\\hat\\gamma - \\gamma) = O_p(1)$, cu o limită nestandard \\refChan; pantele sînt asimptotic Normale ca și cum $\\gamma$ ar fi cunoscut')]),
+    (T('Testing linearity, $H_0$: $\\phi_1 = \\phi_2$: $\\gamma$ is not identified under $H_0$ (the Davies problem again) \\refHa', 'Testarea liniarității, $H_0$: $\\phi_1 = \\phi_2$: $\\gamma$ nu este identificat sub $H_0$ (din nou problema Davies) \\refHa'),
+     [T('$\\sup_\\gamma W_T(\\gamma)$, with $W_T(\\gamma)$ the Wald statistic of $\\phi_1 = \\phi_2$ at threshold $\\gamma$, has a limit that depends on the data', '$\\sup_\\gamma W_T(\\gamma)$, cu $W_T(\\gamma)$ statistica Wald pentru $\\phi_1 = \\phi_2$ la pragul $\\gamma$, are o limită care depinde de date'),
+      T('\\textbf{fixed-regressor bootstrap}: $y_t^* = \\hat e_t\\eta_t$, $\\eta_t \\sim N(0, 1)$, same regressors, recompute $\\sup W^*$; $\\hat e_t$: the residuals', '\\textbf{bootstrap cu regresori ficși}: $y_t^* = \\hat e_t\\eta_t$, $\\eta_t \\sim N(0, 1)$, aceiași regresori, recalculăm $\\sup W^*$; $\\hat e_t$: reziduurile')])), 'small')
+
+D.frame(T('Estimation and inference (2/2)', 'Estimare și inferență (2/2)'), items(
+    (T('Confidence set for the threshold \\refHc: all $\\gamma$ with a small likelihood ratio', 'Mulțimea de încredere pentru prag \\refHc: toate valorile $\\gamma$ cu un raport de verosimilitate mic'),
+     ['$\\mathrm{LR}_T(\\gamma) = T\\,\\dfrac{S_T(\\gamma) - S_T(\\hat\\gamma)}{S_T(\\hat\\gamma)}$',
+      T('the relative increase of the SSR when the threshold is moved from $\\hat\\gamma$ to $\\gamma$', 'creșterea relativă a SSR cînd pragul este mutat de la $\\hat\\gamma$ la $\\gamma$')]),
+    (T('Limit distribution and critical value', 'Distribuția limită și valoarea critică'),
+     [T('$\\xi = \\max_s[2W(s) - |s|]$, $W$ a two-sided Brownian motion; $P(\\xi \\le x) = (1 - e^{-x/2})^2$', '$\\xi = \\max_s[2W(s) - |s|]$, $W$ o mișcare browniană bilaterală; $P(\\xi \\le x) = (1 - e^{-x/2})^2$'),
+      T('95\\% value $-2\\ln(1 - \\sqrt{0.95}) = 7.35$: the 95\\% set is $\\{\\gamma: \\mathrm{LR}_T(\\gamma) \\le 7.35\\}$', 'valoarea de 95\\% $-2\\ln(1 - \\sqrt{0{,}95}) = 7{,}35$: mulțimea de 95\\% este $\\{\\gamma: \\mathrm{LR}_T(\\gamma) \\le 7{,}35\\}$'),
+      T('under heteroskedasticity divide LR by $\\hat\\eta^2$, a variance-ratio correction estimated from the residuals (Appendix)', 'sub heteroscedasticitate împărțim LR la $\\hat\\eta^2$, o corecție de tip raport de varianțe estimată din reziduuri (Anexă)')])))
 
 D.frame(T('Case study: Tong and Lim (1980), the Canadian lynx', 'Studiu de caz: Tong și Lim (1980), linxul canadian'), items(
     (T('The paper, Section 9: $\\log_{10}$ of the yearly lynx trappings, 1821--1934; SETAR(2; 7, 2) with $d = 2$, threshold 3.116 \\refTL', 'Lucrarea, secțiunea 9: $\\log_{10}$ din numărul anual de linxi capturați, 1821--1934; SETAR(2; 7, 2) cu $d = 2$, pragul 3,116 \\refTL'),
      [T('$d = 2$ has an ecological reading: a lynx is fully grown in the autumn of its second year', '$d = 2$ are o interpretare ecologică: un linx devine adult în toamna celui de-al doilea an')]),
-    (T('Our replication with the threshold of the paper: lower regime $y_t = @{ly.a0} + @{ly.a1}y_{t-1} @{ly.a2}y_{t-2} + \\dots$ (seven lags), upper regime $@{ly.b0} + @{ly.b1}y_{t-1} @{ly.b2}y_{t-2}$', 'Replicarea noastră cu pragul din lucrare: regimul inferior $y_t = @{ly.a0} + @{ly.a1}y_{t-1} @{ly.a2}y_{t-2} + \\dots$ (șapte decalaje), regimul superior $@{ly.b0} + @{ly.b1}y_{t-1} @{ly.b2}y_{t-2}$'),
+    (T('Our replication with the threshold of the paper: lower regime $y_t = @{ly.a0} + @{ly.a1}y_{t-1} @{ly.a2}y_{t-2} + \\dots$ (seven lags), upper regime $@{ly.b0} + @{ly.b1}y_{t-1} @{ly.b2}y_{t-2}$', 'Replicarea noastră cu pragul din lucrare: regimul inferior $y_t = @{ly.a0} + @{ly.a1}y_{t-1} @{ly.a2}y_{t-2} + \\dots$ (șapte laguri), regimul superior $@{ly.b0} + @{ly.b1}y_{t-1} @{ly.b2}y_{t-2}$'),
      [T('the lower regime reproduces the published coefficients to three decimals; the free least-squares threshold is @{ly.g} (SSR @{ly.ssr} against @{ly.ssrtl})', 'regimul inferior reproduce coeficienții publicați cu trei zecimale; pragul liber, după cele mai mici pătrate, este @{ly.g} (SSR @{ly.ssr} față de @{ly.ssrtl})')]),
     T('Question: does the fitted model generate the lynx cycle by itself?', 'Întrebarea: generează modelul estimat, singur, ciclul linxului?')), 'small')
 
@@ -727,13 +807,13 @@ chart(T('The lynx cycle and the SETAR skeleton', 'Ciclul linxului și scheletul 
 interp(('the lynx SETAR', 'modelului SETAR pentru linx'), [
     (T('The skeleton settles on a stable limit cycle of period @{ly.per} years: the model produces the cycle without any noise', 'Scheletul se stabilizează pe un ciclu limită stabil cu perioada de @{ly.per} ani: modelul produce ciclul fără niciun zgomot'),
      [T('a linear AR(11) needs noise to sustain the oscillation; its skeleton converges to the mean', 'un AR(11) liniar are nevoie de zgomot pentru a întreține oscilația; scheletul lui converge la medie')]),
-    T('The rise is slow (lower regime, seven lags), the fall is fast (upper regime, an explosive AR(2) on its own): the asymmetry of the data', 'Creșterea este lentă (regimul inferior, șapte decalaje), scăderea rapidă (regimul superior, un AR(2) exploziv luat separat): asimetria din date'),
+    T('The rise is slow (lower regime, seven lags), the fall is fast (upper regime, an explosive AR(2) on its own): the asymmetry of the data', 'Creșterea este lentă (regimul inferior, șapte laguri), scăderea rapidă (regimul superior, un AR(2) exploziv luat separat): asimetria din date'),
     T('Residual variance @{ly.v1} against @{ly.v2} for AR(11): a small in-sample gain, a large gain in the description of the dynamics', 'Varianța reziduală @{ly.v1} față de @{ly.v2} pentru AR(11): un cîștig mic în eșantion, un cîștig mare în descrierea dinamicii')])
 
 D.frame(T('Case study: Hansen (1997), US unemployment', 'Studiu de caz: Hansen (1997), șomajul din SUA'), items(
-    (T('The paper, Section 5: unemployment rate of men aged 20 and over (unemployed / labour force), monthly 1959.1--1996.7; $\\Delta y_t$ on a constant and 12 lags \\refHb', 'Lucrarea, secțiunea 5: rata șomajului bărbaților de 20 de ani și peste (șomeri / forța de muncă), lunar 1959.1--1996.7; $\\Delta y_t$ pe o constantă și 12 decalaje \\refHb'),
-     [T('threshold variable $q_{t-1} = y_{t-1} - y_{t-d}$, $d = 2, \\dots, 12$: the recent trend of unemployment; trimming 15\\%', 'variabila de prag $q_{t-1} = y_{t-1} - y_{t-d}$, $d = 2, \\dots, 12$: tendința recentă a șomajului; trunchiere 15\\%'),
-      T('robust sup-Wald test, bootstrap $p$-values (1000 replications); the LS estimate $\\hat d = 12$, $\\hat\\gamma = 0.302$, 95\\% interval [0.213; 0.340], 314 and 124 observations', 'test sup-Wald robust, valori $p$ bootstrap (1000 de replicări); estimarea LS $\\hat d = 12$, $\\hat\\gamma = 0{,}302$, intervalul de 95\\% [0,213; 0,340], 314 și 124 de observații')]),
+    (T('The paper, Section 5: unemployment rate of men aged 20 and over (unemployed / labour force), monthly 1959.1--1996.7; $\\Delta y_t$ on a constant and 12 lags \\refHb', 'Lucrarea, secțiunea 5: rata șomajului bărbaților de 20 de ani și peste (șomeri / forța de muncă), lunar 1959.1--1996.7; $\\Delta y_t$ pe o constantă și 12 laguri \\refHb'),
+     [T('$y_t$: the unemployment rate in \\%; threshold variable $q_{t-1} = y_{t-1} - y_{t-d}$, $d = 2, \\dots, 12$: the change over the last $d - 1$ months; trimming 15\\%', '$y_t$: rata șomajului, în \\%; variabila de prag $q_{t-1} = y_{t-1} - y_{t-d}$, $d = 2, \\dots, 12$: variația din ultimele $d - 1$ luni; trunchiere 15\\%'),
+      T('robust sup-Wald test, bootstrap $p$-values (1000 replications); the LS estimate $\\hat d = 12$, $\\hat\\gamma = 0.302$, 95\\% interval [0.213; 0.340], 314 and 124 observations', 'test sup-Wald robust, p-value-uri bootstrap (1000 de replicări); estimarea LS $\\hat d = 12$, $\\hat\\gamma = 0{,}302$, intervalul de 95\\% [0,213; 0,340], 314 și 124 de observații')]),
     (T('Our replication: the same construction from the BLS series on FRED (today\'s seasonal adjustment), the same model, $d = 12$', 'Replicarea noastră: aceeași construcție din seriile BLS de pe FRED (ajustarea sezonieră de azi), același model, $d = 12$'), []),
     T('Question: is there a ``recession regime\'\' with different dynamics, and how precisely is its threshold estimated?', 'Întrebarea: există un „regim de recesiune” cu altă dinamică și cît de precis este estimat pragul lui?')), 'small')
 
@@ -743,10 +823,10 @@ chart(T('A threshold model for US unemployment', 'Un model cu prag pentru șomaj
 
 interp(('the unemployment TAR', 'modelului TAR pentru șomaj'), [
     (T('$\\hat\\gamma = @{ta.g}$ pp (paper: 0.302), regimes of @{ta.n1} and @{ta.n2} months, exactly the split of the paper; 95\\% set [@{ta.ci0}; @{ta.ci1}]', '$\\hat\\gamma = @{ta.g}$ pp (lucrarea: 0,302), regimuri de @{ta.n1} și @{ta.n2} de luni, exact împărțirea din lucrare; mulțimea de 95\\% [@{ta.ci0}; @{ta.ci1}]'),
-     [T('sup-Wald @{ta.W}, bootstrap $p$ @{ta.p}; linearity is rejected at 5\\% for @{ta.nsig} of the 11 delays', 'sup-Wald @{ta.W}, $p$ bootstrap @{ta.p}; liniaritatea este respinsă la 5\\% pentru @{ta.nsig} din cele 11 decalaje')]),
+     [T('sup-Wald @{ta.W}, bootstrap $p$ @{ta.p}; linearity is rejected at 5\\% for @{ta.nsig} of the 11 delays', 'sup-Wald @{ta.W}, p-value bootstrap @{ta.p}; liniaritatea este respinsă la 5\\% pentru @{ta.nsig} din cele 11 laguri $d$')]),
     (T('Rising regime: intercept @{ta.b20}, AR(1) @{ta.b21}, AR(2) @{ta.b22}; other months: @{ta.b10}, @{ta.b11}, @{ta.b12}', 'Regimul de creștere: termen liber @{ta.b20}, AR(1) @{ta.b21}, AR(2) @{ta.b22}; celelalte luni: @{ta.b10}, @{ta.b11}, @{ta.b12}'),
      [T('increases feed on themselves; in expansions unemployment is close to a random walk with a slight downward drift', 'creșterile se autoalimentează; în expansiune șomajul este aproape un mers aleator cu o ușoară tendință descendentă')]),
-    T('With today\'s data the SSR is smallest at $d = @{ta.dhat}$ ($\\hat\\gamma = @{ta.gd}$): the delay is fragile, the threshold effect is not; 1959--2019: $\\hat\\gamma = @{ta.xg}$, $p$ @{ta.xp}', 'Cu datele de azi, SSR este minim la $d = @{ta.dhat}$ ($\\hat\\gamma = @{ta.gd}$): decalajul este fragil, efectul de prag nu; 1959--2019: $\\hat\\gamma = @{ta.xg}$, $p$ @{ta.xp}')], 'footnotesize')
+    T('With today\'s data the SSR is smallest at $d = @{ta.dhat}$ ($\\hat\\gamma = @{ta.gd}$): the delay is fragile, the threshold effect is not; 1959--2019: $\\hat\\gamma = @{ta.xg}$, $p$ @{ta.xp}', 'Cu datele de azi, SSR este minim la $d = @{ta.dhat}$ ($\\hat\\gamma = @{ta.gd}$): lagul $d$ este fragil, efectul de prag nu; 1959--2019: $\\hat\\gamma = @{ta.xg}$, $p$ @{ta.xp}')], 'footnotesize')
 
 D.recap(('Threshold autoregression', 'autoregresia cu prag'), [
     T('A piecewise-linear AR switching on an observed variable; can generate limit cycles', 'Un AR liniar pe porțiuni care comută după o variabilă observată; poate genera cicluri limită'),
@@ -759,27 +839,36 @@ D.recap(('Threshold autoregression', 'autoregresia cu prag'), [
 # =============================================================================
 D.section('Smooth transition autoregression', 'Autoregresia cu tranziție netedă')
 
-D.frame(T('STAR models', 'Modelele STAR'), items(
-    (T('$y_t = \\phi_1\'\\mathbf x_t[1 - G(s_t; \\gamma, c)] + \\phi_2\'\\mathbf x_t G(s_t; \\gamma, c) + \\varepsilon_t$, $\\mathbf x_t = (1, y_{t-1}, \\dots, y_{t-p})\'$, $0 \\le G \\le 1$ \\refTer', '$y_t = \\phi_1\'\\mathbf x_t[1 - G(s_t; \\gamma, c)] + \\phi_2\'\\mathbf x_t G(s_t; \\gamma, c) + \\varepsilon_t$, $\\mathbf x_t = (1, y_{t-1}, \\dots, y_{t-p})\'$, $0 \\le G \\le 1$ \\refTer'),
-     [T('\\textbf{LSTAR}: $G = [1 + \\exp\\{-\\gamma(s_t - c)/\\hat\\sigma_s\\}]^{-1}$: low and high values of $s_t$; $\\gamma \\to \\infty$ gives the TAR, $\\gamma \\to 0$ the linear AR', '\\textbf{LSTAR}: $G = [1 + \\exp\\{-\\gamma(s_t - c)/\\hat\\sigma_s\\}]^{-1}$: valori mici și mari ale lui $s_t$; $\\gamma \\to \\infty$ dă TAR, $\\gamma \\to 0$ dă AR liniar'),
-      T('\\textbf{ESTAR}: $G = 1 - \\exp\\{-\\gamma(s_t - c)^2\\}$: small and large \\emph{deviations} from $c$, symmetric', '\\textbf{ESTAR}: $G = 1 - \\exp\\{-\\gamma(s_t - c)^2\\}$: \\emph{abateri} mici și mari de la $c$, simetric')]),
-    (T('A continuum of regimes: smooth aggregation of many agents with different thresholds, or time aggregation, produces smooth switching', 'Un continuu de regimuri: agregarea mai multor agenți cu praguri diferite sau agregarea temporală produc o comutare netedă'),
-     [T('dividing by $\\hat\\sigma_s$ makes $\\gamma$ scale free and easier to estimate', 'împărțirea la $\\hat\\sigma_s$ face ca $\\gamma$ să nu depindă de scală și să fie mai ușor de estimat')]),
-    T('Survey with the modelling cycle (specification, estimation, evaluation): \\refVDTF', 'Sinteză cu ciclul de modelare (specificare, estimare, evaluare): \\refVDTF')), 'small')
+D.frame(T('STAR models (1/2)', 'Modelele STAR (1/2)'), items(
+    (T('A weighted average of two AR regimes, with a weight $G$ that moves smoothly between 0 and 1 \\refTer', 'O medie ponderată a două regimuri AR, cu o pondere $G$ care variază continuu între 0 și 1 \\refTer'),
+     ['$y_t = \\phi_1\'\\mathbf x_t[1 - G(s_t; \\gamma, c)] + \\phi_2\'\\mathbf x_t G(s_t; \\gamma, c) + \\varepsilon_t$, $\\quad \\mathbf x_t = (1, y_{t-1}, \\dots, y_{t-p})\'$',
+      T('$s_t$: the transition variable (e.g.\\ a lag of $y_t$); $c$: the location of the transition; $\\gamma > 0$: its speed', '$s_t$: variabila de tranziție (de exemplu un lag al lui $y_t$); $c$: locul tranziției; $\\gamma > 0$: viteza ei'),
+      T('$G = 0$: regime 1 with coefficients $\\phi_1$; $G = 1$: regime 2 with $\\phi_2$; in between, a mixture', '$G = 0$: regimul 1, cu coeficienții $\\phi_1$; $G = 1$: regimul 2, cu $\\phi_2$; între ele, o combinație')]),
+    (T('A continuum of regimes', 'Un continuu de regimuri'),
+     [T('smooth aggregation of many agents with different thresholds, or time aggregation, produces smooth switching', 'agregarea mai multor agenți cu praguri diferite sau agregarea temporală produc o comutare netedă')])))
+
+D.frame(T('STAR models (2/2)', 'Modelele STAR (2/2)'), items(
+    (T('\\textbf{LSTAR} (logistic): low against high values of $s_t$', '\\textbf{LSTAR} (logistic): valori mici față de valori mari ale lui $s_t$'),
+     ['$G = [1 + \\exp\\{-\\gamma(s_t - c)/\\hat\\sigma_s\\}]^{-1}$',
+      T('$\\gamma \\to \\infty$ gives the TAR, $\\gamma \\to 0$ the linear AR; $\\hat\\sigma_s$: the standard deviation of $s_t$, which makes $\\gamma$ scale free and easier to estimate', '$\\gamma \\to \\infty$ dă TAR, $\\gamma \\to 0$ dă AR liniar; $\\hat\\sigma_s$: abaterea standard a lui $s_t$, care face ca $\\gamma$ să nu depindă de scală și să fie mai ușor de estimat')]),
+    (T('\\textbf{ESTAR} (exponential): small against large \\emph{deviations} from $c$, symmetric', '\\textbf{ESTAR} (exponențial): \\emph{abateri} mici față de abateri mari de la $c$, simetric'),
+     ['$G = 1 - \\exp\\{-\\gamma(s_t - c)^2\\}$']),
+    T('Survey with the modelling cycle (specification, estimation, evaluation): \\refVDTF', 'Sinteză cu ciclul de modelare (specificare, estimare, evaluare): \\refVDTF')))
 
 D.frame(T('Testing linearity against STAR', 'Testarea liniarității față de STAR'), items(
     (T('Under $H_0$: $\\gamma = 0$, the parameters $c$ and $\\phi_2$ are not identified: replace $G$ by a third-order Taylor expansion around $\\gamma = 0$ \\refLST', 'Sub $H_0$: $\\gamma = 0$, parametrii $c$ și $\\phi_2$ nu sînt identificați: înlocuim $G$ printr-o dezvoltare Taylor de ordinul trei în jurul lui $\\gamma = 0$ \\refLST'),
-     [T('auxiliary regression $\\hat\\varepsilon_t = \\beta_0\'\\mathbf x_t + \\beta_1\'\\tilde{\\mathbf x}_t s_t + \\beta_2\'\\tilde{\\mathbf x}_t s_t^2 + \\beta_3\'\\tilde{\\mathbf x}_t s_t^3 + v_t$, $\\tilde{\\mathbf x}_t$ without the constant', 'regresia auxiliară $\\hat\\varepsilon_t = \\beta_0\'\\mathbf x_t + \\beta_1\'\\tilde{\\mathbf x}_t s_t + \\beta_2\'\\tilde{\\mathbf x}_t s_t^2 + \\beta_3\'\\tilde{\\mathbf x}_t s_t^3 + v_t$, $\\tilde{\\mathbf x}_t$ fără constantă'),
-      T('LM3: $\\beta_1 = \\beta_2 = \\beta_3 = 0$, an $F$ test with $3p$ restrictions; repeat for each candidate $s_t$ and take the smallest $p$-value', 'LM3: $\\beta_1 = \\beta_2 = \\beta_3 = 0$, un test $F$ cu $3p$ restricții; repetăm pentru fiecare $s_t$ candidat și alegem cea mai mică valoare $p$')]),
+     [T('auxiliary regression $\\hat\\varepsilon_t = \\beta_0\'\\mathbf x_t + \\beta_1\'\\tilde{\\mathbf x}_t s_t + \\beta_2\'\\tilde{\\mathbf x}_t s_t^2 + \\beta_3\'\\tilde{\\mathbf x}_t s_t^3 + v_t$', 'regresia auxiliară $\\hat\\varepsilon_t = \\beta_0\'\\mathbf x_t + \\beta_1\'\\tilde{\\mathbf x}_t s_t + \\beta_2\'\\tilde{\\mathbf x}_t s_t^2 + \\beta_3\'\\tilde{\\mathbf x}_t s_t^3 + v_t$'),
+      T('$\\hat\\varepsilon_t$: the residuals of the linear AR; $\\tilde{\\mathbf x}_t$: $\\mathbf x_t$ without the constant; $\\beta_k$: the coefficients of the interactions with $s_t^k$; $v_t$: the error', '$\\hat\\varepsilon_t$: reziduurile AR-ului liniar; $\\tilde{\\mathbf x}_t$: $\\mathbf x_t$ fără constantă; $\\beta_k$: coeficienții interacțiunilor cu $s_t^k$; $v_t$: eroarea'),
+      T('LM3: $\\beta_1 = \\beta_2 = \\beta_3 = 0$, an $F$ test with $3p$ restrictions; repeat for each candidate $s_t$ and take the smallest $p$-value', 'LM3: $\\beta_1 = \\beta_2 = \\beta_3 = 0$, un test $F$ cu $3p$ restricții; repetăm pentru fiecare $s_t$ candidat și alegem cel mai mic p-value')]),
     (T('\\textbf{Choice of the family} \\refTer: test $H_{04}$: $\\beta_3 = 0$, then $H_{03}$: $\\beta_2 = 0 \\mid \\beta_3 = 0$, then $H_{02}$: $\\beta_1 = 0 \\mid \\beta_2 = \\beta_3 = 0$', '\\textbf{Alegerea familiei} \\refTer: testăm $H_{04}$: $\\beta_3 = 0$, apoi $H_{03}$: $\\beta_2 = 0 \\mid \\beta_3 = 0$, apoi $H_{02}$: $\\beta_1 = 0 \\mid \\beta_2 = \\beta_3 = 0$'),
      [T('strongest rejection of $H_{03}$: ESTAR; of $H_{04}$ or $H_{02}$: LSTAR (an ESTAR has no cubic term in its expansion)', 'cea mai puternică respingere pentru $H_{03}$: ESTAR; pentru $H_{04}$ sau $H_{02}$: LSTAR (un ESTAR nu are termen cubic în dezvoltare)')]),
     T('Estimation by nonlinear least squares, linear parameters concentrated out; evaluation by LM tests of no remaining nonlinearity and parameter constancy \\refET', 'Estimarea prin cele mai mici pătrate neliniare, cu parametrii liniari concentrați; evaluarea prin teste LM pentru neliniaritate reziduală și constanța parametrilor \\refET')), 'small')
 
 D.frame(T('Case study: van Dijk, Teräsvirta and Franses (2002)', 'Studiu de caz: van Dijk, Teräsvirta și Franses (2002)'), items(
     (T('The paper, Section 7: unadjusted unemployment rate of US men aged 20+, June 1968--December 1999; estimation to 1989, forecasts for 1990--1999 \\refVDTF', 'Lucrarea, secțiunea 7: rata neajustată a șomajului bărbaților de 20 de ani și peste din SUA, iunie 1968--decembrie 1999; estimare pînă în 1989, prognoze pentru 1990--1999 \\refVDTF'),
-     [T('$\\Delta y_t$ on a constant, 11 monthly dummies, $y_{t-1}$ and 15 lags of $\\Delta y_t$; transition variable $s_t = \\Delta_{12}y_{t-d}$, $d = 1, \\dots, 6$', '$\\Delta y_t$ pe o constantă, 11 variabile dummy lunare, $y_{t-1}$ și 15 decalaje ale lui $\\Delta y_t$; variabila de tranziție $s_t = \\Delta_{12}y_{t-d}$, $d = 1, \\dots, 6$'),
+     [T('$\\Delta y_t$ on a constant, 11 monthly dummies, $y_{t-1}$ and 15 lags of $\\Delta y_t$; transition variable $s_t = \\Delta_{12}y_{t-d}$ (the 12-month change, lagged $d$ months), $d = 1, \\dots, 6$', '$\\Delta y_t$ pe o constantă, 11 variabile dummy lunare, $y_{t-1}$ și 15 laguri ale lui $\\Delta y_t$; variabila de tranziție $s_t = \\Delta_{12}y_{t-d}$ (variația pe 12 luni, cu lagul $d$), $d = 1, \\dots, 6$'),
       T('their LSTAR with $d = 1$: $\\hat\\gamma = 23.15$, $\\hat c = 0.27$, residual s.d.\\ 0.92 of the AR', 'LSTAR-ul lor cu $d = 1$: $\\hat\\gamma = 23{,}15$, $\\hat c = 0{,}27$, abaterea standard reziduală 0,92 din cea a AR')]),
-    (T('Our replication: the same series (BLS via FRED), sample, regressors and transition; the unrestricted lags, without their pruning of insignificant terms', 'Replicarea noastră: aceeași serie (BLS prin FRED), același eșantion, aceiași regresori și aceeași tranziție; decalajele nerestricționate, fără eliminarea termenilor nesemnificativi din lucrare'), []),
+    (T('Our replication: the same series (BLS via FRED), sample, regressors and transition; the unrestricted lags, without their pruning of insignificant terms', 'Replicarea noastră: aceeași serie (BLS prin FRED), același eșantion, aceiași regresori și aceeași tranziție; lagurile nerestricționate, fără eliminarea termenilor nesemnificativi din lucrare'), []),
     T('Question: does an LSTAR beat the linear model out of sample?', 'Întrebarea: bate un LSTAR modelul liniar în afara eșantionului?')), 'small')
 
 chart(T('An LSTAR for US unemployment', 'Un LSTAR pentru șomajul din SUA'), 'ats_ch2_unemp_lstar', 'ATS_ch2_unemp_lstar', [
@@ -787,7 +876,7 @@ chart(T('An LSTAR for US unemployment', 'Un LSTAR pentru șomajul din SUA'), 'at
       'Stînga: funcția de tranziție estimată în timp, împreună cu rata șomajului; dreapta: $G$ ca funcție de $s_t = \\Delta_{12}y_{t-1}$, a noastră și cea publicată')], h='0.5\\textheight')
 
 interp(('the LSTAR', 'modelului LSTAR'), [
-    (T('LM3 $p$-values: $d = 1$: @{ls.p1}, $d = 2$: @{ls.p2}, $d = 3$: @{ls.p3}; for $d = 2$: $H_{04}$ @{ls.p24}, $H_{03}$ @{ls.p23}, $H_{02}$ @{ls.p22}: LSTAR', 'Valorile $p$ LM3: $d = 1$: @{ls.p1}, $d = 2$: @{ls.p2}, $d = 3$: @{ls.p3}; pentru $d = 2$: $H_{04}$ @{ls.p24}, $H_{03}$ @{ls.p23}, $H_{02}$ @{ls.p22}: LSTAR'),
+    (T('LM3 $p$-values: $d = 1$: @{ls.p1}, $d = 2$: @{ls.p2}, $d = 3$: @{ls.p3}; for $d = 2$: $H_{04}$ @{ls.p24}, $H_{03}$ @{ls.p23}, $H_{02}$ @{ls.p22}: LSTAR', 'P-value-urile LM3: $d = 1$: @{ls.p1}, $d = 2$: @{ls.p2}, $d = 3$: @{ls.p3}; pentru $d = 2$: $H_{04}$ @{ls.p24}, $H_{03}$ @{ls.p23}, $H_{02}$ @{ls.p22}: LSTAR'),
      [T('as in the paper: weak evidence, strongest for $d = 2$, and it points to the logistic family', 'ca în lucrare: dovezi slabe, cele mai puternice pentru $d = 2$, care indică familia logistică')]),
     (T('$\\hat\\gamma = @{ls.g}$, $\\hat c = @{ls.c}$, residual s.d.\\ ratio @{ls.ratio}; the regime switches when unemployment has risen by about 0.3 pp in a year ($G > 0.5$ in @{ls.share}\\% of months)', '$\\hat\\gamma = @{ls.g}$, $\\hat c = @{ls.c}$, raportul abaterilor standard reziduale @{ls.ratio}; regimul se schimbă cînd șomajul a crescut cu aproximativ 0,3 pp într-un an ($G > 0{,}5$ în @{ls.share}\\% din luni)'),
      [T('AIC prefers the LSTAR (@{ls.aics} against @{ls.aicl}); BIC the linear model (@{ls.bicl} against @{ls.bics}): 18 extra parameters without pruning', 'AIC preferă LSTAR (@{ls.aics} față de @{ls.aicl}); BIC, modelul liniar (@{ls.bicl} față de @{ls.bics}): 18 parametri în plus, fără eliminare')]),
@@ -796,15 +885,18 @@ interp(('the LSTAR', 'modelului LSTAR'), [
 D.frame(T('Real exchange rates and purchasing power parity', 'Cursurile reale și paritatea puterii de cumpărare'), two(
     ph('cassel', T('Gustav Cassel (1866--1945)', 'Gustav Cassel (1866--1945)'), h='0.24\\textheight') + '\\\\[1mm]'
     + ph('bretton', T('Bretton Woods, July 1944', 'Bretton Woods, iulie 1944'), h='0.15\\textheight'),
-    items((T('PPP (Cassel, 1918): $q_t = s_t - p_t + p_t^*$ should be stationary; after Bretton Woods ended (1973) unit-root tests rarely reject', 'PPC (Cassel, 1918): $q_t = s_t - p_t + p_t^*$ ar trebui să fie staționar; după sfîrșitul sistemului Bretton Woods (1973), testele de rădăcină unitară resping rar'),
-           [T('first PPP puzzle: no mean reversion; second: half-lives of 3--5 years, too slow for nominal shocks', 'primul paradox PPC: nicio revenire la medie; al doilea: timpi de înjumătățire de 3--5 ani, prea lenți pentru șocuri nominale')]),
+    items((T('PPP (Cassel, 1918): the real exchange rate $q_t = s_t - p_t + p_t^*$ should be stationary', 'PPC (Cassel, 1918): cursul real $q_t = s_t - p_t + p_t^*$ ar trebui să fie staționar'),
+           [T('$s_t$: the log nominal rate (domestic per foreign currency); $p_t$, $p_t^*$: log domestic and foreign price levels', '$s_t$: logaritmul cursului nominal (moneda națională pentru o unitate de monedă străină); $p_t$, $p_t^*$: logaritmii nivelurilor prețurilor interne și externe'),
+            T('after Bretton Woods ended (1973) unit-root tests rarely reject', 'după sfîrșitul sistemului Bretton Woods (1973), testele de rădăcină unitară resping rar'),
+            T('first PPP puzzle: no mean reversion; second: half-lives of 3--5 years, too slow for nominal shocks', 'primul paradox PPC: nicio revenire la medie; al doilea: timpi de înjumătățire de 3--5 ani, prea lenți pentru șocuri nominale')]),
           (T('Transaction costs create a band of inaction: near parity $q_t$ is close to a random walk, far from it arbitrage pulls it back \\refMNP', 'Costurile de tranzacție creează o bandă de inacțiune: aproape de paritate $q_t$ este aproape un mers aleator, departe de ea arbitrajul îl trage înapoi \\refMNP'),
-           [T('\\refTPS: ESTAR $q_t - \\mu = (q_{t-1} - \\mu)\\exp\\{-\\theta^2(q_{t-1} - \\mu)^2\\} + \\varepsilon_t$', '\\refTPS: ESTAR $q_t - \\mu = (q_{t-1} - \\mu)\\exp\\{-\\theta^2(q_{t-1} - \\mu)^2\\} + \\varepsilon_t$')]),
+           [T('\\refTPS: ESTAR $q_t - \\mu = (q_{t-1} - \\mu)\\exp\\{-\\theta^2(q_{t-1} - \\mu)^2\\} + \\varepsilon_t$', '\\refTPS: ESTAR $q_t - \\mu = (q_{t-1} - \\mu)\\exp\\{-\\theta^2(q_{t-1} - \\mu)^2\\} + \\varepsilon_t$'),
+            T('$\\mu$: the equilibrium; near it the AR coefficient $\\exp\\{\\cdot\\}$ is close to 1 (random walk), far from it close to 0 (fast reversion); $\\theta^2$: the speed', '$\\mu$: echilibrul; aproape de el coeficientul AR $\\exp\\{\\cdot\\}$ este aproape de 1 (mers aleator), departe de el aproape de 0 (revenire rapidă); $\\theta^2$: viteza')]),
           T('PPP: purchasing power parity', 'PPC (PPP): paritatea puterii de cumpărare')), '0.34', '0.64'), 'footnotesize')
 
 D.frame(T('Case study: Taylor, Peel and Sarno (2001)', 'Studiu de caz: Taylor, Peel și Sarno (2001)'), items(
     (T('The paper: monthly real dollar rates of sterling, mark, franc and yen, 1973M01--1996M12, IMF IFS data, $q(1973M01) = 0$; ESTAR with $p = d = 1$ and $\\beta_1 = -\\beta_1^* = 1$ (eq.\\ 8) \\refTPS', 'Lucrarea: cursurile reale lunare ale lirei sterline, mărcii, francului și yenului față de dolar, 1973M01--1996M12, date FMI IFS, $q(1973M01) = 0$; ESTAR cu $p = d = 1$ și $\\beta_1 = -\\beta_1^* = 1$ (ec.\\ 8) \\refTPS'),
-     [T('dollar--sterling: $\\hat\\theta^2 = 0.452$, $\\hat\\mu = -0.149$, $s = 0.033$; Monte Carlo $p$-value of $\\hat\\theta$ under a random walk 0.002', 'dolar--liră: $\\hat\\theta^2 = 0{,}452$, $\\hat\\mu = -0{,}149$, $s = 0{,}033$; valoarea $p$ Monte Carlo a lui $\\hat\\theta$ sub un mers aleator 0,002'),
+     [T('dollar--sterling: $\\hat\\theta^2 = 0.452$, $\\hat\\mu = -0.149$, $s = 0.033$ (residual standard deviation); Monte Carlo $p$-value of $\\hat\\theta$ under a random walk: 0.002', 'dolar--liră: $\\hat\\theta^2 = 0{,}452$, $\\hat\\mu = -0{,}149$, $s = 0{,}033$ (abaterea standard reziduală); p-value-ul Monte Carlo al lui $\\hat\\theta$ sub un mers aleator: 0,002'),
       T('half-lives from generalised impulse responses conditional on the average history: under one year for a 40\\% shock, just under three years for 1\\%', 'timpi de înjumătățire din răspunsuri la impuls generalizate, condiționate de istoria medie: sub un an pentru un șoc de 40\\%, puțin sub trei ani pentru 1\\%')]),
     (T('Our replication for dollar--sterling: end-of-month DEXUSUK, US CPI (CPIAUCNS), UK CPI (OECD to 1987, then ONS); same model, same half-life procedure; extension to @{es.last}', 'Replicarea noastră pentru dolar--liră: DEXUSUK la sfîrșit de lună, IPC SUA (CPIAUCNS), IPC britanic (OECD pînă în 1987, apoi ONS); același model, aceeași procedură pentru timpii de înjumătățire; extensie pînă în @{es.last}'), []),
     T('Question: is the real exchange rate nonlinearly mean reverting, and how fast?', 'Întrebarea: revine cursul real neliniar la medie și cît de repede?')), 'small')
@@ -814,7 +906,7 @@ chart(T('Nonlinear mean reversion of the real dollar--sterling rate', 'Revenirea
       'Stînga: $q_t$ și echilibrele estimate; dreapta: răspunsurile la impuls generalizate ale ESTAR 1973--1996, șocuri de 1--40\\%, mediate peste istoriile observate')], h='0.5\\textheight')
 
 interp(('the ESTAR', 'modelului ESTAR'), [
-    (T('1973--1996: $\\hat\\theta^2 = @{es.th}$ (s.e.\\ @{es.thse}), $\\hat\\mu = @{es.mu}$, $s = @{es.s}$; Monte Carlo $p$-value of the $t$-ratio @{es.pmc} (paper: 0.002)', '1973--1996: $\\hat\\theta^2 = @{es.th}$ (eroarea standard @{es.thse}), $\\hat\\mu = @{es.mu}$, $s = @{es.s}$; valoarea $p$ Monte Carlo a raportului $t$ @{es.pmc} (lucrarea: 0,002)'),
+    (T('1973--1996: $\\hat\\theta^2 = @{es.th}$ (s.e.\\ @{es.thse}), $\\hat\\mu = @{es.mu}$, $s = @{es.s}$; Monte Carlo $p$-value of the $t$-ratio @{es.pmc} (paper: 0.002)', '1973--1996: $\\hat\\theta^2 = @{es.th}$ (eroarea standard @{es.thse}), $\\hat\\mu = @{es.mu}$, $s = @{es.s}$; p-value-ul Monte Carlo al raportului $t$ @{es.pmc} (lucrarea: 0,002)'),
      [T('$\\theta^2$ and $s$ are close to the paper; $\\mu$ differs because the UK CPI of the paper (IFS) is not the series published today', '$\\theta^2$ și $s$ sînt apropiate de lucrare; $\\mu$ diferă pentru că IPC britanic din lucrare (IFS) nu este seria publicată astăzi')]),
     (T('Half-lives: 1\\% shock @{es.h01} months, 10\\% @{es.h10}, 40\\% @{es.h40}; linear AR(1): @{es.hlar} months; from equilibrium: @{es.e01} months for 1\\%', 'Timpi de înjumătățire: șoc de 1\\% @{es.h01} luni, 10\\% @{es.h10}, 40\\% @{es.h40}; AR(1) liniar: @{es.hlar} de luni; din echilibru: @{es.e01} de luni pentru 1\\%'),
      [T('large deviations die out fast: the second PPP puzzle is a feature of small shocks', 'abaterile mari se sting repede: al doilea paradox PPC este o trăsătură a șocurilor mici')]),
@@ -833,7 +925,8 @@ D.section('Nonlinearity tests', 'Teste de neliniaritate')
 
 D.frame(T('General and specific tests', 'Teste generale și teste specifice'), items(
     (T('\\textbf{BDS} \\refBDSL: correlation integral $C_{m}(\\varepsilon)$ of $m$-histories; under i.i.d.\\ $C_m = C_1^m$; applied to the residuals of a linear model', '\\textbf{BDS} \\refBDSL: integrala de corelație $C_{m}(\\varepsilon)$ a istoriilor de lungime $m$; sub i.i.d.\\ $C_m = C_1^m$; se aplică reziduurilor unui model liniar'),
-     [T('power against any dependence left in the residuals, including ARCH: a rejection does not say which nonlinearity', 'putere împotriva oricărei dependențe rămase în reziduuri, inclusiv ARCH: o respingere nu spune ce neliniaritate este')]),
+     [T('$C_m(\\varepsilon)$: the share of pairs of $m$-histories $(y_t, \\dots, y_{t+m-1})$ that are within distance $\\varepsilon$ in every coordinate', '$C_m(\\varepsilon)$: proporția perechilor de istorii de lungime $m$, $(y_t, \\dots, y_{t+m-1})$, aflate la distanță mai mică decît $\\varepsilon$ în fiecare coordonată'),
+      T('power against any dependence left in the residuals, including ARCH: a rejection does not say which nonlinearity', 'putere împotriva oricărei dependențe rămase în reziduuri, inclusiv ARCH: o respingere nu spune ce neliniaritate este')]),
     (T('\\textbf{Keenan} (squared fitted values) and the test of \\refTsa\\ (all cross products $y_{t-i}y_{t-j}$, orthogonalised): $F$ tests of second-order Volterra terms', '\\textbf{Keenan} (valorile ajustate la pătrat) și testul din \\refTsa\\ (toate produsele $y_{t-i}y_{t-j}$, ortogonalizate): teste $F$ pentru termeni Volterra de ordinul doi'),
      [T('Tsay\'s arranged-autoregression test targets the TAR alternative \\refTsb', 'testul lui Tsay cu autoregresie ordonată vizează alternativa TAR \\refTsb')]),
     (T('\\textbf{LM3} (STAR) and \\textbf{sup-Wald} (TAR): specific alternatives, more power when they are right', '\\textbf{LM3} (STAR) și \\textbf{sup-Wald} (TAR): alternative specifice, mai multă putere cînd sînt corecte'),
@@ -841,17 +934,18 @@ D.frame(T('General and specific tests', 'Teste generale și teste specifice'), i
 
 chart(T('Five series, five tests', 'Cinci serii, cinci teste'), 'ats_ch2_nonlinearity_tests', 'ATS_ch2_nonlinearity_tests', [
     T('$p$-values; darker: stronger rejection of linearity. BDS on the AR residuals ($m = 3$, $\\varepsilon = \\hat\\sigma$); LM3 and sup-Wald with $s = q = y_{t-d}$; sup-Wald with 200 bootstrap replications',
-      'Valori $p$; mai închis: respingere mai puternică a liniarității. BDS pe reziduurile AR ($m = 3$, $\\varepsilon = \\hat\\sigma$); LM3 și sup-Wald cu $s = q = y_{t-d}$; sup-Wald cu 200 de replicări bootstrap')], h='0.5\\textheight')
+      'P-value-uri; mai închis: respingere mai puternică a liniarității. BDS pe reziduurile AR ($m = 3$, $\\varepsilon = \\hat\\sigma$); LM3 și sup-Wald cu $s = q = y_{t-d}$; sup-Wald cu 200 de replicări bootstrap')], h='0.5\\textheight')
 
 interp(('the test battery', 'bateriei de teste'), [
     T('Lynx and unemployment: every specific test rejects; the nonlinearity is real and of the threshold type', 'Linxul și șomajul: toate testele specifice resping; neliniaritatea este reală și de tipul cu prag'),
     (T('EUR/RON returns: BDS, Keenan, Tsay and LM3 all reject with $p$ @{nl.4.lm3_p}, yet the TAR sup-Wald does not ($p$ @{nl.4.supW_p})', 'Randamentele EUR/RON: BDS, Keenan, Tsay și LM3 resping toate cu $p$ @{nl.4.lm3_p}, dar sup-Wald pentru TAR nu ($p$ @{nl.4.supW_p})'),
-     [T('volatility clustering and outliers, not a nonlinear conditional mean: the heteroskedasticity-robust test is the honest one', 'volatility clustering și valori extreme, nu o medie condiționată neliniară: testul robust la heteroscedasticitate este cel onest')]),
+     [T('volatility clustering and outliers, not a nonlinear conditional mean: the heteroskedasticity-robust test is the honest one', 'volatility clustering și valori extreme, nu o medie condiționată neliniară: testul robust la heteroscedasticitate este cel corect')]),
     T('Romanian GDP growth: only BDS and sup-Wald reject ($p$ @{nl.2.supW_p}): the 2009 and 2020 quarters act as a ``regime\'\'; a break or an outlier model may explain the same data', 'Creșterea PIB din România: doar BDS și sup-Wald resping ($p$ @{nl.2.supW_p}): trimestrele din 2009 și 2020 acționează ca un „regim”; un model cu ruptură sau cu valori extreme poate explica aceleași date')])
 
 D.frame(T('Threshold cointegration', 'Cointegrarea cu prag'), items(
     (T('\\refBF: the error-correction term $z_t = y_t - \\beta x_t$ adjusts only outside a band: $\\Delta z_t = \\rho\\,z_{t-1}\\mathbf 1\\{|z_{t-1}| > \\gamma\\} + \\varepsilon_t$', '\\refBF: termenul de corecție a erorii $z_t = y_t - \\beta x_t$ se ajustează doar în afara unei benzi: $\\Delta z_t = \\rho\\,z_{t-1}\\mathbf 1\\{|z_{t-1}| > \\gamma\\} + \\varepsilon_t$'),
-     [T('the same transaction-cost argument as ESTAR, for a pair of prices: commodity prices in two markets, interest-rate pass-through, the law of one price', 'același argument al costurilor de tranzacție ca la ESTAR, pentru o pereche de prețuri: prețul unei mărfuri pe două piețe, transmiterea dobînzilor, legea prețului unic')]),
+     [T('$y_t, x_t$: two cointegrated prices; $\\beta$: the cointegrating coefficient; $\\rho < 0$: the speed of adjustment outside the band $[-\\gamma, \\gamma]$', '$y_t, x_t$: două prețuri cointegrate; $\\beta$: coeficientul de cointegrare; $\\rho < 0$: viteza de ajustare în afara benzii $[-\\gamma, \\gamma]$'),
+      T('the same transaction-cost argument as ESTAR, for a pair of prices: commodity prices in two markets, interest-rate pass-through, the law of one price', 'același argument al costurilor de tranzacție ca la ESTAR, pentru o pereche de prețuri: prețul unei mărfuri pe două piețe, transmiterea dobînzilor, legea prețului unic')]),
     (T('Asymmetric adjustment (momentum TAR) \\refES; the test of linear against threshold VECM with a bootstrap \\refHS', 'Ajustare asimetrică (TAR cu momentum) \\refES; testul VECM liniar față de VECM cu prag, cu bootstrap \\refHS'),
      [T('Chapter 4 introduces the linear VECM and ARDL; threshold versions are a natural project extension', 'Capitolul 4 introduce VECM liniar și ARDL; variantele cu prag sînt o extensie naturală de proiect')]),
     T('Romanian example: pass-through from the BNR policy rate to ROBOR and to lending rates, with a band where banks do not adjust', 'Exemplu românesc: transmiterea de la dobînda de politică monetară a BNR la ROBOR și la dobînzile la credite, cu o bandă în care băncile nu se ajustează')), 'small')
@@ -863,7 +957,8 @@ D.section('Forecasting with nonlinear models', 'Prognoza cu modele neliniare')
 
 D.frame(T('Multi-step forecasts are not the skeleton', 'Prognozele pe mai mulți pași nu sînt scheletul'), items(
     (T('For $h = 1$: $\\E(y_{t+1}\\mid\\mathcal F_t) = F(\\mathbf y_t)$; for $h \\ge 2$: $\\E[F(F(\\mathbf y_t) + \\varepsilon_{t+1}, \\dots)] \\ne F(F(\\mathbf y_t))$ (Jensen)', 'Pentru $h = 1$: $\\E(y_{t+1}\\mid\\mathcal F_t) = F(\\mathbf y_t)$; pentru $h \\ge 2$: $\\E[F(F(\\mathbf y_t) + \\varepsilon_{t+1}, \\dots)] \\ne F(F(\\mathbf y_t))$ (Jensen)'),
-     [T('iterating the skeleton (the ``naive\'\' forecast) is biased; simulate paths with bootstrapped residuals and average them \\refCFS', 'iterarea scheletului (prognoza „naivă”) este deplasată; simulăm traiectorii cu reziduuri bootstrap și le mediem \\refCFS'),
+     [T('$F$: the conditional mean function of the model; Jensen: the mean of a nonlinear function is not the function of the mean', '$F$: funcția medie condiționată a modelului; Jensen: media unei funcții neliniare nu este funcția mediei'),
+      T('iterating the skeleton (the ``naive\'\' forecast) is biased; simulate paths with bootstrapped residuals and average them \\refCFS', 'iterarea scheletului (prognoza „naivă”) este deplasată; simulăm traiectorii cu reziduuri bootstrap și le mediem \\refCFS'),
       T('the predictive density can be skewed or bimodal: report densities, scored by the CRPS or the log score (Chapter 1)', 'densitatea predictivă poate fi asimetrică sau bimodală: raportați densități, evaluate cu CRPS sau scorul logaritmic (Capitolul 1)')]),
     (T('Evidence: nonlinear models rarely beat linear ones on average; gains concentrate in particular regimes (recessions) \\refMZTT, \\refTDM', 'Dovezi: modelele neliniare bat rar modelele liniare în medie; cîștigurile se concentrează în anumite regimuri (recesiuni) \\refMZTT, \\refTDM'),
      [T('evaluate conditionally: GW tests with the regime as instrument (Chapter 1); asymmetric dynamics in US unemployment \\refKPo', 'evaluați condiționat: teste GW cu regimul ca instrument (Capitolul 1); dinamica asimetrică a șomajului din SUA \\refKPo')])), 'small')
@@ -912,7 +1007,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('The data are the published series (vintage, deflator, end of month); differences from the paper are reported', 'Datele sînt seriile publicate (versiunea, deflatorul, sfîrșitul lunii); diferențele față de lucrare sînt raportate'),
     T('``Not significant within regimes\'\' is not ``linear\'\': report the power of the procedure', '„Nesemnificativ în interiorul regimurilor” nu înseamnă „liniar”: raportați puterea procedurii')), 'small')
 
-chart(T('Mini-case: ESTAR evidence or mean shifts?', 'Mini studiu de caz: dovezi ESTAR sau schimbări de medie?'), 'ats_ch2_ai_case', 'ATS_ch2_ai_case', [
+chart(T('Mini-case: ESTAR evidence or mean shifts?', 'Mini-studiu de caz: dovezi ESTAR sau schimbări de medie?'), 'ats_ch2_ai_case', 'ATS_ch2_ai_case', [
     T('Left: real dollar--sterling rate with Bai--Perron mean regimes (BIC: three breaks, @{ai.dates}); right: KSS null distributions from @{ai.reps} random walks put through the same steps',
       'Stînga: cursul real dolar--liră cu regimurile de medie Bai--Perron (BIC: trei rupturi, @{ai.dates}); dreapta: distribuțiile KSS sub ipoteza nulă din @{ai.reps} de mersuri aleatoare trecute prin aceiași pași'),
     T('Demeaned: KSS @{ai.kr}, $p$ @{ai.pr} (5\\%: @{ai.cvr}); within regimes: @{ai.ks}, $p$ @{ai.ps} (5\\%: @{ai.cvs}): the evidence for ESTAR disappears once the break search is part of the null',

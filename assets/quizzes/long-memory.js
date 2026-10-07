@@ -113,7 +113,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
                     "$d = 1 - q/2$"
                 ],
                 "correctExplanation": "Autocovarianța agregatului se comportă ca $k^{-(q-1)}$; identificînd cu $k^{2d-1}$ obținem $d = 1 - q/2$.",
-                "incorrectExplanation": "La decalaje mari contează doar masa coeficienților apropiați de unu, determinată de $q$; $p$ influențează decalajele mici."
+                "incorrectExplanation": "La laguri mari contează doar masa coeficienților apropiați de unu, determinată de $q$; $p$ influențează lagurile mici."
             }
         },
         {
@@ -455,7 +455,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
                 "incorrectExplanation": "Zero is the Brownian case $H = 1/2$; positive values require $H > 1/2$."
             },
             "ro": {
-                "title": "Creșteri rugoase",
+                "title": "Creșteri neregulate",
                 "text": "Care este autocorelația de ordinul unu a zgomotului gaussian fracționar cu $H = 0{,}1$?",
                 "options": [
                     "$2^{2H-1} - 1 \\approx -0{,}43$",
@@ -537,14 +537,14 @@ window.ATS_DATA.quizzes['long-memory'] = {
             },
             "ro": {
                 "title": "Schema hibridă",
-                "text": "De ce bate schema hibridă a lui Bennedsen, Lunde și Pakkanen (2017) o sumă Riemann înainte pentru un proces Riemann--Liouville cu $H = 0{,}1$?",
+                "text": "De ce este schema hibridă a lui Bennedsen, Lunde și Pakkanen (2017) mai precisă decît o sumă Riemann înainte pentru un proces Riemann--Liouville cu $H = 0{,}1$?",
                 "options": [
                     "Folosește o factorizare Cholesky",
                     "Folosește un pas de timp mai mare",
                     "Înlocuiește motorul gaussian cu unul cu cozi groase",
                     "Integrează exact nucleul singular lîngă zero și îl evaluează în puncte optime mai departe"
                 ],
-                "correctExplanation": "Nucleul $x^{H-1/2}$ este singular în zero; suma Riemann ratează această masă și subestimează varianța, cu atît mai mult cu cît $H$ scade.",
+                "correctExplanation": "Nucleul $x^{H-1/2}$ este singular în zero; suma Riemann omite această masă și subestimează varianța, cu atît mai mult cu cît $H$ scade.",
                 "incorrectExplanation": "Schema păstrează creșterile gaussiene și aceeași grilă; cîștigul vine din tratarea primelor celule."
             }
         },
@@ -590,7 +590,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
                 "incorrectExplanation": "Antipersistence of increments is compatible with, and in fBm implies, a non-stationary, persistent level."
             },
             "ro": {
-                "title": "Găsiți eroarea din răspunsul AI: rugozitatea",
+                "title": "Găsiți eroarea din răspunsul AI: neregularitatea",
                 "text": "Un asistent AI scrie: „Volatilitatea realizată are $H \\approx 0{,}1$, deci volatilitatea are memorie scurtă, deoarece $H < 1/2$ înseamnă antipersistență.” Ce este greșit?",
                 "options": [
                     "Nimic: afirmația este corectă",
@@ -598,7 +598,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
                     "Exponentul Hurst al volatilității trebuie să depășească 1",
                     "Mișcarea browniană fracționară se aplică doar prețurilor"
                 ],
-                "correctExplanation": "Rugozitatea privește scările mici și creșterile; nivelul logaritmului volatilității păstrează autocorelații cu descreștere hiperbolică.",
+                "correctExplanation": "Neregularitatea (roughness) privește scările mici și creșterile; nivelul logaritmului volatilității păstrează autocorelații cu descreștere hiperbolică.",
                 "incorrectExplanation": "Antipersistența creșterilor este compatibilă cu un nivel nestaționar și persistent, iar în fBm chiar îl implică."
             }
         },
@@ -618,11 +618,11 @@ window.ATS_DATA.quizzes['long-memory'] = {
             },
             "ro": {
                 "title": "Găsiți eroarea din răspunsul AI: eroarea de măsurare",
-                "text": "Un asistent AI scrie: „Eroarea de măsurare a varianței realizate deplasează estimația lui $H$ în sus, deci volatilitatea adevărată este și mai rugoasă.” Care este afirmația corectă?",
+                "text": "Un asistent AI scrie: „Eroarea de măsurare a varianței realizate deplasează estimația lui $H$ în sus, deci volatilitatea adevărată este și mai neregulată.” Care este afirmația corectă?",
                 "options": [
                     "Afirmația este corectă",
                     "Eroarea de măsurare nu are niciun efect asupra lui $H$",
-                    "O eroare independentă de la o zi la alta adaugă o constantă la $m(2, \\Delta)$ pentru orice decalaj și deplasează $\\hat H$ în jos",
+                    "O eroare independentă de la o zi la alta adaugă o constantă la $m(2, \\Delta)$ pentru orice lag și deplasează $\\hat H$ în jos",
                     "Eroarea de măsurare afectează $d$, dar niciodată $H$"
                 ],
                 "correctExplanation": "Variograma devine $\\nu^2\\Delta^{2H} + 2s^2$; constanta aplatizează panta log-log, deci $\\hat H$ scade (integrarea zilnică acționează în sens opus).",
@@ -644,7 +644,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
                 "incorrectExplanation": "Rolling windows, QLIKE (robust to the noise of the RV proxy) and HAC-based DM tests are standard good practice."
             },
             "ro": {
-                "title": "Comparație onestă a prognozelor",
+                "title": "Comparație riguroasă a prognozelor",
                 "text": "Care alegere invalidează o comparație în afara eșantionului a prognozelor RFSV și HAR pentru varianța realizată?",
                 "options": [
                     "O fereastră de estimare mobilă",

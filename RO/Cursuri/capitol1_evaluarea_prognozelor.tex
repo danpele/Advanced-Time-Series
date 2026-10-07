@@ -209,7 +209,7 @@ MSCA Digital Finance}
 \begin{itemize}
     \item \textbf{Întrebarea}: cînd este o prognoză \emph{cu adevărat} mai bună decît alta și ce cîștigăm combinîndu-le?
     \begin{itemize}
-        \item „mai bună” cere o funcție de pierdere sau un scor, o distribuție de referință pentru comparație și un plan de evaluare onest
+        \item „mai bună” cere o funcție de pierdere sau un scor, o distribuție de referință pentru comparație și un plan de evaluare corect, fixat dinainte
     \end{itemize}
     \item \textbf{Traseul} capitolului
     \begin{itemize}
@@ -311,12 +311,13 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \begin{itemize}
     \item Ținta $Y_{t+h}$, mulțimea de informații $\mathcal{F}_t$, orizontul $h$; o \textbf{prognoză punctuală} $\hat y_{t+h|t}$ este măsurabilă în raport cu $\mathcal{F}_t$
     \begin{itemize}
+        \item măsurabilă în raport cu $\mathcal{F}_t$: calculată doar din informația disponibilă la momentul $t$
         \item o \textbf{prognoză probabilistică} este o distribuție predictivă $F_{t+h|t}$ (densitate, cuantile, interval, ansamblu)
     \end{itemize}
     \item Plan în afara eșantionului: $R$ observații pentru estimare, $P$ prognoze pentru evaluare, $R + P + h - 1 = T$
     \begin{itemize}
         \item scheme: \textbf{fixă} (o singură estimare), \textbf{mobilă} (ultimele $R$), \textbf{recursivă} (tot trecutul); în \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol4_sezonalitate_prognoza.pdf}{TSA, Capitolul 4} aceasta este evaluarea cu origine mobilă
-        \item schema contează pentru inferență: West (1996) față de Giacomini--White (2006), secțiunea 4
+        \item $T$: eșantionul total; ultima prognoză, făcută la $R + P - 1$, are ținta $T$; schema contează pentru inferență: West (1996) față de Giacomini--White (2006), secțiunea 4
     \end{itemize}
     \item Cunoscute din \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol0_introducere.pdf}{TSA, Capitolul 0}: MAE, RMSE, MAPE și MASE, independentă de scală \refHK
     \begin{itemize}
@@ -325,19 +326,35 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Prognoza punctuală optimă și consistența}
+\begin{frame}{Prognoza punctuală optimă și consistența (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Dată o pierdere $L(x, y)$ și o distribuție predictivă $F$, prognoza \textbf{optimă} (Bayes) este $x^* = \arg\min_x \E_F[L(x, Y)]$
+    \item Dată o pierdere $L(x, y)$ și o distribuție predictivă $F$, prognoza \textbf{optimă} (Bayes) minimizează pierderea așteptată:
     \begin{itemize}
-        \item o pierdere este \textbf{consistentă} pentru o funcțională $\mathrm{T}$ dacă $\E_F L(\mathrm{T}(F), Y) \le \E_F L(x, Y)$ pentru orice $x$ și $F$ \refGnaa
-        \item consistentă \textbf{strict}: egalitate doar pentru $x = \mathrm{T}(F)$
+        \item $x^* = \arg\min_x \E_F[L(x, Y)]$
+        \item $x$: prognoza punctuală; $y$: realizarea; $L(x, y) \ge 0$: penalizarea; $\E_F$: media calculată cînd $Y \sim F$
     \end{itemize}
-    \item Trei cazuri clasice ($e = y - x$)
+    \item O \textbf{funcțională} $\mathrm{T}(F)$ asociază unei distribuții un număr: media, mediana, o cuantilă
+    \begin{itemize}
+        \item $L$ este \textbf{consistentă} pentru $\mathrm{T}$ dacă $\E_F L(\mathrm{T}(F), Y) \le \E_F L(x, Y)$ pentru orice $x$ și $F$ \refGnaa
+        \item adică raportarea lui $\mathrm{T}(F)$ este optimă oricare ar fi $F$; consistentă \textbf{strict}: egalitate doar pentru $x = \mathrm{T}(F)$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Prognoza punctuală optimă și consistența (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Trei cazuri clasice, cu eroarea de prognoză $e = y - x$; anulăm derivata pierderii așteptate
     \begin{itemize}
         \item pătratică $e^2$: $\frac{d}{dx}\E(Y - x)^2 = -2\E(Y - x) = 0 \Rightarrow x^* = \E Y$ (media)
         \item absolută $|e|$: $\frac{d}{dx}\E|Y - x| = F(x) - (1 - F(x)) = 0 \Rightarrow F(x^*) = 1/2$ (mediana)
         \item pinball $\rho_\tau(e) = (\tau - \mathbf 1\{e < 0\})e$: $F(x) - \tau = 0 \Rightarrow x^* = F^{-1}(\tau)$ (cuantila $\tau$)
+    \end{itemize}
+    \item Notațiile pierderii pinball
+    \begin{itemize}
+        \item $\tau \in (0, 1)$: nivelul cuantilei; $\mathbf 1\{e < 0\}$: 1 dacă prognoza este prea mare, 0 altfel; $F^{-1}$: funcția cuantilă
+        \item prognozele prea mici costă $\tau|e|$, cele prea mari $(1 - \tau)|e|$: un $\tau$ mare împinge prognoza în sus
     \end{itemize}
     \item Consecință: anunțați pierderea \emph{înainte} de a cere o prognoză; o prognoză-mediană judecată prin RMSE este judecată nedrept \refGnaa
 \end{itemize}
@@ -367,17 +384,30 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Pierderile Bregman: toate pierderile consistente pentru medie}
+\begin{frame}{Pierderile Bregman: toate pierderile consistente pentru medie (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Teoremă} \refSav, \refGnaa: în condiții de regularitate, $L$ este consistentă pentru medie dacă și numai dacă
+    \item \textbf{Teoremă} \refSav, \refGnaa: în condiții de regularitate, $L$ este consistentă pentru medie dacă și numai dacă este o pierdere \textbf{Bregman}
     \begin{itemize}
-        \item $L(x, y) = \phi(y) - \phi(x) - \phi'(x)(y - x)$ cu $\phi$ convexă (o pierdere \textbf{Bregman}), pînă la termeni care depind doar de $y$
-        \item $\phi(x) = x^2$: eroarea pătratică; $\phi(x) = -\ln x$: \textbf{QLIKE} $y/x - \ln(y/x) - 1$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol8_volatilitate_avansata.pdf}{Capitolul 8}); media condiționată este optimă pentru orice pierdere Bregman \refBGW; demonstrația pentru cuantilă în \atsapplink{atsapp1}{atssrc1}{Anexă}
+        \item $L(x, y) = \phi(y) - \phi(x) - \phi'(x)(y - x)$
+        \item $\phi$: o funcție convexă, $\phi'$ derivata ei; $L$ este distanța dintre $\phi(y)$ și tangenta la $\phi$ în $x$, deci $L \ge 0$ (pînă la termeni care depind doar de $y$)
     \end{itemize}
-    \item Schița demonstrației: $\E L(x, Y) - \E L(\mu, Y) = \phi(\mu) - \phi(x) - \phi'(x)(\mu - x) \ge 0$ din convexitate
+    \item Doi membri ai familiei
     \begin{itemize}
-        \item termenul liniar dispare deoarece $\E(Y - \mu) = 0$
+        \item $\phi(x) = x^2$: eroarea pătratică $(y - x)^2$
+        \item $\phi(x) = -\ln x$: \textbf{QLIKE} $y/x - \ln(y/x) - 1$, pentru o prognoză de varianță $x > 0$ și un indicator al varianței $y > 0$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol8_volatilitate_avansata.pdf}{Capitolul 8})
+        \item media condiționată este optimă pentru orice pierdere Bregman \refBGW; demonstrația pentru cuantilă în \atsapplink{atsapp1}{atssrc1}{Anexă}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pierderile Bregman: toate pierderile consistente pentru medie (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Schița demonstrației, cu $\mu = \E Y$:
+    \begin{itemize}
+        \item $\E L(x, Y) - \E L(\mu, Y) = \phi(\mu) - \phi(x) - \phi'(x)(\mu - x) \ge 0$
+        \item termenul liniar dispare deoarece $\E(Y - \mu) = 0$; inegalitatea este convexitatea lui $\phi$
     \end{itemize}
     \item Prognozele corect specificate se ierarhizează la fel sub orice pierdere Bregman; cele greșit specificate nu neapărat \refPatbz
     \begin{itemize}
@@ -390,8 +420,9 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \begin{frame}{Pierderi asimetrice}
 \itemsize{\small}
 \begin{itemize}
-    \item Pierderea \textbf{LinEx} $L(e) = b[\exp(ae) - ae - 1]$, $e = y - x$: $a > 0$ penalizează exponențial prognozele prea mici
+    \item Pierderea \textbf{LinEx} $L(e) = b[\exp(ae) - ae - 1]$, $e = y - x$: liniară de o parte, exponențială de cealaltă
     \begin{itemize}
+        \item $b > 0$: o scală; $a$: asimetria; $a > 0$ penalizează exponențial prognozele prea mici ($e > 0$) și aproximativ liniar pe cele prea mari
         \item prognoza optimă $x^* = a^{-1}\ln\E e^{aY}$; cu $Y \mid \mathcal F_t \sim N(\mu_t, \sigma_t^2)$: $x^* = \mu_t + a\sigma^2_t/2$ \refCD
         \item prognoza optimă este \textbf{deplasată}, iar deplasarea se mișcă odată cu varianța condiționată
     \end{itemize}
@@ -424,8 +455,8 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \begin{itemize}
     \item \textbf{Calibrarea}: consistența statistică dintre prognozele $F_t$ și realizările $y_t$ (o proprietate comună a lor) \refGBR
     \begin{itemize}
-        \item calibrare \textbf{probabilistică}: PIT $u_t = F_t(y_t)$ este în medie uniform
-        \item calibrare \textbf{marginală}: $\frac1T\sum_t F_t(x) \to G(x)$, limita distribuției empirice a lui $y_t$
+        \item calibrare \textbf{probabilistică}: PIT (probability integral transform) $u_t = F_t(y_t)$, probabilitatea prognozată a unei realizări sub $y_t$, este în medie uniform
+        \item calibrare \textbf{marginală}: $\frac1T\sum_t F_t(x) \to G(x)$ pentru orice $x$, cu $G$ limita distribuției empirice a lui $y_t$
     \end{itemize}
     \item \textbf{Sharpness}: concentrarea distribuțiilor predictive; o proprietate doar a prognozelor
     \begin{itemize}
@@ -444,10 +475,10 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \begin{itemize}
     \item \textbf{Teoremă} \refDawid, \refDGT: dacă $F_t$ este adevărata distribuție condiționată a lui $Y_t$ dată fiind $\mathcal{F}_{t-1}$ și este continuă, atunci $u_t = F_t(y_t)$ sînt i.i.d.\ $U(0, 1)$
     \begin{itemize}
-        \item uniform: $P(u_t \le v \mid \mathcal{F}_{t-1}) = P(Y_t \le F_t^{-1}(v) \mid \mathcal F_{t-1}) = v$ pentru orice trecut
+        \item uniform: pentru orice $v \in (0,1)$, $P(u_t \le v \mid \mathcal{F}_{t-1}) = P(Y_t \le F_t^{-1}(v) \mid \mathcal F_{t-1}) = v$, oricare ar fi trecutul
         \item independent: o distribuție condiționată care nu depinde de trecut implică independența șirului
     \end{itemize}
-    \item Pentru $h > 1$, valorile PIT sînt uniforme, dar dependente pînă la decalajul $h - 1$ (orizonturi care se suprapun)
+    \item Pentru $h > 1$, valorile PIT sînt uniforme, dar dependente pînă la lagul $h - 1$ (orizonturi care se suprapun)
     \begin{itemize}
         \item testele trebuie să permită această dependență \refRS
     \end{itemize}
@@ -480,20 +511,38 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testarea calibrării}
+\begin{frame}{Testarea calibrării (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Berkowitz (2001)}: $z_t = \Phi^{-1}(u_t)$ trebuie să fie i.i.d.\ $N(0, 1)$ \refBerk
+    \item \textbf{Berkowitz (2001)} \refBerk: dacă valorile PIT sînt i.i.d.\ uniforme, $z_t = \Phi^{-1}(u_t)$ este i.i.d.\ $N(0, 1)$
     \begin{itemize}
-        \item estimăm $z_t = \mu + \rho(z_{t-1} - \mu) + \varepsilon_t$, $\varepsilon_t \sim N(0, \sigma^2(1 - \rho^2))$; test LR pentru $\mu = 0, \sigma = 1, \rho = 0$, $\chi^2(3)$
+        \item $\Phi^{-1}$: funcția cuantilă a distribuției Normale standard
+    \end{itemize}
+    \item Estimăm un AR(1) gaussian pentru $z_t$ și îi testăm parametrii:
+    \begin{itemize}
+        \item $z_t = \mu + \rho(z_{t-1} - \mu) + \varepsilon_t$, $\quad \varepsilon_t \sim N(0, \sigma^2(1 - \rho^2))$
+        \item $\mu$: media lui $z_t$; $\sigma^2$: varianța lui; $\rho$: autocorelația de ordinul întîi; calibrarea înseamnă $\mu = 0$, $\sigma = 1$, $\rho = 0$
+        \item statistica LR (raportul de verosimilitate) $2(\ell_1 - \ell_0) \sim \chi^2(3)$ sub $H_0$; $\ell_1, \ell_0$: log-verosimilitățile maxime fără și cu restricții
         \item transformarea în $z$ face cozile vizibile; testul verifică doar primele două momente și dependența AR(1)
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testarea calibrării (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item \textbf{Corelogramele} lui $(u_t - \bar u)^k$, $k = 1, 2$ \refDGT: dependență în nivel și în volatilitate
     \begin{itemize}
-        \item Ljung--Box pe $(u_t - \bar u)^2$ detectează dinamica de volatilitate omisă
+        \item $\bar u$: media valorilor PIT; testul Ljung--Box pe $(u_t - \bar u)^2$ detectează dinamica de volatilitate omisă
     \end{itemize}
-    \item Estimarea parametrilor schimbă distribuția sub ipoteza nulă a testelor PIT; cu $P/R$ mic poate fi ignorată, altfel folosiți \refRS
-    \item Prognozele de interval: acoperirea și independența depășirilor \refChr; pentru VaR aceasta devine backtesting (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9})
+    \item Estimarea parametrilor schimbă distribuția sub ipoteza nulă a testelor PIT
+    \begin{itemize}
+        \item cu $P/R$ mic (puține prognoze față de eșantionul de estimare) efectul poate fi ignorat, altfel folosiți \refRS
+    \end{itemize}
+    \item Prognozele de interval: acoperirea și independența depășirilor \refChr
+    \begin{itemize}
+        \item depășire: o realizare în afara intervalului; pentru VaR aceasta devine backtesting (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9})
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -506,7 +555,8 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
     \end{itemize}
     \item Replicarea noastră: aceleași trei modele, estimate prin verosimilitate maximă pe 2000--2012, parametri ficși, prognoze de densitate la o zi pentru 2013--2026 ($3\,448$ zile)
     \begin{itemize}
-        \item GARCH-$t$: $\hat\theta = \ensuremath{-}0{,}061$, $\hat\alpha + \hat\beta = 0{,}996$, $\hat\nu = 8{,}0$ grade de libertate
+        \item modelul: $r_t = c + \varepsilon_t + \theta\varepsilon_{t-1}$, $\varepsilon_t = \sigma_tz_t$, $\sigma_t^2 = \omega + \alpha\varepsilon_{t-1}^2 + \beta\sigma_{t-1}^2$; $z_t$ Normal sau Student-$t$ cu $\nu$ grade de libertate
+        \item GARCH-$t$: $\hat\theta = \ensuremath{-}0{,}061$, $\hat\alpha + \hat\beta = 0{,}996$ (persistența volatilității), $\hat\nu = 8{,}0$ (cozi groase)
     \end{itemize}
     \item Întrebarea: care prognoză de densitate este calibrată și sînt de acord scorurile proprii cu diagnosticul PIT?
 \end{itemize}
@@ -560,12 +610,13 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \begin{itemize}
     \item O \textbf{regulă de scor} $S(F, y)$ atribuie o penalizare prognozei $F$ cînd se realizează $y$ (orientare negativă: mai mic este mai bine)
     \begin{itemize}
-        \item \textbf{proprie}: $\E_G S(G, Y) \le \E_G S(F, Y)$ pentru orice $F, G$: raportarea convingerii adevărate este optimă \refGRa
-        \item \textbf{strict proprie}: egalitate doar dacă $F = G$; atunci scorul nu poate fi păcălit
+        \item \textbf{proprie}: $\E_G S(G, Y) \le \E_G S(F, Y)$ pentru orice $F, G$ \refGRa
+        \item $G$: distribuția în care crede prognozatorul; $\E_G$: media sub $G$; raportarea convingerii adevărate este optimă
+        \item \textbf{strict proprie}: egalitate doar dacă $F = G$; atunci scorul nu poate fi manipulat
     \end{itemize}
     \item Scorurile proprii răsplătesc calibrarea și sharpness împreună: scorul așteptat se descompune în incertitudine, minus rezoluție, plus fiabilitate
     \begin{itemize}
-        \item scorul Brier $(p - \mathbf 1\{\text{eveniment}\})^2$ pentru evenimente binare este cel mai vechi exemplu \refBrier
+        \item scorul Brier $(p - \mathbf 1\{\text{eveniment}\})^2$, cu $p$ probabilitatea prognozată a unui eveniment binar, este cel mai vechi exemplu \refBrier
     \end{itemize}
     \item Un scor propriu al unei prognoze probabilistice devine o pierdere consistentă a unei prognoze punctuale cînd $F$ este o masă punctuală (CRPS $\to$ eroarea absolută)
 \end{itemize}
@@ -576,7 +627,8 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \begin{itemize}
     \item $\mathrm{LogS}(f, y) = -\ln f(y)$ \refGood: singurul scor propriu \textbf{local} (depinde de $f$ doar în $y$, pînă la echivalență)
     \begin{itemize}
-        \item proprietatea: $\E_g[\mathrm{LogS}(f, Y)] - \E_g[\mathrm{LogS}(g, Y)] = \int g \ln(g/f) = \mathrm{KL}(g \| f) \ge 0$ (inegalitatea Gibbs)
+        \item $f$: densitatea prognozată; $g$: densitatea adevărată; caracterul propriu: $\E_g[\mathrm{LogS}(f, Y)] - \E_g[\mathrm{LogS}(g, Y)] = \int g \ln(g/f) = \mathrm{KL}(g \| f) \ge 0$
+        \item $\mathrm{KL}$: divergența Kullback--Leibler, nenegativă și nulă doar dacă $f = g$ (inegalitatea Gibbs)
     \end{itemize}
     \item Legături: scorul logaritmic mediu = minus log-verosimilitatea în afara eșantionului; diferența a două scoruri logaritmice este un raport de verosimilitate predictivă
     \begin{itemize}
@@ -589,40 +641,71 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Scorul probabilistic continuu (CRPS)}
+\begin{frame}{Scorul probabilistic continuu (CRPS) (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $\mathrm{CRPS}(F, y) = \int_{-\infty}^{\infty}(F(z) - \mathbf 1\{y \le z\})^2dz$ \refMW
+    \item Definiția \refMW: distanța pătratică dintre funcția de repartiție prognozată și funcția treaptă a realizării
     \begin{itemize}
-        \item forma cu nucleu: $\mathrm{CRPS}(F, y) = \E_F|X - y| - \frac12\E_F|X - X'|$, $X, X' \sim F$ independente \refGRa\ (demonstrația în \atsapplink{atsapp2}{atssrc2}{Anexă})
+        \item $\mathrm{CRPS}(F, y) = \int_{-\infty}^{\infty}(F(z) - \mathbf 1\{y \le z\})^2dz$
+        \item $z$: un prag; $\mathbf 1\{y \le z\}$: „funcția de repartiție” a realizării, 0 sub $y$ și 1 peste $y$; unitatea de măsură: cea a lui $y$
+    \end{itemize}
+    \item Forma cu nucleu \refGRa\ (demonstrația în \atsapplink{atsapp2}{atssrc2}{Anexă}):
+    \begin{itemize}
+        \item $\mathrm{CRPS}(F, y) = \E_F|X - y| - \frac12\E_F|X - X'|$, $\quad X, X' \sim F$ independente
         \item primul termen: acuratețea; al doilea: o recompensă pentru dispersie care împiedică scorul să favorizeze masele punctuale
+        \item pentru o prognoză punctuală ($F$ masă punctuală în $x$) devine eroarea absolută $|y - x|$
     \end{itemize}
-    \item Forme închise: $N(\mu, \sigma^2)$: $\sigma\left[z(2\Phi(z) - 1) + 2\varphi(z) - 1/\sqrt\pi\right]$, $z = (y - \mu)/\sigma$; și pentru Student $t$ (Quantlet)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Scorul probabilistic continuu (CRPS) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Forma închisă pentru $F = N(\mu, \sigma^2)$, cu $z = (y - \mu)/\sigma$:
     \begin{itemize}
-        \item ansambluri: înlocuim cu distribuția empirică a membrilor
+        \item $\mathrm{CRPS} = \sigma\left[z(2\Phi(z) - 1) + 2\varphi(z) - 1/\sqrt\pi\right]$
+        \item $\Phi$, $\varphi$: funcția de repartiție și densitatea lui $N(0,1)$; există o formă închisă și pentru Student $t$ (Quantlet)
+        \item ansambluri: înlocuim $F$ cu distribuția empirică a membrilor
     \end{itemize}
-    \item Descompuneri: $\mathrm{CRPS} = \int \mathrm{BS}_z\,dz = 2\int_0^1 \rho_\tau(y - F^{-1}(\tau))\,d\tau$
+    \item Descompuneri:
     \begin{itemize}
-        \item integrala scorurilor Brier pe praguri sau de două ori integrala pierderilor pinball pe niveluri de cuantilă
+        \item $\mathrm{CRPS} = \int \mathrm{BS}_z\,dz = 2\int_0^1 \rho_\tau(y - F^{-1}(\tau))\,d\tau$
+        \item $\mathrm{BS}_z$: scorul Brier al evenimentului $\{y \le z\}$; $\rho_\tau$: pierderea pinball la nivelul $\tau$
         \item deci media pinball pe cele 99 de percentile (GEFCom2014) aproximează CRPS/2 \refGEF
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Scoruri pentru cuantile, intervale și vectori}
-\itemsize{\footnotesize}
+\begin{frame}{Scoruri pentru cuantile, intervale și vectori (1/2)}
+\itemsize{\small}
 \begin{itemize}
-    \item \textbf{Scorul de cuantilă}: $\rho_\tau(y - q)$, strict consistent pentru cuantila $\tau$; orice $g$ crescătoare dă $(\mathbf 1\{y \le q\} - \tau)(g(q) - g(y))$ \refGnaa
+    \item \textbf{Scorul de cuantilă}: $\rho_\tau(y - q)$ pentru o prognoză $q$ a cuantilei $\tau$, strict consistent \refGnaa
+    \begin{itemize}
+        \item orice funcție crescătoare $g$ dă un alt scor consistent: $(\mathbf 1\{y \le q\} - \tau)(g(q) - g(y))$
+    \end{itemize}
     \item \textbf{Scorul de interval} al unui interval central $(1 - \alpha)$, $[l, u]$ \refGRa
     \begin{itemize}
-        \item $\mathrm{IS}_\alpha = (u - l) + \frac2\alpha(l - y)\mathbf 1\{y < l\} + \frac2\alpha(y - u)\mathbf 1\{y > u\}$: lățimea plus o penalizare pentru ratări
+        \item $\mathrm{IS}_\alpha = (u - l) + \frac2\alpha(l - y)\mathbf 1\{y < l\} + \frac2\alpha(y - u)\mathbf 1\{y > u\}$
+        \item $l, u$: limitele inferioară și superioară; lățimea plus o penalizare $2/\alpha$ pe unitatea de ratare
         \item este egal cu $\frac2\alpha[\rho_{\alpha/2}(y - l) + \rho_{1 - \alpha/2}(y - u)]$; acoperirea singură nu este un scor
     \end{itemize}
-    \item \textbf{Energy score} pentru vectori: $\mathrm{ES}(F, \mathbf y) = \E\|\mathbf X - \mathbf y\| - \frac12\E\|\mathbf X - \mathbf X'\|$, CRPS multivariat
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Scoruri pentru cuantile, intervale și vectori (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Energy score} pentru vectori, CRPS multivariat:
     \begin{itemize}
+        \item $\mathrm{ES}(F, \mathbf y) = \E\|\mathbf X - \mathbf y\| - \frac12\E\|\mathbf X - \mathbf X'\|$
+        \item $\mathbf y$: vectorul realizărilor; $\mathbf X, \mathbf X'$: extrageri independente din prognoza $F$; $\|\cdot\|$: norma euclidiană
         \item slab în detectarea corelațiilor greșite; \textbf{variogram score} \refSH\ vizează structura de dependență (24 de consumuri orare, o traiectorie VAR)
     \end{itemize}
-    \item Cozile: CRPS ponderat pe praguri $\int (F(z) - \mathbf 1\{y \le z\})^2w(z)dz$ rămîne propriu \refGRjaa; raportul de verosimilitate ponderat din \refAG\ nu rămîne \refGRjaa
+    \item Cozile: CRPS ponderat pe praguri rămîne propriu \refGRjaa
+    \begin{itemize}
+        \item $\int (F(z) - \mathbf 1\{y \le z\})^2w(z)dz$
+        \item $w(z) \ge 0$: o pondere care accentuează pragurile de interes (de exemplu coada stîngă); raportul de verosimilitate ponderat din \refAG\ nu rămîne propriu \refGRjaa
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -658,12 +741,13 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
     \end{itemize}
     \item \textbf{Condiție necesară} (Osband): mulțimi de nivel convexe: $\mathrm T(F_0) = \mathrm T(F_1) = t \Rightarrow \mathrm T(\lambda F_0 + (1 - \lambda)F_1) = t$
     \begin{itemize}
+        \item $F_0, F_1$: două distribuții cu aceeași valoare $t$; $\lambda \in [0,1]$: ponderea mixturii
         \item \textbf{varianța} nu o îndeplinește, deci nu este elicitabilă; perechea (medie, al doilea moment) este
     \end{itemize}
-    \item Măsurile de risc cu $\mathrm{VaR}_\alpha(X) = -q_\alpha(X)$ (VaR 1\%: $\alpha = 0{,}01$)
+    \item Măsurile de risc cu $\mathrm{VaR}_\alpha(X) = -q_\alpha(X)$, $q_\alpha$ cuantila de ordin $\alpha$ a randamentului $X$ (VaR 1\%: $\alpha = 0{,}01$)
     \begin{itemize}
         \item VaR este o cuantilă: elicitabil prin pierderea pinball
-        \item ES are mulțimi de nivel neconvexe: \textbf{nu este elicitabil} singur \refWeber, \refGnaa; perechea (VaR, ES) este elicitabilă \textbf{împreună} \refFZ
+        \item ES (expected shortfall, pierderea medie dincolo de VaR) are mulțimi de nivel neconvexe: \textbf{nu este elicitabil} singur \refWeber, \refGnaa; perechea (VaR, ES) este elicitabilă \textbf{împreună} \refFZ
         \item funcțiile de scor Fissler--Ziegel și testele construite pe ele: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9}
     \end{itemize}
 \end{itemize}
@@ -696,7 +780,7 @@ MA(1)-GARCH(1,1)-$t$ & 1{,}233 & 0{,}507 & 8{,}4\% & 0{,}019 \\
 \begin{frame}{Recapitulare: scoruri proprii și elicitabilitate}
 \itemsize{\small}
 \begin{itemize}
-    \item Scorurile proprii fac onestitatea optimă; cele strict proprii nu pot fi păcălite
+    \item Scorurile proprii fac optimă raportarea sinceră; cele strict proprii nu pot fi manipulate
     \item LogS: local, sensibil la cozi; CRPS: robust, merge pentru ansambluri, egal cu dublul pierderii pinball integrate
     \item Scorul de interval pentru intervale, energy și variogram score pentru vectori
     \item Elicitabile: media, cuantila (VaR); neelicitabile: varianța, ES singur; (VaR, ES) împreună
@@ -726,21 +810,34 @@ MA(1)-GARCH(1,1)-$t$ & 1{,}233 & 0{,}507 & 8{,}4\% & 0{,}019 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testul Diebold--Mariano cu varianță HAC}
+\begin{frame}{Testul Diebold--Mariano cu varianță HAC (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Diferențialul de pierdere $d_t = L(e_{1t}) - L(e_{2t})$, $H_0$: $\E d_t = 0$; presupunem $d_t$ staționar în covarianță
+    \item Diferențialul de pierdere $d_t = L(e_{1t}) - L(e_{2t})$; $H_0$: $\E d_t = 0$ (acuratețe egală)
     \begin{itemize}
-        \item $\mathrm{DM} = \bar d/\sqrt{\hat\sigma^2_{LR}/P} \to N(0, 1)$, $\sigma^2_{LR} = \gamma_0 + 2\sum_{k \ge 1}\gamma_k$ varianța de termen lung (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0})
+        \item $e_{it}$: eroarea prognozei $i$ la momentul $t$; $d_t > 0$: prognoza 2 a fost mai bună la $t$; presupunem $d_t$ staționar în covarianță
     \end{itemize}
-    \item Erorile optime la $h$ pași sînt cel mult MA($h - 1$), deci DM trunchiază la $h - 1$ decalaje cu un nucleu \textbf{dreptunghiular}
+    \item Statistica: diferențialul mediu împărțit la eroarea lui standard HAC
+    \begin{itemize}
+        \item $\mathrm{DM} = \bar d/\sqrt{\hat\sigma^2_{LR}/P} \to N(0, 1)$, $\quad \sigma^2_{LR} = \gamma_0 + 2\sum_{k \ge 1}\gamma_k$
+        \item $\bar d$: media lui $d_t$ pe cele $P$ prognoze; $\gamma_k$: autocovarianțele lui $d_t$; $\sigma^2_{LR}$: varianța lui de termen lung (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0})
+        \item un DM mare și pozitiv: prognoza 2 este mai precisă; respingem la 5\% dacă $|\mathrm{DM}| > 1{,}96$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testul Diebold--Mariano cu varianță HAC (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Erorile optime la $h$ pași sînt cel mult MA($h - 1$), deci DM trunchiază la $h - 1$ laguri cu un nucleu \textbf{dreptunghiular}
     \begin{itemize}
         \item estimarea dreptunghiulară poate fi \textbf{negativă}; ponderile Newey--West (Bartlett) o păstrează pozitivă \refNW, cu prețul unei deplasări în jos
         \item prognozele suboptimale au erori cu memorie mai lungă: folosiți o lățime de bandă aleasă din date (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0})
     \end{itemize}
-    \item \textbf{Corecția HLN} \refHLNig: $\mathrm{DM}^* = \mathrm{DM}\sqrt{(P + 1 - 2h + h(h - 1)/P)/P}$ comparat cu $t_{P-1}$
+    \item \textbf{Corecția HLN} \refHLNig: o rescalare a lui DM pentru eșantioane mici
     \begin{itemize}
-        \item factorul elimină deplasarea estimatorului varianței pentru erori MA($h - 1$); distribuția $t$ tratează $P$ mic
+        \item $\mathrm{DM}^* = \mathrm{DM}\sqrt{(P + 1 - 2h + h(h - 1)/P)/P}$, comparat cu $t_{P-1}$
+        \item factorul (sub 1) elimină deplasarea estimatorului varianței pentru erori MA($h - 1$); $t_{P-1}$: distribuția Student $t$ cu $P - 1$ grade de libertate, pentru $P$ mic
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -763,9 +860,9 @@ MA(1)-GARCH(1,1)-$t$ & 1{,}233 & 0{,}507 & 8{,}4\% & 0{,}019 \\
     \item $h = 1$: ambele teste sînt aproape de 5\%; DM respinge prea des doar la $P = 16$ (7{,}4\%)
     \item $h = 8$, $P = 16$: DM respinge o ipoteză nulă adevărată în 43{,}6\% din cazuri, HLN în 14{,}6\%; la $P = 64$: 13{,}2\% și 8{,}1\%
     \begin{itemize}
-        \item varianța HAC cu puține observații și multe decalaje este zgomotoasă și deplasată în jos
+        \item varianța HAC cu puține observații și multe laguri este zgomotoasă și deplasată în jos
     \end{itemize}
-    \item Regulă: la orizonturi de mai mulți pași și cu mai puțin de aproximativ 100 de prognoze, folosiți HLN și tratați valorile $p$ din jurul lui 5\% ca neconcludente; valorile critice fixed-$b$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}) sînt o alternativă
+    \item Regulă: la orizonturi de mai mulți pași și cu mai puțin de aproximativ 100 de prognoze, folosiți HLN și tratați p-value-urile din jurul lui 5\% ca neconcludente; valorile critice fixed-$b$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}) sînt o alternativă
 \end{itemize}
 \end{frame}
 
@@ -781,7 +878,7 @@ MA(1)-GARCH(1,1)-$t$ & 1{,}233 & 0{,}507 & 8{,}4\% & 0{,}019 \\
         \item \textbf{fără schimbare}: $\hat\pi_{t+12} = \pi_t$; \textbf{AR(3) direct}: $\pi_{t+12}$ pe $1, \pi_t, \pi_{t-1}, \pi_{t-2}$, OLS pe o fereastră mobilă de 10 ani
         \item \textbf{ținta}: ținta de inflație a BNR, 2,5\%; \textbf{media} dintre AR(3) și fără schimbare
     \end{itemize}
-    \item Ținte de 12 luni care se suprapun: erorile sînt autocorelate pînă la decalajul 11; DM cu $h = 12$
+    \item Ținte de 12 luni care se suprapun: erorile sînt autocorelate pînă la lagul 11; DM cu $h = 12$
 \end{itemize}
 \end{frame}
 
@@ -819,33 +916,64 @@ media & 3{,}76 & 0{,}96 & 0{,}88 & 0{,}378 & 0{,}795 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Capacitatea predictivă condiționată: Giacomini--White}
+\begin{frame}{Capacitatea predictivă condiționată: Giacomini--White (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $H_0$: $\E[d_{t+h} \mid \mathcal{G}_t] = 0$, adică niciun instrument $h_t \in \mathcal{G}_t$ nu prezice care metodă cîștigă \refGW
+    \item $H_0$: $\E[d_{t+h} \mid \mathcal{G}_t] = 0$ \refGW
     \begin{itemize}
-        \item statistica $\mathrm{GW} = P\,\bar Z'\hat\Omega^{-1}\bar Z \to \chi^2(q)$, $Z_t = h_t d_{t+h}$, $\hat\Omega$ HAC cu $h - 1$ decalaje
+        \item $\mathcal{G}_t$: informația de la originea prognozei; $H_0$: niciun instrument $h_t \in \mathcal{G}_t$ nu prezice care metodă cîștigă
+        \item $h_t$: un vector de $q$ instrumente (nu orizontul $h$), de exemplu o constantă și ultimul diferențial de pierdere
+    \end{itemize}
+    \item Statistica: un test Wald că instrumentele nu prezic $d_{t+h}$
+    \begin{itemize}
+        \item $\mathrm{GW} = P\,\bar Z'\hat\Omega^{-1}\bar Z \to \chi^2(q)$, $\quad Z_t = h_t d_{t+h}$
+        \item $\bar Z$: media lui $Z_t$; $\hat\Omega$: matricea ei de covarianță HAC cu $h - 1$ laguri; $\chi^2(q)$: distribuția hi-pătrat cu $q$ grade de libertate
         \item $h_t = 1$ dă testul necondiționat; adăugînd $d_t$ sau o variabilă de stare testăm dacă trecutul prezice cîștigătorul
     \end{itemize}
-    \item Valid cu o fereastră \textbf{mobilă} de dimensiune fixă, modele imbricate sau nu, orice pierdere; nevalid cu o fereastră recursivă
-    \begin{itemize}
-        \item o respingere sugerează o regulă de decizie: folosiți modelul 1 cînd $\hat\delta'h_t > 0$
-    \end{itemize}
-    \item Inflația din România, AR(3) față de fără schimbare, $h_t = (1, d_t, \pi_t - 2{,}5)$: $\mathrm{GW} = 3{,}19$, $p$ 0{,}363: nici pierderea recentă, nici distanța față de țintă nu prezic cîștigătorul
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Modele imbricate: de ce eșuează DM și testul Clark--West}
+\begin{frame}{Capacitatea predictivă condiționată: Giacomini--White (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Valid cu o fereastră \textbf{mobilă} de dimensiune fixă, modele imbricate sau nu, orice pierdere; nevalid cu o fereastră recursivă
+    \begin{itemize}
+        \item o respingere sugerează o regulă de decizie: folosiți modelul 1 cînd $\hat\delta'h_t > 0$, cu $\hat\delta$ coeficienții regresiei lui $d_{t+h}$ pe $h_t$
+    \end{itemize}
+    \item Inflația din România, AR(3) față de fără schimbare, $h_t = (1, d_t, \pi_t - 2{,}5)$
+    \begin{itemize}
+        \item $\pi_t - 2{,}5$: distanța inflației față de ținta BNR
+        \item $\mathrm{GW} = 3{,}19$, p-value 0{,}363: nici pierderea recentă, nici distanța față de țintă nu prezic cîștigătorul
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Modele imbricate: de ce eșuează DM și testul Clark--West (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Modelul 1 (mic, de exemplu mersul aleator) este imbricat în modelul 2; sub $H_0$ coeficienții suplimentari sînt nuli
     \begin{itemize}
-        \item erorile medii pătratice de prognoză (MSPE) în populație sînt egale, iar $d_t$ este degenerat: statistica DM nu este asimptotic Normală \refCM
-        \item în eșantion finit modelul 2 estimează coeficienți nuli cu zgomot, deci MSPE-ul lui este \textbf{mai mare}: DM respinge prea rar și are putere mică
+        \item MSPE: eroarea medie pătratică de prognoză; în populație, MSPE-urile sînt egale, iar $d_t$ este degenerat
+        \item de aceea statistica DM nu este asimptotic Normală \refCM
     \end{itemize}
+    \item În eșantion finit, modelul 2 estimează cu zgomot niște coeficienți nuli
+    \begin{itemize}
+        \item MSPE-ul lui este \textbf{mai mare} decît al modelului 1: DM respinge prea rar și are putere mică
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Modele imbricate: de ce eșuează DM și testul Clark--West (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item \textbf{Clark--West} \refCW: corectăm modelul mare pentru zgomotul pe care îl adaugă
     \begin{itemize}
-        \item $f_t = e_{1t}^2 - [e_{2t}^2 - (\hat y_{1t} - \hat y_{2t})^2]$; test $t$ unilateral pentru $\E f_t = 0$ față de $\E f_t > 0$, cu valori critice Normale
+        \item $f_t = e_{1t}^2 - [e_{2t}^2 - (\hat y_{1t} - \hat y_{2t})^2]$
+        \item $e_{1t}, e_{2t}$: erorile modelului mic și ale celui mare; $\hat y_{1t}, \hat y_{2t}$: prognozele lor; diferența la pătrat dintre prognoze este zgomotul adăugat de modelul 2
+        \item test $t$ unilateral pentru $\E f_t = 0$ față de $\E f_t > 0$ (modelul 2 mai bun), cu valori critice Normale
+    \end{itemize}
+    \item De ce funcționează corecția
+    \begin{itemize}
         \item sub $H_0$, $\E e_1^2 - \E e_2^2 = -\E(\hat y_1 - \hat y_2)^2$: corecția recentrează diferențialul (\atsapplink{atsapp3}{atssrc3}{Anexă})
         \item aproximativ Normal pentru schemele mobile și recursive; valorile critice exacte din \refCM\ sînt nestandard
     \end{itemize}
@@ -861,7 +989,9 @@ media & 3{,}76 & 0{,}96 & 0{,}88 & 0{,}378 & 0{,}795 \\
     \end{itemize}
     \item Datele noastre: EUR/RON lunar (cursul de referință BNR, sfîrșitul lunii), $\Delta s_{t+1} = 100\Delta\ln S_{t+1}$; estimare recursivă, prognoze din ianuarie 2010 pînă în august 2026 ($P = 200$)
     \begin{itemize}
+        \item $S_t$: cursul (lei pentru un euro); $\Delta s_{t+1}$: variația lui logaritmică lunară, în \%, pozitivă cînd leul se depreciază
         \item imbricate în mersul aleator ($\Delta\hat s = 0$): deriva, AR($p$), regresia UIP $\Delta s_{t+1} = a + b(i^{RO}_t - i^{ZE}_t)/12 + u$ \refFama
+        \item $i^{RO}_t, i^{ZE}_t$: dobînzile la 3 luni, în \% pe an (împărțite la 12: pe lună); $a, b$: coeficienții regresiei
         \item fără parametri estimați: UIP impusă ($a = 0, b = 1$), momentum (media ultimelor trei variații)
     \end{itemize}
     \item UIP: paritatea neacoperită a dobînzilor, deprecierea așteptată este egală cu diferențialul de dobîndă
@@ -901,24 +1031,34 @@ media modelelor & 1{,}026 & 0{,}85 & -- & -- \\
 \begin{itemize}
     \item Toate modelele au RMSE mai mare decît mersul aleator (RMSE al mersului aleator: 0{,}86 puncte procentuale pe lună); rezultatul Meese--Rogoff se confirmă pentru leu
     \item Nici Clark--West nu respinge: corecția nu este suficientă pentru ca AR sau UIP să devină utile; doar deriva se apropie
-    \item Flotare controlată: BNR netezește EUR/RON, deci variațiile lunare sînt mici și aproape imprevizibile cu acești predictori
+    \item Managed float: BNR netezește cursul EUR/RON, deci variațiile lunare sînt mici și aproape imprevizibile cu acești predictori
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Raționalitate: Mincer--Zarnowitz și încadrarea}
+\begin{frame}{Raționalitate: Mincer--Zarnowitz și încadrarea (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Mincer--Zarnowitz} \refMZ: $y_{t+h} = a + b\hat y_{t+h|t} + u_{t+h}$; sub pierdere pătratică o prognoză optimă are $(a, b) = (0, 1)$
+    \item \textbf{Mincer--Zarnowitz} \refMZ: regresăm realizarea pe prognoză
     \begin{itemize}
-        \item test Wald cu erori HAC ($u$ este MA($h - 1$)); $b < 1$: prognoze prea volatile; $b > 1$: prea timide
+        \item $y_{t+h} = a + b\hat y_{t+h|t} + u_{t+h}$
+        \item sub pierdere pătratică o prognoză optimă are $(a, b) = (0, 1)$: fără deplasare, iar o variație cu o unitate a prognozei anunță o variație cu o unitate a realizării
+        \item test Wald pentru $(a, b) = (0, 1)$ cu erori HAC ($u$ este MA($h - 1$)); $b < 1$: prognoze prea volatile; $b > 1$: prea timide
         \item versiunea extinsă: adăugăm variabile din $\mathcal{F}_t$; un coeficient semnificativ înseamnă informație nefolosită
     \end{itemize}
+    \item MZ presupune pierdere pătratică: sub pierdere asimetrică o prognoză rațională este deplasată (secțiunea 1)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Raționalitate: Mincer--Zarnowitz și încadrarea (2/2)}
+\itemsize{\small}
+\begin{itemize}
     \item \textbf{Încadrarea} \refChH, \refHLNih: prognoza 1 o încadrează pe prognoza 2 dacă 2 nu adaugă nimic la 1
     \begin{itemize}
-        \item $y = (1 - \lambda)\hat y_1 + \lambda\hat y_2 + \varepsilon$, $H_0$: $\lambda = 0$; testul HLN: DM--HLN pe $d_t = e_{1t}(e_{1t} - e_{2t})$, unilateral
-        \item dacă niciuna nu o încadrează pe cealaltă, o combinație le bate pe amîndouă (secțiunea 5)
+        \item $y = (1 - \lambda)\hat y_1 + \lambda\hat y_2 + \varepsilon$, $\quad H_0$: $\lambda = 0$
+        \item $\lambda$: ponderea prognozei 2 în cea mai bună combinație; $\lambda = 0$: prognoza 2 este inutilă dacă avem prognoza 1
+        \item testul HLN: DM--HLN pe $d_t = e_{1t}(e_{1t} - e_{2t})$, unilateral ($\E d_t > 0$ înseamnă $\lambda > 0$)
     \end{itemize}
-    \item MZ presupune pierdere pătratică: sub pierdere asimetrică o prognoză rațională este deplasată (secțiunea 1)
+    \item Dacă niciuna nu o încadrează pe cealaltă, o combinație le bate pe amîndouă (secțiunea 5)
 \end{itemize}
 \end{frame}
 
@@ -927,9 +1067,10 @@ media modelelor & 1{,}026 & 0{,}85 & -- & -- \\
 \begin{itemize}
     \item \refAO: o prognoză naivă, „inflația din următoarele patru trimestre este egală cu inflația din ultimele patru”, bate prognozele pe baza curbei Phillips în SUA după 1984
     \begin{itemize}
-        \item curba Phillips din \refSWii: $\pi^4_{t+4} - \pi^4_t = a + \beta(L)u_t + \gamma(L)\Delta\pi_t + e_{t+4}$, șomajul $u_t$, inflația trimestrială $\pi_t$
+        \item curba Phillips din \refSWii: $\pi^4_{t+4} - \pi^4_t = a + \beta(L)u_t + \gamma(L)\Delta\pi_t + e_{t+4}$
+        \item $\pi^4_t$: inflația pe ultimele patru trimestre; $\pi_t$: inflația trimestrială; $u_t$: rata șomajului; $\beta(L), \gamma(L)$: polinoame de laguri (cîte patru laguri)
     \end{itemize}
-    \item Actualizarea noastră: IPC (media trimestrială) și rata șomajului (FRED); cîte patru decalaje, fereastră mobilă de 15 ani; ținte din T1 1985 pînă în T2 2026 ($P = 166$)
+    \item Actualizarea noastră: IPC (media trimestrială) și rata șomajului (FRED); cîte patru laguri, fereastră mobilă de 15 ani; ținte din T1 1985 pînă în T2 2026 ($P = 166$)
     \begin{itemize}
         \item IPC pentru octombrie 2025 nu a fost publicat; media pentru T4 2025 folosește două luni
     \end{itemize}
@@ -953,11 +1094,11 @@ media modelelor & 1{,}026 & 0{,}85 & -- & -- \\
 \itemsize{\small}
 \begin{itemize}
     \item RMSE: naivă 1{,}69, curba Phillips 2{,}97 (raport 1{,}75); pe perioade: 1{,}29 (1985--2007), 1{,}10 (2008--2019), 2{,}38 (2020--2026)
-    \item Totuși DM--HLN = 1{,}16, $p$ 0{,}248: erorile mari de după 2020 umflă varianța HAC la fel de mult ca media
+    \item Totuși DM--HLN = 1{,}16, p-value 0{,}248: erorile mari de după 2020 măresc varianța HAC la fel de mult ca media
     \begin{itemize}
         \item raportul pe fereastră mobilă atinge 10{,}3 în T3 2021: curba Phillips a extrapolat saltul șomajului din pandemie
     \end{itemize}
-    \item GW: $p$ 0{,}355 cu diferențialul decalat, $p$ 0{,}322 cu șomajul; încadrare: $H_0$ „naiva încadrează PC” $p$ 0{,}289; „PC încadrează naiva” $p$ 0{,}118
+    \item GW: p-value 0{,}355 cu diferențialul din perioada anterioară, $p$ 0{,}322 cu șomajul; încadrare: $H_0$ „naiva încadrează PC” $p$ 0{,}289; „PC încadrează naiva” $p$ 0{,}118
     \item Concluzia AO se păstrează în estimările punctuale, iar un test pe 41 de ani de date suprapuse nu le poate separa
 \end{itemize}
 \end{frame}
@@ -965,37 +1106,53 @@ media modelelor & 1{,}026 & 0{,}85 & -- & -- \\
 \begin{frame}{Multe modele: data snooping, reality check și SPA}
 \itemsize{\small}
 \begin{itemize}
-    \item Testarea a $k$ modele față de un reper și raportarea celei mai bune valori $p$ înseamnă \textbf{data snooping}
+    \item Testarea a $k$ modele față de un reper și raportarea celui mai mic p-value înseamnă \textbf{data snooping}
     \begin{itemize}
         \item $H_0$: $\max_{j \le k}\E[d_{j,t}] \le 0$ cu $d_{j,t} = L_{0,t} - L_{j,t}$: niciun model nu bate reperul
+        \item $L_{0,t}$: pierderea reperului; $L_{j,t}$: pierderea modelului $j$; $d_{j,t} > 0$: modelul $j$ a fost mai bun la $t$
     \end{itemize}
-    \item \textbf{Reality check} \refWhite: statistica $\max_j\sqrt P\bar d_j$, valoarea $p$ din bootstrap staționar (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}) sub configurația cea mai puțin favorabilă
+    \item \textbf{Reality check} \refWhite: statistica $\max_j\sqrt P\bar d_j$, p-value-ul din bootstrap-ul staționar (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}) sub configurația cea mai puțin favorabilă
     \begin{itemize}
-        \item conservator: modelele foarte slabe umflă distribuția sub ipoteza nulă
+        \item conservator: modelele foarte slabe deplasează în sus distribuția sub ipoteza nulă
     \end{itemize}
-    \item \textbf{SPA} \refHan: studentizăm fiecare $\bar d_j$ și scoatem modelele clar inferioare din distribuția sub ipoteza nulă (valoarea $p$ consistentă)
+    \item \textbf{SPA} \refHan: studentizăm fiecare $\bar d_j$ și scoatem modelele clar inferioare din distribuția sub ipoteza nulă (p-value consistent)
     \begin{itemize}
-        \item valorile $p$ inferioară și superioară o încadrează; cea superioară este RC cu studentizare
+        \item p-value-urile inferior și superior îl încadrează; cel superior este RC cu studentizare
         \item StepM \refRWze\ identifică \emph{care} modele bat reperul
     \end{itemize}
-    \item EUR/RON, $k = 9$ modele față de mersul aleator: SPA $p$ = 0{,}53 (inferioară), 0{,}85 (consistentă), 0{,}88 (superioară): niciun model nu îl bate
+    \item EUR/RON, $k = 9$ modele față de mersul aleator: p-value SPA = 0{,}53 (inferior), 0{,}85 (consistent), 0{,}88 (superior): niciun model nu îl bate
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Mulțimea de încredere a modelelor (MCS)}
+\begin{frame}{Mulțimea de încredere a modelelor (MCS) (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{MCS} \refHLNaa: mulțimea $\hat{\mathcal M}_{1-\alpha}$ care conține cel mai bun model (sau modelele cele mai bune) cu probabilitatea de cel puțin $1 - \alpha$, asimptotic
     \begin{itemize}
         \item fără reper: toate modelele sînt tratate simetric; analog unui interval de încredere pentru un parametru
     \end{itemize}
-    \item Algoritmul: pornim cu toate cele $m$ modele
+    \item Testul de echivalență pentru cele $m$ modele rămase în mulțime
     \begin{itemize}
-        \item \textbf{testul de echivalență}: $H_0$: $\E[d_{i\cdot,t}] = 0$ pentru orice $i$, $d_{i\cdot,t} = L_{i,t} - \frac1m\sum_j L_{j,t}$, statistica $T_{\max} = \max_i \bar d_{i\cdot}/\widehat{\mathrm{se}}(\bar d_{i\cdot})$
-        \item dacă respingem, \textbf{eliminăm} modelul cu cel mai mare $t_i$ și repetăm; ne oprim la prima nerespingere
-        \item bootstrap pe blocuri pentru distribuția sub $H_0$ și erorile standard; valoarea $p$ MCS a unui model = cea mai mare valoare $p$ a testelor pînă la eliminarea lui
+        \item $H_0$: $\E[d_{i\cdot,t}] = 0$ pentru orice $i$, $\quad d_{i\cdot,t} = L_{i,t} - \frac1m\sum_j L_{j,t}$
+        \item $d_{i\cdot,t}$: pierderea modelului $i$ minus pierderea medie a tuturor modelelor; pozitiv: modelul $i$ este mai slab decît media
+        \item statistica $T_{\max} = \max_i t_i$, $t_i = \bar d_{i\cdot}/\widehat{\mathrm{se}}(\bar d_{i\cdot})$: cel mai slab model față de medie, standardizat
     \end{itemize}
-    \item O mulțime MCS mare este și ea un rezultat: datele nu pot separa modelele (un eșantion slab, nu modele egale)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Mulțimea de încredere a modelelor (MCS) (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Algoritmul: pornim cu toate modelele
+    \begin{itemize}
+        \item dacă testul de echivalență respinge, \textbf{eliminăm} modelul cu cel mai mare $t_i$ și repetăm; ne oprim la prima nerespingere
+        \item un bootstrap pe blocuri dă distribuția sub $H_0$ și erorile standard
+        \item p-value-ul MCS al unui model: cel mai mare p-value al testelor pînă la eliminarea lui; modelul rămîne în $\hat{\mathcal M}_{1-\alpha}$ dacă acesta depășește $\alpha$
+    \end{itemize}
+    \item O mulțime MCS mare este și ea un rezultat
+    \begin{itemize}
+        \item datele nu pot separa modelele (un eșantion slab, nu modele egale)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1077,7 +1234,7 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
 \begin{itemize}
     \item DM compară prognoze; pentru modele estimate alegeți West (populație) sau GW (metode, fereastră mobilă)
     \item Mai mulți pași, $P$ mic: varianță HAC plus corecția HLN și $t_{P-1}$
-    \item Modele imbricate: Clark--West; multe modele: SPA sau MCS, niciodată cea mai bună valoare $p$
+    \item Modele imbricate: Clark--West; multe modele: SPA sau MCS, niciodată cel mai mic p-value
     \item Inflația din România, inflația din SUA, EUR/RON: reperul simplu se bate greu, iar diferențele sînt rareori semnificative
 \end{itemize}
 \end{frame}
@@ -1102,8 +1259,9 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
     \begin{itemize}
         \item varianța erorii $w^2\sigma_1^2 + (1 - w)^2\sigma_2^2 + 2w(1 - w)\sigma_{12}$, minimă pentru
         \item $w^* = \dfrac{\sigma_2^2 - \sigma_{12}}{\sigma_1^2 + \sigma_2^2 - 2\sigma_{12}}$, \quad $\sigma^2_c = \dfrac{\sigma_1^2\sigma_2^2 - \sigma_{12}^2}{\sigma_1^2 + \sigma_2^2 - 2\sigma_{12}} \le \min(\sigma_1^2, \sigma_2^2)$
+        \item $\sigma^2_c$: varianța erorii combinației optime, niciodată peste cea a prognozei mai bune; prognoza mai puțin precisă primește ponderea mai mică
     \end{itemize}
-    \item $N$ prognoze: $\mathbf w^* = \Sigma^{-1}\iota/(\iota'\Sigma^{-1}\iota)$; \refGRm: regresia lui $y$ pe prognoze, cu sau fără termen liber și restricția ca ponderile să însumeze 1
+    \item $N$ prognoze: $\mathbf w^* = \Sigma^{-1}\iota/(\iota'\Sigma^{-1}\iota)$, cu $\Sigma$ matricea de covarianță a erorilor și $\iota$ un vector de unu; \refGRm: regresia lui $y$ pe prognoze, cu sau fără termen liber și restricția ca ponderile să însumeze 1
     \begin{itemize}
         \item combinarea diversifică riscul de model, rupturile structurale și informația privată a prognozatorilor \refTim
     \end{itemize}
@@ -1121,7 +1279,8 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
     \end{itemize}
     \item \textbf{Explicația} \refSWal, \refCMVW: ponderile sînt estimate
     \begin{itemize}
-        \item $\E[\mathrm{MSE}(\hat w)] = \mathrm{MSE}(w^*) + \E(\hat w - w^*)^2 D$, $D = \sigma_1^2 + \sigma_2^2 - 2\sigma_{12}$
+        \item $\E[\mathrm{MSE}(\hat w)] = \mathrm{MSE}(w^*) + \E(\hat w - w^*)^2 D$, $D = \sigma_1^2 + \sigma_2^2 - 2\sigma_{12}$ (varianța lui $e_1 - e_2$)
+        \item $\hat w$: ponderea estimată din $n$ erori trecute; MSE: eroarea pătratică medie a combinației
         \item cîștigul lui $w^*$ față de $1/2$: $(w^* - 1/2)^2D$; pierderea din estimare: $\mathrm{Var}(\hat w)D$, de ordinul $1/n$
         \item ponderile egale cîștigă cînd $(w^* - 1/2)^2 < \mathrm{Var}(\hat w)$: prognoze asemănătoare, eșantioane scurte, erori corelate
     \end{itemize}
@@ -1155,6 +1314,7 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
 \begin{itemize}
     \item \textbf{Shrinkage}: $\hat w_\lambda = \lambda\hat w + (1 - \lambda)\iota/N$ \refDP, \refSWzd
     \begin{itemize}
+        \item $\hat w$: ponderile estimate; $\iota/N$: ponderi egale pentru $N$ prognoze; $\lambda \in [0,1]$: $\lambda = 0$ dă media, $\lambda = 1$ ponderile estimate
         \item un prior bayesian centrat pe ponderile egale; $\lambda$ scade cu numărul de prognoze și crește cu eșantionul
     \end{itemize}
     \item \textbf{Ponderi după performanță}: $w_i \propto 1/\mathrm{MSE}_i$ pe o fereastră recentă, ignorînd corelațiile; actualizarea dă erorilor recente o pondere mai mare
@@ -1174,6 +1334,7 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
 \begin{itemize}
     \item \textbf{Combinarea liniară} (linear pool): $p(y) = \sum_i w_ip_i(y)$, $w_i \ge 0$, $\sum w_i = 1$ \refHM
     \begin{itemize}
+        \item $p_i$: prognoza de densitate a modelului $i$; $w_i$: ponderea ei; combinarea este o mixtură de densități
         \item ponderile care minimizează scorul logaritmic mediu: \textbf{optimal prediction pools} \refGA
         \item ponderi interioare chiar dacă toate modelele sînt greșit specificate: o combinare nu este o medie de modele în sens bayesian
     \end{itemize}
@@ -1378,7 +1539,8 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
     \item Rezistă paradoxul combinării cînd panelul de experți se schimbă în timp, iar distribuția realizărilor se deplasează (2020--2023)?
     \begin{itemize}
         \item formal: $H_0$: $\E[(y - \hat y_{\lambda})^2 - (y - \bar y)^2] \ge 0$ pentru orice factor de shrinkage $\lambda$ fixat dinainte, în fiecare subperioadă
-        \item infirmată de un $\lambda$ preînregistrat care bate media cu DM--HLN $p < 0{,}05$ după o corecție Holm pe subperioade
+        \item $\hat y_\lambda$: combinația shrinkage cu factorul $\lambda$; $\bar y$: media tuturor prognozatorilor
+        \item infirmată de un $\lambda$ preînregistrat care bate media cu DM--HLN și p-value $< 0{,}05$ după o corecție Holm pe subperioade
     \end{itemize}
     \item De ce contează: băncile centrale publică media anchetelor; o combinare mai bună ar schimba așteptările publicate
     \begin{itemize}
@@ -1406,13 +1568,13 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
 \begin{itemize}
     \item Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)
     \item Fără informație din viitor: ponderile la ancheta $s$ folosesc doar realizări cunoscute la $s$ (aici, prognoze din anchete cu cel puțin cinci trimestre mai vechi, al căror trimestru-țintă s-a încheiat)
-    \item Decalajul HAC corespunde suprapunerii țintelor ($h - 1$); corecția HLN este aplicată
+    \item Numărul de laguri HAC corespunde suprapunerii țintelor ($h - 1$); corecția HLN este aplicată
     \item $\lambda$, subperioadele și istoricul minim sînt fixate înaintea rezultatelor; toate variantele sînt raportate
     \item Interpretarea separă „nesemnificativ” de „egal”
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Mini studiu de caz: shrinkage pe subperioade}
+\begin{frame}{Mini-studiu de caz: shrinkage pe subperioade}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.46\textheight,keepaspectratio]{ats_ch1_ai_case.pdf}
@@ -1433,7 +1595,7 @@ ARX + media pe 4 săptămîni & 107 & 285 & 88{,}3\% & $<$\,0{,}001 \\
     \begin{itemize}
         \item preînregistrați orizonturile de 1--12 luni, pierderea pinball la 5\%, 50\%, 95\% și CRPS, corecția Holm pe orizonturi
         \item replicați întîi: tabelul pentru inflația din România din acest curs (Seminarul 1, C1 îl face pe orizonturi)
-        \item extensie: combinarea densităților prin pooluri optime; testul GW pentru a vedea dacă șocul din 2022 a schimbat cîștigătorul
+        \item extensie: combinarea densităților prin optimal pools; testul GW pentru a vedea dacă șocul din 2022 a schimbat cîștigătorul
     \end{itemize}
     \item Livrabilele urmează regulile cursului: repository, raport, AI\_USE.md, AI\_ERRORS.md, susținere orală
 \end{itemize}

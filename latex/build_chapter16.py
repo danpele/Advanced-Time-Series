@@ -28,8 +28,15 @@ from ats_build import items as _items   # noqa: E402
 from ch16_common import REFS, QLURL, T, V2, day, month, bib, finalize, load, minus_fix   # noqa: E402
 
 
+def _merge(x):
+    """(text, [display, ...]): a displayed formula placed first among the sub-items is written inside the item itself."""
+    if isinstance(x, tuple) and x[1] and x[1][0].lstrip('⟦').startswith('\\['):
+        x = (x[0] + ' ' + x[1][0].replace("\\'", "'"), x[1][1:])
+    return x[0] if isinstance(x, tuple) and not x[1] else x
+
+
 def items(*xs):
-    return _items(*[x[0] if isinstance(x, tuple) and not x[1] else x for x in xs])
+    return _items(*[_merge(x) for x in xs])
 
 
 N = load()
@@ -270,7 +277,7 @@ D.frame(T('Self-study guide', 'Ghid de studiu individual'), items(
      [T('redo each worked derivation on paper before reading the next slide', 'refaceți pe hîrtie fiecare derivare rezolvată înainte de a citi slide-ul următor'),
       T('after each chart, write your own reading of it, then compare it with the interpretation slide', 'după fiecare grafic, scrieți propria lectură a lui, apoi comparați-o cu slide-ul de interpretare')]),
     (T('Run the lecture notebook: it reproduces every chart and number with smaller Monte Carlo sizes', 'Rulați notebook-ul cursului: reproduce fiecare grafic și fiecare cifră, cu simulări Monte Carlo mai mici'),
-     [T('change one design choice (the minimum window, the lag order, the critical value, the crash threshold) and record how the conclusion changes', 'modificați o alegere (fereastra minimă, numărul de decalaje, valoarea critică, pragul de crah) și notați cum se schimbă concluzia')]),
+     [T('change one design choice (the minimum window, the lag order, the critical value, the crash threshold) and record how the conclusion changes', 'modificați o alegere (fereastra minimă, numărul de laguri, valoarea critică, pragul de crah) și notați cum se schimbă concluzia')]),
     T('The self-assessment at the end has answers; the quiz of this chapter on the course site is graded', 'Autoevaluarea de la final are răspunsuri; quiz-ul capitolului de pe site-ul cursului se notează'),
     T('Prerequisites: Dickey--Fuller asymptotics (Hamilton, Chapter 17), the functional central limit theorem, bootstrap for dependent data (Chapter 0)',
       'Cunoștințe necesare: asimptotica Dickey--Fuller (Hamilton, capitolul 17), teorema limită centrală funcțională, bootstrap pentru date dependente (Capitolul 0)')), 'small')
@@ -324,25 +331,36 @@ D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), t
 # =============================================================================
 D.section('Rational bubbles', 'Bule raționale')
 
-D.frame(T('The present-value model and its bubble solutions', 'Modelul valorii actualizate și soluțiile cu bulă'), items(
-    (T(r'No-arbitrage with a constant required return $r > 0$: $P_t = (1 + r)^{-1}\E_t[P_{t+1} + D_{t+1}]$; $P_t$ price, $D_t$ dividend (or rent)',
-       r'Lipsa arbitrajului cu un randament cerut constant $r > 0$: $P_t = (1 + r)^{-1}\E_t[P_{t+1} + D_{t+1}]$; $P_t$ prețul, $D_t$ dividendul (sau chiria)'), []),
-    (T(r'Forward substitution $k$ times: $P_t = \sum_{i=1}^{k}(1 + r)^{-i}\E_t D_{t+i} + (1 + r)^{-k}\E_t P_{t+k}$',
-       r'Substituind înainte de $k$ ori: $P_t = \sum_{i=1}^{k}(1 + r)^{-i}\E_t D_{t+i} + (1 + r)^{-k}\E_t P_{t+k}$'),
-     [T(r'if the \textbf{transversality condition} $\lim_k (1 + r)^{-k}\E_t P_{t+k} = 0$ holds: $P_t = F_t := \sum_{i \ge 1}(1 + r)^{-i}\E_t D_{t+i}$, the fundamental value',
-        r'dacă \textbf{condiția de transversalitate} $\lim_k (1 + r)^{-k}\E_t P_{t+k} = 0$ este îndeplinită: $P_t = F_t := \sum_{i \ge 1}(1 + r)^{-i}\E_t D_{t+i}$, valoarea fundamentală')]),
-    (T(r'General solution: $P_t = F_t + B_t$ with $\E_t B_{t+1} = (1 + r)B_t$: the \textbf{bubble} $B_t$ is a submartingale with an explosive mean, $\E_t B_{t+k} = (1 + r)^k B_t$',
-       r'Soluția generală: $P_t = F_t + B_t$ cu $\E_t B_{t+1} = (1 + r)B_t$: \textbf{bula} $B_t$ este o submartingală cu medie explozivă, $\E_t B_{t+k} = (1 + r)^k B_t$'),
-     [T(r'econometric content: in $(1 - (1 + r)L)B_t = z_t$, the root $1 + r > 1$ lies outside the unit circle on the wrong side: an \textbf{explosive autoregressive root}',
-        r'conținutul econometric: în $(1 - (1 + r)L)B_t = z_t$, rădăcina $1 + r > 1$ este explozivă: o \textbf{rădăcină autoregresivă explozivă}')]),
-    T(r'General equilibrium limits: with infinitely lived agents bubbles are ruled out in most economies; with overlapping generations they can exist if growth exceeds $r$ \refTir; \refSW',
-      r'Limitele de echilibru general: cu agenți cu viață infinită, bulele sînt excluse în majoritatea economiilor; cu generații suprapuse pot exista dacă creșterea depășește $r$ \refTir; \refSW')), 'small')
+D.frame(T('The present-value model and its bubble solutions (1/2)', 'Modelul valorii actualizate și soluțiile cu bulă (1/2)'), items(
+    (T(r'\textbf{No-arbitrage} with a constant required return $r > 0$: today\'s price is the discounted expected value of tomorrow\'s price plus dividend',
+       r'\textbf{Lipsa arbitrajului} cu un randament cerut constant $r > 0$: prețul de azi este valoarea actualizată a prețului de mîine plus dividendul așteptat'),
+     [r'\[ P_t = (1 + r)^{-1}\E_t[P_{t+1} + D_{t+1}] \]',
+      T(r'$P_t$: price; $D_t$: dividend (or rent); $\E_t$: expectation given the information available at $t$', r'$P_t$: prețul; $D_t$: dividendul (sau chiria); $\E_t$: speranța condiționată de informația disponibilă la $t$')]),
+    (T(r'\textbf{Forward substitution} $k$ times: the price is the discounted dividends of the next $k$ periods plus the discounted price at $t + k$',
+       r'\textbf{Substituția înainte} de $k$ ori: prețul este suma dividendelor actualizate din următoarele $k$ perioade plus prețul actualizat de la $t + k$'),
+     [r'\[ P_t = \sum_{i=1}^{k}(1 + r)^{-i}\E_t D_{t+i} + (1 + r)^{-k}\E_t P_{t+k} \]']),
+    (T(r'If the \textbf{transversality condition} $\lim_{k\to\infty} (1 + r)^{-k}\E_t P_{t+k} = 0$ holds, the price equals the \textbf{fundamental value}',
+       r'Dacă \textbf{condiția de transversalitate} $\lim_{k\to\infty} (1 + r)^{-k}\E_t P_{t+k} = 0$ este îndeplinită, prețul este egal cu \textbf{valoarea fundamentală}'),
+     [r'\[ P_t = F_t := \sum_{i \ge 1}(1 + r)^{-i}\E_t D_{t+i} \]'])), 'small')
+
+D.frame(T('The present-value model and its bubble solutions (2/2)', 'Modelul valorii actualizate și soluțiile cu bulă (2/2)'), items(
+    (T(r'\textbf{General solution}: the fundamental plus a \textbf{bubble} $B_t$ whose expected value grows at the rate $r$',
+       r'\textbf{Soluția generală}: fundamentul plus o \textbf{bulă} $B_t$, a cărei valoare așteptată crește cu rata $r$'),
+     [r'\[ P_t = F_t + B_t, \qquad \E_t B_{t+1} = (1 + r)B_t, \qquad \E_t B_{t+k} = (1 + r)^k B_t \]',
+      T(r'$B_t$ is a submartingale with an explosive mean: it satisfies the no-arbitrage equation but violates transversality', r'$B_t$ este o submartingală cu medie explozivă: satisface ecuația de lipsă a arbitrajului, dar încalcă transversalitatea')]),
+    (T(r'\textbf{Econometric content}: $B_t$ follows $(1 - (1 + r)L)B_t = z_t$, an AR(1) with coefficient $1 + r > 1$',
+       r'\textbf{Conținutul econometric}: $B_t$ urmează $(1 - (1 + r)L)B_t = z_t$, un AR(1) cu coeficientul $1 + r > 1$'),
+     [T(r'$L$: the lag operator ($LB_t = B_{t-1}$); $z_t$: a martingale difference ($\E_{t-1}z_t = 0$); an \textbf{explosive autoregressive root}', r'$L$: operatorul lag ($LB_t = B_{t-1}$); $z_t$: o diferență de martingală ($\E_{t-1}z_t = 0$); o \textbf{rădăcină autoregresivă explozivă}')]),
+    (T(r'General equilibrium limits \refTir; \refSW', r'Limitele de echilibru general \refTir; \refSW'),
+     [T('with infinitely lived agents bubbles are ruled out in most economies', 'cu agenți cu viață infinită, bulele sînt excluse în majoritatea economiilor'),
+      T(r'with overlapping generations they can exist if growth exceeds $r$', r'cu generații suprapuse pot exista dacă creșterea depășește $r$')])), 'small')
 
 D.frame(T('Worked example: the fundamental value with random-walk dividends', 'Exemplu rezolvat: valoarea fundamentală cu dividende de tip mers aleator'), items(
-    (T(r'Let $D_t = \mu + D_{t-1} + \varepsilon_t$: then $\E_t D_{t+i} = D_t + i\mu$', r'Fie $D_t = \mu + D_{t-1} + \varepsilon_t$: atunci $\E_t D_{t+i} = D_t + i\mu$'), []),
-    (T(r'$F_t = D_t\sum_{i \ge 1}(1 + r)^{-i} + \mu\sum_{i \ge 1} i(1 + r)^{-i} = \dfrac{D_t}{r} + \dfrac{\mu(1 + r)}{r^2}$',
-       r'$F_t = D_t\sum_{i \ge 1}(1 + r)^{-i} + \mu\sum_{i \ge 1} i(1 + r)^{-i} = \dfrac{D_t}{r} + \dfrac{\mu(1 + r)}{r^2}$'),
-     [T(r'using $\sum_{i \ge 1} x^i = x/(1 - x)$ and $\sum_{i \ge 1} i x^i = x/(1 - x)^2$ with $x = (1 + r)^{-1}$',
+    (T(r'Let dividends be a random walk with drift, $D_t = \mu + D_{t-1} + \varepsilon_t$: then $\E_t D_{t+i} = D_t + i\mu$', r'Fie dividendele un mers aleator cu derivă, $D_t = \mu + D_{t-1} + \varepsilon_t$: atunci $\E_t D_{t+i} = D_t + i\mu$'),
+     [T(r'$\mu$: the expected change per period (drift); $\varepsilon_t$: a zero-mean shock', r'$\mu$: variația așteptată pe perioadă (deriva); $\varepsilon_t$: un șoc cu media zero')]),
+    (T(r'Summing the discounted expected dividends', r'Însumînd dividendele așteptate actualizate'),
+     [r'\[ F_t = D_t\sum_{i \ge 1}(1 + r)^{-i} + \mu\sum_{i \ge 1} i(1 + r)^{-i} = \dfrac{D_t}{r} + \dfrac{\mu(1 + r)}{r^2} \]',
+      T(r'using $\sum_{i \ge 1} x^i = x/(1 - x)$ and $\sum_{i \ge 1} i x^i = x/(1 - x)^2$ with $x = (1 + r)^{-1}$',
         r'folosind $\sum_{i \ge 1} x^i = x/(1 - x)$ și $\sum_{i \ge 1} i x^i = x/(1 - x)^2$ cu $x = (1 + r)^{-1}$')]),
     (T(r'Implications: $F_t$ is I(1) like $D_t$; $P_t - D_t/r$ is stationary without a bubble: price and dividend are \textbf{cointegrated} with vector $(1, -1/r)$ \refCS',
        r'Implicații: $F_t$ este I(1), ca și $D_t$; $P_t - D_t/r$ este staționar în absența bulei: prețul și dividendul sînt \textbf{cointegrate} cu vectorul $(1, -1/r)$ \refCS'),
@@ -353,8 +371,9 @@ D.frame(T('Worked example: the fundamental value with random-walk dividends', 'E
 
 D.frame(T('Blanchard--Watson: a bubble that can burst', 'Blanchard--Watson: o bulă care se poate sparge'), two(
     ph('blanchard', T('Olivier Blanchard, IMF, 2008', 'Olivier Blanchard, FMI, 2008'), h='0.42\\textheight'),
-    items(T(r'$B_{t+1} = \dfrac{1 + r}{\pi}B_t + \varepsilon_{t+1}$ with probability $\pi$, $B_{t+1} = \varepsilon_{t+1}$ with probability $1 - \pi$ \refBW',
-            r'$B_{t+1} = \dfrac{1 + r}{\pi}B_t + \varepsilon_{t+1}$ cu probabilitatea $\pi$, $B_{t+1} = \varepsilon_{t+1}$ cu probabilitatea $1 - \pi$ \refBW'),
+    items((T(r'\refBW: each period the bubble survives with probability $\pi$ and bursts with probability $1 - \pi$', r'\refBW: în fiecare perioadă bula supraviețuiește cu probabilitatea $\pi$ și se sparge cu probabilitatea $1 - \pi$'),
+           [r'\[ B_{t+1} = \begin{cases} \dfrac{1 + r}{\pi}B_t + \varepsilon_{t+1} & \text{' + T('with probability', 'cu probabilitatea') + r'}\ \pi \\[2mm] \varepsilon_{t+1} & \text{' + T('with probability', 'cu probabilitatea') + r'}\ 1 - \pi \end{cases} \]',
+            T(r'$\varepsilon_{t+1}$: a zero-mean shock; $\pi \in (0, 1)$: the survival probability', r'$\varepsilon_{t+1}$: un șoc cu media zero; $\pi \in (0, 1)$: probabilitatea de supraviețuire')]),
           T(r'Check: $\E_t B_{t+1} = \pi\cdot\frac{1 + r}{\pi}B_t = (1 + r)B_t$: a valid rational bubble',
             r'Verificare: $\E_t B_{t+1} = \pi\cdot\frac{1 + r}{\pi}B_t = (1 + r)B_t$: o bulă rațională validă'),
           T(r'Survival time is geometric: expected duration $1/(1 - \pi)$; $\pi = 0.98$ gives @{ra.dur} periods',
@@ -433,8 +452,10 @@ D.frame(T('Three regimes of the AR(1) estimator', 'Trei regimuri ale estimatorul
      T(r'$\rho = 1 + c/k_n$, $k_n \to \infty$, $k_n = o(n)$', r'$\rho = 1 + c/k_n$, $k_n \to \infty$, $k_n = o(n)$') + r' & $\dfrac{k_n\rho_n^{\,n}}{2c}(\hat\rho - \rho_n) \Rightarrow \mathcal C$ & ' + T('yes \\refPM', 'da \\refPM'),
      T(r'$|\rho| > 1$ fixed', r'$|\rho| > 1$ fix') + r' & $\dfrac{\rho^n}{\rho^2 - 1}(\hat\rho - \rho) \Rightarrow \mathcal C$ & ' + T('only Gaussian errors \\refWhi; \\refAnd', 'doar erori gaussiene \\refWhi; \\refAnd')],
     size='footnotesize') + '}' + items(
-    T(r'$y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$ OLS without intercept; $W$ a standard Brownian motion; $\mathcal C$ the standard Cauchy law',
-      r'$y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$ OLS fără termen liber; $W$ o mișcare browniană standard; $\mathcal C$ legea Cauchy standard'),
+    (T(r'$y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS without intercept; $n$: sample size; $W$: a standard Brownian motion; $\mathcal C$: the standard Cauchy law',
+      r'$y_t = \rho y_{t-1} + u_t$, $y_0 = 0$, $u_t$ i.i.d.\ $(0, \sigma^2)$; $\hat\rho$: OLS fără termen liber; $n$: mărimea eșantionului; $W$: o mișcare browniană standard; $\mathcal C$: legea Cauchy standard'),
+     [T(r'mildly explosive: $c > 0$ and $k_n \to \infty$ more slowly than $n$ ($k_n = o(n)$, i.e.\ $k_n/n \to 0$); CLT/FCLT: (functional) central limit theorem; $\Rightarrow$: convergence in distribution',
+        r'ușor exploziv: $c > 0$, iar $k_n \to \infty$ mai lent decît $n$ ($k_n = o(n)$, adică $k_n/n \to 0$); CLT/FCLT: teorema limită centrală (funcțională); $\Rightarrow$: convergență în distribuție')]),
     T(r'The rate grows from $\sqrt n$ to $n$ to the exponential $\rho^n$: the further from unity, the faster we learn $\rho$ (unit roots: Chapter 2 and \refHam, Chapter 17)',
       r'Rata crește de la $\sqrt n$ la $n$ și la exponențialul $\rho^n$: cu cît sîntem mai departe de 1, cu atît învățăm mai repede $\rho$ (rădăcini unitare: Capitolul 2 și \refHam, capitolul 17)'),
     T('Mildly explosive roots are the realistic case for bubbles: faster than any local-to-unity root $1 + c/n$, slower than any fixed explosive root',
@@ -480,7 +501,7 @@ D.frame(T('From limit theory to bubble tests', 'De la teoria asimptotică la tes
      [T(r'$\ln(F_t + B_t)$ \textbf{accelerates} while the bubble share rises: log-price tests target accelerating log prices, which is what PWY and PSY test in practice',
         r'$\ln(F_t + B_t)$ \textbf{accelerează} cît timp ponderea bulei crește: testele pe logaritmul prețului vizează accelerarea, ceea ce testează în practică PWY și PSY')]),
     (T(r'Specification matters: the intercept, a weak drift $dT^{-\eta}$ ($\eta > 1/2$) in the null, and the lag order change the null limit and the size \refPSYs',
-       r'Specificația contează: termenul liber, o derivă slabă $dT^{-\eta}$ ($\eta > 1/2$) sub ipoteza nulă și numărul de decalaje schimbă limita sub ipoteza nulă și nivelul testului \refPSYs'), []),
+       r'Specificația contează: termenul liber, o derivă slabă $dT^{-\eta}$ ($\eta > 1/2$) sub ipoteza nulă și numărul de laguri schimbă limita sub ipoteza nulă și nivelul testului \refPSYs'), []),
     T(r'Collapses: a sudden fall is a mildly \textbf{integrated} or stationary phase after the explosive one; \refPSi date the implosion with a reverse regression',
       r'Prăbușirile: o scădere bruscă este o fază ușor \textbf{integrată} sau staționară după cea explozivă; \refPSi datează implozia cu o regresie inversă')), 'small')
 
@@ -497,24 +518,31 @@ D.recap(('explosive autoregressions', 'procesele autoregresive explozive'), [
 # =============================================================================
 D.section('Recursive tests: theory and size', 'Testele recursive: teorie și nivel')
 
-D.frame(T('The recursive statistics', 'Statisticile recursive'), items(
-    (T(r'Window regression on the log price: $\Delta y_t = a + \delta y_{t-1} + \sum_{j=1}^{k}\phi_j\Delta y_{t-j} + e_t$, $t$ from $\lfloor r_1T\rfloor$ to $\lfloor r_2T\rfloor$; $\mathrm{ADF}_{r_1}^{r_2}$ is the $t$-statistic of $\delta$',
-       r'Regresia pe fereastră pentru logaritmul prețului: $\Delta y_t = a + \delta y_{t-1} + \sum_{j=1}^{k}\phi_j\Delta y_{t-j} + e_t$, $t$ de la $\lfloor r_1T\rfloor$ la $\lfloor r_2T\rfloor$; $\mathrm{ADF}_{r_1}^{r_2}$ este statistica $t$ a lui $\delta$'),
-     [T(r'$H_0$: $\delta = 0$ (unit root); $H_1$: $\delta > 0$ (explosive); minimum window $r_0 = 0.01 + 1.8/\sqrt T$',
-        r'$H_0$: $\delta = 0$ (rădăcină unitară); $H_1$: $\delta > 0$ (explozivă); fereastra minimă $r_0 = 0.01 + 1.8/\sqrt T$')]),
-    (T(r'$\mathrm{SADF} = \sup_{r_2 \in [r_0, 1]}\mathrm{ADF}_0^{r_2}$ \refPWY; $\mathrm{BSADF}_{r_2} = \sup_{r_1 \in [0, r_2 - r_0]}\mathrm{ADF}_{r_1}^{r_2}$; $\mathrm{GSADF} = \sup_{r_2}\mathrm{BSADF}_{r_2}$ \refPSYa',
-       r'$\mathrm{SADF} = \sup_{r_2 \in [r_0, 1]}\mathrm{ADF}_0^{r_2}$ \refPWY; $\mathrm{BSADF}_{r_2} = \sup_{r_1 \in [0, r_2 - r_0]}\mathrm{ADF}_{r_1}^{r_2}$; $\mathrm{GSADF} = \sup_{r_2}\mathrm{BSADF}_{r_2}$ \refPSYa'), []),
+D.frame(T('The recursive statistics (1/2)', 'Statisticile recursive (1/2)'), items(
+    (T(r'\textbf{Window regression} on the log price $y_t$, over the sample fractions $[r_1, r_2]$', r'\textbf{Regresia pe fereastră} pentru logaritmul prețului $y_t$, pe fracțiunile de eșantion $[r_1, r_2]$'),
+     [r'\[ \Delta y_t = a + \delta y_{t-1} + \sum_{j=1}^{k}\phi_j\Delta y_{t-j} + e_t, \qquad t = \lfloor r_1T\rfloor, \dots, \lfloor r_2T\rfloor \]',
+      T(r'$\Delta y_t = y_t - y_{t-1}$; $a$: intercept; $\delta$: the coefficient tested; $\phi_j$: coefficients of $k$ lagged differences; $e_t$: error; $T$: sample size; $\lfloor\cdot\rfloor$: integer part',
+        r'$\Delta y_t = y_t - y_{t-1}$; $a$: termenul liber; $\delta$: coeficientul testat; $\phi_j$: coeficienții celor $k$ diferențe cu lag; $e_t$: eroarea; $T$: mărimea eșantionului; $\lfloor\cdot\rfloor$: partea întreagă'),
+      T(r'$\mathrm{ADF}_{r_1}^{r_2}$: the $t$-statistic of $\delta$ on this window', r'$\mathrm{ADF}_{r_1}^{r_2}$: statistica $t$ a lui $\delta$ pe această fereastră')]),
+    (T(r'$H_0$: $\delta = 0$ (unit root) against $H_1$: $\delta > 0$ (explosive): a \textbf{right-tailed} test', r'$H_0$: $\delta = 0$ (rădăcină unitară) față de $H_1$: $\delta > 0$ (explozivă): un test pe \textbf{coada din dreapta}'),
+     [T(r'minimum window fraction $r_0 = 0.01 + 1.8/\sqrt T$', r'fracțiunea minimă a ferestrei $r_0 = 0.01 + 1.8/\sqrt T$')]),
+    (T('\\textbf{Suprema} over windows \\refPWY, \\refPSYa', '\\textbf{Supremele} pe ferestre \\refPWY, \\refPSYa'),
+     [r'\[ \mathrm{SADF} = \sup_{r_2 \in [r_0, 1]}\mathrm{ADF}_0^{r_2}, \quad \mathrm{BSADF}_{r_2} = \sup_{r_1 \in [0, r_2 - r_0]}\mathrm{ADF}_{r_1}^{r_2}, \quad \mathrm{GSADF} = \sup_{r_2}\mathrm{BSADF}_{r_2} \]',
+      T(r'SADF: windows starting at the first observation; BSADF: all windows ending at $r_2$ (used to date); GSADF: all windows', r'SADF: ferestre care încep cu prima observație; BSADF: toate ferestrele care se termină în $r_2$ (folosit la datare); GSADF: toate ferestrele')])), 'small')
+
+D.frame(T('The recursive statistics (2/2)', 'Statisticile recursive (2/2)'), items(
     (T(r'Null limit (PSY, Theorem 1), with $r_w = r_2 - r_1$ and integrals over $[r_1, r_2]$:',
        r'Limita sub ipoteza nulă (PSY, teorema 1), cu $r_w = r_2 - r_1$ și integrale pe $[r_1, r_2]$:'),
-     [r'$\mathrm{ADF}_{r_1}^{r_2} \Rightarrow \dfrac{\frac12 r_w\left[W(r_2)^2 - W(r_1)^2 - r_w\right] - \int W\,dr\,\left[W(r_2) - W(r_1)\right]}{r_w^{1/2}\left\{r_w\int W^2dr - \left(\int W\,dr\right)^2\right\}^{1/2}}$',
+     [r'\[ \mathrm{ADF}_{r_1}^{r_2} \Rightarrow \dfrac{\frac12 r_w\left[W(r_2)^2 - W(r_1)^2 - r_w\right] - \int W\,dr\,\left[W(r_2) - W(r_1)\right]}{r_w^{1/2}\left\{r_w\int W^2dr - \left(\int W\,dr\right)^2\right\}^{1/2}} \]',
+      T(r'$W$: a standard Brownian motion; $\Rightarrow$: convergence in distribution as $T \to \infty$', r'$W$: o mișcare browniană standard; $\Rightarrow$: convergență în distribuție cînd $T \to \infty$'),
       T('pivotal: free of $\\sigma$ and of the drift, so critical values depend only on $r_0$, the deterministic terms and $T$ in finite samples',
         'pivotală: nu depinde de $\\sigma$ și de derivă, deci valorile critice depind doar de $r_0$, de termenii determiniști și, în eșantioane finite, de $T$')]),
     T(r'Computation: for $T = 400$ there are @{nu.400.win} window regressions; cumulated cross-products give all of them in $O(T^2)$ operations',
-      r'Calcul: pentru $T = 400$ există @{nu.400.win} de regresii pe ferestre; produsele încrucișate cumulate le dau pe toate în $O(T^2)$ operații')), 'footnotesize')
+      r'Calcul: pentru $T = 400$ există @{nu.400.win} de regresii pe ferestre; produsele încrucișate cumulate le dau pe toate în $O(T^2)$ operații')), 'small')
 
 chart(T('Null distributions and critical values', 'Distribuțiile sub ipoteza nulă și valorile critice'), 'ats_ch16_null', 'ATS_ch16_recursive_tests', [
     T(r'Null model $y_t = T^{-1} + y_{t-1} + e_t$, $e_t \sim N(0, 1)$, no lags; 95\% critical values at $T = 100, 200, 400, 800$: SADF @{nu.100.sadf}, @{nu.200.sadf}, @{nu.400.sadf}, @{nu.800.sadf}; GSADF @{nu.100.gsadf}, @{nu.200.gsadf}, @{nu.400.gsadf}, @{nu.800.gsadf}',
-      r'Modelul nul $y_t = T^{-1} + y_{t-1} + e_t$, $e_t \sim N(0, 1)$, fără decalaje; valori critice de 95\% la $T = 100, 200, 400, 800$: SADF @{nu.100.sadf}, @{nu.200.sadf}, @{nu.400.sadf}, @{nu.800.sadf}; GSADF @{nu.100.gsadf}, @{nu.200.gsadf}, @{nu.400.gsadf}, @{nu.800.gsadf}')],
+      r'Modelul nul $y_t = T^{-1} + y_{t-1} + e_t$, $e_t \sim N(0, 1)$, fără laguri; valori critice de 95\% la $T = 100, 200, 400, 800$: SADF @{nu.100.sadf}, @{nu.200.sadf}, @{nu.400.sadf}, @{nu.800.sadf}; GSADF @{nu.100.gsadf}, @{nu.200.gsadf}, @{nu.400.gsadf}, @{nu.800.gsadf}')],
     h='0.5\\textheight')
 
 interp(('the null distributions', 'distribuțiilor sub ipoteza nulă'), [
@@ -523,7 +551,7 @@ interp(('the null distributions', 'distribuțiilor sub ipoteza nulă'), [
     T('Each supremum shifts the distribution to the right: SADF searches over end points, GSADF over start and end points; the GSADF bar is the price of the search',
       'Fiecare suprem mută distribuția spre dreapta: SADF caută pe punctele de sfîrșit, GSADF pe punctele de început și de sfîrșit; pragul GSADF este prețul căutării'),
     T(r'The GSADF critical value rises with $T$ (@{nu.100.gsadf} to @{nu.800.gsadf}) although $r_0$ falls: more windows, a larger maximum; tabulate critical values for your own $T$, $r_0$ and lag order',
-      r'Valoarea critică GSADF crește cu $T$ (de la @{nu.100.gsadf} la @{nu.800.gsadf}) deși $r_0$ scade: mai multe ferestre, un maxim mai mare; simulați valorile critice pentru propriile $T$, $r_0$ și număr de decalaje'),
+      r'Valoarea critică GSADF crește cu $T$ (de la @{nu.100.gsadf} la @{nu.800.gsadf}) deși $r_0$ scade: mai multe ferestre, un maxim mai mare; simulați valorile critice pentru propriile $T$, $r_0$ și număr de laguri'),
     T(r'The pointwise 95\% quantile of BSADF at the last date (@{nu.400.bs} at $T = 400$) is far below the GSADF one: a single date is tested at 5\%, the whole path is not',
       r'Cuantila punctuală de 95\% a BSADF la ultima dată (@{nu.400.bs} la $T = 400$) este mult sub cea GSADF: o singură dată este testată la 5\%, întreaga traiectorie nu')])
 
@@ -566,7 +594,7 @@ interp(('the size study', 'studiului de nivel'), [
 
 D.recap(('recursive tests', 'testele recursive'), [
     T('SADF, GSADF and BSADF are suprema of window ADF statistics with a pivotal null limit; critical values must match $T$, $r_0$, the deterministic terms and the lags',
-      'SADF, GSADF și BSADF sînt supreme ale statisticilor ADF pe ferestre, cu o limită pivotală sub ipoteza nulă; valorile critice trebuie să corespundă lui $T$, $r_0$, termenilor determiniști și decalajelor'),
+      'SADF, GSADF și BSADF sînt supreme ale statisticilor ADF pe ferestre, cu o limită pivotală sub ipoteza nulă; valorile critice trebuie să corespundă lui $T$, $r_0$, termenilor determiniști și lagurilor'),
     T('Changing volatility distorts the size; the wild bootstrap keeps the volatility pattern and restores it',
       'Volatilitatea variabilă distorsionează nivelul; wild bootstrap păstrează tiparul volatilității și îl reface'),
     T('Pointwise dating has a high false-episode rate over a sample; family-wise thresholds control it at the cost of power',
@@ -578,17 +606,25 @@ D.recap(('recursive tests', 'testele recursive'), [
 D.section('Date-stamping and early warning', 'Datarea și avertizarea timpurie')
 
 D.frame(T('Date-stamping rules and their accuracy', 'Regulile de datare și acuratețea lor'), items(
-    (T(r'Origination and termination \refPSYa: $\hat r_e = \inf\{r_2 \ge r_0: \mathrm{BSADF}_{r_2} > cv_{r_2}\}$, $\hat r_f = \inf\{r_2 \ge \hat r_e + \delta\ln(T)/T: \mathrm{BSADF}_{r_2} < cv_{r_2}\}$',
-       r'Începutul și sfîrșitul \refPSYa: $\hat r_e = \inf\{r_2 \ge r_0: \mathrm{BSADF}_{r_2} > cv_{r_2}\}$, $\hat r_f = \inf\{r_2 \ge \hat r_e + \delta\ln(T)/T: \mathrm{BSADF}_{r_2} < cv_{r_2}\}$'),
-     [T(r'here: an episode is a run of at least $\lceil\ln T\rceil$ consecutive exceedances, dated from the first to the last one (as in \texttt{exuber} \refVPM)',
+    (T(r'\textbf{Origination and termination} \refPSYa: the first date where BSADF exceeds its critical value, and the first later date where it falls back below',
+       r'\textbf{Începutul și sfîrșitul} \refPSYa: prima dată la care BSADF depășește valoarea critică și prima dată ulterioară la care coboară sub ea'),
+     [r'\[ \hat r_e = \inf\{r_2 \ge r_0: \mathrm{BSADF}_{r_2} > cv_{r_2}\}, \qquad \hat r_f = \inf\{r_2 \ge \hat r_e + \delta\ln(T)/T: \mathrm{BSADF}_{r_2} < cv_{r_2}\} \]',
+      T(r'$cv_{r_2}$: the pointwise 95\% critical value at $r_2$; $\delta\ln(T)/T$: a minimum duration (with $\delta$ a tuning constant)', r'$cv_{r_2}$: valoarea critică punctuală de 95\% la $r_2$; $\delta\ln(T)/T$: o durată minimă (cu $\delta$ o constantă de calibrare)'),
+      T(r'here: an episode is a run of at least $\lceil\ln T\rceil$ consecutive exceedances, dated from the first to the last one (as in \texttt{exuber} \refVPM)',
         r'aici: un episod este o serie de cel puțin $\lceil\ln T\rceil$ depășiri consecutive, datată de la prima la ultima (ca în \texttt{exuber} \refVPM)')]),
     (T(r'In real time an episode is \textbf{confirmed} only after the minimum duration: the alarm date is the start plus $\lceil\ln T\rceil - 1$',
        r'În timp real, un episod este \textbf{confirmat} doar după durata minimă: data alarmei este începutul plus $\lceil\ln T\rceil - 1$'), []),
-    (T(r'Consistency of $(\hat r_e, \hat r_f)$ holds for mildly explosive bubbles of fixed fractional duration \refPSYb; the start is dated late, because a window must first accumulate explosive observations',
-       r'Consistența lui $(\hat r_e, \hat r_f)$ este valabilă pentru bule ușor explozive cu durată fracționară fixă \refPSYb; începutul este datat tîrziu, fiindcă o fereastră trebuie să acumuleze întîi observații explozive'),
-     [T(r'improved start and end estimators that use the whole bubble period: \refHLS', r'estimatori îmbunătățiți ai începutului și sfîrșitului, care folosesc toată perioada bulei: \refHLS')]),
-    T(r'Design of the experiment: random walk from $y_0 = 100$, explosive $y_t = \rho y_{t-1} + e_t$ on periods @{dt.te}--@{dt.tf}, collapse to the pre-bubble level, random walk; $T = @{dt.T}$, @{dt.N} paths per $\rho$',
-      r'Designul experimentului: mers aleator de la $y_0 = 100$, explozie $y_t = \rho y_{t-1} + e_t$ în perioadele @{dt.te}--@{dt.tf}, prăbușire la nivelul de dinaintea bulei, mers aleator; $T = @{dt.T}$, @{dt.N} traiectorii pentru fiecare $\rho$')), 'small')
+    (T(r'Consistency of $(\hat r_e, \hat r_f)$ holds for mildly explosive bubbles of fixed fractional duration \refPSYb',
+       r'Consistența lui $(\hat r_e, \hat r_f)$ este valabilă pentru bule ușor explozive cu durată fracționară fixă \refPSYb'),
+     [T('the start is dated late, because a window must first accumulate explosive observations', 'începutul este datat tîrziu, fiindcă o fereastră trebuie să acumuleze întîi observații explozive'),
+      T(r'improved start and end estimators that use the whole bubble period: \refHLS', r'estimatori îmbunătățiți ai începutului și sfîrșitului, care folosesc toată perioada bulei: \refHLS')])), 'small')
+
+D.frame(T('Date-stamping: design of the experiment', 'Datarea: designul experimentului'), items(
+    (T(r'Simulated paths: random walk from $y_0 = 100$, then an explosive phase, a collapse, and a random walk again', r'Traiectorii simulate: mers aleator de la $y_0 = 100$, apoi o fază explozivă, o prăbușire și din nou mers aleator'),
+     [T(r'explosive phase $y_t = \rho y_{t-1} + e_t$, $\rho > 1$, on periods @{dt.te}--@{dt.tf}; $e_t$: Normal noise', r'faza explozivă $y_t = \rho y_{t-1} + e_t$, $\rho > 1$, în perioadele @{dt.te}--@{dt.tf}; $e_t$: zgomot cu distribuția Normală'),
+      T('collapse to the pre-bubble level at the end of the explosive phase', 'prăbușire la nivelul de dinaintea bulei la sfîrșitul fazei explozive'),
+      T(r'$T = @{dt.T}$, @{dt.N} paths for each value of $\rho$', r'$T = @{dt.T}$, @{dt.N} traiectorii pentru fiecare valoare a lui $\rho$')]),
+    T('Questions: how often is the bubble found, how late is its start dated, how often is a false episode dated before it?', 'Întrebările: cît de des este găsită bula, cît de tîrziu este datat începutul ei, cît de des este datat un episod fals înaintea ei?')), 'small')
 
 chart(T('How late is the start dated?', 'Cît de tîrziu este datat începutul?'), 'ats_ch16_dating', 'ATS_ch16_date_stamping', [
     T(r'Delay of the first dated exceedance after the true start (periods); pointwise 95\% Monte Carlo critical values; growth over the bubble $\rho^{@{dt.dur}}$: @{dt.a.g}, @{dt.b.g} and @{dt.c.g}',
@@ -605,17 +641,22 @@ interp(('the date-stamping experiment', 'experimentului de datare'), [
     T(r'In @{dt.a.fb}\%--@{dt.c.fb}\% of paths a false episode is dated \textbf{before} the bubble starts: the multiplicity of the previous section, now inside a true-bubble design',
       r'În @{dt.a.fb}\%--@{dt.c.fb}\% dintre traiectorii este datat un episod fals \textbf{înainte} de începutul bulei: multiplicitatea din secțiunea anterioară, acum într-un design cu bulă reală')])
 
-D.frame(T('Real-time monitoring', 'Monitorizarea în timp real'), items(
+D.frame(T('Real-time monitoring (1/2)', 'Monitorizarea în timp real (1/2)'), items(
     (T(r'Monitoring: a training sample of $n$ observations without a bubble, then a decision at each new date $t > n$; the error rate is over the \textbf{whole} monitoring horizon \refCSW',
        r'Monitorizarea: un eșantion de antrenare de $n$ observații fără bulă, apoi o decizie la fiecare dată nouă $t > n$; rata de eroare se referă la \textbf{întregul} orizont de monitorizare \refCSW'), []),
-    (T(r'CUSUM of returns: $S_t = \sum_{j=n+1}^{t}(r_j - \bar r_n)/(\hat\sigma_n\sqrt n)$; alarm when $S_t > b_t = \sqrt{\tfrac{t - n}{n}\cdot\tfrac{t}{n}\left[a^2 + \ln\tfrac{t}{t - n}\right]}$',
-       r'CUSUM al randamentelor: $S_t = \sum_{j=n+1}^{t}(r_j - \bar r_n)/(\hat\sigma_n\sqrt n)$; alarmă cînd $S_t > b_t = \sqrt{\tfrac{t - n}{n}\cdot\tfrac{t}{n}\left[a^2 + \ln\tfrac{t}{t - n}\right]}$'),
-     [T(r'$\Pr\{S_t > b_t$ for some $t\} \to 1 - \Phi(a) + a\varphi(a)$ (proof in the Appendix); 5\% gives $a = @{mo.a}$, $a^2 = @{mo.a2}$',
-        r'$\Pr\{S_t > b_t$ pentru un $t\} \to 1 - \Phi(a) + a\varphi(a)$ (demonstrația în Anexă); 5\% dă $a = @{mo.a}$, $a^2 = @{mo.a2}$'),
-      T(r'simulated size, $n = 100$, horizon $5n$, @{mo.Ns} paths: @{mo.size}\% with i.i.d.\ returns, @{mo.sizeg}\% with GARCH returns',
-        r'nivelul simulat, $n = 100$, orizont $5n$, @{mo.Ns} de traiectorii: @{mo.size}\% cu randamente i.i.d., @{mo.sizeg}\% cu randamente GARCH')]),
-    (T(r'\refHB compare bubble tests and monitoring schemes and recommend monitoring of this kind for real time; \refAHLST give monitoring statistics with controlled size for explosive bubbles',
-       r'\refHB compară testele de bulă și schemele de monitorizare și recomandă în timp real monitorizarea de acest tip; \refAHLST propun statistici de monitorizare cu nivel controlat pentru bule explozive'), []),
+    (T(r'\textbf{CUSUM} of returns: cumulated deviations of the new returns from the training mean, in units of the training volatility',
+       r'\textbf{CUSUM} al randamentelor: abaterile cumulate ale randamentelor noi de la media din perioada de antrenare, în unități ale volatilității din antrenare'),
+     [r'\[ S_t = \sum_{j=n+1}^{t}\frac{r_j - \bar r_n}{\hat\sigma_n\sqrt n}, \qquad \text{' + T('alarm when', 'alarmă cînd') + r'}\ S_t > b_t = \sqrt{\tfrac{t - n}{n}\cdot\tfrac{t}{n}\left[a^2 + \ln\tfrac{t}{t - n}\right]} \]',
+      T(r'$r_j$: return of period $j$; $\bar r_n$, $\hat\sigma_n$: mean and standard deviation of the training returns; $b_t$: the boundary, which widens with $t$; $a$: a constant that sets the error rate', r'$r_j$: randamentul perioadei $j$; $\bar r_n$, $\hat\sigma_n$: media și abaterea standard a randamentelor din antrenare; $b_t$: frontiera, care se lărgește cu $t$; $a$: o constantă care fixează rata de eroare')]),
+    (T(r'Error rate over the whole horizon (proof in the Appendix)', r'Rata de eroare pe întregul orizont (demonstrația în Anexă)'),
+     [T(r'$\Pr\{S_t > b_t$ for some $t\} \to 1 - \Phi(a) + a\varphi(a)$; $\Phi$, $\varphi$: standard Normal distribution and density functions', r'$\Pr\{S_t > b_t$ pentru un $t\} \to 1 - \Phi(a) + a\varphi(a)$; $\Phi$, $\varphi$: funcția de repartiție și densitatea distribuției Normale standard'),
+      T(r'5\% gives $a = @{mo.a}$, $a^2 = @{mo.a2}$', r'5\% dă $a = @{mo.a}$, $a^2 = @{mo.a2}$')])), 'small')
+
+D.frame(T('Real-time monitoring (2/2)', 'Monitorizarea în timp real (2/2)'), items(
+    (T(r'Simulated size, $n = 100$, horizon $5n$, @{mo.Ns} paths', r'Nivelul simulat, $n = 100$, orizont $5n$, @{mo.Ns} de traiectorii'),
+     [T(r'@{mo.size}\% with i.i.d.\ returns, @{mo.sizeg}\% with GARCH returns', r'@{mo.size}\% cu randamente i.i.d., @{mo.sizeg}\% cu randamente GARCH')]),
+    (T(r'\refHB compare bubble tests and monitoring schemes and recommend monitoring of this kind for real time', r'\refHB compară testele de bulă și schemele de monitorizare și recomandă în timp real monitorizarea de acest tip'),
+     [T(r'\refAHLST give monitoring statistics with controlled size for explosive bubbles', r'\refAHLST propun statistici de monitorizare cu nivel controlat pentru bule explozive')]),
     T(r'BSADF in real time is also a monitor: $\mathrm{BSADF}_t$ uses only data up to $t$, but its pointwise critical values do not control the error over the horizon',
       r'BSADF în timp real este și el un monitor: $\mathrm{BSADF}_t$ folosește doar datele pînă la $t$, dar valorile lui critice punctuale nu controlează eroarea pe orizont')), 'small')
 
@@ -669,11 +710,11 @@ D.frame(T('Testing the ratio, the price and the fundamental', 'Testarea raportul
           T(r'Landmarks: \refPY date the US price-to-rent exuberance before the subprime crisis; \refPav apply GSADF to the international housing panel of the Dallas Fed',
             r'Lucrări de referință: \refPY datează exuberanța raportului preț/chirie din SUA dinaintea crizei subprime; \refPav aplică GSADF pe baza de date internațională a prețurilor locuințelor a Fed din Dallas'),
           T(r'Monthly house prices are smoothed (repeat-sales indices, appraisals): their changes are autocorrelated, so the lag order $k$ matters; here $k$ by BIC, up to 6 months',
-            r'Prețurile lunare ale locuințelor sînt netezite (indici de vînzări repetate, evaluări): variațiile lor sînt autocorelate, deci numărul de decalaje $k$ contează; aici $k$ după BIC, pînă la 6 luni')), '0.34', '0.64'), 'footnotesize')
+            r'Prețurile lunare ale locuințelor sînt netezite (indici de vînzări repetate, evaluări): variațiile lor sînt autocorelate, deci numărul de laguri $k$ contează; aici $k$ după BIC, pînă la 6 luni')), '0.34', '0.64'), 'footnotesize')
 
 chart(T('US and Romanian housing: ratio and fundamental', 'Locuințele din SUA și din România: raportul și fundamentul'), 'ats_ch16_housing', 'ATS_ch16_housing', [
     T(r'Log price-to-rent and log real rent; BSADF with $k$ lags (US ratio $k = @{ho.usratio.k}$, rent $k = @{ho.usrent.k}$) and pointwise 95\% wild-bootstrap critical values (@{ho.B} draws); shaded: dated episodes of the ratio',
-      r'Logaritmul raportului preț/chirie și al chiriei reale; BSADF cu $k$ decalaje (raportul SUA $k = @{ho.usratio.k}$, chiria $k = @{ho.usrent.k}$) și valori critice punctuale de 95\% prin wild bootstrap (@{ho.B} de extrageri); zonele colorate: episoadele datate ale raportului')],
+      r'Logaritmul raportului preț/chirie și al chiriei reale; BSADF cu $k$ laguri (raportul SUA $k = @{ho.usratio.k}$, chiria $k = @{ho.usrent.k}$) și valori critice punctuale de 95\% prin wild bootstrap (@{ho.B} de extrageri); zonele colorate: episoadele datate ale raportului')],
     h='0.54\\textheight')
 
 interp(('the housing tests', 'testelor pe locuințe'), [
@@ -690,7 +731,7 @@ D.recap(('fundamentals against prices', 'fundamentele față de prețuri'), [
     T('Test the ratio and the fundamental separately: an explosive ratio with a calm fundamental is the bubble signature',
       'Testați separat raportul și fundamentul: un raport exploziv cu un fundament liniștit este semnătura bulei'),
     T('Smoothed housing indices need lag augmentation and a bootstrap under the AR null; without lags the tests reject almost everywhere',
-      'Indicii netezîți ai locuințelor cer decalaje în regresie și un bootstrap sub ipoteza nulă AR; fără decalaje testele resping aproape peste tot'),
+      'Indicii neteziți ai locuințelor cer laguri în regresie și un bootstrap sub ipoteza nulă AR; fără laguri testele resping aproape peste tot'),
     T('Short samples (Romania since 2009) have little power: no rejection is not evidence of no bubble',
       'Eșantioanele scurte (România din 2009) au putere mică: lipsa respingerii nu dovedește lipsa bulei')])
 
@@ -701,21 +742,23 @@ D.section('LPPLS as a competing detector', 'LPPLS ca detector alternativ')
 
 D.frame(T('LPPLS in one slide', 'LPPLS într-un singur slide'), two(
     ph('sornette', T('Didier Sornette, 2012', 'Didier Sornette, 2012'), h='0.36\\textheight'),
-    items(T(r'$\ln p(t) = A + B(t_c - t)^m + C_1(t_c - t)^m\cos(\omega\ln(t_c - t)) + C_2(t_c - t)^m\sin(\omega\ln(t_c - t))$ \refJLS; $B < 0$, $0 < m < 1$: faster-than-exponential growth towards a critical time $t_c$',
-            r'$\ln p(t) = A + B(t_c - t)^m + C_1(t_c - t)^m\cos(\omega\ln(t_c - t)) + C_2(t_c - t)^m\sin(\omega\ln(t_c - t))$ \refJLS; $B < 0$, $0 < m < 1$: creștere mai rapidă decît exponențială spre un timp critic $t_c$'),
+    items((T(r'\refJLS: the log price grows faster than exponentially towards a critical time $t_c$, with oscillations that speed up', r'\refJLS: logaritmul prețului crește mai repede decît exponențial spre un timp critic $t_c$, cu oscilații care se accelerează'),
+           [r'\[ \ln p(t) = A + B(t_c - t)^m + C_1(t_c - t)^m\cos(\omega\ln(t_c - t)) + C_2(t_c - t)^m\sin(\omega\ln(t_c - t)) \]',
+            T(r'$A$: log price at $t_c$; $B < 0$ and $0 < m < 1$: super-exponential growth; $C_1$, $C_2$: amplitudes of the oscillations; $\omega$: their log-frequency', r'$A$: logaritmul prețului la $t_c$; $B < 0$ și $0 < m < 1$: creștere superexponențială; $C_1$, $C_2$: amplitudinile oscilațiilor; $\omega$: frecvența lor logaritmică')]),
           T(r'Two steps \refFS: for given $(t_c, m, \omega)$ the four linear parameters are OLS; minimise the concentrated sum of squares over three nonlinear parameters',
             r'Doi pași \refFS: pentru $(t_c, m, \omega)$ date, cei patru parametri liniari se obțin prin OLS; se minimizează suma de pătrate concentrată pe trei parametri neliniari'),
-          T(r'Qualified fits: the filter of \refSZ (bounds on $m$, $\omega$, $t_c$, number of oscillations, damping, relative error, Lomb test of the oscillations, stationary residuals)',
-            r'Ajustări calificate: filtrul din \refSZ (limite pentru $m$, $\omega$, $t_c$, numărul de oscilații, amortizare, eroarea relativă, testul Lomb al oscilațiilor, reziduuri staționare)'),
+          T(r'Qualified fits: the filter of \refSZ (bounds on $m$, $\omega$, $t_c$, number of oscillations, damping, relative error, Lomb test, stationary residuals)',
+            r'Ajustări calificate: filtrul din \refSZ (limite pentru $m$, $\omega$, $t_c$, numărul de oscilații, amortizare, eroarea relativă, testul Lomb, reziduuri staționare)'),
           T(r'\textbf{Confidence indicator}: the share of qualified fits over many windows ending at the same date (here @{lp.win} windows of 50--750 days)',
             r'\textbf{Indicatorul de încredere}: ponderea ajustărilor calificate pe multe ferestre care se încheie la aceeași dată (aici @{lp.win} de ferestre de 50--750 de zile)')), '0.3', '0.68'), 'footnotesize')
 
 D.frame(T('Inference on the critical time', 'Inferența asupra timpului critic'), items(
     (T(r'The point estimate $\hat t_c$ moves with the window and the data; an \textbf{interval} is needed',
        r'Estimația punctuală $\hat t_c$ se mută odată cu fereastra și datele; este nevoie de un \textbf{interval}'), []),
-    (T(r'Profile likelihood: for each $t_c$ concentrate out $(m, \omega)$ and the linear parameters; with Gaussian errors $\ell(t_c) = -\frac n2\ln[\mathrm{SSR}(t_c)/n]$',
-       r'Verosimilitatea profil: pentru fiecare $t_c$ concentrăm $(m, \omega)$ și parametrii liniari; cu erori gaussiene $\ell(t_c) = -\frac n2\ln[\mathrm{SSR}(t_c)/n]$'),
-     [T(r'95\% interval: $\{t_c: 2[\ell(\hat t_c) - \ell(t_c)] \le \chi^2_{1;0.95} = 3.84\}$', r'intervalul de 95\%: $\{t_c: 2[\ell(\hat t_c) - \ell(t_c)] \le \chi^2_{1;0,95} = 3,84\}$'),
+    (T(r'\textbf{Profile likelihood}: for each $t_c$, the other parameters are set to their best values; with Gaussian errors',
+       r'\textbf{Verosimilitatea profil}: pentru fiecare $t_c$, ceilalți parametri iau valorile cele mai bune; cu erori gaussiene'),
+     [r'\[ \ell(t_c) = -\frac n2\ln\big[\mathrm{SSR}(t_c)/n\big], \qquad \text{' + T('95\\% interval', 'intervalul de 95\\%') + r'}: \{t_c: 2[\ell(\hat t_c) - \ell(t_c)] \le ' + T(r'\chi^2_{1;0.95} = 3.84', r'\chi^2_{1;0{,}95} = 3{,}84') + r'\} \]',
+      T(r'$n$: number of days in the window; $\mathrm{SSR}(t_c)$: the smallest sum of squared residuals for this $t_c$', r'$n$: numărul de zile din fereastră; $\mathrm{SSR}(t_c)$: cea mai mică sumă a pătratelor reziduurilor pentru acest $t_c$'),
       T('too narrow when residuals are autocorrelated or when nuisance parameters are many', 'prea îngust cînd reziduurile sînt autocorelate sau parametrii de deranj sînt mulți')]),
     (T(r'\refFDS: the modified profile likelihood (Barndorff-Nielsen) corrects for the nuisance parameters; intervals for $t_c$ become wider and asymmetric',
        r'\refFDS: verosimilitatea profil modificată (Barndorff-Nielsen) corectează pentru parametrii de deranj; intervalele pentru $t_c$ devin mai largi și asimetrice'), []),
@@ -763,7 +806,7 @@ D.frame(T('Five episodes, one protocol', 'Cinci episoade, un singur protocol'), 
     items(T(r'Weekly log prices (Friday close): S\&P 500 and Nasdaq 100 1990--2004, Shanghai Composite 2010--2018, Bitcoin September 2014 -- 2023, BET 2000--2012',
             r'Logaritmul prețurilor săptămînale (închiderea de vineri): S\&P 500 și Nasdaq 100 1990--2004, Shanghai Composite 2010--2018, Bitcoin septembrie 2014 -- 2023, BET 2000--2012'),
           T(r'No lags; $r_0 = 0.01 + 1.8/\sqrt T$; minimum duration $\lceil\ln T\rceil$ weeks; Monte Carlo (@{ep.R} paths) and wild-bootstrap (@{ep.B} draws) critical values',
-            r'Fără decalaje; $r_0 = 0.01 + 1.8/\sqrt T$; durata minimă $\lceil\ln T\rceil$ săptămîni; valori critice Monte Carlo (@{ep.R} de traiectorii) și wild bootstrap (@{ep.B} de extrageri)'),
+            r'Fără laguri; $r_0 = 0.01 + 1.8/\sqrt T$; durata minimă $\lceil\ln T\rceil$ săptămîni; valori critice Monte Carlo (@{ep.R} de traiectorii) și wild bootstrap (@{ep.B} de extrageri)'),
           T(r'Episodes dated with pointwise wild values and with the family-wise wild threshold over 52 weeks; the alarm date is the confirmation date',
             r'Episoade datate cu valori wild punctuale și cu pragul wild de familie pe 52 de săptămîni; data alarmei este data confirmării'),
           T(r'Case studies: \refPWY (Nasdaq), \refPSYa (S\&P 500), \refSha (Shanghai), \refGDS (Bitcoin); for the BET 2007 see also the further reading \refPMM',
@@ -782,7 +825,7 @@ D.frame(T('Interpreting the five tests', 'Interpretarea celor cinci teste'), tab
     T(r'S\&P 500: GSADF below both critical values, yet pointwise dating marks @{ep.sp500.nw} episodes: the multiplicity trap on real data; no family-wise episode',
       r'S\&P 500: GSADF sub ambele valori critice, totuși datarea punctuală marchează @{ep.sp500.nw} episoade: capcana multiplicității pe date reale; niciun episod de familie'),
     T(r'The wild critical values exceed the Monte Carlo ones for every series (volatility clusters): Bitcoin and BET still reject; the Nasdaq (@{ep.ndx.g} against @{ep.ndx.w}) and Shanghai (@{ep.ssec.g} against @{ep.ssec.w}) do not',
-      r'Valorile critice wild depășesc valorile Monte Carlo pentru toate seriile (grupări ale volatilității): Bitcoin și BET resping în continuare; Nasdaq (@{ep.ndx.g} față de @{ep.ndx.w}) și Shanghai (@{ep.ssec.g} față de @{ep.ssec.w}) nu resping'),
+      r'Valorile critice wild depășesc valorile Monte Carlo pentru toate seriile (volatility clustering): Bitcoin și BET resping în continuare; Nasdaq (@{ep.ndx.g} față de @{ep.ndx.w}) și Shanghai (@{ep.ssec.g} față de @{ep.ssec.w}) nu resping'),
     T('MC: Monte Carlo; FW: family-wise wild threshold over 52 weeks; cv: 95\\% critical value of GSADF',
       'MC: Monte Carlo; FW: pragul wild de familie pe 52 de săptămîni; vc: valoarea critică de 95\\% a GSADF')), 'footnotesize')
 
@@ -808,8 +851,9 @@ interp(('the early-warning evaluation', 'evaluării avertizărilor timpurii'), [
       r'Frecvențe de bază: @{ev.sp500.base}\% dintre datele S\&P 500 și @{ev.btc.base}\% dintre datele Bitcoin sînt urmate de o scădere de 20\%: aceeași alarmă înseamnă lucruri foarte diferite pe cele două piețe'),
     T(r'S\&P 500, AUC with 90\% block-bootstrap intervals: indicator @{ev.sp500.ci} [@{ev.sp500.ci.lo}, @{ev.sp500.ci.hi}], BSADF @{ev.sp500.bsadf} [@{ev.sp500.bsadf.lo}, @{ev.sp500.bsadf.hi}], momentum @{ev.sp500.mom} [@{ev.sp500.mom.lo}, @{ev.sp500.mom.hi}]: all below 0.5',
       r'S\&P 500, AUC cu intervale block bootstrap de 90\%: indicatorul @{ev.sp500.ci} [@{ev.sp500.ci.lo}, @{ev.sp500.ci.hi}], BSADF @{ev.sp500.bsadf} [@{ev.sp500.bsadf.lo}, @{ev.sp500.bsadf.hi}], momentum @{ev.sp500.mom} [@{ev.sp500.mom.lo}, @{ev.sp500.mom.hi}]: toate sub 0,5'),
-    (T(r'Most S\&P 500 dates followed by a 20\% fall lie inside bear markets (2000--2002, 2008), when exuberance scores are low, and few at the top of a run-up: the scores are \textbf{lower} before the events; BSADF alarms have precision @{ev.sp500.bsadf_alarm.prec}\% against a base rate of @{ev.sp500.base}\%',
-       r'Cele mai multe date S\&P 500 urmate de o scădere de 20\% se află în piețe în declin (2000--2002, 2008), cînd scorurile de exuberanță sînt mici, și puține la vîrful unei creșteri: scorurile sînt \textbf{mai mici} înaintea evenimentelor; alarmele BSADF au precizia @{ev.sp500.bsadf_alarm.prec}\%, față de o frecvență de bază de @{ev.sp500.base}\%'), []),
+    (T(r'Most S\&P 500 dates followed by a 20\% fall lie inside bear markets (2000--2002, 2008), when exuberance scores are low, and few at the top of a run-up',
+       r'Cele mai multe date S\&P 500 urmate de o scădere de 20\% se află în piețe în declin (2000--2002, 2008), cînd scorurile de exuberanță sînt mici, și puține la vîrful unei creșteri'),
+     [T(r'so the scores are \textbf{lower} before the events; BSADF alarms have precision @{ev.sp500.bsadf_alarm.prec}\% against a base rate of @{ev.sp500.base}\%', r'deci scorurile sînt \textbf{mai mici} înaintea evenimentelor; alarmele BSADF au precizia @{ev.sp500.bsadf_alarm.prec}\%, față de o frecvență de bază de @{ev.sp500.base}\%')], []),
     (T(r'Bitcoin: BSADF has skill, AUC @{ev.btc.bsadf} [@{ev.btc.bsadf.lo}, @{ev.btc.bsadf.hi}], above momentum @{ev.btc.mom}; its alarms reach precision @{ev.btc.bsadf_alarm.prec}\% against a base rate of @{ev.btc.base}\% (hit rate @{ev.btc.bsadf_alarm.hit}\%, false alarms @{ev.btc.bsadf_alarm.fa}\%)',
        r'Bitcoin: BSADF are putere predictivă, AUC @{ev.btc.bsadf} [@{ev.btc.bsadf.lo}, @{ev.btc.bsadf.hi}], peste momentum @{ev.btc.mom}; alarmele lui ating precizia @{ev.btc.bsadf_alarm.prec}\%, față de o frecvență de bază de @{ev.btc.base}\% (rata de detecție @{ev.btc.bsadf_alarm.hit}\%, alarme false @{ev.btc.bsadf_alarm.fa}\%)'), []),
     (T(r'The LPPLS indicator is positive on @{ev.sp500.cipos}\% of S\&P 500 dates and @{ev.btc.cipos}\% of Bitcoin dates; its AUC is @{ev.sp500.ci} and @{ev.btc.ci}: under this protocol it does not separate pre-crash dates from the rest',
@@ -832,7 +876,7 @@ D.frame(T('An open question', 'O întrebare deschisă'), items(
     (T('Do explosive-root and LPPLS alarms carry information about large falls beyond momentum and volatility, once base rates, overlapping horizons and the search over assets are accounted for?',
        'Conțin alarmele bazate pe rădăcini explozive și pe LPPLS informație despre scăderile mari dincolo de momentum și volatilitate, după ce ținem seama de frecvențele de bază, de orizonturile suprapuse și de căutarea pe multe active?'),
      [T(r'formal: in a logit or probit of the event on lagged momentum, volatility and the alarm score, $H_0$: the alarm coefficient is zero, with block-bootstrap inference and a pre-registered panel of assets',
-        r'formal: într-un model logit sau probit al evenimentului pe momentum, volatilitate și scorul alarmei (cu decalaj), $H_0$: coeficientul alarmei este zero, cu inferență block bootstrap și un panel de active preînregistrat'),
+        r'formal: într-un model logit sau probit al evenimentului pe momentum, volatilitate și scorul alarmei (cu lag), $H_0$: coeficientul alarmei este zero, cu inferență block bootstrap și un panel de active preînregistrat'),
       T('falsified by a significant out-of-sample gain in a proper score (log score, Brier) over the momentum-volatility model, pooled across assets',
         'infirmată de un cîștig semnificativ în afara eșantionului într-o regulă de scor proprie (log score, Brier) față de modelul cu momentum și volatilitate, agregat pe active')]),
     (T('Why it matters: regulators and investors read bubble indicators as warnings; most evidence comes from a few famous episodes chosen after the fact',
@@ -855,13 +899,13 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
 D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, the title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('Right tail, not left: an AI-written ADF often uses left-tail critical values or the 1.645 normal quantile', 'Coada dreaptă, nu cea stîngă: un ADF scris de un AI folosește adesea valorile critice ale cozii stîngi sau cuantila normală 1,645'),
-    T('Critical values simulated for the same $T$, $r_0$, lags and deterministic terms; wild bootstrap when volatility changes', 'Valori critice simulate pentru aceleași $T$, $r_0$, decalaje și termeni determiniști; wild bootstrap cînd volatilitatea se schimbă'),
-    T('No look-ahead: the minimum window, the lag order and the scaling are fixed from data available at each date', 'Fără informație din viitor: fereastra minimă, numărul de decalaje și scalarea se stabilesc din datele disponibile la fiecare dată'),
+    T('Critical values simulated for the same $T$, $r_0$, lags and deterministic terms; wild bootstrap when volatility changes', 'Valori critice simulate pentru aceleași $T$, $r_0$, laguri și termeni determiniști; wild bootstrap cînd volatilitatea se schimbă'),
+    T('No look-ahead: the minimum window, the lag order and the scaling are fixed from data available at each date', 'Fără informație din viitor: fereastra minimă, numărul de laguri și scalarea se stabilesc din datele disponibile la fiecare dată'),
     T('Multiplicity over dates and over assets: which error rate does a reported bubble control?', 'Multiplicitatea pe date și pe active: ce rată de eroare controlează o bulă raportată?')), 'small')
 
 chart(T('Mini-case: how many bubbles does a screen find?', 'Mini studiu de caz: cîte bule găsește o analiză pe multe active?'), 'ats_ch16_ai_case', 'ATS_ch16_ai_screen', [
-    T(r'GSADF on the monthly log price of @{ai.K} series of the course data (from 1990 or the first month), $p$-values from @{ai.B} wild-bootstrap and @{ai.B} Monte Carlo draws (smallest attainable $p$: @{ai.minp})',
-      r'GSADF pe logaritmul prețului lunar pentru @{ai.K} serii din datele cursului (din 1990 sau din prima lună disponibilă), valori $p$ din @{ai.B} de extrageri wild bootstrap și @{ai.B} Monte Carlo (cea mai mică valoare $p$ posibilă: @{ai.minp})'),
+    T(r'GSADF on the monthly log price of @{ai.K} series of the course data (from 1990 or the first month), p-values from @{ai.B} wild-bootstrap and @{ai.B} Monte Carlo draws (smallest attainable p-value: @{ai.minp})',
+      r'GSADF pe logaritmul prețului lunar pentru @{ai.K} serii din datele cursului (din 1990 sau din prima lună disponibilă), p-value-uri din @{ai.B} de extrageri wild bootstrap și @{ai.B} Monte Carlo (cel mai mic p-value posibil: @{ai.minp})'),
     T(r'Rejections at 5\%: @{ai.mc} with Monte Carlo, @{ai.wild} with the wild bootstrap (@{ai.exp} expected by chance); after Holm @{ai.holm}, after Benjamini--Hochberg @{ai.bh}. An AI summary such as \textquotedblleft bubbles in @{ai.mc} assets\textquotedblright{} is wrong twice: wrong null and no correction',
       r'Respingeri la 5\%: @{ai.mc} cu Monte Carlo, @{ai.wild} cu wild bootstrap (@{ai.exp} așteptate din întîmplare); după Holm @{ai.holm}, după Benjamini--Hochberg @{ai.bh}. Un rezumat AI precum „bule în @{ai.mc} dintre active” greșește de două ori: ipoteză nulă greșită și nicio corecție')],
     h='0.44\\textheight')

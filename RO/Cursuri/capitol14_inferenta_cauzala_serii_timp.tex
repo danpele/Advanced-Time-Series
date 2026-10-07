@@ -127,7 +127,6 @@ MSCA Digital Finance}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{ETP}: Exchange-Traded Product (produs tranzacționat la bursă)
     \item \textbf{HAC}: Heteroskedasticity and Autocorrelation Consistent (standard errors) — erori standard robuste la heteroscedasticitate și autocorelație
     \item \textbf{IAPC}: Indicele armonizat al prețurilor de consum
     \item \textbf{ITS}: Interrupted Time Series (serie de timp întreruptă)
@@ -140,6 +139,7 @@ MSCA Digital Finance}
     \item \textbf{OLS}: Ordinary Least Squares (metoda celor mai mici pătrate)
     \item \textbf{PC1}: first Principal Component (prima componentă principală)
     \item \textbf{PCMCI}: PC algorithm + Momentary Conditional Independence (algoritmul PC urmat de testul de independență condiționată momentană (Runge et al. 2019))
+    \item \textbf{PIB}: Produsul intern brut
 \end{itemize}
 \end{column}
 \end{columns}
@@ -149,28 +149,22 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{PIB}: Produsul intern brut
-    \item \textbf{PPC}: Paritatea puterii de cumpărare
     \item \textbf{RMSPE}: Root Mean Squared Prediction Error (rădăcina erorii pătratice medii de predicție)
-    \item \textbf{RV}: Realised Variance (varianța realizată)
     \item \textbf{SC}: Synthetic Control (control sintetic)
     \item \textbf{SDID}: Synthetic Difference in Differences (diferența în diferențe sintetică)
     \item \textbf{SEC}: Securities and Exchange Commission (Comisia americană pentru valori mobiliare)
     \item \textbf{SUA}: Statele Unite ale Americii
     \item \textbf{SVAR}: Structural Vector AutoRegression (model vector autoregresiv structural)
     \item \textbf{TE}: Transfer Entropy (entropia de transfer)
-    \item \textbf{TSA}: Time Series Analysis (Serii de timp, cursul de licență)
     \item \textbf{TVA}: Taxa pe valoarea adăugată
     \item \textbf{TWFE}: Two-Way Fixed Effects (efecte fixe bidirecționale (unitate și perioadă))
-\end{itemize}
-\end{column}
-\begin{column}{0.49\textwidth}
-\begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{UE}: Uniunea Europeană
     \item \textbf{UE-26}: cele 26 de țări UE în afară de România
     \item \textbf{VAR}: Vector AutoRegression (model vector autoregresiv)
     \item \textbf{VIX}: CBOE Volatility IndeX (indicele de volatilitate CBOE)
 \end{itemize}
+\end{column}
+\begin{column}{0.49\textwidth}
 \end{column}
 \end{columns}
 \end{frame}
@@ -304,18 +298,38 @@ Prețuri zilnice ale indicilor și criptoactivelor; EUR/RON & EODHD; cursul de r
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Cauzalitatea Granger: definiția}
+\begin{frame}{Cauzalitatea Granger: definiția (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refGra: $x$ \textbf{cauzează în sens Granger} pe $y$ dacă $\E[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t])^2] < \E[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t\setminus x])^2]$, $\mathcal I_t$ = toată informația pînă la $t$
+    \item \refGra: $x$ \textbf{cauzează în sens Granger} pe $y$ dacă trecutul lui $x$ reduce eroarea pătratică medie a celei mai bune prognoze la un pas a lui $y$ \[ \E\big[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t])^2\big] < \E\big[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t\setminus x])^2\big] \]
     \begin{itemize}
-        \item în practică $\mathcal I_t$ este o mulțime finită: $y_t = c + \sum_{j=1}^p a_jy_{t-j} + \sum_{j=1}^p b_jx_{t-j} + \sum_{j=1}^p \gamma_j'z_{t-j} + u_t$; $H_0$: $b_1 = \dots = b_p = 0$
+        \item $\mathcal I_t$: toată informația disponibilă pînă la $t$; $\mathcal I_t\setminus x$: aceeași informație, fără trecutul lui $x$
+        \item $\E[y_{t+1}\mid\cdot]$: media condiționată, adică cea mai bună prognoză în sensul erorii pătratice medii
     \end{itemize}
-    \item Statistica Wald $W = \hat b'\hat V_b^{-1}\hat b \to \chi^2_p$; $\hat V_b$ HAC (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}) cînd $u_t$ este heteroscedastic, ca pentru randamente \refNW
+    \item În practică, $\mathcal I_t$ este o mulțime finită de laguri dintr-o regresie \[ y_t = c + \sum_{j=1}^p a_jy_{t-j} + \sum_{j=1}^p b_jx_{t-j} + \sum_{j=1}^p \gamma_j'z_{t-j} + u_t \]
     \begin{itemize}
-        \item serii integrate sau cointegrate: adăugați decalaje în numărul ordinului maxim de integrare și testați doar primele $p$ decalaje \refTY
+        \item $p$: numărul de laguri; $a_j$, $b_j$: coeficienții lagurilor lui $y$ și ale lui $x$; $z_t$: un vector de alte serii de condiționare, cu vectorii de coeficienți $\gamma_j$; $u_t$: eroarea
+        \item ipoteza nulă de non-cauzalitate Granger: $H_0$: $b_1 = \dots = b_p = 0$
     \end{itemize}
-    \item Intensitatea: măsura Geweke $F_{x\to y} = \ln(\sigma^2_{\mathrm{restrîns}}/\sigma^2_{\mathrm{complet}})$ \refGew, descompusă pe frecvențe \refBrC{} (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol11_analiza_spectrala_analiza_wavelet.pdf}{Capitolul 11})
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cauzalitatea Granger: definiția (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Statistica Wald}: o formă pătratică a coeficienților estimați ai lagurilor lui $x$ \[ W = \hat b'\hat V_b^{-1}\hat b \;\to\; \chi^2_p \quad \text{sub} \ H_0 \]
+    \begin{itemize}
+        \item $\hat b = (\hat b_1, \dots, \hat b_p)'$; $\hat V_b$: matricea ei de covarianță estimată; $H_0$ se respinge pentru un $W$ mare (p-value mic)
+        \item $\hat V_b$ HAC (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}) cînd $u_t$ este heteroscedastic, ca pentru randamente \refNW
+    \end{itemize}
+    \item Serii integrate sau cointegrate \refTY
+    \begin{itemize}
+        \item se adaugă atîtea laguri suplimentare cît este ordinul maxim de integrare și se testează doar primele $p$ laguri
+    \end{itemize}
+    \item \textbf{Intensitatea}: măsura Geweke \refGew, care se poate descompune pe frecvențe \refBrC{} (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol11_analiza_spectrala_analiza_wavelet.pdf}{Capitolul 11}) \[ F_{x\to y} = \ln\big(\sigma^2_{\mathrm{restrîns}}/\sigma^2_{\mathrm{complet}}\big) \]
+    \begin{itemize}
+        \item $\sigma^2_{\mathrm{restrîns}}$, $\sigma^2_{\mathrm{complet}}$: varianțele reziduale ale regresiei fără și cu lagurile lui $x$; $F_{x\to y} \ge 0$, iar 0 înseamnă absența cauzalității Granger
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -333,8 +347,8 @@ Prețuri zilnice ale indicilor și criptoactivelor; EUR/RON & EODHD; cursul de r
     \item Patru moduri în care $x$ cauzează în sens Granger pe $y$ fără să îl cauzeze:
     \item \textbf{un factor comun} cu întîrzieri diferite ($z$ omis)
     \item \textbf{anticipări}: prețurile activelor se mișcă înaintea evenimentelor pe care le anticipează (prețurile acțiunilor „cauzează” PIB-ul; \refSims)
-    \item \textbf{momentul observării}: ore de închidere diferite, agregarea și eșantionarea transformă legături instantanee în legături cu decalaj
-    \item \textbf{erori de măsurare} în $y$ pe care $x$ ajută la filtrarea lor
+    \item \textbf{momentul observării}: ore de închidere diferite, agregarea și eșantionarea transformă legături instantanee în legături cu lag
+    \item \textbf{erori de măsurare} în $y$, pe care $x$ ajută să le filtreze
     \item Și invers: un efect real poate fi invizibil pentru test (neliniar, contemporan sau compensat de reacția politicii)
 \end{itemize}
 \end{column}
@@ -344,11 +358,12 @@ Prețuri zilnice ale indicilor și criptoactivelor; EUR/RON & EODHD; cursul de r
 \begin{frame}{Un factor comun creează cauzalitate Granger}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.56\textheight,keepaspectratio]{ats_ch14_granger_sim.pdf}
+\includegraphics[width=0.97\textwidth,height=0.5\textheight,keepaspectratio]{ats_ch14_granger_sim.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item $w_t$ AR(1) cu $\phi = 0{,}9$; $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $x$ nu are niciun efect asupra lui $y$; teste cu $p = 2$ (perechi) și $p = 4$ (condiționat de $w$), 500 de repetări
+    \item Sistem simulat: un factor $w_t = 0{,}9w_{t-1} + \eta_t$ (AR(1), $\phi = 0{,}9$); $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $\eta_t, e_t, u_t$: zgomot independent
+    \item $x$ nu are niciun efect asupra lui $y$; teste cu $p = 2$ laguri (pe perechi) și $p = 4$ (condiționat de $w$), 500 de repetări
 \end{itemize}
 \quantlet{ATS\_ch14\_granger}{\qlurl{ATS_ch14_granger}}
 \end{frame}
@@ -363,7 +378,7 @@ Prețuri zilnice ale indicilor și criptoactivelor; EUR/RON & EODHD; cursul de r
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Decalaje între New York, Frankfurt și București}
+\begin{frame}{Relații lead--lag între New York, Frankfurt și București}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.56\textheight,keepaspectratio]{ats_ch14_granger_markets.pdf}
@@ -381,7 +396,7 @@ Prețuri zilnice ale indicilor și criptoactivelor; EUR/RON & EODHD; cursul de r
 \footnotesize
 \begin{tabular}{lccc}
 \toprule
-\textbf{Ipoteza} ($p = 2$) & \textbf{Wald (HAC)} & \textbf{valoarea} $p$ & \textbf{condiționare} \\
+\textbf{Ipoteza} ($p = 2$) & \textbf{Wald (HAC)} & \textbf{p-value} & \textbf{condiționare} \\
 \midrule
 S\&P 500 $\not\to$ BET & 15{,}3 & $<$0{,}001 & -- \\
 BET $\not\to$ S\&P 500 & 4{,}5 & 0{,}105 & -- \\
@@ -392,25 +407,43 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item Statistica Wald clasică (fără HAC) pentru S\&P 500 $\to$ BET este 34{,}3: doar heteroscedasticitatea ar dubla dovezile
-    \item Interpretare: New York se închide după București și Frankfurt; corelația la decalajul 1 (0{,}11) este informație sosită după închiderea Bucureștiului, nu un efect al prețurilor americane asupra firmelor românești
-    \item DAX, care se închide odată cu Bucureștiul, are corelație contemporană (0{,}43) și niciun efect cu decalaj: momentul observării creează rezultatul Granger
+    \item Statistica Wald clasică (fără HAC) pentru S\&P 500 $\to$ BET este 34{,}3: ignorarea heteroscedasticității ar dubla în mod artificial dovezile
+    \item Interpretare: New York se închide după București și Frankfurt; corelația la lagul 1 (0{,}11) este informație sosită după închiderea Bucureștiului, nu un efect al prețurilor americane asupra firmelor românești
+    \item DAX, care se închide odată cu Bucureștiul, are corelație contemporană (0{,}43) și niciun efect cu lag: momentul observării creează rezultatul Granger
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Rezultate potențiale pentru serii de timp}
+\begin{frame}{Rezultate potențiale pentru serii de timp (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Drumul tratamentului $w_{1:T} = (w_1,\dots,w_T)$; rezultate potențiale $Y_t(w_{1:T})$; \textbf{non-anticipare}: $Y_t(w_{1:T}) = Y_t(w_{1:t})$ \refRS, \refBoS
+    \item \textbf{Traiectoria tratamentului}: șirul tratamentelor (sau al șocurilor) $w_{1:T} = (w_1, \dots, w_T)$ \refRS, \refBoS
     \begin{itemize}
-        \item rezultatul de azi depinde doar de tratamentele pînă azi; anunțurile o încalcă, dacă nu anunțul însuși este tratamentul
+        \item $w_t$: tratamentul la $t$, binar (politica aplicată sau nu) sau continuu (mărimea unui șoc)
     \end{itemize}
-    \item \textbf{Efectul cauzal dinamic} la orizontul $h$: $\tau_{t,h} = Y_{t+h}(w_{1:t-1}, w, w_{t+1:t+h}) - Y_{t+h}(w_{1:t-1}, w', w_{t+1:t+h})$
+    \item \textbf{Rezultatul potențial} $Y_t(w_{1:T})$: valoarea pe care ar avea-o $Y_t$ dacă traiectoria tratamentului ar fi $w_{1:T}$
     \begin{itemize}
-        \item se observă o singură istorie: doar mediile în timp (sau pe unități) sînt estimabile
+        \item se observă doar rezultatul potențial al traiectoriei care a avut loc efectiv
     \end{itemize}
-    \item \refRS: dacă $w_t$ este \textbf{secvențial la fel de bun ca aleator}, condiționat de trecut, răspunsul la impuls și coeficientul proiecției locale sînt medii ponderate ale $\tau_{t,h}$, fără a presupune liniaritatea
-    \item Partea grea nu este niciodată regresia; este afirmația că șocul nu poate fi prezis din rezultatele potențiale
+    \item \textbf{Non-anticiparea}: rezultatul de azi depinde doar de tratamentele de pînă azi \[ Y_t(w_{1:T}) = Y_t(w_{1:t}) \]
+    \begin{itemize}
+        \item anunțurile o încalcă, dacă anunțul însuși nu este definit ca tratament
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Rezultate potențiale pentru serii de timp (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Efectul cauzal dinamic} la orizontul $h$: modificarea lui $Y_{t+h}$ cînd se schimbă doar tratamentul de la $t$, din $w'$ în $w$ \[ \tau_{t,h} = Y_{t+h}(w_{1:t-1}, w, w_{t+1:t+h}) - Y_{t+h}(w_{1:t-1}, w', w_{t+1:t+h}) \]
+    \begin{itemize}
+        \item tratamentele anterioare $w_{1:t-1}$ și cele ulterioare $w_{t+1:t+h}$ sînt menținute fixe
+        \item se observă o singură istorie: doar mediile în timp (sau pe unități) ale lui $\tau_{t,h}$ sînt estimabile
+    \end{itemize}
+    \item \refRS: presupunem că $w_t$ este \textbf{secvențial la fel de bun ca aleator}, adică independent de rezultatele potențiale, condiționat de trecut
+    \begin{itemize}
+        \item atunci răspunsul la impuls și coeficientul proiecției locale sînt medii ponderate ale lui $\tau_{t,h}$, fără a presupune liniaritatea
+    \end{itemize}
+    \item Partea dificilă nu este niciodată regresia, ci afirmația că șocul nu poate fi prezis din rezultatele potențiale
 \end{itemize}
 \end{frame}
 
@@ -430,29 +463,47 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Entropia de transfer}
+\begin{frame}{Entropia de transfer (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refSch: $TE_{x\to y} = I(y_t; x_{t-1}^{(l)} \mid y_{t-1}^{(k)}) = \E\Big[\ln\dfrac{p(y_t\mid y^{(k)}_{t-1}, x^{(l)}_{t-1})}{p(y_t\mid y^{(k)}_{t-1})}\Big] \ge 0$, informația mutuală condiționată
+    \item \refSch: informația pe care trecutul lui $x$ o adaugă despre $y_t$, dincolo de trecutul lui $y$ \[ TE_{x\to y} = I\big(y_t;\, x_{t-1}^{(l)} \mid y_{t-1}^{(k)}\big) = \E\Big[\ln\dfrac{p(y_t\mid y^{(k)}_{t-1}, x^{(l)}_{t-1})}{p(y_t\mid y^{(k)}_{t-1})}\Big] \ge 0 \]
+    \item Notațiile
     \begin{itemize}
-        \item zero dacă și numai dacă $x$ nu adaugă nimic distribuției predictive a lui $y$: non-cauzalitate Granger în distribuție
+        \item $y^{(k)}_{t-1} = (y_{t-1}, \dots, y_{t-k})$: ultimele $k$ valori ale lui $y$; $x^{(l)}_{t-1}$: ultimele $l$ valori ale lui $x$
+        \item $p(\cdot\mid\cdot)$: o densitate condiționată; $I(A; B\mid C)$: informația mutuală condiționată a lui $A$ și $B$, dat $C$, în nats (logaritm natural)
     \end{itemize}
-    \item Cazul gaussian: $TE_{x\to y} = \frac12\ln(\sigma^2_{\mathrm{restrîns}}/\sigma^2_{\mathrm{complet}}) = \frac12 F_{x\to y}$ \refBBS: testul Granger liniar este un test TE
-    \item Estimare neparametrică: estimatori cu $k$ cei mai apropiați vecini \refKSG, \refFrP; semnificația prin permutarea sursei pe blocuri (păstrează autocorelația ei)
+    \item $TE_{x\to y} = 0$ dacă și numai dacă $x$ nu adaugă nimic distribuției predictive a lui $y$
     \begin{itemize}
-        \item aceleași rezerve ca la Granger: fluxul de informație nu este intervenție
+        \item non-cauzalitate Granger în distribuție, nu doar în medie
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Entropia de transfer (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Cazul gaussian} \refBBS: entropia de transfer este jumătate din măsura Geweke, deci testul Granger liniar este un test TE \[ TE_{x\to y} = \tfrac12\ln\big(\sigma^2_{\mathrm{restrîns}}/\sigma^2_{\mathrm{complet}}\big) = \tfrac12 F_{x\to y} \]
+    \begin{itemize}
+        \item demonstrația în \atsapplink{atsapp2}{atssrc1}{Anexă}
+    \end{itemize}
+    \item \textbf{Estimarea neparametrică}: estimatori cu $k$ cei mai apropiați vecini \refKSG, \refFrP
+    \begin{itemize}
+        \item densitățile sînt înlocuite cu distanțele pînă la cei mai apropiați vecini în spațiul comun
+        \item semnificația prin permutarea sursei pe blocuri, care păstrează autocorelația ei
+    \end{itemize}
+    \item Aceleași rezerve ca la Granger: un flux de informație nu este o intervenție
 \end{itemize}
 \end{frame}
 
 \begin{frame}{O legătură neliniară pe care testul Granger liniar o ratează}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.56\textheight,keepaspectratio]{ats_ch14_te.pdf}
+\includegraphics[width=0.97\textwidth,height=0.5\textheight,keepaspectratio]{ats_ch14_te.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item $y_t = 0{,}4y_{t-1} + 0{,}6(x_{t-1}^2 - 1) + u_t$, $x$ AR(1) gaussian, $T = 1\,000$; TE kNN cu $k = 5$, 199 de permutări pe blocuri
+    \item Simulare: $y_t = 0{,}4y_{t-1} + 0{,}6(x_{t-1}^2 - 1) + u_t$, $x$ un AR(1) gaussian cu varianța 1, $u_t$ zgomot cu distribuția Normală standard, $T = 1\,000$
+    \item $x_{t-1}^2 - 1$ are media zero și nu este corelat cu $x_{t-1}$; TE kNN cu $k = 5$ vecini, 199 de permutări pe blocuri
 \end{itemize}
 \quantlet{ATS\_ch14\_granger}{\qlurl{ATS_ch14_granger}}
 \end{frame}
@@ -460,7 +511,7 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \begin{frame}{Interpretarea entropiei de transfer}
 \itemsize{\small}
 \begin{itemize}
-    \item Granger liniar: valoarea $p$ 0{,}86; TE gaussiană 0{,}05$\times10^{-3}$ nats: efectul simetric se anulează în medie într-o regresie liniară
+    \item Granger liniar: p-value 0{,}86; TE gaussiană 0{,}05$\times10^{-3}$ nats: efectul simetric se anulează în medie într-o regresie liniară
     \item TE kNN $x\to y$: 0{,}189 nats, $p$ prin permutare 0{,}005; direcția inversă \ensuremath{-}0{,}001 ($p$ 0{,}76); fără legătură 0{,}021 ($p$ 0{,}26)
     \item Pe piețele de pe slide-ul anterior, TE gaussiană de la S\&P 500 la BET este 6{,}1$\times10^{-3}$ nats: semnificativă, dar foarte mică ca informație
     \item TE cere mult mai multe date decît Granger și o alegere atentă a lui $k$, a lungimii istoriilor și a blocurilor de permutare; preînregistrați-le
@@ -481,17 +532,34 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \section{Descoperirea relațiilor cauzale în serii de timp}
 %=============================================================================
 
-\begin{frame}{Grafurile seriilor de timp}
+\begin{frame}{Grafurile seriilor de timp (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Noduri $X^i_t$; o săgeată $X^i_{t-\tau}\to X^j_t$ cînd $X^i_{t-\tau}$ este o cauză directă a lui $X^j_t$, dat fiind restul trecutului \refRunE
+    \item \textbf{Nodurile} $X^i_t$: variabila $i$ la momentul $t$; o \textbf{săgeată} $X^i_{t-\tau}\to X^j_t$ cînd $X^i_{t-\tau}$ este o cauză directă a lui $X^j_t$, dat fiind restul trecutului \refRunE
     \begin{itemize}
+        \item $\tau \ge 1$: lagul legăturii; $\tau_{\max}$: lagul maxim considerat
         \item graful este același la orice $t$ (staționaritate cauzală); săgețile merg doar înainte în timp
     \end{itemize}
-    \item Ipotezele care transformă independențele în săgeți \refSGS: \textbf{Markov cauzal} (fiecare variabilă este independentă de non-efectele ei, dați părinții), \textbf{fidelitate} (nicio independență prin compensare), \textbf{suficiență cauzală} (nicio cauză comună ascunsă)
-    \item Atunci $X^i_{t-\tau}\to X^j_t$ $\iff$ $X^i_{t-\tau} \not\perp X^j_t \mid \mathbf X^-_t\setminus\{X^i_{t-\tau}\}$: testul Granger condiționat complet (VAR)
+    \item Trei ipoteze transformă independențele în săgeți \refSGS
     \begin{itemize}
-        \item cu $N$ variabile și $\tau_{\max}$ decalaje, mulțimea de condiționare are $N\tau_{\max}$ elemente: puterea se prăbușește în dimensiune mare
+        \item \textbf{Markov cauzal}: fiecare variabilă este independentă de non-efectele ei, dați părinții ei (cauzele directe)
+        \item \textbf{fidelitatea}: nicio independență nu apare prin compensarea efectelor
+        \item \textbf{suficiența cauzală}: nu există cauze comune ascunse
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Grafurile seriilor de timp (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Sub aceste ipoteze, o săgeată este o dependență condiționată de întregul trecut \[ X^i_{t-\tau}\to X^j_t \iff X^i_{t-\tau} \not\perp X^j_t \mid \mathbf X^-_t\setminus\{X^i_{t-\tau}\} \]
+    \begin{itemize}
+        \item $\perp$: independență ($\not\perp$: dependență); $\mathbf X^-_t$: toate variabilele la lagurile $1, \dots, \tau_{\max}$ înainte de $t$
+        \item acesta este testul Granger condiționat complet (VAR)
+    \end{itemize}
+    \item Cu $N$ variabile și $\tau_{\max}$ laguri, mulțimea de condiționare are $N\tau_{\max}$ elemente
+    \begin{itemize}
+        \item puterea testului scade drastic în dimensiune mare: motivația pentru PCMCI
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -500,13 +568,15 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \itemsize{\small}
 \begin{itemize}
     \item \refPCMCI: doi pași, fiecare o succesiune de teste de independență condiționată (aici corelația parțială; sînt posibile și teste neliniare)
+    \item \textbf{PC1} (selecția condițiilor), pentru fiecare $X^j_t$
     \begin{itemize}
-        \item \textbf{PC1} (selecția condițiilor): pentru fiecare $X^j_t$ pornim de la toți candidații cu decalaj; eliminăm pe cei independenți de $X^j_t$, dați cei mai puternici $p$ dintre ceilalți, $p = 1, 2, \dots$; păstrăm o supramulțime $\hat{\mathcal P}(X^j_t)$ a părinților
-        \item \textbf{MCI} (independență condiționată momentană): $X^i_{t-\tau} \perp X^j_t \mid \hat{\mathcal P}(X^j_t)\setminus\{X^i_{t-\tau}\},\ \hat{\mathcal P}(X^i_{t-\tau})$
+        \item se pornește de la toți candidații cu lag; se elimină cei independenți de $X^j_t$, dați cei mai puternici $p$ dintre ceilalți, $p = 1, 2, \dots$
+        \item rezultatul $\hat{\mathcal P}(X^j_t)$ este o supramulțime a părinților lui $X^j_t$
     \end{itemize}
-    \item Condiționarea pe părinții \textbf{sursei} îi elimină autocorelația: testul se comportă ca pe date i.i.d., deci rata alarmelor false rămîne aproape de $\alpha$
+    \item \textbf{MCI} (independența condiționată momentană): fiecare legătură se testează dați părinții ambelor capete \[ X^i_{t-\tau} \perp X^j_t \mid \hat{\mathcal P}(X^j_t)\setminus\{X^i_{t-\tau}\},\ \hat{\mathcal P}(X^i_{t-\tau}) \]
     \begin{itemize}
-        \item mulțimile de condiționare rămîn mici: puterea se păstrează în dimensiune mare
+        \item condiționarea pe părinții \textbf{sursei} $X^i_{t-\tau}$ îi elimină autocorelația: rata alarmelor false rămîne aproape de $\alpha$
+        \item mulțimile de condiționare rămîn mici, deci puterea se păstrează în dimensiune mare
     \end{itemize}
     \item Factorii de confuzie ascunși, legăturile contemporane, nestaționaritatea și erorile de măsurare anulează garanțiile; rezultatul este o ipoteză despre un graf
 \end{itemize}
@@ -519,7 +589,7 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Un sistem cunoscut cu decalaje (un factor comun persistent, lanțuri și un colizor), $\tau_{\max} = 3$, $\alpha = 0{,}01$, 50 de repetări; dreapta: 14 serii AR(1) independente în plus
+    \item Un sistem cunoscut cu laguri (un factor comun persistent, lanțuri și un colizor), $\tau_{\max} = 3$, $\alpha = 0{,}01$, 50 de repetări; dreapta: 14 serii AR(1) independente în plus
 \end{itemize}
 \quantlet{ATS\_ch14\_discovery}{\qlurl{ATS_ch14_discovery}}
 \end{frame}
@@ -527,7 +597,7 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \begin{frame}{Interpretarea experimentului de descoperire}
 \itemsize{\small}
 \begin{itemize}
-    \item Corelațiile cu decalaj găsesc majoritatea legăturilor reale, dar semnalează 0{,}605 dintre cele absente: autocorelația și factorul comun fac totul corelat
+    \item Corelațiile cu lag găsesc majoritatea legăturilor reale, dar semnalează 0{,}605 dintre cele absente: autocorelația și factorul comun fac totul corelat
     \item Șase variabile, $T = 500$: VAR complet și PCMCI sînt echivalente (putere 1{,}00 și 1{,}00; alarme false 0{,}013 și 0{,}017)
     \item Douăzeci de variabile, $T = 150$: VAR condiționează pe 60 de regresori, iar puterea lui scade la 0{,}78; PCMCI păstrează 0{,}94, cu alarme false 0{,}012
     \item Avantajul PCMCI ține de dimensiunea mare; în sisteme mici un VAR bine specificat este suficient
@@ -549,15 +619,15 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \begin{frame}{Interpretarea grafului volatilității}
 \itemsize{\small}
 \begin{itemize}
-    \item Testele de corelație cu decalaj sînt semnificative pentru 56 dintre cele 60 de legături încrucișate posibile; PCMCI păstrează 8
+    \item Testele de corelație cu lag sînt semnificative pentru 56 dintre cele 60 de legături încrucișate posibile; PCMCI păstrează 8
     \item Volatilitatea este un factor comun: cea mai mare parte a dependenței brute se explică prin propriul trecut al fiecărei piețe și prin șocul global comun din aceeași săptămînă
-    \item Săgețile rămase sînt corelații parțiale mici; transmiterile contemporane din aceeași săptămînă sînt invizibile pentru o analiză doar cu decalaje
+    \item Săgețile rămase sînt corelații parțiale mici; transmiterile contemporane din aceeași săptămînă sînt invizibile pentru o analiză doar cu laguri
     \item Un factor global ascuns (știri, VIX) încalcă suficiența cauzală: citiți graful ca pe o hartă a legăturilor predictive, nu a mecanismelor de transmitere
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Convergent cross mapping}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.3\textwidth}
 \centering
@@ -567,10 +637,16 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item Dinamici deterministe cuplate: separabilitatea lui Granger nu mai funcționează (informația cauzei se află deja în efect) \refSug
-    \item Takens \refTak: vectorii cu întîrziere $M_y = \{(y_t, y_{t-\tau}, \dots, y_{t-(E-1)\tau})\}$ reconstruiesc atractorul întregului sistem
-    \item Dacă $x$ îl influențează pe $y$, vecinii de pe $M_y$ identifică $x_t$: \textbf{estimăm încrucișat} pe $x$ din $M_y$ (proiecție simplex, $E + 1$ vecini)
-    \item Criteriul: abilitatea de estimare încrucișată trebuie să \textbf{conveargă} (să crească) cu dimensiunea bibliotecii $L$
+    \item Dinamici deterministe cuplate: separabilitatea lui Granger nu mai funcționează, deoarece informația cauzei se află deja în efect \refSug
+    \item Takens \refTak: vectorii cu întîrziere ai lui $y$ reconstruiesc atractorul întregului sistem \[ M_y = \{(y_t, y_{t-\tau}, \dots, y_{t-(E-1)\tau})\} \]
+    \begin{itemize}
+        \item $E$: dimensiunea de scufundare; $\tau$: întîrzierea dintre coordonate
+    \end{itemize}
+    \item Dacă $x$ îl influențează pe $y$, vecinii unui punct de pe $M_y$ identifică $x_t$: se \textbf{estimează încrucișat} $x$ din $M_y$
+    \begin{itemize}
+        \item proiecția simplex: o medie ponderată a lui $x$ în cei $E + 1$ vecini cei mai apropiați; abilitatea: corelația $\rho$ dintre estimație și valoarea reală
+    \end{itemize}
+    \item Criteriul: abilitatea trebuie să \textbf{conveargă} (să crească) cu dimensiunea bibliotecii $L$, numărul de puncte folosite pentru $M_y$
     \item Atenție la direcție: abilitatea $M_y \to x$ este dovadă pentru $x \to y$
 \end{itemize}
 \end{column}
@@ -580,11 +656,12 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \begin{frame}{Estimarea încrucișată: o cuplare și un factor periodic comun}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.56\textheight,keepaspectratio]{ats_ch14_ccm.pdf}
+\includegraphics[width=0.97\textwidth,height=0.48\textheight,keepaspectratio]{ats_ch14_ccm.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Aplicații logistice cuplate din \refSug{} ($r_x = 3{,}8$, $r_y = 3{,}5$, $\beta_{yx} = 0{,}32$, $\beta_{xy} = 0$); dreapta: două aplicații necuplate cu același factor periodic; $E = 2$
+    \item Aplicațiile logistice cuplate din \refSug: $x_{t+1} = x_t(r_x - r_xx_t - \beta_{xy}y_t)$, $y_{t+1} = y_t(r_y - r_yy_t - \beta_{yx}x_t)$
+    \item $r_x = 3{,}8$, $r_y = 3{,}5$: ratele de creștere (regim haotic); $\beta_{yx} = 0{,}32$: efectul lui $x$ asupra lui $y$; $\beta_{xy} = 0$: niciun efect al lui $y$ asupra lui $x$; dreapta: două aplicații necuplate cu același factor periodic; $E = 2$
 \end{itemize}
 \quantlet{ATS\_ch14\_discovery}{\qlurl{ATS_ch14_discovery}}
 \end{frame}
@@ -594,7 +671,7 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \begin{itemize}
     \item Stînga: abilitatea pentru $x\to y$ crește de la 0{,}47 ($L = 25$) la 0{,}98 ($L = 800$); direcția inversă rămîne în jur de 0{,}41: tiparul publicat
     \item Dreapta: nicio cuplare, totuși ambele direcții ajung la 0{,}999 și 0{,}999: un factor periodic comun sincronizează aplicațiile, iar CCM raportează cauzalitate în ambele sensuri
-    \item Critici cunoscute: sezonalitate și sincronizare \refBaC, zgomot și factori externi \refMon, alegerea decalajului \refYDGS
+    \item Critici cunoscute: sezonalitate și sincronizare \refBaC, zgomot și factori externi \refMon, alegerea lagului \refYDGS
     \item Folosiți CCM pentru sisteme neliniare cu zgomot redus, cu teste pe serii surogat care păstrează sezonalitatea; niciodată ca detector automat de cauzalitate pentru serii economice
 \end{itemize}
 \end{frame}
@@ -613,17 +690,35 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \section{Serii de timp întrerupte și studii de eveniment}
 %=============================================================================
 
-\begin{frame}{Serii de timp întrerupte}
+\begin{frame}{Serii de timp întrerupte (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item O singură serie, o intervenție la $T_0$; modelăm perioada anterioară, $y_t = f(t, \text{sezon}, x_t; \theta) + u_t$, $t \le T_0$; efectul $\hat\tau_t = y_t - f(t, \cdot; \hat\theta)$, $t > T_0$ \refLCG
+    \item O singură serie, o intervenție la $T_0$ \refLCG; pasul 1: se modelează perioada anterioară \[ y_t = f(t, \text{sezon}, x_t; \theta) + u_t, \qquad t \le T_0 \]
     \begin{itemize}
-        \item regresia segmentată este cazul particular cu variabile de nivel și de pantă după $T_0$
+        \item $f$: trendul, efectele sezoniere și covariatele $x_t$, cu parametrii $\theta$; $u_t$: eroarea
     \end{itemize}
-    \item Identificare: \textbf{nimic altceva} nu se schimbă la $T_0$; modelul perioadei anterioare ar fi continuat; nicio anticipare
-    \item Inferența cu erori dependente: $\mathrm{Var}\big(\sum_{t=T_0+1}^{T_0+n}\hat\tau_t\big) \approx n\,\Omega + a'\hat V_\theta a$, $\Omega$ varianța pe termen lung a lui $u_t$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}), $a$ suma regresorilor
+    \item Pasul 2: efectul este diferența dintre rezultat și modelul extrapolat \[ \hat\tau_t = y_t - f(t, \cdot\,; \hat\theta), \qquad t > T_0 \]
     \begin{itemize}
-        \item cu erori AR(1) și $\sigma^2 = \mathrm{Var}(u_t)$, $\Omega = \sigma^2(1 + \rho)/(1 - \rho)$: erorile standard i.i.d. sînt prea mici cu factorul $\sqrt{(1 + \rho)/(1 - \rho)}$
+        \item regresia segmentată este cazul particular cu variabile dummy de nivel și de pantă după $T_0$
+    \end{itemize}
+    \item \textbf{Identificarea}
+    \begin{itemize}
+        \item nimic altceva nu se schimbă la $T_0$; modelul perioadei anterioare ar fi continuat; nicio anticipare
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Serii de timp întrerupte (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Inferența cu erori dependente}: varianța efectului cumulat pe $n$ perioade \[ \mathrm{Var}\Big(\sum_{t=T_0+1}^{T_0+n}\hat\tau_t\Big) \approx n\,\Omega + a'\hat V_\theta a \]
+    \begin{itemize}
+        \item $\Omega$: varianța pe termen lung a lui $u_t$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}); $\hat V_\theta$: covarianța lui $\hat\theta$; $a$: suma regresorilor lui $f$ pe cele $n$ perioade
+        \item primul termen: zgomotul rezultatelor; al doilea: eroarea de estimare a contrafactualului
+    \end{itemize}
+    \item Cu erori AR(1), autocorelația $\rho$ și $\sigma^2 = \mathrm{Var}(u_t)$ \[ \Omega = \sigma^2\,\frac{1 + \rho}{1 - \rho} \]
+    \begin{itemize}
+        \item erorile standard i.i.d.\ sînt prea mici cu factorul $\sqrt{(1 + \rho)/(1 - \rho)}$, de exemplu 1,7 pentru $\rho = 0{,}5$
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -674,11 +769,19 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \begin{frame}{Studii de eveniment cu erori dependente}
 \itemsize{\small}
 \begin{itemize}
-    \item \refMac: modelul normal $r_t = \alpha + \beta r^m_t + \varepsilon_t$ estimat pe $[-250, -11]$; randamentul anormal $AR_t = r_t - \hat\alpha - \hat\beta r^m_t$; $CAR[0, k] = \sum_{t=0}^k AR_t$
+    \item \refMac, \textbf{modelul de piață} estimat pe zilele $[-250, -11]$ dinaintea evenimentului \[ r_t = \alpha + \beta r^m_t + \varepsilon_t, \qquad AR_t = r_t - \hat\alpha - \hat\beta r^m_t, \qquad CAR[0, k] = \sum_{t=0}^k AR_t \]
     \begin{itemize}
-        \item $\mathrm{Var}(CAR) = (k + 1)\sigma^2$ sub erori i.i.d.; $(k + 1)\Omega$ cu corelație serială; varianța indusă de eveniment și evenimentele grupate cer mai mult (corecții transversale sau bootstrap)
+        \item $r_t$: randamentul activului; $r^m_t$: randamentul pieței; $AR_t$: randamentul anormal; $CAR[0, k]$: randamentul anormal cumulat pe zilele 0--$k$
     \end{itemize}
-    \item Identificare: evenimentul este o surpriză în ziua 0 și nimic altceva nu s-a întîmplat; știrile anticipate sînt încorporate în preț înaintea ferestrei
+    \item Varianța CAR
+    \begin{itemize}
+        \item $(k + 1)\sigma^2$ sub erori i.i.d.; $(k + 1)\Omega$ cu corelație serială ($\Omega$: varianța pe termen lung)
+        \item varianța indusă de eveniment și evenimentele grupate cer corecții transversale sau bootstrap
+    \end{itemize}
+    \item Identificarea: evenimentul este o surpriză în ziua 0 și nimic altceva nu s-a întîmplat
+    \begin{itemize}
+        \item știrile anticipate sînt încorporate în preț înaintea ferestrei
+    \end{itemize}
     \item Aici: indicele BET față de Euro Stoxx 50, patru evenimente politice și fiscale din România în 2024--2025, fereastra $[0, 2]$
 \end{itemize}
 \end{frame}
@@ -719,20 +822,36 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \section{Metoda controlului sintetic}
 %=============================================================================
 
-\begin{frame}{Estimatorul controlului sintetic}
+\begin{frame}{Estimatorul controlului sintetic (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Unitățile $j = 1$ (tratată) și $j = 2, \dots, J + 1$ (grupul donatorilor); tratament după $T_0$; ținta $\tau_{1t} = Y_{1t}(1) - Y_{1t}(0)$, $t > T_0$ \refAbG, \refADHa
+    \item Unitățile: $j = 1$ tratată, $j = 2, \dots, J + 1$ \textbf{grupul donatorilor}; tratamentul după perioada $T_0$ \refAbG, \refADHa
     \begin{itemize}
-        \item $\hat Y_{1t}(0) = \sum_{j\ge2} w_jY_{jt}$, $\hat\tau_{1t} = Y_{1t} - \hat Y_{1t}(0)$
+        \item $Y_{jt}(1)$, $Y_{jt}(0)$: rezultatele potențiale ale unității $j$ la $t$, cu și fără tratament
     \end{itemize}
-    \item Ponderile: $w^*(V) = \arg\min_w (X_1 - X_0w)'V(X_1 - X_0w)$, $w_j \ge 0$, $\sum_j w_j = 1$; $X$: predictori anteriori tratamentului (medii ale rezultatului, covariate)
+    \item Ținta: efectul asupra unității tratate după $T_0$ \[ \tau_{1t} = Y_{1t}(1) - Y_{1t}(0), \qquad t > T_0 \]
     \begin{itemize}
+        \item $Y_{1t}(1) = Y_{1t}$ este observat; $Y_{1t}(0)$ trebuie estimat
+    \end{itemize}
+    \item \textbf{Controlul sintetic}: o medie ponderată a donatorilor ține locul lui $Y_{1t}(0)$ \[ \hat Y_{1t}(0) = \sum_{j=2}^{J+1} w_jY_{jt}, \qquad \hat\tau_{1t} = Y_{1t} - \hat Y_{1t}(0) \]
+    \begin{itemize}
+        \item $w_j \ge 0$: ponderea donatorului $j$, cu $\sum_j w_j = 1$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimatorul controlului sintetic (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Ponderile}: combinația convexă de donatori cea mai apropiată de unitatea tratată după predictorii anteriori tratamentului \[ w^*(V) = \arg\min_w\, (X_1 - X_0w)'V(X_1 - X_0w), \qquad w_j \ge 0,\ \sum_j w_j = 1 \]
+    \begin{itemize}
+        \item $X_1$: vectorul predictorilor anteriori tratamentului ai unității tratate (medii ale rezultatului, covariate); $X_0$: matricea acelorași predictori pentru donatori
         \item o problemă de programare pătratică pe simplex: ponderile sînt rare și interpretabile; nicio extrapolare în afara domeniului donatorilor
     \end{itemize}
-    \item $V = \mathrm{diag}(v)$: minimizăm MSPE al rezultatului în perioada anterioară după $v$ (optimizare imbricată, \refADHs); \refADHb{} aleg $v$ prin validare încrucișată pe o perioadă de antrenare și una de validare
+    \item $V = \mathrm{diag}(v)$: importanța fiecărui predictor
     \begin{itemize}
-        \item cu toate rezultatele anterioare în $X$, covariatele nu primesc nicio pondere \refKKPS
+        \item aleasă pentru a minimiza MSPE al rezultatului în perioada anterioară (optimizare imbricată, \refADHs) sau prin validare încrucișată pe o perioadă de antrenare și una de validare \refADHb
+        \item MSPE: eroarea pătratică medie de predicție; cu toate rezultatele anterioare în $X$, covariatele nu primesc nicio pondere \refKKPS
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -740,13 +859,15 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \begin{frame}{Fundamentul: modelul factorial}
 \itemsize{\small}
 \begin{itemize}
-    \item \refADHa: $Y_{jt}(0) = \delta_t + \theta_tZ_j + \lambda_t\mu_j + \varepsilon_{jt}$, încărcări neobservate $\mu_j$ (efecte fixe interactive \refBai)
+    \item \refADHa: rezultatele fără tratament urmează un model factorial (efecte fixe interactive \refBai) \[ Y_{jt}(0) = \delta_t + \theta_tZ_j + \lambda_t\mu_j + \varepsilon_{jt} \]
     \begin{itemize}
+        \item $\delta_t$: un efect comun al perioadei; $Z_j$: covariate observate, cu coeficienții variabili în timp $\theta_t$; $\lambda_t$: factori comuni neobservați; $\mu_j$: încărcările neobservate ale unității $j$; $\varepsilon_{jt}$: șocuri tranzitorii
         \item DiD presupune $\lambda_t$ constant (trenduri paralele); SC permite factorilor comuni să varieze în timp
     \end{itemize}
-    \item Dacă $\sum_j w_jY_{jt} = Y_{1t}$ pentru orice $t \le T_0$ și $\sum_j w_jZ_j = Z_1$, deplasarea lui $\hat\tau_{1t}$ este mărginită de un termen care \textbf{scade cînd $T_0$ crește}, relativ la scala lui $\varepsilon$
+    \item Dacă ponderile reproduc unitatea tratată înainte de $T_0$, $\sum_j w_jY_{jt} = Y_{1t}$ pentru orice $t \le T_0$ și $\sum_j w_jZ_j = Z_1$, atunci
     \begin{itemize}
-        \item o potrivire bună pe o fereastră lungă înaintea tratamentului arată că încărcările $\mu$ sînt reproduse (\atsapplink{atsapp1}{atssrc1}{anexă})
+        \item deplasarea lui $\hat\tau_{1t}$ este mărginită de un termen care \textbf{scade cînd $T_0$ crește}, relativ la scala lui $\varepsilon$ (\atsapplink{atsapp1}{atssrc2}{Anexă})
+        \item o potrivire bună pe o perioadă anterioară lungă arată că încărcările $\mu_j$ sînt reproduse
     \end{itemize}
     \item O perioadă anterioară scurtă cu potrivire perfectă poate însemna supraajustarea zgomotului: marginea este atunci slabă \refAba
 \end{itemize}
@@ -766,13 +887,19 @@ S\&P 500 $\not\to$ DAX & 18{,}3 & $<$0{,}001 & -- \\
 \begin{frame}{Inferența cu o singură unitate tratată}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Placebo în spațiu} \refADHa: atribuim tratamentul fiecărui donator, reestimăm, calculăm $r_j = \mathrm{RMSPE}_{\mathrm{post}}/\mathrm{RMSPE}_{\mathrm{pre}}$
+    \item \textbf{Placebo în spațiu} \refADHa: tratamentul se atribuie pe rînd fiecărui donator, se reestimează și se calculează raportul \[ r_j = \mathrm{RMSPE}_{\mathrm{post}}/\mathrm{RMSPE}_{\mathrm{pre}}, \qquad \text{p-value} = \#\{j: r_j \ge r_1\}/(J + 1) \]
     \begin{itemize}
-        \item valoarea $p$ prin permutare $= \#\{j: r_j \ge r_1\}/(J + 1)$; cea mai mică valoare posibilă este $1/(J + 1)$
-        \item exactă doar dacă tratamentul este atribuit aleator între unități; altfel o ordonare descriptivă \refFiP
+        \item RMSPE: rădăcina erorii pătratice medii de predicție a controlului sintetic, înainte (pre) și după (post) $T_0$; un $r_j$ mare: o diferență mare după tratament, relativ la potrivirea anterioară
+        \item $\#\{\cdot\}$: numărul de unități; cel mai mic p-value posibil este $1/(J + 1)$; exact doar dacă tratamentul este atribuit aleator între unități, altfel o ordonare descriptivă \refFiP
     \end{itemize}
-    \item \textbf{Placebo în timp}: un $T_0$ fictiv în perioada anterioară nu trebuie să dea niciun efect; \textbf{omiterea pe rînd}: eliminăm fiecare donator cu pondere pozitivă
-    \item \textbf{Inferența conformală} \refCWZ: testăm $H_0$: $\tau_{1t} = \tau_0$ permutînd reziduurile în timp (permutări pe blocuri pentru dependență); intervale de încredere prin inversare
+    \item \textbf{Placebo în timp}: un $T_0$ fictiv în perioada anterioară nu trebuie să dea niciun efect
+    \begin{itemize}
+        \item \textbf{omiterea pe rînd}: se elimină fiecare donator cu pondere pozitivă și se reestimează
+    \end{itemize}
+    \item \textbf{Inferența conformală} \refCWZ: se testează $H_0$: $\tau_{1t} = \tau_0$ permutînd reziduurile în timp
+    \begin{itemize}
+        \item permutări pe blocuri pentru dependență; intervale de încredere prin inversarea testului după $\tau_0$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -877,7 +1004,7 @@ Rata investițiilor & 27{,}0 & 27{,}0 & 25{,}9 \\
 \begin{frame}{Interpretarea testelor placebo germane}
 \itemsize{\small}
 \begin{itemize}
-    \item Germania de Vest are cel mai mare raport (16{,}2; următoarea: Norvegia, 9{,}2): valoarea $p$ prin permutare $1/17$ = 0{,}059, cea mai mică posibilă
+    \item Germania de Vest are cel mai mare raport (16{,}2; următoarea: Norvegia, 9{,}2): p-value-ul prin permutare $1/17$ = 0{,}059, cea mai mică posibilă
     \item Reunificare placebo în 1975 (SC doar pe rezultat, 1960--1974, RMSPE anterior 19 USD): Germania de Vest crește mai repede decît controlul sintetic (diferența medie +9{,}9\% pînă în 1990): nu apare niciun cost fals
     \item Cu predictorii publicați pentru 1975, $V$ ales prin validare încrucișată nu este identificat: un punct de pornire dă ca donator Austria, cel mai bun dintre opt dă Statele Unite \refKPSb
     \item Omiterea oricărui donator păstrează o diferență negativă în 2003, între 2965 și 5138 USD: rezultatul nu depinde de o singură țară
@@ -944,28 +1071,48 @@ Rata investițiilor & 27{,}0 & 27{,}0 & 25{,}9 \\
 \begin{frame}{Termenul liber și augmentarea}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{SC cu termen liber} \refDI, \refFP: permite o diferență constantă de nivel, $\hat Y_{1t}(0) = c + \sum_j w_jY_{jt}$; ajustăm ponderile pe rezultatele anterioare minus mediile fiecărei unități
+    \item \textbf{SC cu termen liber} \refDI, \refFP: permite o diferență constantă de nivel $c$ între unitatea tratată și donatori \[ \hat Y_{1t}(0) = c + \sum_j w_jY_{jt} \]
     \begin{itemize}
+        \item ponderile se ajustează pe rezultatele anterioare minus media anterioară a fiecărei unități
         \item rezolvă partea de nivel a problemei înfășurătorii convexe; consistent cu potrivire imperfectă cînd factorii sînt staționari \refFP
     \end{itemize}
-    \item \textbf{SC augmentat} \refASCM: $\hat Y^{\mathrm{aug}}_{1t}(0) = \sum_j\hat w_jY_{jt} + \big(X_1 - \sum_j\hat w_jX_j\big)'\hat\eta_t$, $\hat\eta_t$ regresia ridge a lui $Y_{jt}$ pe rezultatele anterioare, între donatori
+    \item \textbf{SC augmentat} \refASCM: corectează estimația SC cu dezechilibrul rămas al predictorilor, printr-o regresie ridge \[ \hat Y^{\mathrm{aug}}_{1t}(0) = \sum_j\hat w_jY_{jt} + \Big(X_1 - \sum_j\hat w_jX_j\Big)'\hat\eta_t \]
     \begin{itemize}
-        \item echivalent cu ponderile $\hat w + X_0(X_0'X_0 + \lambda I)^{-1}(X_1 - X_0'\hat w)$: pot fi negative (extrapolare controlată)
+        \item $\hat w_j$: ponderile SC; $X_j$: rezultatele anterioare ale unității $j$; $\hat\eta_t$: coeficienții regresiei ridge a lui $Y_{jt}$ pe $X_j$, între donatori, cu penalizarea $\lambda$
+        \item echivalent cu ponderile $\hat w + X_0(X_0'X_0 + \lambda I)^{-1}(X_1 - X_0'\hat w)$, care pot fi negative (extrapolare controlată)
         \item $\lambda \to \infty$ dă SC; $\lambda \to 0$ dă o regresie a rezultatului; deplasarea scade odată cu dezechilibrul rămas
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Diferența în diferențe sintetică}
+\begin{frame}{Diferența în diferențe sintetică (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refSDID: $(\hat\tau, \hat\mu, \hat\alpha, \hat\beta) = \arg\min\sum_{j,t}(Y_{jt} - \mu - \alpha_j - \beta_t - W_{jt}\tau)^2\hat\omega_j\hat\lambda_t$
+    \item \refSDID: o regresie cu efecte fixe pe unități și pe perioade, în care unitățile și perioadele sînt ponderate \[ (\hat\tau, \hat\mu, \hat\alpha, \hat\beta) = \arg\min\sum_{j,t}\big(Y_{jt} - \mu - \alpha_j - \beta_t - W_{jt}\tau\big)^2\hat\omega_j\hat\lambda_t \]
     \begin{itemize}
-        \item ponderile unităților $\hat\omega$: SC cu termen liber și penalizare ridge $\zeta^2T_0\|\omega\|^2$, $\zeta = (N_{\mathrm{tr}}T_{\mathrm{post}})^{1/4}\hat\sigma$
-        \item ponderile perioadelor $\hat\lambda$: perioadele anterioare care prezic cel mai bine media controalelor după tratament
+        \item $W_{jt} = 1$ pentru unitatea tratată după $T_0$, 0 altfel; $\tau$: efectul; $\mu$: media generală; $\alpha_j$: efectele fixe ale unităților; $\beta_t$: efectele fixe ale perioadelor
     \end{itemize}
-    \item DiD: $\omega$, $\lambda$ uniforme; SC: $\lambda$ doar pe $T_0$, fără efect fix al unității; SDID: ambele ponderate, ambele efecte fixe
-    \item O singură unitate tratată: eroarea standard prin placebo (fiecare control joacă pe rînd rolul unității tratate, algoritmul 4)
+    \item \textbf{Ponderile unităților} $\hat\omega_j$: SC cu termen liber și penalizare ridge
+    \begin{itemize}
+        \item penalizarea $\zeta^2T_0\|\omega\|^2$, cu $\zeta = (N_{\mathrm{tr}}T_{\mathrm{post}})^{1/4}\hat\sigma$; $N_{\mathrm{tr}}$: unitățile tratate; $T_{\mathrm{post}}$: perioadele de după; $\hat\sigma$: nivelul zgomotului controalelor
+    \end{itemize}
+    \item \textbf{Ponderile perioadelor} $\hat\lambda_t$: perioadele anterioare care prezic cel mai bine media controalelor după tratament
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Diferența în diferențe sintetică (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Trei estimatori ca și cazuri particulare
+    \begin{itemize}
+        \item DiD: $\omega$ și $\lambda$ uniforme
+        \item SC: doar ponderile unităților $\omega$ ($\lambda$ uniforme), fără efect fix al unității
+        \item SDID: ambele seturi de ponderi, ambele efecte fixe
+    \end{itemize}
+    \item O singură unitate tratată: eroarea standard prin placebo
+    \begin{itemize}
+        \item fiecare control joacă pe rînd rolul unității tratate; abaterea standard a estimațiilor placebo este eroarea standard (algoritmul 4)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -974,6 +1121,7 @@ Rata investițiilor & 27{,}0 & 27{,}0 & 25{,}9 \\
 \begin{itemize}
     \item Rezultatul: inflația IAPC anuală (pp), $100(\ln P_t - \ln P_{t-12})$, Eurostat; unitatea tratată: România; donatori: celelalte 26 de țări UE
     \begin{itemize}
+        \item $P_t$: indicele prețurilor IAPC în luna $t$; pp: puncte procentuale
         \item rata anuală elimină sezonalitatea și face vizibil un șoc al nivelului prețurilor exact douăsprezece luni
     \end{itemize}
     \item Perioada anterioară: iulie 2023 -- iunie 2025 (24 de luni, după valul 2021--2023); tratament din iulie 2025; fereastra efectului iulie 2025 -- iunie 2026
@@ -1036,7 +1184,7 @@ SDID & -- & 2{,}62 & 2{,}75 ($se$ 0{,}70) & 0{,}26 \\
 \begin{itemize}
     \item România are cel mai mare raport (12{,}0; următoarea Franța, 4{,}7): $p = 1/27$ = 0{,}037
     \item Nicio țară placebo nu are un salt de această mărime în iulie--august 2025: efectul nu este un șoc european comun
-    \item Valoarea $p$ prin permutare tratează România ca pe una din 27 de unități schimbabile; este o măsură a rarității, nu o afirmație de încredere care decurge din eșantionare
+    \item P-value-ul prin permutare tratează România ca pe una dintre 27 de unități interschimbabile; este o măsură a rarității, nu o afirmație de încredere care decurge din eșantionare
     \item Măsurile altor țări din fereastră (schimbări fiscale, încheierea propriilor plafonări) deplasează efectul spre zero dacă au crescut inflația acolo
 \end{itemize}
 \end{frame}
@@ -1063,18 +1211,30 @@ SDID & -- & 2{,}62 & 2{,}75 ($se$ 0{,}70) & 0{,}26 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Adoptarea eșalonată și efectele fixe bidirecționale}
+\begin{frame}{Adoptarea eșalonată și efectele fixe bidirecționale (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Multe unități adoptă la date diferite $g$; regresia TWFE $Y_{it} = \alpha_i + \beta_t + \tau D_{it} + u_{it}$
+    \item Multe unități adoptă la date diferite $g$ (cohorta lor); regresia TWFE statică \[ Y_{it} = \alpha_i + \beta_t + \tau D_{it} + u_{it} \]
     \begin{itemize}
-        \item \refGB: $\hat\tau$ este o medie ponderată a tuturor DiD 2$\times$2, inclusiv a celor „interzise”, care folosesc unități deja tratate drept control
+        \item $D_{it} = 1$ dacă unitatea $i$ este tratată la $t$; $\alpha_i$, $\beta_t$: efectele fixe ale unităților și ale perioadelor; $\tau$: un singur efect al tratamentului
+    \end{itemize}
+    \item \refGB: $\hat\tau$ este o medie ponderată a tuturor DiD 2$\times$2
+    \begin{itemize}
+        \item inclusiv a celor „interzise”, care folosesc unități deja tratate drept control
         \item cu efecte care cresc în timp, unele ponderi sînt negative \refdCDH: $\hat\tau$ poate avea chiar semnul greșit
     \end{itemize}
-    \item \refCSA: efecte pe grup și perioadă $ATT(g, t) = \E[Y_t - Y_{g-1}\mid G = g] - \E[Y_t - Y_{g-1}\mid \text{niciodată tratat}]$, apoi agregare după expunere sau după cohortă
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Adoptarea eșalonată și efectele fixe bidirecționale (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \refCSA: efecte pe grup și perioadă, fiecare comparat doar cu unitățile niciodată tratate \[ ATT(g, t) = \E[Y_t - Y_{g-1}\mid G = g] - \E[Y_t - Y_{g-1}\mid \text{niciodată tratat}] \]
     \begin{itemize}
-        \item studii de eveniment ponderate prin interacțiuni \refSA; un ghid al noii literaturi DiD \refRSBP
+        \item $G$: data de adoptare a unei unități; $Y_{g-1}$: rezultatul din ultima perioadă dinaintea adoptării; $ATT$: efectul mediu al tratamentului asupra unităților tratate
+        \item apoi agregare după expunere ($t - g$) sau după cohortă
     \end{itemize}
+    \item Metode înrudite: studii de eveniment ponderate prin interacțiuni \refSA; un ghid al noii literaturi DiD \refRSBP
     \item Testele trendurilor anterioare au putere mică; raportați sensibilitatea efectului la încălcarea trendurilor paralele
 \end{itemize}
 \end{frame}
@@ -1115,16 +1275,33 @@ SDID & -- & 2{,}62 & 2{,}75 ($se$ 0{,}70) & 0{,}26 \\
 \section{Serii de timp structurale bayesiene și CausalImpact}
 %=============================================================================
 
-\begin{frame}{Modelul CausalImpact}
+\begin{frame}{Modelul CausalImpact (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refCI: $y_t = \mu_t + \gamma_t + \beta'x_t + \varepsilon_t$; $\mu_{t+1} = \mu_t + \delta_t + \eta_t$, $\delta_{t+1} = \delta_t + \zeta_t$; $\gamma_t$ sezonier; $x_t$ serii de control
+    \item \refCI: rezultatul este un trend plus o componentă sezonieră plus o regresie pe serii de control \[ y_t = \mu_t + \gamma_t + \beta'x_t + \varepsilon_t, \qquad \mu_{t+1} = \mu_t + \delta_t + \eta_t, \qquad \delta_{t+1} = \delta_t + \zeta_t \]
     \begin{itemize}
-        \item un model structural de serii de timp \refHar{} în formă de spațiu al stărilor, filtrat și netezit prin Kalman (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6}, \refDK)
-        \item distribuția a priori spike-and-slab pe $\beta$ selectează seriile de control \refSV; distribuția a posteriori prin MCMC
+        \item $\mu_t$: nivelul local; $\delta_t$: panta locală; $\gamma_t$: componenta sezonieră; $x_t$: serii de control cu coeficienții $\beta$; $\varepsilon_t, \eta_t, \zeta_t$: zgomote independente cu distribuția Normală
     \end{itemize}
-    \item Estimare pe perioada anterioară; simulăm contrafactualul de după $y^{(s)}_t(0)$ din distribuția predictivă a posteriori, dați $x_t$ observați; efectele $y_t - y^{(s)}_t(0)$, punctuale și cumulate, cu intervale de credibilitate
-    \item Identificare: seriile de control \textbf{nu sînt afectate} de tratament, iar relația lor cu $y$ rămîne stabilă după $T_0$
+    \item Un model structural de serii de timp \refHar{} în formă de spațiu al stărilor, filtrat și netezit prin Kalman (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6}, \refDK)
+    \begin{itemize}
+        \item o distribuție a priori spike-and-slab pe $\beta$ selectează seriile de control \refSV; distribuția a posteriori se calculează prin MCMC
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Modelul CausalImpact (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Estimare pe perioada anterioară; se simulează contrafactualul de după $y^{(s)}_t(0)$ din distribuția predictivă a posteriori, dați $x_t$ observați
+    \begin{itemize}
+        \item $s$: indicele unei traiectorii simulate; efectele $y_t - y^{(s)}_t(0)$, punctuale și cumulate
+        \item intervale de credibilitate din cuantilele efectelor simulate
+    \end{itemize}
+    \item \textbf{Identificarea}
+    \begin{itemize}
+        \item seriile de control \textbf{nu sînt afectate} de tratament
+        \item relația lor cu $y$ rămîne stabilă după $T_0$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1221,15 +1398,32 @@ SDID & -- & 2{,}62 & 2{,}75 ($se$ 0{,}70) & 0{,}26 \\
 \section{Double machine learning și identificarea onestă}
 %=============================================================================
 
-\begin{frame}{Double/debiased machine learning pentru serii de timp}
+\begin{frame}{Double/debiased machine learning pentru serii de timp (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refDML: modelul parțial liniar $y_t = \theta d_t + g(X_t) + u_t$, $d_t = m(X_t) + v_t$; funcțiile auxiliare $g$, $m$ învățate prin machine learning
+    \item \refDML: \textbf{modelul parțial liniar} \[ y_t = \theta d_t + g(X_t) + u_t, \qquad d_t = m(X_t) + v_t \]
     \begin{itemize}
-        \item scor ortogonal $\psi = (y_t - \ell(X_t) - \theta(d_t - m(X_t)))(d_t - m(X_t))$, $\ell = \E[y\mid X]$: insensibil de ordinul întîi la erorile din $\ell$ și $m$
+        \item $d_t$: tratamentul; $\theta$: efectul lui; $X_t$: variabilele de control; $g$, $m$: \textbf{funcții auxiliare} necunoscute, învățate prin machine learning; $u_t, v_t$: erori
     \end{itemize}
-    \item Cross-fitting: funcțiile auxiliare sînt estimate pe alte subeșantioane; pentru serii de timp folosim \textbf{blocuri contigue} cu un interval în jurul blocului omis și o varianță HAC a lui $\psi$
-    \item DML elimină deplasarea din regularizare și supraajustare; nu creează identificare: $d_t$ trebuie să fie neconfundat, dat $X_t$
+    \item \textbf{Scorul ortogonal}: se regresează reziduul lui $y$ pe reziduul lui $d$ \[ \psi = \big(y_t - \ell(X_t) - \theta(d_t - m(X_t))\big)\big(d_t - m(X_t)\big), \qquad \ell(X) = \E[y\mid X] \]
+    \begin{itemize}
+        \item $\hat\theta$ rezolvă $\frac1T\sum_t\psi_t = 0$; insensibil de ordinul întîi la erorile din $\ell$ și $m$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Double/debiased machine learning pentru serii de timp (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Cross-fitting}: funcțiile auxiliare sînt estimate pe alte subeșantioane decît cel pe care se evaluează $\psi$
+    \begin{itemize}
+        \item pentru serii de timp se folosesc \textbf{blocuri contigue}, cu un interval de separare în jurul blocului omis
+        \item eroarea standard dintr-o varianță HAC a lui $\psi$
+    \end{itemize}
+    \item DML elimină deplasarea din regularizare și supraajustare; nu creează identificare
+    \begin{itemize}
+        \item $d_t$ trebuie să fie neconfundat, dat $X_t$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1298,7 +1492,7 @@ SVAR, LP, DML & la fel de bun ca aleator, dat trecutul sau un instrument & dovez
         \item formal: $H_0$: diferența medie pe iulie 2025 -- iunie 2026 este zero; afirmația „între 2 și 3,5 pp” trebuie să fie valabilă pentru orice estimator preînregistrat cu potrivire anterioară bună
         \item infirmată dacă o specificație rezonabilă dă mai puțin de 2 pp sau dacă o țară placebo egalează România
     \end{itemize}
-    \item Miza: politica monetară trebuie să distingă efectele unice asupra nivelului prețurilor de inflația persistentă; efectele de runda a doua decid dobînzile
+    \item Miza: politica monetară trebuie să distingă efectele unice asupra nivelului prețurilor de inflația persistentă; efectele de runda a doua determină deciziile privind dobînzile
     \begin{itemize}
         \item literatura de pornire: \refADHb, \refASCM, \refSDID, \refBMKW
     \end{itemize}
@@ -1381,7 +1575,7 @@ SVAR, LP, DML & la fel de bun ca aleator, dat trecutul sau un instrument & dovez
     \item De ce poate adăugarea unei variabile la mulțimea de informație să elimine o cauzalitate Granger?
     \item Ce obține condiționarea pe părinții sursei în testul MCI?
     \item De ce eșuează controlul sintetic clasic pentru inflația României?
-    \item Care este cea mai mică valoare $p$ placebo cu 23 de donatori?
+    \item Care este cel mai mic p-value placebo cu 23 de donatori?
     \item De ce poate o estimație TWFE statică să aibă semnul greșit în cazul adoptării eșalonate?
 \end{itemize}
 \end{block}
@@ -1403,7 +1597,7 @@ SVAR, LP, DML & la fel de bun ca aleator, dat trecutul sau un instrument & dovez
 %=============================================================================
 
 \begin{frame}{Anexă: marginea deplasării controlului sintetic}
-\hypertarget{atsapp1}{}\atsappback{atssrc1}{Înapoi}
+\hypertarget{atsapp1}{}\atsappback{atssrc2}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Modelul factorial $Y_{jt}(0) = \delta_t + \lambda_t\mu_j + \varepsilon_{jt}$ ($F$ factori); ponderi cu $\sum_jw_jY_{jt} = Y_{1t}$, $t \le T_0$

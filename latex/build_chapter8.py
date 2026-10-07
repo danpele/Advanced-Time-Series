@@ -16,12 +16,18 @@ Rulare:
 """
 
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ats_build import Deck, Values, table, photo, cols, block   # noqa: E402
 from ats_build import items as _items   # noqa: E402
 from ch8_common import REFS, QLURL, BIN_URL, T, bib, finalize, load, minus_fix   # noqa: E402
+
+
+def M(tex):
+    """Displayed formula with decimals: decimal comma in RO (the renderer converts only inline math)."""
+    return T(tex, re.sub(r'(\d)\.(\d)', r'\1{,}\2', tex))
 
 
 def items(*xs):
@@ -282,7 +288,7 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
     (T(r'\textbf{Question}: how precisely can we measure, model and forecast a variance that is never observed, and which of our tools still work when the data are noisy, jumpy or high-dimensional?',
        r'\textbf{Întrebarea}: cît de precis putem măsura, modela și prognoza o varianță care nu se observă niciodată și care dintre instrumentele noastre funcționează în continuare cînd datele sînt zgomotoase, au salturi sau au multe dimensiuni?'),
      [T('two routes to volatility: a parametric filter of daily returns (GARCH) and a nonparametric measurement from intraday prices (realised measures); the frontier combines them',
-        'două căi către volatilitate: un filtru parametric al randamentelor zilnice (GARCH) și o măsurare neparametrică din prețurile intraday (măsurile realizate); frontiera le combină')]),
+        'două căi către volatilitate: un filtru parametric al randamentelor zilnice (GARCH) și o măsurare neparametrică din prețurile intraday (măsurile realizate); cercetarea actuală le combină')]),
     (T(r'\textbf{Route} of the chapter', r'\textbf{Traseul} capitolului'),
      [T('quasi-maximum likelihood for GARCH and robust inference; long-run components: component GARCH and GARCH-MIDAS with macroeconomic drivers',
         'verosimilitatea cvasi-maximă pentru GARCH și inferența robustă; componente de termen lung: component GARCH și GARCH-MIDAS cu factori macroeconomici'),
@@ -330,7 +336,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
      T('US industrial production, PPI finished goods (monthly)', 'producția industrială și IPP pentru bunuri finite ale SUA (lunar)') + ' & FRED (INDPRO, WPSFD49207) & GARCH-MIDAS'],
     size='scriptsize') + items(
     T('The Oxford-Man library ended in February 2022 (archived copy, cited as its terms require); Binance one-minute data extend the realised measures to 18 September 2026; a calibrated simulation gives the theory a known truth',
-      'Biblioteca Oxford-Man s-a încheiat în februarie 2022 (copie arhivată, citată conform condițiilor ei); datele Binance la un minut extind măsurile realizate pînă la 18 septembrie 2026; o simulare calibrată oferă teoriei un adevăr cunoscut'),
+      'Biblioteca Oxford-Man nu mai este actualizată din februarie 2022 (copie arhivată, citată conform condițiilor ei); datele Binance la un minut extind măsurile realizate pînă la 18 septembrie 2026; o simulare calibrată oferă teoriei un adevăr cunoscut'),
     T('RV: realised variance; BV: bipower variation; PPI: producer price index', 'RV: varianța realizată; BV: variația bipower; IPP (PPI): indicele prețurilor producției')), 'footnotesize')
 
 D.frame(T('From the trading floor to the tick', 'De la sala de tranzacționare la fiecare tranzacție'), two(
@@ -360,43 +366,101 @@ D.frame(T('From TSA to this chapter', 'De la TSA la acest capitol'), items(
     T('Stochastic volatility (a latent log-variance with its own shock): Chapter 6; Markov-switching GARCH: Chapter 7; VaR and ES backtesting: Chapter 9; rough volatility: Chapter 10',
       'Volatilitatea stochastică (un logaritm al varianței latent, cu propriul șoc): Capitolul 6; GARCH cu schimbare de regim: Capitolul 7; backtesting pentru VaR și ES: Capitolul 9; rough volatility: Capitolul 10')), 'small')
 
-D.frame(T('The Gaussian quasi-likelihood', 'Cvasi-verosimilitatea gaussiană'), items(
-    T(r'Model: $\varepsilon_t = \sigma_t(\theta_0)\eta_t$, $\eta_t$ i.i.d., $\E\eta_t = 0$, $\E\eta_t^2 = 1$, unknown law; $\sigma^2_t(\theta) = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1}(\theta)$',
-      r'Modelul: $\varepsilon_t = \sigma_t(\theta_0)\eta_t$, $\eta_t$ i.i.d., $\E\eta_t = 0$, $\E\eta_t^2 = 1$, lege necunoscută; $\sigma^2_t(\theta) = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1}(\theta)$'),
-    (T(r'QMLE: $\hat\theta = \arg\max_\theta \sum_{t=1}^T \ell_t(\theta)$, $\ell_t(\theta) = -\frac12\left(\ln\sigma^2_t(\theta) + \varepsilon_t^2/\sigma^2_t(\theta)\right)$: the Gaussian likelihood used as an estimating equation',
-       r'QMLE: $\hat\theta = \arg\max_\theta \sum_{t=1}^T \ell_t(\theta)$, $\ell_t(\theta) = -\frac12\left(\ln\sigma^2_t(\theta) + \varepsilon_t^2/\sigma^2_t(\theta)\right)$: verosimilitatea gaussiană folosită ca ecuație de estimare'),
-     [T(r'score: $s_t(\theta) = \frac12\left(\frac{\varepsilon_t^2}{\sigma_t^2} - 1\right)\frac{1}{\sigma^2_t}\frac{\partial\sigma^2_t}{\partial\theta}$; at $\theta_0$, $\E(s_t | \mathcal F_{t-1}) = 0$ because $\E(\eta_t^2 - 1) = 0$',
-        r'scorul: $s_t(\theta) = \frac12\left(\frac{\varepsilon_t^2}{\sigma_t^2} - 1\right)\frac{1}{\sigma^2_t}\frac{\partial\sigma^2_t}{\partial\theta}$; în $\theta_0$, $\E(s_t | \mathcal F_{t-1}) = 0$ pentru că $\E(\eta_t^2 - 1) = 0$'),
-      T('only the conditional variance must be right; the shape of the law of $\\eta_t$ is never used', 'doar varianța condiționată trebuie să fie corect specificată; forma legii lui $\\eta_t$ nu se folosește niciodată')]),
-    T(r'The score is a martingale difference: a CLT for martingales gives asymptotic normality without independence of $\varepsilon_t$',
-      r'Scorul este o diferență de martingal: o TLC pentru martingale dă normalitatea asimptotică fără independența lui $\varepsilon_t$'),
+D.frame(T('The Gaussian quasi-likelihood (1/2): the model', 'Cvasi-verosimilitatea gaussiană (1/2): modelul'), items(
+    T(r'The return shock is a volatility times a standardised shock; the variance follows a GARCH(1,1) recursion',
+      r'Șocul randamentului este produsul dintre volatilitate și un șoc standardizat; varianța urmează recursia GARCH(1,1)'
+      ) + r'''
+    \[ \varepsilon_t = \sigma_t(\theta_0)\,\eta_t, \qquad \sigma^2_t(\theta) = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1}(\theta) \]''',
+    (T('Notation', 'Notațiile'),
+     [T(r'$\varepsilon_t$: the demeaned return of day $t$; $\sigma^2_t(\theta)$: its variance conditional on the past $\mathcal F_{t-1}$ (the information up to day $t-1$)',
+        r'$\varepsilon_t$: randamentul centrat al zilei $t$; $\sigma^2_t(\theta)$: varianța lui condiționată de trecutul $\mathcal F_{t-1}$ (informația pînă în ziua $t-1$)'),
+      T(r'$\eta_t$: i.i.d. standardised shock, $\E\eta_t = 0$, $\E\eta_t^2 = 1$; its law (Normal, Student-$t$, skewed) is unknown',
+        r'$\eta_t$: șoc standardizat i.i.d., $\E\eta_t = 0$, $\E\eta_t^2 = 1$; legea lui (distribuția Normală, Student-$t$, asimetrică) este necunoscută'),
+      T(r'$\theta = (\omega, \alpha, \beta)$, true value $\theta_0$: $\omega > 0$ sets the level, $\alpha \ge 0$ the reaction to yesterday\'s squared shock, $\beta \ge 0$ the persistence of yesterday\'s variance',
+        r'$\theta = (\omega, \alpha, \beta)$, cu valoarea adevărată $\theta_0$: $\omega > 0$ fixează nivelul, $\alpha \ge 0$ reacția la pătratul șocului de ieri, $\beta \ge 0$ persistența varianței de ieri')]),
     T(r'The recursion starts from an arbitrary $\sigma^2_1$; the effect of the start vanishes geometrically when $\beta < 1$',
-      r'Recursia pornește de la un $\sigma^2_1$ arbitrar; efectul startului dispare geometric cînd $\beta < 1$')), 'small')
+      r'Recursia pornește de la un $\sigma^2_1$ arbitrar; efectul valorii de start dispare geometric cînd $\beta < 1$')), 'small')
 
-D.frame(T('Consistency and asymptotic normality', 'Consistența și normalitatea asimptotică'), items(
-    (T(r'Strict stationarity of GARCH(1,1) iff $\E\ln(\alpha_0\eta_t^2 + \beta_0) < 0$: weaker than $\alpha_0 + \beta_0 < 1$; $\E\varepsilon_t^2$ may be infinite',
-       r'GARCH(1,1) este strict staționar dacă și numai dacă $\E\ln(\alpha_0\eta_t^2 + \beta_0) < 0$: condiție mai slabă decît $\alpha_0 + \beta_0 < 1$; $\E\varepsilon_t^2$ poate fi infinită'),
-     [T(r'\refLH, \refLum: GARCH(1,1), including IGARCH; \refBHK, \refFZa: GARCH($p,q$) under strict stationarity', r'\refLH, \refLum: GARCH(1,1), inclusiv IGARCH; \refBHK, \refFZa: GARCH($p,q$) sub staționaritate strictă')]),
-    (T(r'Consistency \refFZa: strict stationarity, $\theta_0$ in a compact set, identifiability ($\eta_t^2$ not degenerate); no moment of $\varepsilon_t$ is needed',
-       r'Consistența \refFZa: staționaritate strictă, $\theta_0$ într-o mulțime compactă, identificabilitate ($\eta_t^2$ nedegenerat); nu este nevoie de niciun moment al lui $\varepsilon_t$'),
-     [T(r'asymptotic normality adds $\theta_0$ interior and $\kappa_\eta = \E\eta_t^4 < \infty$: $\sqrt T(\hat\theta - \theta_0) \to N\left(0, (\kappa_\eta - 1)J^{-1}\right)$, $J = \E\left[\frac{1}{\sigma^4_t}\frac{\partial\sigma^2_t}{\partial\theta}\frac{\partial\sigma^2_t}{\partial\theta\'}\right]$',
-        r'normalitatea asimptotică adaugă $\theta_0$ interior și $\kappa_\eta = \E\eta_t^4 < \infty$: $\sqrt T(\hat\theta - \theta_0) \to N\left(0, (\kappa_\eta - 1)J^{-1}\right)$, $J = \E\left[\frac{1}{\sigma^4_t}\frac{\partial\sigma^2_t}{\partial\theta}\frac{\partial\sigma^2_t}{\partial\theta\'}\right]$')]),
+D.frame(T('The Gaussian quasi-likelihood (2/2): estimator and score', 'Cvasi-verosimilitatea gaussiană (2/2): estimatorul și scorul'), items(
+    (T(r'QMLE: maximise the Gaussian log-likelihood, used as an estimating equation even if $\eta_t$ is not Gaussian',
+       r'QMLE: se maximizează log-verosimilitatea gaussiană, folosită ca ecuație de estimare chiar dacă $\eta_t$ nu este gaussian'
+       ) + r'''
+    \[ \hat\theta = \arg\max_\theta \sum_{t=1}^T \ell_t(\theta), \qquad \ell_t(\theta) = -\frac12\Big(\ln\sigma^2_t(\theta) + \frac{\varepsilon_t^2}{\sigma^2_t(\theta)}\Big) \]''',
+     [T(r'$\ell_t$: the Gaussian log-density of day $t$ without its constant; $T$: number of days; $\hat\theta$: the estimate',
+        r'$\ell_t$: log-densitatea gaussiană a zilei $t$, fără constantă; $T$: numărul de zile; $\hat\theta$: valoarea estimată')]),
+    (T(r'The score, the gradient of $\ell_t$, has conditional mean zero at the true value',
+       r'Scorul, adică gradientul lui $\ell_t$, are media condiționată zero în valoarea adevărată'
+       ) + r'''
+    \[ s_t(\theta) = \frac{\partial\ell_t}{\partial\theta} = \frac12\Big(\frac{\varepsilon_t^2}{\sigma_t^2} - 1\Big)\frac{1}{\sigma^2_t}\frac{\partial\sigma^2_t}{\partial\theta} \]''',
+     [T(r'at $\theta_0$, $\varepsilon_t^2/\sigma_t^2 = \eta_t^2$, hence $\E(s_t | \mathcal F_{t-1}) = 0$ because $\E\eta_t^2 = 1$',
+        r'în $\theta_0$, $\varepsilon_t^2/\sigma_t^2 = \eta_t^2$, deci $\E(s_t | \mathcal F_{t-1}) = 0$, pentru că $\E\eta_t^2 = 1$'),
+      T('only the conditional variance must be right; the shape of the law of $\\eta_t$ is never used', 'doar varianța condiționată trebuie să fie corect specificată; forma legii lui $\\eta_t$ nu se folosește niciodată')]),
+    (T(r'The score is a martingale difference (conditional mean zero given the past)',
+       r'Scorul este o diferență de martingal (media condiționată de trecut este zero)'),
+     [T(r'a CLT for martingales gives asymptotic normality without independence of $\varepsilon_t$',
+        r'o TLC pentru martingale dă normalitatea asimptotică fără independența lui $\varepsilon_t$')])), 'small')
+
+D.frame(T('Consistency and asymptotic normality (1/2): stationarity and consistency', 'Consistența și normalitatea asimptotică (1/2): staționaritatea și consistența'), items(
+    (T(r'GARCH(1,1) is strictly stationary if and only if the log of the daily variance multiplier has a negative mean',
+       r'GARCH(1,1) este strict staționar dacă și numai dacă logaritmul multiplicatorului zilnic al varianței are media negativă'
+       ) + r'''
+    \[ \E\ln(\alpha_0\eta_t^2 + \beta_0) < 0 \]''',
+     [T(r'$\alpha_0\eta_t^2 + \beta_0$: the factor by which a shock to the variance is carried from one day to the next; $\alpha_0, \beta_0$: true values',
+        r'$\alpha_0\eta_t^2 + \beta_0$: factorul cu care un șoc al varianței este transmis de la o zi la următoarea; $\alpha_0, \beta_0$: valorile adevărate'),
+      T(r'by Jensen\'s inequality, weaker than $\alpha_0 + \beta_0 < 1$ (finite variance): IGARCH ($\alpha_0 + \beta_0 = 1$) is strictly stationary, and $\E\varepsilon_t^2$ may be infinite',
+        r'prin inegalitatea lui Jensen, condiția este mai slabă decît $\alpha_0 + \beta_0 < 1$ (varianță finită): IGARCH ($\alpha_0 + \beta_0 = 1$) este strict staționar, iar $\E\varepsilon_t^2$ poate fi infinită'),
+      T(r'\refLH, \refLum: GARCH(1,1), including IGARCH; \refBHK, \refFZa: GARCH($p,q$) under strict stationarity', r'\refLH, \refLum: GARCH(1,1), inclusiv IGARCH; \refBHK, \refFZa: GARCH($p,q$) sub staționaritate strictă')]),
+    (T(r'Consistency of $\hat\theta$ \refFZa', r'Consistența lui $\hat\theta$ \refFZa'),
+     [T(r'conditions: strict stationarity, $\theta_0$ in a compact parameter set, identifiability ($\eta_t^2$ is not a constant)',
+        r'condiții: staționaritate strictă, $\theta_0$ într-o mulțime compactă de parametri, identificabilitate ($\eta_t^2$ nu este o constantă)'),
+      T(r'no moment of $\varepsilon_t$ is needed', r'nu este nevoie de niciun moment al lui $\varepsilon_t$')]),
     T(r'Even explosive GARCH ($\E\ln(\alpha_0\eta^2 + \beta_0) > 0$): $(\hat\alpha, \hat\beta)$ remain consistent and asymptotically normal, $\omega$ is not identified \refJR',
-      r'Chiar și GARCH exploziv ($\E\ln(\alpha_0\eta^2 + \beta_0) > 0$): $(\hat\alpha, \hat\beta)$ rămîn consistenți și asimptotic normali, $\omega$ nu este identificat \refJR'),
-    T(r'Boundary: if $\alpha_0 = 0$ the limit is the projection of a normal vector on a cone, which is why TSA, Chapter 5 tests ARCH effects one-sided',
-      r'Frontiera: dacă $\alpha_0 = 0$, limita este proiecția unui vector normal pe un con; de aceea TSA, Capitolul 5 testează efectele ARCH unilateral')), 'footnotesize')
+      r'Chiar și pentru GARCH exploziv ($\E\ln(\alpha_0\eta^2 + \beta_0) > 0$), $(\hat\alpha, \hat\beta)$ rămîn consistenți și asimptotic normali, iar $\omega$ nu este identificat \refJR')), 'small')
 
-D.frame(T('The sandwich and the Bollerslev--Wooldridge standard errors', 'Sandwich-ul și erorile standard Bollerslev--Wooldridge'), items(
-    T(r'General QML result: $\sqrt T(\hat\theta - \theta_0) \to N(0, A^{-1}B\,A^{-1})$, $A = -\E\,\partial^2\ell_t/\partial\theta\partial\theta\'$, $B = \E\,s_ts_t\'$',
-      r'Rezultatul general QML: $\sqrt T(\hat\theta - \theta_0) \to N(0, A^{-1}B\,A^{-1})$, $A = -\E\,\partial^2\ell_t/\partial\theta\partial\theta\'$, $B = \E\,s_ts_t\'$'),
-    (T(r'For GARCH: $A = \frac12J$ and $B = \frac{\kappa_\eta - 1}{4}J$, hence $A^{-1}B\,A^{-1} = (\kappa_\eta - 1)J^{-1}$ (Appendix)',
-       r'Pentru GARCH: $A = \frac12J$ și $B = \frac{\kappa_\eta - 1}{4}J$, deci $A^{-1}B\,A^{-1} = (\kappa_\eta - 1)J^{-1}$ (Anexa)'),
-     [T(r'Hessian-only s.e. assume $\kappa_\eta = 3$ and give $2J^{-1}$: too small by the factor $\sqrt{(\kappa_\eta - 1)/2}$', r'erorile standard doar din hessiană presupun $\kappa_\eta = 3$ și dau $2J^{-1}$: prea mici cu factorul $\sqrt{(\kappa_\eta - 1)/2}$'),
-      T(r'outer-product (OPG) s.e. use $B^{-1} = \frac{4}{\kappa_\eta - 1}J^{-1}$: even smaller when $\kappa_\eta > 3$', r'erorile standard din produsul exterior al scorurilor (OPG) folosesc $B^{-1} = \frac{4}{\kappa_\eta - 1}J^{-1}$: și mai mici cînd $\kappa_\eta > 3$')]),
-    T(r'\refBW: estimate $A$ by the observed Hessian and $B$ by $\frac1T\sum\hat s_t\hat s_t\'$; valid whatever the law of $\eta_t$ (with $\kappa_\eta < \infty$)',
-      r'\refBW: estimăm $A$ prin hessiana observată și $B$ prin $\frac1T\sum\hat s_t\hat s_t\'$; valabile oricare ar fi legea lui $\eta_t$ (cu $\kappa_\eta < \infty$)'),
-    T(r'Robust Wald and score tests use the sandwich; the quasi-LR statistic is no longer $\chi^2$, but a weighted sum of $\chi^2_1$ variables',
-      r'Testele Wald și de tip scor robuste folosesc sandwich-ul; statistica cvasi-LR nu mai este $\chi^2$, ci o sumă ponderată de variabile $\chi^2_1$')), 'small')
+D.frame(T('Consistency and asymptotic normality (2/2): the limit law', 'Consistența și normalitatea asimptotică (2/2): legea limită'), items(
+    (T(r'With $\theta_0$ interior to the parameter set and a finite fourth moment of $\eta_t$, the estimator is asymptotically normal',
+       r'Dacă $\theta_0$ este interior mulțimii parametrilor și $\eta_t$ are momentul de ordinul patru finit, estimatorul este asimptotic normal'
+       ) + r'''
+    \[ \sqrt T(\hat\theta - \theta_0) \to N\big(0, (\kappa_\eta - 1)J^{-1}\big), \qquad J = \E\Big[\frac{1}{\sigma^4_t}\frac{\partial\sigma^2_t}{\partial\theta}\frac{\partial\sigma^2_t}{\partial\theta'}\Big] \]''',
+     [T(r'$\kappa_\eta = \E\eta_t^4$: kurtosis of the shock ($3$ for the Normal distribution); $\kappa_\eta - 1 = \Var(\eta_t^2)$',
+        r'$\kappa_\eta = \E\eta_t^4$: kurtosis-ul șocului ($3$ pentru distribuția Normală); $\kappa_\eta - 1 = \Var(\eta_t^2)$'),
+      T(r'$J$: a $3 \times 3$ matrix, the mean outer product of the relative sensitivities $\sigma_t^{-2}\partial\sigma^2_t/\partial\theta$; $\to$: convergence in distribution as $T \to \infty$',
+        r'$J$: o matrice $3 \times 3$, media produsului exterior al sensibilităților relative $\sigma_t^{-2}\partial\sigma^2_t/\partial\theta$; $\to$: convergența în distribuție cînd $T \to \infty$'),
+      T(r'reading: the sampling variance of $\hat\theta$ grows linearly with the kurtosis of the shocks',
+        r'interpretare: varianța de eșantionare a lui $\hat\theta$ crește liniar cu kurtosis-ul șocurilor')]),
+    (T(r'Boundary: if $\alpha_0 = 0$, $\theta_0$ is not interior and the limit is the projection of a normal vector on a cone',
+       r'Frontiera: dacă $\alpha_0 = 0$, $\theta_0$ nu este interior, iar limita este proiecția unui vector normal pe un con'),
+     [T(r'this is why TSA, Chapter 5 tests ARCH effects one-sided', r'de aceea TSA, Capitolul 5 testează efectele ARCH unilateral')])), 'small')
+
+D.frame(T('The sandwich and the Bollerslev--Wooldridge standard errors (1/2)', 'Sandwich-ul și erorile standard Bollerslev--Wooldridge (1/2)'), items(
+    (T(r'General QML result: the asymptotic variance is a ``sandwich\'\' of two matrices',
+       r'Rezultatul general QML: varianța asimptotică este un „sandwich” format din două matrice'
+       ) + r'''
+    \[ \sqrt T(\hat\theta - \theta_0) \to N(0, A^{-1}B\,A^{-1}), \qquad A = -\E\frac{\partial^2\ell_t}{\partial\theta\,\partial\theta'}, \qquad B = \E\,s_ts_t' \]''',
+     [T(r'$A$: the expected negative Hessian (curvature of the log-likelihood); $B$: the variance of the score $s_t$',
+        r'$A$: hessiana negativă așteptată (curbura log-verosimilității); $B$: varianța scorului $s_t$'),
+      T(r'if the likelihood is the true one, $A = B$ (information equality) and the variance reduces to $A^{-1}$; under QML, $A \ne B$',
+        r'dacă verosimilitatea este cea adevărată, $A = B$ (egalitatea informațională), iar varianța devine $A^{-1}$; sub QML, $A \ne B$')]),
+    (T(r'For GARCH both matrices are proportional to $J$ (Appendix)', r'Pentru GARCH, ambele matrice sînt proporționale cu $J$ (Anexa)'
+       ) + r'''
+    \[ A = \tfrac12J, \qquad B = \tfrac{\kappa_\eta - 1}{4}J, \qquad A^{-1}B\,A^{-1} = (\kappa_\eta - 1)J^{-1} \]''',
+     [T(r'the sandwich recovers the limit law of the previous slide, for any law of $\eta_t$ with $\kappa_\eta < \infty$',
+        r'sandwich-ul regăsește legea limită de pe slide-ul anterior, pentru orice lege a lui $\eta_t$ cu $\kappa_\eta < \infty$')])), 'small')
+
+D.frame(T('The sandwich and the Bollerslev--Wooldridge standard errors (2/2)', 'Sandwich-ul și erorile standard Bollerslev--Wooldridge (2/2)'), items(
+    (T(r'Three ways to compute standard errors (s.e.)', r'Trei moduri de a calcula erorile standard'),
+     [T(r'Hessian only: $A^{-1} = 2J^{-1}$, correct only if $\kappa_\eta = 3$; too small by the factor $\sqrt{(\kappa_\eta - 1)/2}$ when $\kappa_\eta > 3$',
+        r'doar din hessiană: $A^{-1} = 2J^{-1}$, corect doar dacă $\kappa_\eta = 3$; prea mici cu factorul $\sqrt{(\kappa_\eta - 1)/2}$ cînd $\kappa_\eta > 3$'),
+      T(r'outer product of the scores (OPG): $B^{-1} = \frac{4}{\kappa_\eta - 1}J^{-1}$, even smaller when $\kappa_\eta > 3$',
+        r'din produsul exterior al scorurilor (OPG): $B^{-1} = \frac{4}{\kappa_\eta - 1}J^{-1}$, și mai mici cînd $\kappa_\eta > 3$'),
+      T(r'sandwich \refBW: $\hat A^{-1}\hat B\hat A^{-1}$, valid whatever the law of $\eta_t$ (with $\kappa_\eta < \infty$)',
+        r'sandwich \refBW: $\hat A^{-1}\hat B\hat A^{-1}$, valabil oricare ar fi legea lui $\eta_t$ (cu $\kappa_\eta < \infty$)')]),
+    (T(r'Estimates used by Bollerslev and Wooldridge', r'Estimațiile folosite de Bollerslev și Wooldridge'),
+     [T(r'$\hat A$: the observed Hessian of $-\frac1T\sum_t\ell_t$ at $\hat\theta$; $\hat B = \frac1T\sum_t\hat s_t\hat s_t\'$, with $\hat s_t = s_t(\hat\theta)$ the estimated score',
+        r'$\hat A$: hessiana observată a lui $-\frac1T\sum_t\ell_t$ în $\hat\theta$; $\hat B = \frac1T\sum_t\hat s_t\hat s_t\'$, cu $\hat s_t = s_t(\hat\theta)$ scorul estimat')]),
+    (T(r'Robust Wald and score tests use the sandwich', r'Testele Wald și de tip scor robuste folosesc sandwich-ul'),
+     [T(r'the quasi-likelihood-ratio (quasi-LR) statistic is no longer $\chi^2$, but a weighted sum of $\chi^2_1$ variables (chi-square with one degree of freedom)',
+        r'statistica raportului de cvasi-verosimilitate (cvasi-LR) nu mai are distribuția $\chi^2$, ci este o sumă ponderată de variabile $\chi^2_1$ (hi-pătrat cu un grad de libertate)')])), 'small')
 
 chart(T('Hessian against sandwich: a Monte Carlo', 'Hessiana față de sandwich: un experiment Monte Carlo'), 'ats_ch8_qmle_sim', 'ATS_ch8_qmle', [
     T(r'GARCH(1,1) with $(\omega, \alpha, \beta) = (0.05, 0.08, 0.90)$, $T = @{qs.T}$, @{qs.reps} replications; Gaussian QML in each; histogram of $(\hat\alpha - \alpha_0)/\widehat{\mathrm{se}}$',
@@ -415,14 +479,14 @@ interp(('the Monte Carlo', 'experimentului Monte Carlo'), [
 
 chart(T('Robust and naive standard errors in five markets', 'Erori standard robuste și naive pe cinci piețe'), 'ats_ch8_qmle_markets', 'ATS_ch8_qmle', [
     T(r'Gaussian QML of GARCH(1,1), daily returns 2010--2026; bars: sandwich s.e. divided by Hessian s.e.; labels: kurtosis $\hat\kappa_\eta$ of the standardised residuals',
-      r'QML gaussian pentru GARCH(1,1), randamente zilnice 2010--2026; bare: eroarea standard sandwich împărțită la eroarea standard din hessiană; etichete: coeficientul de boltire $\hat\kappa_\eta$ al reziduurilor standardizate')],
+      r'QML gaussian pentru GARCH(1,1), randamente zilnice 2010--2026; bare: eroarea standard sandwich împărțită la eroarea standard din hessiană; etichete: kurtosis-ul $\hat\kappa_\eta$ al reziduurilor standardizate')],
     h='0.6\\textheight')
 
 interp(('the five markets', 'celor cinci piețe'), [
     T(r'S\&P 500: $\hat\alpha = @{qm.sp500.a}$ with s.e. @{qm.sp500.a.h} (Hessian) against @{qm.sp500.a.bw} (sandwich); $\hat\kappa_\eta = @{qm.sp500.k}$, theoretical factor @{qm.sp500.th}',
       r'S\&P 500: $\hat\alpha = @{qm.sp500.a}$, cu eroarea standard @{qm.sp500.a.h} (hessiană) față de @{qm.sp500.a.bw} (sandwich); $\hat\kappa_\eta = @{qm.sp500.k}$, factorul teoretic @{qm.sp500.th}'),
     T(r'BET: $\hat\kappa_\eta = @{qm.bet.k}$, the sandwich s.e. of $\hat\alpha$ is @{qm.bet.a.r} times larger; EUR/RON (managed float): @{qm.eurron.a.r} times, $\hat\kappa_\eta = @{qm.eurron.k}$',
-      r'BET: $\hat\kappa_\eta = @{qm.bet.k}$, eroarea standard sandwich a lui $\hat\alpha$ este de @{qm.bet.a.r} ori mai mare; EUR/RON (curs administrat): de @{qm.eurron.a.r} ori, $\hat\kappa_\eta = @{qm.eurron.k}$'),
+      r'BET: $\hat\kappa_\eta = @{qm.bet.k}$, eroarea standard sandwich a lui $\hat\alpha$ este de @{qm.bet.a.r} ori mai mare; EUR/RON (managed float): de @{qm.eurron.a.r} ori, $\hat\kappa_\eta = @{qm.eurron.k}$'),
     T(r'The ratios track $\sqrt{(\hat\kappa_\eta - 1)/2}$ only roughly: in the data $\eta_t$ is not i.i.d., and the sandwich does not need it to be',
       r'Rapoartele urmează doar aproximativ $\sqrt{(\hat\kappa_\eta - 1)/2}$: în date, $\eta_t$ nu este i.i.d., iar sandwich-ul nu are nevoie de această ipoteză'),
     T(r'Student-$t$ ML raises the log-likelihood by @{qm.sp500.dll} (S\&P 500) and @{qm.bet.dll} (BET), but is consistent only if the $t$ shape is right; QML needs only the variance equation',
@@ -439,28 +503,51 @@ D.recap(('QML for GARCH', 'QML pentru GARCH'), [
 D.section('Long-run and short-run volatility', 'Volatilitatea de termen lung și de termen scurt')
 
 D.frame(T('GARCH with exogenous variables', 'GARCH cu variabile exogene'), items(
-    T(r'GARCH-X: $\sigma^2_t = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1} + \pi\'x_{t-1}$, with $x_{t-1} \ge 0$ and $\pi \ge 0$ for positivity (or a log specification)',
-      r'GARCH-X: $\sigma^2_t = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1} + \pi\'x_{t-1}$, cu $x_{t-1} \ge 0$ și $\pi \ge 0$ pentru pozitivitate (sau o specificare în logaritmi)'),
+    (T(r'GARCH-X: yesterday\'s value of an observed variable enters the variance equation',
+       r'GARCH-X: valoarea de ieri a unei variabile observate intră în ecuația varianței'
+       ) + r'''
+    \[ \sigma^2_t = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1} + \pi'x_{t-1} \]''',
+     [T(r'$x_{t-1}$: vector of exogenous variables known at the end of day $t-1$; $\pi$: their loadings ($\pi\'x$: the weighted sum)',
+        r'$x_{t-1}$: vectorul variabilelor exogene cunoscute la sfîrșitul zilei $t-1$; $\pi$: coeficienții lor ($\pi\'x$: suma ponderată)'),
+      T(r'positivity of $\sigma^2_t$: $x_{t-1} \ge 0$ and $\pi \ge 0$, or a specification in logs',
+        r'pozitivitatea lui $\sigma^2_t$: $x_{t-1} \ge 0$ și $\pi \ge 0$ sau o specificare în logaritmi')]),
     (T(r'Candidates for $x_t$: a realised measure (leads to HEAVY and Realized GARCH below), the VIX, a macro or policy-uncertainty index, trading volume',
        r'Candidați pentru $x_t$: o măsură realizată (duce la HEAVY și Realized GARCH, mai jos), VIX, un indice macroeconomic sau de incertitudine a politicilor, volumul tranzacțiilor'),
-     [T(r'QML theory carries over if $x_t$ is stationary and ergodic and its own dynamics need not be modelled for one-step forecasts',
-        r'teoria QML se păstrează dacă $x_t$ este staționar și ergodic, iar dinamica lui nu trebuie modelată pentru prognoze cu un pas'),
+     [T(r'QML theory carries over if $x_t$ is stationary and ergodic; its own dynamics need not be modelled for one-step forecasts',
+        r'teoria QML se păstrează dacă $x_t$ este staționar și ergodic; dinamica lui nu trebuie modelată pentru prognoze cu un pas'),
       T(r'multi-step forecasts need a model for $x_t$: this is exactly what Realized GARCH and HEAVY add',
         r'prognozele cu mai mulți pași au nevoie de un model pentru $x_t$: exact acest lucru adaugă Realized GARCH și HEAVY')]),
     T(r'A slow variable (a monthly macro series) cannot enter a daily recursion at its own frequency: one needs a component structure (next slides)',
       r'O variabilă lentă (o serie macroeconomică lunară) nu poate intra în recursia zilnică la frecvența ei: este nevoie de o structură pe componente (slide-urile următoare)')), 'small')
 
-D.frame(T('The component GARCH of Engle and Lee', 'Component GARCH al lui Engle și Lee'), items(
-    T(r'\refEL: $\sigma^2_t = q_t + \alpha(\varepsilon^2_{t-1} - q_{t-1}) + \beta(\sigma^2_{t-1} - q_{t-1})$, $\quad q_t = \omega + \rho q_{t-1} + \phi(\varepsilon^2_{t-1} - \sigma^2_{t-1})$',
-      r'\refEL: $\sigma^2_t = q_t + \alpha(\varepsilon^2_{t-1} - q_{t-1}) + \beta(\sigma^2_{t-1} - q_{t-1})$, $\quad q_t = \omega + \rho q_{t-1} + \phi(\varepsilon^2_{t-1} - \sigma^2_{t-1})$'),
-    (T(r'$q_t$: a slowly moving long-run level (persistence $\rho$, close to 1); $\sigma^2_t - q_t$: a transitory deviation (persistence $\alpha + \beta < \rho$)',
-       r'$q_t$: un nivel de termen lung care se mișcă lent (persistența $\rho$, apropiată de 1); $\sigma^2_t - q_t$: o abatere tranzitorie (persistența $\alpha + \beta < \rho$)'),
-     [T(r'both are driven by the same shock $\varepsilon^2_{t-1} - \sigma^2_{t-1}$: the model is a restricted GARCH(2,2)',
-        r'ambele sînt antrenate de același șoc $\varepsilon^2_{t-1} - \sigma^2_{t-1}$: modelul este un GARCH(2,2) restricționat')]),
-    T(r'Half-life of a shock to each component: $\ln 0.5/\ln\rho$ and $\ln 0.5/\ln(\alpha + \beta)$ days; GARCH(1,1) forces a single half-life',
-      r'Timpul de înjumătățire al unui șoc pentru fiecare componentă: $\ln 0{,}5/\ln\rho$ și $\ln 0{,}5/\ln(\alpha + \beta)$ zile; GARCH(1,1) impune un singur timp de înjumătățire'),
-    T(r'Two exponentials approximate a slowly decaying (hyperbolic) autocorrelation of squared returns over a finite range of lags; long memory proper: Chapter 10',
-      r'Două exponențiale aproximează, pe un interval finit de decalaje, o autocorelație a pătratelor randamentelor care scade lent (hiperbolic); memoria lungă propriu-zisă: Capitolul 10')), 'small')
+D.frame(T('The component GARCH of Engle and Lee (1/2): the model', 'Component GARCH al lui Engle și Lee (1/2): modelul'), items(
+    (T(r'\refEL: the variance is a slowly moving long-run level $q_t$ plus a transitory deviation from it',
+       r'\refEL: varianța este suma dintre un nivel de termen lung $q_t$, care se mișcă lent, și o abatere tranzitorie de la acest nivel'
+       ) + r'''
+    \[ \sigma^2_t = q_t + \alpha(\varepsilon^2_{t-1} - q_{t-1}) + \beta(\sigma^2_{t-1} - q_{t-1}) \]
+    \[ q_t = \omega + \rho q_{t-1} + \phi(\varepsilon^2_{t-1} - \sigma^2_{t-1}) \]''',
+     [T(r'$q_t$: long-run (permanent) component; $\rho$: its persistence, close to 1; $\omega$: its intercept',
+        r'$q_t$: componenta de termen lung (permanentă); $\rho$: persistența ei, apropiată de 1; $\omega$: termenul ei liber'),
+      T(r'$\sigma^2_t - q_t$: transitory component; $\alpha$, $\beta$: its reaction and persistence, with $\alpha + \beta < \rho$',
+        r'$\sigma^2_t - q_t$: componenta tranzitorie; $\alpha$, $\beta$: reacția și persistența ei, cu $\alpha + \beta < \rho$'),
+      T(r'$\varepsilon^2_{t-1} - \sigma^2_{t-1}$: the variance surprise of yesterday (mean zero); $\phi$: how much of it moves the long-run level',
+        r'$\varepsilon^2_{t-1} - \sigma^2_{t-1}$: surpriza de varianță de ieri (cu media zero); $\phi$: cît din această surpriză mută nivelul de termen lung')]),
+    T(r'Both components are driven by the same shock: the model is a restricted GARCH(2,2)',
+      r'Ambele componente sînt determinate de același șoc: modelul este un GARCH(2,2) restricționat')), 'small')
+
+D.frame(T('The component GARCH of Engle and Lee (2/2): two speeds', 'Component GARCH al lui Engle și Lee (2/2): două viteze'), items(
+    (T(r'Half-life: the number of days after which half of a shock to a component has died out',
+       r'Timpul de înjumătățire: numărul de zile după care jumătate dintr-un șoc al unei componente a dispărut'
+       ) + r'''
+    \[ \mathrm{HL}_q = \frac{\ln(1/2)}{\ln\rho}, \qquad \mathrm{HL}_{\sigma - q} = \frac{\ln(1/2)}{\ln(\alpha + \beta)} \]''',
+     [T(r'$\mathrm{HL}_q$: half-life of the long-run component; $\mathrm{HL}_{\sigma - q}$: half-life of the transitory component',
+        r'$\mathrm{HL}_q$: timpul de înjumătățire al componentei de termen lung; $\mathrm{HL}_{\sigma - q}$: al componentei tranzitorii'),
+      T(r'a persistence $\rho = 0.99$ gives about 69 days; $\alpha + \beta = 0.9$ gives about 6.6 days',
+        r'o persistență $\rho = 0.99$ dă aproximativ 69 de zile; $\alpha + \beta = 0.9$ dă aproximativ 6,6 zile'),
+      T(r'GARCH(1,1) forces a single half-life, $\ln 0.5/\ln(\alpha + \beta)$', r'GARCH(1,1) impune un singur timp de înjumătățire, $\ln 0.5/\ln(\alpha + \beta)$')]),
+    (T(r'Two exponentials approximate a slowly decaying (hyperbolic) autocorrelation of squared returns over a finite range of lags',
+       r'Două exponențiale aproximează, pe un interval finit de laguri, o autocorelație a pătratelor randamentelor care scade lent (hiperbolic)'),
+     [T('long memory proper: Chapter 10', 'memoria lungă propriu-zisă: Capitolul 10')])), 'small')
 
 chart(T('Component GARCH for the S\\&P 500', 'Component GARCH pentru S\\&P 500'), 'ats_ch8_cgarch', 'ATS_ch8_components', [
     T(r'Daily returns since 1990, $T = @{cg.T}$; Gaussian QML; annualised total volatility $\sqrt{252\sigma^2_t}$ and long-run component $\sqrt{252q_t}$',
@@ -477,27 +564,47 @@ interp(('the component model', 'modelului cu componente'), [
     T('After 2008, 2020 and 2025 the long-run level stays high for months while daily volatility has already fallen: this matters for horizons beyond a few weeks',
       'După 2008, 2020 și 2025, nivelul de termen lung rămîne ridicat luni de zile, deși volatilitatea zilnică a scăzut deja: acest lucru contează pentru orizonturi de peste cîteva săptămîni')])
 
-D.frame(T('GARCH-MIDAS: a macro-driven long-run component', 'GARCH-MIDAS: o componentă de termen lung determinată macroeconomic'), two(
+D.frame(T('GARCH-MIDAS (1/3): a macro-driven long-run component', 'GARCH-MIDAS (1/3): o componentă de termen lung determinată macroeconomic'), two(
     ph('ghysels', T('Eric Ghysels, 2019', 'Eric Ghysels, 2019'), h='0.26\\textheight'),
-    items(T(r'\refEGS: day $i$ of month $t$: $r_{i,t} = \mu + \sqrt{\tau_tg_{i,t}}\,\eta_{i,t}$',
-            r'\refEGS: ziua $i$ din luna $t$: $r_{i,t} = \mu + \sqrt{\tau_tg_{i,t}}\,\eta_{i,t}$'),
-          T(r'short run, unit-mean GARCH: $g_{i,t} = (1 - \alpha - \beta) + \alpha\frac{(r_{i-1,t} - \mu)^2}{\tau_t} + \beta g_{i-1,t}$',
-            r'termen scurt, GARCH cu media 1: $g_{i,t} = (1 - \alpha - \beta) + \alpha\frac{(r_{i-1,t} - \mu)^2}{\tau_t} + \beta g_{i-1,t}$'),
-          T(r'long run, MIDAS in a monthly regressor: $\ln\tau_t = m + \theta\sum_{k=1}^K\varphi_k(w)X_{t-k}$',
-            r'termen lung, MIDAS într-un regresor lunar: $\ln\tau_t = m + \theta\sum_{k=1}^K\varphi_k(w)X_{t-k}$'),
-          T(r'beta weights restricted to decay: $\varphi_k(w) \propto (1 - k/K)^{w - 1}$, $w \ge 1$ \refGSV', r'ponderi beta restricționate să scadă: $\varphi_k(w) \propto (1 - k/K)^{w - 1}$, $w \ge 1$ \refGSV'),
-          T(r'$X$: realised variance of past months (in levels, $\tau_t = m + \theta\sum\varphi_kRV_{t-k}$) or macro data: industrial production growth, PPI inflation',
-            r'$X$: varianța realizată din lunile anterioare (în nivel, $\tau_t = m + \theta\sum\varphi_kRV_{t-k}$) sau date macroeconomice: creșterea producției industriale, inflația IPP')), '0.3', '0.68'), 'footnotesize')
+    items((T(r'\refEGS: the daily variance is the product of a monthly level $\tau_t$ and a daily factor $g_{i,t}$',
+             r'\refEGS: varianța zilnică este produsul dintre un nivel lunar $\tau_t$ și un factor zilnic $g_{i,t}$'
+             ) + r'''
+    \[ r_{i,t} = \mu + \sqrt{\tau_t\,g_{i,t}}\;\eta_{i,t} \]''',
+           [T(r'$r_{i,t}$: return of day $i$ of month $t$; $\mu$: mean return; $\eta_{i,t}$: i.i.d. shock with mean 0 and variance 1',
+              r'$r_{i,t}$: randamentul zilei $i$ din luna $t$; $\mu$: randamentul mediu; $\eta_{i,t}$: șoc i.i.d. cu media 0 și varianța 1')]),
+          (T(r'Short run: a GARCH(1,1) with mean 1, re-scaled by $\tau_t$', r'Termenul scurt: un GARCH(1,1) cu media 1, rescalat cu $\tau_t$'
+             ) + r'''
+    \[ g_{i,t} = (1 - \alpha - \beta) + \alpha\frac{(r_{i-1,t} - \mu)^2}{\tau_t} + \beta g_{i-1,t} \]''',
+           [T(r'$\alpha$, $\beta$: reaction and persistence of the daily component, as in GARCH(1,1)',
+              r'$\alpha$, $\beta$: reacția și persistența componentei zilnice, ca în GARCH(1,1)')])), '0.3', '0.68'), 'footnotesize')
 
-D.frame(T('GARCH-MIDAS: identification, estimation and the variance ratio', 'GARCH-MIDAS: identificare, estimare și raportul de varianță'), items(
-    (T(r'$\tau_t$ is constant within the month and $\E g_{i,t} = 1$: the split is identified by the different frequencies, without a latent-variable filter',
+D.frame(T('GARCH-MIDAS (2/3): the long-run component', 'GARCH-MIDAS (2/3): componenta de termen lung'), items(
+    (T(r'Long run: MIDAS (mixed-data sampling) regression of $\ln\tau_t$ on $K$ lags of a monthly variable',
+       r'Termenul lung: o regresie MIDAS (mixed-data sampling, eșantionare cu frecvențe mixte) a lui $\ln\tau_t$ pe $K$ laguri ale unei variabile lunare'
+       ) + r'''
+    \[ \ln\tau_t = m + \theta\sum_{k=1}^K\varphi_k(w)\,X_{t-k}, \qquad \varphi_k(w) \propto (1 - k/K)^{w - 1} \]''',
+     [T(r'$X_{t-k}$: the monthly driver $k$ months ago; $m$: intercept; $\theta$: effect of the driver (sign: pro- or countercyclical)',
+        r'$X_{t-k}$: factorul lunar de acum $k$ luni; $m$: termenul liber; $\theta$: efectul factorului (semnul arată dacă este prociclic sau anticiclic)'),
+      T(r'$\varphi_k(w)$: beta lag weights, normalised to sum to 1 and restricted to decay \refGSV; $w \ge 1$: the larger $w$, the faster the decay; $w = 1$: equal weights',
+        r'$\varphi_k(w)$: ponderi beta pe laguri, normalizate să însumeze 1 și restricționate să scadă \refGSV; $w \ge 1$: cu cît $w$ este mai mare, cu atît scad mai repede; $w = 1$: ponderi egale')]),
+    (T(r'Choices of $X$', r'Alegeri pentru $X$'),
+     [T(r'realised variance of past months, in levels: $\tau_t = m + \theta\sum_k\varphi_k(w)\mathrm{RV}_{t-k}$, with $\mathrm{RV}_{t-k}$ the sum of squared daily returns of month $t-k$',
+        r'varianța realizată din lunile anterioare, în nivel: $\tau_t = m + \theta\sum_k\varphi_k(w)\mathrm{RV}_{t-k}$, cu $\mathrm{RV}_{t-k}$ suma pătratelor randamentelor zilnice din luna $t-k$'),
+      T('macro data: industrial production growth, PPI inflation', 'date macroeconomice: creșterea producției industriale, inflația IPP')])), 'small')
+
+D.frame(T('GARCH-MIDAS (3/3): identification, estimation and the variance ratio', 'GARCH-MIDAS (3/3): identificare, estimare și raportul de varianță'), items(
+    (T(r'$\tau_t$ is constant within the month and $\E g_{i,t} = 1$: the split is identified by the different frequencies, without a filter for a latent variable',
        r'$\tau_t$ este constant în cadrul lunii, iar $\E g_{i,t} = 1$: descompunerea este identificată prin frecvențele diferite, fără un filtru pentru o variabilă latentă'),
      [T(r'Gaussian QML of all parameters $(\mu, \alpha, \beta, m, \theta, w)$ in one step; sandwich standard errors', r'QML gaussian pentru toți parametrii $(\mu, \alpha, \beta, m, \theta, w)$ într-un singur pas; erori standard sandwich')]),
-    (T(r'Variance ratio $\mathrm{VR} = \Var(\ln\tau_t)/\Var(\ln\tau_tg_{i,t})$: the share of the variation of log volatility explained by the long-run component',
-       r'Raportul de varianță $\mathrm{VR} = \Var(\ln\tau_t)/\Var(\ln\tau_tg_{i,t})$: ponderea variației logaritmului volatilității explicată de componenta de termen lung'),
-     [T(r'a macro variable can be significant ($\hat\theta \ne 0$) and still explain little of daily volatility (small VR)', r'o variabilă macroeconomică poate fi semnificativă ($\hat\theta \ne 0$) și totuși să explice puțin din volatilitatea zilnică (VR mic)')]),
-    T(r'Inference on $w$ is nonstandard when $\theta = 0$ (not identified) and at the boundary $w = 1$ (flat weights)',
-      r'Inferența asupra lui $w$ este nestandard cînd $\theta = 0$ (neidentificat) și la frontiera $w = 1$ (ponderi egale)'),
+    (T(r'Variance ratio: the share of the variation of log volatility explained by the long-run component',
+       r'Raportul de varianță: ponderea variației logaritmului volatilității explicată de componenta de termen lung'
+       ) + r'''
+    \[ \mathrm{VR} = \frac{\Var(\ln\tau_t)}{\Var(\ln(\tau_t\,g_{i,t}))} \in [0, 1] \]''',
+     [T(r'VR close to 0: the long-run component is almost flat; close to 1: it carries most of the variation',
+        r'VR apropiat de 0: componenta de termen lung este aproape constantă; apropiat de 1: ea preia cea mai mare parte a variației'),
+      T(r'a macro variable can be significant ($\hat\theta \ne 0$) and still explain little of daily volatility (small VR)', r'o variabilă macroeconomică poate fi semnificativă ($\hat\theta \ne 0$) și totuși să explice puțin din volatilitatea zilnică (VR mic)')]),
+    T(r'Inference on $w$ is nonstandard when $\theta = 0$ ($w$ is then not identified) and at the boundary $w = 1$',
+      r'Inferența asupra lui $w$ este nestandard cînd $\theta = 0$ ($w$ nu este atunci identificat) și la frontiera $w = 1$'),
     T(r'Extensions: two-sided weights, several regressors, a second (daily) component \refCK; forecasts beyond one month use only the long-run part',
       r'Extensii: ponderi nerestricționate, mai mulți regresori, o a doua componentă (zilnică) \refCK; prognozele de peste o lună folosesc doar partea de termen lung')), 'small')
 
@@ -507,7 +614,7 @@ D.frame(T('Case study: Engle, Ghysels and Sohn (2013) on our data', 'Studiu de c
      [T('their sample of US stock returns is much longer than ours; their benchmark long-run component is a fixed-window realised variance',
         'eșantionul lor de randamente ale acțiunilor din SUA este mult mai lung decît al nostru; componenta lor de termen lung de referință este o varianță realizată pe ferestre fixe')]),
     (T(r'\textbf{Our replication}: S\&P 500 daily returns, common sample from @{md.first}, $T = @{md.T}$; $K = @{md.K}$ monthly lags; restricted beta weights',
-       r'\textbf{Replicarea noastră}: randamentele zilnice ale S\&P 500, eșantion comun din @{md.first}, $T = @{md.T}$; $K = @{md.K}$ de decalaje lunare; ponderi beta restricționate'),
+       r'\textbf{Replicarea noastră}: randamentele zilnice ale S\&P 500, eșantion comun din @{md.first}, $T = @{md.T}$; $K = @{md.K}$ laguri lunare; ponderi beta restricționate'),
      [T(r'three long-run drivers: monthly realised variance (sum of squared daily returns), industrial production growth (FRED INDPRO), PPI inflation (FRED WPSFD49207)',
         r'trei factori de termen lung: varianța realizată lunară (suma pătratelor randamentelor zilnice), creșterea producției industriale (FRED INDPRO), inflația IPP (FRED WPSFD49207)'),
       T('all models against GARCH(1,1) on the same days; QML with sandwich standard errors', 'toate modelele comparate cu GARCH(1,1) pe aceleași zile; QML cu erori standard sandwich')]),
@@ -547,42 +654,84 @@ D.recap(('Long-run components', 'componentele de termen lung'), [
 # =============================================================================
 D.section('Realised measures: theory, noise and kernels', 'Măsuri realizate: teorie, zgomot și kernel-uri')
 
-D.frame(T('Prices as Itô semimartingales', 'Prețurile ca semimartingale Itô'), items(
-    T(r'Log price on day $t$, $s \in [0, 1]$: $dX_s = \mu_s\,ds + \sigma_s\,dW_s + dJ_s$, with $\sigma_s$ a stochastic spot volatility and $J$ a finite-activity jump process',
-      r'Logaritmul prețului în ziua $t$, $s \in [0, 1]$: $dX_s = \mu_s\,ds + \sigma_s\,dW_s + dJ_s$, cu $\sigma_s$ volatilitatea instantanee stochastică și $J$ un proces de salturi cu activitate finită'),
-    (T(r'Quadratic variation: $\mathrm{QV}_t = \mathrm{IV}_t + \sum_{s \le 1}(\Delta J_s)^2$, integrated variance $\mathrm{IV}_t = \int_0^1\sigma^2_s\,ds$',
-       r'Variația pătratică: $\mathrm{QV}_t = \mathrm{IV}_t + \sum_{s \le 1}(\Delta J_s)^2$, varianța integrată $\mathrm{IV}_t = \int_0^1\sigma^2_s\,ds$'),
-     [T(r'without jumps and with $\sigma$ independent of $W$: $r_t | \mathrm{IV}_t \sim N(\int\mu, \mathrm{IV}_t)$: IV is the variance that matters for the daily return',
-        r'fără salturi și cu $\sigma$ independent de $W$: $r_t | \mathrm{IV}_t \sim N(\int\mu, \mathrm{IV}_t)$: IV este varianța relevantă pentru randamentul zilnic')]),
-    T(r'Realised variance from $n$ intraday returns $r_{t,i} = X_{i/n} - X_{(i-1)/n}$: $\mathrm{RV}_t = \sum_{i=1}^n r_{t,i}^2 \to \mathrm{QV}_t$ in probability as $n \to \infty$',
-      r'Varianța realizată din $n$ randamente intraday $r_{t,i} = X_{i/n} - X_{(i-1)/n}$: $\mathrm{RV}_t = \sum_{i=1}^n r_{t,i}^2 \to \mathrm{QV}_t$ în probabilitate cînd $n \to \infty$'),
-    T(r'The drift does not matter in the limit (it is $O(1/n)$ per interval): volatility becomes observable \emph{ex post}, without a model \refABDL, \refBNSa',
-      r'Drift-ul nu contează la limită (este $O(1/n)$ pe interval): volatilitatea devine observabilă \emph{ex post}, fără model \refABDL, \refBNSa')), 'small')
+D.frame(T('Prices as Itô semimartingales (1/2): the model', 'Prețurile ca semimartingale Itô (1/2): modelul'), items(
+    (T(r'Within day $t$, the log price moves by a drift, a Brownian part scaled by the spot volatility, and jumps',
+       r'În cursul zilei $t$, logaritmul prețului se modifică printr-un drift, o componentă browniană scalată cu volatilitatea instantanee și salturi'
+       ) + r'''
+    \[ dX_s = \mu_s\,ds + \sigma_s\,dW_s + dJ_s, \qquad s \in [0, 1] \]''',
+     [T(r'$X_s$: log price at intraday time $s$ (the day is rescaled to $[0, 1]$); $\mu_s$: drift; $W_s$: standard Brownian motion',
+        r'$X_s$: logaritmul prețului la momentul intraday $s$ (ziua este rescalată la $[0, 1]$); $\mu_s$: drift-ul; $W_s$: mișcarea browniană standard'),
+      T(r'$\sigma_s$: stochastic spot (instantaneous) volatility; $J_s$: a jump process with finitely many jumps per day, $\Delta J_s$: the jump at time $s$',
+        r'$\sigma_s$: volatilitatea instantanee (spot), stochastică; $J_s$: un proces de salturi cu un număr finit de salturi pe zi, $\Delta J_s$: saltul din momentul $s$')]),
+    (T(r'Quadratic variation of the day: the diffusive part plus the squared jumps',
+       r'Variația pătratică a zilei: partea de difuzie plus pătratele salturilor'
+       ) + r'''
+    \[ \mathrm{QV}_t = \mathrm{IV}_t + \sum_{s \le 1}(\Delta J_s)^2, \qquad \mathrm{IV}_t = \int_0^1\sigma^2_s\,ds \]''',
+     [T(r'$\mathrm{IV}_t$: integrated variance, the average of the spot variance over the day',
+        r'$\mathrm{IV}_t$: varianța integrată, media varianței instantanee pe parcursul zilei'),
+      T(r'without jumps and with $\sigma$ independent of $W$: $r_t | \mathrm{IV}_t \sim N(\int_0^1\mu_s\,ds, \mathrm{IV}_t)$, so IV is the variance that matters for the daily return $r_t$',
+        r'fără salturi și cu $\sigma$ independent de $W$: $r_t | \mathrm{IV}_t \sim N(\int_0^1\mu_s\,ds, \mathrm{IV}_t)$, deci IV este varianța relevantă pentru randamentul zilnic $r_t$')])), 'small')
 
-D.frame(T('The central limit theorem for realised variance', 'Teorema limită centrală pentru varianța realizată'), items(
-    (T(r'\refBNSa: without jumps, $\sqrt n(\mathrm{RV}_t - \mathrm{IV}_t) \to MN(0, 2\,\mathrm{IQ}_t)$ stably in law, integrated quarticity $\mathrm{IQ}_t = \int_0^1\sigma^4_s\,ds$',
-       r'\refBNSa: fără salturi, $\sqrt n(\mathrm{RV}_t - \mathrm{IV}_t) \to MN(0, 2\,\mathrm{IQ}_t)$ stabil în lege, cuarticitatea integrată $\mathrm{IQ}_t = \int_0^1\sigma^4_s\,ds$'),
-     [T(r'mixed normal: normal given the path of $\sigma$; \emph{stable} convergence allows dividing by a random, consistently estimated $\sqrt{\mathrm{IQ}_t}$',
-        r'mixt normală: normală dată traiectoria lui $\sigma$; convergența \emph{stabilă} permite împărțirea la $\sqrt{\mathrm{IQ}_t}$, aleator și estimat consistent')]),
-    T(r'Feasible: $\widehat{\mathrm{IQ}}_t = \frac n3\sum_i r_{t,i}^4$ (realised quarticity RQ), so $\frac{\mathrm{RV}_t - \mathrm{IV}_t}{\sqrt{\frac23\sum_ir_{t,i}^4}} \to N(0, 1)$',
-      r'Varianta fezabilă: $\widehat{\mathrm{IQ}}_t = \frac n3\sum_i r_{t,i}^4$ (cuarticitatea realizată RQ), deci $\frac{\mathrm{RV}_t - \mathrm{IV}_t}{\sqrt{\frac23\sum_ir_{t,i}^4}} \to N(0, 1)$'),
-    T(r'Log version (delta method): $\ln\mathrm{RV}_t \pm 1.96\sqrt{\frac23\sum_ir_{t,i}^4}/\mathrm{RV}_t$; better in finite samples, never negative',
-      r'Versiunea în logaritmi (metoda delta): $\ln\mathrm{RV}_t \pm 1{,}96\sqrt{\frac23\sum_ir_{t,i}^4}/\mathrm{RV}_t$; mai bună în eșantioane finite, niciodată negativă'),
-    T(r'Rate $\sqrt n$: with 5-minute returns on a 6.5-hour day ($n = 78$) the relative error is about $\sqrt{2/78} \approx 16\%$ when volatility is constant within the day',
-      r'Rata $\sqrt n$: cu randamente la 5 minute într-o zi de 6,5 ore ($n = 78$), eroarea relativă este de aproximativ $\sqrt{2/78} \approx 16\%$ cînd volatilitatea este constantă în cursul zilei'),
-    T(r'The measurement error $\mathrm{RV}_t - \mathrm{IV}_t$ is heteroskedastic (it scales with $\mathrm{IQ}_t$): this drives HARQ below',
-      r'Eroarea de măsurare $\mathrm{RV}_t - \mathrm{IV}_t$ este heteroscedastică (crește cu $\mathrm{IQ}_t$): pe acest fapt se bazează HARQ, mai jos')), 'small')
+D.frame(T('Prices as Itô semimartingales (2/2): realised variance', 'Prețurile ca semimartingale Itô (2/2): varianța realizată'), items(
+    (T(r'Realised variance: the sum of the $n$ squared intraday returns of the day',
+       r'Varianța realizată: suma pătratelor celor $n$ randamente intraday ale zilei'
+       ) + r'''
+    \[ \mathrm{RV}_t = \sum_{i=1}^n r_{t,i}^2, \qquad r_{t,i} = X_{i/n} - X_{(i-1)/n} \]''',
+     [T(r'$n$: number of intraday intervals (78 five-minute returns in a 6.5-hour session); $r_{t,i}$: log return over the $i$-th interval',
+        r'$n$: numărul intervalelor intraday (78 de randamente la 5 minute într-o ședință de 6,5 ore); $r_{t,i}$: randamentul logaritmic din intervalul $i$'),
+      T(r'$\mathrm{RV}_t \to \mathrm{QV}_t$ in probability as $n \to \infty$: RV measures the total (diffusive plus jump) variation',
+        r'$\mathrm{RV}_t \to \mathrm{QV}_t$ în probabilitate cînd $n \to \infty$: RV măsoară variația totală (difuzie plus salturi)')]),
+    (T(r'The drift does not matter in the limit: it is $O(1/n)$ per interval, while the Brownian part is $O(n^{-1/2})$',
+       r'Drift-ul nu contează la limită: este $O(1/n)$ pe interval, în timp ce partea browniană este $O(n^{-1/2})$'),
+     [T(r'volatility becomes observable \emph{ex post}, without a model \refABDL, \refBNSa',
+        r'volatilitatea devine observabilă \emph{ex post}, fără model \refABDL, \refBNSa')])), 'small')
+
+D.frame(T('The central limit theorem for realised variance (1/2)', 'Teorema limită centrală pentru varianța realizată (1/2)'), items(
+    (T(r'\refBNSa: without jumps, the error of RV shrinks at rate $\sqrt n$ and is mixed normal',
+       r'\refBNSa: fără salturi, eroarea lui RV scade cu rata $\sqrt n$ și este mixt normală'
+       ) + r'''
+    \[ \sqrt n\,(\mathrm{RV}_t - \mathrm{IV}_t) \to MN(0, 2\,\mathrm{IQ}_t), \qquad \mathrm{IQ}_t = \int_0^1\sigma^4_s\,ds \]''',
+     [T(r'$\mathrm{IQ}_t$: integrated quarticity, the daily average of $\sigma^4_s$; it sets the size of the error',
+        r'$\mathrm{IQ}_t$: cuarticitatea integrată, media zilnică a lui $\sigma^4_s$; ea stabilește mărimea erorii'),
+      T(r'$MN$ (mixed normal): normal given the path of $\sigma$, with a random variance $2\,\mathrm{IQ}_t$',
+        r'$MN$ (mixt normală): normală condiționat de traiectoria lui $\sigma$, cu o varianță aleatoare $2\,\mathrm{IQ}_t$'),
+      T(r'the convergence is \emph{stable} in law: one may divide by a random, consistently estimated $\sqrt{\mathrm{IQ}_t}$ and keep the limit',
+        r'convergența este \emph{stabilă} în lege: putem împărți la $\sqrt{\mathrm{IQ}_t}$, aleator și estimat consistent, fără a schimba limita')]),
+    (T(r'Rate $\sqrt n$: with $n = 78$ and volatility constant within the day, the relative error is about $\sqrt{2/78} \approx 16\%$',
+       r'Rata $\sqrt n$: cu $n = 78$ și volatilitate constantă în cursul zilei, eroarea relativă este de aproximativ $\sqrt{2/78} \approx 16\%$'),
+     [T(r'the measurement error $\mathrm{RV}_t - \mathrm{IV}_t$ is heteroskedastic (it scales with $\mathrm{IQ}_t$): HARQ, below, is built on this fact',
+        r'eroarea de măsurare $\mathrm{RV}_t - \mathrm{IV}_t$ este heteroscedastică (crește cu $\mathrm{IQ}_t$): pe acest fapt se bazează HARQ, mai jos')])), 'small')
+
+D.frame(T('The central limit theorem for realised variance (2/2): feasible intervals', 'Teorema limită centrală pentru varianța realizată (2/2): intervale fezabile'), items(
+    (T(r'Feasible version: estimate IQ by the realised quarticity RQ, then studentise',
+       r'Varianta fezabilă: estimăm IQ prin cuarticitatea realizată RQ, apoi studentizăm'
+       ) + r'''
+    \[ \widehat{\mathrm{IQ}}_t = \mathrm{RQ}_t = \frac n3\sum_{i=1}^n r_{t,i}^4, \qquad \frac{\mathrm{RV}_t - \mathrm{IV}_t}{\sqrt{\frac23\sum_i r_{t,i}^4}} \to N(0, 1) \]''',
+     [T(r'the factor $\frac n3$ makes RQ unbiased under constant volatility, because $\E Z^4 = 3$ for $Z \sim N(0, 1)$',
+        r'factorul $\frac n3$ face RQ nedeplasat la volatilitate constantă, deoarece $\E Z^4 = 3$ pentru $Z \sim N(0, 1)$'),
+      T(r'95\% interval for $\mathrm{IV}_t$: $\mathrm{RV}_t \pm 1.96\sqrt{\frac23\sum_i r_{t,i}^4}$; it may contain negative values',
+        r'interval de 95\% pentru $\mathrm{IV}_t$: $\mathrm{RV}_t \pm 1.96\sqrt{\frac23\sum_i r_{t,i}^4}$; poate conține valori negative')]),
+    (T(r'Log version (delta method): an interval for $\ln\mathrm{IV}_t$', r'Versiunea în logaritmi (metoda delta): un interval pentru $\ln\mathrm{IV}_t$'
+       ) + M(r'''
+    \[ \ln\mathrm{RV}_t \pm 1.96\,\frac{\sqrt{\frac23\sum_i r_{t,i}^4}}{\mathrm{RV}_t} \]'''),
+     [T(r'exponentiated, it never contains negative values and has better coverage in finite samples',
+        r'după exponențiere nu conține niciodată valori negative și are o acoperire mai bună în eșantioane finite')])), 'small')
 
 D.frame(T('A simulated market with a known truth', 'O piață simulată cu adevărul cunoscut'), items(
-    (T(r'One-second grid, $n = 23\,400$ seconds a day; $\ln\sigma^2_s = c + f^{(1)}_s + f^{(2)}_s$, two Gaussian AR(1) factors with half-lives of 60 days and 2 days',
-       r'Grilă la o secundă, $n = 23\,400$ de secunde pe zi; $\ln\sigma^2_s = c + f^{(1)}_s + f^{(2)}_s$, doi factori AR(1) gaussieni cu timpi de înjumătățire de 60 de zile și 2 zile'),
-     [T(r'stationary s.d. 0.75 and 0.45, mean IV = 1 (\%$^2$ a day): the mean matches the S\&P 500 realised kernel of 2000--2022',
-        r'abaterile standard staționare 0,75 și 0,45, media IV = 1 (\%$^2$ pe zi): media este cea a realised kernel-ului pentru S\&P 500 din 2000--2022'),
-      T(r'leverage: correlation $-0.6$ between price shocks and shocks to the fast factor', r'efectul de levier: corelația $-0{,}6$ între șocurile prețului și șocurile factorului rapid')]),
+    (T(r'One-second grid, $n = 23\,400$ seconds a day; the log spot variance is the sum of two Gaussian AR(1) factors',
+       r'Grilă la o secundă, $n = 23\,400$ de secunde pe zi; logaritmul varianței instantanee este suma a doi factori AR(1) gaussieni'
+       ) + r'''
+    \[ \ln\sigma^2_s = c + f^{(1)}_s + f^{(2)}_s \]''',
+     [T(r'$c$: constant fixing the mean; $f^{(1)}$: slow factor (half-life 60 days, stationary s.d. 0.75); $f^{(2)}$: fast factor (half-life 2 days, s.d. 0.45)',
+        r'$c$: constanta care fixează media; $f^{(1)}$: factorul lent (timp de înjumătățire de 60 de zile, abaterea standard staționară 0,75); $f^{(2)}$: factorul rapid (2 zile, abaterea standard 0,45)'),
+      T(r'mean IV = 1 (\%$^2$ a day), the mean of the S\&P 500 realised kernel in 2000--2022; leverage: correlation $-0.6$ between price shocks and shocks to the fast factor',
+        r'media IV = 1 (\%$^2$ pe zi), media realised kernel-ului pentru S\&P 500 în 2000--2022; efectul de levier: corelația $-0{,}6$ între șocurile prețului și șocurile factorului rapid')]),
     T(r'Jumps: Poisson with 0.08 jumps a day, sizes $N(0, 0.8^2)$ (\%): jumps make about @{kn.js}\% of quadratic variation',
       r'Salturi: proces Poisson cu 0,08 salturi pe zi, mărimi $N(0, 0{,}8^2)$ (\%): salturile reprezintă aproximativ @{kn.js}\% din variația pătratică'),
-    T(r'Noise: observed $Y_s = X_s + u_s$, $u_s$ i.i.d. $N(0, \omega^2)$, $\omega = 0.004\%$, so $2n\omega^2 = @{kn.nb}$ at one second',
-      r'Zgomot: observăm $Y_s = X_s + u_s$, $u_s$ i.i.d. $N(0, \omega^2)$, $\omega = 0{,}004\%$, deci $2n\omega^2 = @{kn.nb}$ la o secundă'),
+    (T(r'Noise: we observe $Y_s = X_s + u_s$, with $u_s$ i.i.d. $N(0, \omega^2)$ and $\omega = 0.004\%$',
+       r'Zgomot: observăm $Y_s = X_s + u_s$, cu $u_s$ i.i.d. $N(0, \omega^2)$ și $\omega = 0{,}004\%$'),
+     [T(r'$Y_s$: observed log price; $X_s$: efficient log price; $u_s$: microstructure noise with standard deviation $\omega$; at one second, $2n\omega^2 = @{kn.nb}$ (next slides)',
+        r'$Y_s$: logaritmul prețului observat; $X_s$: logaritmul prețului eficient; $u_s$: zgomotul de microstructură, cu abaterea standard $\omega$; la o secundă, $2n\omega^2 = @{kn.nb}$ (slide-urile următoare)')]),
     T('Each estimator below is compared with the true IV or QV of the same simulated day', 'Fiecare estimator de mai jos este comparat cu IV sau QV adevărate din aceeași zi simulată')), 'small')
 
 chart(T('Coverage of the feasible CLT', 'Acoperirea TLC fezabile'), 'ats_ch8_rv_clt', 'ATS_ch8_realised_measures', [
@@ -621,42 +770,77 @@ interp(('the realised volatilities', 'volatilităților realizate'), [
     T('Open-to-close measures miss the overnight return: for daily risk one adds the squared overnight return or scales the measure', 'Măsurile deschidere--închidere omit randamentul de peste noapte: pentru riscul zilnic se adaugă pătratul randamentului de peste noapte sau se scalează măsura'),
     T('Bitcoin has no overnight gap, but its daily volatility is three to four times higher and falls after 2023', 'Bitcoin nu are perioade fără tranzacționare, dar volatilitatea lui zilnică este de trei pînă la patru ori mai mare și scade după 2023')])
 
-D.frame(T('Microstructure noise', 'Zgomotul de microstructură'), items(
-    T(r'Observed log price $Y_{i/n} = X_{i/n} + u_i$: bid--ask bounce, price discreteness, stale quotes; $u_i$ i.i.d. with variance $\omega^2$, independent of $X$',
-      r'Logaritmul prețului observat $Y_{i/n} = X_{i/n} + u_i$: oscilația între bid și ask, discretizarea prețului, cotații învechite; $u_i$ i.i.d. cu varianța $\omega^2$, independent de $X$'),
-    (T(r'Then $\E(\mathrm{RV}^{(n)}_t | X) = \mathrm{IV}_t + 2n\omega^2$ and $\Var(\mathrm{RV}^{(n)}_t | X) \approx 4n\E u^4$: RV diverges as $n \to \infty$ (Appendix)',
-       r'Atunci $\E(\mathrm{RV}^{(n)}_t | X) = \mathrm{IV}_t + 2n\omega^2$ și $\Var(\mathrm{RV}^{(n)}_t | X) \approx 4n\E u^4$: RV diverge cînd $n \to \infty$ (Anexa)'),
-     [T(r'consequence: $\hat\omega^2 = \mathrm{RV}^{(n)}_t/(2n)$ at the highest frequency estimates the noise variance', r'consecință: $\hat\omega^2 = \mathrm{RV}^{(n)}_t/(2n)$ la frecvența cea mai mare estimează varianța zgomotului'),
-      T(r'returns of the observed price have first-order autocovariance $-\omega^2$: negative autocorrelation is the signature of i.i.d. noise', r'randamentele prețului observat au autocovarianța de ordinul întîi $-\omega^2$: autocorelația negativă este amprenta zgomotului i.i.d.')]),
-    T(r'Signature plot: average $\mathrm{RV}^{(n)}$ against the sampling interval; a flat region shows where noise no longer matters',
-      r'Signature plot: media $\mathrm{RV}^{(n)}$ în funcție de intervalul de eșantionare; o zonă plată arată unde zgomotul nu mai contează'),
-    T(r'Real noise is not i.i.d.: it is serially correlated and correlated with the efficient price, especially in quote data \refHLc',
+D.frame(T('Microstructure noise (1/2): the bias of RV', 'Zgomotul de microstructură (1/2): deplasarea lui RV'), items(
+    (T(r'The observed log price is the efficient price plus a noise term', r'Logaritmul prețului observat este prețul eficient plus un termen de zgomot'
+       ) + r'''
+    \[ Y_{i/n} = X_{i/n} + u_i \]''',
+     [T(r'$u_i$: i.i.d. noise with variance $\omega^2$, independent of $X$; sources: bid--ask bounce, price discreteness, stale quotes',
+        r'$u_i$: zgomot i.i.d. cu varianța $\omega^2$, independent de $X$; surse: oscilația între bid și ask, discretizarea prețului, cotațiile stale (neactualizate)')]),
+    (T(r'RV computed from the observed prices at $n$ intervals, $\mathrm{RV}^{(n)}_t$, is biased upwards, and the bias grows with $n$ (Appendix)',
+       r'RV calculat din prețurile observate la $n$ intervale, $\mathrm{RV}^{(n)}_t$, este deplasat în sus, iar deplasarea crește cu $n$ (Anexa)'
+       ) + r'''
+    \[ \E(\mathrm{RV}^{(n)}_t | X) = \mathrm{IV}_t + 2n\omega^2, \qquad \Var(\mathrm{RV}^{(n)}_t | X) \approx 4n\,\E u^4 \]''',
+     [T(r'each observed return contains $u_i - u_{i-1}$, with variance $2\omega^2$; summed over $n$ returns this gives $2n\omega^2$',
+        r'fiecare randament observat conține $u_i - u_{i-1}$, cu varianța $2\omega^2$; însumat pe $n$ randamente, aceasta dă $2n\omega^2$'),
+      T(r'RV diverges as $n \to \infty$: sampling as often as possible is not optimal',
+        r'RV diverge cînd $n \to \infty$: eșantionarea cît mai deasă nu este optimă')])), 'small')
+
+D.frame(T('Microstructure noise (2/2): diagnostics', 'Zgomotul de microstructură (2/2): diagnostice'), items(
+    (T(r'Two consequences of i.i.d. noise', r'Două consecințe ale zgomotului i.i.d.'),
+     [T(r'$\hat\omega^2 = \mathrm{RV}^{(n)}_t/(2n)$ at the highest frequency estimates the noise variance, since $2n\omega^2$ dominates IV there',
+        r'$\hat\omega^2 = \mathrm{RV}^{(n)}_t/(2n)$, la frecvența cea mai mare, estimează varianța zgomotului, deoarece acolo $2n\omega^2$ domină IV'),
+      T(r'returns of the observed price have first-order autocovariance $-\omega^2$: negative autocorrelation is the signature of i.i.d. noise',
+        r'randamentele prețului observat au autocovarianța de ordinul întîi $-\omega^2$: autocorelația negativă este amprenta zgomotului i.i.d.')]),
+    (T(r'Signature plot: average $\mathrm{RV}^{(n)}$ against the sampling interval', r'Signature plot: media $\mathrm{RV}^{(n)}$ în funcție de intervalul de eșantionare'),
+     [T('a flat region shows the intervals where noise no longer matters', 'o zonă plată arată intervalele la care zgomotul nu mai contează')]),
+    T(r'Real noise is not i.i.d.: it is autocorrelated and correlated with the efficient price, especially in quote data \refHLc',
       r'Zgomotul real nu este i.i.d.: este autocorelat și corelat cu prețul eficient, mai ales în datele de cotații \refHLc')), 'small')
 
 D.frame(T('Optimal sparse sampling', 'Eșantionarea rară optimă'), items(
-    T(r'Mean square error of $\mathrm{RV}^{(n)}$ for IV: $\mathrm{MSE}(n) \approx \frac{2\,\mathrm{IQ}}{n} + (2n\omega^2)^2 + 4n\E u^4 + \dots$: variance falls, bias rises with $n$',
-      r'Eroarea pătratică medie a lui $\mathrm{RV}^{(n)}$ pentru IV: $\mathrm{MSE}(n) \approx \frac{2\,\mathrm{IQ}}{n} + (2n\omega^2)^2 + 4n\E u^4 + \dots$: varianța scade, deplasarea crește cu $n$'),
-    (T(r'Minimising the first two terms: $n^* \approx \left(\mathrm{IQ}/(4\omega^4)\right)^{1/3}$ \refBR: the optimal grid is coarser when noise is large relative to volatility',
-       r'Minimizînd primii doi termeni: $n^* \approx \left(\mathrm{IQ}/(4\omega^4)\right)^{1/3}$ \refBR: grila optimă este mai rară cînd zgomotul este mare față de volatilitate'),
-     [T(r'example (Seminar 8, A3): IV = IQ = 1, $\omega^2 = 1.6\times10^{-5}$ gives $n^* \approx 990$, a return every 24 seconds', r'exemplu (Seminarul 8, A3): IV = IQ = 1, $\omega^2 = 1{,}6\times10^{-5}$ dă $n^* \approx 990$, un randament la fiecare 24 de secunde')]),
-    T(r'The rate of the best sparse RV is only $n^{1/6}$, and most data are thrown away: this motivates estimators that use all observations',
-      r'Rata celui mai bun RV rar este doar $n^{1/6}$, iar majoritatea datelor sînt aruncate: de aici estimatorii care folosesc toate observațiile'),
-    T(r'Subsampling: average the RV of the $K$ offset grids (start at second $0, 1, \dots, K-1$); same bias, smaller variance',
+    (T(r'Mean square error (MSE) of $\mathrm{RV}^{(n)}$ as an estimator of IV: sampling variance falls, noise bias rises with $n$',
+       r'Eroarea pătratică medie (MSE) a lui $\mathrm{RV}^{(n)}$ ca estimator al lui IV: varianța de eșantionare scade, deplasarea din zgomot crește cu $n$'
+       ) + T(r'''
+    \[ \mathrm{MSE}(n) \approx \underbrace{\frac{2\,\mathrm{IQ}}{n}}_{\text{variance}} + \underbrace{(2n\omega^2)^2}_{\text{bias}^2} + 4n\,\E u^4 + \dots \]''', r'''
+    \[ \mathrm{MSE}(n) \approx \underbrace{\frac{2\,\mathrm{IQ}}{n}}_{\text{varianța}} + \underbrace{(2n\omega^2)^2}_{\text{deplasarea}^2} + 4n\,\E u^4 + \dots \]'''),
+     []),
+    (T(r'Minimising the first two terms gives the optimal number of intervals \refBR', r'Minimizarea primilor doi termeni dă numărul optim de intervale \refBR'
+       ) + r'''
+    \[ n^* \approx \Big(\frac{\mathrm{IQ}}{4\omega^4}\Big)^{1/3} \]''',
+     [T(r'the optimal grid is coarser when noise ($\omega^2$) is large relative to volatility ($\mathrm{IQ}$)',
+        r'grila optimă este mai rară cînd zgomotul ($\omega^2$) este mare față de volatilitate ($\mathrm{IQ}$)'),
+      T(r'example (Seminar 8, A3): IV = IQ = 1, $\omega^2 = 1.6\times10^{-5}$ gives $n^* \approx 990$, a return every 24 seconds', r'exemplu (Seminarul 8, A3): IV = IQ = 1, $\omega^2 = 1{,}6\times10^{-5}$ dă $n^* \approx 990$, un randament la fiecare 24 de secunde')]),
+    T(r'The best sparse RV converges only at rate $n^{1/6}$ and discards most data: this motivates estimators that use all observations',
+      r'Cel mai bun RV rar converge doar cu rata $n^{1/6}$ și renunță la majoritatea datelor: de aici estimatorii care folosesc toate observațiile'),
+    T(r'Subsampling: average the RV of the $K$ offset grids (starting at second $0, 1, \dots, K-1$); same bias, smaller variance',
       r'Subeșantionarea: media RV pe cele $K$ grile decalate (cu start în secunda $0, 1, \dots, K-1$); aceeași deplasare, varianță mai mică')), 'small')
 
-D.frame(T('Two scales and realised kernels', 'Două scale de timp și realised kernels'), items(
-    (T(r'Two-scales RV \refZMA: $\mathrm{TSRV} = \overline{\mathrm{RV}}^{(K)} - \frac{\bar n}{n}\mathrm{RV}^{(n)}$, $\bar n = (n - K + 1)/K$: the fast scale estimates the noise bias of the slow one; rate $n^{1/6}$',
-       r'RV cu două scale \refZMA: $\mathrm{TSRV} = \overline{\mathrm{RV}}^{(K)} - \frac{\bar n}{n}\mathrm{RV}^{(n)}$, $\bar n = (n - K + 1)/K$: scala rapidă estimează deplasarea din zgomot a celei lente; rata $n^{1/6}$'),
-     []),
-    (T(r'Realised kernel \refBNHLSa: $\mathrm{RK}_t = \gamma_0 + \sum_{h=1}^H k\left(\frac{h}{H+1}\right)(\gamma_h + \gamma_{-h})$, $\gamma_h = \sum_i r_{t,i}r_{t,i-h}$',
-       r'Realised kernel \refBNHLSa: $\mathrm{RK}_t = \gamma_0 + \sum_{h=1}^H k\left(\frac{h}{H+1}\right)(\gamma_h + \gamma_{-h})$, $\gamma_h = \sum_i r_{t,i}r_{t,i-h}$'),
-     [T(r'the autocovariances $\gamma_h$ remove the noise bias (the same idea as HAC variance estimation, Chapter 0); Parzen weight $k(x) = 1 - 6x^2 + 6x^3$ for $x \le \frac12$, $2(1-x)^3$ for $x \le 1$',
-        r'autocovarianțele $\gamma_h$ elimină deplasarea din zgomot (aceeași idee ca la estimarea HAC a varianței, Capitolul 0); ponderea Parzen $k(x) = 1 - 6x^2 + 6x^3$ pentru $x \le \frac12$, $2(1-x)^3$ pentru $x \le 1$'),
-      T(r'nonnegative by construction; rate $n^{1/5}$ with $H = c^*\xi^{4/5}n^{3/5}$, $\xi^2 = \omega^2/\sqrt{\mathrm{IQ}}$, $c^* = 3.51$ for Parzen \refBNHLSb',
-        r'nenegativ prin construcție; rata $n^{1/5}$ cu $H = c^*\xi^{4/5}n^{3/5}$, $\xi^2 = \omega^2/\sqrt{\mathrm{IQ}}$, $c^* = 3{,}51$ pentru Parzen \refBNHLSb'),
-      T(r'it also corrects serially dependent noise of short range, of either sign', r'corectează și zgomotul cu dependență serială pe distanțe scurte, de orice semn')]),
-    T(r'Pre-averaging \refJLMPV: average returns over blocks before squaring; rate $n^{1/4}$, the optimal one; similar in practice to RK',
-      r'Pre-averaging \refJLMPV: mediem randamentele pe blocuri înainte de ridicarea la pătrat; rata $n^{1/4}$, cea optimă; în practică, apropiat de RK')), 'small')
+D.frame(T('Two scales and realised kernels (1/2)', 'Două scale de timp și realised kernels (1/2)'), items(
+    (T(r'Two-scales RV \refZMA: the fast scale estimates the noise bias of the slow one and removes it',
+       r'RV cu două scale \refZMA: scala rapidă estimează deplasarea din zgomot a celei lente și o elimină'
+       ) + r'''
+    \[ \mathrm{TSRV} = \overline{\mathrm{RV}}^{(K)} - \frac{\bar n}{n}\,\mathrm{RV}^{(n)}, \qquad \bar n = \frac{n - K + 1}{K} \]''',
+     [T(r'$\overline{\mathrm{RV}}^{(K)}$: subsampled RV on $K$ offset sparse grids (slow scale), each with about $\bar n$ returns; $\mathrm{RV}^{(n)}$: RV on all $n$ returns (fast scale)',
+        r'$\overline{\mathrm{RV}}^{(K)}$: RV subeșantionat pe $K$ grile rare decalate (scala lentă), fiecare cu aproximativ $\bar n$ randamente; $\mathrm{RV}^{(n)}$: RV pe toate cele $n$ randamente (scala rapidă)'),
+      T(r'the bias of the slow scale is $2\bar n\omega^2 = \frac{\bar n}{n}\cdot 2n\omega^2$: the correction subtracts it; rate $n^{1/6}$',
+        r'deplasarea scalei lente este $2\bar n\omega^2 = \frac{\bar n}{n}\cdot 2n\omega^2$: corecția o scade; rata $n^{1/6}$')]),
+    (T(r'Pre-averaging \refJLMPV: average returns over blocks before squaring', r'Pre-averaging \refJLMPV: mediem randamentele pe blocuri înainte de ridicarea la pătrat'),
+     [T(r'rate $n^{1/4}$, the optimal one in the presence of noise; in practice similar to the realised kernel',
+        r'rata $n^{1/4}$, cea optimă în prezența zgomotului; în practică, apropiat de realised kernel')])), 'small')
+
+D.frame(T('Two scales and realised kernels (2/2): the realised kernel', 'Două scale de timp și realised kernels (2/2): realised kernel-ul'), items(
+    (T(r'Realised kernel \refBNHLSa: RV plus weighted realised autocovariances', r'Realised kernel \refBNHLSa: RV plus autocovarianțele realizate, ponderate'
+       ) + r'''
+    \[ \mathrm{RK}_t = \gamma_0 + \sum_{h=1}^H k\Big(\frac{h}{H+1}\Big)(\gamma_h + \gamma_{-h}), \qquad \gamma_h = \sum_i r_{t,i}\,r_{t,i-h} \]''',
+     [T(r'$\gamma_h$: realised autocovariance at lag $h$ ($\gamma_0 = \mathrm{RV}$); $H$: bandwidth, the number of lags used; $k(\cdot)$: weight function with $k(0) = 1$, $k(1) = 0$',
+        r'$\gamma_h$: autocovarianța realizată la lagul $h$ ($\gamma_0 = \mathrm{RV}$); $H$: lățimea de bandă, numărul de laguri folosite; $k(\cdot)$: funcția de ponderare, cu $k(0) = 1$, $k(1) = 0$'),
+      T(r'Parzen weights: $k(x) = 1 - 6x^2 + 6x^3$ for $x \le \frac12$ and $2(1-x)^3$ for $\frac12 < x \le 1$',
+        r'ponderile Parzen: $k(x) = 1 - 6x^2 + 6x^3$ pentru $x \le \frac12$ și $2(1-x)^3$ pentru $\frac12 < x \le 1$'),
+      T(r'the negative $\gamma_1$ created by noise cancels the bias $2n\omega^2$: the same idea as HAC variance estimation (Chapter 0)',
+        r'$\gamma_1$ negativ creat de zgomot anulează deplasarea $2n\omega^2$: aceeași idee ca la estimarea HAC a varianței (Capitolul 0)')]),
+    (T(r'Properties', r'Proprietăți'),
+     [T(r'nonnegative by construction; rate $n^{1/5}$ with $H = c^*\xi^{4/5}n^{3/5}$, where $\xi^2 = \omega^2/\sqrt{\mathrm{IQ}}$ is the noise-to-signal ratio and $c^* = 3.51$ for Parzen \refBNHLSb',
+        r'nenegativ prin construcție; rata $n^{1/5}$ cu $H = c^*\xi^{4/5}n^{3/5}$, unde $\xi^2 = \omega^2/\sqrt{\mathrm{IQ}}$ este raportul zgomot/semnal, iar $c^* = 3{,}51$ pentru Parzen \refBNHLSb'),
+      T(r'it also corrects serially dependent noise of short range, of either sign', r'corectează și zgomotul cu dependență serială pe distanțe scurte, de orice semn')])), 'small')
 
 chart(T('Estimators against the true quadratic variation', 'Estimatorii comparați cu variația pătratică adevărată'), 'ats_ch8_kernels', 'ATS_ch8_realised_measures', [
     T(r'@{kn.days} simulated days with jumps and noise; bias and root mean square error relative to the mean QV; TSRV with $K = 300$ seconds; RK with the BNHLS bandwidth (median $H = @{kn.H}$)',
@@ -697,32 +881,54 @@ D.recap(('Realised measures', 'măsurile realizate'), [
 # =============================================================================
 D.section('Jumps: bipower variation and tests', 'Salturi: variația bipower și teste')
 
-D.frame(T('Bipower variation', 'Variația bipower'), items(
-    (T(r'\refBNSb: $\mathrm{BV}_t = \mu_1^{-2}\frac{n}{n-1}\sum_{i=2}^n\lvert r_{t,i}\rvert\lvert r_{t,i-1}\rvert$, $\mu_1 = \E|Z| = \sqrt{2/\pi}$; $\mathrm{BV}_t \to \mathrm{IV}_t$ even with (finite-activity) jumps',
-       r'\refBNSb: $\mathrm{BV}_t = \mu_1^{-2}\frac{n}{n-1}\sum_{i=2}^n\lvert r_{t,i}\rvert\lvert r_{t,i-1}\rvert$, $\mu_1 = \E|Z| = \sqrt{2/\pi}$; $\mathrm{BV}_t \to \mathrm{IV}_t$ chiar și cu salturi (cu activitate finită)'),
-     [T(r'a jump enters only two products, each multiplied by a return of order $n^{-1/2}$: its contribution vanishes', r'un salt intră doar în două produse, fiecare înmulțit cu un randament de ordinul $n^{-1/2}$: contribuția lui dispare')]),
-    T(r'So $\mathrm{RV}_t - \mathrm{BV}_t \to \sum(\Delta J)^2$: a nonparametric estimate of the jump variation of the day',
-      r'Deci $\mathrm{RV}_t - \mathrm{BV}_t \to \sum(\Delta J)^2$: o estimație neparametrică a variației din salturi a zilei'),
-    T(r'Jump-robust quarticity: tripower $\mathrm{TQ}_t = n\mu_{4/3}^{-3}\frac{n}{n-2}\sum_i\prod_{j=0}^2|r_{t,i-j}|^{4/3}$, $\mu_{4/3} = \E|Z|^{4/3}$',
-      r'Cuarticitatea robustă la salturi: tripower $\mathrm{TQ}_t = n\mu_{4/3}^{-3}\frac{n}{n-2}\sum_i\prod_{j=0}^2|r_{t,i-j}|^{4/3}$, $\mu_{4/3} = \E|Z|^{4/3}$'),
+D.frame(T('Bipower variation (1/2)', 'Variația bipower (1/2)'), items(
+    (T(r'\refBNSb: sum of products of adjacent absolute returns, rescaled', r'\refBNSb: suma produselor valorilor absolute ale randamentelor adiacente, rescalată'
+       ) + r'''
+    \[ \mathrm{BV}_t = \mu_1^{-2}\,\frac{n}{n-1}\sum_{i=2}^n\lvert r_{t,i}\rvert\,\lvert r_{t,i-1}\rvert, \qquad \mu_1 = \E|Z| = \sqrt{2/\pi} \]''',
+     [T(r'$Z \sim N(0, 1)$; $\mu_1^{-2}$ makes $\mathrm{BV}_t$ consistent for $\mathrm{IV}_t$; $\frac{n}{n-1}$ corrects for the $n-1$ products',
+        r'$Z \sim N(0, 1)$; $\mu_1^{-2}$ face $\mathrm{BV}_t$ consistent pentru $\mathrm{IV}_t$; $\frac{n}{n-1}$ corectează pentru cele $n-1$ produse'),
+      T(r'$\mathrm{BV}_t \to \mathrm{IV}_t$ even with (finite-activity) jumps: a jump enters only two products, each multiplied by a return of order $n^{-1/2}$',
+        r'$\mathrm{BV}_t \to \mathrm{IV}_t$ chiar și cu salturi (cu activitate finită): un salt intră doar în două produse, fiecare înmulțit cu un randament de ordinul $n^{-1/2}$')]),
+    T(r'Hence $\mathrm{RV}_t - \mathrm{BV}_t \to \sum_{s \le 1}(\Delta J_s)^2$: a nonparametric estimate of the jump variation of the day',
+      r'Deci $\mathrm{RV}_t - \mathrm{BV}_t \to \sum_{s \le 1}(\Delta J_s)^2$: o estimație neparametrică a variației din salturi a zilei')), 'small')
+
+D.frame(T('Bipower variation (2/2): related estimators', 'Variația bipower (2/2): estimatori înrudiți'), items(
+    (T(r'Jump-robust quarticity: the tripower quarticity', r'Cuarticitatea robustă la salturi: cuarticitatea tripower'
+       ) + r'''
+    \[ \mathrm{TQ}_t = n\,\mu_{4/3}^{-3}\,\frac{n}{n-2}\sum_{i=3}^n\prod_{j=0}^2|r_{t,i-j}|^{4/3}, \qquad \mu_{4/3} = \E|Z|^{4/3} \]''',
+     [T(r'products of three adjacent absolute returns, each to the power $4/3$; $\mathrm{TQ}_t \to \mathrm{IQ}_t$ even with jumps (RQ does not)',
+        r'produse a trei valori absolute ale randamentelor adiacente, fiecare la puterea $4/3$; $\mathrm{TQ}_t \to \mathrm{IQ}_t$ chiar și cu salturi (RQ, nu)')]),
     T(r'Nearest-neighbour truncation (MedRV, MinRV) \refADS: smaller finite-sample bias from a jump and from zero returns',
       r'Trunchierea prin vecinii cei mai apropiați (MedRV, MinRV) \refADS: deplasare mai mică în eșantioane finite din cauza unui salt și a randamentelor nule'),
-    T(r'Threshold (truncated) RV removes returns above $c\,n^{-\varpi}$, $\varpi \in (0, \frac12)$: another route to IV',
-      r'RV cu prag (trunchiat) elimină randamentele peste $c\,n^{-\varpi}$, $\varpi \in (0, \frac12)$: o altă cale către IV')), 'small')
+    (T(r'Threshold (truncated) RV: drop the returns above $c\,n^{-\varpi}$', r'RV cu prag (trunchiat): se elimină randamentele peste $c\,n^{-\varpi}$'),
+     [T(r'$c > 0$: a constant (a multiple of the local volatility); $\varpi \in (0, \frac12)$: the threshold shrinks more slowly than a diffusive return, so only jumps are removed',
+        r'$c > 0$: o constantă (un multiplu al volatilității locale); $\varpi \in (0, \frac12)$: pragul scade mai lent decît un randament de difuzie, deci sînt eliminate doar salturile')])), 'small')
 
-D.frame(T('Testing for jumps', 'Testarea salturilor'), items(
-    T(r'\refBNSc: without jumps, $\sqrt n(\mathrm{RV}_t - \mathrm{BV}_t) \to MN\left(0, \vartheta\,\mathrm{IQ}_t\right)$, $\vartheta = \mu_1^{-4} + 2\mu_1^{-2} - 5 = \frac{\pi^2}{4} + \pi - 5 \approx 0.609$',
-      r'\refBNSc: fără salturi, $\sqrt n(\mathrm{RV}_t - \mathrm{BV}_t) \to MN\left(0, \vartheta\,\mathrm{IQ}_t\right)$, $\vartheta = \mu_1^{-4} + 2\mu_1^{-2} - 5 = \frac{\pi^2}{4} + \pi - 5 \approx 0{,}609$'),
-    (T(r'Ratio statistic \refHT: $z_t = \frac{(\mathrm{RV}_t - \mathrm{BV}_t)/\mathrm{RV}_t}{\sqrt{\frac{\vartheta}{n}\max\left(1, \mathrm{TQ}_t/\mathrm{BV}_t^2\right)}} \to N(0, 1)$; one-sided, reject for large $z_t$',
-       r'Statistica raport \refHT: $z_t = \frac{(\mathrm{RV}_t - \mathrm{BV}_t)/\mathrm{RV}_t}{\sqrt{\frac{\vartheta}{n}\max\left(1, \mathrm{TQ}_t/\mathrm{BV}_t^2\right)}} \to N(0, 1)$; test unilateral, respingem pentru $z_t$ mare'),
-     [T(r'the ratio form and the max adjustment give the best size in their simulations; $\mathrm{TQ}_t/\mathrm{BV}_t^2 \ge 1$ by Jensen when volatility varies within the day',
-        r'forma de raport și ajustarea prin max dau cea mai bună mărime a testului în simulările lor; $\mathrm{TQ}_t/\mathrm{BV}_t^2 \ge 1$ prin Jensen cînd volatilitatea variază în cursul zilei')]),
+D.frame(T('Testing for jumps (1/2): the ratio statistic', 'Testarea salturilor (1/2): statistica raport'), items(
+    (T(r'\refBNSc: without jumps, the difference RV $-$ BV is also mixed normal', r'\refBNSc: fără salturi, diferența RV $-$ BV este și ea mixt normală'
+       ) + M(r'''
+    \[ \sqrt n(\mathrm{RV}_t - \mathrm{BV}_t) \to MN(0, \vartheta\,\mathrm{IQ}_t), \qquad \vartheta = \mu_1^{-4} + 2\mu_1^{-2} - 5 = \frac{\pi^2}{4} + \pi - 5 \approx 0.609 \]'''),
+     [T(r'$\vartheta$: a constant that measures how much less efficient BV is than RV', r'$\vartheta$: o constantă care măsoară cu cît este BV mai puțin eficient decît RV')]),
+    (T(r'Ratio statistic \refHT: the relative jump contribution, studentised', r'Statistica raport \refHT: contribuția relativă a salturilor, studentizată'
+       ) + r'''
+    \[ z_t = \frac{(\mathrm{RV}_t - \mathrm{BV}_t)/\mathrm{RV}_t}{\sqrt{\frac{\vartheta}{n}\max\big(1, \mathrm{TQ}_t/\mathrm{BV}_t^2\big)}} \to N(0, 1) \]''',
+     [T(r'one-sided test: reject ``no jump on day $t$\'\' for large $z_t$', r'test unilateral: respingem ipoteza „niciun salt în ziua $t$” pentru $z_t$ mare'),
+      T(r'the ratio form and the max adjustment give the best size in their simulations; $\mathrm{TQ}_t/\mathrm{BV}_t^2 \ge 1$ by Jensen when volatility varies within the day',
+        r'forma de raport și ajustarea prin max dau cea mai bună mărime a testului în simulările lor; $\mathrm{TQ}_t/\mathrm{BV}_t^2 \ge 1$ prin Jensen cînd volatilitatea variază în cursul zilei')])), 'small')
+
+D.frame(T('Testing for jumps (2/2): in practice', 'Testarea salturilor (2/2): aplicarea practică'), items(
     T(r'A daily test answers ``was there a jump today?\'\'; locating it within the day needs a test on each return standardised by local BV \refLM',
       r'Un test zilnic răspunde la întrebarea „a existat un salt azi?”; localizarea lui în cursul zilei cere un test pe fiecare randament standardizat cu BV local \refLM'),
-    T(r'Multiple testing: at level $\alpha$ over $T$ days one expects $\alpha T$ false jump days; use a small $\alpha$ (0.1\%) or a family-wise or FDR correction (Chapter 1)',
-      r'Testare multiplă: la nivelul $\alpha$ pe $T$ zile ne așteptăm la $\alpha T$ zile cu salturi false; folosiți un $\alpha$ mic (0,1\%) sau o corecție de tip FWER sau FDR (Capitolul 1)'),
-    T(r'Separate continuous and jump parts: $C_t = \mathrm{RV}_t - J_t$, $J_t = \mathbb 1(z_t > z_{1-\alpha})(\mathrm{RV}_t - \mathrm{BV}_t)$ \refABD',
-      r'Separarea părților continuă și de salt: $C_t = \mathrm{RV}_t - J_t$, $J_t = \mathbb 1(z_t > z_{1-\alpha})(\mathrm{RV}_t - \mathrm{BV}_t)$ \refABD')), 'small')
+    (T(r'Multiple testing: at level $\alpha$ over $T$ days one expects $\alpha T$ false jump days',
+       r'Testare multiplă: la nivelul $\alpha$, pe $T$ zile ne așteptăm la $\alpha T$ zile cu salturi false'),
+     [T(r'use a small $\alpha$ (0.1\%) or a family-wise (FWER) or false-discovery-rate (FDR) correction (Chapter 1)',
+        r'folosiți un $\alpha$ mic (0,1\%) sau o corecție de tip FWER sau FDR (Capitolul 1)')]),
+    (T(r'Separating the continuous and jump parts of RV \refABD', r'Separarea părților continuă și de salt ale lui RV \refABD'
+       ) + r'''
+    \[ J_t = \mathbb 1(z_t > z_{1-\alpha})\,(\mathrm{RV}_t - \mathrm{BV}_t), \qquad C_t = \mathrm{RV}_t - J_t \]''',
+     [T(r'$\mathbb 1(\cdot)$: indicator, 1 if the test rejects and 0 otherwise; $z_{1-\alpha}$: the $1-\alpha$ quantile of $N(0, 1)$',
+        r'$\mathbb 1(\cdot)$: indicatorul, 1 dacă testul respinge și 0 altfel; $z_{1-\alpha}$: cuantila $1-\alpha$ a distribuției $N(0, 1)$'),
+      T(r'$J_t$: jump part, nonzero only on significant days; $C_t$: continuous part', r'$J_t$: partea de salt, nenulă doar în zilele semnificative; $C_t$: partea continuă')])), 'small')
 
 chart(T('Size and power of the ratio test', 'Mărimea și puterea testului raport'), 'ats_ch8_jump_power', 'ATS_ch8_jumps', [
     T(r'@{js.days} simulated days (two-factor SV, no jumps), then one jump of size $c\sqrt{\mathrm{IV}_t}$ at a random time; one-sided test at 0.1\% with 5-minute and 1-minute returns',
@@ -762,17 +968,31 @@ D.recap(('Jumps', 'salturile'), [
 # =============================================================================
 D.section('Forecasting realised variance: HAR and HARQ', 'Prognoza varianței realizate: HAR și HARQ')
 
-D.frame(T('The HAR model of Corsi', 'Modelul HAR al lui Corsi'), items(
-    T(r'\refCor: $\mathrm{RV}_{t+1} = \beta_0 + \beta_d\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1}$, $\mathrm{RV}^{(w)}_t = \frac15\sum_{j=0}^4\mathrm{RV}_{t-j}$, $\mathrm{RV}^{(m)}_t = \frac1{22}\sum_{j=0}^{21}\mathrm{RV}_{t-j}$',
-      r'\refCor: $\mathrm{RV}_{t+1} = \beta_0 + \beta_d\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1}$, $\mathrm{RV}^{(w)}_t = \frac15\sum_{j=0}^4\mathrm{RV}_{t-j}$, $\mathrm{RV}^{(m)}_t = \frac1{22}\sum_{j=0}^{21}\mathrm{RV}_{t-j}$'),
-    (T('Heterogeneous market hypothesis: daily, weekly and monthly traders react to volatility at their own horizon; the cascade produces slowly decaying autocorrelations',
-       'Ipoteza pieței eterogene: participanții cu orizont zilnic, săptămînal și lunar reacționează la volatilitate la propriul orizont; cascada produce autocorelații care scad lent'),
-     [T(r'statistically: an AR(22) with 19 linear restrictions (step-shaped coefficients); short memory, but it mimics long memory over a month',
-        r'statistic: un AR(22) cu 19 restricții liniare (coeficienți în trepte); memorie scurtă, dar imită memoria lungă pe orizontul unei luni')]),
-    T(r'OLS is consistent; the errors are heteroskedastic and, for multi-day targets, overlapping: use Newey--West \refNW\ standard errors',
-      r'OLS este consistent; erorile sînt heteroscedastice și, pentru ținte pe mai multe zile, suprapuse: folosiți erorile standard Newey--West \refNW'),
-    T(r'Variants: log-HAR (on $\ln\mathrm{RV}$, near-Gaussian errors; the forecast of RV needs $\exp(\hat\mu + \frac12\hat\sigma^2_u)$), HAR on $\sqrt{\mathrm{RV}}$, $h$-day targets',
-      r'Variante: log-HAR (pe $\ln\mathrm{RV}$, erori aproape gaussiene; prognoza lui RV cere $\exp(\hat\mu + \frac12\hat\sigma^2_u)$), HAR pe $\sqrt{\mathrm{RV}}$, ținte pe $h$ zile'),
+D.frame(T('The HAR model of Corsi (1/2): the regression', 'Modelul HAR al lui Corsi (1/2): regresia'), items(
+    (T(r'\refCor: tomorrow\'s RV is a linear function of the daily, weekly and monthly averages of past RV',
+       r'\refCor: RV de mîine este o funcție liniară de mediile zilnică, săptămînală și lunară ale RV din trecut'
+       ) + r'''
+    \[ \mathrm{RV}_{t+1} = \beta_0 + \beta_d\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1} \]
+    \[ \mathrm{RV}^{(w)}_t = \frac15\sum_{j=0}^4\mathrm{RV}_{t-j}, \qquad \mathrm{RV}^{(m)}_t = \frac1{22}\sum_{j=0}^{21}\mathrm{RV}_{t-j} \]''',
+     [T(r'$\mathrm{RV}^{(w)}_t$, $\mathrm{RV}^{(m)}_t$: averages over the last 5 trading days (a week) and the last 22 (a month)',
+        r'$\mathrm{RV}^{(w)}_t$, $\mathrm{RV}^{(m)}_t$: mediile pe ultimele 5 zile de tranzacționare (o săptămînă) și pe ultimele 22 (o lună)'),
+      T(r'$\beta_d, \beta_w, \beta_m \ge 0$: weights of the three horizons; $\beta_0$: intercept; $u_{t+1}$: forecast error with mean zero',
+        r'$\beta_d, \beta_w, \beta_m \ge 0$: ponderile celor trei orizonturi; $\beta_0$: termenul liber; $u_{t+1}$: eroarea de prognoză, cu media zero'),
+      T(r'$\beta_d + \beta_w + \beta_m$: the persistence; the closer to 1, the slower volatility returns to its mean',
+        r'$\beta_d + \beta_w + \beta_m$: persistența; cu cît este mai aproape de 1, cu atît volatilitatea revine mai lent la medie')]),
+    (T('Heterogeneous market hypothesis: daily, weekly and monthly traders react to volatility at their own horizon',
+       'Ipoteza pieței eterogene: participanții cu orizont zilnic, săptămînal și lunar reacționează la volatilitate la propriul orizont'),
+     [T('the cascade produces slowly decaying autocorrelations', 'cascada produce autocorelații care scad lent')])), 'small')
+
+D.frame(T('The HAR model of Corsi (2/2): estimation and variants', 'Modelul HAR al lui Corsi (2/2): estimare și variante'), items(
+    (T(r'Statistically, HAR is an AR(22) with 19 linear restrictions (step-shaped coefficients)', r'Statistic, HAR este un AR(22) cu 19 restricții liniare (coeficienți în trepte)'),
+     [T(r'short memory, but it mimics long memory over a month', r'memorie scurtă, dar imită memoria lungă pe orizontul unei luni')]),
+    (T(r'OLS is consistent; the errors are heteroskedastic and, for multi-day targets, overlapping', r'OLS este consistent; erorile sînt heteroscedastice și, pentru ținte pe mai multe zile, suprapuse'),
+     [T(r'use Newey--West \refNW\ (HAC) standard errors', r'folosiți erorile standard Newey--West \refNW\ (HAC)')]),
+    (T(r'Variants', r'Variante'),
+     [T(r'log-HAR: the same regression on $\ln\mathrm{RV}$, with near-Gaussian errors; the forecast of RV is $\exp(\hat\mu + \frac12\hat\sigma^2_u)$, with $\hat\mu$ the fitted log value and $\hat\sigma^2_u$ the residual variance',
+        r'log-HAR: aceeași regresie pe $\ln\mathrm{RV}$, cu erori aproape gaussiene; prognoza lui RV este $\exp(\hat\mu + \frac12\hat\sigma^2_u)$, cu $\hat\mu$ valoarea ajustată în logaritmi și $\hat\sigma^2_u$ varianța reziduurilor'),
+      T(r'HAR on $\sqrt{\mathrm{RV}}$; $h$-day targets (the average RV over the next $h$ days)', r'HAR pe $\sqrt{\mathrm{RV}}$; ținte pe $h$ zile (RV mediu pe următoarele $h$ zile)')]),
     T(r'Extensions: continuous and jump parts, HAR-CJ \refABD; positive and negative semivariances \refPS; implied volatility; leverage terms',
       r'Extensii: părțile continuă și de salt, HAR-CJ \refABD; semivarianțele pozitivă și negativă \refPS; volatilitatea implicită; termeni de levier')), 'small')
 
@@ -791,14 +1011,21 @@ interp(('the HAR estimates', 'estimațiilor HAR'), [
     T(r'In levels a few crisis days dominate OLS: large standard errors on $\beta_d$ and $\beta_m$; weighted least squares or logs give more stable estimates',
       r'În nivel, cîteva zile de criză domină OLS: erori standard mari pentru $\beta_d$ și $\beta_m$; metoda celor mai mici pătrate ponderate sau logaritmii dau estimații mai stabile')])
 
-D.frame(T('Forecasting design', 'Designul prognozei'), items(
-    T(r'One day ahead, rolling window of 1\,000 days, re-estimated every day; target $\mathrm{RV}_{t+1}$; losses QLIKE $= \frac{\mathrm{RV}}{f} - \ln\frac{\mathrm{RV}}{f} - 1$ and MSE (robust, see below)',
-      r'Un pas înainte, fereastră mobilă de 1\,000 de zile, reestimare zilnică; ținta $\mathrm{RV}_{t+1}$; funcțiile de pierdere QLIKE $= \frac{\mathrm{RV}}{f} - \ln\frac{\mathrm{RV}}{f} - 1$ și MSE (robuste, vezi mai jos)'),
-    (T(r'Insanity filter \refBPQ: a forecast outside the range of the in-sample RV is replaced by the in-sample mean; it is part of the method and must be reported',
-       r'Filtrul de plauzibilitate („insanity filter”) \refBPQ: o prognoză din afara intervalului RV din eșantionul de estimare este înlocuită cu media din eșantion; face parte din metodă și trebuie raportat'),
-     [T('linear HAR-type forecasts can be negative after a spike; QLIKE is then undefined', 'prognozele liniare de tip HAR pot fi negative după un vîrf; QLIKE nu mai este atunci definită')]),
-    T(r'Diebold--Mariano \refDM\ $t$-statistics of the loss differential against HAR (Newey--West, negative = better than HAR); several models: the model confidence set \refHLN, Chapter 1',
-      r'Statistici $t$ Diebold--Mariano \refDM\ pentru diferența pierderilor față de HAR (Newey--West, negativ = mai bun decît HAR); mai multe modele: setul de modele de încredere \refHLN, Capitolul 1'),
+D.frame(T('Forecasting design', 'Schema de prognoză'), items(
+    T(r'One day ahead, rolling window of 1\,000 days, re-estimated every day; target $\mathrm{RV}_{t+1}$',
+      r'Un pas înainte, fereastră mobilă de 1\,000 de zile, reestimare zilnică; ținta $\mathrm{RV}_{t+1}$'),
+    (T(r'Losses: MSE $= (\mathrm{RV} - f)^2$ and QLIKE, both robust to the noise in RV (see below)', r'Funcțiile de pierdere: MSE $= (\mathrm{RV} - f)^2$ și QLIKE, ambele robuste la zgomotul din RV (vezi mai jos)'
+       ) + r'''
+    \[ \mathrm{QLIKE} = \frac{\mathrm{RV}}{f} - \ln\frac{\mathrm{RV}}{f} - 1 \ge 0 \]''',
+     [T(r'$f$: the variance forecast; QLIKE is 0 when $f = \mathrm{RV}$ and penalises under-prediction more than over-prediction',
+        r'$f$: prognoza varianței; QLIKE este 0 cînd $f = \mathrm{RV}$ și penalizează subestimarea mai mult decît supraestimarea')]),
+    (T(r'Insanity filter \refBPQ: a forecast outside the range of the in-sample RV is replaced by the in-sample mean',
+       r'Filtrul de plauzibilitate („insanity filter”) \refBPQ: o prognoză din afara intervalului RV din eșantionul de estimare este înlocuită cu media din eșantion'),
+     [T('linear HAR-type forecasts can be negative after a spike; QLIKE is then undefined', 'prognozele liniare de tip HAR pot fi negative după un vîrf; QLIKE nu mai este atunci definită'),
+      T('the filter is part of the method and must be reported', 'filtrul face parte din metodă și trebuie raportat')]),
+    (T(r'Diebold--Mariano \refDM\ $t$-statistic of the loss differential against HAR', r'Statistica $t$ Diebold--Mariano \refDM\ pentru diferența pierderilor față de HAR'),
+     [T(r'Newey--West variance; negative = better than HAR, below $-1.96$ significant at 5\%; several models: the model confidence set \refHLN, Chapter 1',
+        r'varianță Newey--West; negativă = mai bun decît HAR, sub $-1{,}96$ semnificativ la 5\%; mai multe modele: setul de modele de încredere \refHLN, Capitolul 1')]),
     T(r'Models: HAR, HAR-CJ (continuous part and jump part, from BV), log-HAR; for Bitcoin and Ether also HARQ',
       r'Modele: HAR, HAR-CJ (partea continuă și partea de salt, din BV), log-HAR; pentru Bitcoin și Ether și HARQ')), 'small')
 
@@ -816,18 +1043,33 @@ interp(('the out-of-sample HAR comparison', 'comparației HAR în afara eșantio
       r'Ordinea depinde de funcția de pierdere: după MSE, cîștigurile log-HAR sînt mai mici (S\&P 500: @{ho.spx.loghar.m}); MSE pune cea mai mare pondere pe zilele de criză'),
     T('Six indices from one data vendor and one period: report all of them, not the best one (data snooping, Chapter 1)', 'Șase indici de la un singur furnizor de date și o singură perioadă: raportați-i pe toți, nu doar pe cel mai bun (data snooping, Capitolul 1)')])
 
-D.frame(T('HARQ: exploiting the measurement error', 'HARQ: exploatarea erorii de măsurare'), items(
-    T(r'$\mathrm{RV}_t = \mathrm{IV}_t + e_t$ with $\Var(e_t | \mathrm{IQ}_t) \approx 2\mathrm{IQ}_t/n$: the regressor of HAR is measured with an error whose variance changes every day',
-      r'$\mathrm{RV}_t = \mathrm{IV}_t + e_t$, cu $\Var(e_t | \mathrm{IQ}_t) \approx 2\mathrm{IQ}_t/n$: regresorul HAR este măsurat cu o eroare a cărei varianță se schimbă în fiecare zi'),
-    (T(r'Errors in variables: in an AR(1) for IV with coefficient $\phi$, the OLS slope on RV tends to $\phi\lambda$, $\lambda = \Var(\mathrm{IV})/(\Var(\mathrm{IV}) + \E\Var(e))$ (Appendix)',
-       r'Erori în variabile: într-un AR(1) pentru IV cu coeficientul $\phi$, panta OLS pe RV tinde către $\phi\lambda$, $\lambda = \Var(\mathrm{IV})/(\Var(\mathrm{IV}) + \E\Var(e))$ (Anexa)'),
-     [T(r'one constant $\beta_d$ is a compromise: too high on noisy days, too low on precise days', r'un singur $\beta_d$ constant este un compromis: prea mare în zilele zgomotoase, prea mic în zilele precise')]),
-    T(r'\refBPQ: $\mathrm{RV}_{t+1} = \beta_0 + (\beta_d + \beta_{dQ}\sqrt{\mathrm{RQ}_t})\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1}$, expected $\beta_{dQ} < 0$',
-      r'\refBPQ: $\mathrm{RV}_{t+1} = \beta_0 + (\beta_d + \beta_{dQ}\sqrt{\mathrm{RQ}_t})\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1}$, cu $\beta_{dQ} < 0$ așteptat'),
-    T(r'One extra parameter, still OLS; $\sqrt{\mathrm{RQ}_t}$ demeaned so that $\beta_d$ is the weight on a day of average precision',
-      r'Un singur parametru în plus, tot OLS; $\sqrt{\mathrm{RQ}_t}$ centrat, astfel încît $\beta_d$ să fie ponderea unei zile cu precizie medie'),
-    T(r'The original paper: S\&P 500 futures and 27 Dow Jones stocks, gains over HAR in and out of sample; our replication extends it to Bitcoin and Ether, 2018--2026, where RQ is available from our one-minute data',
-      r'Lucrarea originală: futures pe S\&P 500 și 27 de acțiuni din Dow Jones, cîștiguri față de HAR în eșantion și în afara lui; replicarea noastră o extinde la Bitcoin și Ether, 2018--2026, unde RQ este disponibil din datele noastre la un minut')), 'small')
+D.frame(T('HARQ (1/2): the measurement error of RV', 'HARQ (1/2): eroarea de măsurare a lui RV'), items(
+    (T(r'RV is the latent IV plus a measurement error whose variance changes every day',
+       r'RV este IV latent plus o eroare de măsurare a cărei varianță se schimbă în fiecare zi'
+       ) + r'''
+    \[ \mathrm{RV}_t = \mathrm{IV}_t + e_t, \qquad \Var(e_t | \mathrm{IQ}_t) \approx \frac{2\,\mathrm{IQ}_t}{n} \]''',
+     [T(r'$e_t$: measurement error of day $t$; on volatile days ($\mathrm{IQ}_t$ large) RV is less precise',
+        r'$e_t$: eroarea de măsurare din ziua $t$; în zilele volatile ($\mathrm{IQ}_t$ mare), RV este mai puțin precis')]),
+    (T(r'Errors in variables: in an AR(1) for IV with coefficient $\phi$, the OLS slope on RV is attenuated (Appendix)',
+       r'Erori în variabile: într-un AR(1) pentru IV cu coeficientul $\phi$, panta OLS pe RV este atenuată (Anexa)'
+       ) + r'''
+    \[ \mathrm{plim}\,\hat\phi = \phi\lambda, \qquad \lambda = \frac{\Var(\mathrm{IV})}{\Var(\mathrm{IV}) + \E\Var(e)} \in (0, 1) \]''',
+     [T(r'$\lambda$: reliability ratio, the share of the variance of RV that is signal', r'$\lambda$: raportul de fiabilitate, ponderea semnalului în varianța lui RV'),
+      T(r'one constant $\beta_d$ is a compromise: too high on noisy days, too low on precise days', r'un singur $\beta_d$ constant este un compromis: prea mare în zilele zgomotoase, prea mic în zilele precise')])), 'small')
+
+D.frame(T('HARQ (2/2): a weight that depends on precision', 'HARQ (2/2): o pondere care depinde de precizie'), items(
+    (T(r'\refBPQ: the weight of yesterday\'s RV moves with its estimated precision', r'\refBPQ: ponderea RV de ieri variază cu precizia lui estimată'
+       ) + r'''
+    \[ \mathrm{RV}_{t+1} = \beta_0 + \big(\beta_d + \beta_{dQ}\sqrt{\mathrm{RQ}_t}\big)\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1} \]''',
+     [T(r'$\mathrm{RQ}_t$: realised quarticity, the estimate of $\mathrm{IQ}_t$; $\sqrt{\mathrm{RQ}_t}$ is proportional to the standard deviation of $e_t$',
+        r'$\mathrm{RQ}_t$: cuarticitatea realizată, estimația lui $\mathrm{IQ}_t$; $\sqrt{\mathrm{RQ}_t}$ este proporțional cu abaterea standard a lui $e_t$'),
+      T(r'$\beta_{dQ} < 0$ expected: the less precise yesterday\'s RV, the lower its weight', r'ne așteptăm la $\beta_{dQ} < 0$: cu cît RV de ieri este mai puțin precis, cu atît ponderea lui este mai mică'),
+      T(r'$\sqrt{\mathrm{RQ}_t}$ is demeaned, so $\beta_d$ is the weight on a day of average precision', r'$\sqrt{\mathrm{RQ}_t}$ este centrat, astfel încît $\beta_d$ este ponderea unei zile cu precizie medie')]),
+    T(r'One extra parameter, still OLS', r'Un singur parametru în plus, tot OLS'),
+    (T(r'The original paper: S\&P 500 futures and 27 Dow Jones stocks, gains over HAR in and out of sample',
+       r'Lucrarea originală: futures pe S\&P 500 și 27 de acțiuni din Dow Jones, cîștiguri față de HAR în eșantion și în afara lui'),
+     [T(r'our replication extends it to Bitcoin and Ether, 2018--2026, where RQ is available from our one-minute data',
+        r'replicarea noastră o extinde la Bitcoin și Ether, 2018--2026, unde RQ este disponibil din datele noastre la un minut')])), 'small')
 
 chart(T('HARQ for Bitcoin: a weight that moves with precision', 'HARQ pentru Bitcoin: o pondere care se schimbă cu precizia'), 'ats_ch8_harq', 'ATS_ch8_har', [
     T(r'Full-sample HARQ on Bitcoin 5-minute RV and RQ: daily weight $\hat\beta_d + \hat\beta_{dQ}(\sqrt{\mathrm{RQ}_t} - \overline{\sqrt{\mathrm{RQ}}})$ against the constant HAR weight',
@@ -854,29 +1096,51 @@ D.recap(('HAR and HARQ', 'HAR și HARQ'), [
 # =============================================================================
 D.section('Realized GARCH and HEAVY', 'Realized GARCH și HEAVY')
 
-D.frame(T('Realized GARCH', 'Realized GARCH'), items(
-    T(r'\refHHS, log-linear form: $r_t = \sqrt{h_t}z_t$; $\ln h_t = \omega + \beta\ln h_{t-1} + \gamma\ln x_{t-1}$; $\ln x_t = \xi + \varphi\ln h_t + \tau(z_t) + u_t$',
-      r'\refHHS, forma log-liniară: $r_t = \sqrt{h_t}z_t$; $\ln h_t = \omega + \beta\ln h_{t-1} + \gamma\ln x_{t-1}$; $\ln x_t = \xi + \varphi\ln h_t + \tau(z_t) + u_t$'),
-    (T(r'Measurement equation: the realised measure $x_t$ (RK) is a noisy, possibly biased signal of $h_t$; $\varphi = 1$ means proportional, $\xi$ absorbs scale (open-to-close against close-to-close)',
-       r'Ecuația de măsurare: măsura realizată $x_t$ (RK) este un semnal zgomotos, posibil deplasat, al lui $h_t$; $\varphi = 1$ înseamnă proporționalitate, iar $\xi$ preia scala (deschidere--închidere față de închidere--închidere)'),
-     [T(r'leverage function $\tau(z) = \tau_1z + \tau_2(z^2 - 1)$: negative returns raise the next realised measure (news impact, TSA, Chapter 5)',
-        r'funcția de levier $\tau(z) = \tau_1z + \tau_2(z^2 - 1)$: randamentele negative cresc următoarea măsură realizată (impactul știrilor, TSA, Capitolul 5)')]),
-    T(r'Reduced form: $\ln h_t$ is an AR(1) with persistence $\pi = \beta + \varphi\gamma$; multi-step forecasts follow, because $x_t$ has its own equation',
-      r'Forma redusă: $\ln h_t$ este un AR(1) cu persistența $\pi = \beta + \varphi\gamma$; prognozele cu mai mulți pași decurg din ea, pentru că $x_t$ are propria ecuație'),
-    T(r'Joint QML: $\ell = -\frac12\sum_t\left[\ln h_t + z_t^2 + \ln\sigma^2_u + u_t^2/\sigma^2_u\right]$; compare with GARCH only through the partial likelihood of $r_t$',
-      r'QML comun: $\ell = -\frac12\sum_t\left[\ln h_t + z_t^2 + \ln\sigma^2_u + u_t^2/\sigma^2_u\right]$; comparația cu GARCH se face doar prin verosimilitatea parțială a lui $r_t$')), 'small')
+D.frame(T('Realized GARCH (1/2): the three equations', 'Realized GARCH (1/2): cele trei ecuații'), items(
+    (T(r'\refHHS, log-linear form: a return equation, a GARCH equation driven by the realised measure, and a measurement equation',
+       r'\refHHS, forma log-liniară: o ecuație a randamentului, o ecuație GARCH determinată de măsura realizată și o ecuație de măsurare'
+       ) + r'''
+    \[ r_t = \sqrt{h_t}\,z_t, \qquad \ln h_t = \omega + \beta\ln h_{t-1} + \gamma\ln x_{t-1} \]
+    \[ \ln x_t = \xi + \varphi\ln h_t + \tau(z_t) + u_t \]''',
+     [T(r'$h_t$: conditional variance of the return $r_t$; $z_t$: i.i.d. standardised shock; $x_t$: realised measure of day $t$ (here the realised kernel RK)',
+        r'$h_t$: varianța condiționată a randamentului $r_t$; $z_t$: șoc standardizat i.i.d.; $x_t$: măsura realizată din ziua $t$ (aici realised kernel-ul RK)'),
+      T(r'$\beta$: persistence of $\ln h_t$; $\gamma$: weight of yesterday\'s realised measure (the news variable that replaces $\varepsilon^2_{t-1}$)',
+        r'$\beta$: persistența lui $\ln h_t$; $\gamma$: ponderea măsurii realizate de ieri (variabila de știri care înlocuiește $\varepsilon^2_{t-1}$)'),
+      T(r'$u_t$: measurement error, i.i.d. $N(0, \sigma^2_u)$, independent of $z_t$', r'$u_t$: eroarea de măsurare, i.i.d. $N(0, \sigma^2_u)$, independentă de $z_t$')]),
+    (T(r'Measurement equation: $x_t$ is a noisy, possibly biased signal of $h_t$', r'Ecuația de măsurare: $x_t$ este un semnal zgomotos, posibil deplasat, al lui $h_t$'),
+     [T(r'$\varphi = 1$: $x_t$ proportional to $h_t$; $\xi$ absorbs the scale (open-to-close measure against close-to-close variance)',
+        r'$\varphi = 1$: $x_t$ proporțional cu $h_t$; $\xi$ preia diferența de scală (măsura deschidere--închidere față de varianța închidere--închidere)'),
+      T(r'leverage function $\tau(z) = \tau_1z + \tau_2(z^2 - 1)$: with $\tau_1 < 0$, negative returns raise the next realised measure (news impact, TSA, Chapter 5)',
+        r'funcția de levier $\tau(z) = \tau_1z + \tau_2(z^2 - 1)$: cu $\tau_1 < 0$, randamentele negative cresc următoarea măsură realizată (impactul știrilor, TSA, Capitolul 5)')])), 'footnotesize')
+
+D.frame(T('Realized GARCH (2/2): reduced form and estimation', 'Realized GARCH (2/2): forma redusă și estimarea'), items(
+    (T(r'Substituting the measurement equation into the GARCH equation: $\ln h_t$ is an AR(1)', r'Înlocuind ecuația de măsurare în ecuația GARCH: $\ln h_t$ este un AR(1)'
+       ) + r'''
+    \[ \ln h_t = (\omega + \gamma\xi) + \pi\ln h_{t-1} + \gamma\big(\tau(z_{t-1}) + u_{t-1}\big), \qquad \pi = \beta + \varphi\gamma \]''',
+     [T(r'$\pi$: persistence of the log variance; multi-step forecasts follow, because $x_t$ has its own equation',
+        r'$\pi$: persistența logaritmului varianței; prognozele cu mai mulți pași decurg din ea, pentru că $x_t$ are propria ecuație')]),
+    (T(r'Joint QML: the log-likelihood sums a return part and a measurement part', r'QML comun: log-verosimilitatea însumează o parte pentru randamente și o parte pentru măsurare'
+       ) + r'''
+    \[ \ell = -\frac12\sum_t\Big[\underbrace{\ln h_t + z_t^2}_{r_t} + \underbrace{\ln\sigma^2_u + u_t^2/\sigma^2_u}_{x_t}\Big] \]''',
+     [T(r'comparison with GARCH only through the partial likelihood of $r_t$ (the first part), since GARCH does not model $x_t$',
+        r'comparația cu GARCH se face doar prin verosimilitatea parțială a lui $r_t$ (prima parte), deoarece GARCH nu modelează $x_t$')])), 'small')
 
 D.frame(T('HEAVY and the family of realised-measure models', 'HEAVY și familia modelelor cu măsuri realizate'), items(
-    T(r'HEAVY \refSS: $\Var(r_t | \mathcal F_{t-1}) = h_t = \omega + \alpha\mathrm{RM}_{t-1} + \beta h_{t-1}$ and $\E(\mathrm{RM}_t | \mathcal F_{t-1}) = \mu_t = \omega_R + \alpha_R\mathrm{RM}_{t-1} + \beta_R\mu_{t-1}$',
-      r'HEAVY \refSS: $\Var(r_t | \mathcal F_{t-1}) = h_t = \omega + \alpha\mathrm{RM}_{t-1} + \beta h_{t-1}$ și $\E(\mathrm{RM}_t | \mathcal F_{t-1}) = \mu_t = \omega_R + \alpha_R\mathrm{RM}_{t-1} + \beta_R\mu_{t-1}$'),
-    (T(r'Two separate equations, each estimated by QML; momentum: after a shock, $h_t$ keeps rising while $\mu_t$ catches up',
-       r'Două ecuații separate, fiecare estimată prin QML; „momentum”: după un șoc, $h_t$ continuă să crească pînă cînd $\mu_t$ îl ajunge din urmă'),
-     [T(r'when the realised measure is in the variance equation, the squared return usually adds nothing ($\varepsilon^2_{t-1}$ gets a zero coefficient)',
-        r'cînd măsura realizată intră în ecuația varianței, pătratul randamentului de obicei nu mai adaugă nimic ($\varepsilon^2_{t-1}$ primește coeficient zero)')]),
+    (T(r'HEAVY \refSS: two GARCH-type equations, one for the return variance and one for the mean of the realised measure',
+       r'HEAVY \refSS: două ecuații de tip GARCH, una pentru varianța randamentului și una pentru media măsurii realizate'
+       ) + r'''
+    \[ h_t = \Var(r_t | \mathcal F_{t-1}) = \omega + \alpha\mathrm{RM}_{t-1} + \beta h_{t-1} \]
+    \[ \mu_t = \E(\mathrm{RM}_t | \mathcal F_{t-1}) = \omega_R + \alpha_R\mathrm{RM}_{t-1} + \beta_R\mu_{t-1} \]''',
+     [T(r'$\mathrm{RM}_t$: realised measure of day $t$; $(\omega, \alpha, \beta)$ and $(\omega_R, \alpha_R, \beta_R)$: the parameters of the two equations',
+        r'$\mathrm{RM}_t$: măsura realizată din ziua $t$; $(\omega, \alpha, \beta)$ și $(\omega_R, \alpha_R, \beta_R)$: parametrii celor două ecuații'),
+      T(r'each equation is estimated separately by QML; momentum: after a shock, $h_t$ keeps rising while $\mu_t$ catches up',
+        r'fiecare ecuație se estimează separat prin QML; „momentum”: după un șoc, $h_t$ continuă să crească pînă cînd $\mu_t$ îl ajunge din urmă'),
+      T(r'when the realised measure is in the variance equation, the squared return usually adds nothing ($\varepsilon^2_{t-1}$ gets a zero coefficient)',
+        r'cînd măsura realizată intră în ecuația varianței, pătratul randamentului de obicei nu mai adaugă nimic ($\varepsilon^2_{t-1}$ primește coeficientul zero)')]),
     T(r'Realized EGARCH \refHH: several realised measures and a richer leverage; score-driven versions exist for fat tails',
       r'Realized EGARCH \refHH: mai multe măsuri realizate și un efect de levier mai bogat; există versiuni de tip score-driven pentru cozi groase'),
     T(r'Compared with HAR: returns and realised measures are modelled jointly, so densities and VaR/ES forecasts are available (Chapter 9)',
-      r'Comparativ cu HAR: randamentele și măsurile realizate sînt modelate împreună, deci sînt disponibile prognoze de densitate și de VaR/ES (Capitolul 9)')), 'small')
+      r'Comparativ cu HAR: randamentele și măsurile realizate sînt modelate împreună, deci sînt disponibile prognoze de densitate și de VaR/ES (Capitolul 9)')), 'footnotesize')
 
 chart(T('Case study: Realized GARCH for the S\\&P 500', 'Studiu de caz: Realized GARCH pentru S\\&P 500'), 'ats_ch8_rgarch', 'ATS_ch8_realized_garch', [
     T(r'Open-to-close returns and the Parzen realised kernel (Oxford-Man), 2000--2022, $T = @{rg.T}$, as in \refHHS; left: the 2008 crisis; right: the estimated leverage function',
@@ -914,19 +1178,34 @@ D.recap(('Realised-measure GARCH', 'modelele GARCH cu măsuri realizate'), [
 # =============================================================================
 D.section('Evaluating volatility forecasts with a noisy target', 'Evaluarea prognozelor de volatilitate față de o țintă zgomotoasă')
 
-D.frame(T('The proxy problem and robust losses', 'Problema proxy-ului și funcțiile de pierdere robuste'), items(
-    T(r'We never see $\sigma^2_t$; we compare a forecast $h_t$ with a proxy $\hat\sigma^2_t$ (squared return, RV, RK) with $\E(\hat\sigma^2_t | \mathcal F_{t-1}) = \sigma^2_t$',
-      r'Nu observăm niciodată $\sigma^2_t$; comparăm o prognoză $h_t$ cu un proxy $\hat\sigma^2_t$ (pătratul randamentului, RV, RK), cu $\E(\hat\sigma^2_t | \mathcal F_{t-1}) = \sigma^2_t$'),
-    (T(r'A loss is \emph{robust} \refPat\ if the ranking of forecasts by $\E L(\hat\sigma^2_t, h_t)$ equals the ranking by $\E L(\sigma^2_t, h_t)$ for every unbiased proxy \refHLb',
-       r'O funcție de pierdere este \emph{robustă} \refPat\ dacă ordinea prognozelor după $\E L(\hat\sigma^2_t, h_t)$ este aceeași cu ordinea după $\E L(\sigma^2_t, h_t)$ pentru orice proxy nedeplasat \refHLb'),
-     [T(r'necessary and sufficient: $L(\hat\sigma^2, h) = \tilde C(h) + B(\hat\sigma^2) + C(h)(\hat\sigma^2 - h)$, $C\' < 0$ (a Bregman form: Chapter 1, consistent scoring functions for the mean)',
-        r'condiția necesară și suficientă: $L(\hat\sigma^2, h) = \tilde C(h) + B(\hat\sigma^2) + C(h)(\hat\sigma^2 - h)$, $C\' < 0$ (o formă Bregman: Capitolul 1, funcții de scor consistente pentru medie)')]),
-    T(r'Robust: MSE $= (\hat\sigma^2 - h)^2$ and QLIKE $= \hat\sigma^2/h - \ln(\hat\sigma^2/h) - 1$ (the members of degree 2 and degree 0 of the homogeneous robust family); QLIKE penalises under-prediction more',
-      r'Robuste: MSE $= (\hat\sigma^2 - h)^2$ și QLIKE $= \hat\sigma^2/h - \ln(\hat\sigma^2/h) - 1$ (membrii de grad 2 și de grad 0 ai familiei omogene robuste); QLIKE penalizează mai mult subestimarea'),
-    T(r'Not robust: MAE, MSE on logs, MSE on standard deviations: with a noisy proxy they reward forecasts that are biased downwards',
-      r'Nerobuste: MAE, MSE pe logaritmi, MSE pe abateri standard: cu un proxy zgomotos, ele recompensează prognozele deplasate în jos'),
-    T(r'Example: with $\hat\sigma^2 = r^2$ the MSE-log optimum is $h^* = \exp(\E\ln r^2) = @{pt.copt}\,\sigma^2$, since $\E\ln\chi^2_1 = -1.27$',
-      r'Exemplu: cu $\hat\sigma^2 = r^2$, optimul MSE-log este $h^* = \exp(\E\ln r^2) = @{pt.copt}\,\sigma^2$, deoarece $\E\ln\chi^2_1 = -1{,}27$')), 'small')
+D.frame(T('The proxy problem and robust losses (1/2)', 'Problema proxy-ului și funcțiile de pierdere robuste (1/2)'), items(
+    (T(r'We never see $\sigma^2_t$: a forecast $h_t$ is compared with a proxy $\hat\sigma^2_t$ (squared return, RV, RK)',
+       r'Nu observăm niciodată $\sigma^2_t$: o prognoză $h_t$ este comparată cu un proxy $\hat\sigma^2_t$ (pătratul randamentului, RV, RK)'),
+     [T(r'the proxy is conditionally unbiased, $\E(\hat\sigma^2_t | \mathcal F_{t-1}) = \sigma^2_t$, but noisy',
+        r'proxy-ul este nedeplasat condiționat, $\E(\hat\sigma^2_t | \mathcal F_{t-1}) = \sigma^2_t$, dar zgomotos')]),
+    (T(r'A loss $L$ is \emph{robust} \refPat\ if the ranking of forecasts by $\E L(\hat\sigma^2_t, h_t)$ equals the ranking by $\E L(\sigma^2_t, h_t)$, for every unbiased proxy \refHLb',
+       r'O funcție de pierdere $L$ este \emph{robustă} \refPat\ dacă ordinea prognozelor după $\E L(\hat\sigma^2_t, h_t)$ coincide cu ordinea după $\E L(\sigma^2_t, h_t)$, pentru orice proxy nedeplasat \refHLb'),
+     []),
+    (T(r'Necessary and sufficient condition: a Bregman form (Chapter 1, consistent scoring functions for the mean)',
+       r'Condiția necesară și suficientă: o formă Bregman (Capitolul 1, funcții de scor consistente pentru medie)'
+       ) + r'''
+    \[ L(\hat\sigma^2, h) = \tilde C(h) + B(\hat\sigma^2) + C(h)(\hat\sigma^2 - h), \qquad C'(h) < 0 \]''',
+     [T(r'$C$: a decreasing function of the forecast; $\tilde C$: its antiderivative, $\tilde C\' = C$; $B$: any function of the proxy alone (it does not affect the ranking)',
+        r'$C$: o funcție descrescătoare de prognoză; $\tilde C$: primitiva ei, $\tilde C\' = C$; $B$: orice funcție doar de proxy (nu influențează ordinea)')])), 'small')
+
+D.frame(T('The proxy problem and robust losses (2/2)', 'Problema proxy-ului și funcțiile de pierdere robuste (2/2)'), items(
+    (T(r'Robust: MSE and QLIKE, the members of degree 2 and degree 0 of the homogeneous robust family', r'Robuste: MSE și QLIKE, membrii de grad 2 și de grad 0 ai familiei omogene robuste'
+       ) + r'''
+    \[ \mathrm{MSE} = (\hat\sigma^2 - h)^2, \qquad \mathrm{QLIKE} = \frac{\hat\sigma^2}{h} - \ln\frac{\hat\sigma^2}{h} - 1 \]''',
+     [T(r'degree: how the loss scales when proxy and forecast are multiplied by the same constant; QLIKE (degree 0) is scale-free and penalises under-prediction more',
+        r'gradul: cum se scalează pierderea cînd proxy-ul și prognoza sînt înmulțite cu aceeași constantă; QLIKE (grad 0) nu depinde de scală și penalizează mai mult subestimarea')]),
+    (T(r'Not robust: MAE $= |\hat\sigma^2 - h|$, MSE on logs $(\ln\hat\sigma^2 - \ln h)^2$, MSE on standard deviations',
+       r'Nerobuste: MAE $= |\hat\sigma^2 - h|$, MSE pe logaritmi $(\ln\hat\sigma^2 - \ln h)^2$, MSE pe abateri standard'),
+     [T(r'with a noisy proxy they reward forecasts that are biased downwards', r'cu un proxy zgomotos, ele recompensează prognozele deplasate în jos')]),
+    (T(r'Example: with $\hat\sigma^2 = r^2$, the MSE-log optimum is $h^* = \exp(\E\ln r^2) = @{pt.copt}\,\sigma^2$',
+       r'Exemplu: cu $\hat\sigma^2 = r^2$, optimul MSE-log este $h^* = \exp(\E\ln r^2) = @{pt.copt}\,\sigma^2$'),
+     [T(r'because $r^2 = \sigma^2\chi^2_1$ for a Gaussian return and $\E\ln\chi^2_1 = -1.27$: MSE-log prefers a forecast far below the truth',
+        r'pentru că $r^2 = \sigma^2\chi^2_1$ pentru un randament gaussian, iar $\E\ln\chi^2_1 = -1{,}27$: MSE-log preferă o prognoză mult sub valoarea adevărată')])), 'small')
 
 chart(T('Robust and non-robust losses', 'Funcții de pierdere robuste și nerobuste'), 'ats_ch8_patton', 'ATS_ch8_robust_loss', [
     T(r'True variance against a forecast biased down by the factor @{pt.c}; proxy = RV from $n$ intraday returns ($n = 1$: squared daily return); relative gap of expected losses, above zero = the true variance wins',
@@ -965,16 +1244,34 @@ D.recap(('Evaluation', 'evaluarea'), [
 # =============================================================================
 D.section('Multivariate GARCH and large covariance matrices', 'GARCH multivariat și matrice de covarianță mari')
 
-D.frame(T('From one variance to a covariance matrix', 'De la o varianță la o matrice de covarianță'), items(
-    T(r'$\varepsilon_t = H_t^{1/2}\eta_t$, $\eta_t$ i.i.d. $(0, I_N)$; $H_t$ must be symmetric positive definite for every $t$ and every parameter value',
-      r'$\varepsilon_t = H_t^{1/2}\eta_t$, $\eta_t$ i.i.d. $(0, I_N)$; $H_t$ trebuie să fie simetrică și pozitiv definită pentru orice $t$ și orice valoare a parametrilor'),
-    T(r'VEC: $\mathrm{vech}(H_t) = c + A\,\mathrm{vech}(\varepsilon_{t-1}\varepsilon_{t-1}\') + B\,\mathrm{vech}(H_{t-1})$: general, but positivity is hard to impose',
-      r'VEC: $\mathrm{vech}(H_t) = c + A\,\mathrm{vech}(\varepsilon_{t-1}\varepsilon_{t-1}\') + B\,\mathrm{vech}(H_{t-1})$: general, dar pozitivitatea este greu de impus'),
-    (T(r'BEKK \refEK: $H_t = CC\' + A\'\varepsilon_{t-1}\varepsilon_{t-1}\'A + B\'H_{t-1}B$: positive definite by construction; diagonal and scalar versions restrict $A$, $B$',
-       r'BEKK \refEK: $H_t = CC\' + A\'\varepsilon_{t-1}\varepsilon_{t-1}\'A + B\'H_{t-1}B$: pozitiv definită prin construcție; versiunile diagonală și scalară restricționează $A$, $B$'),
-     [T(r'identification: $(A, B)$ and $(-A, -B)$ give the same $H_t$; fix the sign of one element', r'identificarea: $(A, B)$ și $(-A, -B)$ dau aceeași $H_t$; se fixează semnul unui element')]),
-    T(r'CCC \refBolC: $H_t = D_tRD_t$, $D_t = \mathrm{diag}(\sigma_{1t}, \dots, \sigma_{Nt})$ from univariate GARCH; DCC \refEngD\ lets $R$ vary: $H_t = D_tR_tD_t$',
-      r'CCC \refBolC: $H_t = D_tRD_t$, $D_t = \mathrm{diag}(\sigma_{1t}, \dots, \sigma_{Nt})$ din GARCH univariate; DCC \refEngD\ permite variația lui $R$: $H_t = D_tR_tD_t$')), 'small')
+D.frame(T('From one variance to a covariance matrix (1/2)', 'De la o varianță la o matrice de covarianță (1/2)'), items(
+    (T(r'The vector of $N$ return shocks is a matrix square root of the conditional covariance times a standardised vector',
+       r'Vectorul celor $N$ șocuri ale randamentelor este produsul dintre o rădăcină pătrată matriceală a covarianței condiționate și un vector standardizat'
+       ) + r'''
+    \[ \varepsilon_t = H_t^{1/2}\eta_t, \qquad \eta_t \ \text{i.i.d.}\ (0, I_N) \]''',
+     [T(r'$H_t = \Var(\varepsilon_t | \mathcal F_{t-1})$: $N \times N$ conditional covariance matrix; $I_N$: identity matrix',
+        r'$H_t = \Var(\varepsilon_t | \mathcal F_{t-1})$: matricea de covarianță condiționată, $N \times N$; $I_N$: matricea identitate'),
+      T(r'$H_t$ must be symmetric positive definite for every $t$ and every parameter value',
+        r'$H_t$ trebuie să fie simetrică și pozitiv definită pentru orice $t$ și orice valoare a parametrilor')]),
+    (T(r'VEC: every element of $H_t$ depends on all past squares and cross-products', r'VEC: fiecare element al lui $H_t$ depinde de toate pătratele și produsele încrucișate din trecut'
+       ) + r'''
+    \[ \mathrm{vech}(H_t) = c + A\,\mathrm{vech}(\varepsilon_{t-1}\varepsilon_{t-1}') + B\,\mathrm{vech}(H_{t-1}) \]''',
+     [T(r'$\mathrm{vech}$: stacks the $N(N+1)/2$ distinct elements of a symmetric matrix; $c$: vector, $A$, $B$: square matrices of that size',
+        r'$\mathrm{vech}$: așază într-un vector cele $N(N+1)/2$ elemente distincte ale unei matrice simetrice; $c$: vector, $A$, $B$: matrice pătrate de această dimensiune'),
+      T('general, but positivity is hard to impose', 'general, dar pozitivitatea este greu de impus')])), 'small')
+
+D.frame(T('From one variance to a covariance matrix (2/2): BEKK, CCC and DCC', 'De la o varianță la o matrice de covarianță (2/2): BEKK, CCC și DCC'), items(
+    (T(r'BEKK \refEK: quadratic forms guarantee positive definiteness', r'BEKK \refEK: formele pătratice garantează caracterul pozitiv definit'
+       ) + r'''
+    \[ H_t = CC' + A'\varepsilon_{t-1}\varepsilon_{t-1}'A + B'H_{t-1}B \]''',
+     [T(r'$C$: lower-triangular $N \times N$; $A$, $B$: $N \times N$ matrices; diagonal and scalar versions restrict $A$, $B$',
+        r'$C$: matrice inferior triunghiulară $N \times N$; $A$, $B$: matrice $N \times N$; versiunile diagonală și scalară restricționează $A$, $B$'),
+      T(r'identification: $(A, B)$ and $(-A, -B)$ give the same $H_t$; fix the sign of one element', r'identificarea: $(A, B)$ și $(-A, -B)$ dau aceeași $H_t$; se fixează semnul unui element')]),
+    (T(r'CCC \refBolC\ and DCC \refEngD: variances from univariate GARCH, correlations modelled separately', r'CCC \refBolC\ și DCC \refEngD: varianțele din GARCH univariate, corelațiile modelate separat'
+       ) + r'''
+    \[ H_t = D_tRD_t\ \ (\text{CCC}), \qquad H_t = D_tR_tD_t\ \ (\text{DCC}), \qquad D_t = \mathrm{diag}(\sigma_{1t}, \dots, \sigma_{Nt}) \]''',
+     [T(r'$\sigma_{it}$: conditional standard deviation of asset $i$ from its own GARCH; $R$: constant correlation matrix; $R_t$: time-varying correlation matrix',
+        r'$\sigma_{it}$: abaterea standard condiționată a activului $i$, din propriul GARCH; $R$: matricea de corelație constantă; $R_t$: matricea de corelație variabilă în timp')])), 'small')
 
 D.frame(T('The curse of dimensionality in numbers', 'Blestemul dimensionalității în cifre'), table(
     'rrrrrr', r'$N$ & VEC & BEKK & ' + T('diagonal BEKK', 'BEKK diagonal') + ' & ' + T('scalar BEKK', 'BEKK scalar') + r' & DCC',
@@ -992,21 +1289,37 @@ D.frame(T('Asymptotic theory for multivariate GARCH', 'Teoria asimptotică pentr
        r'Condițiile sînt mai puternice decît în cazul univariat (momente de ordinul 6 sau 8 pentru BEKK în primele rezultate); sandwich-ul din secțiunea univariată se păstrează'),
      []),
     (T(r'DCC is estimated in two steps \refES: (1) univariate GARCH for each series; (2) QML of the correlation part given the standardised residuals $z_t = D_t^{-1}\varepsilon_t$',
-       r'DCC se estimează în doi pași \refES: (1) GARCH univariat pentru fiecare serie; (2) QML pentru partea de corelație, dați reziduurile standardizate $z_t = D_t^{-1}\varepsilon_t$'),
+       r'DCC se estimează în doi pași \refES: (1) GARCH univariat pentru fiecare serie; (2) QML pentru partea de corelație, condiționat de reziduurile standardizate $z_t = D_t^{-1}\varepsilon_t$'),
      [T(r'second-step standard errors must account for the first step (a GMM-type correction); naive second-step s.e. are too small',
         r'erorile standard din pasul al doilea trebuie să țină seama de primul pas (o corecție de tip GMM); erorile standard naive din pasul al doilea sînt prea mici')]),
     T(r'Large $N$: the full likelihood needs $R_t^{-1}$ and $|R_t|$ at each $t$ ($O(N^3)$) and the score is dominated by noise; composite likelihood over pairs \refPSSE\ avoids both',
       r'$N$ mare: verosimilitatea completă cere $R_t^{-1}$ și $|R_t|$ la fiecare $t$ ($O(N^3)$), iar scorul este dominat de zgomot; verosimilitatea compusă pe perechi \refPSSE\ le evită pe amîndouă')), 'small')
 
-D.frame(T('DCC and its corrected version cDCC', 'DCC și versiunea corectată cDCC'), two(
+D.frame(T('DCC and its corrected version cDCC (1/2): DCC', 'DCC și versiunea corectată cDCC (1/2): DCC'), two(
     ph('engle', T('Robert F. Engle, 2017', 'Robert F. Engle, 2017'), h='0.3\\textheight'),
-    items(T(r'DCC: $Q_t = (1 - a - b)S + az_{t-1}z_{t-1}\' + bQ_{t-1}$, $R_t = \mathrm{diag}(Q_t)^{-1/2}Q_t\,\mathrm{diag}(Q_t)^{-1/2}$, $S$ = sample correlation of $z_t$',
-            r'DCC: $Q_t = (1 - a - b)S + az_{t-1}z_{t-1}\' + bQ_{t-1}$, $R_t = \mathrm{diag}(Q_t)^{-1/2}Q_t\,\mathrm{diag}(Q_t)^{-1/2}$, $S$ = corelația de eșantion a lui $z_t$'),
-          T(r'\refAie: $\E(z_tz_t\' | \mathcal F_{t-1}) = R_t \ne Q_t$, so $\E Q_t \ne \E z_tz_t\'$ in general: the moment estimator of $S$ is inconsistent, and so is $(\hat a, \hat b)$',
-            r'\refAie: $\E(z_tz_t\' | \mathcal F_{t-1}) = R_t \ne Q_t$, deci în general $\E Q_t \ne \E z_tz_t\'$: estimatorul prin momente al lui $S$ este inconsistent, la fel și $(\hat a, \hat b)$'),
-          T(r'cDCC: replace $z_{t-1}$ by $z^*_{t-1} = \mathrm{diag}(Q_{t-1})^{1/2}z_{t-1}$; then $\E(z^*_tz^{*\prime}_t | \mathcal F_{t-1}) = Q_t$ and $S = \E z^*_tz^{*\prime}_t$ is a valid target',
-            r'cDCC: înlocuim $z_{t-1}$ cu $z^*_{t-1} = \mathrm{diag}(Q_{t-1})^{1/2}z_{t-1}$; atunci $\E(z^*_tz^{*\prime}_t | \mathcal F_{t-1}) = Q_t$, iar $S = \E z^*_tz^{*\prime}_t$ este o țintă validă'),
-          T(r'the cDCC target depends on $(a, b)$: estimate it iteratively inside the likelihood', r'ținta cDCC depinde de $(a, b)$: se estimează iterativ, în interiorul verosimilității')), '0.3', '0.68'), 'footnotesize')
+    items((T(r'DCC: a GARCH(1,1)-type recursion for a quasi-correlation matrix $Q_t$, rescaled into a correlation matrix',
+             r'DCC: o recursie de tip GARCH(1,1) pentru o matrice de cvasi-corelație $Q_t$, rescalată apoi într-o matrice de corelație'
+             ) + r'''
+    \[ Q_t = (1 - a - b)S + a\,z_{t-1}z_{t-1}' + b\,Q_{t-1} \]
+    \[ R_t = \mathrm{diag}(Q_t)^{-1/2}\,Q_t\,\mathrm{diag}(Q_t)^{-1/2} \]''',
+           [T(r'$z_t = D_t^{-1}\varepsilon_t$: standardised residuals of the univariate GARCH models; $S$: their sample correlation matrix (the target)',
+              r'$z_t = D_t^{-1}\varepsilon_t$: reziduurile standardizate ale modelelor GARCH univariate; $S$: matricea lor de corelație de eșantion (ținta)'),
+            T(r'$a \ge 0$: reaction of correlations to yesterday\'s co-movement; $b \ge 0$: persistence; $a + b < 1$',
+              r'$a \ge 0$: reacția corelațiilor la co-mișcarea de ieri; $b \ge 0$: persistența; $a + b < 1$'),
+            T(r'$\mathrm{diag}(Q_t)$: the diagonal matrix of the diagonal elements of $Q_t$; the rescaling puts ones on the diagonal of $R_t$',
+              r'$\mathrm{diag}(Q_t)$: matricea diagonală formată din elementele de pe diagonala lui $Q_t$; rescalarea pune valoarea 1 pe diagonala lui $R_t$')])), '0.3', '0.68'), 'footnotesize')
+
+D.frame(T('DCC and its corrected version cDCC (2/2): cDCC', 'DCC și versiunea corectată cDCC (2/2): cDCC'), items(
+    (T(r'\refAie: the DCC target is estimated inconsistently', r'\refAie: ținta DCC este estimată inconsistent'),
+     [T(r'$\E(z_tz_t\' | \mathcal F_{t-1}) = R_t \ne Q_t$, so in general $\E Q_t \ne \E z_tz_t\'$',
+        r'$\E(z_tz_t\' | \mathcal F_{t-1}) = R_t \ne Q_t$, deci în general $\E Q_t \ne \E z_tz_t\'$'),
+      T(r'the moment estimator of $S$ is inconsistent, and so is $(\hat a, \hat b)$', r'estimatorul prin momente al lui $S$ este inconsistent, la fel și $(\hat a, \hat b)$')]),
+    (T(r'cDCC: rescale the residuals by the diagonal of $Q_{t-1}$ before they enter the recursion', r'cDCC: reziduurile sînt rescalate cu diagonala lui $Q_{t-1}$ înainte de a intra în recursie'
+       ) + r'''
+    \[ z^*_{t-1} = \mathrm{diag}(Q_{t-1})^{1/2}z_{t-1}, \qquad Q_t = (1 - a - b)S + a\,z^*_{t-1}z^{*\prime}_{t-1} + b\,Q_{t-1} \]''',
+     [T(r'then $\E(z^*_tz^{*\prime}_t | \mathcal F_{t-1}) = Q_t$, and $S = \E z^*_tz^{*\prime}_t$ is a valid target',
+        r'atunci $\E(z^*_tz^{*\prime}_t | \mathcal F_{t-1}) = Q_t$, iar $S = \E z^*_tz^{*\prime}_t$ este o țintă validă'),
+      T(r'the cDCC target depends on $(a, b)$: it is estimated iteratively inside the likelihood', r'ținta cDCC depinde de $(a, b)$: se estimează iterativ, în interiorul verosimilității')])), 'small')
 
 chart(T('DCC against cDCC: a simulation', 'DCC față de cDCC: o simulare'), 'ats_ch8_dcc_sim', 'ATS_ch8_mgarch', [
     T(r'Bivariate cDCC process with $a = 0.05$, $b = 0.93$, target correlation 0.5, unit variances; $T = @{ds.T}$, @{ds.reps} replications; both estimators on each sample',
@@ -1020,19 +1333,33 @@ interp(('the DCC simulation', 'simulării DCC'), [
       r'RMSE pentru $\hat a$: @{ds.d.a.rmse} (DCC) și @{ds.c.a.rmse} (cDCC); pentru $\hat b$: @{ds.d.b.rmse} și @{ds.c.b.rmse}: inconsistența este reală, dar mică la aceste niveluri de persistență'),
     T('Sampling error dominates the bias with two thousand observations; the difference matters more for the target in large systems and for inference on $(a, b)$',
       'Eroarea de eșantionare domină deplasarea la două mii de observații; diferența contează mai mult pentru țintă în sisteme mari și pentru inferența asupra lui $(a, b)$'),
-    T('A proof of inconsistency does not tell you the size of the bias: simulate it in your own design before choosing an estimator', 'O demonstrație a inconsistenței nu spune cît de mare este deplasarea: simulați-o în propriul design înainte de a alege estimatorul')])
+    T('A proof of inconsistency does not tell you the size of the bias: simulate it in your own design before choosing an estimator', 'O demonstrație a inconsistenței nu spune cît de mare este deplasarea: simulați-o în propria configurație înainte de a alege estimatorul')])
 
-D.frame(T('Large covariance matrices: shrinkage and DCC-NL', 'Matrice de covarianță mari: shrinkage și DCC-NL'), items(
-    (T(r'With $N/T$ not small, the eigenvalues of a sample covariance are too dispersed: the largest too large, the smallest too small; its inverse amplifies the error',
-       r'Cînd $N/T$ nu este mic, valorile proprii ale unei covarianțe de eșantion sînt prea dispersate: cele mai mari, prea mari, cele mai mici, prea mici; inversa ei amplifică eroarea'),
-     [T(r'a GMV portfolio $w = \Sigma^{-1}\mathbf 1/\mathbf 1\'\Sigma^{-1}\mathbf 1$ loads on the smallest, most underestimated eigenvalues', r'un portofoliu GMV $w = \Sigma^{-1}\mathbf 1/\mathbf 1\'\Sigma^{-1}\mathbf 1$ pune ponderi mari pe valorile proprii cele mai mici, cel mai mult subestimate')]),
-    T(r'Linear shrinkage \refLWa: $\hat\Sigma = \delta\mu I + (1 - \delta)S$, $\delta$ estimated; nonlinear shrinkage \refLWb: keep the eigenvectors of $S$, replace each eigenvalue $\lambda_i$ by $d(\lambda_i)$, an analytical kernel formula',
-      r'Shrinkage liniar \refLWa: $\hat\Sigma = \delta\mu I + (1 - \delta)S$, cu $\delta$ estimat; shrinkage neliniar \refLWb: păstrăm vectorii proprii ai lui $S$ și înlocuim fiecare valoare proprie $\lambda_i$ cu $d(\lambda_i)$, o formulă analitică de tip kernel'),
+D.frame(T('Large covariance matrices: shrinkage and DCC-NL (1/2)', 'Matrice de covarianță mari: shrinkage și DCC-NL (1/2)'), items(
+    (T(r'With $N/T$ not small, the eigenvalues of a sample covariance $S$ are too dispersed', r'Cînd $N/T$ nu este mic, valorile proprii ale unei covarianțe de eșantion $S$ sînt prea dispersate'),
+     [T(r'$N$: number of assets; $T$: number of observations; the largest eigenvalues are too large, the smallest too small; the inverse $S^{-1}$ amplifies the error',
+        r'$N$: numărul de active; $T$: numărul de observații; cele mai mari valori proprii sînt prea mari, cele mai mici, prea mici; inversa $S^{-1}$ amplifică eroarea')]),
+    (T(r'Global minimum-variance (GMV) portfolio: the weights with the smallest variance that sum to 1', r'Portofoliul de varianță minimă globală (GMV): ponderile cu cea mai mică varianță care însumează 1'
+       ) + r'''
+    \[ w = \frac{\Sigma^{-1}\mathbf 1}{\mathbf 1'\Sigma^{-1}\mathbf 1} \]''',
+     [T(r'$\Sigma$: covariance matrix of the returns; $\mathbf 1$: vector of ones', r'$\Sigma$: matricea de covarianță a randamentelor; $\mathbf 1$: vectorul cu toate elementele egale cu 1'),
+      T(r'it loads on the directions with the smallest, most underestimated eigenvalues', r'pune ponderi mari pe direcțiile cu valorile proprii cele mai mici, cel mai mult subestimate'),
+      T(r'it depends only on $\Sigma$, so its realised risk measures the quality of the covariance forecast without noise from expected returns',
+        r'depinde doar de $\Sigma$, deci riscul lui realizat măsoară calitatea prognozei covarianței fără zgomotul randamentelor așteptate')])), 'small')
+
+D.frame(T('Large covariance matrices: shrinkage and DCC-NL (2/2)', 'Matrice de covarianță mari: shrinkage și DCC-NL (2/2)'), items(
+    (T(r'Linear shrinkage \refLWa: a weighted average of $S$ and a scaled identity', r'Shrinkage liniar \refLWa: o medie ponderată între $S$ și o matrice identitate scalată'
+       ) + r'''
+    \[ \hat\Sigma = \delta\,\mu I + (1 - \delta)\,S \]''',
+     [T(r'$\mu$: average eigenvalue of $S$; $\delta \in [0, 1]$: shrinkage intensity, estimated from the data (larger when $N/T$ is larger)',
+        r'$\mu$: media valorilor proprii ale lui $S$; $\delta \in [0, 1]$: intensitatea shrinkage-ului, estimată din date (mai mare cînd $N/T$ este mai mare)')]),
+    (T(r'Nonlinear shrinkage \refLWb: keep the eigenvectors of $S$, replace each eigenvalue $\lambda_i$ by $d(\lambda_i)$',
+       r'Shrinkage neliniar \refLWb: se păstrează vectorii proprii ai lui $S$ și se înlocuiește fiecare valoare proprie $\lambda_i$ cu $d(\lambda_i)$'),
+     [T(r'$d(\cdot)$: an analytical kernel formula that pulls small eigenvalues up and large ones down, by different amounts',
+        r'$d(\cdot)$: o formulă analitică de tip kernel care ridică valorile proprii mici și le coboară pe cele mari, cu intensități diferite')]),
     (T(r'DCC-NL \refELW: in DCC, the target $S$ of the standardised residuals is itself a large sample covariance: replace it by its nonlinear shrinkage',
        r'DCC-NL \refELW: în DCC, ținta $S$ a reziduurilor standardizate este ea însăși o covarianță de eșantion mare: o înlocuim cu versiunea ei cu shrinkage neliniar'),
-     [T('composite likelihood for $(a, b)$, univariate GARCH for the variances; evaluated by the out-of-sample s.d. of GMV portfolios', 'verosimilitate compusă pentru $(a, b)$, GARCH univariat pentru varianțe; evaluat prin abaterea standard în afara eșantionului a portofoliilor GMV')]),
-    T(r'Why GMV: it depends only on $\Sigma$, so its realised risk measures the quality of the covariance forecast without noise from expected returns',
-      r'De ce GMV: depinde doar de $\Sigma$, deci riscul lui realizat măsoară calitatea prognozei covarianței fără zgomotul randamentelor așteptate')), 'small')
+     [T('composite likelihood for $(a, b)$, univariate GARCH for the variances; evaluated by the out-of-sample s.d. of GMV portfolios', 'verosimilitate compusă pentru $(a, b)$, GARCH univariat pentru varianțe; evaluat prin abaterea standard în afara eșantionului a portofoliilor GMV')])), 'small')
 
 chart(T('Case study: Engle, Ledoit and Wolf (2019) on US equities', 'Studiu de caz: Engle, Ledoit și Wolf (2019) pe acțiuni din SUA'), 'ats_ch8_gmv', 'ATS_ch8_mgarch', [
     T(r'@{gm.N} assets: 14 US stocks and three equity ETFs (SPY, QQQ, RSP), which are portfolios of stocks; GMV weights rebalanced every 21 days from @{gm.first} (@{gm.n} rebalancings); window @{gm.win} days, and @{gm.short} days for the last two bars; annualised out-of-sample s.d.',
@@ -1051,16 +1378,20 @@ interp(('the GMV comparison', 'comparației GMV'), [
     T('The original study uses hundreds of stocks, where $N/T$ is large and DCC-NL gains are substantial; with our $N$ the lesson is when shrinkage matters, not how much it gains', 'Studiul original folosește sute de acțiuni, unde $N/T$ este mare și cîștigurile DCC-NL sînt substanțiale; cu $N$-ul nostru, lecția este cînd contează shrinkage-ul, nu cît cîștigă')])
 
 D.frame(T('Realised covariance', 'Covarianța realizată'), items(
-    T(r'$\mathrm{RCov}_t = \sum_i r_{t,i}r_{t,i}\' \to \int_0^1\Sigma_s\,ds$ (plus co-jumps); with synchronous, noise-free prices it inherits the CLT of RV',
-      r'$\mathrm{RCov}_t = \sum_i r_{t,i}r_{t,i}\' \to \int_0^1\Sigma_s\,ds$ (plus salturile comune); cu prețuri sincrone și fără zgomot, moștenește TLC a lui RV'),
+    (T(r'The multivariate RV: the sum of outer products of the intraday return vectors', r'RV multivariat: suma produselor exterioare ale vectorilor de randamente intraday'
+       ) + r'''
+    \[ \mathrm{RCov}_t = \sum_{i=1}^n r_{t,i}\,r_{t,i}' \to \int_0^1\Sigma_s\,ds \]''',
+     [T(r'$r_{t,i}$: $N \times 1$ vector of intraday returns; $\Sigma_s$: spot covariance matrix; the limit adds the co-jumps (simultaneous jumps); with synchronous, noise-free prices it inherits the CLT of RV',
+        r'$r_{t,i}$: vectorul $N \times 1$ al randamentelor intraday; $\Sigma_s$: matricea de covarianță instantanee; la limită se adaugă salturile comune; cu prețuri sincrone și fără zgomot, moștenește TLC a lui RV')]),
     (T(r'Asynchronous trading: previous-tick prices create zero returns for the asset that has not traded; covariances shrink towards zero as the interval falls (the Epps effect)',
        r'Tranzacționarea asincronă: prețurile „previous-tick” creează randamente nule pentru activul care nu a fost tranzacționat; covarianțele se apropie de zero cînd intervalul scade (efectul Epps)'),
      [T(r'refresh-time sampling (all assets have traded) and the multivariate realised kernel \refBNHLSc: consistent and positive semi-definite',
         r'eșantionarea la timpul de reîmprospătare (toate activele au fost tranzacționate) și realised kernel-ul multivariat \refBNHLSc: consistent și pozitiv semidefinit')]),
     T(r'Forecasting: HAR on the elements of the Cholesky factor of $\mathrm{RCov}_t$ keeps forecasts positive definite \refCV; HEAVY and Realized GARCH have multivariate versions',
       r'Prognoza: HAR pe elementele factorului Cholesky al lui $\mathrm{RCov}_t$ păstrează prognozele pozitiv definite \refCV; HEAVY și Realized GARCH au versiuni multivariate'),
-    T(r'Evaluating covariance forecasts: matrix QLIKE $\ln|H_t| + \mathrm{tr}(H_t^{-1}\Sigma_t)$ and the Frobenius MSE are robust to noisy matrix proxies \refLRV',
-      r'Evaluarea prognozelor de covarianță: QLIKE matriceal $\ln|H_t| + \mathrm{tr}(H_t^{-1}\Sigma_t)$ și MSE Frobenius sînt robuste la proxy-uri matriceale zgomotoase \refLRV')), 'small')
+    (T(r'Evaluating covariance forecasts $H_t$ against a matrix proxy $\Sigma_t$: robust losses \refLRV', r'Evaluarea prognozelor de covarianță $H_t$ față de un proxy matriceal $\Sigma_t$: funcții de pierdere robuste \refLRV'),
+     [T(r'matrix QLIKE $\ln|H_t| + \mathrm{tr}(H_t^{-1}\Sigma_t)$, with $|\cdot|$ the determinant and $\mathrm{tr}$ the trace; Frobenius MSE, the sum of squared element-wise errors',
+        r'QLIKE matriceal $\ln|H_t| + \mathrm{tr}(H_t^{-1}\Sigma_t)$, cu $|\cdot|$ determinantul și $\mathrm{tr}$ urma; MSE Frobenius, suma pătratelor erorilor pe elemente')])), 'small')
 
 chart(T('Bitcoin and Ether: realised and DCC correlation', 'Bitcoin și Ether: corelația realizată și corelația DCC'), 'ats_ch8_corr_crypto', 'ATS_ch8_mgarch', [
     T(r'Daily realised correlation from 5-minute returns (5-day means) and the DCC correlation of daily close-to-close (UTC) returns, 2018--2026',
@@ -1077,7 +1408,7 @@ interp(('the correlations', 'corelațiilor'), [
 
 D.recap(('Multivariate', 'cazul multivariat'), [
     T('BEKK guarantees positivity at a quadratic parameter cost; DCC separates variances and correlations and scales to large $N$', 'BEKK garantează pozitivitatea cu un cost pătratic în parametri; DCC separă varianțele de corelații și funcționează pentru $N$ mare'),
-    T('cDCC fixes the inconsistency of the DCC target; in moderate designs the difference is small', 'cDCC corectează inconsistența țintei DCC; în design-uri moderate, diferența este mică'),
+    T('cDCC fixes the inconsistency of the DCC target; in moderate designs the difference is small', 'cDCC corectează inconsistența țintei DCC; în configurații moderate, diferența este mică'),
     T('In high dimension, the target needs shrinkage (DCC-NL); evaluate with GMV risk or robust matrix losses', 'În dimensiune mare, ținta are nevoie de shrinkage (DCC-NL); evaluați prin riscul GMV sau prin funcții de pierdere matriceale robuste')])
 
 # =============================================================================
@@ -1086,7 +1417,7 @@ D.recap(('Multivariate', 'cazul multivariat'), [
 D.section('AI for scientific discovery', 'AI în descoperirea științifică')
 
 D.frame(T('An open question', 'O întrebare deschisă'), items(
-    (T('Does exploiting the measurement error of realised variance (HARQ) improve volatility forecasts robustly, or only under particular design choices?', 'Îmbunătățește exploatarea erorii de măsurare a varianței realizate (HARQ) prognozele de volatilitate în mod robust sau doar pentru anumite alegeri de design?'),
+    (T('Does exploiting the measurement error of realised variance (HARQ) improve volatility forecasts robustly, or only under particular design choices?', 'Îmbunătățește exploatarea erorii de măsurare a varianței realizate (HARQ) prognozele de volatilitate în mod robust sau doar pentru anumite alegeri de specificare?'),
      [T(r'formal: the QLIKE ratio HARQ/HAR and its DM statistic across a pre-registered grid (window, filter, realised measure, asset); falsified if the ratio exceeds 1 or the DM test is insignificant for most cells',
         r'formal: raportul QLIKE HARQ/HAR și statistica DM pe o grilă preînregistrată (fereastră, filtru, măsură realizată, activ); infirmată dacă raportul depășește 1 sau testul DM este nesemnificativ în majoritatea celulelor'),
       T('the measure of precision (RQ) is itself noisy and fat-tailed, so the gain may be fragile', 'măsura preciziei (RQ) este ea însăși zgomotoasă și cu cozi groase, deci cîștigul poate fi fragil')]),
@@ -1136,7 +1467,7 @@ D.section('Wrap-up', 'Încheiere')
 
 D.frame(T('Key takeaways', 'Idei de reținut'), items(
     T('Gaussian QML needs only the variance equation; with fat tails, use sandwich standard errors', 'QML gaussian are nevoie doar de ecuația varianței; cu cozi groase, folosiți erorile standard sandwich'),
-    T('Volatility has fast and slow components; macro drivers of the slow one need long samples and honest variance ratios', 'Volatilitatea are componente rapide și lente; factorii macroeconomici ai celei lente au nevoie de eșantioane lungi și de rapoarte de varianță raportate onest'),
+    T('Volatility has fast and slow components; macro drivers of the slow one need long samples and honest variance ratios', 'Volatilitatea are componente rapide și lente; factorii macroeconomici ai celei lente au nevoie de eșantioane lungi și de rapoarte de varianță raportate fără selecție'),
     T('Realised measures make volatility observable with a known error; noise and jumps decide the estimator', 'Măsurile realizate fac volatilitatea observabilă, cu o eroare cunoscută; zgomotul și salturile decid estimatorul'),
     T('HAR, HARQ and Realized GARCH beat return-only models one day ahead; evaluate with QLIKE or MSE', 'La un pas, HAR, HARQ și Realized GARCH depășesc modelele care folosesc doar randamentele; evaluați cu QLIKE sau MSE'),
     T('In many dimensions the correlation target needs shrinkage (DCC-NL); whether the dynamics help must be checked out of sample', 'În multe dimensiuni, ținta de corelație are nevoie de shrinkage (DCC-NL); dacă dinamica ajută trebuie verificat în afara eșantionului')), 'small')
@@ -1177,7 +1508,7 @@ D.frame(T('Appendix: the noise bias of realised variance', 'Anexă: deplasarea d
     T(r'$\Cov(\tilde r_i, \tilde r_{i-1}) = -\omega^2$: first-order negative autocorrelation; the realised kernel adds $2\gamma_1 \approx -2n\omega^2$ back and removes the bias',
       r'$\Cov(\tilde r_i, \tilde r_{i-1}) = -\omega^2$: autocorelație negativă de ordinul întîi; realised kernel-ul adaugă $2\gamma_1 \approx -2n\omega^2$ și elimină deplasarea'),
     T(r'Positively autocorrelated returns (gradual price adjustment, stale prices) give $\gamma_1 > 0$ and a signature plot that rises with the interval; the kernel corrects both signs',
-      r'Randamentele autocorelate pozitiv (ajustarea treptată a prețului, prețuri învechite) dau $\gamma_1 > 0$ și un signature plot care crește cu intervalul; kernel-ul corectează ambele semne')), 'small')
+      r'Randamentele autocorelate pozitiv (ajustarea treptată a prețului, prețuri stale (neactualizate)) dau $\gamma_1 > 0$ și un signature plot care crește cu intervalul; kernel-ul corectează ambele semne')), 'small')
 
 D.frame(T('Appendix: attenuation and HARQ', 'Anexă: atenuarea și HARQ'), items(
     T(r'$\mathrm{IV}_{t+1} = c + \phi\,\mathrm{IV}_t + v_{t+1}$, observed $\mathrm{RV}_t = \mathrm{IV}_t + e_t$, $e_t$ uncorrelated with $\mathrm{IV}_t$ and $v_{t+1}$',

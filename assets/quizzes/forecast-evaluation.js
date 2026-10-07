@@ -134,12 +134,12 @@ window.ATS_DATA.quizzes['forecast-evaluation'] = {
                 "title": "PIT la orizonturi mai lungi",
                 "text": "Pentru prognoze de densitate corecte la 4 pași, făcute în fiecare perioadă, valorile PIT sînt:",
                 "options": [
-                    "uniforme, dar dependente serial pînă la decalajul 3",
+                    "uniforme, dar dependente serial pînă la lagul 3",
                     "uniforme și independente",
                     "neuniforme, din cauza suprapunerii",
                     "Normale cu media zero"
                 ],
-                "correctExplanation": "Fiecare valoare PIT este uniformă, dar țintele la 4 pași care se suprapun au șocuri comune, deci valorile PIT sînt dependente pînă la decalajul $h - 1 = 3$; testele trebuie să permită acest lucru.",
+                "correctExplanation": "Fiecare valoare PIT este uniformă, dar țintele la 4 pași care se suprapun au șocuri comune, deci valorile PIT sînt dependente pînă la lagul $h - 1 = 3$; testele trebuie să permită acest lucru.",
                 "incorrectExplanation": "Independența este valabilă doar pentru prognozele la un pas; suprapunerea nu strică uniformitatea; distribuția Normală se aplică lui $\\Phi^{-1}(u)$, nu lui $u$."
             }
         },
@@ -297,11 +297,11 @@ window.ATS_DATA.quizzes['forecast-evaluation'] = {
                 "text": "Comparați două prognoze cu 12 luni înainte ale inflației anuale lunare cu testul Diebold–Mariano. Ce varianță de termen lung este potrivită?",
                 "options": [
                     "Varianța de selecție a lui $d_t$, deoarece erorile de prognoză sînt independente",
-                    "Un estimator HAC cu 12 decalaje și nucleul dreptunghiular",
-                    "Un estimator HAC care permite autocorelația lui $d_t$ cel puțin pînă la decalajul 11",
+                    "Un estimator HAC cu 12 laguri și nucleul dreptunghiular",
+                    "Un estimator HAC care permite autocorelația lui $d_t$ cel puțin pînă la lagul 11",
                     "Nu este nevoie de varianță: comparăm direct RMSE"
                 ],
-                "correctExplanation": "Erorile optime la 12 pași sînt MA(11) deoarece țintele se suprapun; varianța DM trebuie să includă autocovarianțele pînă la decalajul $h - 1 = 11$ (dreptunghiular, ca în DM, sau Bartlett pentru a o păstra pozitivă).",
+                "correctExplanation": "Erorile optime la 12 pași sînt MA(11) deoarece țintele se suprapun; varianța DM trebuie să includă autocovarianțele pînă la lagul $h - 1 = 11$ (dreptunghiular, ca în DM, sau Bartlett pentru a o păstra pozitivă).",
                 "incorrectExplanation": "Țintele suprapuse fac $d_t$ autocorelat, deci varianța i.i.d. este greșită; trunchierea pentru prognoze optime este $h - 1 = 11$, nu 12; compararea RMSE fără o varianță nu este un test."
             }
         },
@@ -429,10 +429,10 @@ window.ATS_DATA.quizzes['forecast-evaluation'] = {
             },
             "ro": {
                 "title": "Data snooping",
-                "text": "Testați 9 modele față de mersul aleator și raportați cea mai mică valoare $p$ DM, 0,03. Corecția potrivită este:",
+                "text": "Testați 9 modele față de mersul aleator și raportați cel mai mic p-value DM, 0,03. Corecția potrivită este:",
                 "options": [
                     "niciuna, pentru că fiecare test are mărimea 5%",
-                    "înmulțirea valorii $p$ cu 0,9",
+                    "înmulțirea p-value-ului cu 0,9",
                     "corecția HLN",
                     "un test de capacitate predictivă superioară pe toate cele 9 modele, precum reality check al lui White sau SPA al lui Hansen"
                 ],
@@ -618,15 +618,15 @@ window.ATS_DATA.quizzes['forecast-evaluation'] = {
             },
             "ro": {
                 "title": "Găsiți eroarea din răspunsul AI",
-                "text": "Un asistent AI scrie: „Pentru prognoze la 4 pași folosiți testul DM cu o varianță HAC cu $h - 1 = 3$ decalaje; corecția HLN face apoi testul mai liberal.” Ce este greșit?",
+                "text": "Un asistent AI scrie: „Pentru prognoze la 4 pași folosiți testul DM cu o varianță HAC cu $h - 1 = 3$ laguri; corecția HLN face apoi testul mai liberal.” Ce este greșit?",
                 "options": [
-                    "Numărul de decalaje: ar trebui să fie 4",
+                    "Numărul de laguri: ar trebui să fie 4",
                     "Nimic: ambele părți sînt corecte",
                     "Corecția HLN face testul mai conservator, nu mai liberal",
                     "DM nu poate fi folosit pentru prognoze la mai mulți pași"
                 ],
                 "correctExplanation": "Factorul HLN este sub unu, iar distribuția $t_{P-1}$ are cozi mai groase decît distribuția Normală, deci testul corectat respinge mai rar.",
-                "incorrectExplanation": "Trei decalaje ($h - 1$) reprezintă trunchierea corectă pentru prognoze optime la 4 pași, iar DM este construit pentru prognoze la mai mulți pași cu varianța HAC."
+                "incorrectExplanation": "Trei laguri ($h - 1$) reprezintă trunchierea corectă pentru prognoze optime la 4 pași, iar DM este construit pentru prognoze la mai mulți pași cu varianța HAC."
             }
         },
         {

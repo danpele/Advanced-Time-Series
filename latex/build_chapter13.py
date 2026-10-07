@@ -18,6 +18,7 @@ Rulare:
 """
 
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -26,8 +27,20 @@ from ats_build import items as _items   # noqa: E402
 from ch13_common import REFS, QLURL, T, V2, day, month, bib, finalize, load, minus_fix   # noqa: E402
 
 
+def _merge(x):
+    """(text, [display, ...]): a displayed formula placed first among the sub-items is written inside the item itself."""
+    if isinstance(x, tuple) and x[1] and x[1][0].lstrip('⟦').startswith('\\['):
+        x = (x[0] + ' ' + x[1][0].replace("\\'", "'"), x[1][1:])
+    return x[0] if isinstance(x, tuple) and not x[1] else x
+
+
 def items(*xs):
-    return _items(*[x[0] if isinstance(x, tuple) and not x[1] else x for x in xs])
+    return _items(*[_merge(x) for x in xs])
+
+
+def dm(tex):
+    """Displayed formula; in RO the decimal points become commas, as in inline math."""
+    return T(r'\[ ' + tex + r' \]', r'\[ ' + re.sub(r'(\d)\.(\d)', r'\1{,}\2', tex) + r' \]')
 
 
 N = load()
@@ -301,7 +314,7 @@ D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
     T('Compare model families and choose between zero-shot use, fine-tuning and in-context covariates',
       'Comparați familiile de modele și alegeți între folosirea zero-shot, fine-tuning și covariabilele în context'),
     T('Design a benchmark without leakage or contamination and test differences across many series with corrections for multiplicity',
-      'Proiectați un benchmark fără scurgere de informație sau contaminare și testați diferențele pe multe serii cu corecții pentru testarea multiplă'),
+      'Proiectați un benchmark fără leakage sau contaminare și testați diferențele pe multe serii cu corecții pentru testarea multiplă'),
     T('Prove the coverage of split conformal and CQR, and state what conformal prediction cannot guarantee',
       'Demonstrați acoperirea metodelor split conformal și CQR și precizați ce nu poate garanta predicția conformală'),
     T('Apply weighted conformal, EnbPI, ACI and conformal PID to dependent data, diagnose coverage and calibrate foundation-model intervals',
@@ -349,7 +362,7 @@ D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), i
       T('benchmarks with pre-registered windows after the model releases, tests across many series with Holm and BH corrections',
         'benchmark-uri cu ferestre preînregistrate după lansarea modelelor, teste pe multe serii cu corecțiile Holm și BH'),
       T('conformal theory with proofs, its failure under dependence and the online methods that repair it, with coverage diagnostics',
-        'teoria conformală cu demonstrații, eșecul ei sub dependență și metodele online care o repară, cu diagnosticarea acoperirii')]),
+        'teoria conformală cu demonstrații, eșecul ei sub dependență și metodele online care o corectează, cu diagnosticarea acoperirii')]),
     T('Case studies: Ansari et al.\\ (2024), Tan et al.\\ (2024), Romano--Patterson--Candès (2019), Gibbs--Candès (2021), Barber et al.\\ (2023), Angelopoulos--Candès--Tibshirani (2023), Xu--Xie (2021), with the designs of the papers, on our data',
       'Studii de caz: Ansari et al.\\ (2024), Tan et al.\\ (2024), Romano--Patterson--Candès (2019), Gibbs--Candès (2021), Barber et al.\\ (2023), Angelopoulos--Candès--Tibshirani (2023), Xu--Xie (2021), cu designul din lucrări, pe datele noastre')), 'small')
 
@@ -358,24 +371,36 @@ D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), i
 # =============================================================================
 D.section('Pretraining for time series', 'Preantrenarea pentru serii de timp')
 
-D.frame(T('A foundation model as an amortised forecaster', 'Un foundation model ca prognozator amortizat'), items(
-    (T(r'\textbf{Pretraining}: $\hat\theta = \arg\min_\theta \sum_{s \in \mathcal D_{\mathrm{pre}}}\sum_t \ell\big(y^{(s)}_{t+1:t+H}, f_\theta(y^{(s)}_{t-C+1:t})\big)$ over a corpus $\mathcal D_{\mathrm{pre}}$ of many series',
-       r'\textbf{Preantrenarea}: $\hat\theta = \arg\min_\theta \sum_{s \in \mathcal D_{\mathrm{pre}}}\sum_t \ell\big(y^{(s)}_{t+1:t+H}, f_\theta(y^{(s)}_{t-C+1:t})\big)$ pe un corpus $\mathcal D_{\mathrm{pre}}$ format din multe serii'),
-     [T(r'$C$: context length; $H$: horizon; $\ell$: a scoring rule (cross-entropy, pinball, negative log-likelihood)', r'$C$: lungimea contextului; $H$: orizontul; $\ell$: o regulă de scor (entropie încrucișată, pinball, log-verosimilitate negativă)'),
-      T(r'the term \textbf{foundation model} \refBom: trained once on broad data, then adapted to many tasks', r'termenul \textbf{foundation model} \refBom: antrenat o singură dată pe date diverse, apoi adaptat la multe sarcini')]),
-    (T(r'\textbf{Zero-shot} use: $\hat\theta$ fixed, the forecast for a new series is $f_{\hat\theta}(y_{T-C+1:T})$; no parameter is estimated on the target',
-       r'Folosirea \textbf{zero-shot}: $\hat\theta$ fixat, prognoza pentru o serie nouă este $f_{\hat\theta}(y_{T-C+1:T})$; niciun parametru nu se estimează pe seria-țintă'),
-     [T('the network performs the estimation step inside its forward pass: inference is amortised over the corpus', 'rețeaua face pasul de estimare în interiorul trecerii înainte: inferența este amortizată pe corpus')]),
-    T('A global model of Chapter 12 is trained on the series of one data set; a foundation model on many data sets, frequencies and domains',
-      'Un model global din Capitolul 12 este antrenat pe seriile unui singur set de date; un foundation model, pe multe seturi de date, frecvențe și domenii')), 'small')
+D.frame(T('A foundation model as an amortised forecaster (1/2)', 'Un foundation model ca prognozator amortizat (1/2)'), items(
+    (T(r'\textbf{Pretraining}: one network is fitted once, by minimising the forecast loss summed over all series and all origins of a large corpus',
+       r'\textbf{Preantrenarea}: o singură rețea este estimată o singură dată, prin minimizarea pierderii de prognoză însumate pe toate seriile și pe toate originile unui corpus mare'),
+     [r'\[ \hat\theta = \arg\min_\theta \sum_{s \in \mathcal D_{\mathrm{pre}}}\sum_t \ell\big(y^{(s)}_{t+1:t+H},\; f_\theta(y^{(s)}_{t-C+1:t})\big) \]']),
+    (T('Notation', 'Notațiile'),
+     [T(r'$\mathcal D_{\mathrm{pre}}$: the pretraining corpus, a collection of many series; $s$ indexes the series, $t$ the forecast origin', r'$\mathcal D_{\mathrm{pre}}$: corpusul de preantrenare, o colecție de multe serii; $s$ indexează seriile, $t$ originea prognozei'),
+      T(r'$y^{(s)}_{t-C+1:t}$: the last $C$ values of series $s$ (the \textbf{context}); $y^{(s)}_{t+1:t+H}$: its next $H$ values (the \textbf{horizon})', r'$y^{(s)}_{t-C+1:t}$: ultimele $C$ valori ale seriei $s$ (\textbf{contextul}); $y^{(s)}_{t+1:t+H}$: următoarele $H$ valori (\textbf{orizontul})'),
+      T(r'$f_\theta$: the network with weights $\theta$; it maps a context to a forecast of the next $H$ values (a distribution or a set of quantiles)', r'$f_\theta$: rețeaua cu ponderile $\theta$; transformă un context într-o prognoză a următoarelor $H$ valori (o distribuție sau un set de cuantile)'),
+      T(r'$\ell$: a scoring rule (cross-entropy, pinball, negative log-likelihood); $\hat\theta$: the estimated weights', r'$\ell$: o regulă de scor (entropie încrucișată, pinball, log-verosimilitate negativă); $\hat\theta$: ponderile estimate')]),
+    T(r'The term \textbf{foundation model} \refBom: trained once on broad data, then adapted to many tasks', r'Termenul \textbf{foundation model} \refBom: model antrenat o singură dată pe date diverse, apoi adaptat la multe sarcini')), 'small')
+
+D.frame(T('A foundation model as an amortised forecaster (2/2)', 'Un foundation model ca prognozator amortizat (2/2)'), items(
+    (T(r'\textbf{Zero-shot} use: the weights stay at $\hat\theta$ and the forecast for a new series $y_1, \dots, y_T$ is the network applied to its last $C$ values',
+       r'Folosirea \textbf{zero-shot}: ponderile rămîn $\hat\theta$, iar prognoza pentru o serie nouă $y_1, \dots, y_T$ este rețeaua aplicată ultimelor ei $C$ valori'),
+     [r'\[ \hat y_{T+1:T+H} = f_{\hat\theta}(y_{T-C+1:T}) \]',
+      T(r'$T$: the last observed period of the target series; no parameter is estimated on it', r'$T$: ultima perioadă observată a seriei-țintă; niciun parametru nu se estimează pe ea')]),
+    (T('\\textbf{Amortised inference}', '\\textbf{Inferența amortizată}'),
+     [T('a classical model is re-estimated on every new series; here the network performs the estimation step inside its forward pass', 'un model clasic este reestimat pe fiecare serie nouă; aici rețeaua face pasul de estimare în interiorul trecerii înainte (forward pass)'),
+      T('the cost of estimation is paid once, during pretraining, and shared by every later forecast', 'costul estimării este plătit o singură dată, la preantrenare, și împărțit între toate prognozele ulterioare')]),
+    (T('Global model and foundation model', 'Modelul global și foundation model'),
+     [T('a global model of Chapter 12 is trained on the series of one data set', 'un model global din Capitolul 12 este antrenat pe seriile unui singur set de date'),
+      T('a foundation model is trained on many data sets, frequencies and domains', 'un foundation model este antrenat pe multe seturi de date, frecvențe și domenii')])), 'small')
 
 D.frame(T('Structure shared across series', 'Structuri comune între serii'), items(
-    (T('Shapes recur across domains: seasonal profiles, damped trends, level shifts, volatility clusters, intermittency', 'Formele se repetă între domenii: profiluri sezoniere, tendințe amortizate, salturi de nivel, grupări ale volatilității, intermitență'),
+    (T('Shapes recur across domains: seasonal profiles, damped trends, level shifts, volatility clusters, intermittency', 'Formele se repetă între domenii: profiluri sezoniere, tendințe amortizate, salturi de nivel, volatility clustering, intermitență'),
      [T('after scaling, a load curve and a web-traffic curve can look alike: the model learns a prior over shapes', 'după scalare, o curbă de consum și una de trafic web pot arăta la fel: modelul învață o distribuție a priori asupra formelor')]),
     (T('Not shared: the economics of a particular series (a tax change, a policy rule, a holiday calendar)', 'Elemente care nu se transferă: economia unei serii anume (o modificare de taxe, o regulă de politică, un calendar al sărbătorilor)'),
      [T('unless it is passed as a covariate in the context (Chronos-2) or learned by fine-tuning', 'decît dacă este transmisă ca o covariabilă în context (Chronos-2) sau învățată prin fine-tuning')]),
     (T('A no-free-lunch caveat: averaged over all processes no forecaster wins; pretraining helps only if the target resembles the corpus', 'O rezervă de tip „no free lunch”: în medie pe toate procesele niciun prognozator nu cîștigă; preantrenarea ajută doar dacă seria-țintă seamănă cu corpusul'),
-     [T('financial returns are close to a martingale difference: little shape to transfer, much to overfit', 'randamentele financiare sînt aproape de o diferență de martingală: puțină formă de transferat, mult de supraajustat')])), 'small')
+     [T('financial returns are close to a martingale difference: little shape to transfer, much to overfit', 'randamentele financiare sînt aproape de o diferență de martingală: puțină structură transferabilă și un risc mare de supraajustare')])), 'small')
 
 D.frame(T('Pretraining data: scale and composition', 'Datele de preantrenare: volum și compoziție'), items(
     (T(r'Chronos \refAns: public data sets plus two augmentations: \textbf{TSMixup} (convex mixtures of real series) and \textbf{KernelSynth} (series drawn from Gaussian processes with random composite kernels)',
@@ -383,19 +408,35 @@ D.frame(T('Pretraining data: scale and composition', 'Datele de preantrenare: vo
     (T(r'TimesFM \refDas: about $10^{11}$ time points: Google Trends, Wikipedia page views, synthetic and public series; Moirai \refWoo: LOTSA, over 27 billion observations in nine domains',
        r'TimesFM \refDas: aproximativ $10^{11}$ momente de timp: Google Trends, accesări Wikipedia, serii sintetice și publice; Moirai \refWoo: LOTSA, peste 27 de miliarde de observații din nouă domenii'), []),
     (T(r'Toto \refCoh: observability metrics of a cloud provider, a corpus 4--10 times larger than those of earlier models; GIFT-Eval \refAks: a \textbf{non-leaking} pretraining set of about 230 billion points',
-       r'Toto \refCoh: metrici de observabilitate ale unui furnizor cloud, un corpus de 4--10 ori mai mare decît al modelelor anterioare; GIFT-Eval \refAks: un set de preantrenare \textbf{fără scurgere} de circa 230 de miliarde de puncte'), []),
+       r'Toto \refCoh: metrici de observabilitate ale unui furnizor cloud, un corpus de 4--10 ori mai mare decît al modelelor anterioare; GIFT-Eval \refAks: un set de preantrenare \textbf{fără leakage} de circa 230 de miliarde de puncte'), []),
     T('Composition matters more than size for us: economic and financial series are a small, low-frequency share of every corpus',
       'Pentru noi compoziția contează mai mult decît volumul: seriile economice și financiare sînt o parte mică, de frecvență joasă, a oricărui corpus')), 'small')
 
-D.frame(T('Tokenisation: from real values to a vocabulary', 'Tokenizarea: de la valori reale la un vocabular'), items(
-    (T(r'Chronos \refAns: \textbf{mean scaling} $\tilde x_t = x_t/s$, $s = \frac1C\sum_{t \le C}|x_t|$ (context only), then \textbf{uniform bins} on $[-15, 15]$; 4096 tokens including special ones',
-       r'Chronos \refAns: \textbf{scalarea prin medie} $\tilde x_t = x_t/s$, $s = \frac1C\sum_{t \le C}|x_t|$ (doar contextul), apoi \textbf{intervale egale} pe $[-15, 15]$; 4096 de token-uri, inclusiv cele speciale'),
-     [T(r'the model is a language model (T5) trained with \textbf{cross-entropy}: the forecast is a categorical distribution over bins, sampled autoregressively',
-        r'modelul este un model de limbaj (T5) antrenat cu \textbf{entropia încrucișată}: prognoza este o distribuție categorială pe intervale, eșantionată autoregresiv'),
-      T('no notion of distance between tokens: neighbouring bins are as different as distant ones, unless the data teach otherwise', 'nicio noțiune de distanță între token-uri: intervalele vecine sînt la fel de diferite ca cele îndepărtate, dacă datele nu arată altceva')]),
-    (T(r'Consequences: resolution $30s/4092$; values above $15s$ cannot be predicted; scale-invariant by construction', r'Consecințe: rezoluția $30s/4092$; valorile peste $15s$ nu pot fi prognozate; invarianță la scală prin construcție'), []),
-    T(r'LLMTime \refGru: digits as text tokens; Lag-Llama \refRas: lagged values as features; patch models: no vocabulary at all',
-      r'LLMTime \refGru: cifrele ca token-uri de text; Lag-Llama \refRas: valori decalate ca variabile; modelele cu patch-uri: fără vocabular')), 'small')
+D.frame(T('Tokenisation: from real values to a vocabulary (1/2)', 'Tokenizarea: de la valori reale la un vocabular (1/2)'), items(
+    (T(r'Chronos \refAns, step 1, \textbf{mean scaling}: every value of the context is divided by the mean absolute value of the context',
+       r'Chronos \refAns, pasul 1, \textbf{scalarea prin medie}: fiecare valoare din context se împarte la media valorilor absolute din context'),
+     [r'\[ \tilde x_t = x_t / s, \qquad s = \frac1C\sum_{t = 1}^{C}|x_t| \]',
+      T(r'$x_1, \dots, x_C$: the context values; $s$: the scale, computed on the context only; $\tilde x_t$: the scaled value, close to 1 in absolute value on average',
+        r'$x_1, \dots, x_C$: valorile din context; $s$: scala, calculată doar pe context; $\tilde x_t$: valoarea scalată, în medie apropiată de 1 în valoare absolută')]),
+    (T(r'Step 2, \textbf{uniform bins}: the interval $[-15, 15]$ is covered by equally spaced bins, one token per bin; with the special tokens the vocabulary has 4096 tokens',
+       r'Pasul 2, \textbf{intervale egale}: intervalul $[-15, 15]$ este acoperit de intervale egale, cîte un token pentru fiecare; împreună cu token-urile speciale, vocabularul are 4096 de token-uri'),
+     [T(r'each scaled value is replaced by the token of the bin that contains it', r'fiecare valoare scalată este înlocuită cu token-ul intervalului care o conține')]),
+    (T(r'Step 3: a language model (T5) trained with \textbf{cross-entropy} predicts the next token',
+       r'Pasul 3: un model de limbaj (T5) antrenat cu \textbf{entropia încrucișată} prezice token-ul următor'),
+     [T('the forecast is a categorical distribution over bins, sampled autoregressively (one token at a time)', 'prognoza este o distribuție categorială pe intervale, eșantionată autoregresiv (cîte un token o dată)'),
+      T('no notion of distance between tokens: neighbouring bins are as different as distant ones, unless the data teach otherwise', 'nu există o noțiune de distanță între token-uri: intervalele vecine sînt la fel de diferite ca cele îndepărtate, dacă datele nu arată altceva')])), 'small')
+
+D.frame(T('Tokenisation: from real values to a vocabulary (2/2)', 'Tokenizarea: de la valori reale la un vocabular (2/2)'), items(
+    (T(r'\textbf{Resolution}: neighbouring bin centres are $30/4092$ apart on the scaled axis, i.e.\ $30s/4092$ in the units of the series',
+       r'\textbf{Rezoluția}: centrele a două intervale vecine sînt la distanța $30/4092$ pe axa scalată, adică $30s/4092$ în unitățile seriei'),
+     [T(r'$30 = 15 - (-15)$ is the length of the covered range; the quantisation error is at most half of this spacing', r'$30 = 15 - (-15)$ este lungimea domeniului acoperit; eroarea de cuantizare este cel mult jumătate din această distanță')]),
+    (T(r'\textbf{Hard range}: a value above $15s$ (or below $-15s$) has no token and cannot be predicted', r'\textbf{Domeniu limitat}: o valoare peste $15s$ (sau sub $-15s$) nu are token și nu poate fi prognozată'), []),
+    (T(r'\textbf{Scale invariance}: multiplying the series by $c > 0$ multiplies $s$ by $c$ and leaves the tokens unchanged',
+       r'\textbf{Invarianța la scală}: înmulțirea seriei cu $c > 0$ înmulțește $s$ cu $c$ și lasă token-urile neschimbate'), []),
+    (T('Other input representations', 'Alte reprezentări ale intrării'),
+     [T(r'LLMTime \refGru: the digits of each value as text tokens', r'LLMTime \refGru: cifrele fiecărei valori, ca token-uri de text'),
+      T(r'Lag-Llama \refRas: lagged values as features', r'Lag-Llama \refRas: valorile cu lag ca variabile'),
+      T('patch models: no vocabulary at all (next slides)', 'modelele cu patch-uri: fără vocabular (slide-urile următoare)')])), 'small')
 
 chart(T('The Chronos tokeniser on real data', 'Tokenizatorul Chronos pe date reale'), 'ats_ch13_tokens', 'ATS_ch13_pretraining', [
     T(r'Left: BET closes, @{tok.first} -- @{tok.last} ($C = @{tok.n}$), and a 64-bin quantisation (illustration); right: a context near 1 followed by a rise to 25 times that level',
@@ -406,25 +447,34 @@ interp(('the tokeniser', 'tokenizatorului'), [
     T(r'BET: $s = @{tok.s}$ points, bin width @{tok.w} points, maximum quantisation error @{tok.err} points: negligible for prices, but a fixed share of the level',
       r'BET: $s = @{tok.s}$ puncte, lățimea intervalului @{tok.w} puncte, eroarea maximă de cuantizare @{tok.err} puncte: neglijabilă pentru prețuri, dar o pondere fixă din nivel'),
     T(r'Right panel: the scale is set by the context, so the path that rises beyond $15s$ is clipped: @{tok.clip}\% of the future steps are unreachable, the last one by @{tok.jerr}\%',
-      r'Panoul din dreapta: scala este fixată de context, deci traiectoria care urcă peste $15s$ este tăiată: @{tok.clip}\% dintre pașii viitori sînt de neatins, ultimul cu o eroare de @{tok.jerr}\%'),
+      r'Panoul din dreapta: scala este fixată de context, deci traiectoria care urcă peste $15s$ este trunchiată: @{tok.clip}\% dintre pașii viitori nu pot fi atinși, ultimul are o eroare de @{tok.jerr}\%'),
     T('Explosive series (bubbles, Chapter 16; hyperinflation) are outside the support of a mean-scaled vocabulary; Chronos-2 replaces it by an arcsinh transform and quantile outputs',
       'Seriile explozive (bule, Capitolul 16; hiperinflație) sînt în afara suportului unui vocabular scalat prin medie; Chronos-2 îl înlocuiește cu o transformare arcsinh și ieșiri sub formă de cuantile')])
 
 D.frame(T('Patching and the output head', 'Patching și stratul de ieșire'), items(
-    (T(r'\textbf{Patching} \refNie: split the context into patches of $P$ consecutive values, embed each patch as one token; attention costs $O((C/P)^2)$ instead of $O(C^2)$',
-       r'\textbf{Patching} \refNie: contextul se împarte în patch-uri de $P$ valori consecutive, iar fiecare patch devine un token; atenția costă $O((C/P)^2)$ în loc de $O(C^2)$'),
-     [T(r'TimesFM \refDas: input patches of 32, output patches of 128 (fewer autoregressive steps); Chronos-Bolt and Chronos-2: patches of 16; Moirai \refWoo: several patch sizes by frequency',
+    (T(r'\textbf{Patching} \refNie: the context is split into patches of $P$ consecutive values and each patch becomes one input token',
+       r'\textbf{Patching} \refNie: contextul se împarte în patch-uri de $P$ valori consecutive, iar fiecare patch devine un token de intrare'),
+     [T(r'$P$: the patch length; a context of $C$ values gives $C/P$ tokens', r'$P$: lungimea unui patch; un context de $C$ valori dă $C/P$ token-uri'),
+      T(r'attention compares every pair of tokens, so its cost grows as $O((C/P)^2)$ instead of $O(C^2)$; $O(\cdot)$: order of magnitude', r'atenția compară fiecare pereche de token-uri, deci costul ei crește ca $O((C/P)^2)$ în loc de $O(C^2)$; $O(\cdot)$: ordinul de mărime'),
+      T(r'TimesFM \refDas: input patches of 32, output patches of 128 (fewer autoregressive steps); Chronos-Bolt and Chronos-2: patches of 16; Moirai \refWoo: several sizes by frequency',
         r'TimesFM \refDas: patch-uri de intrare de 32, de ieșire de 128 (mai puțini pași autoregresivi); Chronos-Bolt și Chronos-2: patch-uri de 16; Moirai \refWoo: mai multe mărimi, după frecvență')]),
     (T('Output heads', 'Straturi de ieșire'),
-     [T(r'categorical over bins (Chronos); \textbf{quantile head} trained by the pinball loss (Chronos-Bolt: 10\%--90\%; Chronos-2: 1\%--99\%; TimesFM 2.5, TiRex: deciles)',
-        r'distribuție categorială pe intervale (Chronos); \textbf{strat de cuantile} antrenat cu pierderea pinball (Chronos-Bolt: 10\%--90\%; Chronos-2: 1\%--99\%; TimesFM 2.5, TiRex: decile)'),
+     [T(r'categorical over bins (Chronos)', r'distribuție categorială pe intervale (Chronos)'),
+      T(r'\textbf{quantile head} trained by the pinball loss (Chronos-Bolt: 10\%--90\%; Chronos-2: 1\%--99\%; TimesFM 2.5, TiRex: deciles)',
+        r'\textbf{strat de cuantile} antrenat cu pierderea pinball (Chronos-Bolt: 10\%--90\%; Chronos-2: 1\%--99\%; TimesFM 2.5, TiRex: decile)'),
       T(r'parametric: Student-$t$ (Lag-Llama \refRas), a mixture of distributions (Moirai)', r'parametric: Student-$t$ (Lag-Llama \refRas), un amestec de distribuții (Moirai)')]),
-    T(r'Direct multi-step quantiles (one pass for $H$ steps) avoid error accumulation but give marginal, not joint, predictive distributions: path functionals (a maximum, a sum) need care',
-      r'Cuantilele directe pe mai mulți pași (o singură trecere pentru $H$ pași) evită acumularea erorilor, dar dau distribuții predictive marginale, nu comune: funcționalele de traiectorie (un maxim, o sumă) cer atenție')), 'small')
+    (T(r'\textbf{Direct multi-step quantiles}: one pass gives the quantiles of all $H$ steps',
+       r'\textbf{Cuantile directe pe mai mulți pași}: o singură trecere dă cuantilele pentru toți cei $H$ pași'),
+     [T('no accumulation of errors from step to step', 'erorile nu se acumulează de la un pas la altul'),
+      T('but the output is the marginal distribution of each step, not their joint distribution: a path functional (a maximum, a sum over the horizon) cannot be read from it',
+        'dar ieșirea este distribuția marginală a fiecărui pas, nu distribuția lor comună: o funcțională de traiectorie (un maxim, o sumă pe orizont) nu se poate citi din ea')])), 'small')
 
 D.frame(T('Scaling laws', 'Legi de scalare'), items(
-    (T(r'Language models \refKap, \refHof: test loss falls as a power law, $L(N) \approx (N_c/N)^{\alpha_N}$, in the number of parameters $N$, data and compute, over orders of magnitude',
-       r'Modelele de limbaj \refKap, \refHof: pierderea pe datele de test scade ca o lege de putere, $L(N) \approx (N_c/N)^{\alpha_N}$, în numărul de parametri $N$, în date și în calcul, pe mai multe ordine de mărime'), []),
+    (T(r'Language models \refKap, \refHof: the test loss falls as a power law of the model size, and similarly of the data size and of the compute, over several orders of magnitude',
+       r'Modelele de limbaj \refKap, \refHof: pierderea pe datele de test scade ca o lege de putere în mărimea modelului și, la fel, în volumul datelor și în calcul, pe mai multe ordine de mărime'),
+     [r'\[ L(N) \approx (N_c/N)^{\alpha_N} \]',
+      T(r'$L(N)$: test loss of a model with $N$ parameters; $N_c$: a fitted scale constant; $\alpha_N > 0$: the fitted exponent', r'$L(N)$: pierderea pe datele de test a unui model cu $N$ parametri; $N_c$: o constantă de scală estimată; $\alpha_N > 0$: exponentul estimat'),
+      T(r'reading: doubling $N$ multiplies the loss by $2^{-\alpha_N}$; on a log--log plot the relation is a straight line of slope $-\alpha_N$', r'interpretare: dublarea lui $N$ înmulțește pierderea cu $2^{-\alpha_N}$; pe un grafic log--log relația este o dreaptă cu panta $-\alpha_N$')]),
     (T(r'Time series: decoder-only Transformers show the same power laws in parameters, data and compute \refEdw; the look-back length interacts with data size \refShi',
        r'Serii de timp: Transformers de tip decoder-only arată aceleași legi de putere în parametri, date și calcul \refEdw; lungimea contextului interacționează cu volumul datelor \refShi'),
      [T(r'out-of-distribution: the log-likelihood scales similarly in and out of distribution, but architecture matters; tweaks that help in distribution can reduce OOD scalability \refYao',
@@ -433,17 +483,19 @@ D.frame(T('Scaling laws', 'Legi de scalare'), items(
       'O lege de scalare este o afirmație despre pierderea medie pe distribuția corpusului, nu despre o serie românească anume; modele mici (TiRex, 35 de milioane de parametri) le întrec pe cele mari în clasamentele publice \\refAue')), 'small')
 
 chart(T('Size and accuracy on our three tasks', 'Mărimea și acuratețea pe cele trei sarcini ale noastre'), 'ats_ch13_scaling', 'ATS_ch13_pretraining', [
-    T(r'Losses relative to the task baseline: Romanian load (MAE / expert ARX, 2025--2026), EU inflation (MAE / random walk, $h = 12$, geometric mean over 27 countries), Bitcoin log RV (MSE / HAR); parameters counted in the loaded checkpoints',
-      r'Pierderi relative la modelul de referință al fiecărei sarcini: consumul României (MAE / ARX expert, 2025--2026), inflația UE (MAE / mers aleator, $h = 12$, medie geometrică pe 27 de țări), log RV Bitcoin (MSE / HAR); parametrii numărați în modelele încărcate')],
+    T(r'Losses relative to the baseline of each task: Romanian load (MAE / expert ARX, 2025--2026), EU inflation (MAE / random walk, $h = 12$, geometric mean over 27 countries), Bitcoin log RV (MSE / HAR)',
+      r'Pierderi relative la modelul de referință al fiecărei sarcini: consumul României (MAE / ARX expert, 2025--2026), inflația UE (MAE / mers aleator, $h = 12$, medie geometrică pe 27 de țări), log RV Bitcoin (MSE / HAR)'),
+    T('Parameters counted in the loaded checkpoints; a value below 1 means the model beats the baseline', 'Parametrii sînt numărați în modelele încărcate; o valoare sub 1 înseamnă că modelul întrece modelul de referință')],
     h='0.5\\textheight')
 
 interp(('size against accuracy', 'relației dintre mărime și acuratețe'), [
     T(r'Chronos-Bolt family (@{sc.ptiny}--@{sc.pbase} M parameters): load @{sc.l.tiny} $\to$ @{sc.l.base}, inflation @{sc.i.tiny} $\to$ @{sc.i.base}, Bitcoin @{sc.r.tiny} $\to$ @{sc.r.base}',
       r'Familia Chronos-Bolt (@{sc.ptiny}--@{sc.pbase} M parametri): consum @{sc.l.tiny} $\to$ @{sc.l.base}, inflație @{sc.i.tiny} $\to$ @{sc.i.base}, Bitcoin @{sc.r.tiny} $\to$ @{sc.r.base}'),
     T(r'Across families size is not the ranking: Chronos-2 (@{sc.pc2} M) @{sc.l.c2} on load; TiRex (@{sc.ptx} M) @{sc.l.tx}; TimesFM 2.5 (@{sc.ptf} M) @{sc.l.tf}',
-      r'Între familii, mărimea nu dă clasamentul: Chronos-2 (@{sc.pc2} M) @{sc.l.c2} la consum; TiRex (@{sc.ptx} M) @{sc.l.tx}; TimesFM 2.5 (@{sc.ptf} M) @{sc.l.tf}'),
-    T('Within the Chronos-Bolt family the loss falls with size on all three tasks (one exception: mini on inflation); across families architecture, corpus and training recipe change together, so three tasks are not a scaling study',
-      'În familia Chronos-Bolt pierderea scade odată cu mărimea pe toate cele trei sarcini (o excepție: mini la inflație); între familii, arhitectura, corpusul și rețeta de antrenare se schimbă împreună, deci trei sarcini nu fac un studiu de scalare')])
+      r'Între familii, mărimea nu determină clasamentul: Chronos-2 (@{sc.pc2} M) @{sc.l.c2} la consum; TiRex (@{sc.ptx} M) @{sc.l.tx}; TimesFM 2.5 (@{sc.ptf} M) @{sc.l.tf}'),
+    (T('Within the Chronos-Bolt family the loss falls with size on all three tasks (one exception: mini on inflation)', 'În familia Chronos-Bolt pierderea scade odată cu mărimea pe toate cele trei sarcini (o excepție: mini la inflație)'),
+     [T('across families, architecture, corpus and training procedure change together', 'între familii, arhitectura, corpusul și procedura de antrenare se schimbă simultan'),
+      T('so three tasks are not a scaling study', 'deci trei sarcini nu constituie un studiu de scalare')])])
 
 D.recap(('pretraining', 'preantrenarea'), [
     T('Pretraining amortises estimation over a corpus; zero-shot use runs the estimator inside one forward pass', 'Preantrenarea amortizează estimarea pe un corpus; folosirea zero-shot rulează estimatorul într-o singură trecere înainte'),
@@ -463,18 +515,19 @@ D.frame(T('The main open models', 'Principalele modele deschise'), table(
      r'Chronos-2 \refAnsB & ' + T('encoder with group attention', 'encoder cu atenție de grup') + ' & @{sc.pc2} M & ' + T('21 quantiles, 1\\%--99\\%; covariates', '21 de cuantile, 1\\%--99\\%; covariabile'),
      r'TimesFM 2.5 \refDas & ' + T('decoder-only, patches', 'decoder-only, patch-uri') + ' & @{sc.ptf} M & ' + T('mean and deciles', 'media și decilele'),
      r'Moirai \refWoo & ' + T('masked encoder, any-variate attention', 'encoder mascat, atenție pe orice număr de variabile') + ' & 14--311 M & ' + T('mixture distribution', 'amestec de distribuții'),
-     r'Lag-Llama \refRas & ' + T('decoder-only on lag features', 'decoder-only pe valori decalate') + ' & ' + T('small', 'mic') + ' & Student-$t$',
+     r'Lag-Llama \refRas & ' + T('decoder-only on lag features', 'decoder-only pe valori cu lag') + ' & ' + T('small', 'mic') + ' & Student-$t$',
      r'MOMENT \refGos & ' + T('masked T5 encoder, multi-task', 'encoder T5 mascat, multi-sarcină') + ' & 40--385 M & ' + T('reconstruction; heads per task', 'reconstrucție; straturi pe sarcină'),
      r'TiRex \refAue & xLSTM & @{sc.ptx} M & ' + T('deciles', 'decile')],
     size='scriptsize') + items(
     T(r'Toto \refCoh (151 M, observability data) and Moirai 2.0 \refLiu are open as well; TimeGPT \refGar is reached only through a paid API', r'Toto \refCoh (151 M, date de observabilitate) și Moirai 2.0 \refLiu sînt și ele deschise; TimeGPT \refGar este accesibil doar printr-un API cu plată')), 'footnotesize')
 
 D.frame(T('The Chronos family', 'Familia Chronos'), items(
-    (T(r'\textbf{Chronos} \refAns: language-model recipe without changes; forecasts by sampling token paths; zero-shot results comparable to models trained on the target data (their Benchmark II)',
-       r'\textbf{Chronos} \refAns: rețeta modelelor de limbaj fără modificări; prognoze prin eșantionarea traiectoriilor de token-uri; rezultate zero-shot comparabile cu modele antrenate pe datele-țintă (Benchmark II din lucrare)'), []),
+    (T(r'\textbf{Chronos} \refAns: the training procedure of language models, unchanged; forecasts by sampling token paths',
+       r'\textbf{Chronos} \refAns: procedura de antrenare a modelelor de limbaj, nemodificată; prognoze prin eșantionarea traiectoriilor de token-uri'),
+     [T('zero-shot results comparable to models trained on the target data (their Benchmark II)', 'rezultate zero-shot comparabile cu cele ale modelelor antrenate pe datele-țintă (Benchmark II din lucrare)')]),
     (T(r'\textbf{Chronos-Bolt}: patch inputs, a direct quantile decoder; much faster; context up to 2048, 64 steps; quantiles only between 10\% and 90\%',
        r'\textbf{Chronos-Bolt}: intrări sub formă de patch-uri, decodor direct de cuantile; mult mai rapid; context de pînă la 2048, 64 de pași; cuantile doar între 10\% și 90\%'),
-     [T('a 95\\% interval or a VaR 1\\% cannot be read from its output: the request is clipped to the nearest trained level', 'un interval de 95\\% sau un VaR 1\\% nu se pot citi din ieșirea lui: cererea este tăiată la cel mai apropiat nivel antrenat')]),
+     [T('a 95\\% interval or a VaR 1\\% cannot be read from its output: the request is clipped to the nearest trained level', 'un interval de 95\\% sau un VaR 1\\% nu se pot citi din ieșirea lui: cererea este trunchiată la cel mai apropiat nivel antrenat')]),
     (T(r'\textbf{Chronos-2} \refAnsB: group attention shares information across the series of a group (variates, related series, covariates); \textbf{in-context learning} of covariate effects',
        r'\textbf{Chronos-2} \refAnsB: atenția de grup împarte informația între seriile unui grup (variabile, serii înrudite, covariabile); \textbf{învățare în context} a efectelor covariabilelor'),
      [T('trained largely on synthetic multivariate structures imposed on univariate series; context 8192; 21 quantiles from 1\\% to 99\\%; arcsinh scaling',
@@ -487,14 +540,15 @@ D.frame(T('TimesFM, Moirai, Lag-Llama, MOMENT', 'TimesFM, Moirai, Lag-Llama, MOM
        r'\textbf{Moirai} \refWoo: encoder mascat; mărimi de patch specifice frecvenței; atenția pe orice număr de variabile aplatizează intrările multivariate; ieșire sub formă de amestec (Student-$t$, log-normală, binomială negativă)'),
      [T(r'Moirai 2.0 \refLiu: a decoder-only simplification, smaller and better on GIFT-Eval', r'Moirai 2.0 \refLiu: o simplificare decoder-only, mai mică și mai bună pe GIFT-Eval')]),
     (T(r'\textbf{Lag-Llama} \refRas: a LLaMA-type decoder whose tokens are vectors of lagged values at many seasonal lags; Student-$t$ head; strong after fine-tuning',
-       r'\textbf{Lag-Llama} \refRas: un decodor de tip LLaMA ale cărui token-uri sînt vectori de valori decalate la multe decalaje sezoniere; strat Student-$t$; puternic după fine-tuning'), []),
+       r'\textbf{Lag-Llama} \refRas: un decodor de tip LLaMA ale cărui token-uri sînt vectori de valori cu lag, la multe laguri sezoniere; strat Student-$t$; puternic după fine-tuning'), []),
     T(r'\textbf{MOMENT} \refGos: masked reconstruction on the Time series Pile; one encoder for forecasting, classification, anomaly detection and imputation',
       r'\textbf{MOMENT} \refGos: reconstrucție mascată pe Time series Pile; un singur encoder pentru prognoză, clasificare, detectarea anomaliilor și imputare')), 'small')
 
 D.frame(T('Recurrent again, observability, and a closed API', 'Din nou recurente, observabilitate și un API închis'), items(
-    (T(r'\textbf{TiRex} \refAue: an xLSTM (Chapter 12 recurrent cells with exponential gating and matrix memory) keeps a state across the context: state tracking for long horizons',
-       r'\textbf{TiRex} \refAue: un xLSTM (celulele recurente din Capitolul 12, cu porți exponențiale și memorie matriceală) păstrează o stare de-a lungul contextului: urmărirea stării pe orizonturi lungi'),
-     [T('contiguous patch masking (CPM) in training: the model learns to forecast with missing patches, i.e.\\ several steps without feedback',
+    (T(r'\textbf{TiRex} \refAue: an xLSTM keeps a state across the context, which allows state tracking over long horizons',
+       r'\textbf{TiRex} \refAue: un xLSTM păstrează o stare de-a lungul contextului, ceea ce permite urmărirea stării pe orizonturi lungi'),
+     [T('xLSTM: the recurrent cells of Chapter 12 with exponential gating and a matrix memory', 'xLSTM: celulele recurente din Capitolul 12, cu porți exponențiale și memorie matriceală'),
+T('contiguous patch masking (CPM) in training: the model learns to forecast with missing patches, i.e.\\ several steps without feedback',
         'mascarea patch-urilor contigue (CPM) la antrenare: modelul învață să prognozeze cu patch-uri lipsă, adică mai mulți pași fără reacție')]),
     (T(r'\textbf{Toto} \refCoh: decoder-only for multivariate observability metrics; the BOOM benchmark (2807 series); shows that domain composition of the corpus drives results',
        r'\textbf{Toto} \refCoh: decoder-only pentru metrici multivariate de observabilitate; benchmark-ul BOOM (2807 serii); arată că alcătuirea pe domenii a corpusului determină rezultatele'), []),
@@ -502,13 +556,13 @@ D.frame(T('Recurrent again, observability, and a closed API', 'Din nou recurente
      [T('contamination cannot be audited; results are not reproducible if the service changes the model; data leave your institution', 'contaminarea nu poate fi verificată; rezultatele nu sînt reproductibile dacă serviciul schimbă modelul; datele ies din instituția dumneavoastră')])), 'small')
 
 D.frame(T('Zero-shot, fine-tuning, in-context covariates', 'Zero-shot, fine-tuning, covariabile în context'), items(
-    (T(r'\textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; no training, no tuning risk; the only choices are $C$ and the model',
-       r'\textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; fără antrenare, fără riscul ajustării; singurele alegeri sînt $C$ și modelul'), []),
-    (T(r'\textbf{Fine-tuning}: $\theta$ initialised at $\hat\theta$, a few gradient steps on the target data (all weights, or adapters such as LoRA)',
-       r'\textbf{Fine-tuning}: $\theta$ pornește de la $\hat\theta$, cîțiva pași de gradient pe datele-țintă (toate ponderile sau adaptoare precum LoRA)'),
+    (T(r'\textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; no training, hence no risk of overfitting the target; the only choices are $C$ and the model',
+       r'\textbf{Zero-shot}: $f_{\hat\theta}(y_{T-C+1:T})$; fără antrenare, deci fără risc de supraajustare pe seria-țintă; singurele alegeri sînt $C$ și modelul'), []),
+    (T(r'\textbf{Fine-tuning}: the weights $\theta$ start at $\hat\theta$ and take a few gradient steps on the target data (all weights, or adapters such as LoRA)',
+       r'\textbf{Fine-tuning}: ponderile $\theta$ pornesc de la $\hat\theta$ și fac cîțiva pași de gradient pe datele-țintă (toate ponderile sau adaptoare precum LoRA)'),
      [T('needs a validation split respecting time (Chapter 12); can forget the prior; with short economic series it rarely pays', 'cere o împărțire de validare care respectă timpul (Capitolul 12); poate uita distribuția a priori; pe serii economice scurte rareori merită')]),
-    (T(r'\textbf{In-context covariates} (Chronos-2): pass past values of $x_t$ and future values of known regressors; the model infers their effect inside the forward pass',
-       r'\textbf{Covariabile în context} (Chronos-2): se transmit valorile trecute ale lui $x_t$ și valorile viitoare ale regresorilor cunoscuți; modelul deduce efectul lor în timpul trecerii înainte'),
+    (T(r'\textbf{In-context covariates} (Chronos-2): pass past values of a covariate $x_t$ (e.g.\ temperature) and future values of regressors known in advance; the model infers their effect inside the forward pass',
+       r'\textbf{Covariabile în context} (Chronos-2): se transmit valorile trecute ale unei covariabile $x_t$ (de exemplu temperatura) și valorile viitoare ale regresorilor cunoscuți dinainte; modelul deduce efectul lor în timpul trecerii înainte'),
      [T('cross-learning: forecasting a batch of related series jointly (all 27 EU countries at one origin)', 'învățarea încrucișată: prognoza în comun a unui lot de serii înrudite (toate cele 27 de țări UE la aceeași origine)')]),
     T('Known future covariates must really be known at the origin: weather forecasts, not realised weather, unless an upper bound is the goal',
       'Covariabilele viitoare cunoscute trebuie să fie chiar cunoscute la origine: prognoze meteo, nu vremea realizată, cu excepția cazului în care se urmărește o limită superioară')), 'small')
@@ -519,14 +573,15 @@ chart(T('Four zero-shot forecasts from one model', 'Patru prognoze zero-shot cu 
     h='0.55\\textheight')
 
 interp(('the four forecasts', 'celor patru prognoze'), [
-    T('Load: the daily and weekly shapes are continued with narrow bands: shape transfer at its best', 'Consumul: formele zilnice și săptămînale sînt continuate cu benzi înguste: transferul de formă în cel mai bun caz'),
+    T('Load: the daily and weekly shapes are continued with narrow bands: the most favourable case for shape transfer', 'Consumul: profilurile zilnice și săptămînale sînt continuate cu benzi înguste: cazul cel mai favorabil pentru transferul de formă'),
     T('Inflation: a smooth path towards the recent level with bands that widen with the horizon: close to what an AR model with persistence would give', 'Inflația: o traiectorie netedă spre nivelul recent, cu benzi care se lărgesc cu orizontul: aproape de ce ar da un model AR persistent'),
-    T('Log RV of Bitcoin: a weekly pattern (lower variance at weekends) around a level set by the context; returns: a flat median and a symmetric band, i.e.\\ an unconditional distribution', 'Log RV pentru Bitcoin: un tipar săptămînal (varianță mai mică la sfîrșit de săptămînă) în jurul unui nivel stabilit de context; randamentele: o mediană constantă și o bandă simetrică, adică o distribuție necondiționată'),
+    T('Log RV of Bitcoin: a weekly pattern (lower variance at weekends) around a level set by the context', 'Log RV pentru Bitcoin: un tipar săptămînal (varianță mai mică la sfîrșit de săptămînă) în jurul unui nivel stabilit de context'),
+    T('Returns: a flat median and a symmetric band, i.e.\\ an unconditional distribution', 'Randamentele: o mediană constantă și o bandă simetrică, adică o distribuție necondiționată'),
     T(r'Return bands from the 1\% and 99\% quantiles: Chronos-2 VaR 1\% for the next day is @{zs.var} (\% of value); Section 8 checks whether such numbers are calibrated',
       r'Benzile randamentelor din cuantilele de 1\% și 99\%: VaR 1\% Chronos-2 pentru ziua următoare este @{zs.var} (\% din valoare); secțiunea 8 verifică dacă astfel de cifre sînt calibrate')])
 
 D.recap(('model families', 'familiile de modele'), [
-    T('Families differ in input (tokens, patches, lags), architecture (encoder, decoder, recurrent) and output (categorical, quantiles, parametric)', 'Familiile diferă prin intrare (token-uri, patch-uri, decalaje), arhitectură (encoder, decoder, recurentă) și ieșire (categorială, cuantile, parametrică)'),
+    T('Families differ in input (tokens, patches, lags), architecture (encoder, decoder, recurrent) and output (categorical, quantiles, parametric)', 'Familiile diferă prin intrare (token-uri, patch-uri, laguri), arhitectură (encoder, decoder, recurentă) și ieșire (categorială, cuantile, parametrică)'),
     T('Quantile range is a design constraint: deciles only, except Chronos-2', 'Domeniul cuantilelor este o constrîngere de proiectare: doar decile, cu excepția Chronos-2'),
     T('Zero-shot is the default; covariates in context and cross-learning are the new levers; closed APIs cannot be audited', 'Zero-shot este varianta implicită; covariabilele în context și învățarea încrucișată sînt noile pîrghii; API-urile închise nu pot fi verificate')])
 
@@ -537,7 +592,7 @@ D.section('Benchmarks, contamination and testing', 'Benchmark-uri, contaminare �
 
 D.frame(T('Benchmarks for pretrained models', 'Benchmark-uri pentru modelele preantrenate'), items(
     (T(r'\textbf{GIFT-Eval} \refAks: 23 data sets, over 144\,000 series, 177 million points, seven domains, ten frequencies, short to long horizons; a non-leaking pretraining set',
-       r'\textbf{GIFT-Eval} \refAks: 23 de seturi de date, peste 144\,000 de serii, 177 de milioane de puncte, șapte domenii, zece frecvențe, orizonturi scurte și lungi; un set de preantrenare fără scurgere'), []),
+       r'\textbf{GIFT-Eval} \refAks: 23 de seturi de date, peste 144\,000 de serii, 177 de milioane de puncte, șapte domenii, zece frecvențe, orizonturi scurte și lungi; un set de preantrenare fără leakage'), []),
     (T(r'\textbf{fev-bench} \refShc: 100 tasks in seven domains, 46 with covariates; win rates and skill scores with bootstrap confidence intervals',
        r'\textbf{fev-bench} \refShc: 100 de sarcini în șapte domenii, 46 cu covariabile; rate de cîștig și scoruri de abilitate cu intervale de încredere bootstrap'), []),
     (T(r'\textbf{Live benchmarks}: forecasts registered before the outcomes exist, e.g.\ TS-Arena \refMey and Impermanent \refGarB: the only design immune to contamination by construction',
@@ -545,19 +600,34 @@ D.frame(T('Benchmarks for pretrained models', 'Benchmark-uri pentru modelele pre
     T(r'Classical references for what a fair comparison needs: M5 \refMak; pitfalls catalogued by \refHAB',
       r'Repere clasice pentru ce cere o comparație corectă: M5 \refMak; capcanele catalogate de \refHAB')), 'small')
 
-D.frame(T('Aggregating scores across series', 'Agregarea scorurilor pe mai multe serii'), items(
-    (T(r'Scale-free scores: MASE $= \frac{1}{H}\sum_h|y_{T+h} - \hat y_{T+h}| \big/ \frac{1}{T-m}\sum_t|y_t - y_{t-m}|$ \refHK; WQL $= 2\sum_{t,\tau}\rho_\tau(y_t - \hat q_{\tau,t})\big/\sum_t|y_t|$',
-       r'Scoruri fără scală: MASE $= \frac{1}{H}\sum_h|y_{T+h} - \hat y_{T+h}| \big/ \frac{1}{T-m}\sum_t|y_t - y_{t-m}|$ \refHK; WQL $= 2\sum_{t,\tau}\rho_\tau(y_t - \hat q_{\tau,t})\big/\sum_t|y_t|$'),
-     [T(r'$\rho_\tau(u) = u(\tau - \mathbf 1\{u < 0\})$ (pinball); the average over $\tau$ approximates the CRPS (Chapter 1)', r'$\rho_\tau(u) = u(\tau - \mathbf 1\{u < 0\})$ (pinball); media pe $\tau$ aproximează CRPS (Capitolul 1)')]),
-    (T(r'Relative scores $r_s = L_s(\text{model})/L_s(\text{baseline})$ combined by the \textbf{geometric mean} \refFW: invariant to the choice of baseline in rankings, symmetric in gains and losses',
-       r'Scorurile relative $r_s = L_s(\text{model})/L_s(\text{referință})$ se combină prin \textbf{media geometrică} \refFW: clasamentele nu depind de alegerea modelului de referință, iar cîștigurile și pierderile sînt tratate simetric'),
-     [T(r'skill score $1 - \bar r_{\mathrm{geo}}$; win rate: share of series on which a model beats another', r'scorul de abilitate $1 - \bar r_{\mathrm{geo}}$; rata de cîștig: ponderea seriilor pe care un model îl întrece pe altul')]),
-    T('The arithmetic mean of ratios rewards the baseline\'s weak series; the mean of raw errors is dominated by the series with the largest scale',
-      'Media aritmetică a rapoartelor recompensează seriile slabe ale modelului de referință; media erorilor brute este dominată de seria cu scala cea mai mare')), 'small')
+D.frame(T('Aggregating scores across series (1/2)', 'Agregarea scorurilor pe mai multe serii (1/2)'), items(
+    (T(r'\textbf{MASE} \refHK: the mean absolute forecast error divided by the in-sample mean absolute error of the seasonal naive forecast',
+       r'\textbf{MASE} \refHK: eroarea absolută medie a prognozei împărțită la eroarea absolută medie, în eșantion, a prognozei naive sezoniere'),
+     [r'\[ \mathrm{MASE} = \frac{\frac{1}{H}\sum_{h=1}^{H}|y_{T+h} - \hat y_{T+h}|}{\frac{1}{T-m}\sum_{t=m+1}^{T}|y_t - y_{t-m}|} \]',
+      T(r'$\hat y_{T+h}$: the forecast $h$ steps after the origin $T$; $m$: the seasonal period (1 without seasonality)', r'$\hat y_{T+h}$: prognoza la $h$ pași după originea $T$; $m$: perioada sezonieră (1 fără sezonalitate)'),
+      T(r'MASE $< 1$: better than the naive forecast in sample; free of the units of $y$', r'MASE $< 1$: mai bun decît prognoza naivă în eșantion; nu depinde de unitățile lui $y$')]),
+    (T(r'\textbf{WQL} (weighted quantile loss): the pinball losses of the forecast quantiles, summed and divided by the total absolute level of the series',
+       r'\textbf{WQL} (pierderea cuantilică ponderată): pierderile pinball ale cuantilelor prognozate, însumate și împărțite la nivelul absolut total al seriei'),
+     [r'\[ \mathrm{WQL} = \frac{2\sum_{t}\sum_{\tau}\rho_\tau(y_t - \hat q_{\tau,t})}{\sum_t|y_t|}, \qquad \rho_\tau(u) = u\big(\tau - \mathbf 1\{u < 0\}\big) \]',
+      T(r'$\hat q_{\tau,t}$: the forecast quantile of level $\tau \in (0, 1)$ for period $t$; $\mathbf 1\{\cdot\}$: 1 if the condition holds, 0 otherwise', r'$\hat q_{\tau,t}$: cuantila prognozată de nivel $\tau \in (0, 1)$ pentru perioada $t$; $\mathbf 1\{\cdot\}$: 1 dacă condiția este îndeplinită, 0 altfel'),
+      T(r'$\rho_\tau$: the pinball loss; its average over $\tau$ approximates the CRPS (Chapter 1); WQL $= 0$ only for perfect quantiles', r'$\rho_\tau$: pierderea pinball; media ei pe $\tau$ aproximează CRPS (Capitolul 1); WQL $= 0$ doar pentru cuantile perfecte')])), 'small')
 
-D.frame(T('Leakage and contamination', 'Scurgerea de informație și contaminarea'), items(
+D.frame(T('Aggregating scores across series (2/2)', 'Agregarea scorurilor pe mai multe serii (2/2)'), items(
+    (T(r'\textbf{Relative score} of series $s$: the loss of the model divided by the loss of a baseline on the same series',
+       r'\textbf{Scorul relativ} al seriei $s$: pierderea modelului împărțită la pierderea unui model de referință pe aceeași serie'),
+     [r'\[ r_s = \frac{L_s(\text{model})}{L_s(\text{baseline})}, \qquad \bar r_{\mathrm{geo}} = \Big(\prod_{s=1}^{S} r_s\Big)^{1/S} \]',
+      T(r'$L_s$: a loss (MAE, MASE, WQL) on series $s$; $S$: the number of series; $r_s < 1$: the model beats the baseline on series $s$', r'$L_s$: o pierdere (MAE, MASE, WQL) pe seria $s$; $S$: numărul de serii; $r_s < 1$: modelul întrece modelul de referință pe seria $s$')]),
+    (T(r'\textbf{Geometric mean} $\bar r_{\mathrm{geo}}$ \refFW: the rankings do not depend on the choice of baseline, and a gain and a loss of the same ratio cancel',
+       r'\textbf{Media geometrică} $\bar r_{\mathrm{geo}}$ \refFW: clasamentele nu depind de alegerea modelului de referință, iar un cîștig și o pierdere de același raport se compensează'),
+     [T(r'\textbf{skill score} $1 - \bar r_{\mathrm{geo}}$: the average proportional gain over the baseline (0: no gain)', r'\textbf{scorul de abilitate} (skill score) $1 - \bar r_{\mathrm{geo}}$: cîștigul proporțional mediu față de modelul de referință (0: niciun cîștig)'),
+      T(r'\textbf{win rate}: the share of series on which a model beats another', r'\textbf{rata de cîștig} (win rate): ponderea seriilor pe care un model îl întrece pe altul')]),
+    (T('Two aggregations to avoid', 'Două agregări de evitat'),
+     [T('the arithmetic mean of ratios: dominated by the series on which the baseline is weak', 'media aritmetică a rapoartelor: dominată de seriile pe care modelul de referință este slab'),
+      T('the mean of raw errors: dominated by the series with the largest scale', 'media erorilor brute: dominată de seria cu scala cea mai mare')])), 'small')
+
+D.frame(T('Leakage and contamination', 'Leakage și contaminare'), items(
     (T(r'\textbf{Series leakage}: an evaluation series (or a near copy) is in the pretraining corpus; Chronos separates in-domain (Benchmark I) from zero-shot (Benchmark II) results for this reason \refAns',
-       r'\textbf{Scurgerea seriilor}: o serie de evaluare (sau o copie apropiată) se află în corpusul de preantrenare; Chronos separă din acest motiv rezultatele în domeniu (Benchmark I) de cele zero-shot (Benchmark II) \refAns'), []),
+       r'\textbf{Leakage-ul seriilor}: o serie de evaluare (sau o copie apropiată) se află în corpusul de preantrenare; Chronos separă din acest motiv rezultatele în domeniu (Benchmark I) de cele zero-shot (Benchmark II) \refAns'), []),
     (T(r'\textbf{Temporal contamination}: the test window precedes the training cutoff; the model may have seen the outcomes of other, correlated series in the same period',
        r'\textbf{Contaminarea temporală}: fereastra de test precede data-limită a antrenării; modelul poate să fi văzut rezultatele altor serii, corelate, din aceeași perioadă'),
      [T(r'LLMs recall exact economic values from before their cutoff \refLTZ; a two-data-set design against contamination for electricity prices \refPE', r'LLM-urile reproduc valori economice exacte din perioada dinaintea datei-limită \refLTZ; un design cu două seturi de date împotriva contaminării, pentru prețurile electricității \refPE')]),
@@ -567,17 +637,28 @@ D.frame(T('Leakage and contamination', 'Scurgerea de informație și contaminare
       T('compare the relative skill before and after: a large drop after the release is a warning sign', 'comparați abilitatea relativă înainte și după: o scădere mare după lansare este un semnal de alarmă'),
       T('pre-register origins, horizons, metrics and baselines before looking at the results', 'preînregistrați originile, orizonturile, metricile și modelele de referință înainte de a vedea rezultatele')])), 'small')
 
-D.frame(T('Testing across many series', 'Testarea pe multe serii'), items(
+D.frame(T('Testing across many series (1/2)', 'Testarea pe multe serii (1/2)'), items(
     (T(r'One series: DM with HLN correction \refDM, \refHLN; conditional ability \refGW; many models: MCS \refHLNa (all in Chapter 1)',
        r'O serie: DM cu corecția HLN \refDM, \refHLN; capacitatea condiționată \refGW; multe modele: MCS \refHLNa (toate în Capitolul 1)'), []),
-    (T(r'$S$ series tested separately: at 5\% each, about $0.05S$ false rejections are expected under the null',
-       r'$S$ serii testate separat: la 5\% fiecare, sub ipoteza nulă se așteaptă aproximativ $0{,}05S$ respingeri false'),
-     [T(r'\textbf{Holm} \refHol (FWER): order $p_{(1)} \le \dots \le p_{(S)}$, reject while $p_{(k)} \le \alpha/(S - k + 1)$',
-        r'\textbf{Holm} \refHol (FWER): ordonați $p_{(1)} \le \dots \le p_{(S)}$, respingeți cît timp $p_{(k)} \le \alpha/(S - k + 1)$'),
-      T(r'\textbf{Benjamini--Hochberg} \refBH (FDR): reject the $k^*$ smallest, $k^* = \max\{k: p_{(k)} \le k\alpha/S\}$; valid under independence or positive dependence',
-        r'\textbf{Benjamini--Hochberg} \refBH (FDR): respingeți cele mai mici $k^*$, $k^* = \max\{k: p_{(k)} \le k\alpha/S\}$; valid sub independență sau dependență pozitivă')]),
-    (T(r'Pooled tests: average the loss differential across series at each origin, then one DM test with HAC variance: the cross-sectional correlation is kept in the time dimension',
-       r'Teste agregate: mediați diferența de pierdere pe serii la fiecare origine, apoi un singur test DM cu varianță HAC: corelația dintre serii este păstrată în dimensiunea timpului'), []),
+    (T(r'$S$ series tested separately, each at level 5\%: under the null hypothesis about $0.05S$ false rejections are expected',
+       r'$S$ serii testate separat, fiecare la nivelul de 5\%: sub ipoteza nulă se așteaptă aproximativ $0{,}05S$ respingeri false'),
+     [T(r'with $S = 27$ countries, about one or two ``significant'' countries by chance alone', r'cu $S = 27$ de țări, aproximativ una sau două țări „semnificative” doar din întîmplare')]),
+    (T('Two error rates for a family of tests', 'Două rate de eroare pentru o familie de teste'),
+     [T(r'\textbf{FWER} (family-wise error rate): the probability of at least one false rejection', r'\textbf{FWER} (family-wise error rate): probabilitatea a cel puțin unei respingeri false'),
+      T(r'\textbf{FDR} (false discovery rate): the expected share of false rejections among all rejections', r'\textbf{FDR} (false discovery rate): proporția așteptată a respingerilor false printre toate respingerile')]),
+    (T(r'Notation: $p_{(1)} \le \dots \le p_{(S)}$ are the $S$ p-values sorted increasingly; $\alpha$: the target level of the family (e.g.\ 5\%)',
+       r'Notațiile: $p_{(1)} \le \dots \le p_{(S)}$ sînt cele $S$ p-value-uri ordonate crescător; $\alpha$: nivelul-țintă al familiei (de exemplu 5\%)'), [])), 'small')
+
+D.frame(T('Testing across many series (2/2)', 'Testarea pe multe serii (2/2)'), items(
+    (T(r'\textbf{Holm} \refHol, controls the FWER: go up the sorted list and reject while', r'\textbf{Holm} \refHol, controlează FWER: se parcurge lista ordonată și se respinge cît timp'),
+     [r'\[ p_{(k)} \le \frac{\alpha}{S - k + 1}, \qquad k = 1, 2, \dots \]',
+      T(r'the smallest p-value faces the Bonferroni threshold $\alpha/S$, the next ones gradually looser thresholds; stop at the first failure', r'cel mai mic p-value este comparat cu pragul Bonferroni $\alpha/S$, următoarele cu praguri treptat mai permisive; se oprește la primul eșec')]),
+    (T(r'\textbf{Benjamini--Hochberg} \refBH, controls the FDR: reject the $k^*$ smallest p-values, with', r'\textbf{Benjamini--Hochberg} \refBH, controlează FDR: se resping cele mai mici $k^*$ p-value-uri, unde'),
+     [r'\[ k^* = \max\{k: p_{(k)} \le k\alpha/S\} \]',
+      T('more rejections than Holm; valid under independence or positive dependence between the tests', 'mai multe respingeri decît Holm; valid sub independență sau dependență pozitivă între teste')]),
+    (T(r'\textbf{Pooled test}: average the loss differential across series at each origin, then run one DM test with HAC variance',
+       r'\textbf{Test agregat}: se mediază diferența de pierdere pe serii la fiecare origine, apoi se aplică un singur test DM cu varianță HAC'),
+     [T('the correlation between series stays in the averaged time series, so the HAC variance accounts for it', 'corelația dintre serii rămîne în seria de timp mediată, deci varianța HAC o ia în calcul')]),
     T(r'Ranks over many data sets: Friedman and Nemenyi tests \refDem; they ignore the size of differences and assume independent data sets',
       r'Ranguri pe multe seturi de date: testele Friedman și Nemenyi \refDem; ele ignoră mărimea diferențelor și presupun seturi de date independente')), 'small')
 
@@ -659,12 +740,13 @@ interp(('the Romanian paths', 'traiectoriilor pentru România'), [
       r'De la @{ri.o2}, aproape de vîrf (@{ri.peak}\% în @{ri.pd}): rezultat @{ri.a2}\%; Chronos-2 @{ri.c2}\%, AR @{ri.r2}\%'),
     T(r'From @{ri.o3}: outcome @{ri.a3}\%; Chronos-2 @{ri.c3}\%, AR @{ri.r3}\%; the latest observation is @{ri.last}\% (@{ri.ld})',
       r'De la @{ri.o3}: rezultat @{ri.a3}\%; Chronos-2 @{ri.c3}\%, AR @{ri.r3}\%; ultima observație este @{ri.last}\% (@{ri.ld})'),
-    T('Both methods extrapolate persistence; turning points come from information outside the series (energy prices, the end of the price caps, the VAT increase of August 2025, whose effect on annual inflation lasts exactly 12 months): known in advance, hence natural covariates',
-      'Ambele metode extrapolează persistența; punctele de întoarcere vin din informații din afara seriei (prețurile energiei, sfîrșitul plafonării prețurilor, majorarea TVA din august 2025, al cărei efect asupra inflației anuale durează exact 12 luni): cunoscute dinainte, deci covariabile naturale')])
+    (T('Both methods extrapolate persistence; turning points come from information outside the series', 'Ambele metode extrapolează persistența; punctele de întoarcere vin din informații din afara seriei'),
+     [T('energy prices, the end of the price caps, the VAT increase of August 2025 (its effect on annual inflation lasts exactly 12 months)', 'prețurile energiei, sfîrșitul plafonării prețurilor, majorarea TVA din august 2025 (efectul ei asupra inflației anuale durează exact 12 luni)'),
+      T('these are known in advance, hence natural covariates', 'acestea sînt cunoscute dinainte, deci sînt covariabile naturale')])])
 
 chart(T('Twenty-seven tests at once', 'Douăzeci și șapte de teste deodată'), 'ats_ch13_multiple', 'ATS_ch13_benchmark', [
     T(r'Country-level DM--HLN statistics (HAC with $h - 1$ lags) of the absolute errors of @{mt.model} minus AR($p$) at $h = @{mt.h}$; negative: @{mt.model} better',
-      r'Statisticile DM--HLN pe țări (HAC cu $h - 1$ decalaje) ale erorilor absolute @{mt.model} minus AR($p$) la $h = @{mt.h}$; negativ: @{mt.model} este mai bun')],
+      r'Statisticile DM--HLN pe țări (HAC cu $h - 1$ laguri) ale erorilor absolute @{mt.model} minus AR($p$) la $h = @{mt.h}$; negativ: @{mt.model} este mai bun')],
     h='0.48\\textheight')
 
 interp(('the multiple tests', 'testelor multiple'), [
@@ -672,8 +754,8 @@ interp(('the multiple tests', 'testelor multiple'), [
       r'@{mt.neg} din 27 de statistici sînt negative; @{mt.rej} sînt semnificative la 5\% fără corecție (@{mt.rejfm} în favoarea @{mt.model}, @{mt.rejar} în favoarea AR)'),
     T(r'With Holm: @{mt.holm} rejections; with Benjamini--Hochberg: @{mt.bh}; Romania: $t = @{mt.rot}$, $p$ @{mt.rop}',
       r'Cu Holm: @{mt.holm} respingeri; cu Benjamini--Hochberg: @{mt.bh}; România: $t = @{mt.rot}$, $p$ @{mt.rop}'),
-    T(r'Pooled over the 27 countries (average loss differential at each origin, HAC variance): $t = @{ai.t}$, $p$ @{ai.p}; the bootstrap intervals of the previous chart treat countries as independent and look sharper than they are',
-      r'Agregat pe cele 27 de țări (diferența medie de pierdere la fiecare origine, varianță HAC): $t = @{ai.t}$, $p$ @{ai.p}; intervalele bootstrap din graficul anterior tratează țările ca independente și par mai precise decît sînt'),
+    (T(r'Pooled over the 27 countries (average loss differential at each origin, HAC variance): $t = @{ai.t}$, $p$ @{ai.p}', r'Agregat pe cele 27 de țări (diferența medie de pierdere la fiecare origine, varianță HAC): $t = @{ai.t}$, $p$ @{ai.p}'),
+     [T('the bootstrap intervals of the previous chart treat countries as independent and look sharper than they are', 'intervalele bootstrap din graficul anterior tratează țările ca independente și par mai precise decît sînt')]),
     T('A paper that reports the countries where its model wins at 5\\% reports noise; the pooled test and the multiplicity-adjusted counts are the honest summary',
       'O lucrare care raportează țările în care modelul ei cîștigă la 5\\% raportează zgomot; testul agregat și numerele ajustate pentru multiplicitate sînt rezumatul onest')])
 
@@ -687,8 +769,9 @@ interp(('the volatility comparison', 'comparației pentru volatilitate'), [
       r'Bitcoin, QLIKE relativ la HAR: Chronos-2 @{rv.b.c2}, TimesFM @{rv.b.tf}, TiRex @{rv.b.tx}, Bolt @{rv.b.bolt}; MCS (10\%): @{rv.b.mcs}'),
     T(r'S\&P 500: Chronos-2 @{rv.s.c2}, TimesFM @{rv.s.tf}, TiRex @{rv.s.tx}, Bolt @{rv.s.bolt}; MCS (10\%): @{rv.s.mcs}',
       r'S\&P 500: Chronos-2 @{rv.s.c2}, TimesFM @{rv.s.tf}, TiRex @{rv.s.tx}, Bolt @{rv.s.bolt}; MCS (10\%): @{rv.s.mcs}'),
-    T(r'Three of the four zero-shot models beat HAR on both assets and HAR is outside both MCS: the slowly decaying memory of log RV (Chapter 10) is a shape a corpus can teach; the gain is large for Bitcoin, small for the S\&P 500',
-      r'Trei dintre cele patru modele zero-shot întrec HAR pe ambele active, iar HAR nu intră în niciun MCS: memoria lentă a lui log RV (Capitolul 10) este o formă pe care un corpus o poate preda; cîștigul este mare pentru Bitcoin și mic pentru S\&P 500'),
+    (T(r'Three of the four zero-shot models beat HAR on both assets, and HAR is outside both MCS', r'Trei dintre cele patru modele zero-shot întrec HAR pe ambele active, iar HAR nu intră în niciun MCS'),
+     [T(r'the slowly decaying memory of log RV (Chapter 10) is a shape a model can learn from a corpus', r'memoria lentă a lui log RV (Capitolul 10) este o structură pe care modelul o poate învăța din corpus'),
+      T(r'the gain is large for Bitcoin, small for the S\&P 500', r'cîștigul este mare pentru Bitcoin și mic pentru S\&P 500')]),
     T(r'Recent studies reach mixed verdicts \refGoe, \refBri, \refRNW: gains depend on the asset, the horizon and the loss, and fine-tuning or pretraining on financial data often matters', r'Studii recente ajung la verdicte mixte \refGoe, \refBri, \refRNW: cîștigurile depind de activ, de orizont și de funcția de pierdere, iar fine-tuning-ul sau preantrenarea pe date financiare contează adesea')])
 
 chart(T('Before and after the releases', 'Înainte și după lansări'), 'ats_ch13_contamination', 'ATS_ch13_benchmark', [
@@ -701,8 +784,8 @@ interp(('the contamination check', 'verificării contaminării'), [
       r'Consum, Chronos-2: @{ct.l.c2a} înainte, @{ct.l.c2b} după; TimesFM: @{ct.l.tfa}, @{ct.l.tfb}; fereastra anterioară (ianuarie--octombrie 2025) precede ambele lansări'),
     T(r'Bitcoin, Chronos-2: @{ct.b.c2a} (2021 -- 24 November 2024) and @{ct.b.c2b} (after); TiRex: @{ct.b.txa}, @{ct.b.txb}; post-release windows have @{ct.nl} and @{ct.nb} days',
       r'Bitcoin, Chronos-2: @{ct.b.c2a} (2021 -- 24 noiembrie 2024) și @{ct.b.c2b} (după); TiRex: @{ct.b.txa}, @{ct.b.txb}; ferestrele de după lansare au @{ct.nl} și @{ct.nb} zile'),
-    T('No deterioration after the releases (for Bitcoin the ratios are even lower): no evidence of contamination here; but the absence of a drop does not prove absence of leakage, and markets change between windows',
-      'Nicio deteriorare după lansări (pentru Bitcoin rapoartele sînt chiar mai mici): nicio dovadă de contaminare aici; dar absența unei scăderi nu dovedește absența scurgerii, iar piețele se schimbă între ferestre')])
+    (T('No deterioration after the releases (for Bitcoin the ratios are even lower): no evidence of contamination here', 'Nicio deteriorare după lansări (pentru Bitcoin rapoartele sînt chiar mai mici): nicio dovadă de contaminare aici'),
+     [T('but the absence of a drop does not prove the absence of leakage, and markets change between windows', 'dar absența unei scăderi nu dovedește absența leakage-ului, iar piețele se schimbă între ferestre')])])
 
 D.recap(('the evidence', 'dovezile'), [
     T('Strong shapes (load): the best foundation model matches or beats the domain model; weak shapes (returns): little to transfer', 'Forme puternice (consum): cel mai bun foundation model egalează sau întrece modelul de domeniu; forme slabe (randamente): puțin de transferat'),
@@ -719,8 +802,10 @@ D.frame(T('LLMTime: numbers as text', 'LLMTime: numerele ca text'), items(
     (T(r'\refGru: rescale, round to a fixed number of digits, write values as digits separated by spaces and commas; an off-the-shelf LLM continues the string',
        r'\refGru: se rescalează, se rotunjește la un număr fix de cifre, valorile se scriu ca cifre separate prin spații și virgule; un LLM obișnuit continuă șirul'),
      [T('digit-by-digit probabilities define a hierarchical (multi-bin) density over continuous values; repeated sampling gives quantiles', 'probabilitățile cifră cu cifră definesc o densitate ierarhică (pe mai multe intervale) pentru valori continue; eșantionarea repetată dă cuantile')]),
-    (T('Findings of the paper: competitive zero-shot on some benchmarks; tokenisation of numbers matters (a newer model could do worse because of how it splits digits); alignment (RLHF) hurts calibration',
-       'Rezultatele lucrării: competitiv zero-shot pe unele benchmark-uri; tokenizarea numerelor contează (un model mai nou putea fi mai slab din cauza felului în care împarte cifrele); alinierea (RLHF) strică calibrarea'), []),
+    (T('Findings of the paper', 'Rezultatele lucrării'),
+     [T('competitive zero-shot on some benchmarks', 'competitiv zero-shot pe unele benchmark-uri'),
+      T('the tokenisation of numbers matters: a newer model could do worse because of how it splits digits', 'tokenizarea numerelor contează: un model mai nou putea fi mai slab din cauza felului în care împarte cifrele'),
+      T('alignment (RLHF) hurts calibration', 'alinierea (RLHF) deteriorează calibrarea')]),
     T('Costs: thousands of tokens per series and many samples per forecast; the context window limits the history; the LLM may have memorised the data',
       'Costuri: mii de token-uri pe serie și multe eșantioane pentru o prognoză; fereastra de context limitează istoria; LLM-ul poate să fi memorat datele')), 'small')
 
@@ -769,30 +854,65 @@ D.frame(T('Where conformal prediction comes from', 'Originea predicției conform
           T('The idea: how "conforming" a candidate value is to the data seen, measured by a rank', 'Ideea: cît de „conformă” este o valoare candidat cu datele văzute, măsurat printr-un rang'),
           T(r'Modern statistics adopted it as a wrapper around machine learning \refLei, \refAB', r'Statistica modernă a adoptat-o ca înveliș în jurul metodelor de machine learning \refLei, \refAB')), '0.42', '0.56'), 'small')
 
-D.frame(T('Exchangeability and the target guarantee', 'Interschimbabilitatea și garanția urmărită'), items(
-    (T(r'$Z_1, \dots, Z_{n+1}$, $Z_i = (X_i, Y_i)$, are \textbf{exchangeable} if $(Z_{\pi(1)}, \dots, Z_{\pi(n+1)}) \overset{d}{=} (Z_1, \dots, Z_{n+1})$ for every permutation $\pi$',
-       r'$Z_1, \dots, Z_{n+1}$, $Z_i = (X_i, Y_i)$, sînt \textbf{interschimbabile} dacă $(Z_{\pi(1)}, \dots, Z_{\pi(n+1)}) \overset{d}{=} (Z_1, \dots, Z_{n+1})$ pentru orice permutare $\pi$'),
-     [T('i.i.d.\\ implies exchangeable; draws without replacement are exchangeable but dependent; a stationary AR(1) is not exchangeable', 'i.i.d.\\ implică interschimbabilitate; extragerile fără întoarcere sînt interschimbabile, dar dependente; un AR(1) staționar nu este interschimbabil')]),
-    (T(r'\textbf{Marginal coverage}: $\Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha$, the probability taken over the calibration data and the test point together',
-       r'\textbf{Acoperire marginală}: $\Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha$, probabilitatea fiind luată împreună pe datele de calibrare și pe punctul de test'),
-     [T(r'not \textbf{conditional} coverage $\Pr\{Y \in \hat C(x) \mid X = x\} \ge 1 - \alpha$ for every $x$, and not coverage given the calibration sample', r'nu acoperirea \textbf{condiționată} $\Pr\{Y \in \hat C(x) \mid X = x\} \ge 1 - \alpha$ pentru orice $x$ și nici acoperirea condiționată de eșantionul de calibrare')]),
-    T(r'A \textbf{nonconformity score} $s(x, y)$: large when $y$ is unusual given $x$, e.g.\ $|y - \hat\mu(x)|$, $|y - \hat\mu(x)|/\hat\sigma(x)$, or the CQR score below',
-      r'Un \textbf{scor de neconformitate} $s(x, y)$: mare cînd $y$ este neobișnuit dat fiind $x$, de exemplu $|y - \hat\mu(x)|$, $|y - \hat\mu(x)|/\hat\sigma(x)$ sau scorul CQR de mai jos')), 'small')
+D.frame(T('Exchangeability and the target guarantee (1/2)', 'Interschimbabilitatea și garanția urmărită (1/2)'), items(
+    (T(r'Data: $n$ calibration points and one test point, $Z_i = (X_i, Y_i)$, $i = 1, \dots, n + 1$',
+       r'Datele: $n$ puncte de calibrare și un punct de test, $Z_i = (X_i, Y_i)$, $i = 1, \dots, n + 1$'),
+     [T(r'$X_i$: the predictors (features, lags, a model forecast); $Y_i$: the value to be covered; $Z_{n+1}$: the test point, whose $Y_{n+1}$ is unknown',
+        r'$X_i$: predictorii (variabile, laguri, o prognoză de model); $Y_i$: valoarea care trebuie acoperită; $Z_{n+1}$: punctul de test, al cărui $Y_{n+1}$ este necunoscut')]),
+    (T(r'\textbf{Exchangeability}: any reordering of the points has the same joint distribution',
+       r'\textbf{Interschimbabilitatea}: orice reordonare a punctelor are aceeași distribuție comună'),
+     [r'\[ (Z_{\pi(1)}, \dots, Z_{\pi(n+1)}) \overset{d}{=} (Z_1, \dots, Z_{n+1}) \quad \text{' + T('for every permutation', 'pentru orice permutare') + r'} \ \pi \]',
+      T(r'$\pi$: a permutation (reordering) of $\{1, \dots, n + 1\}$; $\overset{d}{=}$: equal in distribution', r'$\pi$: o permutare (reordonare) a mulțimii $\{1, \dots, n + 1\}$; $\overset{d}{=}$: egalitate în distribuție')]),
+    (T('Examples', 'Exemple'),
+     [T('i.i.d.\\ data are exchangeable', 'datele i.i.d.\\ sînt interschimbabile'),
+      T('draws without replacement are exchangeable but dependent', 'extragerile fără întoarcere sînt interschimbabile, dar dependente'),
+      T(r'a stationary AR(1) $y_t = \phi y_{t-1} + \varepsilon_t$, $0 < |\phi| < 1$, is not: $\mathrm{corr}(y_1, y_2) = \phi \ne \phi^2 = \mathrm{corr}(y_1, y_3)$, so swapping $y_2$ and $y_3$ changes the joint law',
+        r'un AR(1) staționar $y_t = \phi y_{t-1} + \varepsilon_t$, $0 < |\phi| < 1$, nu este: $\mathrm{corr}(y_1, y_2) = \phi \ne \phi^2 = \mathrm{corr}(y_1, y_3)$, deci schimbarea între ele a lui $y_2$ și $y_3$ modifică legea comună')])), 'small')
 
-D.frame(T('Split conformal prediction', 'Predicția split conformal'), items(
-    (T(r'Fit $\hat\mu$ on a training set; compute $S_i = s(X_i, Y_i)$ on $n$ calibration points \refPap, \refLei',
-       r'Se estimează $\hat\mu$ pe un set de antrenare; se calculează $S_i = s(X_i, Y_i)$ pe $n$ puncte de calibrare \refPap, \refLei'),
-     [T(r'$\hat q = S_{(k)}$, $k = \lceil (n + 1)(1 - \alpha) \rceil$ (the $k$-th smallest; $+\infty$ if $k > n$); $\hat C(x) = \{y: s(x, y) \le \hat q\}$',
-        r'$\hat q = S_{(k)}$, $k = \lceil (n + 1)(1 - \alpha) \rceil$ (a $k$-a cea mai mică valoare; $+\infty$ dacă $k > n$); $\hat C(x) = \{y: s(x, y) \le \hat q\}$')]),
-    (T(r'\textbf{Theorem}: if $(X_i, Y_i)_{i \le n+1}$ are exchangeable, $\Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha$; with no ties, also $\le 1 - \alpha + 1/(n + 1)$',
-       r'\textbf{Teoremă}: dacă $(X_i, Y_i)_{i \le n+1}$ sînt interschimbabile, $\Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha$; fără egalități, și $\le 1 - \alpha + 1/(n + 1)$'),
-     [T(r'proof: given $\hat\mu$, the scores $S_1, \dots, S_{n+1}$ are exchangeable, so the rank of $S_{n+1}$ is uniform on $\{1, \dots, n + 1\}$; $Y_{n+1} \in \hat C \iff$ rank $\le k$, probability $k/(n + 1) \ge 1 - \alpha$ (Appendix)',
-        r'demonstrație: dat fiind $\hat\mu$, scorurile $S_1, \dots, S_{n+1}$ sînt interschimbabile, deci rangul lui $S_{n+1}$ este uniform pe $\{1, \dots, n + 1\}$; $Y_{n+1} \in \hat C \iff$ rangul $\le k$, cu probabilitatea $k/(n + 1) \ge 1 - \alpha$ (Anexă)')]),
-    T('No assumption on the model or on the distribution: a bad model gives wide, not invalid, intervals', 'Nicio ipoteză asupra modelului sau a distribuției: un model slab dă intervale largi, nu invalide')), 'small')
+D.frame(T('Exchangeability and the target guarantee (2/2)', 'Interschimbabilitatea și garanția urmărită (2/2)'), items(
+    (T(r'\textbf{Marginal coverage}: the prediction set contains the test value with probability at least $1 - \alpha$',
+       r'\textbf{Acoperirea marginală}: mulțimea de predicție conține valoarea de test cu probabilitatea de cel puțin $1 - \alpha$'),
+     [r'\[ \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha \]',
+      T(r'$\hat C(x)$: the prediction set (usually an interval) built from the calibration data; $\alpha$: the allowed miss rate, e.g.\ 0.1 for a 90\% interval',
+        r'$\hat C(x)$: mulțimea de predicție (de obicei un interval) construită din datele de calibrare; $\alpha$: rata de ratare admisă, de exemplu 0,1 pentru un interval de 90\%'),
+      T('the probability is taken over the calibration data and the test point together', 'probabilitatea este luată împreună pe datele de calibrare și pe punctul de test')]),
+    (T(r'What it is not', r'Ce nu garantează'),
+     [T(r'\textbf{conditional} coverage, $\Pr\{Y \in \hat C(x) \mid X = x\} \ge 1 - \alpha$ for every value $x$', r'acoperirea \textbf{condiționată}, $\Pr\{Y \in \hat C(x) \mid X = x\} \ge 1 - \alpha$ pentru orice valoare $x$'),
+      T('coverage given one particular calibration sample', 'acoperirea condiționată de un anumit eșantion de calibrare')]),
+    (T(r'A \textbf{nonconformity score} $s(x, y)$: a number that is large when $y$ is unusual given $x$',
+       r'Un \textbf{scor de neconformitate} $s(x, y)$: un număr care este mare cînd $y$ este neobișnuit dat fiind $x$'),
+     [T(r'examples: $|y - \hat\mu(x)|$, $|y - \hat\mu(x)|/\hat\sigma(x)$, or the CQR score below', r'exemple: $|y - \hat\mu(x)|$, $|y - \hat\mu(x)|/\hat\sigma(x)$ sau scorul CQR de mai jos'),
+      T(r'$\hat\mu(x)$: a point forecast of $y$ given $x$; $\hat\sigma(x)$: a forecast of its spread (e.g.\ a GARCH volatility)', r'$\hat\mu(x)$: o prognoză punctuală a lui $y$ dat fiind $x$; $\hat\sigma(x)$: o prognoză a dispersiei (de exemplu o volatilitate GARCH)')])), 'small')
+
+D.frame(T('Split conformal prediction (1/2)', 'Predicția split conformal (1/2)'), items(
+    (T(r'Step 1: fit a forecasting model $\hat\mu$ on a training set \refPap, \refLei', r'Pasul 1: se estimează un model de prognoză $\hat\mu$ pe un set de antrenare \refPap, \refLei'), []),
+    (T(r'Step 2: compute the scores of the $n$ calibration points, which were not used in step 1', r'Pasul 2: se calculează scorurile celor $n$ puncte de calibrare, nefolosite la pasul 1'),
+     [r'\[ S_i = s(X_i, Y_i), \qquad i = 1, \dots, n \]']),
+    (T(r'Step 3: the threshold $\hat q$ is the $k$-th smallest calibration score', r'Pasul 3: pragul $\hat q$ este al $k$-lea cel mai mic scor de calibrare'),
+     [r'\[ \hat q = S_{(k)}, \qquad k = \lceil (n + 1)(1 - \alpha) \rceil \]',
+      T(r'$S_{(k)}$: the $k$-th order statistic of $S_1, \dots, S_n$; $\lceil\cdot\rceil$: rounding up to an integer; $\hat q = +\infty$ if $k > n$', r'$S_{(k)}$: statistica de ordine $k$ a scorurilor $S_1, \dots, S_n$; $\lceil\cdot\rceil$: rotunjirea în sus la un întreg; $\hat q = +\infty$ dacă $k > n$'),
+      T(r'example: $n = 99$, $\alpha = 0.1$ gives $k = 90$, the 90th smallest of the 99 scores', r'exemplu: $n = 99$, $\alpha = 0{,}1$ dă $k = 90$, al 90-lea cel mai mic dintre cele 99 de scoruri')]),
+    (T(r'Step 4: the prediction set keeps every candidate value whose score does not exceed the threshold', r'Pasul 4: mulțimea de predicție păstrează orice valoare candidată al cărei scor nu depășește pragul'),
+     [r'\[ \hat C(x) = \{y: s(x, y) \le \hat q\} \]',
+      T(r'with $s(x, y) = |y - \hat\mu(x)|$: the interval $\hat\mu(x) \pm \hat q$', r'cu $s(x, y) = |y - \hat\mu(x)|$: intervalul $\hat\mu(x) \pm \hat q$')])), 'small')
+
+D.frame(T('Split conformal prediction (2/2)', 'Predicția split conformal (2/2)'), items(
+    (T(r'\textbf{Theorem}: if the points $(X_i, Y_i)$, $i = 1, \dots, n + 1$, are exchangeable, then', r'\textbf{Teoremă}: dacă punctele $(X_i, Y_i)$, $i = 1, \dots, n + 1$, sînt interschimbabile, atunci'),
+     [r'\[ 1 - \alpha \le \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \le 1 - \alpha + \frac{1}{n + 1} \]',
+      T('the upper bound requires no ties among the scores (continuous scores)', 'marginea superioară cere ca scorurile să nu aibă egalități (scoruri continue)')]),
+    (T(r'Idea of the proof (Appendix)', r'Ideea demonstrației (Anexă)'),
+     [T(r'given $\hat\mu$, the scores $S_1, \dots, S_{n+1}$ are exchangeable, so the rank of $S_{n+1}$ among them is uniform on $\{1, \dots, n + 1\}$',
+        r'dat fiind $\hat\mu$, scorurile $S_1, \dots, S_{n+1}$ sînt interschimbabile, deci rangul lui $S_{n+1}$ printre ele este uniform pe $\{1, \dots, n + 1\}$'),
+      T(r'$Y_{n+1} \in \hat C(X_{n+1})$ exactly when this rank is at most $k$, which has probability $k/(n + 1) \ge 1 - \alpha$',
+        r'$Y_{n+1} \in \hat C(X_{n+1})$ exact atunci cînd acest rang este cel mult $k$, ceea ce are probabilitatea $k/(n + 1) \ge 1 - \alpha$')]),
+    (T('No assumption on the model or on the distribution', 'Nicio ipoteză asupra modelului sau a distribuției'),
+     [T('a bad model gives wide intervals, not invalid ones', 'un model slab dă intervale largi, nu intervale invalide')])), 'small')
 
 chart(T('Coverage given the calibration set', 'Acoperirea condiționată de setul de calibrare'), 'ats_ch13_split_coverage', 'ATS_ch13_conformal_basics', [
     T(r'Coverage $F(\hat q)$ of the next point for @{sp.reps} calibration sets of $n = 50$ and $n = 500$ scores, $\alpha = 0.1$, and the exact law Beta($k$, $n + 1 - k$)',
-      r'Acoperirea $F(\hat q)$ a punctului următor pentru @{sp.reps} de seturi de calibrare de $n = 50$ și $n = 500$ scoruri, $\alpha = 0{,}1$, și legea exactă Beta($k$, $n + 1 - k$)')],
+      r'Acoperirea $F(\hat q)$ a punctului următor pentru @{sp.reps} de seturi de calibrare cu $n = 50$ și cu $n = 500$ de scoruri, $\alpha = 0{,}1$, și legea exactă Beta($k$, $n + 1 - k$)'),
+    T(r'$F$: the distribution function of the scores, so $F(\hat q) = \Pr\{S_{n+1} \le \hat q \mid \text{calibration set}\}$ is the coverage obtained with one given calibration set',
+      r'$F$: funcția de repartiție a scorurilor, deci $F(\hat q) = \Pr\{S_{n+1} \le \hat q \mid \text{setul de calibrare}\}$ este acoperirea obținută cu un anumit set de calibrare')],
     h='0.48\\textheight')
 
 interp(('the coverage distribution', 'distribuției acoperirii'), [
@@ -800,40 +920,53 @@ interp(('the coverage distribution', 'distribuției acoperirii'), [
       r'Acoperirea medie @{sp.m50} ($n = 50$) și @{sp.m500} ($n = 500$), cum dă teoria (@{sp.t50}, @{sp.t500}): garanția marginală este valabilă în medie pe seturile de calibrare'),
     T(r'One calibration set is one draw: s.d.\ @{sp.s50} and @{sp.s500}; with $n = 50$, @{sp.b50}\% of the sets give coverage below 0.88, with $n = 500$ only @{sp.b500}\%',
       r'Un set de calibrare este o singură extragere: abaterea standard @{sp.s50} și @{sp.s500}; cu $n = 50$, @{sp.b50}\% dintre seturi dau acoperire sub 0,88, cu $n = 500$ doar @{sp.b500}\%'),
-    T(r'Since $F(\hat q) \sim$ Beta($k$, $n + 1 - k$), choosing $n$ is a sample-size calculation: the s.d.\ is about $\sqrt{\alpha(1 - \alpha)/n}$',
-      r'Deoarece $F(\hat q) \sim$ Beta($k$, $n + 1 - k$), alegerea lui $n$ este un calcul de mărime a eșantionului: abaterea standard este aproximativ $\sqrt{\alpha(1 - \alpha)/n}$')])
+    (T(r'Since $F(\hat q) \sim$ Beta($k$, $n + 1 - k$), choosing $n$ is a sample-size calculation', r'Deoarece $F(\hat q) \sim$ Beta($k$, $n + 1 - k$), alegerea lui $n$ este un calcul de mărime a eșantionului'),
+     [T(r'the standard deviation of the realised coverage is about $\sqrt{\alpha(1 - \alpha)/n}$: quadrupling $n$ halves it',
+        r'abaterea standard a acoperirii realizate este aproximativ $\sqrt{\alpha(1 - \alpha)/n}$: pentru a o înjumătăți, $n$ trebuie înmulțit cu 4')])])
 
 D.frame(T('Conformalized quantile regression', 'Regresia cuantilică conformalizată'), two(
     ph('candes', T('Emmanuel Candès, 2012', 'Emmanuel Candès, 2012'), h='0.34\\textheight'),
-    items(T(r'\refRPC: fit quantile regressions \refKB $\hat q_{\alpha/2}(x)$, $\hat q_{1-\alpha/2}(x)$ on the training set',
-            r'\refRPC: se estimează regresii cuantilice \refKB $\hat q_{\alpha/2}(x)$, $\hat q_{1-\alpha/2}(x)$ pe setul de antrenare'),
-          T(r'Score $s(x, y) = \max\{\hat q_{\alpha/2}(x) - y,\; y - \hat q_{1-\alpha/2}(x)\}$: negative inside the band', r'Scorul $s(x, y) = \max\{\hat q_{\alpha/2}(x) - y,\; y - \hat q_{1-\alpha/2}(x)\}$: negativ în interiorul benzii'),
-          T(r'$\hat C(x) = [\hat q_{\alpha/2}(x) - \hat q,\; \hat q_{1-\alpha/2}(x) + \hat q]$: the band is shifted outwards (or inwards if $\hat q < 0$)',
-            r'$\hat C(x) = [\hat q_{\alpha/2}(x) - \hat q,\; \hat q_{1-\alpha/2}(x) + \hat q]$: banda este deplasată spre exterior (sau spre interior dacă $\hat q < 0$)'),
-          T('Marginal coverage by the split theorem; the width adapts to heteroskedasticity through the quantile models', 'Acoperirea marginală rezultă din teorema split; lățimea se adaptează la heteroscedasticitate prin modelele cuantilice'),
-          T('The same score calibrates the quantiles of any foundation model (Section 8)', 'Același scor calibrează cuantilele oricărui foundation model (secțiunea 8)')), '0.32', '0.66'), 'small')
+    items((T(r'\refRPC: fit two quantile regressions \refKB on the training set', r'\refRPC: se estimează două regresii cuantilice \refKB pe setul de antrenare'),
+           [T(r'$\hat q_{\alpha/2}(x)$, $\hat q_{1-\alpha/2}(x)$: the estimated lower and upper conditional quantiles of $Y$ given $X = x$', r'$\hat q_{\alpha/2}(x)$, $\hat q_{1-\alpha/2}(x)$: cuantilele condiționate inferioară și superioară ale lui $Y$ dat fiind $X = x$, estimate')]),
+          (T(r'\textbf{CQR score}: the signed distance of $y$ outside the band', r'\textbf{Scorul CQR}: distanța cu semn a lui $y$ în afara benzii'),
+           [r'\[ s(x, y) = \max\{\hat q_{\alpha/2}(x) - y,\; y - \hat q_{1-\alpha/2}(x)\} \]',
+            T('negative inside the band, positive outside', 'negativ în interiorul benzii, pozitiv în afara ei')]),
+          (T(r'\textbf{Interval}: the band widened on both sides by the conformal threshold $\hat q$ of these scores', r'\textbf{Intervalul}: banda lărgită pe ambele părți cu pragul conformal $\hat q$ al acestor scoruri'),
+           [r'\[ \hat C(x) = [\hat q_{\alpha/2}(x) - \hat q,\; \hat q_{1-\alpha/2}(x) + \hat q] \]',
+            T(r'$\hat q < 0$: the band was too wide and is narrowed', r'$\hat q < 0$: banda era prea largă și este îngustată')]),
+          (T('Properties', 'Proprietăți'),
+           [T('marginal coverage by the split theorem; the width adapts to heteroskedasticity through the quantile models', 'acoperirea marginală rezultă din teorema split; lățimea se adaptează la heteroscedasticitate prin modelele cuantilice'),
+            T('the same score calibrates the quantiles of any foundation model (Section 8)', 'același scor calibrează cuantilele oricărui foundation model (secțiunea 8)')])), '0.32', '0.66'), 'footnotesize')
 
 chart(T('CQR on the design of Romano, Patterson and Candès', 'CQR pe designul lui Romano, Patterson și Candès'), 'ats_ch13_cqr', 'ATS_ch13_conformal_basics', [
-    T(r'$Y = \mathrm{Pois}(\sin^2 X + 0.1) + 0.03X\varepsilon_1 + 25\cdot\mathbf 1\{U < 0.01\}\varepsilon_2$, $X \sim U[0, 5]$ (their Figure 1); 1000 training and 1000 calibration points; gradient boosting for the mean and for the 5\% and 95\% quantiles',
-      r'$Y = \mathrm{Pois}(\sin^2 X + 0{,}1) + 0{,}03X\varepsilon_1 + 25\cdot\mathbf 1\{U < 0{,}01\}\varepsilon_2$, $X \sim U[0, 5]$ (Figura 1 din lucrare); 1000 de puncte de antrenare și 1000 de calibrare; gradient boosting pentru medie și pentru cuantilele de 5\% și 95\%')],
-    h='0.48\\textheight')
+    T(r'Simulated data (their Figure 1): $Y = \mathrm{Pois}(\sin^2 X + 0.1) + 0.03X\varepsilon_1 + 25\cdot\mathbf 1\{U < 0.01\}\varepsilon_2$, $X \sim U[0, 5]$',
+      r'Date simulate (Figura 1 din lucrare): $Y = \mathrm{Pois}(\sin^2 X + 0{,}1) + 0{,}03X\varepsilon_1 + 25\cdot\mathbf 1\{U < 0{,}01\}\varepsilon_2$, $X \sim U[0, 5]$'),
+    T(r'$\mathrm{Pois}(\lambda)$: a Poisson draw with mean $\lambda$; $\varepsilon_1, \varepsilon_2$: standard Normal noise; $U \sim U[0, 1]$, so 1\% of the points get a large outlier; noise grows with $X$',
+      r'$\mathrm{Pois}(\lambda)$: o extragere Poisson cu media $\lambda$; $\varepsilon_1, \varepsilon_2$: zgomot cu distribuția Normală standard; $U \sim U[0, 1]$, deci 1\% dintre puncte primesc o valoare extremă mare; zgomotul crește cu $X$'),
+    T(r'1000 training and 1000 calibration points; gradient boosting for the mean and for the 5\% and 95\% quantiles',
+      r'1000 de puncte de antrenare și 1000 de calibrare; gradient boosting pentru medie și pentru cuantilele de 5\% și 95\%')],
+    h='0.44\\textheight')
 
 interp(('CQR', 'CQR'), [
     T(r'Test coverage: split conformal @{cq.sc}, CQR @{cq.cc}, the raw quantile models @{cq.rc}; mean width @{cq.sw}, @{cq.cw} and @{cq.rw}',
       r'Acoperirea pe datele de test: split conformal @{cq.sc}, CQR @{cq.cc}, modelele cuantilice brute @{cq.rc}; lățimea medie @{cq.sw}, @{cq.cw} și @{cq.rw}'),
     T(r'The raw quantile regressions undercover; CQR repairs them at almost no extra width, while the constant-width split band is @{cq.ratio}\% wider',
-      r'Regresiile cuantilice brute acoperă prea puțin; CQR le repară aproape fără lățime suplimentară, în timp ce banda split de lățime constantă este cu @{cq.ratio}\% mai largă'),
-    T(r'By $X$ bins both stay within a few points of 90\% (worst bins: CQR @{cq.cmin}, split @{cq.smin}); the gain of CQR is in width: narrow where $Y$ is concentrated, wide where the Poisson noise is large',
-      r'Pe intervale ale lui $X$, ambele rămîn la cîteva puncte de 90\% (cele mai slabe intervale: CQR @{cq.cmin}, split @{cq.smin}); cîștigul CQR este în lățime: îngust acolo unde $Y$ este concentrat, larg acolo unde zgomotul Poisson este mare')])
+      r'Regresiile cuantilice brute au o acoperire prea mică; CQR le corectează aproape fără lățime suplimentară, în timp ce banda split de lățime constantă este cu @{cq.ratio}\% mai largă'),
+    (T(r'By $X$ bins both stay within a few points of 90\% (worst bins: CQR @{cq.cmin}, split @{cq.smin})', r'Pe intervale ale lui $X$, ambele rămîn la cîteva puncte de 90\% (cele mai slabe intervale: CQR @{cq.cmin}, split @{cq.smin})'),
+     [T(r'the gain of CQR is in width: narrow where $Y$ is concentrated, wide where the Poisson noise is large', r'cîștigul CQR este în lățime: îngust acolo unde $Y$ este concentrat, larg acolo unde zgomotul Poisson este mare')])])
 
 D.frame(T('The limits of conditional coverage', 'Limitele acoperirii condiționate'), items(
     (T(r'\textbf{Impossibility} \refVov, \refLW, \refBarB: if $\hat C$ has conditional coverage $\ge 1 - \alpha$ at almost every $x$ for every distribution with a continuous $X$, then its expected length is infinite',
        r'\textbf{Imposibilitate} \refVov, \refLW, \refBarB: dacă $\hat C$ are acoperire condiționată $\ge 1 - \alpha$ în aproape orice $x$, pentru orice distribuție cu $X$ continuu, atunci lungimea lui așteptată este infinită'),
      [T('no finite-sample method can certify coverage at each point of a continuous covariate without assumptions', 'nicio metodă nu poate certifica în eșantioane finite acoperirea în fiecare punct al unei covariabile continue fără ipoteze')]),
-    (T(r'What is achievable: coverage within a finite set of groups (Mondrian conformal: calibrate separately by group); approximate conditional coverage under smoothness; coverage conditional on the calibration set with high probability (Beta law)',
-       r'Rezultate posibile: acoperire în cadrul unui număr finit de grupuri (conformal Mondrian: calibrare separată pe grupuri); acoperire condiționată aproximativă sub ipoteze de netezime; acoperire condiționată de setul de calibrare cu probabilitate mare (legea Beta)'), []),
-    T('For time series the relevant condition is the past: $\\Pr\\{Y_t \\in \\hat C_t \\mid \\mathcal F_{t-1}\\}$; a VaR backtest (Chapter 9) tests exactly this property for one-sided sets',
-      'Pentru serii de timp, condiția relevantă este trecutul: $\\Pr\\{Y_t \\in \\hat C_t \\mid \\mathcal F_{t-1}\\}$; un backtest VaR (Capitolul 9) testează exact această proprietate pentru mulțimi unilaterale')), 'small')
+    (T(r'What is achievable', r'Rezultate posibile'),
+     [T('coverage within each of a finite set of groups (Mondrian conformal: calibrate separately by group)', 'acoperire în fiecare dintre un număr finit de grupuri (conformal Mondrian: calibrare separată pe grupuri)'),
+      T('approximate conditional coverage under smoothness assumptions', 'acoperire condiționată aproximativă, sub ipoteze de netezime'),
+      T('coverage conditional on the calibration set, with high probability (Beta law)', 'acoperire condiționată de setul de calibrare, cu probabilitate mare (legea Beta)')]),
+    (T('For time series the relevant condition is the past: the target is $\\Pr\\{Y_t \\in \\hat C_t \\mid \\mathcal F_{t-1}\\} = 1 - \\alpha$',
+       'Pentru serii de timp, condiția relevantă este trecutul: ținta este $\\Pr\\{Y_t \\in \\hat C_t \\mid \\mathcal F_{t-1}\\} = 1 - \\alpha$'),
+     [T(r'$\mathcal F_{t-1}$: the information available at $t - 1$; $\hat C_t$: the set built at $t - 1$ for period $t$', r'$\mathcal F_{t-1}$: informația disponibilă la $t - 1$; $\hat C_t$: mulțimea construită la $t - 1$ pentru perioada $t$'),
+      T('a VaR backtest (Chapter 9) tests exactly this property for one-sided sets', 'un backtest VaR (Capitolul 9) testează exact această proprietate pentru mulțimi unilaterale')])), 'small')
 
 D.recap(('conformal prediction', 'predicția conformală'), [
     T('Split conformal: a rank argument gives finite-sample marginal coverage under exchangeability, for any model', 'Split conformal: un argument de rang dă acoperire marginală în eșantioane finite sub interschimbabilitate, pentru orice model'),
@@ -846,72 +979,115 @@ D.recap(('conformal prediction', 'predicția conformală'), [
 D.section('Conformal prediction for dependent data', 'Predicția conformală pentru date dependente')
 
 D.frame(T('Exchangeability violated: what survives', 'Interschimbabilitatea încălcată: rezultatele care rămîn valabile'), items(
-    (T('Time series violate exchangeability three ways: serial dependence, changing volatility, structural change; the last two break coverage most', 'Seriile de timp încalcă interschimbabilitatea în trei feluri: dependența serială, volatilitatea variabilă, schimbările structurale; ultimele două strică cel mai mult acoperirea'), []),
-    (T(r'\textbf{Stationary and mixing}: split conformal remains approximately valid, with a coverage gap controlled by $\beta$-mixing coefficients and the calibration size \refOli',
-       r'\textbf{Staționar și mixing}: split conformal rămîne aproximativ valid, cu o abatere a acoperirii controlată de coeficienții $\beta$-mixing și de mărimea calibrării \refOli'),
-     [T(r'block permutations restore exactness under weaker conditions \refCWZ', r'permutările pe blocuri refac exactitatea sub condiții mai slabe \refCWZ')]),
-    (T(r'\textbf{Non-stationary}: no static method can work; the threshold must move with the data: weights (Barber et al.), refitting (EnbPI), feedback on errors (ACI, PID)',
-       r'\textbf{Nestaționar}: nicio metodă statică nu poate funcționa; pragul trebuie să se miște odată cu datele: ponderi (Barber et al.), reestimare (EnbPI), reacție la erori (ACI, PID)'), []),
-    T(r'A common online frame: scores $S_t = s(X_t, Y_t)$ computed from out-of-sample forecasts; at $t$ choose a threshold $q_t$ from $S_1, \dots, S_{t-1}$; miss $\mathrm{err}_t = \mathbf 1\{S_t > q_t\}$',
-      r'Un cadru online comun: scorurile $S_t = s(X_t, Y_t)$ calculate din prognoze în afara eșantionului; la momentul $t$ se alege un prag $q_t$ din $S_1, \dots, S_{t-1}$; ratarea $\mathrm{err}_t = \mathbf 1\{S_t > q_t\}$')), 'small')
+    (T('Time series violate exchangeability three ways: serial dependence, changing volatility, structural change; the last two break coverage most', 'Seriile de timp încalcă interschimbabilitatea în trei feluri: dependența serială, volatilitatea variabilă, schimbările structurale; ultimele două afectează cel mai mult acoperirea'), []),
+    (T(r'\textbf{Stationary and mixing}: split conformal remains approximately valid \refOli',
+       r'\textbf{Staționar și mixing}: split conformal rămîne aproximativ valid \refOli'),
+     [T(r'the coverage gap shrinks with the calibration size and with the $\beta$-mixing coefficients, which measure how fast the dependence between distant observations dies out',
+        r'abaterea acoperirii scade cu mărimea calibrării și cu coeficienții $\beta$-mixing, care măsoară cît de repede dispare dependența dintre observațiile îndepărtate'),
+      T(r'block permutations restore exactness under weaker conditions \refCWZ', r'permutările pe blocuri refac exactitatea sub condiții mai slabe \refCWZ')]),
+    (T(r'\textbf{Non-stationary}: no static method can work; the threshold must move with the data',
+       r'\textbf{Nestaționar}: nicio metodă statică nu poate funcționa; pragul trebuie să se miște odată cu datele'),
+     [T('weights (Barber et al.), refitting (EnbPI), feedback on errors (ACI, PID)', 'ponderi (Barber et al.), reestimare (EnbPI), reacție la erori (ACI, PID)')]),
+    (T(r'\textbf{A common online frame} for the next slides', r'\textbf{Un cadru online comun} pentru slide-urile următoare'),
+     [T(r'$S_t = s(X_t, Y_t)$: the score of period $t$, computed from an out-of-sample forecast', r'$S_t = s(X_t, Y_t)$: scorul perioadei $t$, calculat dintr-o prognoză în afara eșantionului'),
+      T(r'$q_t$: the threshold used at $t$, chosen from the past scores $S_1, \dots, S_{t-1}$; the set is $\hat C_t = \{y: s(X_t, y) \le q_t\}$', r'$q_t$: pragul folosit la $t$, ales din scorurile trecute $S_1, \dots, S_{t-1}$; mulțimea este $\hat C_t = \{y: s(X_t, y) \le q_t\}$'),
+      T(r'$\mathrm{err}_t = \mathbf 1\{S_t > q_t\}$: the miss indicator, 1 if $Y_t$ falls outside $\hat C_t$', r'$\mathrm{err}_t = \mathbf 1\{S_t > q_t\}$: indicatorul ratării, 1 dacă $Y_t$ cade în afara lui $\hat C_t$')])), 'small')
 
-D.frame(T('Conformal prediction beyond exchangeability', 'Predicția conformală dincolo de interschimbabilitate'), items(
-    (T(r'\refBar: fixed weights $w_i \in [0, 1]$, chosen before seeing the data; $\hat q$ = the $(1 - \alpha)$ quantile of $\sum_i \tilde w_i\delta_{S_i} + \tilde w_{n+1}\delta_{+\infty}$, $\tilde w_i = w_i/(1 + \sum_j w_j)$, $w_{n+1} = 1$',
-       r'\refBar: ponderi fixe $w_i \in [0, 1]$, alese înainte de a vedea datele; $\hat q$ = cuantila $(1 - \alpha)$ a lui $\sum_i \tilde w_i\delta_{S_i} + \tilde w_{n+1}\delta_{+\infty}$, $\tilde w_i = w_i/(1 + \sum_j w_j)$, $w_{n+1} = 1$'),
-     [T(r'\textbf{Theorem}: coverage $\ge 1 - \alpha - \sum_i \tilde w_i\, d_{\mathrm{TV}}(Z, Z^i)$, where $Z^i$ swaps the test point with point $i$',
-        r'\textbf{Teoremă}: acoperirea $\ge 1 - \alpha - \sum_i \tilde w_i\, d_{\mathrm{TV}}(Z, Z^i)$, unde $Z^i$ schimbă punctul de test cu punctul $i$')]),
-    (T(r'Under exchangeability the gap is zero; under drift, $d_{\mathrm{TV}}$ is small for recent points, so geometric weights $w_i = \rho^{n+1-i}$ keep it small',
-       r'Sub interschimbabilitate abaterea este zero; sub o derivă lentă, $d_{\mathrm{TV}}$ este mic pentru punctele recente, deci ponderile geometrice $w_i = \rho^{n+1-i}$ o păstrează mică'),
-     [T(r'effective sample size $\approx 1/(1 - \rho)$: $\rho = 0.99$ uses about 100 recent scores; robustness against variance of the threshold', r'mărimea efectivă a eșantionului $\approx 1/(1 - \rho)$: $\rho = 0{,}99$ folosește aproximativ 100 de scoruri recente; robustețe în schimbul variabilității pragului')]),
-    T(r'Covariate shift with known likelihood ratio: weights $w(x) = dP_{\mathrm{test}}/dP_{\mathrm{train}}$ give exact coverage \refTBCR',
-      r'Schimbarea distribuției covariabilelor cu raport de verosimilitate cunoscut: ponderile $w(x) = dP_{\mathrm{test}}/dP_{\mathrm{train}}$ dau acoperire exactă \refTBCR')), 'small')
+D.frame(T('Conformal prediction beyond exchangeability (1/2)', 'Predicția conformală dincolo de interschimbabilitate (1/2)'), items(
+    (T(r'\refBar: each calibration score gets a fixed weight $w_i \in [0, 1]$, chosen before seeing the data; the test point gets weight $w_{n+1} = 1$',
+       r'\refBar: fiecare scor de calibrare primește o pondere fixă $w_i \in [0, 1]$, aleasă înainte de a vedea datele; punctul de test primește ponderea $w_{n+1} = 1$'),
+     [T(r'normalised weights $\tilde w_i = w_i/(1 + \sum_{j=1}^n w_j)$, $i = 1, \dots, n + 1$; they sum to 1', r'ponderile normalizate $\tilde w_i = w_i/(1 + \sum_{j=1}^n w_j)$, $i = 1, \dots, n + 1$; însumează 1')]),
+    (T(r'The threshold $\hat q$ is the $(1 - \alpha)$ quantile of the weighted distribution of the scores, with the test point placed at $+\infty$',
+       r'Pragul $\hat q$ este cuantila $(1 - \alpha)$ a distribuției ponderate a scorurilor, cu punctul de test plasat la $+\infty$'),
+     [r'\[ \hat q = Q_{1-\alpha}\Big(\sum_{i=1}^n \tilde w_i\,\delta_{S_i} + \tilde w_{n+1}\,\delta_{+\infty}\Big) \]',
+      T(r'$\delta_a$: a unit point mass at $a$; $Q_{1-\alpha}(\cdot)$: the $(1 - \alpha)$ quantile of a distribution', r'$\delta_a$: o masă de probabilitate unitară în punctul $a$; $Q_{1-\alpha}(\cdot)$: cuantila $(1 - \alpha)$ a unei distribuții'),
+      T(r'with all $w_i = 1$ this is the split conformal threshold', r'cu toate $w_i = 1$, acesta este pragul split conformal')]),
+    (T(r'\textbf{Covariate shift} with a known likelihood ratio: the weights $w(x) = dP_{\mathrm{test}}/dP_{\mathrm{train}}$ give exact coverage \refTBCR',
+       r'\textbf{Schimbarea distribuției covariabilelor} cu raport de verosimilitate cunoscut: ponderile $w(x) = dP_{\mathrm{test}}/dP_{\mathrm{train}}$ dau acoperire exactă \refTBCR'),
+     [T(r'$dP_{\mathrm{test}}/dP_{\mathrm{train}}$: the ratio of the densities of $X$ in the test and in the training population', r'$dP_{\mathrm{test}}/dP_{\mathrm{train}}$: raportul densităților lui $X$ în populația de test și în cea de antrenare')])), 'small')
+
+D.frame(T('Conformal prediction beyond exchangeability (2/2)', 'Predicția conformală dincolo de interschimbabilitate (2/2)'), items(
+    (T(r'\textbf{Theorem} \refBar: the coverage loss is bounded by the weighted distance from exchangeability',
+       r'\textbf{Teoremă} \refBar: pierderea de acoperire este mărginită de distanța ponderată față de interschimbabilitate'),
+     [r'\[ \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha - \sum_{i=1}^n \tilde w_i\, d_{\mathrm{TV}}(Z, Z^i) \]',
+      T(r'$Z = (Z_1, \dots, Z_{n+1})$: the data; $Z^i$: the same data with the test point and point $i$ swapped', r'$Z = (Z_1, \dots, Z_{n+1})$: datele; $Z^i$: aceleași date, cu punctul de test și punctul $i$ schimbate între ele'),
+      T(r'$d_{\mathrm{TV}}$: the total variation distance between two distributions, in $[0, 1]$; 0 when they coincide', r'$d_{\mathrm{TV}}$: distanța în variație totală dintre două distribuții, în $[0, 1]$; 0 cînd coincid')]),
+    (T(r'Under exchangeability every $d_{\mathrm{TV}}(Z, Z^i) = 0$ and the gap vanishes', r'Sub interschimbabilitate, toți termenii $d_{\mathrm{TV}}(Z, Z^i)$ sînt 0, iar abaterea dispare'), []),
+    (T(r'Under slow drift, $d_{\mathrm{TV}}$ is small for recent points: give them the largest weights', r'Sub o derivă lentă, $d_{\mathrm{TV}}$ este mic pentru punctele recente: acestea primesc ponderile cele mai mari'),
+     [T(r'geometric weights $w_i = \rho^{n+1-i}$, $\rho \in (0, 1)$: the weight halves every $\ln 2/|\ln\rho|$ steps', r'ponderi geometrice $w_i = \rho^{n+1-i}$, $\rho \in (0, 1)$: ponderea se înjumătățește la fiecare $\ln 2/|\ln\rho|$ pași'),
+      T(r'effective sample size $\approx 1/(1 - \rho)$: $\rho = 0.99$ uses about 100 recent scores', r'mărimea efectivă a eșantionului $\approx 1/(1 - \rho)$: $\rho = 0{,}99$ folosește aproximativ 100 de scoruri recente'),
+      T(r'a smaller $\rho$ adapts faster but makes the threshold more variable', r'un $\rho$ mai mic se adaptează mai repede, dar face pragul mai variabil')])), 'small')
 
 chart(T('Weighted conformal under changepoints', 'Predicția conformală ponderată la puncte de schimbare'), 'ats_ch13_weighted', 'ATS_ch13_conformal_time', [
-    T(r'$Y_t = X_t\'\beta_t + \varepsilon_t$, $X_t \sim N(0, I_4)$, $\beta$ changes at $t = 500$ and $t = 1500$; least squares on all past data; prequential absolute residuals as scores; coverage averaged over 200 runs (20-step moving average)',
-      r'$Y_t = X_t\'\beta_t + \varepsilon_t$, $X_t \sim N(0, I_4)$, $\beta$ se schimbă la $t = 500$ și $t = 1500$; cele mai mici pătrate pe toate datele trecute; reziduurile absolute prequential ca scoruri; acoperirea mediată pe 200 de rulări (medie mobilă pe 20 de pași)')],
-    h='0.48\\textheight')
+    T(r'Simulated regression $Y_t = X_t\'\beta_t + \varepsilon_t$: $X_t \sim N(0, I_4)$, four independent standard Normal regressors ($I_4$: the $4 \times 4$ identity matrix); $\varepsilon_t$: Normal noise; the coefficient vector $\beta_t$ changes at $t = 500$ and $t = 1500$',
+      r'Regresie simulată $Y_t = X_t\'\beta_t + \varepsilon_t$: $X_t \sim N(0, I_4)$, patru regresori independenți cu distribuția Normală standard ($I_4$: matricea unitate $4 \times 4$); $\varepsilon_t$: zgomot cu distribuția Normală; vectorul de coeficienți $\beta_t$ se schimbă la $t = 500$ și $t = 1500$'),
+    T(r'Least squares on all past data; scores: absolute one-step-ahead residuals (prequential: each computed before $Y_t$ is used); coverage averaged over 200 runs (20-step moving average)',
+      r'Cele mai mici pătrate pe toate datele trecute; scorurile: reziduurile absolute la un pas (prequential: fiecare calculat înainte ca $Y_t$ să fie folosit); acoperirea mediată pe 200 de rulări (medie mobilă pe 20 de pași)')],
+    h='0.42\\textheight')
 
 interp(('the weighted method', 'metodei ponderate'), [
     T(r'Average coverage after the burn-in: standard @{wt.sc}, weighted ($\rho = 0.99$) @{wt.wc}; worst 20-step average @{wt.smin} against @{wt.wmin}',
       r'Acoperirea medie după perioada inițială: standard @{wt.sc}, ponderat ($\rho = 0{,}99$) @{wt.wc}; cea mai slabă medie pe 20 de pași @{wt.smin} față de @{wt.wmin}'),
     T(r'Both collapse at a break, because the least-squares fit is wrong for a while; the weighted threshold forgets the old scores and recovers within about 100 steps',
-      r'Ambele se prăbușesc la o ruptură, pentru că estimarea prin cele mai mici pătrate este greșită o vreme; pragul ponderat uită scorurile vechi și își revine în aproximativ 100 de pași'),
-    T(r'Price: mean width @{wt.ww} against @{wt.sw}; the guarantee is a bound in terms of $d_{\mathrm{TV}}$, not exact coverage', r'Prețul: lățimea medie @{wt.ww} față de @{wt.sw}; garanția este o margine exprimată prin $d_{\mathrm{TV}}$, nu o acoperire exactă')])
+      r'Acoperirea ambelor metode scade brusc la o ruptură, pentru că estimarea prin cele mai mici pătrate rămîne greșită o perioadă; pragul ponderat uită scorurile vechi și își revine în aproximativ 100 de pași'),
+    T(r'Price: mean width @{wt.ww} against @{wt.sw}; the guarantee is a bound in terms of $d_{\mathrm{TV}}$, not exact coverage', r'Costul: lățimea medie @{wt.ww} față de @{wt.sw}; garanția este o margine exprimată prin $d_{\mathrm{TV}}$, nu o acoperire exactă')])
 
 D.frame(T('EnbPI: ensembles without data splitting', 'EnbPI: ansambluri fără împărțirea datelor'), items(
-    (T(r'\refXX, \refXXb: fit $B$ models on bootstrap samples (blocks, to respect dependence) of the training period',
-       r'\refXX, \refXXb: se estimează $B$ modele pe eșantioane bootstrap (pe blocuri, pentru a respecta dependența) ale perioadei de antrenare'),
-     [T(r'leave-one-out residuals: for point $i$, aggregate only the models whose bootstrap sample excluded $i$', r'reziduuri leave-one-out: pentru punctul $i$ se agregă doar modelele al căror eșantion bootstrap l-a exclus pe $i$'),
-      T(r'interval at $t$: $\hat f(x_t) \pm$ the $(1 - \alpha)$ quantile of the last $T$ absolute residuals; after $y_t$ is observed, its residual enters the window and the oldest leaves',
-        r'intervalul la $t$: $\hat f(x_t) \pm$ cuantila $(1 - \alpha)$ a ultimelor $T$ reziduuri absolute; după ce $y_t$ este observat, reziduul lui intră în fereastră, iar cel mai vechi iese')]),
+    (T(r'\refXX, \refXXb: fit $B$ models on $B$ bootstrap samples of the training period (blocks of consecutive observations, to respect dependence)',
+       r'\refXX, \refXXb: se estimează $B$ modele pe $B$ eșantioane bootstrap ale perioadei de antrenare (blocuri de observații consecutive, pentru a respecta dependența)'),
+     [T(r'leave-one-out residuals: for point $i$, aggregate only the models whose bootstrap sample excluded $i$', r'reziduuri leave-one-out: pentru punctul $i$ se agregă doar modelele al căror eșantion bootstrap l-a exclus pe $i$')]),
+    (T(r'Interval at $t$: the ensemble forecast plus or minus a quantile of recent absolute residuals', r'Intervalul la $t$: prognoza ansamblului plus sau minus o cuantilă a reziduurilor absolute recente'),
+     [r'\[ \hat C_t = \hat f(x_t) \pm Q_{1-\alpha}\big(|e_{t-W}|, \dots, |e_{t-1}|\big) \]',
+      T(r'$\hat f(x_t)$: the aggregated forecast of the $B$ models given the predictors $x_t$; $e_s$: the residual of period $s$; $W$: the window length',
+        r'$\hat f(x_t)$: prognoza agregată a celor $B$ modele, dați predictorii $x_t$; $e_s$: reziduul perioadei $s$; $W$: lungimea ferestrei'),
+      T(r'after $y_t$ is observed, its residual enters the window and the oldest one leaves', r'după ce $y_t$ este observat, reziduul lui intră în fereastră, iar cel mai vechi iese')]),
     (T('No refitting at each step, no calibration split: efficient for long streams', 'Fără reestimare la fiecare pas, fără împărțire pentru calibrare: eficient pe fluxuri lungi'), []),
     T('Guarantee: asymptotic, conditional coverage if the errors are stationary and strongly mixing and the ensemble is consistent; designed for energy series (solar and wind)',
       'Garanția: acoperire asimptotică, condiționată, dacă erorile sînt staționare și puternic mixing, iar ansamblul este consistent; gîndit pentru serii de energie (solară și eoliană)')), 'small')
 
-D.frame(T('Adaptive conformal inference', 'Inferența conformală adaptivă'), items(
-    (T(r'\refGC: use level $\alpha_t$ at time $t$, $q_t$ = the conformal $(1 - \alpha_t)$ quantile of recent scores, then $\alpha_{t+1} = \alpha_t + \gamma(\alpha - \mathrm{err}_t)$',
-       r'\refGC: se folosește nivelul $\alpha_t$ la momentul $t$, $q_t$ = cuantila conformală $(1 - \alpha_t)$ a scorurilor recente, apoi $\alpha_{t+1} = \alpha_t + \gamma(\alpha - \mathrm{err}_t)$'),
-     [T(r'a miss lowers $\alpha_t$ (wider sets); a hit raises it; $\alpha_t \le 0$ gives $q_t = +\infty$ (the whole line), $\alpha_t \ge 1$ the empty set',
-        r'o ratare scade $\alpha_t$ (mulțimi mai largi); o acoperire îl crește; $\alpha_t \le 0$ dă $q_t = +\infty$ (toată dreapta), $\alpha_t \ge 1$ mulțimea vidă')]),
-    (T(r'\textbf{Theorem}: for any sequence of data, $\Big|\frac1T\sum_{t=1}^T\mathrm{err}_t - \alpha\Big| \le \frac{\max\{\alpha_1, 1 - \alpha_1\} + \gamma}{\gamma T}$',
-       r'\textbf{Teoremă}: pentru orice șir de date, $\Big|\frac1T\sum_{t=1}^T\mathrm{err}_t - \alpha\Big| \le \frac{\max\{\alpha_1, 1 - \alpha_1\} + \gamma}{\gamma T}$'),
-     [T(r'proof: $\alpha_t$ stays in $[-\gamma, 1 + \gamma]$ and $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; divide by $\gamma T$',
-        r'demonstrație: $\alpha_t$ rămîne în $[-\gamma, 1 + \gamma]$ și $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; se împarte la $\gamma T$')]),
-    T(r'Long-run frequency, not conditional coverage: an adversary-proof average. Choosing $\gamma$ adaptively: AgACI \refZaf, DtACI \refGCb; ACI for VaR: Chapter 9',
-      r'Frecvență pe termen lung, nu acoperire condiționată: o medie rezistentă la orice adversar. Alegerea adaptivă a lui $\gamma$: AgACI \refZaf, DtACI \refGCb; ACI pentru VaR: Capitolul 9')), 'small')
+D.frame(T('Adaptive conformal inference (1/2)', 'Inferența conformală adaptivă (1/2)'), items(
+    (T(r'\refGC: the nominal level is replaced by a working level $\alpha_t$ that is updated after every observation',
+       r'\refGC: nivelul nominal este înlocuit cu un nivel de lucru $\alpha_t$, actualizat după fiecare observație'),
+     [T(r'$q_t$: the conformal $(1 - \alpha_t)$ quantile of the recent scores; $\alpha$: the target miss rate (e.g.\ 0.1)', r'$q_t$: cuantila conformală $(1 - \alpha_t)$ a scorurilor recente; $\alpha$: rata-țintă a ratărilor (de exemplu 0,1)')]),
+    (T(r'\textbf{Update}: after observing $Y_t$, move the working level against the last error', r'\textbf{Actualizarea}: după observarea lui $Y_t$, nivelul de lucru se mută în sens opus ultimei erori'),
+     [r'\[ \alpha_{t+1} = \alpha_t + \gamma\,(\alpha - \mathrm{err}_t) \]',
+      T(r'$\gamma > 0$: the step size; $\mathrm{err}_t \in \{0, 1\}$: the miss indicator of the previous slides', r'$\gamma > 0$: pasul; $\mathrm{err}_t \in \{0, 1\}$: indicatorul ratării de pe slide-urile anterioare')]),
+    (T('Reading the update', 'Interpretarea actualizării'),
+     [T(r'a miss ($\mathrm{err}_t = 1$) lowers $\alpha_t$ by $\gamma(1 - \alpha)$: the next set is wider', r'o ratare ($\mathrm{err}_t = 1$) scade $\alpha_t$ cu $\gamma(1 - \alpha)$: mulțimea următoare este mai largă'),
+      T(r'a hit ($\mathrm{err}_t = 0$) raises $\alpha_t$ by $\gamma\alpha$: the next set is narrower', r'o acoperire ($\mathrm{err}_t = 0$) crește $\alpha_t$ cu $\gamma\alpha$: mulțimea următoare este mai îngustă'),
+      T(r'$\alpha_t \le 0$ gives $q_t = +\infty$ (the whole real line); $\alpha_t \ge 1$ gives the empty set', r'$\alpha_t \le 0$ dă $q_t = +\infty$ (toată dreapta reală); $\alpha_t \ge 1$ dă mulțimea vidă')])), 'small')
+
+D.frame(T('Adaptive conformal inference (2/2)', 'Inferența conformală adaptivă (2/2)'), items(
+    (T(r'\textbf{Theorem} \refGC: for any sequence of data, the miss rate over $T$ periods is close to $\alpha$',
+       r'\textbf{Teoremă} \refGC: pentru orice șir de date, frecvența ratărilor pe $T$ perioade este apropiată de $\alpha$'),
+     [r'\[ \Big|\frac1T\sum_{t=1}^T\mathrm{err}_t - \alpha\Big| \le \frac{\max\{\alpha_1, 1 - \alpha_1\} + \gamma}{\gamma T} \]',
+      T(r'$\alpha_1$: the starting level; the bound falls as $1/T$, and is tighter for a larger $\gamma$', r'$\alpha_1$: nivelul de pornire; marginea scade ca $1/T$ și este mai strînsă pentru un $\gamma$ mai mare')]),
+    (T(r'Idea of the proof (Appendix)', r'Ideea demonstrației (Anexă)'),
+     [T(r'$\alpha_t$ always stays in $[-\gamma, 1 + \gamma]$', r'$\alpha_t$ rămîne mereu în $[-\gamma, 1 + \gamma]$'),
+      T(r'summing the updates, $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; divide by $\gamma T$', r'însumînd actualizările, $\alpha_{T+1} - \alpha_1 = \gamma\sum_t(\alpha - \mathrm{err}_t)$; se împarte la $\gamma T$')]),
+    (T('A long-run frequency, not conditional coverage', 'O frecvență pe termen lung, nu o acoperire condiționată'),
+     [T('the guarantee holds even for an adversarially chosen sequence', 'garanția este valabilă și pentru un șir de date ales advers'),
+      T(r'choosing $\gamma$ adaptively: AgACI \refZaf, DtACI \refGCb; ACI for VaR: Chapter 9', r'alegerea adaptivă a lui $\gamma$: AgACI \refZaf, DtACI \refGCb; ACI pentru VaR: Capitolul 9')])), 'small')
 
 chart(T('ACI on stock-market volatility', 'ACI pe volatilitatea bursieră'), 'ats_ch13_aci', 'ATS_ch13_conformal_time', [
-    T(r'Design of \refGC: $V_t = r_t^2$, $\hat\sigma_t^2$ from a GARCH(1,1) fitted on the previous 1250 days, score $|V_t - \hat\sigma_t^2|/\hat\sigma_t^2$, $\alpha = 0.1$, $\gamma = 0.005$; local coverage over 500 days; evaluation from @{ac.sp.first}',
-      r'Designul din \refGC: $V_t = r_t^2$, $\hat\sigma_t^2$ dintr-un GARCH(1,1) estimat pe ultimele 1250 de zile, scorul $|V_t - \hat\sigma_t^2|/\hat\sigma_t^2$, $\alpha = 0{,}1$, $\gamma = 0{,}005$; acoperirea locală pe 500 de zile; evaluare din @{ac.sp.first}')],
-    h='0.46\\textheight')
+    T(r'Design of \refGC: the target is $V_t = r_t^2$, the squared daily return; $\hat\sigma_t^2$: its GARCH(1,1) forecast, fitted on the previous 1250 days',
+      r'Designul din \refGC: ținta este $V_t = r_t^2$, randamentul zilnic la pătrat; $\hat\sigma_t^2$: prognoza ei dintr-un GARCH(1,1) estimat pe ultimele 1250 de zile'),
+    T(r'Score $|V_t - \hat\sigma_t^2|/\hat\sigma_t^2$ (relative error of the variance forecast), $\alpha = 0.1$, $\gamma = 0.005$; local coverage over 500 days; evaluation from @{ac.sp.first}',
+      r'Scorul $|V_t - \hat\sigma_t^2|/\hat\sigma_t^2$ (eroarea relativă a prognozei de varianță), $\alpha = 0{,}1$, $\gamma = 0{,}005$; acoperirea locală pe 500 de zile; evaluare din @{ac.sp.first}')],
+    h='0.42\\textheight')
 
 interp(('ACI on volatility', 'ACI pe volatilitate'), [
+    (T('Three thresholds compared', 'Trei praguri comparate'),
+     [T('static: split conformal calibrated once, on the first 1250 scores', 'static: split conformal calibrat o singură dată, pe primele 1250 de scoruri'),
+      T('rolling: split conformal on the last 1250 scores, with the fixed level $\\alpha$', 'mobil: split conformal pe ultimele 1250 de scoruri, cu nivelul fix $\\alpha$'),
+      T('ACI: the same rolling window, with the level $\\alpha_t$', 'ACI: aceeași fereastră mobilă, cu nivelul $\\alpha_t$')]),
     T(r'Overall coverage, S\&P 500: static @{ac.sp.st}, rolling @{ac.sp.ro}, ACI @{ac.sp.ac}; BET: @{ac.bet.st}, @{ac.bet.ro}, @{ac.bet.ac}; NVIDIA: @{ac.nv.st}, @{ac.nv.ro}, @{ac.nv.ac}',
       r'Acoperirea totală, S\&P 500: static @{ac.sp.st}, mobil @{ac.sp.ro}, ACI @{ac.sp.ac}; BET: @{ac.bet.st}, @{ac.bet.ro}, @{ac.bet.ac}; NVIDIA: @{ac.nv.st}, @{ac.nv.ro}, @{ac.nv.ac}'),
     T(r'Local coverage of the static method ranges from @{ac.sp.stmin} to @{ac.sp.stmax} (S\&P 500); ACI stays within @{ac.sp.acmin} -- @{ac.sp.acmax}',
       r'Acoperirea locală a metodei statice variază între @{ac.sp.stmin} și @{ac.sp.stmax} (S\&P 500); ACI rămîne între @{ac.sp.acmin} și @{ac.sp.acmax}'),
-    T(r'Christoffersen conditional coverage of the misses (S\&P 500): static $p$ @{ac.sp.stcc}, ACI $p$ @{ac.sp.accc}: a calibration fixed on 2005--2009 is too wide afterwards; updating restores both the frequency and the independence of misses',
-      r'Acoperirea condiționată Christoffersen pentru ratări (S\&P 500): static $p$ @{ac.sp.stcc}, ACI $p$ @{ac.sp.accc}: o calibrare fixată pe 2005--2009 este prea largă ulterior; actualizarea reface atît frecvența, cît și independența ratărilor')])
+    (T(r'Christoffersen conditional coverage of the misses (S\&P 500): static $p$ @{ac.sp.stcc}, ACI $p$ @{ac.sp.accc}', r'Testul Christoffersen de acoperire condiționată a ratărilor (S\&P 500): static $p$ @{ac.sp.stcc}, ACI $p$ @{ac.sp.accc}'),
+     [T('a calibration fixed on 2005--2009 is too wide afterwards', 'o calibrare fixată pe 2005--2009 este prea largă ulterior'),
+      T('updating restores both the frequency and the independence of misses', 'actualizarea reface atît frecvența, cît și independența ratărilor')])])
 
 chart(T('The step size of ACI', 'Pasul ACI'), 'ats_ch13_aci_gamma', 'ATS_ch13_conformal_time', [
     T(r'S\&P 500 scores of the previous chart: the level $\alpha_t$ for $\gamma = 0.001$, 0.005 and 0.05',
@@ -925,17 +1101,31 @@ interp(('the step size', 'pasului'), [
       r'$\gamma$ mare: $\alpha_t$ variază între @{ag.lo3} și @{ag.hi3}, intervale infinite în @{ag.inf3}\% din zile; $\gamma$ mic: reacție lentă, serii lungi de ratări după un șoc'),
     T('$\\gamma$ trades adaptivity against stability: tune it on a past window, or let DtACI aggregate several values', '$\\gamma$ echilibrează adaptivitatea și stabilitatea: alegeți-l pe o fereastră trecută sau lăsați DtACI să agrege mai multe valori')])
 
-D.frame(T('Conformal PID control', 'Controlul PID conformal'), items(
-    (T(r'\refACT: \textbf{quantile tracking} (P): $q_{t+1} = q_t + \eta(\mathrm{err}_t - \alpha)$, i.e.\ online gradient descent on the pinball loss of the score',
-       r'\refACT: \textbf{urmărirea cuantilei} (P): $q_{t+1} = q_t + \eta(\mathrm{err}_t - \alpha)$, adică coborîre pe gradient online pe pierderea pinball a scorului'),
-     [T(r'\textbf{Proposition}: if $S_t \in [0, B]$, then $\big|\frac1T\sum_t(\mathrm{err}_t - \alpha)\big| \le (B + \eta)/(\eta T)$: the threshold moves on the scale of the scores, not of $\alpha$',
-        r'\textbf{Propoziție}: dacă $S_t \in [0, B]$, atunci $\big|\frac1T\sum_t(\mathrm{err}_t - \alpha)\big| \le (B + \eta)/(\eta T)$: pragul se mișcă pe scala scorurilor, nu a lui $\alpha$')]),
-    (T(r'\textbf{Integrator} (I): add $r_t\big(\sum_{i \le t}(\mathrm{err}_i - \alpha)\big)$, $r_t(x) = K_I\tan\big(x\log t/(tC_{\mathrm{sat}})\big)$: reacts to accumulated coverage error, saturates to keep the guarantee',
-       r'\textbf{Integratorul} (I): se adaugă $r_t\big(\sum_{i \le t}(\mathrm{err}_i - \alpha)\big)$, $r_t(x) = K_I\tan\big(x\log t/(tC_{\mathrm{sat}})\big)$: reacționează la eroarea de acoperire acumulată și se saturează pentru a păstra garanția'), []),
-    (T(r'\textbf{Scorecaster} (D-like): a model that forecasts the next score from its past (seasonality, trends in the errors) and is added to the threshold',
-       r'\textbf{Prognozatorul de scor} (asemănător termenului D): un model care prognozează scorul următor din trecutul lui (sezonalitate, tendințe ale erorilor) și se adaugă la prag'), []),
-    T('ACI is the special case that tracks the level instead of the quantile; PID borrows its vocabulary from control engineering: proportional, integral, derivative',
-      'ACI este cazul particular care urmărește nivelul în loc de cuantilă; PID își ia vocabularul din ingineria controlului: proporțional, integral, derivat')), 'small')
+D.frame(T('Conformal PID control (1/2)', 'Controlul PID conformal (1/2)'), items(
+    (T(r'\refACT, \textbf{quantile tracking} (the P term): the threshold itself is updated after every observation',
+       r'\refACT, \textbf{urmărirea cuantilei} (termenul P): pragul însuși este actualizat după fiecare observație'),
+     [r'\[ q_{t+1} = q_t + \eta\,(\mathrm{err}_t - \alpha) \]',
+      T(r'$\eta > 0$: the step size, in the units of the scores; a miss raises the threshold by $\eta(1 - \alpha)$, a hit lowers it by $\eta\alpha$',
+        r'$\eta > 0$: pasul, în unitățile scorurilor; o ratare ridică pragul cu $\eta(1 - \alpha)$, o acoperire îl coboară cu $\eta\alpha$'),
+      T('this is online gradient descent on the pinball loss of the score at level $1 - \\alpha$', 'este coborîrea pe gradient online pe pierderea pinball a scorului la nivelul $1 - \\alpha$')]),
+    (T(r'\textbf{Proposition}: if the scores lie in $[0, B]$, the miss rate is close to $\alpha$ for any sequence',
+       r'\textbf{Propoziție}: dacă scorurile sînt în $[0, B]$, frecvența ratărilor este apropiată de $\alpha$ pentru orice șir'),
+     [r'\[ \Big|\frac1T\sum_{t=1}^T(\mathrm{err}_t - \alpha)\Big| \le \frac{B + \eta}{\eta T} \]',
+      T(r'$B$: an upper bound of the scores; the threshold moves on the scale of the scores, not of $\alpha$ as in ACI', r'$B$: o margine superioară a scorurilor; pragul se mișcă pe scala scorurilor, nu pe cea a lui $\alpha$, ca la ACI')]),
+    T('ACI is the special case that tracks the level instead of the quantile', 'ACI este cazul particular care urmărește nivelul în loc de cuantilă')), 'small')
+
+D.frame(T('Conformal PID control (2/2)', 'Controlul PID conformal (2/2)'), items(
+    (T(r'\textbf{Integrator} (the I term): adds a correction driven by the accumulated coverage error',
+       r'\textbf{Integratorul} (termenul I): adaugă o corecție determinată de eroarea de acoperire acumulată'),
+     [r'\[ r_t\Big(\sum_{i \le t}(\mathrm{err}_i - \alpha)\Big), \qquad r_t(x) = K_I\tan\big(x\log t/(tC_{\mathrm{sat}})\big) \]',
+      T(r'$\sum_{i \le t}(\mathrm{err}_i - \alpha)$: misses in excess of the target, accumulated up to $t$', r'$\sum_{i \le t}(\mathrm{err}_i - \alpha)$: ratările peste țintă, acumulate pînă la $t$'),
+      T(r'$K_I > 0$: the gain of the integrator; $C_{\mathrm{sat}} > 0$: the saturation constant; the $\tan$ grows without bound near its pole, which keeps the long-run guarantee',
+        r'$K_I > 0$: cîștigul integratorului; $C_{\mathrm{sat}} > 0$: constanta de saturație; $\tan$ crește nemărginit lîngă polul său, ceea ce păstrează garanția pe termen lung')]),
+    (T(r'\textbf{Scorecaster} (a D-like term): a model that forecasts the next score from its past and is added to the threshold',
+       r'\textbf{Prognozatorul de scor} (un termen asemănător lui D): un model care prognozează scorul următor din trecutul lui și se adaugă la prag'),
+     [T('it anticipates predictable patterns in the errors: seasonality, trends', 'anticipează tiparele previzibile ale erorilor: sezonalitate, tendințe')]),
+    (T('The name comes from control theory', 'Denumirea vine din teoria controlului automat'),
+     [T('proportional (react to the last error), integral (to the accumulated error), derivative (to the expected change)', 'proporțional (reacție la ultima eroare), integral (la eroarea acumulată), derivativ (la schimbarea anticipată)')])), 'small')
 
 chart(T('Online methods on Romanian load', 'Metode online pe consumul României'), 'ats_ch13_pid', 'ATS_ch13_conformal_time', [
     T(r'90\% day-ahead intervals around the Chronos-Bolt median, one score stream per hour (24 streams), calibration window 91 days; EnbPI on the expert ARX regressors (ridge, 20 block-bootstrap models); evaluation from @{pd.first}',
@@ -952,11 +1142,17 @@ interp(('the online methods', 'metodelor online'), [
     T('EnbPI centres the band on its own ridge ensemble, less accurate than the base forecast: narrower intervals, lower coverage', 'EnbPI centrează banda pe propriul ansamblu ridge, mai puțin precis decît prognoza de bază: intervale mai înguste, acoperire mai mică')])
 
 D.frame(T('Coverage diagnostics', 'Diagnosticarea acoperirii'), items(
-    (T(r'\textbf{Unconditional}: miss rate and Kupiec \refKup; \textbf{independence} of misses: Christoffersen \refChr (Chapter 9)', r'\textbf{Necondiționat}: frecvența ratărilor și testul Kupiec \refKup; \textbf{independența} ratărilor: Christoffersen \refChr (Capitolul 9)'),
-     [T(r'regression check in the spirit of the DQ test \refEM: regress $\mathrm{err}_t - \alpha$ on lagged misses and on the predicted width', r'o verificare prin regresie în spiritul testului DQ \refEM: regresia lui $\mathrm{err}_t - \alpha$ pe ratările decalate și pe lățimea prognozată')]),
-    (T('\\textbf{Local}: rolling coverage; coverage by bins of a variable known at the origin (predicted volatility, hour, regime): the empirical counterpart of conditional coverage', '\\textbf{Local}: acoperirea pe ferestre mobile; acoperirea pe clase ale unei variabile cunoscute la origine (volatilitatea prognozată, ora, regimul): echivalentul empiric al acoperirii condiționate'), []),
-    (T(r'\textbf{Sharpness}: mean width and the interval score $W + \frac{2}{\alpha}(\ell - y)\mathbf 1\{y < \ell\} + \frac{2}{\alpha}(y - u)\mathbf 1\{y > u\}$ \refWin, \refGR, a proper score for central intervals',
-       r'\textbf{Precizia}: lățimea medie și scorul de interval $W + \frac{2}{\alpha}(\ell - y)\mathbf 1\{y < \ell\} + \frac{2}{\alpha}(y - u)\mathbf 1\{y > u\}$ \refWin, \refGR, un scor propriu pentru intervale centrale'), []),
+    (T(r'\textbf{Frequency and independence} of the misses (Chapter 9)', r'\textbf{Frecvența și independența} ratărilor (Capitolul 9)'),
+     [T(r'miss rate and the Kupiec test \refKup (is the rate equal to $\alpha$?); Christoffersen test \refChr (are misses independent over time?)', r'frecvența ratărilor și testul Kupiec \refKup (este frecvența egală cu $\alpha$?); testul Christoffersen \refChr (sînt ratările independente în timp?)'),
+      T(r'regression check in the spirit of the DQ test \refEM: regress $\mathrm{err}_t - \alpha$ on lagged misses and on the predicted width', r'o verificare prin regresie în spiritul testului DQ \refEM: regresia lui $\mathrm{err}_t - \alpha$ pe ratările cu lag și pe lățimea prognozată')]),
+    (T('\\textbf{Local coverage}: the empirical counterpart of conditional coverage', '\\textbf{Acoperirea locală}: echivalentul empiric al acoperirii condiționate'),
+     [T('coverage over rolling windows', 'acoperirea pe ferestre mobile'),
+      T('coverage by classes of a variable known at the origin (predicted volatility, hour, regime)', 'acoperirea pe clase ale unei variabile cunoscute la origine (volatilitatea prognozată, ora, regimul)')]),
+    (T(r'\textbf{Sharpness}: the mean width, and the \textbf{interval score} \refWin, \refGR, which adds a penalty for every miss',
+       r'\textbf{Precizia} (sharpness): lățimea medie și \textbf{scorul de interval} \refWin, \refGR, care adaugă o penalizare pentru fiecare ratare'),
+     [r'\[ \mathrm{IS} = (u - \ell) + \frac{2}{\alpha}(\ell - y)\mathbf 1\{y < \ell\} + \frac{2}{\alpha}(y - u)\mathbf 1\{y > u\} \]',
+      T(r'$[\ell, u]$: the central $(1 - \alpha)$ interval; $u - \ell$: its width; $y$: the outcome; lower is better', r'$[\ell, u]$: intervalul central de $(1 - \alpha)$; $u - \ell$: lățimea lui; $y$: valoarea realizată; o valoare mai mică este mai bună'),
+      T('a proper scoring rule: it rewards narrow intervals only if they keep the nominal coverage', 'o regulă de scor proprie: recompensează intervalele înguste doar dacă își păstrează acoperirea nominală')]),
     T('Report all three: a method that is valid but twice as wide is not a better method', 'Raportați toate trei: o metodă validă, dar de două ori mai largă, nu este o metodă mai bună')), 'small')
 
 chart(T('Coverage by volatility regime', 'Acoperirea pe regimuri de volatilitate'), 'ats_ch13_condcov', 'ATS_ch13_conformal_time', [
@@ -983,13 +1179,17 @@ D.recap(('conformal methods for time series', 'metodele conformale pentru serii 
 D.section('Calibrating foundation-model intervals', 'Calibrarea intervalelor produse de foundation models')
 
 D.frame(T('The need to calibrate foundation-model quantiles', 'Nevoia de calibrare a cuantilelor foundation models'), items(
-    (T(r'Pretrained quantiles are calibrated on the corpus distribution, not on your series: miscalibration is the default, in either direction',
-       r'Cuantilele preantrenate sînt calibrate pe distribuția corpusului, nu pe seria dumneavoastră: calibrarea greșită este situația implicită, în ambele sensuri'), []),
+    (T(r'Pretrained quantiles are calibrated on the corpus distribution, not on your series',
+       r'Cuantilele preantrenate sînt calibrate pe distribuția corpusului, nu pe seria dumneavoastră'),
+     [T('miscalibration is the default, in either direction (bands too narrow or too wide)', 'calibrarea greșită este situația implicită, în ambele sensuri (benzi prea înguste sau prea largi)')]),
     (T(r'Most models output only 10\%--90\%: a 95\% interval or VaR 1\% requires extrapolation beyond the trained levels',
        r'Majoritatea modelelor dau doar cuantile de 10\%--90\%: un interval de 95\% sau VaR 1\% cere extrapolare dincolo de nivelurile antrenate'), []),
-    (T(r'Recipe: online CQR on the model\'s own band, score $S_t = \max\{\hat q_{0.1,t} - y_t, y_t - \hat q_{0.9,t}\}$; ACI chooses the threshold for any target level ($80\%$ or $95\%$)',
-       r'Rețeta: CQR online pe banda proprie a modelului, scorul $S_t = \max\{\hat q_{0.1,t} - y_t, y_t - \hat q_{0.9,t}\}$; ACI alege pragul pentru orice nivel-țintă ($80\%$ sau $95\%$)'),
-     [T(r'one-sided version for VaR: $S_t = \hat q_{0.1,t} - y_t$, threshold at level $\alpha$; the VaR is $-(\hat q_{0.1,t} - q_t)$', r'varianta unilaterală pentru VaR: $S_t = \hat q_{0.1,t} - y_t$, pragul la nivelul $\alpha$; VaR este $-(\hat q_{0.1,t} - q_t)$')]),
+    (T(r'Procedure: online CQR on the model\'s own 10\%--90\% band, with ACI choosing the threshold for any target level (80\% or 95\%)',
+       r'Procedura: CQR online pe banda proprie de 10\%--90\% a modelului, iar ACI alege pragul pentru orice nivel-țintă (80\% sau 95\%)'),
+     [dm(r'S_t = \max\{\hat q_{0.1,t} - y_t,\; y_t - \hat q_{0.9,t}\}, \qquad \hat C_t = [\hat q_{0.1,t} - q_t,\; \hat q_{0.9,t} + q_t]'),
+      T(r'$\hat q_{0.1,t}$, $\hat q_{0.9,t}$: the 10\% and 90\% quantiles forecast by the model for period $t$; $q_t$: the ACI threshold', r'$\hat q_{0.1,t}$, $\hat q_{0.9,t}$: cuantilele de 10\% și 90\% prognozate de model pentru perioada $t$; $q_t$: pragul ACI')]),
+    (T(r'One-sided version for VaR: score $S_t = \hat q_{0.1,t} - y_t$, threshold $q_t$ at level $\alpha$', r'Varianta unilaterală pentru VaR: scorul $S_t = \hat q_{0.1,t} - y_t$, pragul $q_t$ la nivelul $\alpha$'),
+     [T(r'the calibrated quantile is $\hat q_{0.1,t} - q_t$ and $\mathrm{VaR}_t = -(\hat q_{0.1,t} - q_t)$ (VaR as a positive loss)', r'cuantila calibrată este $\hat q_{0.1,t} - q_t$, iar $\mathrm{VaR}_t = -(\hat q_{0.1,t} - q_t)$ (VaR ca pierdere pozitivă)')]),
     T(r'Further reading on conformal VaR recalibration of foundation models: \refCO; \refTV', r'Lectură suplimentară despre recalibrarea conformală a VaR pentru foundation models: \refCO; \refTV')), 'small')
 
 chart(T('Raw and conformal coverage of foundation models', 'Acoperirea brută și cea conformală a foundation models'), 'ats_ch13_fm_calib', 'ATS_ch13_calibration', [
@@ -1002,8 +1202,9 @@ interp(('the calibration', 'calibrării'), [
       r'Benzile brute de 80\%: consum @{fc.l.lo}--@{fc.l.hi}\%, Bitcoin @{fc.b.lo}--@{fc.b.hi}\%, inflație @{fc.i.lo}--@{fc.i.hi}\%, randamente BET @{fc.r.lo}--@{fc.r.hi}\% pentru cele patru modele'),
     T(r'After online CQR: 80\% intervals cover @{fc.c80lo}--@{fc.c80hi}\%, 95\% intervals @{fc.c95lo}--@{fc.c95hi}\% in every task',
       r'După CQR online: intervalele de 80\% acoperă @{fc.c80lo}--@{fc.c80hi}\%, cele de 95\% @{fc.c95lo}--@{fc.c95hi}\% în toate sarcinile'),
-    T(r'Raw bands miss in both directions (too narrow: Chronos-2 on load; too wide: TimesFM on inflation); the conformal step widens or narrows them, with a mean width between @{fc.wlo} and @{fc.whi} times the raw width, and reaches 95\% from models that output only deciles',
-      r'Benzile brute greșesc în ambele sensuri (prea înguste: Chronos-2 la consum; prea largi: TimesFM la inflație); pasul conformal le lărgește sau le îngustează, cu o lățime medie între @{fc.wlo} și @{fc.whi} ori lățimea brută, și ajunge la 95\% pornind de la modele care produc doar decile')])
+    (T(r'Raw bands are miscalibrated in both directions: too narrow (Chronos-2 on load), too wide (TimesFM on inflation)', r'Benzile brute sînt necalibrate în ambele sensuri: prea înguste (Chronos-2 la consum), prea largi (TimesFM la inflație)'),
+     [T(r'the conformal step widens or narrows them: mean width between @{fc.wlo} and @{fc.whi} times the raw width', r'pasul conformal le lărgește sau le îngustează: lățimea medie este între @{fc.wlo} și @{fc.whi} ori lățimea brută'),
+      T(r'and it reaches 95\% from models that output only deciles', r'și ajunge la 95\% pornind de la modele care produc doar decile')])])
 
 chart(T('Value at Risk from foundation models', 'Valoarea la risc din foundation models'), 'ats_ch13_fm_var', 'ATS_ch13_calibration', [
     T(r'VaR 1\% exceedances, BET and S\&P 500 from @{fv.first} (@{fv.n} days): GARCH-$t$ (rolling 1000 days, Chapter 9), Chronos-2 raw and with ACI, deciles of the other models extended by a one-sided conformal shift',
@@ -1015,8 +1216,9 @@ interp(('the VaR backtest', 'backtesting-ului VaR'), [
       r'BET, VaR 1\%: GARCH-$t$ @{fv.b.g}\% (Kupiec $p$ @{fv.b.gk}), Chronos-2 brut @{fv.b.c}\% ($p$ @{fv.b.ck}), Chronos-2 + ACI @{fv.b.a}\% ($p$ @{fv.b.ak}), TimesFM + conformal @{fv.b.t}\%'),
     T(r'S\&P 500: GARCH-$t$ @{fv.s.g}\% (Kupiec $p$ @{fv.s.gk}), Chronos-2 raw @{fv.s.c}\% ($p$ @{fv.s.ck}), + ACI @{fv.s.a}\% ($p$ @{fv.s.ak}, Christoffersen $p$ @{fv.s.acc})',
       r'S\&P 500: GARCH-$t$ @{fv.s.g}\% (Kupiec $p$ @{fv.s.gk}), Chronos-2 brut @{fv.s.c}\% ($p$ @{fv.s.ck}), + ACI @{fv.s.a}\% ($p$ @{fv.s.ak}, $p$ Christoffersen @{fv.s.acc})'),
-    T(r'Calibration fixes the exceedance rate of every model; it does not add tail information: the conformally extended deciles have a larger quantile loss than GARCH-$t$ (BET, Chronos-Bolt: DM $t = @{fv.b.bdm}$), while Chronos-2, trained on 1\% quantiles, does not ($t = @{fv.b.adm}$)',
-      r'Calibrarea corectează rata de depășire a oricărui model; nu adaugă informație despre coadă: decilele extinse conformal au o pierdere cuantilică mai mare decît GARCH-$t$ (BET, Chronos-Bolt: DM $t = @{fv.b.bdm}$), în timp ce Chronos-2, antrenat pe cuantile de 1\%, nu are ($t = @{fv.b.adm}$)')])
+    (T(r'Calibration fixes the exceedance rate of every model, but it does not add information about the tail', r'Calibrarea corectează rata de depășire a oricărui model, dar nu adaugă informație despre coadă'),
+     [T(r'the conformally extended deciles have a larger quantile loss than GARCH-$t$ (BET, Chronos-Bolt: DM $t = @{fv.b.bdm}$)', r'decilele extinse conformal au o pierdere cuantilică mai mare decît GARCH-$t$ (BET, Chronos-Bolt: DM $t = @{fv.b.bdm}$)'),
+      T(r'Chronos-2, trained on 1\% quantiles, does not ($t = @{fv.b.adm}$)', r'Chronos-2, antrenat pe cuantile de 1\%, nu are o pierdere mai mare ($t = @{fv.b.adm}$)')])])
 
 D.recap(('calibration', 'calibrarea'), [
     T('Treat foundation-model quantiles as scores to be calibrated, not as probabilities', 'Tratați cuantilele foundation models ca scoruri de calibrat, nu ca probabilități'),
@@ -1057,13 +1259,15 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('Release dates and training cutoffs of every model, from the model cards, against the start of the evaluation window', 'Datele de lansare și datele-limită de antrenare ale fiecărui model, din fișele modelelor, comparate cu începutul ferestrei de evaluare'),
     T('Quantile levels actually produced by each model (a request for 1\\% may silently return 10\\%)', 'Nivelurile de cuantile produse efectiv de fiecare model (o cerere pentru 1\\% poate întoarce, fără avertisment, 10\\%)'),
     T('Baselines tuned with the same care; the context available to every model is the same', 'Modelele de referință ajustate cu aceeași grijă; contextul disponibil este același pentru toate modelele'),
-    T('Multiplicity: number of series, horizons and models tested; the pooled test and adjusted $p$-values reported', 'Multiplicitatea: numărul de serii, orizonturi și modele testate; raportarea testului agregat și a valorilor $p$ ajustate')), 'small')
+    T('Multiplicity: number of series, horizons and models tested; the pooled test and adjusted p-values reported', 'Multiplicitatea: numărul de serii, orizonturi și modele testate; raportarea testului agregat și a p-value-urilor ajustate')), 'small')
 
 chart(T('Mini-case: how much can the choice of benchmark change the verdict?', 'Mini studiu de caz: cît poate schimba verdictul alegerea benchmark-ului?'), 'ats_ch13_ai_case', 'ATS_ch13_benchmark', [
     T(r'DM--HLN statistics of Chronos-2 against AR($p$) at $h = 12$ on @{ai.reps} random benchmarks of @{ai.k} EU countries and @{ai.y} years of origins, and on the full panel',
       r'Statisticile DM--HLN ale Chronos-2 față de AR($p$) la $h = 12$ pe @{ai.reps} de benchmark-uri aleatoare cu @{ai.k} țări UE și @{ai.y} ani de origini și pe întregul panel'),
-    T(r'@{ai.win}\% of the random benchmarks declare Chronos-2 significantly better and @{ai.lose}\% significantly worse; the full panel gives $t = @{ai.t}$ ($p$ @{ai.p}). An AI summary of one such paper as evidence for (or against) foundation models is wrong; only the pre-registered panel answers',
-      r'@{ai.win}\% dintre benchmark-urile aleatoare declară Chronos-2 semnificativ mai bun, iar @{ai.lose}\% semnificativ mai slab; panelul întreg dă $t = @{ai.t}$ ($p$ @{ai.p}). Un rezumat AI care prezintă o astfel de lucrare ca dovadă pentru (sau împotriva) foundation models greșește; doar panelul preînregistrat răspunde')],
+    T(r'@{ai.win}\% of the random benchmarks declare Chronos-2 significantly better and @{ai.lose}\% significantly worse; the full panel gives $t = @{ai.t}$ ($p$ @{ai.p})',
+      r'@{ai.win}\% dintre benchmark-urile aleatoare declară Chronos-2 semnificativ mai bun, iar @{ai.lose}\% semnificativ mai slab; panelul întreg dă $t = @{ai.t}$ ($p$ @{ai.p})'),
+    T('An AI summary that presents one such paper as evidence for (or against) foundation models is wrong; only the pre-registered panel answers the question',
+      'Un rezumat AI care prezintă o astfel de lucrare ca dovadă pentru (sau împotriva) foundation models greșește; doar panelul preînregistrat răspunde la întrebare')],
     h='0.4\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(

@@ -112,7 +112,6 @@ MSCA Digital Finance}
     \item \textbf{ADH}: Abadie, Diamond and Hainmueller
     \item \textbf{AI}: Artificial Intelligence
     \item \textbf{AR}: AutoRegressive (model); in event studies: Abnormal Return
-    \item \textbf{ATM}: Automated Teller Machine
     \item \textbf{BET}: Bucharest Exchange Trading (index)
     \item \textbf{BNR}: Banca Națională a României (the National Bank of Romania)
     \item \textbf{BSTS}: Bayesian Structural Time Series
@@ -122,12 +121,11 @@ MSCA Digital Finance}
     \item \textbf{DML}: Double/Debiased Machine Learning
     \item \textbf{ECOFIN}: Economic and Financial Affairs Council (of the EU)
     \item \textbf{EODHD}: EOD Historical Data (market-data provider)
+    \item \textbf{EU}: European Union
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{ETF}: Exchange-Traded Fund
-    \item \textbf{EU}: European Union
     \item \textbf{EU-26}: the 26 EU countries other than Romania
     \item \textbf{GDP}: Gross Domestic Product
     \item \textbf{HAC}: Heteroskedasticity and Autocorrelation Consistent (standard errors)
@@ -139,6 +137,8 @@ MSCA Digital Finance}
     \item \textbf{MCMC}: Markov Chain Monte Carlo
     \item \textbf{MSPE}: Mean Squared Prediction Error
     \item \textbf{OECD}: Organisation for Economic Co-operation and Development
+    \item \textbf{OLS}: Ordinary Least Squares
+    \item \textbf{PC1}: first Principal Component
 \end{itemize}
 \end{column}
 \end{columns}
@@ -148,28 +148,23 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{OLS}: Ordinary Least Squares
-    \item \textbf{PC1}: first Principal Component
     \item \textbf{PCMCI}: PC algorithm + Momentary Conditional Independence
-    \item \textbf{PPP}: Purchasing Power Parity
     \item \textbf{RMSPE}: Root Mean Squared Prediction Error
-    \item \textbf{RV}: Realised Variance
     \item \textbf{SC}: Synthetic Control
     \item \textbf{SDID}: Synthetic Difference in Differences
     \item \textbf{SEC}: Securities and Exchange Commission
     \item \textbf{SVAR}: Structural Vector AutoRegression
     \item \textbf{TE}: Transfer Entropy
-    \item \textbf{TSA}: Time Series Analysis
     \item \textbf{TWFE}: Two-Way Fixed Effects
-\end{itemize}
-\end{column}
-\begin{column}{0.49\textwidth}
-\begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{UK}: United Kingdom
     \item \textbf{US}: United States
     \item \textbf{USA}: United States of America
     \item \textbf{VAR}: Vector AutoRegression
     \item \textbf{VAT}: Value Added Tax
+\end{itemize}
+\end{column}
+\begin{column}{0.49\textwidth}
+\begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{VIX}: CBOE Volatility IndeX
 \end{itemize}
 \end{column}
@@ -305,18 +300,38 @@ Daily index and crypto prices; EUR/RON & EODHD; BNR reference rate; to 18 Septem
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Granger causality: the definition}
+\begin{frame}{Granger causality: the definition (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refGra: $x$ \textbf{Granger-causes} $y$ if $\E[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t])^2] < \E[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t\setminus x])^2]$, $\mathcal I_t$ = all information up to $t$
+    \item \refGra: $x$ \textbf{Granger-causes} $y$ if the past of $x$ lowers the mean squared error of the best one-step forecast of $y$ \[ \E\big[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t])^2\big] < \E\big[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t\setminus x])^2\big] \]
     \begin{itemize}
-        \item in practice $\mathcal I_t$ is a finite set: $y_t = c + \sum_{j=1}^p a_jy_{t-j} + \sum_{j=1}^p b_jx_{t-j} + \sum_{j=1}^p \gamma_j'z_{t-j} + u_t$; $H_0$: $b_1 = \dots = b_p = 0$
+        \item $\mathcal I_t$: all the information available up to $t$; $\mathcal I_t\setminus x$: the same information without the past of $x$
+        \item $\E[y_{t+1}\mid\cdot]$: the conditional mean, i.e.\ the best forecast in mean squared error
     \end{itemize}
-    \item Wald statistic $W = \hat b'\hat V_b^{-1}\hat b \to \chi^2_p$; $\hat V_b$ HAC (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}) when $u_t$ is heteroskedastic, as for returns \refNW
+    \item In practice $\mathcal I_t$ is a finite set of lags in a regression \[ y_t = c + \sum_{j=1}^p a_jy_{t-j} + \sum_{j=1}^p b_jx_{t-j} + \sum_{j=1}^p \gamma_j'z_{t-j} + u_t \]
     \begin{itemize}
-        \item integrated or cointegrated series: augment the lag order by the maximal integration order and test only the first $p$ lags \refTY
+        \item $p$: the number of lags; $a_j$, $b_j$: coefficients on the lags of $y$ and of $x$; $z_t$: a vector of other conditioning series, with coefficient vectors $\gamma_j$; $u_t$: the error
+        \item null hypothesis of Granger non-causality: $H_0$: $b_1 = \dots = b_p = 0$
     \end{itemize}
-    \item Strength: Geweke measure $F_{x\to y} = \ln(\sigma^2_{\mathrm{restricted}}/\sigma^2_{\mathrm{full}})$ \refGew, decomposable by frequency \refBrC{} (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter11_spectral_wavelet_analysis.pdf}{Chapter 11})
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Granger causality: the definition (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Wald statistic}: a quadratic form of the estimated lag coefficients of $x$ \[ W = \hat b'\hat V_b^{-1}\hat b \;\to\; \chi^2_p \quad \text{under} \ H_0 \]
+    \begin{itemize}
+        \item $\hat b = (\hat b_1, \dots, \hat b_p)'$; $\hat V_b$: its estimated covariance matrix; reject $H_0$ for a large $W$ (small p-value)
+        \item $\hat V_b$ HAC (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}) when $u_t$ is heteroskedastic, as for returns \refNW
+    \end{itemize}
+    \item Integrated or cointegrated series \refTY
+    \begin{itemize}
+        \item add as many extra lags as the maximal order of integration and test only the first $p$ lags
+    \end{itemize}
+    \item \textbf{Strength}: the Geweke measure \refGew, decomposable by frequency \refBrC{} (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter11_spectral_wavelet_analysis.pdf}{Chapter 11}) \[ F_{x\to y} = \ln\big(\sigma^2_{\mathrm{restricted}}/\sigma^2_{\mathrm{full}}\big) \]
+    \begin{itemize}
+        \item $\sigma^2_{\mathrm{restricted}}$, $\sigma^2_{\mathrm{full}}$: residual variances of the regression without and with the lags of $x$; $F_{x\to y} \ge 0$, and 0 means no Granger causality
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -345,11 +360,12 @@ Daily index and crypto prices; EUR/RON & EODHD; BNR reference rate; to 18 Septem
 \begin{frame}{A common driver creates Granger causality}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.56\textheight,keepaspectratio]{ats_ch14_granger_sim.pdf}
+\includegraphics[width=0.97\textwidth,height=0.5\textheight,keepaspectratio]{ats_ch14_granger_sim.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item $w_t$ AR(1) with $\phi = 0.9$; $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $x$ has no effect on $y$; tests with $p = 2$ (pairwise) and $p = 4$ (conditional on $w$), 500 replications
+    \item Simulated system: a driver $w_t = 0.9w_{t-1} + \eta_t$ (AR(1), $\phi = 0.9$); $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $\eta_t, e_t, u_t$: independent noise
+    \item $x$ has no effect on $y$; tests with $p = 2$ lags (pairwise) and $p = 4$ (conditional on $w$), 500 replications
 \end{itemize}
 \quantlet{ATS\_ch14\_granger}{\qlurl{ATS_ch14_granger}}
 \end{frame}
@@ -393,24 +409,42 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item The classical (non-HAC) Wald for S\&P 500 $\to$ BET is 34.3: heteroskedasticity alone would double the evidence
+    \item The classical (non-HAC) Wald for S\&P 500 $\to$ BET is 34.3: ignoring heteroskedasticity would artificially double the evidence
     \item Interpretation: New York closes after Bucharest and Frankfurt; the lag-1 correlation (0.11) is news that arrives after the Bucharest close, not an effect of US prices on Romanian firms
     \item The DAX, which closes with Bucharest, shows contemporaneous correlation (0.43) and no lagged effect: timing creates the Granger result
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Potential outcomes for time series}
+\begin{frame}{Potential outcomes for time series (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Assignment path $w_{1:T} = (w_1,\dots,w_T)$; potential outcomes $Y_t(w_{1:T})$; \textbf{non-anticipation}: $Y_t(w_{1:T}) = Y_t(w_{1:t})$ \refRS, \refBoS
+    \item \textbf{Assignment path}: the sequence of treatments (or shocks) $w_{1:T} = (w_1, \dots, w_T)$ \refRS, \refBoS
     \begin{itemize}
-        \item the outcome today depends only on treatments up to today; announcements violate it unless the announcement is the treatment
+        \item $w_t$: the treatment at $t$, binary (policy on or off) or continuous (the size of a shock)
     \end{itemize}
-    \item \textbf{Dynamic causal effect} at horizon $h$: $\tau_{t,h} = Y_{t+h}(w_{1:t-1}, w, w_{t+1:t+h}) - Y_{t+h}(w_{1:t-1}, w', w_{t+1:t+h})$
+    \item \textbf{Potential outcome} $Y_t(w_{1:T})$: the value $Y_t$ would take if the treatment path were $w_{1:T}$
     \begin{itemize}
-        \item one history is observed: only averages over time (or over units) are estimable
+        \item only the potential outcome of the path that actually happened is observed
     \end{itemize}
-    \item \refRS: if $w_t$ is \textbf{sequentially as good as random} given the past, the impulse response and the local projection coefficient are weighted averages of $\tau_{t,h}$, without assuming linearity
+    \item \textbf{Non-anticipation}: the outcome today depends only on treatments up to today \[ Y_t(w_{1:T}) = Y_t(w_{1:t}) \]
+    \begin{itemize}
+        \item announcements violate it, unless the announcement itself is defined as the treatment
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Potential outcomes for time series (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Dynamic causal effect} at horizon $h$: the change in $Y_{t+h}$ when only the treatment at $t$ changes from $w'$ to $w$ \[ \tau_{t,h} = Y_{t+h}(w_{1:t-1}, w, w_{t+1:t+h}) - Y_{t+h}(w_{1:t-1}, w', w_{t+1:t+h}) \]
+    \begin{itemize}
+        \item the past treatments $w_{1:t-1}$ and the later ones $w_{t+1:t+h}$ are kept fixed
+        \item one history is observed: only averages over time (or over units) of $\tau_{t,h}$ are estimable
+    \end{itemize}
+    \item \refRS: suppose $w_t$ is \textbf{sequentially as good as random}, i.e.\ independent of the potential outcomes given the past
+    \begin{itemize}
+        \item then the impulse response and the local projection coefficient are weighted averages of $\tau_{t,h}$, without assuming linearity
+    \end{itemize}
     \item The hard part is never the regression; it is the claim that the shock is unpredictable from the potential outcomes
 \end{itemize}
 \end{frame}
@@ -431,29 +465,47 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Transfer entropy}
+\begin{frame}{Transfer entropy (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refSch: $TE_{x\to y} = I(y_t; x_{t-1}^{(l)} \mid y_{t-1}^{(k)}) = \E\Big[\ln\dfrac{p(y_t\mid y^{(k)}_{t-1}, x^{(l)}_{t-1})}{p(y_t\mid y^{(k)}_{t-1})}\Big] \ge 0$, conditional mutual information
+    \item \refSch: the information that the past of $x$ adds about $y_t$, beyond the past of $y$ \[ TE_{x\to y} = I\big(y_t;\, x_{t-1}^{(l)} \mid y_{t-1}^{(k)}\big) = \E\Big[\ln\dfrac{p(y_t\mid y^{(k)}_{t-1}, x^{(l)}_{t-1})}{p(y_t\mid y^{(k)}_{t-1})}\Big] \ge 0 \]
+    \item Notation
     \begin{itemize}
-        \item zero if and only if $x$ adds nothing to the predictive distribution of $y$: Granger non-causality in distribution
+        \item $y^{(k)}_{t-1} = (y_{t-1}, \dots, y_{t-k})$: the last $k$ values of $y$; $x^{(l)}_{t-1}$: the last $l$ values of $x$
+        \item $p(\cdot\mid\cdot)$: a conditional density; $I(A; B\mid C)$: the conditional mutual information of $A$ and $B$ given $C$, in nats (natural logarithm)
     \end{itemize}
-    \item Gaussian case: $TE_{x\to y} = \frac12\ln(\sigma^2_{\mathrm{restricted}}/\sigma^2_{\mathrm{full}}) = \frac12 F_{x\to y}$ \refBBS: the linear Granger test is a TE test
-    \item Nonparametric estimation: $k$-nearest-neighbour estimators \refKSG, \refFrP; significance by permutation of the source in blocks (keeps its autocorrelation)
+    \item $TE_{x\to y} = 0$ if and only if $x$ adds nothing to the predictive distribution of $y$
     \begin{itemize}
-        \item the same caveats as Granger: information flow is not intervention
+        \item Granger non-causality in distribution, not only in the mean
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Transfer entropy (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Gaussian case} \refBBS: transfer entropy is half the Geweke measure, so the linear Granger test is a TE test \[ TE_{x\to y} = \tfrac12\ln\big(\sigma^2_{\mathrm{restricted}}/\sigma^2_{\mathrm{full}}\big) = \tfrac12 F_{x\to y} \]
+    \begin{itemize}
+        \item proof in the \atsapplink{atsapp2}{atssrc1}{Appendix}
+    \end{itemize}
+    \item \textbf{Nonparametric estimation}: $k$-nearest-neighbour estimators \refKSG, \refFrP
+    \begin{itemize}
+        \item densities are replaced by distances to the nearest neighbours in the joint space
+        \item significance by permuting the source in blocks, which keeps its autocorrelation
+    \end{itemize}
+    \item The same caveats as for Granger: an information flow is not an intervention
 \end{itemize}
 \end{frame}
 
 \begin{frame}{A nonlinear coupling that linear Granger misses}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.56\textheight,keepaspectratio]{ats_ch14_te.pdf}
+\includegraphics[width=0.97\textwidth,height=0.5\textheight,keepaspectratio]{ats_ch14_te.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item $y_t = 0.4y_{t-1} + 0.6(x_{t-1}^2 - 1) + u_t$, $x$ Gaussian AR(1), $T = 1\,000$; kNN TE with $k = 5$, 199 block permutations
+    \item Simulated: $y_t = 0.4y_{t-1} + 0.6(x_{t-1}^2 - 1) + u_t$, $x$ a Gaussian AR(1) with unit variance, $u_t$ standard Normal noise, $T = 1\,000$
+    \item $x_{t-1}^2 - 1$ has mean zero and no correlation with $x_{t-1}$; kNN TE with $k = 5$ neighbours, 199 block permutations
 \end{itemize}
 \quantlet{ATS\_ch14\_granger}{\qlurl{ATS_ch14_granger}}
 \end{frame}
@@ -461,7 +513,7 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \begin{frame}{Interpreting transfer entropy}
 \itemsize{\small}
 \begin{itemize}
-    \item Linear Granger: $p$-value 0.86; Gaussian TE 0.05$\times10^{-3}$ nats: the symmetric effect averages out in a linear regression
+    \item Linear Granger: p-value 0.86; Gaussian TE 0.05$\times10^{-3}$ nats: the symmetric effect averages out in a linear regression
     \item kNN TE $x\to y$: 0.189 nats, permutation $p$ 0.005; reverse direction \ensuremath{-}0.001 ($p$ 0.76); without coupling 0.021 ($p$ 0.26)
     \item On the markets of the previous slide the Gaussian TE from the S\&P 500 to the BET is 6.1$\times10^{-3}$ nats: significant, but tiny as information
     \item TE needs much more data than Granger and a careful choice of $k$, history lengths and permutation blocks; pre-register them
@@ -482,17 +534,34 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \section{Causal discovery in time series}
 %=============================================================================
 
-\begin{frame}{Time series graphs}
+\begin{frame}{Time series graphs (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Nodes $X^i_t$; an arrow $X^i_{t-\tau}\to X^j_t$ when $X^i_{t-\tau}$ is a direct cause of $X^j_t$ given the rest of the past \refRunE
+    \item \textbf{Nodes} $X^i_t$: variable $i$ at time $t$; an \textbf{arrow} $X^i_{t-\tau}\to X^j_t$ when $X^i_{t-\tau}$ is a direct cause of $X^j_t$ given the rest of the past \refRunE
     \begin{itemize}
+        \item $\tau \ge 1$: the lag of the link; $\tau_{\max}$: the largest lag considered
         \item the graph is the same at every $t$ (causal stationarity); arrows only go forward in time
     \end{itemize}
-    \item Assumptions that turn independences into arrows \refSGS: \textbf{causal Markov} (each variable independent of its non-effects given its parents), \textbf{faithfulness} (no independences by cancellation), \textbf{causal sufficiency} (no hidden common causes)
-    \item Then $X^i_{t-\tau}\to X^j_t$ $\iff$ $X^i_{t-\tau} \not\perp X^j_t \mid \mathbf X^-_t\setminus\{X^i_{t-\tau}\}$: the full conditional (VAR) Granger test
+    \item Three assumptions turn independences into arrows \refSGS
     \begin{itemize}
-        \item with $N$ variables and $\tau_{\max}$ lags the conditioning set has $N\tau_{\max}$ elements: power collapses in high dimension
+        \item \textbf{causal Markov}: each variable is independent of its non-effects given its parents (direct causes)
+        \item \textbf{faithfulness}: no independence arises by cancellation of effects
+        \item \textbf{causal sufficiency}: no hidden common causes
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Time series graphs (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Under these assumptions an arrow is a conditional dependence given the whole past \[ X^i_{t-\tau}\to X^j_t \iff X^i_{t-\tau} \not\perp X^j_t \mid \mathbf X^-_t\setminus\{X^i_{t-\tau}\} \]
+    \begin{itemize}
+        \item $\perp$: independence ($\not\perp$: dependence); $\mathbf X^-_t$: all variables at lags $1, \dots, \tau_{\max}$ before $t$
+        \item this is the full conditional (VAR) Granger test
+    \end{itemize}
+    \item With $N$ variables and $\tau_{\max}$ lags the conditioning set has $N\tau_{\max}$ elements
+    \begin{itemize}
+        \item the power of the test collapses in high dimension: the motivation for PCMCI
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -501,13 +570,15 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \itemsize{\small}
 \begin{itemize}
     \item \refPCMCI: two steps, each a sequence of conditional independence tests (partial correlation here; nonlinear tests possible)
+    \item \textbf{PC1} (condition selection), for each $X^j_t$
     \begin{itemize}
-        \item \textbf{PC1} (condition selection): for each $X^j_t$ start from all lagged candidates; remove those independent of $X^j_t$ given the $p$ strongest others, $p = 1, 2, \dots$; keep a superset $\hat{\mathcal P}(X^j_t)$ of the parents
-        \item \textbf{MCI} (momentary conditional independence): $X^i_{t-\tau} \perp X^j_t \mid \hat{\mathcal P}(X^j_t)\setminus\{X^i_{t-\tau}\},\ \hat{\mathcal P}(X^i_{t-\tau})$
+        \item start from all lagged candidates; remove those independent of $X^j_t$ given the $p$ strongest others, $p = 1, 2, \dots$
+        \item the result $\hat{\mathcal P}(X^j_t)$ is a superset of the parents of $X^j_t$
     \end{itemize}
-    \item Conditioning on the parents of the \textbf{source} removes its autocorrelation: the test behaves as if on i.i.d.\ data, so false positives stay near $\alpha$
+    \item \textbf{MCI} (momentary conditional independence): test each link given the parents of both ends \[ X^i_{t-\tau} \perp X^j_t \mid \hat{\mathcal P}(X^j_t)\setminus\{X^i_{t-\tau}\},\ \hat{\mathcal P}(X^i_{t-\tau}) \]
     \begin{itemize}
-        \item conditioning sets stay small: power is kept in high dimension
+        \item conditioning on the parents of the \textbf{source} $X^i_{t-\tau}$ removes its autocorrelation: false positives stay near $\alpha$
+        \item conditioning sets stay small, so power is kept in high dimension
     \end{itemize}
     \item Hidden confounders, contemporaneous links, nonstationarity and measurement error break the guarantees; the output is a hypothesis about a graph
 \end{itemize}
@@ -558,7 +629,7 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \end{frame}
 
 \begin{frame}{Convergent cross mapping}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.3\textwidth}
 \centering
@@ -568,10 +639,16 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item Deterministic coupled dynamics: Granger's separability fails (the cause's information is already in the effect) \refSug
-    \item Takens \refTak: the delay vectors $M_y = \{(y_t, y_{t-\tau}, \dots, y_{t-(E-1)\tau})\}$ reconstruct the attractor of the whole system
-    \item If $x$ drives $y$, the neighbours on $M_y$ identify $x_t$: \textbf{cross-map} $x$ from $M_y$ (simplex projection, $E + 1$ neighbours)
-    \item Criterion: the cross-map skill must \textbf{converge} (increase) with the library size $L$
+    \item Deterministic coupled dynamics: Granger's separability fails, because the information of the cause is already in the effect \refSug
+    \item Takens \refTak: the delay vectors of $y$ reconstruct the attractor of the whole system \[ M_y = \{(y_t, y_{t-\tau}, \dots, y_{t-(E-1)\tau})\} \]
+    \begin{itemize}
+        \item $E$: the embedding dimension; $\tau$: the delay between coordinates
+    \end{itemize}
+    \item If $x$ drives $y$, the neighbours of a point on $M_y$ identify $x_t$: \textbf{cross-map} $x$ from $M_y$
+    \begin{itemize}
+        \item simplex projection: a weighted average of $x$ at the $E + 1$ nearest neighbours; skill: the correlation $\rho$ between estimate and truth
+    \end{itemize}
+    \item Criterion: the skill must \textbf{converge} (increase) with the library size $L$, the number of points used to build $M_y$
     \item Note the direction: skill of $M_y \to x$ is evidence for $x \to y$
 \end{itemize}
 \end{column}
@@ -581,11 +658,12 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \begin{frame}{Cross mapping: a coupling and a common forcing}
 \itemsize{\footnotesize}
 \begin{center}
-\includegraphics[width=0.97\textwidth,height=0.56\textheight,keepaspectratio]{ats_ch14_ccm.pdf}
+\includegraphics[width=0.97\textwidth,height=0.48\textheight,keepaspectratio]{ats_ch14_ccm.pdf}
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Coupled logistic maps of \refSug{} ($r_x = 3.8$, $r_y = 3.5$, $\beta_{yx} = 0.32$, $\beta_{xy} = 0$); right: two uncoupled maps with the same periodic forcing; $E = 2$
+    \item Coupled logistic maps of \refSug: $x_{t+1} = x_t(r_x - r_xx_t - \beta_{xy}y_t)$, $y_{t+1} = y_t(r_y - r_yy_t - \beta_{yx}x_t)$
+    \item $r_x = 3.8$, $r_y = 3.5$: growth rates (chaotic regime); $\beta_{yx} = 0.32$: effect of $x$ on $y$; $\beta_{xy} = 0$: no effect of $y$ on $x$; right: two uncoupled maps with the same periodic forcing; $E = 2$
 \end{itemize}
 \quantlet{ATS\_ch14\_discovery}{\qlurl{ATS_ch14_discovery}}
 \end{frame}
@@ -614,17 +692,35 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \section{Interrupted time series and event studies}
 %=============================================================================
 
-\begin{frame}{Interrupted time series}
+\begin{frame}{Interrupted time series (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item One series, an intervention at $T_0$; model the pre-period, $y_t = f(t, \text{season}, x_t; \theta) + u_t$, $t \le T_0$; effect $\hat\tau_t = y_t - f(t, \cdot; \hat\theta)$, $t > T_0$ \refLCG
+    \item One series, an intervention at $T_0$ \refLCG; step 1: model the pre-period \[ y_t = f(t, \text{season}, x_t; \theta) + u_t, \qquad t \le T_0 \]
+    \begin{itemize}
+        \item $f$: trend, seasonal effects and covariates $x_t$, with parameters $\theta$; $u_t$: the error
+    \end{itemize}
+    \item Step 2: the effect is the gap between the outcome and the extrapolated model \[ \hat\tau_t = y_t - f(t, \cdot\,; \hat\theta), \qquad t > T_0 \]
     \begin{itemize}
         \item segmented regression is the special case with level and slope dummies after $T_0$
     \end{itemize}
-    \item Identification: \textbf{nothing else} changes at $T_0$; the pre-period model would have continued; no anticipation
-    \item Inference with dependent errors: $\mathrm{Var}\big(\sum_{t=T_0+1}^{T_0+n}\hat\tau_t\big) \approx n\,\Omega + a'\hat V_\theta a$, $\Omega$ the long-run variance of $u_t$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}), $a$ the summed regressors
+    \item \textbf{Identification}
     \begin{itemize}
-        \item with AR(1) errors and $\sigma^2 = \mathrm{Var}(u_t)$, $\Omega = \sigma^2(1 + \rho)/(1 - \rho)$: i.i.d. standard errors are too small by $\sqrt{(1 + \rho)/(1 - \rho)}$
+        \item nothing else changes at $T_0$; the pre-period model would have continued; no anticipation
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Interrupted time series (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Inference with dependent errors}: the variance of the cumulative effect over $n$ periods \[ \mathrm{Var}\Big(\sum_{t=T_0+1}^{T_0+n}\hat\tau_t\Big) \approx n\,\Omega + a'\hat V_\theta a \]
+    \begin{itemize}
+        \item $\Omega$: the long-run variance of $u_t$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}); $\hat V_\theta$: the covariance of $\hat\theta$; $a$: the sum of the regressors of $f$ over the $n$ periods
+        \item first term: noise of the outcomes; second term: estimation error of the counterfactual
+    \end{itemize}
+    \item With AR(1) errors, autocorrelation $\rho$ and $\sigma^2 = \mathrm{Var}(u_t)$ \[ \Omega = \sigma^2\,\frac{1 + \rho}{1 - \rho} \]
+    \begin{itemize}
+        \item i.i.d.\ standard errors are too small by the factor $\sqrt{(1 + \rho)/(1 - \rho)}$, e.g.\ 1.7 for $\rho = 0.5$
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -675,11 +771,19 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \begin{frame}{Event studies with dependent errors}
 \itemsize{\small}
 \begin{itemize}
-    \item \refMac: normal model $r_t = \alpha + \beta r^m_t + \varepsilon_t$ estimated on $[-250, -11]$; abnormal return $AR_t = r_t - \hat\alpha - \hat\beta r^m_t$; $CAR[0, k] = \sum_{t=0}^k AR_t$
+    \item \refMac, the \textbf{market model} estimated on days $[-250, -11]$ before the event \[ r_t = \alpha + \beta r^m_t + \varepsilon_t, \qquad AR_t = r_t - \hat\alpha - \hat\beta r^m_t, \qquad CAR[0, k] = \sum_{t=0}^k AR_t \]
     \begin{itemize}
-        \item $\mathrm{Var}(CAR) = (k + 1)\sigma^2$ under i.i.d.\ errors; $(k + 1)\Omega$ with serial correlation; event-induced variance and clustered events need more (cross-sectional or bootstrap corrections)
+        \item $r_t$: the return of the asset; $r^m_t$: the market return; $AR_t$: the abnormal return; $CAR[0, k]$: the cumulative abnormal return over days 0 to $k$
     \end{itemize}
-    \item Identification: the event is a surprise on day 0 and nothing else happened; anticipated news is priced before the window
+    \item Variance of the CAR
+    \begin{itemize}
+        \item $(k + 1)\sigma^2$ under i.i.d.\ errors; $(k + 1)\Omega$ with serial correlation ($\Omega$: long-run variance)
+        \item event-induced variance and clustered events need cross-sectional or bootstrap corrections
+    \end{itemize}
+    \item Identification: the event is a surprise on day 0 and nothing else happened
+    \begin{itemize}
+        \item anticipated news is priced before the window
+    \end{itemize}
     \item Here: the BET index against the Euro Stoxx 50, four Romanian political and fiscal events of 2024--2025, window $[0, 2]$
 \end{itemize}
 \end{frame}
@@ -720,20 +824,36 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \section{Synthetic control}
 %=============================================================================
 
-\begin{frame}{The synthetic control estimator}
+\begin{frame}{The synthetic control estimator (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Units $j = 1$ (treated) and $j = 2, \dots, J + 1$ (donor pool); treatment after $T_0$; target $\tau_{1t} = Y_{1t}(1) - Y_{1t}(0)$, $t > T_0$ \refAbG, \refADHa
+    \item Units: $j = 1$ treated, $j = 2, \dots, J + 1$ the \textbf{donor pool}; treatment after period $T_0$ \refAbG, \refADHa
     \begin{itemize}
-        \item $\hat Y_{1t}(0) = \sum_{j\ge2} w_jY_{jt}$, $\hat\tau_{1t} = Y_{1t} - \hat Y_{1t}(0)$
+        \item $Y_{jt}(1)$, $Y_{jt}(0)$: potential outcomes of unit $j$ at $t$ with and without the treatment
     \end{itemize}
-    \item Weights: $w^*(V) = \arg\min_w (X_1 - X_0w)'V(X_1 - X_0w)$, $w_j \ge 0$, $\sum_j w_j = 1$; $X$: pre-treatment predictors (outcome averages, covariates)
+    \item Target: the effect on the treated unit after $T_0$ \[ \tau_{1t} = Y_{1t}(1) - Y_{1t}(0), \qquad t > T_0 \]
     \begin{itemize}
+        \item $Y_{1t}(1) = Y_{1t}$ is observed; $Y_{1t}(0)$ must be estimated
+    \end{itemize}
+    \item \textbf{Synthetic control}: a weighted average of the donors stands in for $Y_{1t}(0)$ \[ \hat Y_{1t}(0) = \sum_{j=2}^{J+1} w_jY_{jt}, \qquad \hat\tau_{1t} = Y_{1t} - \hat Y_{1t}(0) \]
+    \begin{itemize}
+        \item $w_j \ge 0$: the weight of donor $j$, with $\sum_j w_j = 1$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The synthetic control estimator (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Weights}: the convex combination of donors closest to the treated unit in the pre-treatment predictors \[ w^*(V) = \arg\min_w\, (X_1 - X_0w)'V(X_1 - X_0w), \qquad w_j \ge 0,\ \sum_j w_j = 1 \]
+    \begin{itemize}
+        \item $X_1$: the vector of pre-treatment predictors of the treated unit (outcome averages, covariates); $X_0$: the matrix of the same predictors for the donors
         \item a quadratic programme on the simplex: weights are sparse and interpretable; no extrapolation outside the donors' range
     \end{itemize}
-    \item $V = \mathrm{diag}(v)$: minimise the pre-period outcome MSPE over $v$ (nested optimisation, \refADHs); \refADHb{} choose $v$ by cross-validation on a training and a validation period
+    \item $V = \mathrm{diag}(v)$: the importance of each predictor
     \begin{itemize}
-        \item with all pre-period outcomes in $X$ the covariates get no weight \refKKPS
+        \item chosen to minimise the pre-period MSPE of the outcome (nested optimisation, \refADHs), or by cross-validation on a training and a validation period \refADHb
+        \item MSPE: mean squared prediction error; with all pre-period outcomes in $X$ the covariates get no weight \refKKPS
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -741,13 +861,15 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \begin{frame}{Why it works: the factor model}
 \itemsize{\small}
 \begin{itemize}
-    \item \refADHa: $Y_{jt}(0) = \delta_t + \theta_tZ_j + \lambda_t\mu_j + \varepsilon_{jt}$, unobserved loadings $\mu_j$ (interactive fixed effects \refBai)
+    \item \refADHa: the untreated outcomes follow a factor model (interactive fixed effects \refBai) \[ Y_{jt}(0) = \delta_t + \theta_tZ_j + \lambda_t\mu_j + \varepsilon_{jt} \]
     \begin{itemize}
+        \item $\delta_t$: a common time effect; $Z_j$: observed covariates with time-varying coefficients $\theta_t$; $\lambda_t$: unobserved common factors; $\mu_j$: unobserved loadings of unit $j$; $\varepsilon_{jt}$: transitory shocks
         \item DiD assumes $\lambda_t$ constant (parallel trends); SC lets the common factors vary over time
     \end{itemize}
-    \item If $\sum_j w_jY_{jt} = Y_{1t}$ for all $t \le T_0$ and $\sum_j w_jZ_j = Z_1$, the bias of $\hat\tau_{1t}$ is bounded by a term that \textbf{shrinks as $T_0$ grows} relative to the scale of $\varepsilon$
+    \item If the weights reproduce the treated unit before $T_0$, $\sum_j w_jY_{jt} = Y_{1t}$ for all $t \le T_0$ and $\sum_j w_jZ_j = Z_1$, then
     \begin{itemize}
-        \item a good pre-period fit over a long window is evidence that the loadings $\mu$ are matched (\atsapplink{atsapp1}{atssrc1}{appendix})
+        \item the bias of $\hat\tau_{1t}$ is bounded by a term that \textbf{shrinks as $T_0$ grows}, relative to the scale of $\varepsilon$ (\atsapplink{atsapp1}{atssrc2}{Appendix})
+        \item a good fit over a long pre-period is evidence that the loadings $\mu_j$ are matched
     \end{itemize}
     \item A short pre-period with a perfect fit can be overfitting the noise: the bound is then weak \refAba
 \end{itemize}
@@ -767,13 +889,19 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \begin{frame}{Inference with one treated unit}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{In-space placebos} \refADHa: reassign the treatment to every donor, refit, compute $r_j = \mathrm{RMSPE}_{\mathrm{post}}/\mathrm{RMSPE}_{\mathrm{pre}}$
+    \item \textbf{In-space placebos} \refADHa: reassign the treatment to every donor in turn, refit, and compute the ratio \[ r_j = \mathrm{RMSPE}_{\mathrm{post}}/\mathrm{RMSPE}_{\mathrm{pre}}, \qquad \text{p-value} = \#\{j: r_j \ge r_1\}/(J + 1) \]
     \begin{itemize}
-        \item permutation $p$-value $= \#\{j: r_j \ge r_1\}/(J + 1)$; the smallest attainable value is $1/(J + 1)$
-        \item exact only under random assignment of the treatment across units; otherwise a descriptive ranking \refFiP
+        \item RMSPE: root mean squared prediction error of the synthetic control, before (pre) and after (post) $T_0$; a large $r_j$: a large post-treatment gap relative to the pre-fit
+        \item $\#\{\cdot\}$: the number of units; the smallest attainable p-value is $1/(J + 1)$; exact only under random assignment across units, otherwise a descriptive ranking \refFiP
     \end{itemize}
-    \item \textbf{In-time placebos}: a fictitious $T_0$ inside the pre-period should give no effect; \textbf{leave-one-out}: drop each donor with positive weight
-    \item \textbf{Conformal inference} \refCWZ: test $H_0$: $\tau_{1t} = \tau_0$ by permuting the residuals over time (block permutations for dependence); confidence sets by inversion
+    \item \textbf{In-time placebos}: a fictitious $T_0$ inside the pre-period should give no effect
+    \begin{itemize}
+        \item \textbf{leave-one-out}: drop each donor with positive weight and refit
+    \end{itemize}
+    \item \textbf{Conformal inference} \refCWZ: test $H_0$: $\tau_{1t} = \tau_0$ by permuting the residuals over time
+    \begin{itemize}
+        \item block permutations for dependence; confidence sets by inverting the test over $\tau_0$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -878,7 +1006,7 @@ Investment rate & 27.0 & 27.0 & 25.9 \\
 \begin{frame}{Interpreting the German placebos}
 \itemsize{\small}
 \begin{itemize}
-    \item West Germany has the largest ratio (16.2; next: Norway, 9.2): permutation $p$-value $1/17$ = 0.059, the smallest attainable
+    \item West Germany has the largest ratio (16.2; next: Norway, 9.2): permutation p-value $1/17$ = 0.059, the smallest attainable
     \item Placebo reunification in 1975 (outcome-only SC on 1960--1974, pre-RMSPE 19 USD): West Germany grows faster than its synthetic control (average gap +9.9\% to 1990): no spurious cost appears
     \item With the published 1975 predictors the cross-validated $V$ is not identified: one starting value gives Austria as the donor, the best of eight gives United States \refKPSb
     \item Leaving out any donor keeps a negative gap in 2003, between 2965 and 5138 USD: the result does not hinge on one country
@@ -945,28 +1073,48 @@ Investment rate & 27.0 & 27.0 & 25.9 \\
 \begin{frame}{Intercepts and augmentation}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Demeaned SC} \refDI, \refFP: allow a constant level difference, $\hat Y_{1t}(0) = c + \sum_j w_jY_{jt}$; fit the weights on pre-period outcomes minus their unit means
+    \item \textbf{Demeaned SC} \refDI, \refFP: allows a constant level difference $c$ between the treated unit and the donors \[ \hat Y_{1t}(0) = c + \sum_j w_jY_{jt} \]
     \begin{itemize}
+        \item the weights are fitted on pre-period outcomes minus the pre-period mean of each unit
         \item solves the level part of the convex-hull problem; consistent under imperfect pre-fit when the factors are stationary \refFP
     \end{itemize}
-    \item \textbf{Augmented SC} \refASCM: $\hat Y^{\mathrm{aug}}_{1t}(0) = \sum_j\hat w_jY_{jt} + \big(X_1 - \sum_j\hat w_jX_j\big)'\hat\eta_t$, $\hat\eta_t$ ridge regression of $Y_{jt}$ on pre-period outcomes across donors
+    \item \textbf{Augmented SC} \refASCM: corrects the SC estimate by the remaining predictor imbalance, through a ridge regression \[ \hat Y^{\mathrm{aug}}_{1t}(0) = \sum_j\hat w_jY_{jt} + \Big(X_1 - \sum_j\hat w_jX_j\Big)'\hat\eta_t \]
     \begin{itemize}
-        \item equivalent to weights $\hat w + X_0(X_0'X_0 + \lambda I)^{-1}(X_1 - X_0'\hat w)$: they can be negative (controlled extrapolation)
-        \item $\lambda \to \infty$ gives SC; $\lambda \to 0$ gives an outcome regression; bias falls with the remaining imbalance
+        \item $\hat w_j$: the SC weights; $X_j$: the pre-period outcomes of unit $j$; $\hat\eta_t$: coefficients of a ridge regression of $Y_{jt}$ on $X_j$ across donors, with penalty $\lambda$
+        \item equivalent to weights $\hat w + X_0(X_0'X_0 + \lambda I)^{-1}(X_1 - X_0'\hat w)$, which can be negative (controlled extrapolation)
+        \item $\lambda \to \infty$ gives SC; $\lambda \to 0$ gives an outcome regression; the bias falls with the remaining imbalance
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Synthetic difference in differences}
+\begin{frame}{Synthetic difference in differences (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refSDID: $(\hat\tau, \hat\mu, \hat\alpha, \hat\beta) = \arg\min\sum_{j,t}(Y_{jt} - \mu - \alpha_j - \beta_t - W_{jt}\tau)^2\hat\omega_j\hat\lambda_t$
+    \item \refSDID: a two-way fixed-effects regression in which units and periods are weighted \[ (\hat\tau, \hat\mu, \hat\alpha, \hat\beta) = \arg\min\sum_{j,t}\big(Y_{jt} - \mu - \alpha_j - \beta_t - W_{jt}\tau\big)^2\hat\omega_j\hat\lambda_t \]
     \begin{itemize}
-        \item unit weights $\hat\omega$: SC with an intercept and a ridge penalty $\zeta^2T_0\|\omega\|^2$, $\zeta = (N_{\mathrm{tr}}T_{\mathrm{post}})^{1/4}\hat\sigma$
-        \item time weights $\hat\lambda$: pre-periods that best predict the post-period mean of the controls
+        \item $W_{jt} = 1$ for the treated unit after $T_0$, 0 otherwise; $\tau$: the effect; $\mu$: the overall mean; $\alpha_j$: unit fixed effects; $\beta_t$: period fixed effects
     \end{itemize}
-    \item DiD: $\omega$, $\lambda$ uniform; SC: $\lambda$ on $T_0$ only, no unit fixed effect; SDID: both weighted, both fixed effects
-    \item One treated unit: placebo standard error (each control in turn plays the treated unit, Algorithm 4)
+    \item \textbf{Unit weights} $\hat\omega_j$: SC with an intercept and a ridge penalty
+    \begin{itemize}
+        \item penalty $\zeta^2T_0\|\omega\|^2$ with $\zeta = (N_{\mathrm{tr}}T_{\mathrm{post}})^{1/4}\hat\sigma$; $N_{\mathrm{tr}}$: treated units; $T_{\mathrm{post}}$: post-periods; $\hat\sigma$: the noise level of the controls
+    \end{itemize}
+    \item \textbf{Time weights} $\hat\lambda_t$: the pre-periods that best predict the post-period mean of the controls
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Synthetic difference in differences (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Three estimators as special cases
+    \begin{itemize}
+        \item DiD: $\omega$ and $\lambda$ uniform
+        \item SC: unit weights $\omega$ only (uniform $\lambda$), no unit fixed effect
+        \item SDID: both sets of weights, both fixed effects
+    \end{itemize}
+    \item One treated unit: placebo standard error
+    \begin{itemize}
+        \item each control in turn plays the treated unit; the standard deviation of the placebo estimates is the standard error (Algorithm 4)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -975,6 +1123,7 @@ Investment rate & 27.0 & 27.0 & 25.9 \\
 \begin{itemize}
     \item Outcome: annual HICP inflation (pp), $100(\ln P_t - \ln P_{t-12})$, Eurostat; treated: Romania; donors: the other 26 EU countries
     \begin{itemize}
+        \item $P_t$: the HICP price index in month $t$; pp: percentage points
         \item the annual rate removes seasonality and makes a price-level shock visible for exactly twelve months
     \end{itemize}
     \item Pre-period: July 2023 -- June 2025 (24 months, after the 2021--2023 surge); treatment from July 2025; effect window July 2025 -- June 2026
@@ -1037,7 +1186,7 @@ SDID & -- & 2.62 & 2.75 ($se$ 0.70) & 0.26 \\
 \begin{itemize}
     \item Romania has the largest ratio (12.0; next France, 4.7): $p = 1/27$ = 0.037
     \item No placebo country shows a jump of this size in July--August 2025: the effect is not a common European shock
-    \item The permutation $p$-value treats Romania as one of 27 exchangeable units; it is a measure of rarity, not a sampling-based confidence statement
+    \item The permutation p-value treats Romania as one of 27 exchangeable units; it is a measure of rarity, not a sampling-based confidence statement
     \item Other countries' measures in the window (tax changes, the end of their own caps) bias the effect towards zero if they raised inflation there
 \end{itemize}
 \end{frame}
@@ -1064,18 +1213,30 @@ SDID & -- & 2.62 & 2.75 ($se$ 0.70) & 0.26 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Staggered adoption and two-way fixed effects}
+\begin{frame}{Staggered adoption and two-way fixed effects (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Many units adopt at different dates $g$; TWFE regression $Y_{it} = \alpha_i + \beta_t + \tau D_{it} + u_{it}$
+    \item Many units adopt at different dates $g$ (their cohort); the static TWFE regression \[ Y_{it} = \alpha_i + \beta_t + \tau D_{it} + u_{it} \]
     \begin{itemize}
-        \item \refGB: $\hat\tau$ is a weighted average of all 2$\times$2 DiDs, including ``forbidden'' ones that use already-treated units as controls
-        \item with effects that grow over time, some weights are negative \refdCDH: $\hat\tau$ can even have the wrong sign
+        \item $D_{it} = 1$ if unit $i$ is treated at $t$; $\alpha_i$, $\beta_t$: unit and period fixed effects; $\tau$: a single treatment effect
     \end{itemize}
-    \item \refCSA: group-time effects $ATT(g, t) = \E[Y_t - Y_{g-1}\mid G = g] - \E[Y_t - Y_{g-1}\mid \text{never treated}]$, then aggregate by exposure or by cohort
+    \item \refGB: $\hat\tau$ is a weighted average of all 2$\times$2 DiDs
     \begin{itemize}
-        \item interaction-weighted event studies \refSA; a guide to the new DiD literature \refRSBP
+        \item including ``forbidden'' ones that use already-treated units as controls
+        \item with effects that grow over time some weights are negative \refdCDH: $\hat\tau$ can even have the wrong sign
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Staggered adoption and two-way fixed effects (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \refCSA: group-time effects, each compared only with never-treated units \[ ATT(g, t) = \E[Y_t - Y_{g-1}\mid G = g] - \E[Y_t - Y_{g-1}\mid \text{never treated}] \]
+    \begin{itemize}
+        \item $G$: the adoption date of a unit; $Y_{g-1}$: the outcome in the last period before adoption; $ATT$: average treatment effect on the treated
+        \item then aggregate by exposure ($t - g$) or by cohort
+    \end{itemize}
+    \item Related: interaction-weighted event studies \refSA; a guide to the new DiD literature \refRSBP
     \item Pre-trend tests have low power; report the sensitivity of the effect to violations of parallel trends
 \end{itemize}
 \end{frame}
@@ -1116,16 +1277,33 @@ SDID & -- & 2.62 & 2.75 ($se$ 0.70) & 0.26 \\
 \section{Bayesian structural time series and CausalImpact}
 %=============================================================================
 
-\begin{frame}{The CausalImpact model}
+\begin{frame}{The CausalImpact model (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refCI: $y_t = \mu_t + \gamma_t + \beta'x_t + \varepsilon_t$; $\mu_{t+1} = \mu_t + \delta_t + \eta_t$, $\delta_{t+1} = \delta_t + \zeta_t$; $\gamma_t$ seasonal; $x_t$ control series
+    \item \refCI: the outcome is a trend plus a seasonal component plus a regression on control series \[ y_t = \mu_t + \gamma_t + \beta'x_t + \varepsilon_t, \qquad \mu_{t+1} = \mu_t + \delta_t + \eta_t, \qquad \delta_{t+1} = \delta_t + \zeta_t \]
     \begin{itemize}
-        \item a structural time series model \refHar{} in state space form, filtered and smoothed by Kalman (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter6_state_space_models_bayesian_filtering.pdf}{Chapter 6}, \refDK)
-        \item spike-and-slab prior on $\beta$ selects the controls \refSV; posterior by MCMC
+        \item $\mu_t$: local level; $\delta_t$: local slope; $\gamma_t$: seasonal component; $x_t$: control series with coefficients $\beta$; $\varepsilon_t, \eta_t, \zeta_t$: independent Normal noises
     \end{itemize}
-    \item Fit on the pre-period; simulate the post-period counterfactual $y^{(s)}_t(0)$ from the posterior predictive given the observed $x_t$; effects $y_t - y^{(s)}_t(0)$, pointwise and cumulative, with credible intervals
-    \item Identification: the controls are \textbf{not affected} by the treatment and their relation with $y$ is stable after $T_0$
+    \item A structural time series model \refHar{} in state space form, filtered and smoothed by Kalman (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter6_state_space_models_bayesian_filtering.pdf}{Chapter 6}, \refDK)
+    \begin{itemize}
+        \item a spike-and-slab prior on $\beta$ selects the controls \refSV; the posterior is computed by MCMC
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The CausalImpact model (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Fit on the pre-period; simulate the post-period counterfactual $y^{(s)}_t(0)$ from the posterior predictive, given the observed $x_t$
+    \begin{itemize}
+        \item $s$: the index of a simulated path; effects $y_t - y^{(s)}_t(0)$, pointwise and cumulative
+        \item credible intervals from the quantiles of the simulated effects
+    \end{itemize}
+    \item \textbf{Identification}
+    \begin{itemize}
+        \item the controls are \textbf{not affected} by the treatment
+        \item their relation with $y$ is stable after $T_0$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1222,15 +1400,32 @@ SDID & -- & 2.62 & 2.75 ($se$ 0.70) & 0.26 \\
 \section{Double machine learning and honest identification}
 %=============================================================================
 
-\begin{frame}{Double/debiased machine learning for time series}
+\begin{frame}{Double/debiased machine learning for time series (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refDML: partially linear model $y_t = \theta d_t + g(X_t) + u_t$, $d_t = m(X_t) + v_t$; nuisance functions $g$, $m$ learned by machine learning
+    \item \refDML: the \textbf{partially linear model} \[ y_t = \theta d_t + g(X_t) + u_t, \qquad d_t = m(X_t) + v_t \]
     \begin{itemize}
-        \item orthogonal score $\psi = (y_t - \ell(X_t) - \theta(d_t - m(X_t)))(d_t - m(X_t))$, $\ell = \E[y\mid X]$: first-order insensitive to errors in $\ell$ and $m$
+        \item $d_t$: the treatment; $\theta$: its effect; $X_t$: control variables; $g$, $m$: unknown \textbf{nuisance functions}, learned by machine learning; $u_t, v_t$: errors
     \end{itemize}
-    \item Cross-fitting: nuisances fitted on other folds; for time series use \textbf{contiguous blocks} with a gap around the held-out block, and a HAC variance of $\psi$
-    \item DML removes regularisation and overfitting bias; it does not create identification: $d_t$ must be unconfounded given $X_t$
+    \item \textbf{Orthogonal score}: regress the residual of $y$ on the residual of $d$ \[ \psi = \big(y_t - \ell(X_t) - \theta(d_t - m(X_t))\big)\big(d_t - m(X_t)\big), \qquad \ell(X) = \E[y\mid X] \]
+    \begin{itemize}
+        \item $\hat\theta$ solves $\frac1T\sum_t\psi_t = 0$; first-order insensitive to errors in $\ell$ and $m$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Double/debiased machine learning for time series (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Cross-fitting}: the nuisance functions are fitted on other folds than the one where $\psi$ is evaluated
+    \begin{itemize}
+        \item for time series use \textbf{contiguous blocks} with a gap around the held-out block
+        \item standard error from a HAC variance of $\psi$
+    \end{itemize}
+    \item DML removes regularisation and overfitting bias; it does not create identification
+    \begin{itemize}
+        \item $d_t$ must be unconfounded given $X_t$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1382,7 +1577,7 @@ SVAR, LP, DML & as good as random given the past or an instrument & narrative ev
     \item Why can adding a variable to the information set remove a Granger causality?
     \item What does conditioning on the parents of the source achieve in the MCI test?
     \item Why does classic synthetic control fail for Romanian inflation?
-    \item What is the smallest placebo $p$-value with 23 donors?
+    \item What is the smallest placebo p-value with 23 donors?
     \item Why can a static TWFE estimate have the wrong sign under staggered adoption?
 \end{itemize}
 \end{block}
@@ -1404,7 +1599,7 @@ SVAR, LP, DML & as good as random given the past or an instrument & narrative ev
 %=============================================================================
 
 \begin{frame}{Appendix: the bias bound of synthetic control}
-\hypertarget{atsapp1}{}\atsappback{atssrc1}{Back}
+\hypertarget{atsapp1}{}\atsappback{atssrc2}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item Factor model $Y_{jt}(0) = \delta_t + \lambda_t\mu_j + \varepsilon_{jt}$ ($F$ factors); weights with $\sum_jw_jY_{jt} = Y_{1t}$, $t \le T_0$

@@ -127,10 +127,10 @@ MSCA Digital Finance}
     \item \textbf{FDR}: False Discovery Rate
     \item \textbf{FRED}: Federal Reserve Economic Data
     \item \textbf{FTSE}: Financial Times Stock Exchange (FTSE Russell, index provider)
+    \item \textbf{FWER}: Family-Wise Error Rate
     \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity
     \item \textbf{GARCH-MIDAS}: GARCH with a MIxed DAta Sampling long-run component (Engle–Ghysels–Sohn 2013)
     \item \textbf{GARCH-X}: GARCH with eXogenous variables
-    \item \textbf{GJR}: Glosten–Jagannathan–Runkle (asymmetric GARCH)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -140,6 +140,7 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{GJR}: Glosten–Jagannathan–Runkle (asymmetric GARCH)
     \item \textbf{GMM}: Generalized Method of Moments
     \item \textbf{GMV}: Global Minimum-Variance (portfolio)
     \item \textbf{HAC}: Heteroskedasticity and Autocorrelation Consistent (standard errors)
@@ -152,11 +153,11 @@ MSCA Digital Finance}
     \item \textbf{IQ}: Integrated Quarticity
     \item \textbf{LLM}: Large Language Model
     \item \textbf{MAE}: Mean Absolute Error
-    \item \textbf{MCS}: Model Confidence Set
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{MCS}: Model Confidence Set
     \item \textbf{MFM}: Modelling Financial Markets
     \item \textbf{MIDAS}: MIxed DAta Sampling (regression)
     \item \textbf{ML}: Machine Learning
@@ -169,7 +170,6 @@ MSCA Digital Finance}
     \item \textbf{QML}: Quasi-Maximum Likelihood
     \item \textbf{QMLE}: Quasi-Maximum Likelihood Estimator
     \item \textbf{QV}: Quadratic Variation
-    \item \textbf{RGARCH}: Realized GARCH
 \end{itemize}
 \end{column}
 \end{columns}
@@ -179,6 +179,7 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{RGARCH}: Realized GARCH
     \item \textbf{RK}: Realised Kernel
     \item \textbf{RMSE}: Root Mean Squared Error
     \item \textbf{RQ}: Realised Quarticity
@@ -191,11 +192,11 @@ MSCA Digital Finance}
     \item \textbf{US}: United States
     \item \textbf{UTC}: Coordinated Universal Time (Temps Universel Coordonné)
     \item \textbf{VEC}: VEC multivariate GARCH (half-vectorised covariance)
-    \item \textbf{VIX}: CBOE Volatility IndeX
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{VIX}: CBOE Volatility IndeX
     \item \textbf{VR}: Variance Ratio
     \item \textbf{WPSFD49207}: PPI by commodity: final demand, finished goods (FRED series code)
 \end{itemize}
@@ -310,47 +311,112 @@ US industrial production, PPI finished goods (monthly) & FRED (INDPRO, WPSFD4920
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The Gaussian quasi-likelihood}
+\begin{frame}{The Gaussian quasi-likelihood (1/2): the model}
 \itemsize{\small}
 \begin{itemize}
-    \item Model: $\varepsilon_t = \sigma_t(\theta_0)\eta_t$, $\eta_t$ i.i.d., $\E\eta_t = 0$, $\E\eta_t^2 = 1$, unknown law; $\sigma^2_t(\theta) = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1}(\theta)$
-    \item QMLE: $\hat\theta = \arg\max_\theta \sum_{t=1}^T \ell_t(\theta)$, $\ell_t(\theta) = -\frac12\left(\ln\sigma^2_t(\theta) + \varepsilon_t^2/\sigma^2_t(\theta)\right)$: the Gaussian likelihood used as an estimating equation
+    \item The return shock is a volatility times a standardised shock; the variance follows a GARCH(1,1) recursion
+    \[ \varepsilon_t = \sigma_t(\theta_0)\,\eta_t, \qquad \sigma^2_t(\theta) = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1}(\theta) \]
+    \item Notation
     \begin{itemize}
-        \item score: $s_t(\theta) = \frac12\left(\frac{\varepsilon_t^2}{\sigma_t^2} - 1\right)\frac{1}{\sigma^2_t}\frac{\partial\sigma^2_t}{\partial\theta}$; at $\theta_0$, $\E(s_t | \mathcal F_{t-1}) = 0$ because $\E(\eta_t^2 - 1) = 0$
-        \item only the conditional variance must be right; the shape of the law of $\eta_t$ is never used
+        \item $\varepsilon_t$: the demeaned return of day $t$; $\sigma^2_t(\theta)$: its variance conditional on the past $\mathcal F_{t-1}$ (the information up to day $t-1$)
+        \item $\eta_t$: i.i.d. standardised shock, $\E\eta_t = 0$, $\E\eta_t^2 = 1$; its law (Normal, Student-$t$, skewed) is unknown
+        \item $\theta = (\omega, \alpha, \beta)$, true value $\theta_0$: $\omega > 0$ sets the level, $\alpha \ge 0$ the reaction to yesterday's squared shock, $\beta \ge 0$ the persistence of yesterday's variance
     \end{itemize}
-    \item The score is a martingale difference: a CLT for martingales gives asymptotic normality without independence of $\varepsilon_t$
     \item The recursion starts from an arbitrary $\sigma^2_1$; the effect of the start vanishes geometrically when $\beta < 1$
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Consistency and asymptotic normality}
-\itemsize{\footnotesize}
+\begin{frame}{The Gaussian quasi-likelihood (2/2): estimator and score}
+\itemsize{\small}
 \begin{itemize}
-    \item Strict stationarity of GARCH(1,1) iff $\E\ln(\alpha_0\eta_t^2 + \beta_0) < 0$: weaker than $\alpha_0 + \beta_0 < 1$; $\E\varepsilon_t^2$ may be infinite
+    \item QMLE: maximise the Gaussian log-likelihood, used as an estimating equation even if $\eta_t$ is not Gaussian
+    \[ \hat\theta = \arg\max_\theta \sum_{t=1}^T \ell_t(\theta), \qquad \ell_t(\theta) = -\frac12\Big(\ln\sigma^2_t(\theta) + \frac{\varepsilon_t^2}{\sigma^2_t(\theta)}\Big) \]
     \begin{itemize}
-        \item \refLH, \refLum: GARCH(1,1), including IGARCH; \refBHK, \refFZa: GARCH($p,q$) under strict stationarity
+        \item $\ell_t$: the Gaussian log-density of day $t$ without its constant; $T$: number of days; $\hat\theta$: the estimate
     \end{itemize}
-    \item Consistency \refFZa: strict stationarity, $\theta_0$ in a compact set, identifiability ($\eta_t^2$ not degenerate); no moment of $\varepsilon_t$ is needed
+    \item The score, the gradient of $\ell_t$, has conditional mean zero at the true value
+    \[ s_t(\theta) = \frac{\partial\ell_t}{\partial\theta} = \frac12\Big(\frac{\varepsilon_t^2}{\sigma_t^2} - 1\Big)\frac{1}{\sigma^2_t}\frac{\partial\sigma^2_t}{\partial\theta} \]
     \begin{itemize}
-        \item asymptotic normality adds $\theta_0$ interior and $\kappa_\eta = \E\eta_t^4 < \infty$: $\sqrt T(\hat\theta - \theta_0) \to N\left(0, (\kappa_\eta - 1)J^{-1}\right)$, $J = \E\left[\frac{1}{\sigma^4_t}\frac{\partial\sigma^2_t}{\partial\theta}\frac{\partial\sigma^2_t}{\partial\theta'}\right]$
+        \item at $\theta_0$, $\varepsilon_t^2/\sigma_t^2 = \eta_t^2$, hence $\E(s_t | \mathcal F_{t-1}) = 0$ because $\E\eta_t^2 = 1$
+        \item only the conditional variance must be right; the shape of the law of $\eta_t$ is never used
     \end{itemize}
-    \item Even explosive GARCH ($\E\ln(\alpha_0\eta^2 + \beta_0) > 0$): $(\hat\alpha, \hat\beta)$ remain consistent and asymptotically normal, $\omega$ is not identified \refJR
-    \item Boundary: if $\alpha_0 = 0$ the limit is the projection of a normal vector on a cone, which is why \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter5_conditional_volatility_garch.pdf}{TSA, Chapter 5} tests ARCH effects one-sided
+    \item The score is a martingale difference (conditional mean zero given the past)
+    \begin{itemize}
+        \item a CLT for martingales gives asymptotic normality without independence of $\varepsilon_t$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The sandwich and the Bollerslev--Wooldridge standard errors}
+\begin{frame}{Consistency and asymptotic normality (1/2): stationarity and consistency}
 \itemsize{\small}
 \begin{itemize}
-    \item General QML result: $\sqrt T(\hat\theta - \theta_0) \to N(0, A^{-1}B\,A^{-1})$, $A = -\E\,\partial^2\ell_t/\partial\theta\partial\theta'$, $B = \E\,s_ts_t'$
-    \item For GARCH: $A = \frac12J$ and $B = \frac{\kappa_\eta - 1}{4}J$, hence $A^{-1}B\,A^{-1} = (\kappa_\eta - 1)J^{-1}$ (\atsapplink{atsapp1}{atssrc1}{Appendix})
+    \item GARCH(1,1) is strictly stationary if and only if the log of the daily variance multiplier has a negative mean
+    \[ \E\ln(\alpha_0\eta_t^2 + \beta_0) < 0 \]
     \begin{itemize}
-        \item Hessian-only s.e. assume $\kappa_\eta = 3$ and give $2J^{-1}$: too small by the factor $\sqrt{(\kappa_\eta - 1)/2}$
-        \item outer-product (OPG) s.e. use $B^{-1} = \frac{4}{\kappa_\eta - 1}J^{-1}$: even smaller when $\kappa_\eta > 3$
+        \item $\alpha_0\eta_t^2 + \beta_0$: the factor by which a shock to the variance is carried from one day to the next; $\alpha_0, \beta_0$: true values
+        \item by Jensen's inequality, weaker than $\alpha_0 + \beta_0 < 1$ (finite variance): IGARCH ($\alpha_0 + \beta_0 = 1$) is strictly stationary, and $\E\varepsilon_t^2$ may be infinite
+        \item \refLH, \refLum: GARCH(1,1), including IGARCH; \refBHK, \refFZa: GARCH($p,q$) under strict stationarity
     \end{itemize}
-    \item \refBW: estimate $A$ by the observed Hessian and $B$ by $\frac1T\sum\hat s_t\hat s_t'$; valid whatever the law of $\eta_t$ (with $\kappa_\eta < \infty$)
-    \item Robust Wald and score tests use the sandwich; the quasi-LR statistic is no longer $\chi^2$, but a weighted sum of $\chi^2_1$ variables
+    \item Consistency of $\hat\theta$ \refFZa
+    \begin{itemize}
+        \item conditions: strict stationarity, $\theta_0$ in a compact parameter set, identifiability ($\eta_t^2$ is not a constant)
+        \item no moment of $\varepsilon_t$ is needed
+    \end{itemize}
+    \item Even explosive GARCH ($\E\ln(\alpha_0\eta^2 + \beta_0) > 0$): $(\hat\alpha, \hat\beta)$ remain consistent and asymptotically normal, $\omega$ is not identified \refJR
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Consistency and asymptotic normality (2/2): the limit law}
+\itemsize{\small}
+\begin{itemize}
+    \item With $\theta_0$ interior to the parameter set and a finite fourth moment of $\eta_t$, the estimator is asymptotically normal
+    \[ \sqrt T(\hat\theta - \theta_0) \to N\big(0, (\kappa_\eta - 1)J^{-1}\big), \qquad J = \E\Big[\frac{1}{\sigma^4_t}\frac{\partial\sigma^2_t}{\partial\theta}\frac{\partial\sigma^2_t}{\partial\theta'}\Big] \]
+    \begin{itemize}
+        \item $\kappa_\eta = \E\eta_t^4$: kurtosis of the shock ($3$ for the Normal distribution); $\kappa_\eta - 1 = \Var(\eta_t^2)$
+        \item $J$: a $3 \times 3$ matrix, the mean outer product of the relative sensitivities $\sigma_t^{-2}\partial\sigma^2_t/\partial\theta$; $\to$: convergence in distribution as $T \to \infty$
+        \item reading: the sampling variance of $\hat\theta$ grows linearly with the kurtosis of the shocks
+    \end{itemize}
+    \item Boundary: if $\alpha_0 = 0$, $\theta_0$ is not interior and the limit is the projection of a normal vector on a cone
+    \begin{itemize}
+        \item this is why \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter5_conditional_volatility_garch.pdf}{TSA, Chapter 5} tests ARCH effects one-sided
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The sandwich and the Bollerslev--Wooldridge standard errors (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item General QML result: the asymptotic variance is a ``sandwich'' of two matrices
+    \[ \sqrt T(\hat\theta - \theta_0) \to N(0, A^{-1}B\,A^{-1}), \qquad A = -\E\frac{\partial^2\ell_t}{\partial\theta\,\partial\theta'}, \qquad B = \E\,s_ts_t' \]
+    \begin{itemize}
+        \item $A$: the expected negative Hessian (curvature of the log-likelihood); $B$: the variance of the score $s_t$
+        \item if the likelihood is the true one, $A = B$ (information equality) and the variance reduces to $A^{-1}$; under QML, $A \ne B$
+    \end{itemize}
+    \item For GARCH both matrices are proportional to $J$ (\atsapplink{atsapp1}{atssrc1}{Appendix})
+    \[ A = \tfrac12J, \qquad B = \tfrac{\kappa_\eta - 1}{4}J, \qquad A^{-1}B\,A^{-1} = (\kappa_\eta - 1)J^{-1} \]
+    \begin{itemize}
+        \item the sandwich recovers the limit law of the previous slide, for any law of $\eta_t$ with $\kappa_\eta < \infty$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The sandwich and the Bollerslev--Wooldridge standard errors (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Three ways to compute standard errors (s.e.)
+    \begin{itemize}
+        \item Hessian only: $A^{-1} = 2J^{-1}$, correct only if $\kappa_\eta = 3$; too small by the factor $\sqrt{(\kappa_\eta - 1)/2}$ when $\kappa_\eta > 3$
+        \item outer product of the scores (OPG): $B^{-1} = \frac{4}{\kappa_\eta - 1}J^{-1}$, even smaller when $\kappa_\eta > 3$
+        \item sandwich \refBW: $\hat A^{-1}\hat B\hat A^{-1}$, valid whatever the law of $\eta_t$ (with $\kappa_\eta < \infty$)
+    \end{itemize}
+    \item Estimates used by Bollerslev and Wooldridge
+    \begin{itemize}
+        \item $\hat A$: the observed Hessian of $-\frac1T\sum_t\ell_t$ at $\hat\theta$; $\hat B = \frac1T\sum_t\hat s_t\hat s_t'$, with $\hat s_t = s_t(\hat\theta)$ the estimated score
+    \end{itemize}
+    \item Robust Wald and score tests use the sandwich
+    \begin{itemize}
+        \item the quasi-likelihood-ratio (quasi-LR) statistic is no longer $\chi^2$, but a weighted sum of $\chi^2_1$ variables (chi-square with one degree of freedom)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -415,26 +481,50 @@ US industrial production, PPI finished goods (monthly) & FRED (INDPRO, WPSFD4920
 \begin{frame}{GARCH with exogenous variables}
 \itemsize{\small}
 \begin{itemize}
-    \item GARCH-X: $\sigma^2_t = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1} + \pi'x_{t-1}$, with $x_{t-1} \ge 0$ and $\pi \ge 0$ for positivity (or a log specification)
+    \item GARCH-X: yesterday's value of an observed variable enters the variance equation
+    \[ \sigma^2_t = \omega + \alpha\varepsilon^2_{t-1} + \beta\sigma^2_{t-1} + \pi'x_{t-1} \]
+    \begin{itemize}
+        \item $x_{t-1}$: vector of exogenous variables known at the end of day $t-1$; $\pi$: their loadings ($\pi'x$: the weighted sum)
+        \item positivity of $\sigma^2_t$: $x_{t-1} \ge 0$ and $\pi \ge 0$, or a specification in logs
+    \end{itemize}
     \item Candidates for $x_t$: a realised measure (leads to HEAVY and Realized GARCH below), the VIX, a macro or policy-uncertainty index, trading volume
     \begin{itemize}
-        \item QML theory carries over if $x_t$ is stationary and ergodic and its own dynamics need not be modelled for one-step forecasts
+        \item QML theory carries over if $x_t$ is stationary and ergodic; its own dynamics need not be modelled for one-step forecasts
         \item multi-step forecasts need a model for $x_t$: this is exactly what Realized GARCH and HEAVY add
     \end{itemize}
     \item A slow variable (a monthly macro series) cannot enter a daily recursion at its own frequency: one needs a component structure (next slides)
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The component GARCH of Engle and Lee}
+\begin{frame}{The component GARCH of Engle and Lee (1/2): the model}
 \itemsize{\small}
 \begin{itemize}
-    \item \refEL: $\sigma^2_t = q_t + \alpha(\varepsilon^2_{t-1} - q_{t-1}) + \beta(\sigma^2_{t-1} - q_{t-1})$, $\quad q_t = \omega + \rho q_{t-1} + \phi(\varepsilon^2_{t-1} - \sigma^2_{t-1})$
-    \item $q_t$: a slowly moving long-run level (persistence $\rho$, close to 1); $\sigma^2_t - q_t$: a transitory deviation (persistence $\alpha + \beta < \rho$)
+    \item \refEL: the variance is a slowly moving long-run level $q_t$ plus a transitory deviation from it
+    \[ \sigma^2_t = q_t + \alpha(\varepsilon^2_{t-1} - q_{t-1}) + \beta(\sigma^2_{t-1} - q_{t-1}) \]
+    \[ q_t = \omega + \rho q_{t-1} + \phi(\varepsilon^2_{t-1} - \sigma^2_{t-1}) \]
     \begin{itemize}
-        \item both are driven by the same shock $\varepsilon^2_{t-1} - \sigma^2_{t-1}$: the model is a restricted GARCH(2,2)
+        \item $q_t$: long-run (permanent) component; $\rho$: its persistence, close to 1; $\omega$: its intercept
+        \item $\sigma^2_t - q_t$: transitory component; $\alpha$, $\beta$: its reaction and persistence, with $\alpha + \beta < \rho$
+        \item $\varepsilon^2_{t-1} - \sigma^2_{t-1}$: the variance surprise of yesterday (mean zero); $\phi$: how much of it moves the long-run level
     \end{itemize}
-    \item Half-life of a shock to each component: $\ln 0.5/\ln\rho$ and $\ln 0.5/\ln(\alpha + \beta)$ days; GARCH(1,1) forces a single half-life
-    \item Two exponentials approximate a slowly decaying (hyperbolic) autocorrelation of squared returns over a finite range of lags; long memory proper: \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter10_long_memory_rough_volatility.pdf}{Chapter 10}
+    \item Both components are driven by the same shock: the model is a restricted GARCH(2,2)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The component GARCH of Engle and Lee (2/2): two speeds}
+\itemsize{\small}
+\begin{itemize}
+    \item Half-life: the number of days after which half of a shock to a component has died out
+    \[ \mathrm{HL}_q = \frac{\ln(1/2)}{\ln\rho}, \qquad \mathrm{HL}_{\sigma - q} = \frac{\ln(1/2)}{\ln(\alpha + \beta)} \]
+    \begin{itemize}
+        \item $\mathrm{HL}_q$: half-life of the long-run component; $\mathrm{HL}_{\sigma - q}$: half-life of the transitory component
+        \item a persistence $\rho = 0.99$ gives about 69 days; $\alpha + \beta = 0.9$ gives about 6.6 days
+        \item GARCH(1,1) forces a single half-life, $\ln 0.5/\ln(\alpha + \beta)$
+    \end{itemize}
+    \item Two exponentials approximate a slowly decaying (hyperbolic) autocorrelation of squared returns over a finite range of lags
+    \begin{itemize}
+        \item long memory proper: \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter10_long_memory_rough_volatility.pdf}{Chapter 10}
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -460,7 +550,7 @@ US industrial production, PPI finished goods (monthly) & FRED (INDPRO, WPSFD4920
 \end{itemize}
 \end{frame}
 
-\begin{frame}{GARCH-MIDAS: a macro-driven long-run component}
+\begin{frame}{GARCH-MIDAS (1/3): a macro-driven long-run component}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.3\textwidth}
@@ -471,28 +561,52 @@ US industrial production, PPI finished goods (monthly) & FRED (INDPRO, WPSFD4920
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item \refEGS: day $i$ of month $t$: $r_{i,t} = \mu + \sqrt{\tau_tg_{i,t}}\,\eta_{i,t}$
-    \item short run, unit-mean GARCH: $g_{i,t} = (1 - \alpha - \beta) + \alpha\frac{(r_{i-1,t} - \mu)^2}{\tau_t} + \beta g_{i-1,t}$
-    \item long run, MIDAS in a monthly regressor: $\ln\tau_t = m + \theta\sum_{k=1}^K\varphi_k(w)X_{t-k}$
-    \item beta weights restricted to decay: $\varphi_k(w) \propto (1 - k/K)^{w - 1}$, $w \ge 1$ \refGSV
-    \item $X$: realised variance of past months (in levels, $\tau_t = m + \theta\sum\varphi_kRV_{t-k}$) or macro data: industrial production growth, PPI inflation
+    \item \refEGS: the daily variance is the product of a monthly level $\tau_t$ and a daily factor $g_{i,t}$
+    \[ r_{i,t} = \mu + \sqrt{\tau_t\,g_{i,t}}\;\eta_{i,t} \]
+    \begin{itemize}
+        \item $r_{i,t}$: return of day $i$ of month $t$; $\mu$: mean return; $\eta_{i,t}$: i.i.d. shock with mean 0 and variance 1
+    \end{itemize}
+    \item Short run: a GARCH(1,1) with mean 1, re-scaled by $\tau_t$
+    \[ g_{i,t} = (1 - \alpha - \beta) + \alpha\frac{(r_{i-1,t} - \mu)^2}{\tau_t} + \beta g_{i-1,t} \]
+    \begin{itemize}
+        \item $\alpha$, $\beta$: reaction and persistence of the daily component, as in GARCH(1,1)
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{GARCH-MIDAS: identification, estimation and the variance ratio}
+\begin{frame}{GARCH-MIDAS (2/3): the long-run component}
 \itemsize{\small}
 \begin{itemize}
-    \item $\tau_t$ is constant within the month and $\E g_{i,t} = 1$: the split is identified by the different frequencies, without a latent-variable filter
+    \item Long run: MIDAS (mixed-data sampling) regression of $\ln\tau_t$ on $K$ lags of a monthly variable
+    \[ \ln\tau_t = m + \theta\sum_{k=1}^K\varphi_k(w)\,X_{t-k}, \qquad \varphi_k(w) \propto (1 - k/K)^{w - 1} \]
+    \begin{itemize}
+        \item $X_{t-k}$: the monthly driver $k$ months ago; $m$: intercept; $\theta$: effect of the driver (sign: pro- or countercyclical)
+        \item $\varphi_k(w)$: beta lag weights, normalised to sum to 1 and restricted to decay \refGSV; $w \ge 1$: the larger $w$, the faster the decay; $w = 1$: equal weights
+    \end{itemize}
+    \item Choices of $X$
+    \begin{itemize}
+        \item realised variance of past months, in levels: $\tau_t = m + \theta\sum_k\varphi_k(w)\mathrm{RV}_{t-k}$, with $\mathrm{RV}_{t-k}$ the sum of squared daily returns of month $t-k$
+        \item macro data: industrial production growth, PPI inflation
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{GARCH-MIDAS (3/3): identification, estimation and the variance ratio}
+\itemsize{\small}
+\begin{itemize}
+    \item $\tau_t$ is constant within the month and $\E g_{i,t} = 1$: the split is identified by the different frequencies, without a filter for a latent variable
     \begin{itemize}
         \item Gaussian QML of all parameters $(\mu, \alpha, \beta, m, \theta, w)$ in one step; sandwich standard errors
     \end{itemize}
-    \item Variance ratio $\mathrm{VR} = \Var(\ln\tau_t)/\Var(\ln\tau_tg_{i,t})$: the share of the variation of log volatility explained by the long-run component
+    \item Variance ratio: the share of the variation of log volatility explained by the long-run component
+    \[ \mathrm{VR} = \frac{\Var(\ln\tau_t)}{\Var(\ln(\tau_t\,g_{i,t}))} \in [0, 1] \]
     \begin{itemize}
+        \item VR close to 0: the long-run component is almost flat; close to 1: it carries most of the variation
         \item a macro variable can be significant ($\hat\theta \ne 0$) and still explain little of daily volatility (small VR)
     \end{itemize}
-    \item Inference on $w$ is nonstandard when $\theta = 0$ (not identified) and at the boundary $w = 1$ (flat weights)
+    \item Inference on $w$ is nonstandard when $\theta = 0$ ($w$ is then not identified) and at the boundary $w = 1$
     \item Extensions: two-sided weights, several regressors, a second (daily) component \refCK; forecasts beyond one month use only the long-run part
 \end{itemize}
 \end{frame}
@@ -569,43 +683,88 @@ GARCH(1,1) & & & & & & 22721.9 \\
 \section{Realised measures: theory, noise and kernels}
 %=============================================================================
 
-\begin{frame}{Prices as Itô semimartingales}
+\begin{frame}{Prices as Itô semimartingales (1/2): the model}
 \itemsize{\small}
 \begin{itemize}
-    \item Log price on day $t$, $s \in [0, 1]$: $dX_s = \mu_s\,ds + \sigma_s\,dW_s + dJ_s$, with $\sigma_s$ a stochastic spot volatility and $J$ a finite-activity jump process
-    \item Quadratic variation: $\mathrm{QV}_t = \mathrm{IV}_t + \sum_{s \le 1}(\Delta J_s)^2$, integrated variance $\mathrm{IV}_t = \int_0^1\sigma^2_s\,ds$
+    \item Within day $t$, the log price moves by a drift, a Brownian part scaled by the spot volatility, and jumps
+    \[ dX_s = \mu_s\,ds + \sigma_s\,dW_s + dJ_s, \qquad s \in [0, 1] \]
     \begin{itemize}
-        \item without jumps and with $\sigma$ independent of $W$: $r_t | \mathrm{IV}_t \sim N(\int\mu, \mathrm{IV}_t)$: IV is the variance that matters for the daily return
+        \item $X_s$: log price at intraday time $s$ (the day is rescaled to $[0, 1]$); $\mu_s$: drift; $W_s$: standard Brownian motion
+        \item $\sigma_s$: stochastic spot (instantaneous) volatility; $J_s$: a jump process with finitely many jumps per day, $\Delta J_s$: the jump at time $s$
     \end{itemize}
-    \item Realised variance from $n$ intraday returns $r_{t,i} = X_{i/n} - X_{(i-1)/n}$: $\mathrm{RV}_t = \sum_{i=1}^n r_{t,i}^2 \to \mathrm{QV}_t$ in probability as $n \to \infty$
-    \item The drift does not matter in the limit (it is $O(1/n)$ per interval): volatility becomes observable \emph{ex post}, without a model \refABDL, \refBNSa
+    \item Quadratic variation of the day: the diffusive part plus the squared jumps
+    \[ \mathrm{QV}_t = \mathrm{IV}_t + \sum_{s \le 1}(\Delta J_s)^2, \qquad \mathrm{IV}_t = \int_0^1\sigma^2_s\,ds \]
+    \begin{itemize}
+        \item $\mathrm{IV}_t$: integrated variance, the average of the spot variance over the day
+        \item without jumps and with $\sigma$ independent of $W$: $r_t | \mathrm{IV}_t \sim N(\int_0^1\mu_s\,ds, \mathrm{IV}_t)$, so IV is the variance that matters for the daily return $r_t$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The central limit theorem for realised variance}
+\begin{frame}{Prices as Itô semimartingales (2/2): realised variance}
 \itemsize{\small}
 \begin{itemize}
-    \item \refBNSa: without jumps, $\sqrt n(\mathrm{RV}_t - \mathrm{IV}_t) \to MN(0, 2\,\mathrm{IQ}_t)$ stably in law, integrated quarticity $\mathrm{IQ}_t = \int_0^1\sigma^4_s\,ds$
+    \item Realised variance: the sum of the $n$ squared intraday returns of the day
+    \[ \mathrm{RV}_t = \sum_{i=1}^n r_{t,i}^2, \qquad r_{t,i} = X_{i/n} - X_{(i-1)/n} \]
     \begin{itemize}
-        \item mixed normal: normal given the path of $\sigma$; \emph{stable} convergence allows dividing by a random, consistently estimated $\sqrt{\mathrm{IQ}_t}$
+        \item $n$: number of intraday intervals (78 five-minute returns in a 6.5-hour session); $r_{t,i}$: log return over the $i$-th interval
+        \item $\mathrm{RV}_t \to \mathrm{QV}_t$ in probability as $n \to \infty$: RV measures the total (diffusive plus jump) variation
     \end{itemize}
-    \item Feasible: $\widehat{\mathrm{IQ}}_t = \frac n3\sum_i r_{t,i}^4$ (realised quarticity RQ), so $\frac{\mathrm{RV}_t - \mathrm{IV}_t}{\sqrt{\frac23\sum_ir_{t,i}^4}} \to N(0, 1)$
-    \item Log version (delta method): $\ln\mathrm{RV}_t \pm 1.96\sqrt{\frac23\sum_ir_{t,i}^4}/\mathrm{RV}_t$; better in finite samples, never negative
-    \item Rate $\sqrt n$: with 5-minute returns on a 6.5-hour day ($n = 78$) the relative error is about $\sqrt{2/78} \approx 16\%$ when volatility is constant within the day
-    \item The measurement error $\mathrm{RV}_t - \mathrm{IV}_t$ is heteroskedastic (it scales with $\mathrm{IQ}_t$): this drives HARQ below
+    \item The drift does not matter in the limit: it is $O(1/n)$ per interval, while the Brownian part is $O(n^{-1/2})$
+    \begin{itemize}
+        \item volatility becomes observable \emph{ex post}, without a model \refABDL, \refBNSa
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The central limit theorem for realised variance (1/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \refBNSa: without jumps, the error of RV shrinks at rate $\sqrt n$ and is mixed normal
+    \[ \sqrt n\,(\mathrm{RV}_t - \mathrm{IV}_t) \to MN(0, 2\,\mathrm{IQ}_t), \qquad \mathrm{IQ}_t = \int_0^1\sigma^4_s\,ds \]
+    \begin{itemize}
+        \item $\mathrm{IQ}_t$: integrated quarticity, the daily average of $\sigma^4_s$; it sets the size of the error
+        \item $MN$ (mixed normal): normal given the path of $\sigma$, with a random variance $2\,\mathrm{IQ}_t$
+        \item the convergence is \emph{stable} in law: one may divide by a random, consistently estimated $\sqrt{\mathrm{IQ}_t}$ and keep the limit
+    \end{itemize}
+    \item Rate $\sqrt n$: with $n = 78$ and volatility constant within the day, the relative error is about $\sqrt{2/78} \approx 16\%$
+    \begin{itemize}
+        \item the measurement error $\mathrm{RV}_t - \mathrm{IV}_t$ is heteroskedastic (it scales with $\mathrm{IQ}_t$): HARQ, below, is built on this fact
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The central limit theorem for realised variance (2/2): feasible intervals}
+\itemsize{\small}
+\begin{itemize}
+    \item Feasible version: estimate IQ by the realised quarticity RQ, then studentise
+    \[ \widehat{\mathrm{IQ}}_t = \mathrm{RQ}_t = \frac n3\sum_{i=1}^n r_{t,i}^4, \qquad \frac{\mathrm{RV}_t - \mathrm{IV}_t}{\sqrt{\frac23\sum_i r_{t,i}^4}} \to N(0, 1) \]
+    \begin{itemize}
+        \item the factor $\frac n3$ makes RQ unbiased under constant volatility, because $\E Z^4 = 3$ for $Z \sim N(0, 1)$
+        \item 95\% interval for $\mathrm{IV}_t$: $\mathrm{RV}_t \pm 1.96\sqrt{\frac23\sum_i r_{t,i}^4}$; it may contain negative values
+    \end{itemize}
+    \item Log version (delta method): an interval for $\ln\mathrm{IV}_t$
+    \[ \ln\mathrm{RV}_t \pm 1.96\,\frac{\sqrt{\frac23\sum_i r_{t,i}^4}}{\mathrm{RV}_t} \]
+    \begin{itemize}
+        \item exponentiated, it never contains negative values and has better coverage in finite samples
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{A simulated market with a known truth}
 \itemsize{\small}
 \begin{itemize}
-    \item One-second grid, $n = 23\,400$ seconds a day; $\ln\sigma^2_s = c + f^{(1)}_s + f^{(2)}_s$, two Gaussian AR(1) factors with half-lives of 60 days and 2 days
+    \item One-second grid, $n = 23\,400$ seconds a day; the log spot variance is the sum of two Gaussian AR(1) factors
+    \[ \ln\sigma^2_s = c + f^{(1)}_s + f^{(2)}_s \]
     \begin{itemize}
-        \item stationary s.d. 0.75 and 0.45, mean IV = 1 (\%$^2$ a day): the mean matches the S\&P 500 realised kernel of 2000--2022
-        \item leverage: correlation $-0.6$ between price shocks and shocks to the fast factor
+        \item $c$: constant fixing the mean; $f^{(1)}$: slow factor (half-life 60 days, stationary s.d. 0.75); $f^{(2)}$: fast factor (half-life 2 days, s.d. 0.45)
+        \item mean IV = 1 (\%$^2$ a day), the mean of the S\&P 500 realised kernel in 2000--2022; leverage: correlation $-0.6$ between price shocks and shocks to the fast factor
     \end{itemize}
     \item Jumps: Poisson with 0.08 jumps a day, sizes $N(0, 0.8^2)$ (\%): jumps make about 5.6\% of quadratic variation
-    \item Noise: observed $Y_s = X_s + u_s$, $u_s$ i.i.d. $N(0, \omega^2)$, $\omega = 0.004\%$, so $2n\omega^2 = 0.75$ at one second
+    \item Noise: we observe $Y_s = X_s + u_s$, with $u_s$ i.i.d. $N(0, \omega^2)$ and $\omega = 0.004\%$
+    \begin{itemize}
+        \item $Y_s$: observed log price; $X_s$: efficient log price; $u_s$: microstructure noise with standard deviation $\omega$; at one second, $2n\omega^2 = 0.75$ (next slides)
+    \end{itemize}
     \item Each estimator below is compared with the true IV or QV of the same simulated day
 \end{itemize}
 \end{frame}
@@ -674,44 +833,86 @@ GARCH(1,1) & & & & & & 22721.9 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Microstructure noise}
+\begin{frame}{Microstructure noise (1/2): the bias of RV}
 \itemsize{\small}
 \begin{itemize}
-    \item Observed log price $Y_{i/n} = X_{i/n} + u_i$: bid--ask bounce, price discreteness, stale quotes; $u_i$ i.i.d. with variance $\omega^2$, independent of $X$
-    \item Then $\E(\mathrm{RV}^{(n)}_t | X) = \mathrm{IV}_t + 2n\omega^2$ and $\Var(\mathrm{RV}^{(n)}_t | X) \approx 4n\E u^4$: RV diverges as $n \to \infty$ (\atsapplink{atsapp2}{atssrc2}{Appendix})
+    \item The observed log price is the efficient price plus a noise term
+    \[ Y_{i/n} = X_{i/n} + u_i \]
     \begin{itemize}
-        \item consequence: $\hat\omega^2 = \mathrm{RV}^{(n)}_t/(2n)$ at the highest frequency estimates the noise variance
+        \item $u_i$: i.i.d. noise with variance $\omega^2$, independent of $X$; sources: bid--ask bounce, price discreteness, stale quotes
+    \end{itemize}
+    \item RV computed from the observed prices at $n$ intervals, $\mathrm{RV}^{(n)}_t$, is biased upwards, and the bias grows with $n$ (\atsapplink{atsapp2}{atssrc2}{Appendix})
+    \[ \E(\mathrm{RV}^{(n)}_t | X) = \mathrm{IV}_t + 2n\omega^2, \qquad \Var(\mathrm{RV}^{(n)}_t | X) \approx 4n\,\E u^4 \]
+    \begin{itemize}
+        \item each observed return contains $u_i - u_{i-1}$, with variance $2\omega^2$; summed over $n$ returns this gives $2n\omega^2$
+        \item RV diverges as $n \to \infty$: sampling as often as possible is not optimal
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Microstructure noise (2/2): diagnostics}
+\itemsize{\small}
+\begin{itemize}
+    \item Two consequences of i.i.d. noise
+    \begin{itemize}
+        \item $\hat\omega^2 = \mathrm{RV}^{(n)}_t/(2n)$ at the highest frequency estimates the noise variance, since $2n\omega^2$ dominates IV there
         \item returns of the observed price have first-order autocovariance $-\omega^2$: negative autocorrelation is the signature of i.i.d. noise
     \end{itemize}
-    \item Signature plot: average $\mathrm{RV}^{(n)}$ against the sampling interval; a flat region shows where noise no longer matters
-    \item Real noise is not i.i.d.: it is serially correlated and correlated with the efficient price, especially in quote data \refHLc
+    \item Signature plot: average $\mathrm{RV}^{(n)}$ against the sampling interval
+    \begin{itemize}
+        \item a flat region shows the intervals where noise no longer matters
+    \end{itemize}
+    \item Real noise is not i.i.d.: it is autocorrelated and correlated with the efficient price, especially in quote data \refHLc
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Optimal sparse sampling}
 \itemsize{\small}
 \begin{itemize}
-    \item Mean square error of $\mathrm{RV}^{(n)}$ for IV: $\mathrm{MSE}(n) \approx \frac{2\,\mathrm{IQ}}{n} + (2n\omega^2)^2 + 4n\E u^4 + \dots$: variance falls, bias rises with $n$
-    \item Minimising the first two terms: $n^* \approx \left(\mathrm{IQ}/(4\omega^4)\right)^{1/3}$ \refBR: the optimal grid is coarser when noise is large relative to volatility
+    \item Mean square error (MSE) of $\mathrm{RV}^{(n)}$ as an estimator of IV: sampling variance falls, noise bias rises with $n$
+    \[ \mathrm{MSE}(n) \approx \underbrace{\frac{2\,\mathrm{IQ}}{n}}_{\text{variance}} + \underbrace{(2n\omega^2)^2}_{\text{bias}^2} + 4n\,\E u^4 + \dots \]
+    \item Minimising the first two terms gives the optimal number of intervals \refBR
+    \[ n^* \approx \Big(\frac{\mathrm{IQ}}{4\omega^4}\Big)^{1/3} \]
     \begin{itemize}
+        \item the optimal grid is coarser when noise ($\omega^2$) is large relative to volatility ($\mathrm{IQ}$)
         \item example (Seminar 8, A3): IV = IQ = 1, $\omega^2 = 1.6\times10^{-5}$ gives $n^* \approx 990$, a return every 24 seconds
     \end{itemize}
-    \item The rate of the best sparse RV is only $n^{1/6}$, and most data are thrown away: this motivates estimators that use all observations
-    \item Subsampling: average the RV of the $K$ offset grids (start at second $0, 1, \dots, K-1$); same bias, smaller variance
+    \item The best sparse RV converges only at rate $n^{1/6}$ and discards most data: this motivates estimators that use all observations
+    \item Subsampling: average the RV of the $K$ offset grids (starting at second $0, 1, \dots, K-1$); same bias, smaller variance
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Two scales and realised kernels}
+\begin{frame}{Two scales and realised kernels (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Two-scales RV \refZMA: $\mathrm{TSRV} = \overline{\mathrm{RV}}^{(K)} - \frac{\bar n}{n}\mathrm{RV}^{(n)}$, $\bar n = (n - K + 1)/K$: the fast scale estimates the noise bias of the slow one; rate $n^{1/6}$
-    \item Realised kernel \refBNHLSa: $\mathrm{RK}_t = \gamma_0 + \sum_{h=1}^H k\left(\frac{h}{H+1}\right)(\gamma_h + \gamma_{-h})$, $\gamma_h = \sum_i r_{t,i}r_{t,i-h}$
+    \item Two-scales RV \refZMA: the fast scale estimates the noise bias of the slow one and removes it
+    \[ \mathrm{TSRV} = \overline{\mathrm{RV}}^{(K)} - \frac{\bar n}{n}\,\mathrm{RV}^{(n)}, \qquad \bar n = \frac{n - K + 1}{K} \]
     \begin{itemize}
-        \item the autocovariances $\gamma_h$ remove the noise bias (the same idea as HAC variance estimation, \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}); Parzen weight $k(x) = 1 - 6x^2 + 6x^3$ for $x \le \frac12$, $2(1-x)^3$ for $x \le 1$
-        \item nonnegative by construction; rate $n^{1/5}$ with $H = c^*\xi^{4/5}n^{3/5}$, $\xi^2 = \omega^2/\sqrt{\mathrm{IQ}}$, $c^* = 3.51$ for Parzen \refBNHLSb
+        \item $\overline{\mathrm{RV}}^{(K)}$: subsampled RV on $K$ offset sparse grids (slow scale), each with about $\bar n$ returns; $\mathrm{RV}^{(n)}$: RV on all $n$ returns (fast scale)
+        \item the bias of the slow scale is $2\bar n\omega^2 = \frac{\bar n}{n}\cdot 2n\omega^2$: the correction subtracts it; rate $n^{1/6}$
+    \end{itemize}
+    \item Pre-averaging \refJLMPV: average returns over blocks before squaring
+    \begin{itemize}
+        \item rate $n^{1/4}$, the optimal one in the presence of noise; in practice similar to the realised kernel
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Two scales and realised kernels (2/2): the realised kernel}
+\itemsize{\small}
+\begin{itemize}
+    \item Realised kernel \refBNHLSa: RV plus weighted realised autocovariances
+    \[ \mathrm{RK}_t = \gamma_0 + \sum_{h=1}^H k\Big(\frac{h}{H+1}\Big)(\gamma_h + \gamma_{-h}), \qquad \gamma_h = \sum_i r_{t,i}\,r_{t,i-h} \]
+    \begin{itemize}
+        \item $\gamma_h$: realised autocovariance at lag $h$ ($\gamma_0 = \mathrm{RV}$); $H$: bandwidth, the number of lags used; $k(\cdot)$: weight function with $k(0) = 1$, $k(1) = 0$
+        \item Parzen weights: $k(x) = 1 - 6x^2 + 6x^3$ for $x \le \frac12$ and $2(1-x)^3$ for $\frac12 < x \le 1$
+        \item the negative $\gamma_1$ created by noise cancels the bias $2n\omega^2$: the same idea as HAC variance estimation (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0})
+    \end{itemize}
+    \item Properties
+    \begin{itemize}
+        \item nonnegative by construction; rate $n^{1/5}$ with $H = c^*\xi^{4/5}n^{3/5}$, where $\xi^2 = \omega^2/\sqrt{\mathrm{IQ}}$ is the noise-to-signal ratio and $c^* = 3.51$ for Parzen \refBNHLSb
         \item it also corrects serially dependent noise of short range, of either sign
     \end{itemize}
-    \item Pre-averaging \refJLMPV: average returns over blocks before squaring; rate $n^{1/4}$, the optimal one; similar in practice to RK
 \end{itemize}
 \end{frame}
 
@@ -773,31 +974,66 @@ GARCH(1,1) & & & & & & 22721.9 \\
 \section{Jumps: bipower variation and tests}
 %=============================================================================
 
-\begin{frame}{Bipower variation}
+\begin{frame}{Bipower variation (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refBNSb: $\mathrm{BV}_t = \mu_1^{-2}\frac{n}{n-1}\sum_{i=2}^n\lvert r_{t,i}\rvert\lvert r_{t,i-1}\rvert$, $\mu_1 = \E|Z| = \sqrt{2/\pi}$; $\mathrm{BV}_t \to \mathrm{IV}_t$ even with (finite-activity) jumps
+    \item \refBNSb: sum of products of adjacent absolute returns, rescaled
+    \[ \mathrm{BV}_t = \mu_1^{-2}\,\frac{n}{n-1}\sum_{i=2}^n\lvert r_{t,i}\rvert\,\lvert r_{t,i-1}\rvert, \qquad \mu_1 = \E|Z| = \sqrt{2/\pi} \]
     \begin{itemize}
-        \item a jump enters only two products, each multiplied by a return of order $n^{-1/2}$: its contribution vanishes
+        \item $Z \sim N(0, 1)$; $\mu_1^{-2}$ makes $\mathrm{BV}_t$ consistent for $\mathrm{IV}_t$; $\frac{n}{n-1}$ corrects for the $n-1$ products
+        \item $\mathrm{BV}_t \to \mathrm{IV}_t$ even with (finite-activity) jumps: a jump enters only two products, each multiplied by a return of order $n^{-1/2}$
     \end{itemize}
-    \item So $\mathrm{RV}_t - \mathrm{BV}_t \to \sum(\Delta J)^2$: a nonparametric estimate of the jump variation of the day
-    \item Jump-robust quarticity: tripower $\mathrm{TQ}_t = n\mu_{4/3}^{-3}\frac{n}{n-2}\sum_i\prod_{j=0}^2|r_{t,i-j}|^{4/3}$, $\mu_{4/3} = \E|Z|^{4/3}$
-    \item Nearest-neighbour truncation (MedRV, MinRV) \refADS: smaller finite-sample bias from a jump and from zero returns
-    \item Threshold (truncated) RV removes returns above $c\,n^{-\varpi}$, $\varpi \in (0, \frac12)$: another route to IV
+    \item Hence $\mathrm{RV}_t - \mathrm{BV}_t \to \sum_{s \le 1}(\Delta J_s)^2$: a nonparametric estimate of the jump variation of the day
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Testing for jumps}
+\begin{frame}{Bipower variation (2/2): related estimators}
 \itemsize{\small}
 \begin{itemize}
-    \item \refBNSc: without jumps, $\sqrt n(\mathrm{RV}_t - \mathrm{BV}_t) \to MN\left(0, \vartheta\,\mathrm{IQ}_t\right)$, $\vartheta = \mu_1^{-4} + 2\mu_1^{-2} - 5 = \frac{\pi^2}{4} + \pi - 5 \approx 0.609$
-    \item Ratio statistic \refHT: $z_t = \frac{(\mathrm{RV}_t - \mathrm{BV}_t)/\mathrm{RV}_t}{\sqrt{\frac{\vartheta}{n}\max\left(1, \mathrm{TQ}_t/\mathrm{BV}_t^2\right)}} \to N(0, 1)$; one-sided, reject for large $z_t$
+    \item Jump-robust quarticity: the tripower quarticity
+    \[ \mathrm{TQ}_t = n\,\mu_{4/3}^{-3}\,\frac{n}{n-2}\sum_{i=3}^n\prod_{j=0}^2|r_{t,i-j}|^{4/3}, \qquad \mu_{4/3} = \E|Z|^{4/3} \]
     \begin{itemize}
+        \item products of three adjacent absolute returns, each to the power $4/3$; $\mathrm{TQ}_t \to \mathrm{IQ}_t$ even with jumps (RQ does not)
+    \end{itemize}
+    \item Nearest-neighbour truncation (MedRV, MinRV) \refADS: smaller finite-sample bias from a jump and from zero returns
+    \item Threshold (truncated) RV: drop the returns above $c\,n^{-\varpi}$
+    \begin{itemize}
+        \item $c > 0$: a constant (a multiple of the local volatility); $\varpi \in (0, \frac12)$: the threshold shrinks more slowly than a diffusive return, so only jumps are removed
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testing for jumps (1/2): the ratio statistic}
+\itemsize{\small}
+\begin{itemize}
+    \item \refBNSc: without jumps, the difference RV $-$ BV is also mixed normal
+    \[ \sqrt n(\mathrm{RV}_t - \mathrm{BV}_t) \to MN(0, \vartheta\,\mathrm{IQ}_t), \qquad \vartheta = \mu_1^{-4} + 2\mu_1^{-2} - 5 = \frac{\pi^2}{4} + \pi - 5 \approx 0.609 \]
+    \begin{itemize}
+        \item $\vartheta$: a constant that measures how much less efficient BV is than RV
+    \end{itemize}
+    \item Ratio statistic \refHT: the relative jump contribution, studentised
+    \[ z_t = \frac{(\mathrm{RV}_t - \mathrm{BV}_t)/\mathrm{RV}_t}{\sqrt{\frac{\vartheta}{n}\max\big(1, \mathrm{TQ}_t/\mathrm{BV}_t^2\big)}} \to N(0, 1) \]
+    \begin{itemize}
+        \item one-sided test: reject ``no jump on day $t$'' for large $z_t$
         \item the ratio form and the max adjustment give the best size in their simulations; $\mathrm{TQ}_t/\mathrm{BV}_t^2 \ge 1$ by Jensen when volatility varies within the day
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testing for jumps (2/2): in practice}
+\itemsize{\small}
+\begin{itemize}
     \item A daily test answers ``was there a jump today?''; locating it within the day needs a test on each return standardised by local BV \refLM
-    \item Multiple testing: at level $\alpha$ over $T$ days one expects $\alpha T$ false jump days; use a small $\alpha$ (0.1\%) or a family-wise or FDR correction (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
-    \item Separate continuous and jump parts: $C_t = \mathrm{RV}_t - J_t$, $J_t = \mathbb 1(z_t > z_{1-\alpha})(\mathrm{RV}_t - \mathrm{BV}_t)$ \refABD
+    \item Multiple testing: at level $\alpha$ over $T$ days one expects $\alpha T$ false jump days
+    \begin{itemize}
+        \item use a small $\alpha$ (0.1\%) or a family-wise (FWER) or false-discovery-rate (FDR) correction (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
+    \end{itemize}
+    \item Separating the continuous and jump parts of RV \refABD
+    \[ J_t = \mathbb 1(z_t > z_{1-\alpha})\,(\mathrm{RV}_t - \mathrm{BV}_t), \qquad C_t = \mathrm{RV}_t - J_t \]
+    \begin{itemize}
+        \item $\mathbb 1(\cdot)$: indicator, 1 if the test rejects and 0 otherwise; $z_{1-\alpha}$: the $1-\alpha$ quantile of $N(0, 1)$
+        \item $J_t$: jump part, nonzero only on significant days; $C_t$: continuous part
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -859,16 +1095,40 @@ GARCH(1,1) & & & & & & 22721.9 \\
 \section{Forecasting realised variance: HAR and HARQ}
 %=============================================================================
 
-\begin{frame}{The HAR model of Corsi}
+\begin{frame}{The HAR model of Corsi (1/2): the regression}
 \itemsize{\small}
 \begin{itemize}
-    \item \refCor: $\mathrm{RV}_{t+1} = \beta_0 + \beta_d\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1}$, $\mathrm{RV}^{(w)}_t = \frac15\sum_{j=0}^4\mathrm{RV}_{t-j}$, $\mathrm{RV}^{(m)}_t = \frac1{22}\sum_{j=0}^{21}\mathrm{RV}_{t-j}$
-    \item Heterogeneous market hypothesis: daily, weekly and monthly traders react to volatility at their own horizon; the cascade produces slowly decaying autocorrelations
+    \item \refCor: tomorrow's RV is a linear function of the daily, weekly and monthly averages of past RV
+    \[ \mathrm{RV}_{t+1} = \beta_0 + \beta_d\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1} \]
+    \[ \mathrm{RV}^{(w)}_t = \frac15\sum_{j=0}^4\mathrm{RV}_{t-j}, \qquad \mathrm{RV}^{(m)}_t = \frac1{22}\sum_{j=0}^{21}\mathrm{RV}_{t-j} \]
     \begin{itemize}
-        \item statistically: an AR(22) with 19 linear restrictions (step-shaped coefficients); short memory, but it mimics long memory over a month
+        \item $\mathrm{RV}^{(w)}_t$, $\mathrm{RV}^{(m)}_t$: averages over the last 5 trading days (a week) and the last 22 (a month)
+        \item $\beta_d, \beta_w, \beta_m \ge 0$: weights of the three horizons; $\beta_0$: intercept; $u_{t+1}$: forecast error with mean zero
+        \item $\beta_d + \beta_w + \beta_m$: the persistence; the closer to 1, the slower volatility returns to its mean
     \end{itemize}
-    \item OLS is consistent; the errors are heteroskedastic and, for multi-day targets, overlapping: use Newey--West \refNW\ standard errors
-    \item Variants: log-HAR (on $\ln\mathrm{RV}$, near-Gaussian errors; the forecast of RV needs $\exp(\hat\mu + \frac12\hat\sigma^2_u)$), HAR on $\sqrt{\mathrm{RV}}$, $h$-day targets
+    \item Heterogeneous market hypothesis: daily, weekly and monthly traders react to volatility at their own horizon
+    \begin{itemize}
+        \item the cascade produces slowly decaying autocorrelations
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The HAR model of Corsi (2/2): estimation and variants}
+\itemsize{\small}
+\begin{itemize}
+    \item Statistically, HAR is an AR(22) with 19 linear restrictions (step-shaped coefficients)
+    \begin{itemize}
+        \item short memory, but it mimics long memory over a month
+    \end{itemize}
+    \item OLS is consistent; the errors are heteroskedastic and, for multi-day targets, overlapping
+    \begin{itemize}
+        \item use Newey--West \refNW\ (HAC) standard errors
+    \end{itemize}
+    \item Variants
+    \begin{itemize}
+        \item log-HAR: the same regression on $\ln\mathrm{RV}$, with near-Gaussian errors; the forecast of RV is $\exp(\hat\mu + \frac12\hat\sigma^2_u)$, with $\hat\mu$ the fitted log value and $\hat\sigma^2_u$ the residual variance
+        \item HAR on $\sqrt{\mathrm{RV}}$; $h$-day targets (the average RV over the next $h$ days)
+    \end{itemize}
     \item Extensions: continuous and jump parts, HAR-CJ \refABD; positive and negative semivariances \refPS; implied volatility; leverage terms
 \end{itemize}
 \end{frame}
@@ -898,12 +1158,21 @@ GARCH(1,1) & & & & & & 22721.9 \\
 \begin{frame}{Forecasting design}
 \itemsize{\small}
 \begin{itemize}
-    \item One day ahead, rolling window of 1\,000 days, re-estimated every day; target $\mathrm{RV}_{t+1}$; losses QLIKE $= \frac{\mathrm{RV}}{f} - \ln\frac{\mathrm{RV}}{f} - 1$ and MSE (robust, see below)
-    \item Insanity filter \refBPQ: a forecast outside the range of the in-sample RV is replaced by the in-sample mean; it is part of the method and must be reported
+    \item One day ahead, rolling window of 1\,000 days, re-estimated every day; target $\mathrm{RV}_{t+1}$
+    \item Losses: MSE $= (\mathrm{RV} - f)^2$ and QLIKE, both robust to the noise in RV (see below)
+    \[ \mathrm{QLIKE} = \frac{\mathrm{RV}}{f} - \ln\frac{\mathrm{RV}}{f} - 1 \ge 0 \]
+    \begin{itemize}
+        \item $f$: the variance forecast; QLIKE is 0 when $f = \mathrm{RV}$ and penalises under-prediction more than over-prediction
+    \end{itemize}
+    \item Insanity filter \refBPQ: a forecast outside the range of the in-sample RV is replaced by the in-sample mean
     \begin{itemize}
         \item linear HAR-type forecasts can be negative after a spike; QLIKE is then undefined
+        \item the filter is part of the method and must be reported
     \end{itemize}
-    \item Diebold--Mariano \refDM\ $t$-statistics of the loss differential against HAR (Newey--West, negative = better than HAR); several models: the model confidence set \refHLN, \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}
+    \item Diebold--Mariano \refDM\ $t$-statistic of the loss differential against HAR
+    \begin{itemize}
+        \item Newey--West variance; negative = better than HAR, below $-1.96$ significant at 5\%; several models: the model confidence set \refHLN, \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}
+    \end{itemize}
     \item Models: HAR, HAR-CJ (continuous part and jump part, from BV), log-HAR; for Bitcoin and Ether also HARQ
 \end{itemize}
 \end{frame}
@@ -930,17 +1199,38 @@ GARCH(1,1) & & & & & & 22721.9 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{HARQ: exploiting the measurement error}
+\begin{frame}{HARQ (1/2): the measurement error of RV}
 \itemsize{\small}
 \begin{itemize}
-    \item $\mathrm{RV}_t = \mathrm{IV}_t + e_t$ with $\Var(e_t | \mathrm{IQ}_t) \approx 2\mathrm{IQ}_t/n$: the regressor of HAR is measured with an error whose variance changes every day
-    \item Errors in variables: in an AR(1) for IV with coefficient $\phi$, the OLS slope on RV tends to $\phi\lambda$, $\lambda = \Var(\mathrm{IV})/(\Var(\mathrm{IV}) + \E\Var(e))$ (\atsapplink{atsapp2}{atssrc3}{Appendix})
+    \item RV is the latent IV plus a measurement error whose variance changes every day
+    \[ \mathrm{RV}_t = \mathrm{IV}_t + e_t, \qquad \Var(e_t | \mathrm{IQ}_t) \approx \frac{2\,\mathrm{IQ}_t}{n} \]
     \begin{itemize}
+        \item $e_t$: measurement error of day $t$; on volatile days ($\mathrm{IQ}_t$ large) RV is less precise
+    \end{itemize}
+    \item Errors in variables: in an AR(1) for IV with coefficient $\phi$, the OLS slope on RV is attenuated (\atsapplink{atsapp3}{atssrc3}{Appendix})
+    \[ \mathrm{plim}\,\hat\phi = \phi\lambda, \qquad \lambda = \frac{\Var(\mathrm{IV})}{\Var(\mathrm{IV}) + \E\Var(e)} \in (0, 1) \]
+    \begin{itemize}
+        \item $\lambda$: reliability ratio, the share of the variance of RV that is signal
         \item one constant $\beta_d$ is a compromise: too high on noisy days, too low on precise days
     \end{itemize}
-    \item \refBPQ: $\mathrm{RV}_{t+1} = \beta_0 + (\beta_d + \beta_{dQ}\sqrt{\mathrm{RQ}_t})\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1}$, expected $\beta_{dQ} < 0$
-    \item One extra parameter, still OLS; $\sqrt{\mathrm{RQ}_t}$ demeaned so that $\beta_d$ is the weight on a day of average precision
-    \item The original paper: S\&P 500 futures and 27 Dow Jones stocks, gains over HAR in and out of sample; our replication extends it to Bitcoin and Ether, 2018--2026, where RQ is available from our one-minute data
+\end{itemize}
+\end{frame}
+
+\begin{frame}{HARQ (2/2): a weight that depends on precision}
+\itemsize{\small}
+\begin{itemize}
+    \item \refBPQ: the weight of yesterday's RV moves with its estimated precision
+    \[ \mathrm{RV}_{t+1} = \beta_0 + \big(\beta_d + \beta_{dQ}\sqrt{\mathrm{RQ}_t}\big)\mathrm{RV}_t + \beta_w\mathrm{RV}^{(w)}_t + \beta_m\mathrm{RV}^{(m)}_t + u_{t+1} \]
+    \begin{itemize}
+        \item $\mathrm{RQ}_t$: realised quarticity, the estimate of $\mathrm{IQ}_t$; $\sqrt{\mathrm{RQ}_t}$ is proportional to the standard deviation of $e_t$
+        \item $\beta_{dQ} < 0$ expected: the less precise yesterday's RV, the lower its weight
+        \item $\sqrt{\mathrm{RQ}_t}$ is demeaned, so $\beta_d$ is the weight on a day of average precision
+    \end{itemize}
+    \item One extra parameter, still OLS
+    \item The original paper: S\&P 500 futures and 27 Dow Jones stocks, gains over HAR in and out of sample
+    \begin{itemize}
+        \item our replication extends it to Bitcoin and Ether, 2018--2026, where RQ is available from our one-minute data
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -980,25 +1270,50 @@ GARCH(1,1) & & & & & & 22721.9 \\
 \section{Realized GARCH and HEAVY}
 %=============================================================================
 
-\begin{frame}{Realized GARCH}
+\begin{frame}{Realized GARCH (1/2): the three equations}
+\itemsize{\footnotesize}
+\begin{itemize}
+    \item \refHHS, log-linear form: a return equation, a GARCH equation driven by the realised measure, and a measurement equation
+    \[ r_t = \sqrt{h_t}\,z_t, \qquad \ln h_t = \omega + \beta\ln h_{t-1} + \gamma\ln x_{t-1} \]
+    \[ \ln x_t = \xi + \varphi\ln h_t + \tau(z_t) + u_t \]
+    \begin{itemize}
+        \item $h_t$: conditional variance of the return $r_t$; $z_t$: i.i.d. standardised shock; $x_t$: realised measure of day $t$ (here the realised kernel RK)
+        \item $\beta$: persistence of $\ln h_t$; $\gamma$: weight of yesterday's realised measure (the news variable that replaces $\varepsilon^2_{t-1}$)
+        \item $u_t$: measurement error, i.i.d. $N(0, \sigma^2_u)$, independent of $z_t$
+    \end{itemize}
+    \item Measurement equation: $x_t$ is a noisy, possibly biased signal of $h_t$
+    \begin{itemize}
+        \item $\varphi = 1$: $x_t$ proportional to $h_t$; $\xi$ absorbs the scale (open-to-close measure against close-to-close variance)
+        \item leverage function $\tau(z) = \tau_1z + \tau_2(z^2 - 1)$: with $\tau_1 < 0$, negative returns raise the next realised measure (news impact, \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter5_conditional_volatility_garch.pdf}{TSA, Chapter 5})
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Realized GARCH (2/2): reduced form and estimation}
 \itemsize{\small}
 \begin{itemize}
-    \item \refHHS, log-linear form: $r_t = \sqrt{h_t}z_t$; $\ln h_t = \omega + \beta\ln h_{t-1} + \gamma\ln x_{t-1}$; $\ln x_t = \xi + \varphi\ln h_t + \tau(z_t) + u_t$
-    \item Measurement equation: the realised measure $x_t$ (RK) is a noisy, possibly biased signal of $h_t$; $\varphi = 1$ means proportional, $\xi$ absorbs scale (open-to-close against close-to-close)
+    \item Substituting the measurement equation into the GARCH equation: $\ln h_t$ is an AR(1)
+    \[ \ln h_t = (\omega + \gamma\xi) + \pi\ln h_{t-1} + \gamma\big(\tau(z_{t-1}) + u_{t-1}\big), \qquad \pi = \beta + \varphi\gamma \]
     \begin{itemize}
-        \item leverage function $\tau(z) = \tau_1z + \tau_2(z^2 - 1)$: negative returns raise the next realised measure (news impact, \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter5_conditional_volatility_garch.pdf}{TSA, Chapter 5})
+        \item $\pi$: persistence of the log variance; multi-step forecasts follow, because $x_t$ has its own equation
     \end{itemize}
-    \item Reduced form: $\ln h_t$ is an AR(1) with persistence $\pi = \beta + \varphi\gamma$; multi-step forecasts follow, because $x_t$ has its own equation
-    \item Joint QML: $\ell = -\frac12\sum_t\left[\ln h_t + z_t^2 + \ln\sigma^2_u + u_t^2/\sigma^2_u\right]$; compare with GARCH only through the partial likelihood of $r_t$
+    \item Joint QML: the log-likelihood sums a return part and a measurement part
+    \[ \ell = -\frac12\sum_t\Big[\underbrace{\ln h_t + z_t^2}_{r_t} + \underbrace{\ln\sigma^2_u + u_t^2/\sigma^2_u}_{x_t}\Big] \]
+    \begin{itemize}
+        \item comparison with GARCH only through the partial likelihood of $r_t$ (the first part), since GARCH does not model $x_t$
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{HEAVY and the family of realised-measure models}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{itemize}
-    \item HEAVY \refSS: $\Var(r_t | \mathcal F_{t-1}) = h_t = \omega + \alpha\mathrm{RM}_{t-1} + \beta h_{t-1}$ and $\E(\mathrm{RM}_t | \mathcal F_{t-1}) = \mu_t = \omega_R + \alpha_R\mathrm{RM}_{t-1} + \beta_R\mu_{t-1}$
-    \item Two separate equations, each estimated by QML; momentum: after a shock, $h_t$ keeps rising while $\mu_t$ catches up
+    \item HEAVY \refSS: two GARCH-type equations, one for the return variance and one for the mean of the realised measure
+    \[ h_t = \Var(r_t | \mathcal F_{t-1}) = \omega + \alpha\mathrm{RM}_{t-1} + \beta h_{t-1} \]
+    \[ \mu_t = \E(\mathrm{RM}_t | \mathcal F_{t-1}) = \omega_R + \alpha_R\mathrm{RM}_{t-1} + \beta_R\mu_{t-1} \]
     \begin{itemize}
+        \item $\mathrm{RM}_t$: realised measure of day $t$; $(\omega, \alpha, \beta)$ and $(\omega_R, \alpha_R, \beta_R)$: the parameters of the two equations
+        \item each equation is estimated separately by QML; momentum: after a shock, $h_t$ keeps rising while $\mu_t$ catches up
         \item when the realised measure is in the variance equation, the squared return usually adds nothing ($\varepsilon^2_{t-1}$ gets a zero coefficient)
     \end{itemize}
     \item Realized EGARCH \refHH: several realised measures and a richer leverage; score-driven versions exist for fat tails
@@ -1062,17 +1377,38 @@ $\omega$ & $\beta$ & $\gamma$ & $\xi$ & $\varphi$ & $\tau_1$ & $\tau_2$ & $\sigm
 \section{Evaluating volatility forecasts with a noisy target}
 %=============================================================================
 
-\begin{frame}{The proxy problem and robust losses}
+\begin{frame}{The proxy problem and robust losses (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item We never see $\sigma^2_t$; we compare a forecast $h_t$ with a proxy $\hat\sigma^2_t$ (squared return, RV, RK) with $\E(\hat\sigma^2_t | \mathcal F_{t-1}) = \sigma^2_t$
-    \item A loss is \emph{robust} \refPat\ if the ranking of forecasts by $\E L(\hat\sigma^2_t, h_t)$ equals the ranking by $\E L(\sigma^2_t, h_t)$ for every unbiased proxy \refHLb
+    \item We never see $\sigma^2_t$: a forecast $h_t$ is compared with a proxy $\hat\sigma^2_t$ (squared return, RV, RK)
     \begin{itemize}
-        \item necessary and sufficient: $L(\hat\sigma^2, h) = \tilde C(h) + B(\hat\sigma^2) + C(h)(\hat\sigma^2 - h)$, $C' < 0$ (a Bregman form: \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}, consistent scoring functions for the mean)
+        \item the proxy is conditionally unbiased, $\E(\hat\sigma^2_t | \mathcal F_{t-1}) = \sigma^2_t$, but noisy
     \end{itemize}
-    \item Robust: MSE $= (\hat\sigma^2 - h)^2$ and QLIKE $= \hat\sigma^2/h - \ln(\hat\sigma^2/h) - 1$ (the members of degree 2 and degree 0 of the homogeneous robust family); QLIKE penalises under-prediction more
-    \item Not robust: MAE, MSE on logs, MSE on standard deviations: with a noisy proxy they reward forecasts that are biased downwards
-    \item Example: with $\hat\sigma^2 = r^2$ the MSE-log optimum is $h^* = \exp(\E\ln r^2) = 0.28\,\sigma^2$, since $\E\ln\chi^2_1 = -1.27$
+    \item A loss $L$ is \emph{robust} \refPat\ if the ranking of forecasts by $\E L(\hat\sigma^2_t, h_t)$ equals the ranking by $\E L(\sigma^2_t, h_t)$, for every unbiased proxy \refHLb
+    \item Necessary and sufficient condition: a Bregman form (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}, consistent scoring functions for the mean)
+    \[ L(\hat\sigma^2, h) = \tilde C(h) + B(\hat\sigma^2) + C(h)(\hat\sigma^2 - h), \qquad C'(h) < 0 \]
+    \begin{itemize}
+        \item $C$: a decreasing function of the forecast; $\tilde C$: its antiderivative, $\tilde C' = C$; $B$: any function of the proxy alone (it does not affect the ranking)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The proxy problem and robust losses (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Robust: MSE and QLIKE, the members of degree 2 and degree 0 of the homogeneous robust family
+    \[ \mathrm{MSE} = (\hat\sigma^2 - h)^2, \qquad \mathrm{QLIKE} = \frac{\hat\sigma^2}{h} - \ln\frac{\hat\sigma^2}{h} - 1 \]
+    \begin{itemize}
+        \item degree: how the loss scales when proxy and forecast are multiplied by the same constant; QLIKE (degree 0) is scale-free and penalises under-prediction more
+    \end{itemize}
+    \item Not robust: MAE $= |\hat\sigma^2 - h|$, MSE on logs $(\ln\hat\sigma^2 - \ln h)^2$, MSE on standard deviations
+    \begin{itemize}
+        \item with a noisy proxy they reward forecasts that are biased downwards
+    \end{itemize}
+    \item Example: with $\hat\sigma^2 = r^2$, the MSE-log optimum is $h^* = \exp(\E\ln r^2) = 0.28\,\sigma^2$
+    \begin{itemize}
+        \item because $r^2 = \sigma^2\chi^2_1$ for a Gaussian return and $\E\ln\chi^2_1 = -1.27$: MSE-log prefers a forecast far below the truth
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1135,16 +1471,38 @@ efHLb
 \section{Multivariate GARCH and large covariance matrices}
 %=============================================================================
 
-\begin{frame}{From one variance to a covariance matrix}
+\begin{frame}{From one variance to a covariance matrix (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $\varepsilon_t = H_t^{1/2}\eta_t$, $\eta_t$ i.i.d. $(0, I_N)$; $H_t$ must be symmetric positive definite for every $t$ and every parameter value
-    \item VEC: $\mathrm{vech}(H_t) = c + A\,\mathrm{vech}(\varepsilon_{t-1}\varepsilon_{t-1}') + B\,\mathrm{vech}(H_{t-1})$: general, but positivity is hard to impose
-    \item BEKK \refEK: $H_t = CC' + A'\varepsilon_{t-1}\varepsilon_{t-1}'A + B'H_{t-1}B$: positive definite by construction; diagonal and scalar versions restrict $A$, $B$
+    \item The vector of $N$ return shocks is a matrix square root of the conditional covariance times a standardised vector
+    \[ \varepsilon_t = H_t^{1/2}\eta_t, \qquad \eta_t \ \text{i.i.d.}\ (0, I_N) \]
     \begin{itemize}
+        \item $H_t = \Var(\varepsilon_t | \mathcal F_{t-1})$: $N \times N$ conditional covariance matrix; $I_N$: identity matrix
+        \item $H_t$ must be symmetric positive definite for every $t$ and every parameter value
+    \end{itemize}
+    \item VEC: every element of $H_t$ depends on all past squares and cross-products
+    \[ \mathrm{vech}(H_t) = c + A\,\mathrm{vech}(\varepsilon_{t-1}\varepsilon_{t-1}') + B\,\mathrm{vech}(H_{t-1}) \]
+    \begin{itemize}
+        \item $\mathrm{vech}$: stacks the $N(N+1)/2$ distinct elements of a symmetric matrix; $c$: vector, $A$, $B$: square matrices of that size
+        \item general, but positivity is hard to impose
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{From one variance to a covariance matrix (2/2): BEKK, CCC and DCC}
+\itemsize{\small}
+\begin{itemize}
+    \item BEKK \refEK: quadratic forms guarantee positive definiteness
+    \[ H_t = CC' + A'\varepsilon_{t-1}\varepsilon_{t-1}'A + B'H_{t-1}B \]
+    \begin{itemize}
+        \item $C$: lower-triangular $N \times N$; $A$, $B$: $N \times N$ matrices; diagonal and scalar versions restrict $A$, $B$
         \item identification: $(A, B)$ and $(-A, -B)$ give the same $H_t$; fix the sign of one element
     \end{itemize}
-    \item CCC \refBolC: $H_t = D_tRD_t$, $D_t = \mathrm{diag}(\sigma_{1t}, \dots, \sigma_{Nt})$ from univariate GARCH; DCC \refEngD\ lets $R$ vary: $H_t = D_tR_tD_t$
+    \item CCC \refBolC\ and DCC \refEngD: variances from univariate GARCH, correlations modelled separately
+    \[ H_t = D_tRD_t\ \ (\text{CCC}), \qquad H_t = D_tR_tD_t\ \ (\text{DCC}), \qquad D_t = \mathrm{diag}(\sigma_{1t}, \dots, \sigma_{Nt}) \]
+    \begin{itemize}
+        \item $\sigma_{it}$: conditional standard deviation of asset $i$ from its own GARCH; $R$: constant correlation matrix; $R_t$: time-varying correlation matrix
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1184,7 +1542,7 @@ $N$ & VEC & BEKK & diagonal BEKK & scalar BEKK & DCC \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{DCC and its corrected version cDCC}
+\begin{frame}{DCC and its corrected version cDCC (1/2): DCC}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.3\textwidth}
@@ -1195,13 +1553,34 @@ $N$ & VEC & BEKK & diagonal BEKK & scalar BEKK & DCC \\
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item DCC: $Q_t = (1 - a - b)S + az_{t-1}z_{t-1}' + bQ_{t-1}$, $R_t = \mathrm{diag}(Q_t)^{-1/2}Q_t\,\mathrm{diag}(Q_t)^{-1/2}$, $S$ = sample correlation of $z_t$
-    \item \refAie: $\E(z_tz_t' | \mathcal F_{t-1}) = R_t \ne Q_t$, so $\E Q_t \ne \E z_tz_t'$ in general: the moment estimator of $S$ is inconsistent, and so is $(\hat a, \hat b)$
-    \item cDCC: replace $z_{t-1}$ by $z^*_{t-1} = \mathrm{diag}(Q_{t-1})^{1/2}z_{t-1}$; then $\E(z^*_tz^{*\prime}_t | \mathcal F_{t-1}) = Q_t$ and $S = \E z^*_tz^{*\prime}_t$ is a valid target
-    \item the cDCC target depends on $(a, b)$: estimate it iteratively inside the likelihood
+    \item DCC: a GARCH(1,1)-type recursion for a quasi-correlation matrix $Q_t$, rescaled into a correlation matrix
+    \[ Q_t = (1 - a - b)S + a\,z_{t-1}z_{t-1}' + b\,Q_{t-1} \]
+    \[ R_t = \mathrm{diag}(Q_t)^{-1/2}\,Q_t\,\mathrm{diag}(Q_t)^{-1/2} \]
+    \begin{itemize}
+        \item $z_t = D_t^{-1}\varepsilon_t$: standardised residuals of the univariate GARCH models; $S$: their sample correlation matrix (the target)
+        \item $a \ge 0$: reaction of correlations to yesterday's co-movement; $b \ge 0$: persistence; $a + b < 1$
+        \item $\mathrm{diag}(Q_t)$: the diagonal matrix of the diagonal elements of $Q_t$; the rescaling puts ones on the diagonal of $R_t$
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
+\end{frame}
+
+\begin{frame}{DCC and its corrected version cDCC (2/2): cDCC}
+\itemsize{\small}
+\begin{itemize}
+    \item \refAie: the DCC target is estimated inconsistently
+    \begin{itemize}
+        \item $\E(z_tz_t' | \mathcal F_{t-1}) = R_t \ne Q_t$, so in general $\E Q_t \ne \E z_tz_t'$
+        \item the moment estimator of $S$ is inconsistent, and so is $(\hat a, \hat b)$
+    \end{itemize}
+    \item cDCC: rescale the residuals by the diagonal of $Q_{t-1}$ before they enter the recursion
+    \[ z^*_{t-1} = \mathrm{diag}(Q_{t-1})^{1/2}z_{t-1}, \qquad Q_t = (1 - a - b)S + a\,z^*_{t-1}z^{*\prime}_{t-1} + b\,Q_{t-1} \]
+    \begin{itemize}
+        \item then $\E(z^*_tz^{*\prime}_t | \mathcal F_{t-1}) = Q_t$, and $S = \E z^*_tz^{*\prime}_t$ is a valid target
+        \item the cDCC target depends on $(a, b)$: it is estimated iteratively inside the likelihood
+    \end{itemize}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{DCC against cDCC: a simulation}
@@ -1226,19 +1605,39 @@ $N$ & VEC & BEKK & diagonal BEKK & scalar BEKK & DCC \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Large covariance matrices: shrinkage and DCC-NL}
+\begin{frame}{Large covariance matrices: shrinkage and DCC-NL (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item With $N/T$ not small, the eigenvalues of a sample covariance are too dispersed: the largest too large, the smallest too small; its inverse amplifies the error
+    \item With $N/T$ not small, the eigenvalues of a sample covariance $S$ are too dispersed
     \begin{itemize}
-        \item a GMV portfolio $w = \Sigma^{-1}\mathbf 1/\mathbf 1'\Sigma^{-1}\mathbf 1$ loads on the smallest, most underestimated eigenvalues
+        \item $N$: number of assets; $T$: number of observations; the largest eigenvalues are too large, the smallest too small; the inverse $S^{-1}$ amplifies the error
     \end{itemize}
-    \item Linear shrinkage \refLWa: $\hat\Sigma = \delta\mu I + (1 - \delta)S$, $\delta$ estimated; nonlinear shrinkage \refLWb: keep the eigenvectors of $S$, replace each eigenvalue $\lambda_i$ by $d(\lambda_i)$, an analytical kernel formula
+    \item Global minimum-variance (GMV) portfolio: the weights with the smallest variance that sum to 1
+    \[ w = \frac{\Sigma^{-1}\mathbf 1}{\mathbf 1'\Sigma^{-1}\mathbf 1} \]
+    \begin{itemize}
+        \item $\Sigma$: covariance matrix of the returns; $\mathbf 1$: vector of ones
+        \item it loads on the directions with the smallest, most underestimated eigenvalues
+        \item it depends only on $\Sigma$, so its realised risk measures the quality of the covariance forecast without noise from expected returns
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Large covariance matrices: shrinkage and DCC-NL (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Linear shrinkage \refLWa: a weighted average of $S$ and a scaled identity
+    \[ \hat\Sigma = \delta\,\mu I + (1 - \delta)\,S \]
+    \begin{itemize}
+        \item $\mu$: average eigenvalue of $S$; $\delta \in [0, 1]$: shrinkage intensity, estimated from the data (larger when $N/T$ is larger)
+    \end{itemize}
+    \item Nonlinear shrinkage \refLWb: keep the eigenvectors of $S$, replace each eigenvalue $\lambda_i$ by $d(\lambda_i)$
+    \begin{itemize}
+        \item $d(\cdot)$: an analytical kernel formula that pulls small eigenvalues up and large ones down, by different amounts
+    \end{itemize}
     \item DCC-NL \refELW: in DCC, the target $S$ of the standardised residuals is itself a large sample covariance: replace it by its nonlinear shrinkage
     \begin{itemize}
         \item composite likelihood for $(a, b)$, univariate GARCH for the variances; evaluated by the out-of-sample s.d. of GMV portfolios
     \end{itemize}
-    \item Why GMV: it depends only on $\Sigma$, so its realised risk measures the quality of the covariance forecast without noise from expected returns
 \end{itemize}
 \end{frame}
 
@@ -1268,13 +1667,20 @@ $N$ & VEC & BEKK & diagonal BEKK & scalar BEKK & DCC \\
 \begin{frame}{Realised covariance}
 \itemsize{\small}
 \begin{itemize}
-    \item $\mathrm{RCov}_t = \sum_i r_{t,i}r_{t,i}' \to \int_0^1\Sigma_s\,ds$ (plus co-jumps); with synchronous, noise-free prices it inherits the CLT of RV
+    \item The multivariate RV: the sum of outer products of the intraday return vectors
+    \[ \mathrm{RCov}_t = \sum_{i=1}^n r_{t,i}\,r_{t,i}' \to \int_0^1\Sigma_s\,ds \]
+    \begin{itemize}
+        \item $r_{t,i}$: $N \times 1$ vector of intraday returns; $\Sigma_s$: spot covariance matrix; the limit adds the co-jumps (simultaneous jumps); with synchronous, noise-free prices it inherits the CLT of RV
+    \end{itemize}
     \item Asynchronous trading: previous-tick prices create zero returns for the asset that has not traded; covariances shrink towards zero as the interval falls (the Epps effect)
     \begin{itemize}
         \item refresh-time sampling (all assets have traded) and the multivariate realised kernel \refBNHLSc: consistent and positive semi-definite
     \end{itemize}
     \item Forecasting: HAR on the elements of the Cholesky factor of $\mathrm{RCov}_t$ keeps forecasts positive definite \refCV; HEAVY and Realized GARCH have multivariate versions
-    \item Evaluating covariance forecasts: matrix QLIKE $\ln|H_t| + \mathrm{tr}(H_t^{-1}\Sigma_t)$ and the Frobenius MSE are robust to noisy matrix proxies \refLRV
+    \item Evaluating covariance forecasts $H_t$ against a matrix proxy $\Sigma_t$: robust losses \refLRV
+    \begin{itemize}
+        \item matrix QLIKE $\ln|H_t| + \mathrm{tr}(H_t^{-1}\Sigma_t)$, with $|\cdot|$ the determinant and $\mathrm{tr}$ the trace; Frobenius MSE, the sum of squared element-wise errors
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -1450,7 +1856,7 @@ $N$ & VEC & BEKK & diagonal BEKK & scalar BEKK & DCC \\
 \end{frame}
 
 \begin{frame}{Appendix: attenuation and HARQ}
-\hypertarget{atsapp3}{}\atsappback{atssrc1}{Back}
+\hypertarget{atsapp3}{}\atsappback{atssrc3}{Back}
 \itemsize{\small}
 \begin{itemize}
     \item $\mathrm{IV}_{t+1} = c + \phi\,\mathrm{IV}_t + v_{t+1}$, observed $\mathrm{RV}_t = \mathrm{IV}_t + e_t$, $e_t$ uncorrelated with $\mathrm{IV}_t$ and $v_{t+1}$

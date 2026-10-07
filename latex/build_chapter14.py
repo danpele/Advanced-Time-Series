@@ -18,6 +18,7 @@ Rulare:
 """
 
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -26,8 +27,20 @@ from ats_build import items as _items   # noqa: E402
 from ch14_common import REFS, QLURL, T, V2, day, month, quarter, bib, finalize, load, minus_fix   # noqa: E402
 
 
+def _merge(x):
+    """(text, [display, ...]): a displayed formula placed first among the sub-items is written inside the item itself."""
+    if isinstance(x, tuple) and x[1] and x[1][0].lstrip('⟦').startswith('\\['):
+        x = (x[0] + ' ' + x[1][0].replace("\\'", "'"), x[1][1:])
+    return x[0] if isinstance(x, tuple) and not x[1] else x
+
+
 def items(*xs):
-    return _items(*[x[0] if isinstance(x, tuple) and not x[1] else x for x in xs])
+    return _items(*[_merge(x) for x in xs])
+
+
+def dm(tex):
+    """Displayed formula; in RO the decimal points become commas, as in inline math."""
+    return T(r'\[ ' + tex + r' \]', r'\[ ' + re.sub(r'(\d)\.(\d)', r'\1{,}\2', tex) + r' \]')
 
 
 N = load()
@@ -397,27 +410,43 @@ D.frame(T('Known from TSA and Chapter 3, and new here', 'Cunoscut din TSA și di
     T('Replications: Abadie, Diamond and Hainmueller (2015, Table 1, Figures 2--5); Born et al.\\ (2019, Table 2, Figure 2); Sugihara et al.\\ (2012, Figure 3)',
       'Replicări: Abadie, Diamond și Hainmueller (2015, tabelul 1, figurile 2--5); Born et al.\\ (2019, tabelul 2, figura 2); Sugihara et al.\\ (2012, figura 3)')), 'small')
 
-D.frame(T('Granger causality: the definition', 'Cauzalitatea Granger: definiția'), items(
-    (T(r'\refGra: $x$ \textbf{Granger-causes} $y$ if $\E[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t])^2] < \E[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t\setminus x])^2]$, $\mathcal I_t$ = all information up to $t$',
-       r'\refGra: $x$ \textbf{cauzează în sens Granger} pe $y$ dacă $\E[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t])^2] < \E[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t\setminus x])^2]$, $\mathcal I_t$ = toată informația pînă la $t$'),
-     [T(r'in practice $\mathcal I_t$ is a finite set: $y_t = c + \sum_{j=1}^p a_jy_{t-j} + \sum_{j=1}^p b_jx_{t-j} + \sum_{j=1}^p \gamma_j\'z_{t-j} + u_t$; $H_0$: $b_1 = \dots = b_p = 0$',
-        r'în practică $\mathcal I_t$ este o mulțime finită: $y_t = c + \sum_{j=1}^p a_jy_{t-j} + \sum_{j=1}^p b_jx_{t-j} + \sum_{j=1}^p \gamma_j\'z_{t-j} + u_t$; $H_0$: $b_1 = \dots = b_p = 0$')]),
-    (T(r'Wald statistic $W = \hat b\'\hat V_b^{-1}\hat b \to \chi^2_p$; $\hat V_b$ HAC (Chapter 0) when $u_t$ is heteroskedastic, as for returns \refNW', r'Statistica Wald $W = \hat b\'\hat V_b^{-1}\hat b \to \chi^2_p$; $\hat V_b$ HAC (Capitolul 0) cînd $u_t$ este heteroscedastic, ca pentru randamente \refNW'),
-     [T(r'integrated or cointegrated series: augment the lag order by the maximal integration order and test only the first $p$ lags \refTY', r'serii integrate sau cointegrate: adăugați decalaje în numărul ordinului maxim de integrare și testați doar primele $p$ decalaje \refTY')]),
-    (T(r'Strength: Geweke measure $F_{x\to y} = \ln(\sigma^2_{\mathrm{restricted}}/\sigma^2_{\mathrm{full}})$ \refGew, decomposable by frequency \refBrC (Chapter 11)', r'Intensitatea: măsura Geweke $F_{x\to y} = \ln(\sigma^2_{\mathrm{restrîns}}/\sigma^2_{\mathrm{complet}})$ \refGew, descompusă pe frecvențe \refBrC (Capitolul 11)'), [])), 'small')
+D.frame(T('Granger causality: the definition (1/2)', 'Cauzalitatea Granger: definiția (1/2)'), items(
+    (T(r'\refGra: $x$ \textbf{Granger-causes} $y$ if the past of $x$ lowers the mean squared error of the best one-step forecast of $y$',
+       r'\refGra: $x$ \textbf{cauzează în sens Granger} pe $y$ dacă trecutul lui $x$ reduce eroarea pătratică medie a celei mai bune prognoze la un pas a lui $y$'),
+     [r'\[ \E\big[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t])^2\big] < \E\big[(y_{t+1} - \E[y_{t+1}\mid \mathcal I_t\setminus x])^2\big] \]',
+      T(r'$\mathcal I_t$: all the information available up to $t$; $\mathcal I_t\setminus x$: the same information without the past of $x$', r'$\mathcal I_t$: toată informația disponibilă pînă la $t$; $\mathcal I_t\setminus x$: aceeași informație, fără trecutul lui $x$'),
+      T(r'$\E[y_{t+1}\mid\cdot]$: the conditional mean, i.e.\ the best forecast in mean squared error', r'$\E[y_{t+1}\mid\cdot]$: media condiționată, adică cea mai bună prognoză în sensul erorii pătratice medii')]),
+    (T(r'In practice $\mathcal I_t$ is a finite set of lags in a regression', r'În practică, $\mathcal I_t$ este o mulțime finită de laguri dintr-o regresie'),
+     [r'\[ y_t = c + \sum_{j=1}^p a_jy_{t-j} + \sum_{j=1}^p b_jx_{t-j} + \sum_{j=1}^p \gamma_j\'z_{t-j} + u_t \]',
+      T(r'$p$: the number of lags; $a_j$, $b_j$: coefficients on the lags of $y$ and of $x$; $z_t$: a vector of other conditioning series, with coefficient vectors $\gamma_j$; $u_t$: the error',
+        r'$p$: numărul de laguri; $a_j$, $b_j$: coeficienții lagurilor lui $y$ și ale lui $x$; $z_t$: un vector de alte serii de condiționare, cu vectorii de coeficienți $\gamma_j$; $u_t$: eroarea'),
+      T(r'null hypothesis of Granger non-causality: $H_0$: $b_1 = \dots = b_p = 0$', r'ipoteza nulă de non-cauzalitate Granger: $H_0$: $b_1 = \dots = b_p = 0$')])), 'small')
+
+D.frame(T('Granger causality: the definition (2/2)', 'Cauzalitatea Granger: definiția (2/2)'), items(
+    (T(r'\textbf{Wald statistic}: a quadratic form of the estimated lag coefficients of $x$', r'\textbf{Statistica Wald}: o formă pătratică a coeficienților estimați ai lagurilor lui $x$'),
+     [r'\[ W = \hat b\'\hat V_b^{-1}\hat b \;\to\; \chi^2_p \quad \text{' + T('under', 'sub') + r'} \ H_0 \]',
+      T(r'$\hat b = (\hat b_1, \dots, \hat b_p)\'$; $\hat V_b$: its estimated covariance matrix; reject $H_0$ for a large $W$ (small p-value)', r'$\hat b = (\hat b_1, \dots, \hat b_p)\'$; $\hat V_b$: matricea ei de covarianță estimată; $H_0$ se respinge pentru un $W$ mare (p-value mic)'),
+      T(r'$\hat V_b$ HAC (Chapter 0) when $u_t$ is heteroskedastic, as for returns \refNW', r'$\hat V_b$ HAC (Capitolul 0) cînd $u_t$ este heteroscedastic, ca pentru randamente \refNW')]),
+    (T(r'Integrated or cointegrated series \refTY', r'Serii integrate sau cointegrate \refTY'),
+     [T(r'add as many extra lags as the maximal order of integration and test only the first $p$ lags', r'se adaugă atîtea laguri suplimentare cît este ordinul maxim de integrare și se testează doar primele $p$ laguri')]),
+    (T(r'\textbf{Strength}: the Geweke measure \refGew, decomposable by frequency \refBrC (Chapter 11)', r'\textbf{Intensitatea}: măsura Geweke \refGew, care se poate descompune pe frecvențe \refBrC (Capitolul 11)'),
+     [r'\[ F_{x\to y} = \ln\big(\sigma^2_{\mathrm{' + T('restricted', 'restrîns') + r'}}/\sigma^2_{\mathrm{' + T('full', 'complet') + r'}}\big) \]',
+      T(r'$\sigma^2_{\mathrm{restricted}}$, $\sigma^2_{\mathrm{full}}$: residual variances of the regression without and with the lags of $x$; $F_{x\to y} \ge 0$, and 0 means no Granger causality',
+        r'$\sigma^2_{\mathrm{restrîns}}$, $\sigma^2_{\mathrm{complet}}$: varianțele reziduale ale regresiei fără și cu lagurile lui $x$; $F_{x\to y} \ge 0$, iar 0 înseamnă absența cauzalității Granger')])), 'small')
 
 D.frame(T('Granger causality is about prediction', 'Cauzalitatea Granger privește predicția'), two(
     ph('granger', T('Clive Granger, Nobel Prize in Economics 2003', 'Clive Granger, Premiul Nobel pentru economie 2003'), h='0.56\\textheight'),
     items(T(r'Four ways in which $x$ Granger-causes $y$ without causing it:', r'Patru moduri în care $x$ cauzează în sens Granger pe $y$ fără să îl cauzeze:'),
           T(r'\textbf{common driver} with different delays (omitted $z$)', r'\textbf{un factor comun} cu întîrzieri diferite ($z$ omis)'),
           T(r'\textbf{expectations}: asset prices move before the events they anticipate (stock prices ``cause\'\' GDP; \refSims)', r'\textbf{anticipări}: prețurile activelor se mișcă înaintea evenimentelor pe care le anticipează (prețurile acțiunilor „cauzează” PIB-ul; \refSims)'),
-          T(r'\textbf{timing}: different closing hours, aggregation and sampling turn instantaneous links into lagged ones', r'\textbf{momentul observării}: ore de închidere diferite, agregarea și eșantionarea transformă legături instantanee în legături cu decalaj'),
-          T(r'\textbf{measurement error} in $y$ that $x$ helps to filter', r'\textbf{erori de măsurare} în $y$ pe care $x$ ajută la filtrarea lor'),
+          T(r'\textbf{timing}: different closing hours, aggregation and sampling turn instantaneous links into lagged ones', r'\textbf{momentul observării}: ore de închidere diferite, agregarea și eșantionarea transformă legături instantanee în legături cu lag'),
+          T(r'\textbf{measurement error} in $y$ that $x$ helps to filter', r'\textbf{erori de măsurare} în $y$, pe care $x$ ajută să le filtreze'),
           T('And the reverse: a true effect can be invisible to the test (nonlinear, contemporaneous, or offset by policy feedback)', 'Și invers: un efect real poate fi invizibil pentru test (neliniar, contemporan sau compensat de reacția politicii)')), '0.34', '0.64'), 'small')
 
 chart(T('A common driver creates Granger causality', 'Un factor comun creează cauzalitate Granger'), 'ats_ch14_granger_sim', 'ATS_ch14_granger', [
-    T(r'$w_t$ AR(1) with $\phi = 0.9$; $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $x$ has no effect on $y$; tests with $p = 2$ (pairwise) and $p = 4$ (conditional on $w$), @{gs.reps} replications',
-      r'$w_t$ AR(1) cu $\phi = 0{,}9$; $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $x$ nu are niciun efect asupra lui $y$; teste cu $p = 2$ (perechi) și $p = 4$ (condiționat de $w$), @{gs.reps} de repetări')], h='0.56\\textheight')
+    T(r'Simulated system: a driver $w_t = 0.9w_{t-1} + \eta_t$ (AR(1), $\phi = 0.9$); $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $\eta_t, e_t, u_t$: independent noise',
+      r'Sistem simulat: un factor $w_t = 0{,}9w_{t-1} + \eta_t$ (AR(1), $\phi = 0{,}9$); $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $\eta_t, e_t, u_t$: zgomot independent'),
+    T(r'$x$ has no effect on $y$; tests with $p = 2$ lags (pairwise) and $p = 4$ (conditional on $w$), @{gs.reps} replications', r'$x$ nu are niciun efect asupra lui $y$; teste cu $p = 2$ laguri (pe perechi) și $p = 4$ (condiționat de $w$), @{gs.reps} de repetări')], h='0.5\\textheight')
 
 interp(('the common-driver experiment', 'experimentului cu factor comun'), [
     T(r'Pairwise, $x$ ``Granger-causes\'\' $y$ in @{gs.100.pw}\% of the samples already at $T = 100$: $x$ carries news about $w$ two periods before $y$ does', r'Pe perechi, $x$ „cauzează în sens Granger” pe $y$ în @{gs.100.pw}\% din eșantioane încă de la $T = 100$: $x$ aduce informație despre $w$ cu două perioade înaintea lui $y$'),
@@ -425,31 +454,40 @@ interp(('the common-driver experiment', 'experimentului cu factor comun'), [
     T(r'The reverse test also rejects more and more (@{gs.100.r}\% at $T = 100$, @{gs.1000.r}\% at $T = 1000$): the past of $y$ is informative about the persistent driver as well', r'Testul invers respinge și el tot mai des (@{gs.100.r}\% la $T = 100$, @{gs.1000.r}\% la $T = 1000$): trecutul lui $y$ este și el informativ despre factorul persistent'),
     T('Larger samples make a spurious finding more certain, not less: power is not validity', 'Eșantioanele mai mari fac o concluzie falsă mai sigură, nu mai puțin sigură: puterea nu înseamnă validitate')])
 
-chart(T('Lead and lag between New York, Frankfurt and Bucharest', 'Decalaje între New York, Frankfurt și București'), 'ats_ch14_granger_markets', 'ATS_ch14_granger', [
+chart(T('Lead and lag between New York, Frankfurt and Bucharest', 'Relații lead--lag între New York, Frankfurt și București'), 'ats_ch14_granger_markets', 'ATS_ch14_granger', [
     T(r'Daily log returns, common trading days @{gm.start} -- @{gm.end} ($T = @{gm.T}$); correlation of the BET at $t$ with the S\&P 500 and the DAX at $t - k$',
       r'Randamente logaritmice zilnice, zile comune de tranzacționare @{gm.start} -- @{gm.end} ($T = @{gm.T}$); corelația BET la $t$ cu S\&P 500 și DAX la $t - k$')], h='0.56\\textheight')
 
 D.frame(T('Granger tests on the three indices', 'Teste Granger pe cei trei indici'), table(
-    'lccc', T(r'\textbf{Hypothesis} ($p = 2$) & \textbf{Wald (HAC)} & $p$\textbf{-value} & \textbf{conditioning}', r'\textbf{Ipoteza} ($p = 2$) & \textbf{Wald (HAC)} & \textbf{valoarea} $p$ & \textbf{condiționare}'),
+    'lccc', T(r'\textbf{Hypothesis} ($p = 2$) & \textbf{Wald (HAC)} & $p$\textbf{-value} & \textbf{conditioning}', r'\textbf{Ipoteza} ($p = 2$) & \textbf{Wald (HAC)} & \textbf{p-value} & \textbf{condiționare}'),
     [T('S\\&P 500 $\\not\\to$ BET', 'S\\&P 500 $\\not\\to$ BET') + ' & @{gm.sp_bet.W} & @{gm.sp_bet.p} & --',
      T('BET $\\not\\to$ S\\&P 500', 'BET $\\not\\to$ S\\&P 500') + ' & @{gm.bet_sp.W} & @{gm.bet_sp.p} & --',
      T('S\\&P 500 $\\not\\to$ BET', 'S\\&P 500 $\\not\\to$ BET') + ' & @{gm.sp_bet_dax.W} & @{gm.sp_bet_dax.p} & DAX',
      T('DAX $\\not\\to$ BET', 'DAX $\\not\\to$ BET') + ' & @{gm.dax_bet.W} & @{gm.dax_bet.p} & --',
      T('S\\&P 500 $\\not\\to$ DAX', 'S\\&P 500 $\\not\\to$ DAX') + ' & @{gm.sp_dax.W} & @{gm.sp_dax.p} & --'],
     size='footnotesize') + items(
-    T(r'The classical (non-HAC) Wald for S\&P 500 $\to$ BET is @{gm.sp_bet_cl.W}: heteroskedasticity alone would double the evidence', r'Statistica Wald clasică (fără HAC) pentru S\&P 500 $\to$ BET este @{gm.sp_bet_cl.W}: doar heteroscedasticitatea ar dubla dovezile'),
-    T(r'Interpretation: New York closes after Bucharest and Frankfurt; the lag-1 correlation (@{gm.cc_sp1}) is news that arrives after the Bucharest close, not an effect of US prices on Romanian firms', r'Interpretare: New York se închide după București și Frankfurt; corelația la decalajul 1 (@{gm.cc_sp1}) este informație sosită după închiderea Bucureștiului, nu un efect al prețurilor americane asupra firmelor românești'),
-    T(r'The DAX, which closes with Bucharest, shows contemporaneous correlation (@{gm.cc_dax0}) and no lagged effect: timing creates the Granger result', r'DAX, care se închide odată cu Bucureștiul, are corelație contemporană (@{gm.cc_dax0}) și niciun efect cu decalaj: momentul observării creează rezultatul Granger')), 'small')
+    T(r'The classical (non-HAC) Wald for S\&P 500 $\to$ BET is @{gm.sp_bet_cl.W}: ignoring heteroskedasticity would artificially double the evidence', r'Statistica Wald clasică (fără HAC) pentru S\&P 500 $\to$ BET este @{gm.sp_bet_cl.W}: ignorarea heteroscedasticității ar dubla în mod artificial dovezile'),
+    T(r'Interpretation: New York closes after Bucharest and Frankfurt; the lag-1 correlation (@{gm.cc_sp1}) is news that arrives after the Bucharest close, not an effect of US prices on Romanian firms', r'Interpretare: New York se închide după București și Frankfurt; corelația la lagul 1 (@{gm.cc_sp1}) este informație sosită după închiderea Bucureștiului, nu un efect al prețurilor americane asupra firmelor românești'),
+    T(r'The DAX, which closes with Bucharest, shows contemporaneous correlation (@{gm.cc_dax0}) and no lagged effect: timing creates the Granger result', r'DAX, care se închide odată cu Bucureștiul, are corelație contemporană (@{gm.cc_dax0}) și niciun efect cu lag: momentul observării creează rezultatul Granger')), 'small')
 
-D.frame(T('Potential outcomes for time series', 'Rezultate potențiale pentru serii de timp'), items(
-    (T(r'Assignment path $w_{1:T} = (w_1,\dots,w_T)$; potential outcomes $Y_t(w_{1:T})$; \textbf{non-anticipation}: $Y_t(w_{1:T}) = Y_t(w_{1:t})$ \refRS, \refBoS',
-       r'Drumul tratamentului $w_{1:T} = (w_1,\dots,w_T)$; rezultate potențiale $Y_t(w_{1:T})$; \textbf{non-anticipare}: $Y_t(w_{1:T}) = Y_t(w_{1:t})$ \refRS, \refBoS'),
-     [T('the outcome today depends only on treatments up to today; announcements violate it unless the announcement is the treatment', 'rezultatul de azi depinde doar de tratamentele pînă azi; anunțurile o încalcă, dacă nu anunțul însuși este tratamentul')]),
-    (T(r'\textbf{Dynamic causal effect} at horizon $h$: $\tau_{t,h} = Y_{t+h}(w_{1:t-1}, w, w_{t+1:t+h}) - Y_{t+h}(w_{1:t-1}, w\', w_{t+1:t+h})$', r'\textbf{Efectul cauzal dinamic} la orizontul $h$: $\tau_{t,h} = Y_{t+h}(w_{1:t-1}, w, w_{t+1:t+h}) - Y_{t+h}(w_{1:t-1}, w\', w_{t+1:t+h})$'),
-     [T('one history is observed: only averages over time (or over units) are estimable', 'se observă o singură istorie: doar mediile în timp (sau pe unități) sînt estimabile')]),
-    (T(r'\refRS: if $w_t$ is \textbf{sequentially as good as random} given the past, the impulse response and the local projection coefficient are weighted averages of $\tau_{t,h}$, without assuming linearity',
-       r'\refRS: dacă $w_t$ este \textbf{secvențial la fel de bun ca aleator}, condiționat de trecut, răspunsul la impuls și coeficientul proiecției locale sînt medii ponderate ale $\tau_{t,h}$, fără a presupune liniaritatea'), []),
-    T('The hard part is never the regression; it is the claim that the shock is unpredictable from the potential outcomes', 'Partea grea nu este niciodată regresia; este afirmația că șocul nu poate fi prezis din rezultatele potențiale')), 'small')
+D.frame(T('Potential outcomes for time series (1/2)', 'Rezultate potențiale pentru serii de timp (1/2)'), items(
+    (T(r'\textbf{Assignment path}: the sequence of treatments (or shocks) $w_{1:T} = (w_1, \dots, w_T)$ \refRS, \refBoS', r'\textbf{Traiectoria tratamentului}: șirul tratamentelor (sau al șocurilor) $w_{1:T} = (w_1, \dots, w_T)$ \refRS, \refBoS'),
+     [T(r'$w_t$: the treatment at $t$, binary (policy on or off) or continuous (the size of a shock)', r'$w_t$: tratamentul la $t$, binar (politica aplicată sau nu) sau continuu (mărimea unui șoc)')]),
+    (T(r'\textbf{Potential outcome} $Y_t(w_{1:T})$: the value $Y_t$ would take if the treatment path were $w_{1:T}$', r'\textbf{Rezultatul potențial} $Y_t(w_{1:T})$: valoarea pe care ar avea-o $Y_t$ dacă traiectoria tratamentului ar fi $w_{1:T}$'),
+     [T('only the potential outcome of the path that actually happened is observed', 'se observă doar rezultatul potențial al traiectoriei care a avut loc efectiv')]),
+    (T(r'\textbf{Non-anticipation}: the outcome today depends only on treatments up to today', r'\textbf{Non-anticiparea}: rezultatul de azi depinde doar de tratamentele de pînă azi'),
+     [r'\[ Y_t(w_{1:T}) = Y_t(w_{1:t}) \]',
+      T('announcements violate it, unless the announcement itself is defined as the treatment', 'anunțurile o încalcă, dacă anunțul însuși nu este definit ca tratament')])), 'small')
+
+D.frame(T('Potential outcomes for time series (2/2)', 'Rezultate potențiale pentru serii de timp (2/2)'), items(
+    (T(r'\textbf{Dynamic causal effect} at horizon $h$: the change in $Y_{t+h}$ when only the treatment at $t$ changes from $w\'$ to $w$',
+       r'\textbf{Efectul cauzal dinamic} la orizontul $h$: modificarea lui $Y_{t+h}$ cînd se schimbă doar tratamentul de la $t$, din $w\'$ în $w$'),
+     [r'\[ \tau_{t,h} = Y_{t+h}(w_{1:t-1}, w, w_{t+1:t+h}) - Y_{t+h}(w_{1:t-1}, w\', w_{t+1:t+h}) \]',
+      T(r'the past treatments $w_{1:t-1}$ and the later ones $w_{t+1:t+h}$ are kept fixed', r'tratamentele anterioare $w_{1:t-1}$ și cele ulterioare $w_{t+1:t+h}$ sînt menținute fixe'),
+      T('one history is observed: only averages over time (or over units) of $\\tau_{t,h}$ are estimable', 'se observă o singură istorie: doar mediile în timp (sau pe unități) ale lui $\\tau_{t,h}$ sînt estimabile')]),
+    (T(r'\refRS: suppose $w_t$ is \textbf{sequentially as good as random}, i.e.\ independent of the potential outcomes given the past', r'\refRS: presupunem că $w_t$ este \textbf{secvențial la fel de bun ca aleator}, adică independent de rezultatele potențiale, condiționat de trecut'),
+     [T(r'then the impulse response and the local projection coefficient are weighted averages of $\tau_{t,h}$, without assuming linearity', r'atunci răspunsul la impuls și coeficientul proiecției locale sînt medii ponderate ale lui $\tau_{t,h}$, fără a presupune liniaritatea')]),
+    T('The hard part is never the regression; it is the claim that the shock is unpredictable from the potential outcomes', 'Partea dificilă nu este niciodată regresia, ci afirmația că șocul nu poate fi prezis din rezultatele potențiale')), 'small')
 
 D.frame(T('Identifying dynamic causal effects in macroeconomics', 'Identificarea efectelor cauzale dinamice în macroeconomie'), items(
     (T(r'\textbf{Narrative and high-frequency shocks} as instruments: local projections \refJor and proxy SVAR \refSW (Chapter 3)', r'\textbf{Șocuri narative și de înaltă frecvență} ca instrumente: proiecții locale \refJor și proxy SVAR \refSW (Capitolul 3)'),
@@ -459,19 +497,30 @@ D.frame(T('Identifying dynamic causal effects in macroeconomics', 'Identificarea
     (T(r'\textbf{Time-series experiments}: \refBoS give exact randomisation tests for one unit treated at random times (trading experiments)', r'\textbf{Experimente pe serii de timp}: \refBoS dau teste exacte de randomizare pentru o unitate tratată la momente aleatoare (experimente de tranzacționare)'), []),
     T(r'Local projections and VARs estimate the same population responses \refPMW: the choice is about bias and variance, not identification', r'Proiecțiile locale și VAR estimează aceleași răspunsuri în populație \refPMW: alegerea privește deplasarea și varianța, nu identificarea')), 'small')
 
-D.frame(T('Transfer entropy', 'Entropia de transfer'), items(
-    (T(r'\refSch: $TE_{x\to y} = I(y_t; x_{t-1}^{(l)} \mid y_{t-1}^{(k)}) = \E\Big[\ln\dfrac{p(y_t\mid y^{(k)}_{t-1}, x^{(l)}_{t-1})}{p(y_t\mid y^{(k)}_{t-1})}\Big] \ge 0$, conditional mutual information',
-       r'\refSch: $TE_{x\to y} = I(y_t; x_{t-1}^{(l)} \mid y_{t-1}^{(k)}) = \E\Big[\ln\dfrac{p(y_t\mid y^{(k)}_{t-1}, x^{(l)}_{t-1})}{p(y_t\mid y^{(k)}_{t-1})}\Big] \ge 0$, informația mutuală condiționată'),
-     [T('zero if and only if $x$ adds nothing to the predictive distribution of $y$: Granger non-causality in distribution', 'zero dacă și numai dacă $x$ nu adaugă nimic distribuției predictive a lui $y$: non-cauzalitate Granger în distribuție')]),
-    (T(r'Gaussian case: $TE_{x\to y} = \frac12\ln(\sigma^2_{\mathrm{restricted}}/\sigma^2_{\mathrm{full}}) = \frac12 F_{x\to y}$ \refBBS: the linear Granger test is a TE test', r'Cazul gaussian: $TE_{x\to y} = \frac12\ln(\sigma^2_{\mathrm{restrîns}}/\sigma^2_{\mathrm{complet}}) = \frac12 F_{x\to y}$ \refBBS: testul Granger liniar este un test TE'), []),
-    (T(r'Nonparametric estimation: $k$-nearest-neighbour estimators \refKSG, \refFrP; significance by permutation of the source in blocks (keeps its autocorrelation)', r'Estimare neparametrică: estimatori cu $k$ cei mai apropiați vecini \refKSG, \refFrP; semnificația prin permutarea sursei pe blocuri (păstrează autocorelația ei)'),
-     [T('the same caveats as Granger: information flow is not intervention', 'aceleași rezerve ca la Granger: fluxul de informație nu este intervenție')])), 'small')
+D.frame(T('Transfer entropy (1/2)', 'Entropia de transfer (1/2)'), items(
+    (T(r'\refSch: the information that the past of $x$ adds about $y_t$, beyond the past of $y$', r'\refSch: informația pe care trecutul lui $x$ o adaugă despre $y_t$, dincolo de trecutul lui $y$'),
+     [r'\[ TE_{x\to y} = I\big(y_t;\, x_{t-1}^{(l)} \mid y_{t-1}^{(k)}\big) = \E\Big[\ln\dfrac{p(y_t\mid y^{(k)}_{t-1}, x^{(l)}_{t-1})}{p(y_t\mid y^{(k)}_{t-1})}\Big] \ge 0 \]']),
+    (T('Notation', 'Notațiile'),
+     [T(r'$y^{(k)}_{t-1} = (y_{t-1}, \dots, y_{t-k})$: the last $k$ values of $y$; $x^{(l)}_{t-1}$: the last $l$ values of $x$', r'$y^{(k)}_{t-1} = (y_{t-1}, \dots, y_{t-k})$: ultimele $k$ valori ale lui $y$; $x^{(l)}_{t-1}$: ultimele $l$ valori ale lui $x$'),
+      T(r'$p(\cdot\mid\cdot)$: a conditional density; $I(A; B\mid C)$: the conditional mutual information of $A$ and $B$ given $C$, in nats (natural logarithm)', r'$p(\cdot\mid\cdot)$: o densitate condiționată; $I(A; B\mid C)$: informația mutuală condiționată a lui $A$ și $B$, dat $C$, în nats (logaritm natural)')]),
+    (T(r'$TE_{x\to y} = 0$ if and only if $x$ adds nothing to the predictive distribution of $y$', r'$TE_{x\to y} = 0$ dacă și numai dacă $x$ nu adaugă nimic distribuției predictive a lui $y$'),
+     [T('Granger non-causality in distribution, not only in the mean', 'non-cauzalitate Granger în distribuție, nu doar în medie')])), 'small')
+
+D.frame(T('Transfer entropy (2/2)', 'Entropia de transfer (2/2)'), items(
+    (T(r'\textbf{Gaussian case} \refBBS: transfer entropy is half the Geweke measure, so the linear Granger test is a TE test', r'\textbf{Cazul gaussian} \refBBS: entropia de transfer este jumătate din măsura Geweke, deci testul Granger liniar este un test TE'),
+     [r'\[ TE_{x\to y} = \tfrac12\ln\big(\sigma^2_{\mathrm{' + T('restricted', 'restrîns') + r'}}/\sigma^2_{\mathrm{' + T('full', 'complet') + r'}}\big) = \tfrac12 F_{x\to y} \]',
+      T('proof in the Appendix', 'demonstrația în Anexă')]),
+    (T(r'\textbf{Nonparametric estimation}: $k$-nearest-neighbour estimators \refKSG, \refFrP', r'\textbf{Estimarea neparametrică}: estimatori cu $k$ cei mai apropiați vecini \refKSG, \refFrP'),
+     [T('densities are replaced by distances to the nearest neighbours in the joint space', 'densitățile sînt înlocuite cu distanțele pînă la cei mai apropiați vecini în spațiul comun'),
+      T('significance by permuting the source in blocks, which keeps its autocorrelation', 'semnificația prin permutarea sursei pe blocuri, care păstrează autocorelația ei')]),
+    T('The same caveats as for Granger: an information flow is not an intervention', 'Aceleași rezerve ca la Granger: un flux de informație nu este o intervenție')), 'small')
 
 chart(T('A nonlinear coupling that linear Granger misses', 'O legătură neliniară pe care testul Granger liniar o ratează'), 'ats_ch14_te', 'ATS_ch14_granger', [
-    T(r'$y_t = 0.4y_{t-1} + 0.6(x_{t-1}^2 - 1) + u_t$, $x$ Gaussian AR(1), $T = @{te.T}$; kNN TE with $k = 5$, @{te.B} block permutations', r'$y_t = 0{,}4y_{t-1} + 0{,}6(x_{t-1}^2 - 1) + u_t$, $x$ AR(1) gaussian, $T = @{te.T}$; TE kNN cu $k = 5$, @{te.B} de permutări pe blocuri')], h='0.56\\textheight')
+    T(r'Simulated: $y_t = 0.4y_{t-1} + 0.6(x_{t-1}^2 - 1) + u_t$, $x$ a Gaussian AR(1) with unit variance, $u_t$ standard Normal noise, $T = @{te.T}$', r'Simulare: $y_t = 0{,}4y_{t-1} + 0{,}6(x_{t-1}^2 - 1) + u_t$, $x$ un AR(1) gaussian cu varianța 1, $u_t$ zgomot cu distribuția Normală standard, $T = @{te.T}$'),
+    T(r'$x_{t-1}^2 - 1$ has mean zero and no correlation with $x_{t-1}$; kNN TE with $k = 5$ neighbours, @{te.B} block permutations', r'$x_{t-1}^2 - 1$ are media zero și nu este corelat cu $x_{t-1}$; TE kNN cu $k = 5$ vecini, @{te.B} de permutări pe blocuri')], h='0.5\\textheight')
 
 interp(('transfer entropy', 'entropiei de transfer'), [
-    T(r'Linear Granger: $p$-value @{te.linp}; Gaussian TE @{te.gauss}$\times10^{-3}$ nats: the symmetric effect averages out in a linear regression', r'Granger liniar: valoarea $p$ @{te.linp}; TE gaussiană @{te.gauss}$\times10^{-3}$ nats: efectul simetric se anulează în medie într-o regresie liniară'),
+    T(r'Linear Granger: p-value @{te.linp}; Gaussian TE @{te.gauss}$\times10^{-3}$ nats: the symmetric effect averages out in a linear regression', r'Granger liniar: p-value @{te.linp}; TE gaussiană @{te.gauss}$\times10^{-3}$ nats: efectul simetric se anulează în medie într-o regresie liniară'),
     T(r'kNN TE $x\to y$: @{te.xy} nats, permutation $p$ @{te.pxy}; reverse direction @{te.yx} ($p$ @{te.pyx}); without coupling @{te.null} ($p$ @{te.pnull})', r'TE kNN $x\to y$: @{te.xy} nats, $p$ prin permutare @{te.pxy}; direcția inversă @{te.yx} ($p$ @{te.pyx}); fără legătură @{te.null} ($p$ @{te.pnull})'),
     T(r'On the markets of the previous slide the Gaussian TE from the S\&P 500 to the BET is @{gm.te}$\times10^{-3}$ nats: significant, but tiny as information', r'Pe piețele de pe slide-ul anterior, TE gaussiană de la S\&P 500 la BET este @{gm.te}$\times10^{-3}$ nats: semnificativă, dar foarte mică ca informație'),
     T('TE needs much more data than Granger and a careful choice of $k$, history lengths and permutation blocks; pre-register them', 'TE cere mult mai multe date decît Granger și o alegere atentă a lui $k$, a lungimii istoriilor și a blocurilor de permutare; preînregistrați-le')])
@@ -486,27 +535,40 @@ D.recap(('Granger causality and causal effects', 'cauzalitatea Granger și efect
 # =============================================================================
 D.section('Causal discovery in time series', 'Descoperirea relațiilor cauzale în serii de timp')
 
-D.frame(T('Time series graphs', 'Grafurile seriilor de timp'), items(
-    (T(r'Nodes $X^i_t$; an arrow $X^i_{t-\tau}\to X^j_t$ when $X^i_{t-\tau}$ is a direct cause of $X^j_t$ given the rest of the past \refRunE', r'Noduri $X^i_t$; o săgeată $X^i_{t-\tau}\to X^j_t$ cînd $X^i_{t-\tau}$ este o cauză directă a lui $X^j_t$, dat fiind restul trecutului \refRunE'),
-     [T('the graph is the same at every $t$ (causal stationarity); arrows only go forward in time', 'graful este același la orice $t$ (staționaritate cauzală); săgețile merg doar înainte în timp')]),
-    (T(r'Assumptions that turn independences into arrows \refSGS: \textbf{causal Markov} (each variable independent of its non-effects given its parents), \textbf{faithfulness} (no independences by cancellation), \textbf{causal sufficiency} (no hidden common causes)',
-       r'Ipotezele care transformă independențele în săgeți \refSGS: \textbf{Markov cauzal} (fiecare variabilă este independentă de non-efectele ei, dați părinții), \textbf{fidelitate} (nicio independență prin compensare), \textbf{suficiență cauzală} (nicio cauză comună ascunsă)'), []),
-    (T(r'Then $X^i_{t-\tau}\to X^j_t$ $\iff$ $X^i_{t-\tau} \not\perp X^j_t \mid \mathbf X^-_t\setminus\{X^i_{t-\tau}\}$: the full conditional (VAR) Granger test', r'Atunci $X^i_{t-\tau}\to X^j_t$ $\iff$ $X^i_{t-\tau} \not\perp X^j_t \mid \mathbf X^-_t\setminus\{X^i_{t-\tau}\}$: testul Granger condiționat complet (VAR)'),
-     [T(r'with $N$ variables and $\tau_{\max}$ lags the conditioning set has $N\tau_{\max}$ elements: power collapses in high dimension', r'cu $N$ variabile și $\tau_{\max}$ decalaje, mulțimea de condiționare are $N\tau_{\max}$ elemente: puterea se prăbușește în dimensiune mare')])), 'small')
+D.frame(T('Time series graphs (1/2)', 'Grafurile seriilor de timp (1/2)'), items(
+    (T(r'\textbf{Nodes} $X^i_t$: variable $i$ at time $t$; an \textbf{arrow} $X^i_{t-\tau}\to X^j_t$ when $X^i_{t-\tau}$ is a direct cause of $X^j_t$ given the rest of the past \refRunE',
+       r'\textbf{Nodurile} $X^i_t$: variabila $i$ la momentul $t$; o \textbf{săgeată} $X^i_{t-\tau}\to X^j_t$ cînd $X^i_{t-\tau}$ este o cauză directă a lui $X^j_t$, dat fiind restul trecutului \refRunE'),
+     [T(r'$\tau \ge 1$: the lag of the link; $\tau_{\max}$: the largest lag considered', r'$\tau \ge 1$: lagul legăturii; $\tau_{\max}$: lagul maxim considerat'),
+      T('the graph is the same at every $t$ (causal stationarity); arrows only go forward in time', 'graful este același la orice $t$ (staționaritate cauzală); săgețile merg doar înainte în timp')]),
+    (T(r'Three assumptions turn independences into arrows \refSGS', r'Trei ipoteze transformă independențele în săgeți \refSGS'),
+     [T(r'\textbf{causal Markov}: each variable is independent of its non-effects given its parents (direct causes)', r'\textbf{Markov cauzal}: fiecare variabilă este independentă de non-efectele ei, dați părinții ei (cauzele directe)'),
+      T(r'\textbf{faithfulness}: no independence arises by cancellation of effects', r'\textbf{fidelitatea}: nicio independență nu apare prin compensarea efectelor'),
+      T(r'\textbf{causal sufficiency}: no hidden common causes', r'\textbf{suficiența cauzală}: nu există cauze comune ascunse')])), 'small')
+
+D.frame(T('Time series graphs (2/2)', 'Grafurile seriilor de timp (2/2)'), items(
+    (T(r'Under these assumptions an arrow is a conditional dependence given the whole past', r'Sub aceste ipoteze, o săgeată este o dependență condiționată de întregul trecut'),
+     [r'\[ X^i_{t-\tau}\to X^j_t \iff X^i_{t-\tau} \not\perp X^j_t \mid \mathbf X^-_t\setminus\{X^i_{t-\tau}\} \]',
+      T(r'$\perp$: independence ($\not\perp$: dependence); $\mathbf X^-_t$: all variables at lags $1, \dots, \tau_{\max}$ before $t$', r'$\perp$: independență ($\not\perp$: dependență); $\mathbf X^-_t$: toate variabilele la lagurile $1, \dots, \tau_{\max}$ înainte de $t$'),
+      T('this is the full conditional (VAR) Granger test', 'acesta este testul Granger condiționat complet (VAR)')]),
+    (T(r'With $N$ variables and $\tau_{\max}$ lags the conditioning set has $N\tau_{\max}$ elements', r'Cu $N$ variabile și $\tau_{\max}$ laguri, mulțimea de condiționare are $N\tau_{\max}$ elemente'),
+     [T('the power of the test collapses in high dimension: the motivation for PCMCI', 'puterea testului scade drastic în dimensiune mare: motivația pentru PCMCI')])), 'small')
 
 D.frame(T('PCMCI', 'PCMCI'), items(
-    (T(r'\refPCMCI: two steps, each a sequence of conditional independence tests (partial correlation here; nonlinear tests possible)', r'\refPCMCI: doi pași, fiecare o succesiune de teste de independență condiționată (aici corelația parțială; sînt posibile și teste neliniare)'),
-     [T(r'\textbf{PC1} (condition selection): for each $X^j_t$ start from all lagged candidates; remove those independent of $X^j_t$ given the $p$ strongest others, $p = 1, 2, \dots$; keep a superset $\hat{\mathcal P}(X^j_t)$ of the parents', r'\textbf{PC1} (selecția condițiilor): pentru fiecare $X^j_t$ pornim de la toți candidații cu decalaj; eliminăm pe cei independenți de $X^j_t$, dați cei mai puternici $p$ dintre ceilalți, $p = 1, 2, \dots$; păstrăm o supramulțime $\hat{\mathcal P}(X^j_t)$ a părinților'),
-      T(r'\textbf{MCI} (momentary conditional independence): $X^i_{t-\tau} \perp X^j_t \mid \hat{\mathcal P}(X^j_t)\setminus\{X^i_{t-\tau}\},\ \hat{\mathcal P}(X^i_{t-\tau})$', r'\textbf{MCI} (independență condiționată momentană): $X^i_{t-\tau} \perp X^j_t \mid \hat{\mathcal P}(X^j_t)\setminus\{X^i_{t-\tau}\},\ \hat{\mathcal P}(X^i_{t-\tau})$')]),
-    (T(r'Conditioning on the parents of the \textbf{source} removes its autocorrelation: the test behaves as if on i.i.d.\ data, so false positives stay near $\alpha$', r'Condiționarea pe părinții \textbf{sursei} îi elimină autocorelația: testul se comportă ca pe date i.i.d., deci rata alarmelor false rămîne aproape de $\alpha$'),
-     [T('conditioning sets stay small: power is kept in high dimension', 'mulțimile de condiționare rămîn mici: puterea se păstrează în dimensiune mare')]),
+    (T(r'\refPCMCI: two steps, each a sequence of conditional independence tests (partial correlation here; nonlinear tests possible)', r'\refPCMCI: doi pași, fiecare o succesiune de teste de independență condiționată (aici corelația parțială; sînt posibile și teste neliniare)'), []),
+    (T(r'\textbf{PC1} (condition selection), for each $X^j_t$', r'\textbf{PC1} (selecția condițiilor), pentru fiecare $X^j_t$'),
+     [T(r'start from all lagged candidates; remove those independent of $X^j_t$ given the $p$ strongest others, $p = 1, 2, \dots$', r'se pornește de la toți candidații cu lag; se elimină cei independenți de $X^j_t$, dați cei mai puternici $p$ dintre ceilalți, $p = 1, 2, \dots$'),
+      T(r'the result $\hat{\mathcal P}(X^j_t)$ is a superset of the parents of $X^j_t$', r'rezultatul $\hat{\mathcal P}(X^j_t)$ este o supramulțime a părinților lui $X^j_t$')]),
+    (T(r'\textbf{MCI} (momentary conditional independence): test each link given the parents of both ends', r'\textbf{MCI} (independența condiționată momentană): fiecare legătură se testează dați părinții ambelor capete'),
+     [r'\[ X^i_{t-\tau} \perp X^j_t \mid \hat{\mathcal P}(X^j_t)\setminus\{X^i_{t-\tau}\},\ \hat{\mathcal P}(X^i_{t-\tau}) \]',
+      T(r'conditioning on the parents of the \textbf{source} $X^i_{t-\tau}$ removes its autocorrelation: false positives stay near $\alpha$', r'condiționarea pe părinții \textbf{sursei} $X^i_{t-\tau}$ îi elimină autocorelația: rata alarmelor false rămîne aproape de $\alpha$'),
+      T('conditioning sets stay small, so power is kept in high dimension', 'mulțimile de condiționare rămîn mici, deci puterea se păstrează în dimensiune mare')]),
     T('Hidden confounders, contemporaneous links, nonstationarity and measurement error break the guarantees; the output is a hypothesis about a graph', 'Factorii de confuzie ascunși, legăturile contemporane, nestaționaritatea și erorile de măsurare anulează garanțiile; rezultatul este o ipoteză despre un graf')), 'small')
 
 chart(T('PCMCI against correlation and the full VAR', 'PCMCI față de corelație și VAR complet'), 'ats_ch14_pcmci_sim', 'ATS_ch14_discovery', [
-    T(r'A known lagged system (a persistent common driver, chains and a collider), $\tau_{\max} = 3$, $\alpha = 0.01$, @{ps.reps} replications; right: 14 extra independent AR(1) series', r'Un sistem cunoscut cu decalaje (un factor comun persistent, lanțuri și un colizor), $\tau_{\max} = 3$, $\alpha = 0{,}01$, @{ps.reps} de repetări; dreapta: 14 serii AR(1) independente în plus')], h='0.56\\textheight')
+    T(r'A known lagged system (a persistent common driver, chains and a collider), $\tau_{\max} = 3$, $\alpha = 0.01$, @{ps.reps} replications; right: 14 extra independent AR(1) series', r'Un sistem cunoscut cu laguri (un factor comun persistent, lanțuri și un colizor), $\tau_{\max} = 3$, $\alpha = 0{,}01$, @{ps.reps} de repetări; dreapta: 14 serii AR(1) independente în plus')], h='0.56\\textheight')
 
 interp(('the discovery experiment', 'experimentului de descoperire'), [
-    T(r'Lagged correlations find most true links but flag @{ps.lo.pc.f} of the absent ones: autocorrelation and the common driver make everything correlated', r'Corelațiile cu decalaj găsesc majoritatea legăturilor reale, dar semnalează @{ps.lo.pc.f} dintre cele absente: autocorelația și factorul comun fac totul corelat'),
+    T(r'Lagged correlations find most true links but flag @{ps.lo.pc.f} of the absent ones: autocorrelation and the common driver make everything correlated', r'Corelațiile cu lag găsesc majoritatea legăturilor reale, dar semnalează @{ps.lo.pc.f} dintre cele absente: autocorelația și factorul comun fac totul corelat'),
     T(r'Six variables, $T = 500$: the full VAR and PCMCI are equivalent (power @{ps.lo.var.t} and @{ps.lo.pm.t}; false positives @{ps.lo.var.f} and @{ps.lo.pm.f})', r'Șase variabile, $T = 500$: VAR complet și PCMCI sînt echivalente (putere @{ps.lo.var.t} și @{ps.lo.pm.t}; alarme false @{ps.lo.var.f} și @{ps.lo.pm.f})'),
     T(r'Twenty variables, $T = 150$: the VAR conditions on 60 regressors and its power falls to @{ps.hi.var.t}; PCMCI keeps @{ps.hi.pm.t} with false positives @{ps.hi.pm.f}', r'Douăzeci de variabile, $T = 150$: VAR condiționează pe 60 de regresori, iar puterea lui scade la @{ps.hi.var.t}; PCMCI păstrează @{ps.hi.pm.t}, cu alarme false @{ps.hi.pm.f}'),
     T('The advantage of PCMCI is a high-dimensional one; in small systems a well-specified VAR is enough', 'Avantajul PCMCI ține de dimensiunea mare; în sisteme mici un VAR bine specificat este suficient')])
@@ -516,26 +578,31 @@ chart(T('A discovered graph of market volatility', 'Un graf descoperit al volati
       r'PCMCI pe logaritmul varianțelor realizate săptămînale (suma pătratelor randamentelor zilnice), @{pv.start} -- @{pv.end}, $T = @{pv.T}$ de săptămîni, $\tau_{\max} = 2$, $\alpha = 0{,}01$; săptămînile elimină ordinea închiderilor zilnice')], h='0.58\\textheight')
 
 interp(('the volatility graph', 'grafului volatilității'), [
-    T(r'Lagged correlation tests are significant for @{pv.ncorr} of the @{pv.npos} possible lagged cross links; PCMCI keeps @{pv.n}', r'Testele de corelație cu decalaj sînt semnificative pentru @{pv.ncorr} dintre cele @{pv.npos} de legături încrucișate posibile; PCMCI păstrează @{pv.n}'),
+    T(r'Lagged correlation tests are significant for @{pv.ncorr} of the @{pv.npos} possible lagged cross links; PCMCI keeps @{pv.n}', r'Testele de corelație cu lag sînt semnificative pentru @{pv.ncorr} dintre cele @{pv.npos} de legături încrucișate posibile; PCMCI păstrează @{pv.n}'),
     T('Volatility is a common factor: most of the raw dependence is explained by each market\'s own past and by the shared global shock within the week', 'Volatilitatea este un factor comun: cea mai mare parte a dependenței brute se explică prin propriul trecut al fiecărei piețe și prin șocul global comun din aceeași săptămînă'),
-    T('The surviving arrows are small partial correlations; contemporaneous spillovers within the week are invisible to a lagged-only analysis', 'Săgețile rămase sînt corelații parțiale mici; transmiterile contemporane din aceeași săptămînă sînt invizibile pentru o analiză doar cu decalaje'),
+    T('The surviving arrows are small partial correlations; contemporaneous spillovers within the week are invisible to a lagged-only analysis', 'Săgețile rămase sînt corelații parțiale mici; transmiterile contemporane din aceeași săptămînă sînt invizibile pentru o analiză doar cu laguri'),
     T('A hidden global factor (news, VIX) violates causal sufficiency: read the graph as a map of predictive links, not of spillover mechanisms', 'Un factor global ascuns (știri, VIX) încalcă suficiența cauzală: citiți graful ca pe o hartă a legăturilor predictive, nu a mecanismelor de transmitere')])
 
 D.frame(T('Convergent cross mapping', 'Convergent cross mapping'), two(
     ph('sugihara', T('George Sugihara', 'George Sugihara'), h='0.42\\textheight'),
-    items(T(r'Deterministic coupled dynamics: Granger\'s separability fails (the cause\'s information is already in the effect) \refSug', r'Dinamici deterministe cuplate: separabilitatea lui Granger nu mai funcționează (informația cauzei se află deja în efect) \refSug'),
-          T(r'Takens \refTak: the delay vectors $M_y = \{(y_t, y_{t-\tau}, \dots, y_{t-(E-1)\tau})\}$ reconstruct the attractor of the whole system', r'Takens \refTak: vectorii cu întîrziere $M_y = \{(y_t, y_{t-\tau}, \dots, y_{t-(E-1)\tau})\}$ reconstruiesc atractorul întregului sistem'),
-          T(r'If $x$ drives $y$, the neighbours on $M_y$ identify $x_t$: \textbf{cross-map} $x$ from $M_y$ (simplex projection, $E + 1$ neighbours)', r'Dacă $x$ îl influențează pe $y$, vecinii de pe $M_y$ identifică $x_t$: \textbf{estimăm încrucișat} pe $x$ din $M_y$ (proiecție simplex, $E + 1$ vecini)'),
-          T('Criterion: the cross-map skill must \\textbf{converge} (increase) with the library size $L$', 'Criteriul: abilitatea de estimare încrucișată trebuie să \\textbf{conveargă} (să crească) cu dimensiunea bibliotecii $L$'),
-          T(r'Note the direction: skill of $M_y \to x$ is evidence for $x \to y$', r'Atenție la direcție: abilitatea $M_y \to x$ este dovadă pentru $x \to y$')), '0.3', '0.68'), 'small')
+    items(T(r'Deterministic coupled dynamics: Granger\'s separability fails, because the information of the cause is already in the effect \refSug', r'Dinamici deterministe cuplate: separabilitatea lui Granger nu mai funcționează, deoarece informația cauzei se află deja în efect \refSug'),
+          (T(r'Takens \refTak: the delay vectors of $y$ reconstruct the attractor of the whole system', r'Takens \refTak: vectorii cu întîrziere ai lui $y$ reconstruiesc atractorul întregului sistem'),
+           [r'\[ M_y = \{(y_t, y_{t-\tau}, \dots, y_{t-(E-1)\tau})\} \]',
+            T(r'$E$: the embedding dimension; $\tau$: the delay between coordinates', r'$E$: dimensiunea de scufundare; $\tau$: întîrzierea dintre coordonate')]),
+          (T(r'If $x$ drives $y$, the neighbours of a point on $M_y$ identify $x_t$: \textbf{cross-map} $x$ from $M_y$', r'Dacă $x$ îl influențează pe $y$, vecinii unui punct de pe $M_y$ identifică $x_t$: se \textbf{estimează încrucișat} $x$ din $M_y$'),
+           [T(r'simplex projection: a weighted average of $x$ at the $E + 1$ nearest neighbours; skill: the correlation $\rho$ between estimate and truth', r'proiecția simplex: o medie ponderată a lui $x$ în cei $E + 1$ vecini cei mai apropiați; abilitatea: corelația $\rho$ dintre estimație și valoarea reală')]),
+          T(r'Criterion: the skill must \textbf{converge} (increase) with the library size $L$, the number of points used to build $M_y$', r'Criteriul: abilitatea trebuie să \textbf{conveargă} (să crească) cu dimensiunea bibliotecii $L$, numărul de puncte folosite pentru $M_y$'),
+          T(r'Note the direction: skill of $M_y \to x$ is evidence for $x \to y$', r'Atenție la direcție: abilitatea $M_y \to x$ este dovadă pentru $x \to y$')), '0.3', '0.68'), 'footnotesize')
 
 chart(T('Cross mapping: a coupling and a common forcing', 'Estimarea încrucișată: o cuplare și un factor periodic comun'), 'ats_ch14_ccm', 'ATS_ch14_discovery', [
-    T(r'Coupled logistic maps of \refSug ($r_x = 3.8$, $r_y = 3.5$, $\beta_{yx} = 0.32$, $\beta_{xy} = 0$); right: two uncoupled maps with the same periodic forcing; $E = 2$', r'Aplicații logistice cuplate din \refSug ($r_x = 3{,}8$, $r_y = 3{,}5$, $\beta_{yx} = 0{,}32$, $\beta_{xy} = 0$); dreapta: două aplicații necuplate cu același factor periodic; $E = 2$')], h='0.56\\textheight')
+    T(r'Coupled logistic maps of \refSug: $x_{t+1} = x_t(r_x - r_xx_t - \beta_{xy}y_t)$, $y_{t+1} = y_t(r_y - r_yy_t - \beta_{yx}x_t)$', r'Aplicațiile logistice cuplate din \refSug: $x_{t+1} = x_t(r_x - r_xx_t - \beta_{xy}y_t)$, $y_{t+1} = y_t(r_y - r_yy_t - \beta_{yx}x_t)$'),
+    T(r'$r_x = 3.8$, $r_y = 3.5$: growth rates (chaotic regime); $\beta_{yx} = 0.32$: effect of $x$ on $y$; $\beta_{xy} = 0$: no effect of $y$ on $x$; right: two uncoupled maps with the same periodic forcing; $E = 2$',
+      r'$r_x = 3{,}8$, $r_y = 3{,}5$: ratele de creștere (regim haotic); $\beta_{yx} = 0{,}32$: efectul lui $x$ asupra lui $y$; $\beta_{xy} = 0$: niciun efect al lui $y$ asupra lui $x$; dreapta: două aplicații necuplate cu același factor periodic; $E = 2$')], h='0.48\\textheight')
 
 interp(('cross mapping', 'estimării încrucișate'), [
     T(r'Left: skill for $x\to y$ rises from @{cc.axy0} ($L = @{cc.L0}$) to @{cc.axy} ($L = @{cc.L1}$); the reverse stays near @{cc.ayx}: the published pattern', r'Stînga: abilitatea pentru $x\to y$ crește de la @{cc.axy0} ($L = @{cc.L0}$) la @{cc.axy} ($L = @{cc.L1}$); direcția inversă rămîne în jur de @{cc.ayx}: tiparul publicat'),
     T(r'Right: no coupling at all, yet both directions reach @{cc.bxy} and @{cc.byx}: a shared periodic driver synchronises the maps and CCM reports bidirectional causality', r'Dreapta: nicio cuplare, totuși ambele direcții ajung la @{cc.bxy} și @{cc.byx}: un factor periodic comun sincronizează aplicațiile, iar CCM raportează cauzalitate în ambele sensuri'),
-    T(r'Known critiques: seasonality and synchrony \refBaC, noise and external forcing \refMon, the choice of lag \refYDGS', r'Critici cunoscute: sezonalitate și sincronizare \refBaC, zgomot și factori externi \refMon, alegerea decalajului \refYDGS'),
+    T(r'Known critiques: seasonality and synchrony \refBaC, noise and external forcing \refMon, the choice of lag \refYDGS', r'Critici cunoscute: sezonalitate și sincronizare \refBaC, zgomot și factori externi \refMon, alegerea lagului \refYDGS'),
     T('Use CCM for low-noise nonlinear systems, with surrogate tests that preserve seasonality; never as a black-box causality detector for economic series', 'Folosiți CCM pentru sisteme neliniare cu zgomot redus, cu teste pe serii surogat care păstrează sezonalitatea; niciodată ca detector automat de cauzalitate pentru serii economice')])
 
 D.recap(('Causal discovery', 'descoperirea relațiilor cauzale'), [
@@ -548,14 +615,24 @@ D.recap(('Causal discovery', 'descoperirea relațiilor cauzale'), [
 # =============================================================================
 D.section('Interrupted time series and event studies', 'Serii de timp întrerupte și studii de eveniment')
 
-D.frame(T('Interrupted time series', 'Serii de timp întrerupte'), items(
-    (T(r'One series, an intervention at $T_0$; model the pre-period, $y_t = f(t, \text{season}, x_t; \theta) + u_t$, $t \le T_0$; effect $\hat\tau_t = y_t - f(t, \cdot; \hat\theta)$, $t > T_0$ \refLCG',
-       r'O singură serie, o intervenție la $T_0$; modelăm perioada anterioară, $y_t = f(t, \text{sezon}, x_t; \theta) + u_t$, $t \le T_0$; efectul $\hat\tau_t = y_t - f(t, \cdot; \hat\theta)$, $t > T_0$ \refLCG'),
-     [T('segmented regression is the special case with level and slope dummies after $T_0$', 'regresia segmentată este cazul particular cu variabile de nivel și de pantă după $T_0$')]),
-    (T(r'Identification: \textbf{nothing else} changes at $T_0$; the pre-period model would have continued; no anticipation', r'Identificare: \textbf{nimic altceva} nu se schimbă la $T_0$; modelul perioadei anterioare ar fi continuat; nicio anticipare'), []),
-    (T(r'Inference with dependent errors: $\mathrm{Var}\big(\sum_{t=T_0+1}^{T_0+n}\hat\tau_t\big) \approx n\,\Omega + a\'\hat V_\theta a$, $\Omega$ the long-run variance of $u_t$ (Chapter 0), $a$ the summed regressors',
-       r'Inferența cu erori dependente: $\mathrm{Var}\big(\sum_{t=T_0+1}^{T_0+n}\hat\tau_t\big) \approx n\,\Omega + a\'\hat V_\theta a$, $\Omega$ varianța pe termen lung a lui $u_t$ (Capitolul 0), $a$ suma regresorilor'),
-     [T(r'with AR(1) errors and $\sigma^2 = \mathrm{Var}(u_t)$, $\Omega = \sigma^2(1 + \rho)/(1 - \rho)$: i.i.d. standard errors are too small by $\sqrt{(1 + \rho)/(1 - \rho)}$', r'cu erori AR(1) și $\sigma^2 = \mathrm{Var}(u_t)$, $\Omega = \sigma^2(1 + \rho)/(1 - \rho)$: erorile standard i.i.d. sînt prea mici cu factorul $\sqrt{(1 + \rho)/(1 - \rho)}$')])), 'small')
+D.frame(T('Interrupted time series (1/2)', 'Serii de timp întrerupte (1/2)'), items(
+    (T(r'One series, an intervention at $T_0$ \refLCG; step 1: model the pre-period', r'O singură serie, o intervenție la $T_0$ \refLCG; pasul 1: se modelează perioada anterioară'),
+     [r'\[ y_t = f(t, \text{' + T('season', 'sezon') + r'}, x_t; \theta) + u_t, \qquad t \le T_0 \]',
+      T(r'$f$: trend, seasonal effects and covariates $x_t$, with parameters $\theta$; $u_t$: the error', r'$f$: trendul, efectele sezoniere și covariatele $x_t$, cu parametrii $\theta$; $u_t$: eroarea')]),
+    (T(r'Step 2: the effect is the gap between the outcome and the extrapolated model', r'Pasul 2: efectul este diferența dintre rezultat și modelul extrapolat'),
+     [r'\[ \hat\tau_t = y_t - f(t, \cdot\,; \hat\theta), \qquad t > T_0 \]',
+      T('segmented regression is the special case with level and slope dummies after $T_0$', 'regresia segmentată este cazul particular cu variabile dummy de nivel și de pantă după $T_0$')]),
+    (T(r'\textbf{Identification}', r'\textbf{Identificarea}'),
+     [T(r'nothing else changes at $T_0$; the pre-period model would have continued; no anticipation', r'nimic altceva nu se schimbă la $T_0$; modelul perioadei anterioare ar fi continuat; nicio anticipare')])), 'small')
+
+D.frame(T('Interrupted time series (2/2)', 'Serii de timp întrerupte (2/2)'), items(
+    (T(r'\textbf{Inference with dependent errors}: the variance of the cumulative effect over $n$ periods', r'\textbf{Inferența cu erori dependente}: varianța efectului cumulat pe $n$ perioade'),
+     [r'\[ \mathrm{Var}\Big(\sum_{t=T_0+1}^{T_0+n}\hat\tau_t\Big) \approx n\,\Omega + a\'\hat V_\theta a \]',
+      T(r'$\Omega$: the long-run variance of $u_t$ (Chapter 0); $\hat V_\theta$: the covariance of $\hat\theta$; $a$: the sum of the regressors of $f$ over the $n$ periods', r'$\Omega$: varianța pe termen lung a lui $u_t$ (Capitolul 0); $\hat V_\theta$: covarianța lui $\hat\theta$; $a$: suma regresorilor lui $f$ pe cele $n$ perioade'),
+      T(r'first term: noise of the outcomes; second term: estimation error of the counterfactual', r'primul termen: zgomotul rezultatelor; al doilea: eroarea de estimare a contrafactualului')]),
+    (T(r'With AR(1) errors, autocorrelation $\rho$ and $\sigma^2 = \mathrm{Var}(u_t)$', r'Cu erori AR(1), autocorelația $\rho$ și $\sigma^2 = \mathrm{Var}(u_t)$'),
+     [r'\[ \Omega = \sigma^2\,\frac{1 + \rho}{1 - \rho} \]',
+      T(r'i.i.d.\ standard errors are too small by the factor $\sqrt{(1 + \rho)/(1 - \rho)}$, e.g.\ 1.7 for $\rho = 0.5$', r'erorile standard i.i.d.\ sînt prea mici cu factorul $\sqrt{(1 + \rho)/(1 - \rho)}$, de exemplu 1,7 pentru $\rho = 0{,}5$')])), 'small')
 
 D.frame(T('Romania 2025: two measures one month apart', 'România 2025: două măsuri la o lună distanță'), two(
     ph('parliament', T('Palace of the Parliament, Bucharest', 'Palatul Parlamentului, București'), h='0.40\\textheight'),
@@ -576,10 +653,14 @@ interp(('the interrupted time series', 'seriei de timp întrerupte'), [
     T('A control group is needed to remove common shocks: the synthetic control of Section 5 uses 26 EU countries', 'Pentru a elimina șocurile comune este nevoie de un grup de control: controlul sintetic din secțiunea 5 folosește 26 de țări UE')])
 
 D.frame(T('Event studies with dependent errors', 'Studii de eveniment cu erori dependente'), items(
-    (T(r'\refMac: normal model $r_t = \alpha + \beta r^m_t + \varepsilon_t$ estimated on $[-250, -11]$; abnormal return $AR_t = r_t - \hat\alpha - \hat\beta r^m_t$; $CAR[0, k] = \sum_{t=0}^k AR_t$',
-       r'\refMac: modelul normal $r_t = \alpha + \beta r^m_t + \varepsilon_t$ estimat pe $[-250, -11]$; randamentul anormal $AR_t = r_t - \hat\alpha - \hat\beta r^m_t$; $CAR[0, k] = \sum_{t=0}^k AR_t$'),
-     [T(r'$\mathrm{Var}(CAR) = (k + 1)\sigma^2$ under i.i.d.\ errors; $(k + 1)\Omega$ with serial correlation; event-induced variance and clustered events need more (cross-sectional or bootstrap corrections)', r'$\mathrm{Var}(CAR) = (k + 1)\sigma^2$ sub erori i.i.d.; $(k + 1)\Omega$ cu corelație serială; varianța indusă de eveniment și evenimentele grupate cer mai mult (corecții transversale sau bootstrap)')]),
-    (T('Identification: the event is a surprise on day 0 and nothing else happened; anticipated news is priced before the window', 'Identificare: evenimentul este o surpriză în ziua 0 și nimic altceva nu s-a întîmplat; știrile anticipate sînt încorporate în preț înaintea ferestrei'), []),
+    (T(r'\refMac, the \textbf{market model} estimated on days $[-250, -11]$ before the event', r'\refMac, \textbf{modelul de piață} estimat pe zilele $[-250, -11]$ dinaintea evenimentului'),
+     [r'\[ r_t = \alpha + \beta r^m_t + \varepsilon_t, \qquad AR_t = r_t - \hat\alpha - \hat\beta r^m_t, \qquad CAR[0, k] = \sum_{t=0}^k AR_t \]',
+      T(r'$r_t$: the return of the asset; $r^m_t$: the market return; $AR_t$: the abnormal return; $CAR[0, k]$: the cumulative abnormal return over days 0 to $k$', r'$r_t$: randamentul activului; $r^m_t$: randamentul pieței; $AR_t$: randamentul anormal; $CAR[0, k]$: randamentul anormal cumulat pe zilele 0--$k$')]),
+    (T(r'Variance of the CAR', r'Varianța CAR'),
+     [T(r'$(k + 1)\sigma^2$ under i.i.d.\ errors; $(k + 1)\Omega$ with serial correlation ($\Omega$: long-run variance)', r'$(k + 1)\sigma^2$ sub erori i.i.d.; $(k + 1)\Omega$ cu corelație serială ($\Omega$: varianța pe termen lung)'),
+      T('event-induced variance and clustered events need cross-sectional or bootstrap corrections', 'varianța indusă de eveniment și evenimentele grupate cer corecții transversale sau bootstrap')]),
+    (T('Identification: the event is a surprise on day 0 and nothing else happened', 'Identificarea: evenimentul este o surpriză în ziua 0 și nimic altceva nu s-a întîmplat'),
+     [T('anticipated news is priced before the window', 'știrile anticipate sînt încorporate în preț înaintea ferestrei')]),
     T(r'Here: the BET index against the Euro Stoxx 50, four Romanian political and fiscal events of 2024--2025, window $[0, 2]$', r'Aici: indicele BET față de Euro Stoxx 50, patru evenimente politice și fiscale din România în 2024--2025, fereastra $[0, 2]$')), 'small')
 
 chart(T('Romanian stocks around political and fiscal news', 'Acțiunile românești în jurul știrilor politice și fiscale'), 'ats_ch14_event', 'ATS_ch14_its_event', [
@@ -601,21 +682,35 @@ D.recap(('Interrupted time series and event studies', 'serii de timp întrerupte
 # =============================================================================
 D.section('Synthetic control', 'Metoda controlului sintetic')
 
-D.frame(T('The synthetic control estimator', 'Estimatorul controlului sintetic'), items(
-    (T(r'Units $j = 1$ (treated) and $j = 2, \dots, J + 1$ (donor pool); treatment after $T_0$; target $\tau_{1t} = Y_{1t}(1) - Y_{1t}(0)$, $t > T_0$ \refAbG, \refADHa',
-       r'Unitățile $j = 1$ (tratată) și $j = 2, \dots, J + 1$ (grupul donatorilor); tratament după $T_0$; ținta $\tau_{1t} = Y_{1t}(1) - Y_{1t}(0)$, $t > T_0$ \refAbG, \refADHa'),
-     [T(r'$\hat Y_{1t}(0) = \sum_{j\ge2} w_jY_{jt}$, $\hat\tau_{1t} = Y_{1t} - \hat Y_{1t}(0)$', r'$\hat Y_{1t}(0) = \sum_{j\ge2} w_jY_{jt}$, $\hat\tau_{1t} = Y_{1t} - \hat Y_{1t}(0)$')]),
-    (T(r'Weights: $w^*(V) = \arg\min_w (X_1 - X_0w)\'V(X_1 - X_0w)$, $w_j \ge 0$, $\sum_j w_j = 1$; $X$: pre-treatment predictors (outcome averages, covariates)', r'Ponderile: $w^*(V) = \arg\min_w (X_1 - X_0w)\'V(X_1 - X_0w)$, $w_j \ge 0$, $\sum_j w_j = 1$; $X$: predictori anteriori tratamentului (medii ale rezultatului, covariate)'),
-     [T(r'a quadratic programme on the simplex: weights are sparse and interpretable; no extrapolation outside the donors\' range', r'o problemă de programare pătratică pe simplex: ponderile sînt rare și interpretabile; nicio extrapolare în afara domeniului donatorilor')]),
-    (T(r'$V = \mathrm{diag}(v)$: minimise the pre-period outcome MSPE over $v$ (nested optimisation, \refADHs); \refADHb choose $v$ by cross-validation on a training and a validation period', r'$V = \mathrm{diag}(v)$: minimizăm MSPE al rezultatului în perioada anterioară după $v$ (optimizare imbricată, \refADHs); \refADHb aleg $v$ prin validare încrucișată pe o perioadă de antrenare și una de validare'),
-     [T(r'with all pre-period outcomes in $X$ the covariates get no weight \refKKPS', r'cu toate rezultatele anterioare în $X$, covariatele nu primesc nicio pondere \refKKPS')])), 'small')
+D.frame(T('The synthetic control estimator (1/2)', 'Estimatorul controlului sintetic (1/2)'), items(
+    (T(r'Units: $j = 1$ treated, $j = 2, \dots, J + 1$ the \textbf{donor pool}; treatment after period $T_0$ \refAbG, \refADHa', r'Unitățile: $j = 1$ tratată, $j = 2, \dots, J + 1$ \textbf{grupul donatorilor}; tratamentul după perioada $T_0$ \refAbG, \refADHa'),
+     [T(r'$Y_{jt}(1)$, $Y_{jt}(0)$: potential outcomes of unit $j$ at $t$ with and without the treatment', r'$Y_{jt}(1)$, $Y_{jt}(0)$: rezultatele potențiale ale unității $j$ la $t$, cu și fără tratament')]),
+    (T(r'Target: the effect on the treated unit after $T_0$', r'Ținta: efectul asupra unității tratate după $T_0$'),
+     [r'\[ \tau_{1t} = Y_{1t}(1) - Y_{1t}(0), \qquad t > T_0 \]',
+      T(r'$Y_{1t}(1) = Y_{1t}$ is observed; $Y_{1t}(0)$ must be estimated', r'$Y_{1t}(1) = Y_{1t}$ este observat; $Y_{1t}(0)$ trebuie estimat')]),
+    (T(r'\textbf{Synthetic control}: a weighted average of the donors stands in for $Y_{1t}(0)$', r'\textbf{Controlul sintetic}: o medie ponderată a donatorilor ține locul lui $Y_{1t}(0)$'),
+     [r'\[ \hat Y_{1t}(0) = \sum_{j=2}^{J+1} w_jY_{jt}, \qquad \hat\tau_{1t} = Y_{1t} - \hat Y_{1t}(0) \]',
+      T(r'$w_j \ge 0$: the weight of donor $j$, with $\sum_j w_j = 1$', r'$w_j \ge 0$: ponderea donatorului $j$, cu $\sum_j w_j = 1$')])), 'small')
+
+D.frame(T('The synthetic control estimator (2/2)', 'Estimatorul controlului sintetic (2/2)'), items(
+    (T(r'\textbf{Weights}: the convex combination of donors closest to the treated unit in the pre-treatment predictors', r'\textbf{Ponderile}: combinația convexă de donatori cea mai apropiată de unitatea tratată după predictorii anteriori tratamentului'),
+     [r'\[ w^*(V) = \arg\min_w\, (X_1 - X_0w)\'V(X_1 - X_0w), \qquad w_j \ge 0,\ \sum_j w_j = 1 \]',
+      T(r'$X_1$: the vector of pre-treatment predictors of the treated unit (outcome averages, covariates); $X_0$: the matrix of the same predictors for the donors', r'$X_1$: vectorul predictorilor anteriori tratamentului ai unității tratate (medii ale rezultatului, covariate); $X_0$: matricea acelorași predictori pentru donatori'),
+      T(r'a quadratic programme on the simplex: weights are sparse and interpretable; no extrapolation outside the donors\' range', r'o problemă de programare pătratică pe simplex: ponderile sînt rare și interpretabile; nicio extrapolare în afara domeniului donatorilor')]),
+    (T(r'$V = \mathrm{diag}(v)$: the importance of each predictor', r'$V = \mathrm{diag}(v)$: importanța fiecărui predictor'),
+     [T(r'chosen to minimise the pre-period MSPE of the outcome (nested optimisation, \refADHs), or by cross-validation on a training and a validation period \refADHb', r'aleasă pentru a minimiza MSPE al rezultatului în perioada anterioară (optimizare imbricată, \refADHs) sau prin validare încrucișată pe o perioadă de antrenare și una de validare \refADHb'),
+      T(r'MSPE: mean squared prediction error; with all pre-period outcomes in $X$ the covariates get no weight \refKKPS', r'MSPE: eroarea pătratică medie de predicție; cu toate rezultatele anterioare în $X$, covariatele nu primesc nicio pondere \refKKPS')])), 'small')
 
 D.frame(T('Why it works: the factor model', 'Fundamentul: modelul factorial'), items(
-    (T(r'\refADHa: $Y_{jt}(0) = \delta_t + \theta_tZ_j + \lambda_t\mu_j + \varepsilon_{jt}$, unobserved loadings $\mu_j$ (interactive fixed effects \refBai)', r'\refADHa: $Y_{jt}(0) = \delta_t + \theta_tZ_j + \lambda_t\mu_j + \varepsilon_{jt}$, încărcări neobservate $\mu_j$ (efecte fixe interactive \refBai)'),
-     [T(r'DiD assumes $\lambda_t$ constant (parallel trends); SC lets the common factors vary over time', r'DiD presupune $\lambda_t$ constant (trenduri paralele); SC permite factorilor comuni să varieze în timp')]),
-    (T(r'If $\sum_j w_jY_{jt} = Y_{1t}$ for all $t \le T_0$ and $\sum_j w_jZ_j = Z_1$, the bias of $\hat\tau_{1t}$ is bounded by a term that \textbf{shrinks as $T_0$ grows} relative to the scale of $\varepsilon$',
-       r'Dacă $\sum_j w_jY_{jt} = Y_{1t}$ pentru orice $t \le T_0$ și $\sum_j w_jZ_j = Z_1$, deplasarea lui $\hat\tau_{1t}$ este mărginită de un termen care \textbf{scade cînd $T_0$ crește}, relativ la scala lui $\varepsilon$'),
-     [T('a good pre-period fit over a long window is evidence that the loadings $\\mu$ are matched (appendix)', 'o potrivire bună pe o fereastră lungă înaintea tratamentului arată că încărcările $\\mu$ sînt reproduse (anexă)')]),
+    (T(r'\refADHa: the untreated outcomes follow a factor model (interactive fixed effects \refBai)', r'\refADHa: rezultatele fără tratament urmează un model factorial (efecte fixe interactive \refBai)'),
+     [r'\[ Y_{jt}(0) = \delta_t + \theta_tZ_j + \lambda_t\mu_j + \varepsilon_{jt} \]',
+      T(r'$\delta_t$: a common time effect; $Z_j$: observed covariates with time-varying coefficients $\theta_t$; $\lambda_t$: unobserved common factors; $\mu_j$: unobserved loadings of unit $j$; $\varepsilon_{jt}$: transitory shocks',
+        r'$\delta_t$: un efect comun al perioadei; $Z_j$: covariate observate, cu coeficienții variabili în timp $\theta_t$; $\lambda_t$: factori comuni neobservați; $\mu_j$: încărcările neobservate ale unității $j$; $\varepsilon_{jt}$: șocuri tranzitorii'),
+      T(r'DiD assumes $\lambda_t$ constant (parallel trends); SC lets the common factors vary over time', r'DiD presupune $\lambda_t$ constant (trenduri paralele); SC permite factorilor comuni să varieze în timp')]),
+    (T(r'If the weights reproduce the treated unit before $T_0$, $\sum_j w_jY_{jt} = Y_{1t}$ for all $t \le T_0$ and $\sum_j w_jZ_j = Z_1$, then',
+       r'Dacă ponderile reproduc unitatea tratată înainte de $T_0$, $\sum_j w_jY_{jt} = Y_{1t}$ pentru orice $t \le T_0$ și $\sum_j w_jZ_j = Z_1$, atunci'),
+     [T(r'the bias of $\hat\tau_{1t}$ is bounded by a term that \textbf{shrinks as $T_0$ grows}, relative to the scale of $\varepsilon$ (Appendix)', r'deplasarea lui $\hat\tau_{1t}$ este mărginită de un termen care \textbf{scade cînd $T_0$ crește}, relativ la scala lui $\varepsilon$ (Anexă)'),
+      T(r'a good fit over a long pre-period is evidence that the loadings $\mu_j$ are matched', r'o potrivire bună pe o perioadă anterioară lungă arată că încărcările $\mu_j$ sînt reproduse')]),
     T(r'A short pre-period with a perfect fit can be overfitting the noise: the bound is then weak \refAba', r'O perioadă anterioară scurtă cu potrivire perfectă poate însemna supraajustarea zgomotului: marginea este atunci slabă \refAba')), 'small')
 
 D.frame(T('Feasibility conditions', 'Condiții de aplicabilitate'), items(
@@ -626,11 +721,16 @@ D.frame(T('Feasibility conditions', 'Condiții de aplicabilitate'), items(
     T('Report: weights, predictor balance, pre-period RMSPE, the placebo distribution, leave-one-out', 'Raportați: ponderile, echilibrul predictorilor, RMSPE în perioada anterioară, distribuția placebo, omiterea pe rînd a donatorilor')), 'small')
 
 D.frame(T('Inference with one treated unit', 'Inferența cu o singură unitate tratată'), items(
-    (T(r'\textbf{In-space placebos} \refADHa: reassign the treatment to every donor, refit, compute $r_j = \mathrm{RMSPE}_{\mathrm{post}}/\mathrm{RMSPE}_{\mathrm{pre}}$', r'\textbf{Placebo în spațiu} \refADHa: atribuim tratamentul fiecărui donator, reestimăm, calculăm $r_j = \mathrm{RMSPE}_{\mathrm{post}}/\mathrm{RMSPE}_{\mathrm{pre}}$'),
-     [T(r'permutation $p$-value $= \#\{j: r_j \ge r_1\}/(J + 1)$; the smallest attainable value is $1/(J + 1)$', r'valoarea $p$ prin permutare $= \#\{j: r_j \ge r_1\}/(J + 1)$; cea mai mică valoare posibilă este $1/(J + 1)$'),
-      T(r'exact only under random assignment of the treatment across units; otherwise a descriptive ranking \refFiP', r'exactă doar dacă tratamentul este atribuit aleator între unități; altfel o ordonare descriptivă \refFiP')]),
-    (T(r'\textbf{In-time placebos}: a fictitious $T_0$ inside the pre-period should give no effect; \textbf{leave-one-out}: drop each donor with positive weight', r'\textbf{Placebo în timp}: un $T_0$ fictiv în perioada anterioară nu trebuie să dea niciun efect; \textbf{omiterea pe rînd}: eliminăm fiecare donator cu pondere pozitivă'), []),
-    T(r'\textbf{Conformal inference} \refCWZ: test $H_0$: $\tau_{1t} = \tau_0$ by permuting the residuals over time (block permutations for dependence); confidence sets by inversion', r'\textbf{Inferența conformală} \refCWZ: testăm $H_0$: $\tau_{1t} = \tau_0$ permutînd reziduurile în timp (permutări pe blocuri pentru dependență); intervale de încredere prin inversare')), 'small')
+    (T(r'\textbf{In-space placebos} \refADHa: reassign the treatment to every donor in turn, refit, and compute the ratio', r'\textbf{Placebo în spațiu} \refADHa: tratamentul se atribuie pe rînd fiecărui donator, se reestimează și se calculează raportul'),
+     [r'\[ r_j = \mathrm{RMSPE}_{\mathrm{post}}/\mathrm{RMSPE}_{\mathrm{pre}}, \qquad \text{p-value} = \#\{j: r_j \ge r_1\}/(J + 1) \]',
+      T(r'RMSPE: root mean squared prediction error of the synthetic control, before (pre) and after (post) $T_0$; a large $r_j$: a large post-treatment gap relative to the pre-fit',
+        r'RMSPE: rădăcina erorii pătratice medii de predicție a controlului sintetic, înainte (pre) și după (post) $T_0$; un $r_j$ mare: o diferență mare după tratament, relativ la potrivirea anterioară'),
+      T(r'$\#\{\cdot\}$: the number of units; the smallest attainable p-value is $1/(J + 1)$; exact only under random assignment across units, otherwise a descriptive ranking \refFiP',
+        r'$\#\{\cdot\}$: numărul de unități; cel mai mic p-value posibil este $1/(J + 1)$; exact doar dacă tratamentul este atribuit aleator între unități, altfel o ordonare descriptivă \refFiP')]),
+    (T(r'\textbf{In-time placebos}: a fictitious $T_0$ inside the pre-period should give no effect', r'\textbf{Placebo în timp}: un $T_0$ fictiv în perioada anterioară nu trebuie să dea niciun efect'),
+     [T(r'\textbf{leave-one-out}: drop each donor with positive weight and refit', r'\textbf{omiterea pe rînd}: se elimină fiecare donator cu pondere pozitivă și se reestimează')]),
+    (T(r'\textbf{Conformal inference} \refCWZ: test $H_0$: $\tau_{1t} = \tau_0$ by permuting the residuals over time', r'\textbf{Inferența conformală} \refCWZ: se testează $H_0$: $\tau_{1t} = \tau_0$ permutînd reziduurile în timp'),
+     [T(r'block permutations for dependence; confidence sets by inverting the test over $\tau_0$', r'permutări pe blocuri pentru dependență; intervale de încredere prin inversarea testului după $\tau_0$')])), 'small')
 
 D.frame(T('Case study: the economic cost of German reunification', 'Studiu de caz: costul economic al reunificării Germaniei'), two(
     ph('gate', T('Brandenburg Gate, Berlin, 11 November 1989', 'Poarta Brandenburg, Berlin, 11 noiembrie 1989'), h='0.42\\textheight'),
@@ -667,7 +767,7 @@ chart(T('Placebos for the German case', 'Testele placebo pentru cazul german'), 
     T('Left: post/pre-1990 RMSPE ratio when each country is treated in turn (ADH 2015, Figure 6); centre: reunification moved to 1975 (as in Figure 4, outcome-only SC); right: one donor left out at a time (Figure 5)', 'Stînga: raportul RMSPE după/înainte de 1990 cînd fiecare țară este tratată pe rînd (ADH 2015, figura 6); centru: reunificarea mutată în 1975 (ca în figura 4, SC doar pe rezultat); dreapta: cîte un donator omis (figura 5)')], h='0.54\\textheight')
 
 interp(('the German placebos', 'testelor placebo germane'), [
-    T(r'West Germany has the largest ratio (@{gp.r}; next: @{gp.second}, @{gp.r2}): permutation $p$-value $1/@{gp.n}$ = @{gp.p}, the smallest attainable', r'Germania de Vest are cel mai mare raport (@{gp.r}; următoarea: @{gp.second}, @{gp.r2}): valoarea $p$ prin permutare $1/@{gp.n}$ = @{gp.p}, cea mai mică posibilă'),
+    T(r'West Germany has the largest ratio (@{gp.r}; next: @{gp.second}, @{gp.r2}): permutation p-value $1/@{gp.n}$ = @{gp.p}, the smallest attainable', r'Germania de Vest are cel mai mare raport (@{gp.r}; următoarea: @{gp.second}, @{gp.r2}): p-value-ul prin permutare $1/@{gp.n}$ = @{gp.p}, cea mai mică posibilă'),
     T(r'Placebo reunification in 1975 (outcome-only SC on 1960--1974, pre-RMSPE @{gp.rm75} USD): West Germany grows faster than its synthetic control (average gap +@{gp.rel75}\% to 1990): no spurious cost appears', r'Reunificare placebo în 1975 (SC doar pe rezultat, 1960--1974, RMSPE anterior @{gp.rm75} USD): Germania de Vest crește mai repede decît controlul sintetic (diferența medie +@{gp.rel75}\% pînă în 1990): nu apare niciun cost fals'),
     T(r'With the published 1975 predictors the cross-validated $V$ is not identified: one starting value gives @{gp.v1} as the donor, the best of eight gives @{gp.v8} \refKPSb', r'Cu predictorii publicați pentru 1975, $V$ ales prin validare încrucișată nu este identificat: un punct de pornire dă ca donator @{gp.v1}, cel mai bun dintre opt dă @{gp.v8} \refKPSb'),
     T(r'Leaving out any donor keeps a negative gap in 2003, between @{gp.loomin} and @{gp.loomax} USD: the result does not hinge on one country', r'Omiterea oricărui donator păstrează o diferență negativă în 2003, între @{gp.loomin} și @{gp.loomax} USD: rezultatul nu depinde de o singură țară'),
@@ -700,23 +800,38 @@ D.recap(('Synthetic control', 'controlul sintetic'), [
 D.section('Beyond synthetic control', 'Dincolo de controlul sintetic')
 
 D.frame(T('Intercepts and augmentation', 'Termenul liber și augmentarea'), items(
-    (T(r'\textbf{Demeaned SC} \refDI, \refFP: allow a constant level difference, $\hat Y_{1t}(0) = c + \sum_j w_jY_{jt}$; fit the weights on pre-period outcomes minus their unit means', r'\textbf{SC cu termen liber} \refDI, \refFP: permite o diferență constantă de nivel, $\hat Y_{1t}(0) = c + \sum_j w_jY_{jt}$; ajustăm ponderile pe rezultatele anterioare minus mediile fiecărei unități'),
-     [T('solves the level part of the convex-hull problem; consistent under imperfect pre-fit when the factors are stationary \\refFP', 'rezolvă partea de nivel a problemei înfășurătorii convexe; consistent cu potrivire imperfectă cînd factorii sînt staționari \\refFP')]),
-    (T(r'\textbf{Augmented SC} \refASCM: $\hat Y^{\mathrm{aug}}_{1t}(0) = \sum_j\hat w_jY_{jt} + \big(X_1 - \sum_j\hat w_jX_j\big)\'\hat\eta_t$, $\hat\eta_t$ ridge regression of $Y_{jt}$ on pre-period outcomes across donors',
-       r'\textbf{SC augmentat} \refASCM: $\hat Y^{\mathrm{aug}}_{1t}(0) = \sum_j\hat w_jY_{jt} + \big(X_1 - \sum_j\hat w_jX_j\big)\'\hat\eta_t$, $\hat\eta_t$ regresia ridge a lui $Y_{jt}$ pe rezultatele anterioare, între donatori'),
-     [T(r'equivalent to weights $\hat w + X_0(X_0\'X_0 + \lambda I)^{-1}(X_1 - X_0\'\hat w)$: they can be negative (controlled extrapolation)', r'echivalent cu ponderile $\hat w + X_0(X_0\'X_0 + \lambda I)^{-1}(X_1 - X_0\'\hat w)$: pot fi negative (extrapolare controlată)'),
-      T(r'$\lambda \to \infty$ gives SC; $\lambda \to 0$ gives an outcome regression; bias falls with the remaining imbalance', r'$\lambda \to \infty$ dă SC; $\lambda \to 0$ dă o regresie a rezultatului; deplasarea scade odată cu dezechilibrul rămas')])), 'small')
+    (T(r'\textbf{Demeaned SC} \refDI, \refFP: allows a constant level difference $c$ between the treated unit and the donors', r'\textbf{SC cu termen liber} \refDI, \refFP: permite o diferență constantă de nivel $c$ între unitatea tratată și donatori'),
+     [r'\[ \hat Y_{1t}(0) = c + \sum_j w_jY_{jt} \]',
+      T('the weights are fitted on pre-period outcomes minus the pre-period mean of each unit', 'ponderile se ajustează pe rezultatele anterioare minus media anterioară a fiecărei unități'),
+      T('solves the level part of the convex-hull problem; consistent under imperfect pre-fit when the factors are stationary \\refFP', 'rezolvă partea de nivel a problemei înfășurătorii convexe; consistent cu potrivire imperfectă cînd factorii sînt staționari \\refFP')]),
+    (T(r'\textbf{Augmented SC} \refASCM: corrects the SC estimate by the remaining predictor imbalance, through a ridge regression', r'\textbf{SC augmentat} \refASCM: corectează estimația SC cu dezechilibrul rămas al predictorilor, printr-o regresie ridge'),
+     [r'\[ \hat Y^{\mathrm{aug}}_{1t}(0) = \sum_j\hat w_jY_{jt} + \Big(X_1 - \sum_j\hat w_jX_j\Big)\'\hat\eta_t \]',
+      T(r'$\hat w_j$: the SC weights; $X_j$: the pre-period outcomes of unit $j$; $\hat\eta_t$: coefficients of a ridge regression of $Y_{jt}$ on $X_j$ across donors, with penalty $\lambda$', r'$\hat w_j$: ponderile SC; $X_j$: rezultatele anterioare ale unității $j$; $\hat\eta_t$: coeficienții regresiei ridge a lui $Y_{jt}$ pe $X_j$, între donatori, cu penalizarea $\lambda$'),
+      T(r'equivalent to weights $\hat w + X_0(X_0\'X_0 + \lambda I)^{-1}(X_1 - X_0\'\hat w)$, which can be negative (controlled extrapolation)', r'echivalent cu ponderile $\hat w + X_0(X_0\'X_0 + \lambda I)^{-1}(X_1 - X_0\'\hat w)$, care pot fi negative (extrapolare controlată)'),
+      T(r'$\lambda \to \infty$ gives SC; $\lambda \to 0$ gives an outcome regression; the bias falls with the remaining imbalance', r'$\lambda \to \infty$ dă SC; $\lambda \to 0$ dă o regresie a rezultatului; deplasarea scade odată cu dezechilibrul rămas')])), 'small')
 
-D.frame(T('Synthetic difference in differences', 'Diferența în diferențe sintetică'), items(
-    (T(r'\refSDID: $(\hat\tau, \hat\mu, \hat\alpha, \hat\beta) = \arg\min\sum_{j,t}(Y_{jt} - \mu - \alpha_j - \beta_t - W_{jt}\tau)^2\hat\omega_j\hat\lambda_t$', r'\refSDID: $(\hat\tau, \hat\mu, \hat\alpha, \hat\beta) = \arg\min\sum_{j,t}(Y_{jt} - \mu - \alpha_j - \beta_t - W_{jt}\tau)^2\hat\omega_j\hat\lambda_t$'),
-     [T(r'unit weights $\hat\omega$: SC with an intercept and a ridge penalty $\zeta^2T_0\|\omega\|^2$, $\zeta = (N_{\mathrm{tr}}T_{\mathrm{post}})^{1/4}\hat\sigma$', r'ponderile unităților $\hat\omega$: SC cu termen liber și penalizare ridge $\zeta^2T_0\|\omega\|^2$, $\zeta = (N_{\mathrm{tr}}T_{\mathrm{post}})^{1/4}\hat\sigma$'),
-      T(r'time weights $\hat\lambda$: pre-periods that best predict the post-period mean of the controls', r'ponderile perioadelor $\hat\lambda$: perioadele anterioare care prezic cel mai bine media controalelor după tratament')]),
-    (T(r'DiD: $\omega$, $\lambda$ uniform; SC: $\lambda$ on $T_0$ only, no unit fixed effect; SDID: both weighted, both fixed effects', r'DiD: $\omega$, $\lambda$ uniforme; SC: $\lambda$ doar pe $T_0$, fără efect fix al unității; SDID: ambele ponderate, ambele efecte fixe'), []),
-    T(r'One treated unit: placebo standard error (each control in turn plays the treated unit, Algorithm 4)', r'O singură unitate tratată: eroarea standard prin placebo (fiecare control joacă pe rînd rolul unității tratate, algoritmul 4)')), 'small')
+D.frame(T('Synthetic difference in differences (1/2)', 'Diferența în diferențe sintetică (1/2)'), items(
+    (T(r'\refSDID: a two-way fixed-effects regression in which units and periods are weighted', r'\refSDID: o regresie cu efecte fixe pe unități și pe perioade, în care unitățile și perioadele sînt ponderate'),
+     [r'\[ (\hat\tau, \hat\mu, \hat\alpha, \hat\beta) = \arg\min\sum_{j,t}\big(Y_{jt} - \mu - \alpha_j - \beta_t - W_{jt}\tau\big)^2\hat\omega_j\hat\lambda_t \]',
+      T(r'$W_{jt} = 1$ for the treated unit after $T_0$, 0 otherwise; $\tau$: the effect; $\mu$: the overall mean; $\alpha_j$: unit fixed effects; $\beta_t$: period fixed effects',
+        r'$W_{jt} = 1$ pentru unitatea tratată după $T_0$, 0 altfel; $\tau$: efectul; $\mu$: media generală; $\alpha_j$: efectele fixe ale unităților; $\beta_t$: efectele fixe ale perioadelor')]),
+    (T(r'\textbf{Unit weights} $\hat\omega_j$: SC with an intercept and a ridge penalty', r'\textbf{Ponderile unităților} $\hat\omega_j$: SC cu termen liber și penalizare ridge'),
+     [T(r'penalty $\zeta^2T_0\|\omega\|^2$ with $\zeta = (N_{\mathrm{tr}}T_{\mathrm{post}})^{1/4}\hat\sigma$; $N_{\mathrm{tr}}$: treated units; $T_{\mathrm{post}}$: post-periods; $\hat\sigma$: the noise level of the controls',
+        r'penalizarea $\zeta^2T_0\|\omega\|^2$, cu $\zeta = (N_{\mathrm{tr}}T_{\mathrm{post}})^{1/4}\hat\sigma$; $N_{\mathrm{tr}}$: unitățile tratate; $T_{\mathrm{post}}$: perioadele de după; $\hat\sigma$: nivelul zgomotului controalelor')]),
+    (T(r'\textbf{Time weights} $\hat\lambda_t$: the pre-periods that best predict the post-period mean of the controls', r'\textbf{Ponderile perioadelor} $\hat\lambda_t$: perioadele anterioare care prezic cel mai bine media controalelor după tratament'), [])), 'small')
+
+D.frame(T('Synthetic difference in differences (2/2)', 'Diferența în diferențe sintetică (2/2)'), items(
+    (T('Three estimators as special cases', 'Trei estimatori ca și cazuri particulare'),
+     [T(r'DiD: $\omega$ and $\lambda$ uniform', r'DiD: $\omega$ și $\lambda$ uniforme'),
+      T(r'SC: unit weights $\omega$ only (uniform $\lambda$), no unit fixed effect', r'SC: doar ponderile unităților $\omega$ ($\lambda$ uniforme), fără efect fix al unității'),
+      T('SDID: both sets of weights, both fixed effects', 'SDID: ambele seturi de ponderi, ambele efecte fixe')]),
+    (T(r'One treated unit: placebo standard error', r'O singură unitate tratată: eroarea standard prin placebo'),
+     [T('each control in turn plays the treated unit; the standard deviation of the placebo estimates is the standard error (Algorithm 4)', 'fiecare control joacă pe rînd rolul unității tratate; abaterea standard a estimațiilor placebo este eroarea standard (algoritmul 4)')])), 'small')
 
 D.frame(T('Romania 2025: design of the synthetic control', 'România 2025: designul controlului sintetic'), items(
     (T(r'Outcome: annual HICP inflation (pp), $100(\ln P_t - \ln P_{t-12})$, Eurostat; treated: Romania; donors: the other 26 EU countries', r'Rezultatul: inflația IAPC anuală (pp), $100(\ln P_t - \ln P_{t-12})$, Eurostat; unitatea tratată: România; donatori: celelalte 26 de țări UE'),
-     [T('the annual rate removes seasonality and makes a price-level shock visible for exactly twelve months', 'rata anuală elimină sezonalitatea și face vizibil un șoc al nivelului prețurilor exact douăsprezece luni')]),
+     [T(r'$P_t$: the HICP price index in month $t$; pp: percentage points', r'$P_t$: indicele prețurilor IAPC în luna $t$; pp: puncte procentuale'),
+      T('the annual rate removes seasonality and makes a price-level shock visible for exactly twelve months', 'rata anuală elimină sezonalitatea și face vizibil un șoc al nivelului prețurilor exact douăsprezece luni')]),
     (T(r'Pre-period: July 2023 -- June 2025 (@{ro.npre} months, after the 2021--2023 surge); treatment from July 2025; effect window July 2025 -- June 2026', r'Perioada anterioară: iulie 2023 -- iunie 2025 (@{ro.npre} de luni, după valul 2021--2023); tratament din iulie 2025; fereastra efectului iulie 2025 -- iunie 2026'),
      [T(r'a built-in falsification: once the price-level jump leaves the 12-month window (August 2026), the gap must close', r'o falsificare încorporată: după ce saltul nivelului prețurilor iese din fereastra de 12 luni (august 2026), diferența trebuie să dispară')]),
     T('Estimators: SC, demeaned SC, ridge-augmented demeaned SC, SDID; inference: in-space placebos', 'Estimatori: SC, SC cu termen liber, SC augmentat ridge cu termen liber, SDID; inferența: placebo în spațiu'),
@@ -742,7 +857,7 @@ chart(T('Placebo inference for Romania', 'Inferența prin placebo pentru Români
 interp(('the Romanian placebos', 'testelor placebo pentru România'), [
     T(r'Romania has the largest ratio (@{rp.r}; next @{rp.second}, @{rp.r2}): $p = 1/@{rp.n}$ = @{rp.p}', r'România are cel mai mare raport (@{rp.r}; următoarea @{rp.second}, @{rp.r2}): $p = 1/@{rp.n}$ = @{rp.p}'),
     T('No placebo country shows a jump of this size in July--August 2025: the effect is not a common European shock', 'Nicio țară placebo nu are un salt de această mărime în iulie--august 2025: efectul nu este un șoc european comun'),
-    T('The permutation $p$-value treats Romania as one of 27 exchangeable units; it is a measure of rarity, not a sampling-based confidence statement', 'Valoarea $p$ prin permutare tratează România ca pe una din 27 de unități schimbabile; este o măsură a rarității, nu o afirmație de încredere care decurge din eșantionare'),
+    T('The permutation p-value treats Romania as one of 27 exchangeable units; it is a measure of rarity, not a sampling-based confidence statement', 'P-value-ul prin permutare tratează România ca pe una dintre 27 de unități interschimbabile; este o măsură a rarității, nu o afirmație de încredere care decurge din eșantionare'),
     T('Other countries\' measures in the window (tax changes, the end of their own caps) bias the effect towards zero if they raised inflation there', 'Măsurile altor țări din fereastră (schimbări fiscale, încheierea propriilor plafonări) deplasează efectul spre zero dacă au crescut inflația acolo')])
 
 chart(T('How much was the tax?', 'Ponderea componentei fiscale'), 'ats_ch14_ro_tax', 'ATS_ch14_romania', [
@@ -754,12 +869,20 @@ interp(('the tax decomposition', 'descompunerii fiscale'), [
     T(r'The non-tax part peaks in July 2025 (@{rt.ctjul} pp): the end of the electricity cap, which is a price, not a tax', r'Partea nefiscală are maximul în iulie 2025 (@{rt.ctjul} pp): încheierea plafonării electricității, care este un preț, nu o taxă'),
     T(r'Pass-through of VAT to consumer prices is often incomplete and asymmetric \refBMKW; the constant-tax index is an accounting benchmark, not a measured pass-through', r'Transmiterea TVA în prețurile de consum este adesea incompletă și asimetrică \refBMKW; indicele la taxe constante este un reper contabil, nu o transmitere măsurată')])
 
-D.frame(T('Staggered adoption and two-way fixed effects', 'Adoptarea eșalonată și efectele fixe bidirecționale'), items(
-    (T(r'Many units adopt at different dates $g$; TWFE regression $Y_{it} = \alpha_i + \beta_t + \tau D_{it} + u_{it}$', r'Multe unități adoptă la date diferite $g$; regresia TWFE $Y_{it} = \alpha_i + \beta_t + \tau D_{it} + u_{it}$'),
-     [T(r'\refGB: $\hat\tau$ is a weighted average of all 2$\times$2 DiDs, including ``forbidden\'\' ones that use already-treated units as controls', r'\refGB: $\hat\tau$ este o medie ponderată a tuturor DiD 2$\times$2, inclusiv a celor „interzise”, care folosesc unități deja tratate drept control'),
-      T(r'with effects that grow over time, some weights are negative \refdCDH: $\hat\tau$ can even have the wrong sign', r'cu efecte care cresc în timp, unele ponderi sînt negative \refdCDH: $\hat\tau$ poate avea chiar semnul greșit')]),
-    (T(r'\refCSA: group-time effects $ATT(g, t) = \E[Y_t - Y_{g-1}\mid G = g] - \E[Y_t - Y_{g-1}\mid \text{never treated}]$, then aggregate by exposure or by cohort', r'\refCSA: efecte pe grup și perioadă $ATT(g, t) = \E[Y_t - Y_{g-1}\mid G = g] - \E[Y_t - Y_{g-1}\mid \text{niciodată tratat}]$, apoi agregare după expunere sau după cohortă'),
-     [T(r'interaction-weighted event studies \refSA; a guide to the new DiD literature \refRSBP', r'studii de eveniment ponderate prin interacțiuni \refSA; un ghid al noii literaturi DiD \refRSBP')]),
+D.frame(T('Staggered adoption and two-way fixed effects (1/2)', 'Adoptarea eșalonată și efectele fixe bidirecționale (1/2)'), items(
+    (T(r'Many units adopt at different dates $g$ (their cohort); the static TWFE regression', r'Multe unități adoptă la date diferite $g$ (cohorta lor); regresia TWFE statică'),
+     [r'\[ Y_{it} = \alpha_i + \beta_t + \tau D_{it} + u_{it} \]',
+      T(r'$D_{it} = 1$ if unit $i$ is treated at $t$; $\alpha_i$, $\beta_t$: unit and period fixed effects; $\tau$: a single treatment effect', r'$D_{it} = 1$ dacă unitatea $i$ este tratată la $t$; $\alpha_i$, $\beta_t$: efectele fixe ale unităților și ale perioadelor; $\tau$: un singur efect al tratamentului')]),
+    (T(r'\refGB: $\hat\tau$ is a weighted average of all 2$\times$2 DiDs', r'\refGB: $\hat\tau$ este o medie ponderată a tuturor DiD 2$\times$2'),
+     [T(r'including ``forbidden\'\' ones that use already-treated units as controls', r'inclusiv a celor „interzise”, care folosesc unități deja tratate drept control'),
+      T(r'with effects that grow over time some weights are negative \refdCDH: $\hat\tau$ can even have the wrong sign', r'cu efecte care cresc în timp, unele ponderi sînt negative \refdCDH: $\hat\tau$ poate avea chiar semnul greșit')])), 'small')
+
+D.frame(T('Staggered adoption and two-way fixed effects (2/2)', 'Adoptarea eșalonată și efectele fixe bidirecționale (2/2)'), items(
+    (T(r'\refCSA: group-time effects, each compared only with never-treated units', r'\refCSA: efecte pe grup și perioadă, fiecare comparat doar cu unitățile niciodată tratate'),
+     [r'\[ ATT(g, t) = \E[Y_t - Y_{g-1}\mid G = g] - \E[Y_t - Y_{g-1}\mid \text{' + T('never treated', 'niciodată tratat') + r'}] \]',
+      T(r'$G$: the adoption date of a unit; $Y_{g-1}$: the outcome in the last period before adoption; $ATT$: average treatment effect on the treated', r'$G$: data de adoptare a unei unități; $Y_{g-1}$: rezultatul din ultima perioadă dinaintea adoptării; $ATT$: efectul mediu al tratamentului asupra unităților tratate'),
+      T('then aggregate by exposure ($t - g$) or by cohort', 'apoi agregare după expunere ($t - g$) sau după cohortă')]),
+    (T(r'Related: interaction-weighted event studies \refSA; a guide to the new DiD literature \refRSBP', r'Metode înrudite: studii de eveniment ponderate prin interacțiuni \refSA; un ghid al noii literaturi DiD \refRSBP'), []),
     T('Pre-trend tests have low power; report the sensitivity of the effect to violations of parallel trends', 'Testele trendurilor anterioare au putere mică; raportați sensibilitatea efectului la încălcarea trendurilor paralele')), 'small')
 
 chart(T('TWFE against Callaway and Sant\'Anna', 'TWFE față de Callaway și Sant\'Anna'), 'ats_ch14_staggered', 'ATS_ch14_did_dml', [
@@ -781,14 +904,20 @@ D.recap(('Beyond synthetic control', 'dincolo de controlul sintetic'), [
 # =============================================================================
 D.section('Bayesian structural time series and CausalImpact', 'Serii de timp structurale bayesiene și CausalImpact')
 
-D.frame(T('The CausalImpact model', 'Modelul CausalImpact'), items(
-    (T(r'\refCI: $y_t = \mu_t + \gamma_t + \beta\'x_t + \varepsilon_t$; $\mu_{t+1} = \mu_t + \delta_t + \eta_t$, $\delta_{t+1} = \delta_t + \zeta_t$; $\gamma_t$ seasonal; $x_t$ control series',
-       r'\refCI: $y_t = \mu_t + \gamma_t + \beta\'x_t + \varepsilon_t$; $\mu_{t+1} = \mu_t + \delta_t + \eta_t$, $\delta_{t+1} = \delta_t + \zeta_t$; $\gamma_t$ sezonier; $x_t$ serii de control'),
-     [T(r'a structural time series model \refHar in state space form, filtered and smoothed by Kalman (Chapter 6, \refDK)', r'un model structural de serii de timp \refHar în formă de spațiu al stărilor, filtrat și netezit prin Kalman (Capitolul 6, \refDK)'),
-      T(r'spike-and-slab prior on $\beta$ selects the controls \refSV; posterior by MCMC', r'distribuția a priori spike-and-slab pe $\beta$ selectează seriile de control \refSV; distribuția a posteriori prin MCMC')]),
-    (T(r'Fit on the pre-period; simulate the post-period counterfactual $y^{(s)}_t(0)$ from the posterior predictive given the observed $x_t$; effects $y_t - y^{(s)}_t(0)$, pointwise and cumulative, with credible intervals',
-       r'Estimare pe perioada anterioară; simulăm contrafactualul de după $y^{(s)}_t(0)$ din distribuția predictivă a posteriori, dați $x_t$ observați; efectele $y_t - y^{(s)}_t(0)$, punctuale și cumulate, cu intervale de credibilitate'), []),
-    T(r'Identification: the controls are \textbf{not affected} by the treatment and their relation with $y$ is stable after $T_0$', r'Identificare: seriile de control \textbf{nu sînt afectate} de tratament, iar relația lor cu $y$ rămîne stabilă după $T_0$')), 'small')
+D.frame(T('The CausalImpact model (1/2)', 'Modelul CausalImpact (1/2)'), items(
+    (T(r'\refCI: the outcome is a trend plus a seasonal component plus a regression on control series', r'\refCI: rezultatul este un trend plus o componentă sezonieră plus o regresie pe serii de control'),
+     [r'\[ y_t = \mu_t + \gamma_t + \beta\'x_t + \varepsilon_t, \qquad \mu_{t+1} = \mu_t + \delta_t + \eta_t, \qquad \delta_{t+1} = \delta_t + \zeta_t \]',
+      T(r'$\mu_t$: local level; $\delta_t$: local slope; $\gamma_t$: seasonal component; $x_t$: control series with coefficients $\beta$; $\varepsilon_t, \eta_t, \zeta_t$: independent Normal noises', r'$\mu_t$: nivelul local; $\delta_t$: panta locală; $\gamma_t$: componenta sezonieră; $x_t$: serii de control cu coeficienții $\beta$; $\varepsilon_t, \eta_t, \zeta_t$: zgomote independente cu distribuția Normală')]),
+    (T(r'A structural time series model \refHar in state space form, filtered and smoothed by Kalman (Chapter 6, \refDK)', r'Un model structural de serii de timp \refHar în formă de spațiu al stărilor, filtrat și netezit prin Kalman (Capitolul 6, \refDK)'),
+     [T(r'a spike-and-slab prior on $\beta$ selects the controls \refSV; the posterior is computed by MCMC', r'o distribuție a priori spike-and-slab pe $\beta$ selectează seriile de control \refSV; distribuția a posteriori se calculează prin MCMC')])), 'small')
+
+D.frame(T('The CausalImpact model (2/2)', 'Modelul CausalImpact (2/2)'), items(
+    (T(r'Fit on the pre-period; simulate the post-period counterfactual $y^{(s)}_t(0)$ from the posterior predictive, given the observed $x_t$', r'Estimare pe perioada anterioară; se simulează contrafactualul de după $y^{(s)}_t(0)$ din distribuția predictivă a posteriori, dați $x_t$ observați'),
+     [T(r'$s$: the index of a simulated path; effects $y_t - y^{(s)}_t(0)$, pointwise and cumulative', r'$s$: indicele unei traiectorii simulate; efectele $y_t - y^{(s)}_t(0)$, punctuale și cumulate'),
+      T('credible intervals from the quantiles of the simulated effects', 'intervale de credibilitate din cuantilele efectelor simulate')]),
+    (T(r'\textbf{Identification}', r'\textbf{Identificarea}'),
+     [T(r'the controls are \textbf{not affected} by the treatment', r'seriile de control \textbf{nu sînt afectate} de tratament'),
+      T(r'their relation with $y$ is stable after $T_0$', r'relația lor cu $y$ rămîne stabilă după $T_0$')])), 'small')
 
 D.frame(T('Our implementation', 'Implementarea folosită'), items(
     (T(r'\texttt{statsmodels} \texttt{UnobservedComponents}: local level + regression on the controls, maximum likelihood on the pre-period', r'\texttt{statsmodels} \texttt{UnobservedComponents}: nivel local + regresie pe seriile de control, verosimilitate maximă pe perioada anterioară'),
@@ -832,11 +961,21 @@ D.recap(('BSTS and CausalImpact', 'BSTS și CausalImpact'), [
 # =============================================================================
 D.section('Double machine learning and honest identification', 'Double machine learning și identificarea onestă')
 
-D.frame(T('Double/debiased machine learning for time series', 'Double/debiased machine learning pentru serii de timp'), items(
-    (T(r'\refDML: partially linear model $y_t = \theta d_t + g(X_t) + u_t$, $d_t = m(X_t) + v_t$; nuisance functions $g$, $m$ learned by machine learning', r'\refDML: modelul parțial liniar $y_t = \theta d_t + g(X_t) + u_t$, $d_t = m(X_t) + v_t$; funcțiile auxiliare $g$, $m$ învățate prin machine learning'),
-     [T(r'orthogonal score $\psi = (y_t - \ell(X_t) - \theta(d_t - m(X_t)))(d_t - m(X_t))$, $\ell = \E[y\mid X]$: first-order insensitive to errors in $\ell$ and $m$', r'scor ortogonal $\psi = (y_t - \ell(X_t) - \theta(d_t - m(X_t)))(d_t - m(X_t))$, $\ell = \E[y\mid X]$: insensibil de ordinul întîi la erorile din $\ell$ și $m$')]),
-    (T(r'Cross-fitting: nuisances fitted on other folds; for time series use \textbf{contiguous blocks} with a gap around the held-out block, and a HAC variance of $\psi$', r'Cross-fitting: funcțiile auxiliare sînt estimate pe alte subeșantioane; pentru serii de timp folosim \textbf{blocuri contigue} cu un interval în jurul blocului omis și o varianță HAC a lui $\psi$'), []),
-    T(r'DML removes regularisation and overfitting bias; it does not create identification: $d_t$ must be unconfounded given $X_t$', r'DML elimină deplasarea din regularizare și supraajustare; nu creează identificare: $d_t$ trebuie să fie neconfundat, dat $X_t$')), 'small')
+D.frame(T('Double/debiased machine learning for time series (1/2)', 'Double/debiased machine learning pentru serii de timp (1/2)'), items(
+    (T(r'\refDML: the \textbf{partially linear model}', r'\refDML: \textbf{modelul parțial liniar}'),
+     [r'\[ y_t = \theta d_t + g(X_t) + u_t, \qquad d_t = m(X_t) + v_t \]',
+      T(r'$d_t$: the treatment; $\theta$: its effect; $X_t$: control variables; $g$, $m$: unknown \textbf{nuisance functions}, learned by machine learning; $u_t, v_t$: errors',
+        r'$d_t$: tratamentul; $\theta$: efectul lui; $X_t$: variabilele de control; $g$, $m$: \textbf{funcții auxiliare} necunoscute, învățate prin machine learning; $u_t, v_t$: erori')]),
+    (T(r'\textbf{Orthogonal score}: regress the residual of $y$ on the residual of $d$', r'\textbf{Scorul ortogonal}: se regresează reziduul lui $y$ pe reziduul lui $d$'),
+     [r'\[ \psi = \big(y_t - \ell(X_t) - \theta(d_t - m(X_t))\big)\big(d_t - m(X_t)\big), \qquad \ell(X) = \E[y\mid X] \]',
+      T(r'$\hat\theta$ solves $\frac1T\sum_t\psi_t = 0$; first-order insensitive to errors in $\ell$ and $m$', r'$\hat\theta$ rezolvă $\frac1T\sum_t\psi_t = 0$; insensibil de ordinul întîi la erorile din $\ell$ și $m$')])), 'small')
+
+D.frame(T('Double/debiased machine learning for time series (2/2)', 'Double/debiased machine learning pentru serii de timp (2/2)'), items(
+    (T(r'\textbf{Cross-fitting}: the nuisance functions are fitted on other folds than the one where $\psi$ is evaluated', r'\textbf{Cross-fitting}: funcțiile auxiliare sînt estimate pe alte subeșantioane decît cel pe care se evaluează $\psi$'),
+     [T(r'for time series use \textbf{contiguous blocks} with a gap around the held-out block', r'pentru serii de timp se folosesc \textbf{blocuri contigue}, cu un interval de separare în jurul blocului omis'),
+      T(r'standard error from a HAC variance of $\psi$', r'eroarea standard dintr-o varianță HAC a lui $\psi$')]),
+    (T('DML removes regularisation and overfitting bias; it does not create identification', 'DML elimină deplasarea din regularizare și supraajustare; nu creează identificare'),
+     [T(r'$d_t$ must be unconfounded given $X_t$', r'$d_t$ trebuie să fie neconfundat, dat $X_t$')])), 'small')
 
 chart(T('DML against a linear adjustment', 'DML față de o ajustare liniară'), 'ats_ch14_dml', 'ATS_ch14_did_dml', [
     T(r'Simulated dependent data: 10 VAR(1) covariates, nonlinear $g$ and $m$, AR(1) errors, $\theta = 0.5$, $T = @{dml.T}$, @{dml.reps} replications; random forests with five blocked folds', r'Date dependente simulate: 10 covariate VAR(1), $g$ și $m$ neliniare, erori AR(1), $\theta = 0{,}5$, $T = @{dml.T}$, @{dml.reps} de repetări; păduri aleatoare cu cinci blocuri')], h='0.54\\textheight')
@@ -874,7 +1013,7 @@ D.frame(T('An open question', 'O întrebare deschisă'), items(
     (T('How much of Romania\'s 2025--2026 inflation surge was caused by the end of the electricity cap and the VAT increase, and how robust is the answer to the method?', 'Cît din creșterea inflației din România în 2025--2026 a fost cauzată de încheierea plafonării electricității și de majorarea TVA și cît de robust este răspunsul la alegerea metodei?'),
      [T(r'formal: $H_0$: the average gap over July 2025 -- June 2026 is zero; the claim ``between 2 and 3.5 pp\'\' must hold for every pre-registered estimator with a good pre-fit', r'formal: $H_0$: diferența medie pe iulie 2025 -- iunie 2026 este zero; afirmația „între 2 și 3,5 pp” trebuie să fie valabilă pentru orice estimator preînregistrat cu potrivire anterioară bună'),
       T('falsified if a reasonable specification gives less than 2 pp or a placebo country matches Romania', 'infirmată dacă o specificație rezonabilă dă mai puțin de 2 pp sau dacă o țară placebo egalează România')]),
-    (T('Why it matters: monetary policy must tell one-off price-level effects from persistent inflation; second-round effects decide interest rates', 'Miza: politica monetară trebuie să distingă efectele unice asupra nivelului prețurilor de inflația persistentă; efectele de runda a doua decid dobînzile'),
+    (T('Why it matters: monetary policy must tell one-off price-level effects from persistent inflation; second-round effects decide interest rates', 'Miza: politica monetară trebuie să distingă efectele unice asupra nivelului prețurilor de inflația persistentă; efectele de runda a doua determină deciziile privind dobînzile'),
      [T(r'literature to start from: \refADHb, \refASCM, \refSDID, \refBMKW', r'literatura de pornire: \refADHb, \refASCM, \refSDID, \refBMKW')])), 'small')
 
 D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un asistent AI'), items(
@@ -921,7 +1060,7 @@ D.frame(T('Self-assessment', 'Autoevaluare'), cols(
         T('Why can adding a variable to the information set remove a Granger causality?', 'De ce poate adăugarea unei variabile la mulțimea de informație să elimine o cauzalitate Granger?'),
         T('What does conditioning on the parents of the source achieve in the MCI test?', 'Ce obține condiționarea pe părinții sursei în testul MCI?'),
         T('Why does classic synthetic control fail for Romanian inflation?', 'De ce eșuează controlul sintetic clasic pentru inflația României?'),
-        T('What is the smallest placebo $p$-value with 23 donors?', 'Care este cea mai mică valoare $p$ placebo cu 23 de donatori?'),
+        T('What is the smallest placebo p-value with 23 donors?', 'Care este cel mai mic p-value placebo cu 23 de donatori?'),
         T('Why can a static TWFE estimate have the wrong sign under staggered adoption?', 'De ce poate o estimație TWFE statică să aibă semnul greșit în cazul adoptării eșalonate?'))),
     block(T('Next: Chapter 15', 'Urmează: Capitolul 15'), items(
         T('Review and project defence', 'Recapitulare și susținerea proiectelor'),

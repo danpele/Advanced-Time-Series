@@ -94,7 +94,6 @@ MSCA Digital Finance}
     \item \textbf{AIC}: Akaike Information Criterion (criteriul informațional Akaike)
     \item \textbf{AR}: AutoRegressive (model); in event studies: Abnormal Return (model autoregresiv; în studiile de eveniment: randament anormal)
     \item \textbf{ARMA}: AutoRegressive Moving Average (model) — model autoregresiv cu medie mobilă
-    \item \textbf{ATS}: Advanced Time Series Analysis and Forecasting (Analiza avansată a seriilor de timp și previziune, cursul de master)
     \item \textbf{BC}: Breitung–Candelon (frequency-domain causality test) — testul de cauzalitate în domeniul frecvenței Breitung–Candelon
     \item \textbf{BET}: Bucharest Exchange Trading (index) — indicele de referință al Bursei de Valori București
     \item \textbf{BK}: Baxter–King (band-pass filter) — filtrul trece-bandă Baxter–King
@@ -103,11 +102,11 @@ MSCA Digital Finance}
     \item \textbf{CFR}: Croux, Forni and Reichlin (2001) — Croux, Forni și Reichlin (2001)
     \item \textbf{COI}: Cone Of Influence (of a wavelet transform) — conul de influență al transformatei wavelet
     \item \textbf{CWT}: Continuous Wavelet Transform (transformata wavelet continuă)
+    \item \textbf{DCC-GARCH}: Dynamic Conditional Correlation GARCH (model GARCH cu corelație condiționată dinamică)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{DCC-GARCH}: Dynamic Conditional Correlation GARCH (model GARCH cu corelație condiționată dinamică)
     \item \textbf{DFT}: Discrete Fourier Transform (transformata Fourier discretă)
     \item \textbf{DPSS}: Discrete Prolate Spheroidal Sequences (Slepian tapers) — șiruri sferoidale prolate discrete (taper-ele Slepian)
     \item \textbf{DWT}: Discrete Wavelet Transform (transformata wavelet discretă)
@@ -120,6 +119,7 @@ MSCA Digital Finance}
     \item \textbf{HP}: Hodrick–Prescott (filter) — filtrul Hodrick–Prescott
     \item \textbf{LA}: Least Asymmetric (Daubechies wavelet filter) — filtrul wavelet Daubechies cel mai puțin asimetric
     \item \textbf{LLM}: Large Language Model (model lingvistic de mari dimensiuni)
+    \item \textbf{MA}: Moving Average (medie mobilă)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -175,7 +175,7 @@ MSCA Digital Finance}
 \itemsize{\small}
 \begin{itemize}
     \item Enunțați reprezentarea spectrală a unui proces staționar și derivați spectrul unui proces filtrat
-    \item Derivați deplasarea și varianța estimatorilor cu fereastră de decalaje, alegeți lățimea de bandă și construiți estimări multitaper cu benzi de încredere valide
+    \item Derivați deplasarea și varianța estimatorilor cu fereastră de laguri, alegeți lățimea de bandă și construiți estimări multitaper cu benzi de încredere valide
     \item Estimați și testați coerența, faza, cîștigul și corelația dinamică și testați cauzalitatea Granger la o frecvență dată
     \item Evaluați filtrele de tendință și ciclu prin funcția lor de cîștig și măsurați sincronizarea ciclurilor economice
     \item Descompuneți varianța și corelația pe scale prin MODWT și testați coerența wavelet prin Monte Carlo
@@ -233,7 +233,7 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \begin{itemize}
     \item 1930: analiza armonică generalizată a lui Wiener; 1934: Hincin; autocovarianța și spectrul formează o pereche Fourier
     \item 1942: reprezentarea lui Cramér a unui proces staționar ca suprapunere aleatoare de sinusoide
-    \item 1961--1966: ferestre de decalaje \refPar; forma spectrală tipică a variabilelor economice \refGra
+    \item 1961--1966: ferestre de laguri \refPar; forma spectrală tipică a variabilelor economice \refGra
     \item 1982: estimarea multitaper \refTho; cauzalitatea în domeniul frecvenței \refGew
     \item 1984--1989: wavelets \refGM, \refDau, \refMal; 1998: ghidul practic \refTC
 \end{itemize}
@@ -260,16 +260,27 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \section{Reprezentarea spectrală}
 %=============================================================================
 
-\begin{frame}{Autocovarianța și distribuția spectrală}
+\begin{frame}{Autocovarianța și distribuția spectrală (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Herglotz}: $\gamma(\cdot)$ este autocovarianța unui proces staționar dacă și numai dacă $\gamma(h) = \int_{(-\pi, \pi]} e^{i\omega h}\,dF(\omega)$, cu $F$ nedescrescătoare, continuă la dreapta, mărginită \refBD
+    \item \textbf{Herglotz} \refBD: $\gamma(\cdot)$ este autocovarianța unui proces staționar dacă și numai dacă
+    \[ \gamma(h) = \int_{(-\pi, \pi]} e^{i\omega h}\,dF(\omega) \]
     \begin{itemize}
-        \item $F$ este \textbf{distribuția spectrală}; dacă $\sum_h|\gamma(h)| < \infty$, $dF(\omega) = f(\omega)\,d\omega$, cu $f(\omega) = \frac{1}{2\pi}\sum_h\gamma(h)e^{-i\omega h}$
+        \item $\gamma(h) = \Cov(X_{t+h}, X_t)$; $\omega$: frecvența unghiulară, în radiani pe perioadă; $F$: \textbf{distribuția spectrală}, nedescrescătoare, continuă la dreapta și mărginită
     \end{itemize}
-    \item $\gamma(0) = \int_{-\pi}^{\pi}f(\omega)\,d\omega$: spectrul este o \textbf{descompunere a varianței pe frecvențe}
+    \item Dacă $\sum_h|\gamma(h)| < \infty$, $F$ are o densitate, \textbf{densitatea spectrală}
+    \[ dF(\omega) = f(\omega)\,d\omega, \qquad f(\omega) = \frac{1}{2\pi}\sum_h\gamma(h)e^{-i\omega h} \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Autocovarianța și distribuția spectrală (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Pentru $h = 0$: spectrul este o \textbf{descompunere a varianței pe frecvențe}
+    \[ \gamma(0) = \Var(X_t) = \int_{-\pi}^{\pi}f(\omega)\,d\omega \]
     \begin{itemize}
-        \item frecvența $\omega$ în radiani pe perioadă; perioada $2\pi/\omega$; date trimestriale: banda ciclului economic de 6--32 de trimestre este $\omega \in [\pi/16, \pi/3]$
+        \item $f(\omega)\,d\omega$: varianța adusă de ciclurile cu frecvența apropiată de $\omega$; perioada $2\pi/\omega$
+        \item date trimestriale: banda ciclului economic de 6--32 de trimestre este $\omega \in [\pi/16, \pi/3]$
     \end{itemize}
     \item Un salt al lui $F$ în $\pm\omega_0$ este un ciclu determinist (un \textbf{spectru de linii}); memoria lungă este un pol al lui $f$ în $\omega = 0$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol10_memorie_lunga_rough_volatility.pdf}{Capitolul 10})
 \end{itemize}
@@ -286,10 +297,13 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \end{column}
 \begin{column}{0.66\textwidth}
 \begin{itemize}
-    \item Orice proces staționar de medie zero are $X_t = \int_{(-\pi, \pi]} e^{i\omega t}\,dZ(\omega)$ \refBD
-    \item $Z$ are \textbf{creșteri ortogonale}: $\E[dZ(\omega)\overline{dZ(\lambda)}] = 0$ pentru $\omega \ne \lambda$, $\E|dZ(\omega)|^2 = dF(\omega)$
+    \item Orice proces staționar de medie zero este o sumă de sinusoide cu amplitudini aleatoare \refBD
+    \[ X_t = \int_{(-\pi, \pi]} e^{i\omega t}\,dZ(\omega) \]
+    \begin{itemize}
+        \item $dZ(\omega)$: amplitudinea aleatoare la frecvența $\omega$; $Z$ are \textbf{creșteri ortogonale}: $\E[dZ(\omega)\overline{dZ(\lambda)}] = 0$ pentru $\omega \ne \lambda$, $\E|dZ(\omega)|^2 = dF(\omega)$
+    \end{itemize}
     \item Amplitudinile aleatoare de la frecvențe diferite sînt necorelate: componentele de frecvență se pot studia separat
-    \item DFT $d(\omega_j) = n^{-1/2}\sum_t x_te^{-i\omega_jt}$ este analogul de eșantion al lui $dZ(\omega_j)$: aproape necorelat între frecvențele Fourier
+    \item Transformata Fourier discretă (DFT) $d(\omega_j) = n^{-1/2}\sum_t x_te^{-i\omega_jt}$ în $\omega_j = 2\pi j/n$ este analogul de eșantion al lui $dZ(\omega_j)$: aproape necorelată între frecvențele Fourier
 \end{itemize}
 \end{column}
 \end{columns}
@@ -298,26 +312,45 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \begin{frame}{Filtre liniare în domeniul frecvenței}
 \itemsize{\small}
 \begin{itemize}
-    \item $Y_t = \sum_j a_jX_{t-j}$ cu $\sum_j|a_j| < \infty$: $dZ_Y(\omega) = A(\omega)\,dZ_X(\omega)$, $A(\omega) = \sum_j a_je^{-i\omega j}$ fiind \textbf{funcția de transfer}
+    \item Un filtru liniar înmulțește fiecare componentă de frecvență cu \textbf{funcția de transfer} $A(\omega)$
+    \[ Y_t = \sum_j a_jX_{t-j} \ \Rightarrow\ dZ_Y(\omega) = A(\omega)\,dZ_X(\omega), \quad A(\omega) = \sum_j a_je^{-i\omega j} \]
+    \[ f_Y(\omega) = |A(\omega)|^2f_X(\omega) \]
     \begin{itemize}
-        \item $f_Y(\omega) = |A(\omega)|^2f_X(\omega)$; $|A(\omega)|$ este \textbf{cîștigul}, $\arg A(\omega)$ este \textbf{defazajul}
+        \item $a_j$: ponderile filtrului, $\sum_j|a_j| < \infty$; $|A(\omega)|$: \textbf{cîștigul}; $\arg A(\omega)$: \textbf{defazajul}
         \item ponderi simetrice $a_j = a_{-j}$: $A(\omega)$ este real, fără defazaj; proprietatea dorită de orice filtru de tendință și ciclu
     \end{itemize}
-    \item Prima diferență: $|1 - e^{-i\omega}|^2 = 2(1 - \cos\omega)$, nulă în $\omega = 0$: diferențierea elimină ciclurile lungi și le amplifică pe cele scurte
+    \item Prima diferență: $|1 - e^{-i\omega}|^2 = 2(1 - \cos\omega)$, nulă în $\omega = 0$
+    \begin{itemize}
+        \item diferențierea elimină ciclurile lungi și le amplifică pe cele scurte
+    \end{itemize}
     \item Efectul Slutsky: o sumă mobilă a unui zgomot alb are un vîrf în spectru, adică \textbf{cicluri create de filtru}; critica filtrului HP din secțiunea 4 este același fenomen
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Matricea densităților spectrale}
+\begin{frame}{Matricea densităților spectrale (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Proces vectorial $\mathbf X_t$ (dimensiune $k$): $\mathbf f(\omega) = \frac{1}{2\pi}\sum_h\Gamma(h)e^{-i\omega h}$, $\Gamma(h) = \Cov(\mathbf X_{t+h}, \mathbf X_t)$, o matrice hermitică nenegativă
+    \item Proces vectorial $\mathbf X_t$ de dimensiune $k$: transformata Fourier a matricelor de autocovarianță
+    \[ \mathbf f(\omega) = \frac{1}{2\pi}\sum_h\Gamma(h)e^{-i\omega h}, \qquad \Gamma(h) = \Cov(\mathbf X_{t+h}, \mathbf X_t) \]
     \begin{itemize}
-        \item VARMA $\Phi(L)\mathbf X_t = \Theta(L)\boldsymbol\varepsilon_t$: $\mathbf f(\omega) = \frac{1}{2\pi}\Phi(e^{-i\omega})^{-1}\Theta(e^{-i\omega})\bSigma\Theta(e^{-i\omega})^*\Phi(e^{-i\omega})^{-*}$
+        \item $\mathbf f(\omega)$: o matrice $k \times k$ hermitică ($\mathbf f = \mathbf f^*$, transpusa conjugată) și nenegativ definită la fiecare frecvență
     \end{itemize}
-    \item În afara diagonalei: \textbf{spectrul încrucișat} $f_{xy}(\omega) = c_{xy}(\omega) - iq_{xy}(\omega)$ (cospectrul $c$, spectrul în cuadratură $q$)
+    \item VARMA $\Phi(L)\mathbf X_t = \Theta(L)\boldsymbol\varepsilon_t$: analogul multivariat al spectrului ARMA
+    \[ \mathbf f(\omega) = \frac{1}{2\pi}\Phi(e^{-i\omega})^{-1}\Theta(e^{-i\omega})\,\bSigma\,\Theta(e^{-i\omega})^*\Phi(e^{-i\omega})^{-*} \]
     \begin{itemize}
-        \item $c_{xy}$ este par în $\omega$ (co-mișcare simultană), $q_{xy}$ impar (decalaj); $\int c_{xy} = \Cov(X_t, Y_t)$
+        \item $\Phi$, $\Theta$: polinoamele matriceale AR și MA; $\bSigma$: covarianța inovațiilor $\boldsymbol\varepsilon_t$; $^{-*}$: inversa transpusei conjugate
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Matricea densităților spectrale (2/2): spectrele încrucișate}
+\itemsize{\small}
+\begin{itemize}
+    \item Elementele din afara diagonalei: \textbf{spectrul încrucișat}, cu valori complexe
+    \[ f_{xy}(\omega) = c_{xy}(\omega) - i\,q_{xy}(\omega) \]
+    \begin{itemize}
+        \item $c_{xy}$: cospectrul, par în $\omega$ (co-mișcare simultană), $\int c_{xy} = \Cov(X_t, Y_t)$
+        \item $q_{xy}$: spectrul în cuadratură, impar în $\omega$ (avans--întîrziere între serii)
     \end{itemize}
     \item Secțiunea 2 estimează diagonala, secțiunea 3 elementele din afara diagonalei, iar secțiunea 4 factorizează $\mathbf f$ pentru a măsura cauzalitatea
 \end{itemize}
@@ -350,7 +383,7 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \begin{itemize}
     \item Spectrul descompune varianța pe frecvențe; Cramér: amplitudini aleatoare necorelate la fiecare frecvență
     \item Un filtru liniar înmulțește spectrul cu pătratul cîștigului; filtrele simetrice nu defazează
-    \item Matricea spectrală conține spectrele încrucișate: co-mișcarea și decalajele pe frecvențe
+    \item Matricea spectrală conține spectrele încrucișate: co-mișcarea și relațiile de avans--întîrziere pe frecvențe
 \end{itemize}
 \end{frame}
 
@@ -362,31 +395,53 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \begin{frame}{Limitele periodogramei}
 \itemsize{\small}
 \begin{itemize}
-    \item Pentru un proces liniar $X_t = \sum_j\psi_j\varepsilon_{t-j}$ cu $\sum_j|j|^{1/2}|\psi_j| < \infty$ și $f > 0$: $I(\omega_j) \Rightarrow f(\omega_j)\,\chi^2_2/2$, asimptotic independente pe frecvențe Fourier fixate \refBD
+    \item Pentru un proces liniar, ordonatele periodogramei sînt asimptotic variabile $\chi^2_2$ scalate \refBD
+    \[ X_t = \sum_j\psi_j\varepsilon_{t-j} \ \Rightarrow\ I(\omega_j) \Rightarrow f(\omega_j)\,\frac{\chi^2_2}{2} \]
     \begin{itemize}
+        \item $\psi_j$: ponderi cu $\sum_j|j|^{1/2}|\psi_j| < \infty$; $\varepsilon_t$: inovații i.i.d.; $f > 0$; asimptotic independente pe frecvențe Fourier $\omega_j$ fixate
         \item $\E I(\omega_j) \to f(\omega_j)$, dar $\Var I(\omega_j) \to f(\omega_j)^2$: \textbf{inconsistentă}, varianța nu scade cu $n$
     \end{itemize}
-    \item $\E I(\omega) = \int F_n(\omega - \lambda)f(\lambda)\,d\lambda$, $F_n$ fiind nucleul Fejér: lobii laterali scad doar ca $1/(n\omega^2)$, deci puterea se \textbf{scurge} (leakage) de la frecvențele puternice spre cele slabe
+    \item Scurgerea spectrală (leakage): media periodogramei este spectrul adevărat netezit cu nucleul Fejér $F_n$
+    \[ \E I(\omega) = \int F_n(\omega - \lambda)f(\lambda)\,d\lambda \]
+    \begin{itemize}
+        \item lobii laterali ai lui $F_n$ scad doar ca $1/(n\omega^2)$, deci puterea se \textbf{scurge} de la frecvențele puternice spre cele slabe
+    \end{itemize}
     \item Două remedii: \textbf{medierea} frecvențelor vecine (consistență) și \textbf{ponderarea} datelor cu un taper (deplasare); estimatorul multitaper le face pe amîndouă
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Estimatori cu fereastră de decalaje}
+\begin{frame}{Estimatori cu fereastră de laguri (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item $\hat f(\omega) = \frac{1}{2\pi}\sum_{|h| < n}k(h/M)\hat\gamma(h)e^{-i\omega h}$, $k$ fiind \textbf{fereastra de decalaje}, $M$ parametrul de trunchiere (lățimea de bandă) \refPar
+    \item Se reduc ponderile autocovarianțelor de eșantion zgomotoase de la laguri mari \refPar
+    \[ \hat f(\omega) = \frac{1}{2\pi}\sum_{|h| < n}k(h/M)\,\hat\gamma(h)e^{-i\omega h} \]
     \begin{itemize}
-        \item echivalent, $\hat f(\omega) = \int W_M(\omega - \lambda)I(\lambda)\,d\lambda$: o medie ponderată a periodogramei cu \textbf{fereastra spectrală} $W_M(\omega) = \frac{1}{2\pi}\sum_h k(h/M)e^{-i\omega h}$
+        \item $\hat\gamma(h)$: autocovarianța de eșantion; $k$: \textbf{fereastra de laguri}, $k(0) = 1$, descrescătoare în $|u|$; $M$: parametrul de trunchiere (lățimea de bandă)
     \end{itemize}
+    \item Echivalent: o medie ponderată a periodogramei cu \textbf{fereastra spectrală} $W_M$
+    \[ \hat f(\omega) = \int W_M(\omega - \lambda)I(\lambda)\,d\lambda, \qquad W_M(\omega) = \frac{1}{2\pi}\sum_h k(h/M)e^{-i\omega h} \]
+    \begin{itemize}
+        \item un $M$ mare dă o fereastră $W_M$ îngustă: netezire redusă
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimatori cu fereastră de laguri (2/2): nucleele}
+\itemsize{\small}
+\begin{itemize}
     \item Bartlett $k(u) = 1 - |u|$; Parzen; Tukey--Hanning; pătratic spectral (QS): aceleași nuclee ca estimatorii HAC din \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0} în $\omega = 0$
     \begin{itemize}
         \item un $W_M$ nenegativ garantează $\hat f \ge 0$ (Bartlett, Parzen, QS); Tukey--Hanning poate deveni negativ
     \end{itemize}
-    \item Exponentul caracteristic $q$ și $k_q = \lim_{u \to 0}(1 - k(u))/|u|^q$: Bartlett $q = 1$, $k_1 = 1$; Parzen $q = 2$, $k_2 = 6$; QS $q = 2$, $k_2 = 1{,}42$
+    \item Exponentul caracteristic $q$: cît de plat este nucleul în zero
+    \[ k_q = \lim_{u \to 0}\frac{1 - k(u)}{|u|^q} \]
+    \begin{itemize}
+        \item Bartlett $q = 1$, $k_1 = 1$; Parzen $q = 2$, $k_2 = 6$; QS $q = 2$, $k_2 = 1{,}42$; un $q$ mai mare înseamnă deplasare mai mică (slide-urile următoare)
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Ferestre de decalaje și ferestre spectrale}
+\begin{frame}{Ferestre de laguri și ferestre spectrale}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.5\textheight,keepaspectratio]{ats_ch11_kernels.pdf}
@@ -408,19 +463,31 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Deplasare, varianță și lățimea de bandă optimă}
+\begin{frame}{Deplasare, varianță și lățimea de bandă optimă (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Dacă $M \to \infty$ și $M/n \to 0$: $\hat f(\omega) \to_p f(\omega)$ (\textbf{consistență}) \refPar
+    \item Dacă $M \to \infty$ și $M/n \to 0$: $\hat f(\omega) \to_p f(\omega)$ (\textbf{consistență}) \refPar; varianța și deplasarea
+    \[ \Var\hat f(\omega) \approx \frac{M}{n}f(\omega)^2\int k^2(u)\,du, \qquad \E\hat f(\omega) - f(\omega) \approx -k_qM^{-q}f^{(q)}(\omega) \]
     \begin{itemize}
-        \item $\Var\hat f(\omega) \approx \frac{M}{n}f(\omega)^2\int k^2(u)\,du$ (dublu în $\omega = 0, \pm\pi$)
-        \item $\E\hat f(\omega) - f(\omega) \approx -k_qM^{-q}f^{(q)}(\omega)$, $f^{(q)}(\omega) = \frac{1}{2\pi}\sum_h|h|^q\gamma(h)e^{-i\omega h}$: deplasarea este mare unde spectrul este curbat (vîrfuri)
+        \item varianța crește cu $M$ (se dublează în $\omega = 0, \pm\pi$); deplasarea scade cu $M$
+        \item $f^{(q)}(\omega) = \frac{1}{2\pi}\sum_h|h|^q\gamma(h)e^{-i\omega h}$: o derivată generalizată de ordinul $q$ a lui $f$, mare unde spectrul este curbat (vîrfuri)
     \end{itemize}
-    \item Minimizînd MSE: $M^* = \big(qk_q^2f^{(q)}(\omega)^2n\,/\,(f(\omega)^2\int k^2)\big)^{1/(2q+1)} \propto n^{1/(2q+1)}$; MSE $\propto n^{-2q/(2q+1)}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Deplasare, varianță și lățimea de bandă optimă (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Minimizarea MSE = pătratul deplasării + varianța, în raport cu $M$
+    \[ M^* = \Big(\frac{qk_q^2f^{(q)}(\omega)^2\,n}{f(\omega)^2\int k^2}\Big)^{1/(2q+1)} \propto n^{1/(2q+1)}, \qquad \mathrm{MSE} \propto n^{-2q/(2q+1)} \]
     \begin{itemize}
         \item nucleele cu $q = 2$ converg mai repede ($n^{-4/5}$) decît Bartlett ($n^{-2/3}$)
     \end{itemize}
-    \item Inferență: $\nu\hat f(\omega)/f(\omega) \approx \chi^2_\nu$, cu $\nu = 2n/(M\int k^2)$ grade de libertate echivalente; banda este constantă pe scară logaritmică
+    \item Inferența: o variabilă $\chi^2$ scalată, cu $\nu$ grade de libertate echivalente
+    \[ \frac{\nu\hat f(\omega)}{f(\omega)} \approx \chi^2_\nu, \qquad \nu = \frac{2n}{M\int k^2} \]
+    \begin{itemize}
+        \item banda de încredere $[\nu\hat f/\chi^2_{\nu;0,975}, \nu\hat f/\chi^2_{\nu;0,025}]$ are lățime constantă pe scară logaritmică
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -449,28 +516,48 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \begin{frame}{Alegerea lățimii de bandă}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Plug-in} \refAnd: aproximăm $f^{(q)}/f$ printr-un model parametric (AR(1)), apoi folosim $M^*$; pentru $\omega = 0$: $M = 1{,}1447(\hat\alpha(1)n)^{1/3}$ (Bartlett), $1{,}3221(\hat\alpha(2)n)^{1/5}$ (QS)
+    \item \textbf{Plug-in} \refAnd: aproximăm $f^{(q)}/f$ printr-un model parametric (AR(1)), apoi folosim $M^*$
+    \[ M = 1{,}1447\,(\hat\alpha(1)\,n)^{1/3} \ \text{(Bartlett)}, \qquad M = 1{,}3221\,(\hat\alpha(2)\,n)^{1/5} \ \text{(QS)}, \qquad \omega = 0 \]
     \begin{itemize}
+        \item $\hat\alpha(q)$: raportul $(f^{(q)}(0)/f(0))^2$ calculat din AR(1) estimat, de exemplu $\hat\alpha(2) = 4\hat\rho^2/(1 - \hat\rho)^4$ ($\hat\rho$: coeficientul AR)
         \item bun pentru varianțele pe termen lung (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}); slab lîngă vîrfuri ascuțite, unde aproximarea AR(1) este greșită
     \end{itemize}
-    \item \textbf{Validare încrucișată} \refHur: minimizăm un criteriu Whittle fără observația $j$, $\sum_j\big[\log\hat f_{-j}(\omega_j) + I(\omega_j)/\hat f_{-j}(\omega_j)\big]$, în $M$
+    \item \textbf{Validare încrucișată} \refHur: minimizăm în $M$ un criteriu Whittle fără observația $j$
+    \[ \mathrm{CV}(M) = \sum_j\Big[\log\hat f_{-j}(\omega_j) + \frac{I(\omega_j)}{\hat f_{-j}(\omega_j)}\Big] \]
+    \begin{itemize}
+        \item $\hat f_{-j}$: estimația netezită calculată fără ordonata $I(\omega_j)$
+    \end{itemize}
     \item \textbf{Rezoluția}: două vîrfuri mai apropiate decît lățimea de bandă (circa $1/M$ cicluri) se contopesc; stabiliți rezoluția necesară înainte de a privi datele
-    \item Raportați estimarea pentru două sau trei lățimi de bandă: concluziile care depind de $M$ nu sînt concluzii
+    \begin{itemize}
+        \item raportați estimarea pentru două sau trei lățimi de bandă: concluziile care depind de $M$ nu sînt concluzii
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Estimarea multitaper}
+\begin{frame}{Estimarea multitaper (1/2): taper-ele Slepian}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Taper-ele Slepian (DPSS)} $v^{(k)}$, $k = 0, \dots, K - 1$: șiruri ortonormate de lungime $n$ care maximizează ponderea $\lambda_k$ a energiei lor în $[-W, W]$ \refTho
+    \item \textbf{Taper-ele Slepian (DPSS)} $v^{(k)}$, $k = 0, \dots, K - 1$ \refTho
     \begin{itemize}
-        \item aproximativ $2NW$ dintre ele au $\lambda_k \approx 1$; de obicei $K = 2NW - 1$ (de exemplu $NW = 4$, $K = 7$); $W$ este semilățimea de bandă în cicluri
+        \item șiruri de ponderi ortonormate de lungime $n$ care maximizează ponderea $\lambda_k$ a energiei lor spectrale în intervalul $[-W, W]$; $W$: semilățimea de bandă în cicluri
+        \item aproximativ $2nW$ dintre ele au $\lambda_k \approx 1$; de obicei $K = 2NW - 1$, cu $NW = nW$ (de exemplu $NW = 4$, $K = 7$)
     \end{itemize}
-    \item Spectrele proprii $\hat S_k(\omega) = \frac{1}{2\pi}\big|\sum_tv_t^{(k)}x_te^{-i\omega t}\big|^2$; $\hat f^{\mathrm{mt}} = \frac1K\sum_k\hat S_k$
+    \item Spectrele proprii: cîte o periodogramă ponderată pentru fiecare taper; estimația este media lor
+    \[ \hat S_k(\omega) = \frac{1}{2\pi}\Big|\sum_tv_t^{(k)}x_te^{-i\omega t}\Big|^2, \qquad \hat f^{\mathrm{mt}}(\omega) = \frac1K\sum_{k=0}^{K-1}\hat S_k(\omega) \]
     \begin{itemize}
-        \item $\hat S_k$ sînt aproape necorelate: $2K\hat f^{\mathrm{mt}}/f \approx \chi^2_{2K}$; varianță $f^2/K$, deplasare controlată de concentrarea taper-elor
+        \item $\hat S_k$ sînt aproape necorelate: $2K\hat f^{\mathrm{mt}}/f \approx \chi^2_{2K}$; varianța $f^2/K$, deplasarea controlată de concentrarea taper-elor
     \end{itemize}
-    \item \textbf{Ponderi adaptive}: $d_k(\omega) = \sqrt{\lambda_k}f(\omega)/(\lambda_kf(\omega) + (1 - \lambda_k)\sigma^2)$, iterate; reduc ponderea taper-elor cu scurgeri acolo unde $f$ este mic \refPWa
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimarea multitaper (2/2): ponderi adaptive}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Ponderi adaptive} \refPWa: se reduce ponderea taper-elor cu scurgeri acolo unde $f$ este mic
+    \[ d_k(\omega) = \frac{\sqrt{\lambda_k}\,f(\omega)}{\lambda_kf(\omega) + (1 - \lambda_k)\sigma^2} \]
+    \begin{itemize}
+        \item $\sigma^2$: varianța seriei; $1 - \lambda_k$: scurgerea taper-ului $k$; ponderile depind de $f$ necunoscut, deci se iterează pornind de la $\hat f^{\mathrm{mt}}$
+    \end{itemize}
     \item Alternative cu aceeași logică: taper-ele sinus \refRS; medierea Welch a segmentelor ponderate \refWel
 \end{itemize}
 \end{frame}
@@ -563,14 +650,27 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Linii în spectru: testul F al lui Thomson}
+\begin{frame}{Linii în spectru: testul F al lui Thomson (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Modelul: $x_t = \mu\cos(\omega_0t + \phi) + $ zgomot cu spectru neted; sub o linie, fiecare DFT ponderat este $Y_k(\omega_0) \approx \mu U_k(0)$, $U_k(0) = \sum_tv^{(k)}_t$ \refTho
+    \item Modelul: o sinusoidă plus un zgomot cu spectru neted \refTho
+    \[ x_t = \mu\cos(\omega_0t + \phi) + e_t \]
     \begin{itemize}
-        \item $\hat\mu(\omega) = \sum_kU_k(0)Y_k(\omega)/\sum_kU_k(0)^2$; $F(\omega) = (K - 1)|\hat\mu|^2\sum_kU_k(0)^2/\sum_k|Y_k - \hat\mu U_k(0)|^2 \sim F_{2, 2K - 2}$
+        \item $\mu$: amplitudinea; $\omega_0$: frecvența liniei; $\phi$: faza; $e_t$: zgomot staționar
+        \item sub o linie, fiecare DFT ponderat este $Y_k(\omega_0) \approx \mu\,U_k(0)$, cu $U_k(0) = \sum_tv^{(k)}_t$ suma taper-ului $k$
     \end{itemize}
-    \item O regresie a coeficienților proprii pe mediile taper-elor, frecvență cu frecvență: separă o linie deterministă de un vîrf stochastic, ceea ce testul lui Fisher (TSA) nu poate
+    \item O regresie a coeficienților proprii $Y_k$ pe sumele taper-elor $U_k(0)$, frecvență cu frecvență: separă o linie deterministă de un vîrf stochastic, ceea ce testul lui Fisher (TSA) nu poate
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Linii în spectru: testul F al lui Thomson (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Amplitudinea estimată și statistica F: variația explicată față de cea reziduală
+    \[ \hat\mu(\omega) = \frac{\sum_kU_k(0)Y_k(\omega)}{\sum_kU_k(0)^2}, \qquad F(\omega) = \frac{(K - 1)\,|\hat\mu|^2\sum_kU_k(0)^2}{\sum_k|Y_k - \hat\mu U_k(0)|^2} \sim F_{2, 2K - 2} \]
+    \begin{itemize}
+        \item un $F(\omega)$ mare: o linie în $\omega$; $K$: numărul de taper-e
+    \end{itemize}
     \item Aplicație: sezonalitatea reziduală este o mulțime de linii la $k/12$ cicluri pe lună; efectele zilelor lucrătoare sînt linii la 0,348 și 0,432 cicluri pe lună
     \item Testarea la sute de frecvențe: așteptați circa 1\% respingeri false la nivelul de 1\%; testați doar frecvențe stabilite dinainte
 \end{itemize}
@@ -612,18 +712,29 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \section{Două serii: coerență, fază și cauzalitate}
 %=============================================================================
 
-\begin{frame}{Coerența, faza și cîștigul}
+\begin{frame}{Coerența, faza și cîștigul (1/2): coerența}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Coerența pătratică} $\kappa^2_{xy}(\omega) = |f_{xy}(\omega)|^2/(f_x(\omega)f_y(\omega)) \in [0, 1]$: $R^2$ al regresiei lui $dZ_y(\omega)$ pe $dZ_x(\omega)$
+    \item \textbf{Coerența pătratică}: $R^2$ al regresiei lui $dZ_y(\omega)$ pe $dZ_x(\omega)$
+    \[ \kappa^2_{xy}(\omega) = \frac{|f_{xy}(\omega)|^2}{f_x(\omega)f_y(\omega)} \in [0, 1] \]
     \begin{itemize}
-        \item invariantă la filtrarea fiecărei serii cu un filtru inversabil: coerența nu depinde de felul în care sînt transformate seriile
-    \end{itemize}
-    \item \textbf{Faza} $\phi_{xy}(\omega) = \arg f_{xy}(\omega)$, cu $\gamma_{xy}(h) = \Cov(x_{t+h}, y_t)$: dacă $y_t = x_{t-d}$, atunci $f_{xy} = e^{i\omega d}f_x$, faza $\omega d > 0$: $x$ conduce cu $\phi/\omega$ perioade
-    \begin{itemize}
-        \item faza este definită modulo $2\pi$: un avans de $d$ și o întîrziere de $2\pi/\omega - d$ dau aceeași fază; interpretați-o doar unde coerența este semnificativă
+        \item $f_x$, $f_y$: cele două spectre; $f_{xy}$: spectrul încrucișat; $\kappa^2 = 1$: $y$ este exact un filtru liniar al lui $x$ la frecvența $\omega$; $\kappa^2 = 0$: nicio relație liniară la acea frecvență
+        \item invariantă la filtrarea fiecărei serii cu un filtru inversabil: coerența nu depinde de felul în care sînt transformate seriile (\atsapplink{atsapp2}{atssrc1}{Anexa})
     \end{itemize}
     \item \textbf{Cîștigul} $|f_{xy}(\omega)|/f_x(\omega)$: coeficientul de regresie al lui $y$ pe $x$ la frecvența $\omega$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Coerența, faza și cîștigul (2/2): faza}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Faza}: unghiul spectrului încrucișat, cu $\gamma_{xy}(h) = \Cov(x_{t+h}, y_t)$
+    \[ \phi_{xy}(\omega) = \arg f_{xy}(\omega) \]
+    \begin{itemize}
+        \item exemplu: dacă $y_t = x_{t-d}$, atunci $f_{xy} = e^{i\omega d}f_x$, faza $\omega d > 0$: $x$ conduce cu $\phi/\omega$ perioade
+        \item faza este definită modulo $2\pi$: un avans de $d$ și o întîrziere de $2\pi/\omega - d$ dau aceeași fază
+    \end{itemize}
+    \item Interpretați faza doar unde coerența este semnificativă
 \end{itemize}
 \end{frame}
 
@@ -631,14 +742,15 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \itemsize{\small}
 \begin{itemize}
     \item Periodograma încrucișată brută dă $\hat\kappa^2 \equiv 1$ la orice frecvență: coerența \textbf{trebuie} netezită (aici: mediată pe $K$ taper-e)
+    \[ \Pr(\hat\kappa^2 > c \mid \kappa^2 = 0) = (1 - c)^{L-1} \ \Rightarrow\ c_{0{,}05} = 1 - 0{,}05^{1/(L-1)} \]
     \begin{itemize}
-        \item sub $\kappa^2 = 0$, cu $L$ ordonate independente mediate: $\Pr(\hat\kappa^2 > c) = (1 - c)^{L-1}$, deci pragul de 5\% este $1 - 0{,}05^{1/(L-1)}$
+        \item $L$: numărul ordonatelor independente mediate ($L = K$ pentru multitaper); $c$: pragul; un $\hat\kappa^2$ peste $c_{0{,}05}$ este semnificativ la 5\%
     \end{itemize}
     \item $\hat\kappa^2$ este deplasat în sus cînd $\kappa^2$ este mic; intervale de încredere prin transformarea Fisher $\tanh^{-1}\hat\kappa$ \refSS
     \begin{itemize}
         \item faza: $\mathrm{se}(\hat\phi) \approx \sqrt{(1/\hat\kappa^2 - 1)/(2L)}$; crește foarte mult cînd coerența scade
     \end{itemize}
-    \item Deplasarea din nealiniere: un decalaj mare $d$ rotește faza în interiorul benzii de netezire și scade $\hat\kappa^2$; aliniați seriile (sau aplicați o prealbire) mai întîi
+    \item Deplasarea din nealiniere: o întîrziere mare $d$ rotește faza în interiorul benzii de netezire și scade $\hat\kappa^2$; aliniați seriile (sau aplicați o prealbire) mai întîi
 \end{itemize}
 \end{frame}
 
@@ -667,29 +779,46 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \begin{frame}{Corelația dinamică}
 \itemsize{\small}
 \begin{itemize}
-    \item \refCFR: $\rho_{xy}(\omega) = c_{xy}(\omega)/\sqrt{f_x(\omega)f_y(\omega)} \in [-1, 1]$, corelația componentelor reale (în fază) la frecvența $\omega$
+    \item \refCFR: corelația componentelor în fază (reale) la frecvența $\omega$
+    \[ \rho_{xy}(\omega) = \frac{c_{xy}(\omega)}{\sqrt{f_x(\omega)f_y(\omega)}} \in [-1, 1] \]
+    \[ \kappa^2 = \rho^2 + \Big(\frac{q_{xy}}{\sqrt{f_xf_y}}\Big)^2 \]
     \begin{itemize}
-        \item spre deosebire de coerență, are \textbf{semn} și nu este umflată de mișcarea defazată: $\kappa^2 = \rho^2 + (q_{xy}/\sqrt{f_xf_y})^2$
+        \item $c_{xy}$, $q_{xy}$: cospectrul și spectrul în cuadratură; spre deosebire de coerență, $\rho_{xy}$ are \textbf{semn} și nu este mărit artificial de mișcarea defazată
     \end{itemize}
-    \item Pe o bandă $\Lambda$: $\rho_{xy}(\Lambda) = \int_\Lambda c_{xy}/\sqrt{\int_\Lambda f_x\int_\Lambda f_y}$; pe $[0, \pi]$ este corelația obișnuită
+    \item Pe o bandă $\Lambda$ de frecvențe
+    \[ \rho_{xy}(\Lambda) = \frac{\int_\Lambda c_{xy}}{\sqrt{\int_\Lambda f_x\int_\Lambda f_y}} \]
     \begin{itemize}
-        \item este egală cu corelația seriilor filtrate trece-bandă: o cale în domeniul frecvenței pentru ceea ce secțiunea 4 face cu filtre
+        \item pe $[0, \pi]$ este corelația obișnuită; pe o bandă este egală cu corelația seriilor filtrate trece-bandă (secțiunea 4)
     \end{itemize}
     \item \textbf{Coeziunea}: o medie ponderată a corelațiilor $\rho_{xy}(\omega)$ pe perechi într-un grup de țări; CFR o folosesc pentru ciclurile economice din zona euro
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Cauzalitatea Granger pe frecvențe}
+\begin{frame}{Cauzalitatea Granger pe frecvențe (1/2): măsura Geweke}
 \itemsize{\footnotesize}
 \begin{itemize}
-    \item \refGew: VAR bivariat, inovații normalizate astfel încît inovația lui $x$ să fie necorelată cu inovația transformată a lui $y$; atunci $f_x(\omega) = \frac{1}{2\pi}\big(|\tilde H_{xx}|^2\tilde\sigma_{xx} + |\tilde H_{xy}|^2\tilde\sigma_{yy}\big)$
+    \item \refGew: într-un VAR bivariat, normalizăm inovațiile astfel încît inovația lui $x$ să fie necorelată cu inovația transformată a lui $y$; atunci
+    \[ f_x(\omega) = \frac{1}{2\pi}\Big(|\tilde H_{xx}(\omega)|^2\tilde\sigma_{xx} + |\tilde H_{xy}(\omega)|^2\tilde\sigma_{yy}\Big) \]
     \begin{itemize}
-        \item $M_{y \to x}(\omega) = \ln\big(2\pi f_x(\omega)/(|\tilde H_{xx}(\omega)|^2\tilde\sigma_{xx})\big) \ge 0$: partea din $f_x(\omega)$ care provine de la $y$
-        \item $\frac{1}{\pi}\int_0^\pi M_{y \to x}(\omega)\,d\omega = \ln(\sigma^2_{x|x}/\sigma^2_{x|x,y})$, măsura Granger din domeniul timpului (sub o condiție slabă)
+        \item $\tilde H$: funcția de transfer (reprezentarea de medie mobilă) a VAR normalizat; $\tilde\sigma_{xx}$, $\tilde\sigma_{yy}$: varianțele celor două inovații ortogonale
     \end{itemize}
-    \item \refBC: $M_{y \to x}(\omega) = 0$ dacă și numai dacă $\sum_{j=1}^p\psi_j\cos(j\omega) = 0$ și $\sum_{j=1}^p\psi_j\sin(j\omega) = 0$, $\psi_j$ fiind coeficienții lui $y_{t-j}$ în ecuația lui $x$
+    \item Partea din $f_x(\omega)$ care provine de la $y$
+    \[ M_{y \to x}(\omega) = \ln\frac{2\pi f_x(\omega)}{|\tilde H_{xx}(\omega)|^2\tilde\sigma_{xx}} \ge 0 \]
+    \[ \frac{1}{\pi}\int_0^\pi M_{y \to x}(\omega)\,d\omega = \ln\frac{\sigma^2_{x|x}}{\sigma^2_{x|x,y}} \]
     \begin{itemize}
-        \item două restricții liniare: un test $F(2, T - 2p - 1)$ la fiecare $\omega$; cu $p \le 2$ ele fixează toți $\psi_j$, deci testul este același la orice frecvență
+        \item integrala este măsura Granger din domeniul timpului (sub o condiție slabă): $\sigma^2_{x|x}$, $\sigma^2_{x|x,y}$ sînt varianțele prognozei cu un pas a lui $x$ fără și cu trecutul lui $y$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cauzalitatea Granger pe frecvențe (2/2): testul Breitung--Candelon}
+\itemsize{\small}
+\begin{itemize}
+    \item \refBC: lipsa cauzalității la frecvența $\omega$ înseamnă două restricții liniare asupra coeficienților lui $y$ din ecuația lui $x$
+    \[ M_{y \to x}(\omega) = 0 \iff \sum_{j=1}^p\psi_j\cos(j\omega) = 0 \ \text{ și } \ \sum_{j=1}^p\psi_j\sin(j\omega) = 0 \]
+    \begin{itemize}
+        \item $\psi_j$: coeficientul lui $y_{t-j}$ în ecuația lui $x$; $p$: ordinul VAR; un test $F(2, T - 2p - 1)$ la fiecare $\omega$, $T$: numărul de observații
+        \item cu $p \le 2$ cele două restricții fixează toți $\psi_j$, deci testul este același la orice frecvență
     \end{itemize}
     \item BC arată că testul se extinde la VAR cointegrate (cauzalitate pe termen lung în $\omega = 0$); testele punctuale pe frecvențe nu sînt un test comun
 \end{itemize}
@@ -734,34 +863,42 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \begin{frame}{Filtre trece-bandă}
 \itemsize{\small}
 \begin{itemize}
-    \item Filtrul ideal pentru perioadele $[p_l, p_u]$: cîștig 1 pe $[2\pi/p_u, 2\pi/p_l]$, 0 în rest; ponderi $b_0 = (\omega_2 - \omega_1)/\pi$, $b_j = (\sin j\omega_2 - \sin j\omega_1)/(\pi j)$: în număr infinit
-    \item \refBK: trunchiem la $K$ și adăugăm o constantă astfel încît $\sum_{j=-K}^Ka_j = 0$: elimină o rădăcină unitară și o tendință liniară; simetric, fără defazaj
+    \item Filtrul ideal pentru perioadele $[p_l, p_u]$: cîștig 1 pe frecvențele $[\omega_1, \omega_2] = [2\pi/p_u, 2\pi/p_l]$, 0 în rest; ponderile lui sînt în număr infinit
+    \[ b_0 = \frac{\omega_2 - \omega_1}{\pi}, \qquad b_j = \frac{\sin j\omega_2 - \sin j\omega_1}{\pi j}, \quad j = \pm1, \pm2, \dots \]
+    \item \refBK: trunchiem la $K$ laguri și adăugăm o constantă astfel încît $\sum_{j=-K}^Ka_j = 0$
     \begin{itemize}
+        \item $a_j$: ponderile ajustate; suma nulă elimină o rădăcină unitară și o tendință liniară; simetric, fără defazaj
         \item recomandarea trimestrială: BK(6, 32, $K = 12$); prețul: $K$ observații pierdute la fiecare capăt; $a_0 = 0{,}28$
     \end{itemize}
-    \item \refCF: minimizăm $\E[(y^{\mathrm{ideal}}_t - \hat y_t)^2 \mid y_1, \dots, y_n]$ presupunînd un mers aleator: ponderi asimetrice, variabile în timp, care folosesc tot eșantionul
+    \item \refCF: minimizăm $\E[(y^{\mathrm{ideal}}_t - \hat y_t)^2 \mid y_1, \dots, y_n]$, presupunînd un mers aleator
     \begin{itemize}
-        \item nicio observație pierdută, dar defazaje lîngă capete și dependență de ipoteza mersului aleator
+        \item $y^{\mathrm{ideal}}_t$: componenta trece-bandă ideală; ponderi asimetrice, variabile în timp, care folosesc tot eșantionul: nicio observație pierdută, dar defazaje lîngă capete
     \end{itemize}
     \item Banda ciclului economic de 6--32 de trimestre (1,5--8 ani) urmează definiția Burns și Mitchell, preluată de \refBK
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Filtrul Hodrick--Prescott}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{columns}[T]
-\begin{column}{0.3\textwidth}
+\begin{column}{0.27\textwidth}
 \centering
 \includegraphics[height=0.4\textheight]{ch11_prescott_2015.jpg}\\[1mm]
 \imgcap{Edward C.\ Prescott, 2015}
 \imgcredit{https://commons.wikimedia.org/wiki/File:Edward_C_Prescott_2015_(cropped).jpg}{Foto: Narodowy Bank Polski (2015); CC BY-SA 2.0; Wikimedia Commons}
 \end{column}
-\begin{column}{0.68\textwidth}
+\begin{column}{0.71\textwidth}
 \begin{itemize}
-    \item $\hat\tau = \arg\min_\tau\sum_t(y_t - \tau_t)^2 + \lambda\sum_t(\Delta^2\tau_t)^2 = (I + \lambda D'D)^{-1}y$ \refHP
-    \item Cîștigul ciclului pe un eșantion infinit: $G(\omega) = \dfrac{4\lambda(1 - \cos\omega)^2}{1 + 4\lambda(1 - \cos\omega)^2}$, un filtru trece-sus
-    \item Este netezitorul Kalman al unei tendințe liniare locale cu raportul semnal--zgomot $1/\lambda$ (TSA și ATS, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6})
-    \item $\lambda = 1600$ pentru trimestre; scalarea Ravn--Uhlig $\lambda \propto s^4$: 129\,600 pentru luni, 6,25 pentru ani \refRU
+    \item \refHP: tendința echilibrează potrivirea cu netezimea
+    \[ \hat\tau = \arg\min_\tau\sum_t(y_t - \tau_t)^2 + \lambda\sum_t(\Delta^2\tau_t)^2 = (I + \lambda D'D)^{-1}y \]
+    \begin{itemize}
+        \item $\tau_t$: tendința; $\Delta^2\tau_t$: diferența ei de ordinul doi; $\lambda$: penalizarea pentru lipsa de netezime; $D$: matricea diferențelor de ordinul doi; ciclul $y_t - \hat\tau_t$
+    \end{itemize}
+    \item Cîștigul ciclului pe un eșantion infinit: un filtru trece-sus
+    \[ G(\omega) = \frac{4\lambda(1 - \cos\omega)^2}{1 + 4\lambda(1 - \cos\omega)^2} \]
+    \begin{itemize}
+        \item netezitorul Kalman al unei tendințe liniare locale cu raportul semnal--zgomot $1/\lambda$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6}); $\lambda = 1600$ pentru trimestre; scalarea Ravn--Uhlig $\lambda \propto s^4$ ($s$: numărul de observații pe trimestru): 129\,600 pentru luni, 6,25 pentru ani \refRU
+    \end{itemize}
 \end{itemize}
 \end{column}
 \end{columns}
@@ -776,9 +913,10 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
         \item (2) valorile de la sfîrșitul eșantionului diferă mult de cele pe care același filtru le dă după ce sosesc date noi (unilateral față de bilateral)
         \item (3) $\lambda$ implicat de un model statistic estimat pe date este departe de 1600
     \end{itemize}
-    \item Alternativa: \textbf{filtrul de regresie} $y_{t+h} = \beta_0 + \beta_1y_t + \dots + \beta_py_{t-p+1} + v_{t+h}$, ciclul este $\hat v_{t+h}$; trimestrial $h = 8$, $p = 4$
+    \item Alternativa: \textbf{filtrul de regresie}, ciclul este eroarea unei prognoze prin regresie cu $h$ pași înainte
+    \[ y_{t+h} = \beta_0 + \beta_1y_t + \dots + \beta_py_{t-p+1} + v_{t+h}, \qquad \text{ciclul}_{t+h} = \hat v_{t+h} \]
     \begin{itemize}
-        \item unilateral prin construcție; consistent pentru eroarea de prognoză a unei clase largi de procese nestaționare; pentru un mers aleator $v_{t+h} = y_{t+h} - y_t$
+        \item trimestrial $h = 8$, $p = 4$; unilateral prin construcție; pentru un mers aleator $v_{t+h} = y_{t+h} - y_t$
     \end{itemize}
     \item Răspunsuri: filtrul HP iterat (boosting) \refPS; un filtru Hamilton modificat pentru timp real \refQW; dezbaterea privește ce cîștig doriți
 \end{itemize}
@@ -867,7 +1005,7 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \begin{itemize}
     \item HP: revizuirea medie pătratică 2{,}8 puncte, cît ciclul însuși (abaterea standard 2{,}8); corelația dintre ciclul în timp real și cel final 0{,}57; semnul greșit în 38\% din trimestre
     \item Hamilton: corelația 0{,}76, semnul greșit în 24\% din trimestre; dar revizuirea este de 4{,}6 puncte, deoarece regresia se reestimează pe eșantioane scurte într-o economie în tranziție
-    \item Filtrul HP în timp real a văzut doar o mică parte din boom-ul din 2008: deviația PIB-ului de care avea nevoie politica economică era tocmai cea pe care o măsura cel mai prost
+    \item Filtrul HP în timp real a văzut doar o mică parte din boom-ul din 2008: deviația PIB-ului de la potențial de care avea nevoie politica economică era tocmai cea pe care o măsura cel mai prost
     \item Raportați proprietățile în timp real ale oricărei estimări a deviației; estimarea finală nu este o informație pe care o avea cineva
 \end{itemize}
 \end{frame}
@@ -876,7 +1014,11 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \itemsize{\small}
 \begin{itemize}
     \item Corelația ciclurilor filtrate; depinde de filtru (cîștig) și de cîteva episoade mari
-    \item \textbf{Concordanța} \refHPa: $C = \frac1T\sum_t[S_{xt}S_{yt} + (1 - S_{xt})(1 - S_{yt})]$, $S_t = 1$ în expansiune (aici: ciclul peste tendință); comparați cu $p_xp_y + (1 - p_x)(1 - p_y)$ sub independență
+    \item \textbf{Concordanța} \refHPa: ponderea perioadelor în care cele două economii se află în aceeași fază
+    \[ C = \frac1T\sum_t\big[S_{xt}S_{yt} + (1 - S_{xt})(1 - S_{yt})\big] \]
+    \begin{itemize}
+        \item $S_{xt} = 1$ dacă $x$ este în expansiune (aici: ciclul peste tendință), 0 altfel; sub independență $\E C = p_xp_y + (1 - p_x)(1 - p_y)$, $p_x$, $p_y$: ponderile perioadelor de expansiune
+    \end{itemize}
     \item Corelația dinamică pe banda ciclului economic \refCFR, care nu cere niciun filtru
     \item Evidența pentru Europa Centrală și de Est: o meta-analiză a 35 de publicații arată că unele țări aveau deja corelații mari cu zona euro și că metoda de estimare schimbă semnificativ corelația \refFK
 \end{itemize}
@@ -943,10 +1085,14 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \begin{frame}{Spectre evolutive și staționaritate locală}
 \itemsize{\small}
 \begin{itemize}
-    \item \refPri: $X_t = \int A_t(\omega)e^{i\omega t}\,dZ(\omega)$, cu o amplitudine $A_t(\omega)$ care se schimbă lent; \textbf{spectrul evolutiv} $f_t(\omega) = |A_t(\omega)|^2f(\omega)$
-    \item \refDah: procese \textbf{local staționare} $X_{t,T}$, cu $A(t/T, \omega)$ netedă în timpul rescalat $u = t/T$: un spectru variabil în timp $f(u, \omega)$ care se poate estima consistent
+    \item \refPri: reprezentarea lui Cramér cu o amplitudine care se schimbă lent
+    \[ X_t = \int A_t(\omega)e^{i\omega t}\,dZ(\omega), \qquad f_t(\omega) = |A_t(\omega)|^2f(\omega) \]
     \begin{itemize}
-        \item estimatorul: un spectru pe o fereastră mobilă (transformata Fourier pe termen scurt, spectrograma), cu taper
+        \item $A_t(\omega)$: amplitudinea variabilă în timp; $f_t(\omega)$: \textbf{spectrul evolutiv} la momentul $t$
+    \end{itemize}
+    \item \refDah: procese \textbf{local staționare} $X_{t,T}$, cu $A(t/T, \omega)$ netedă în timpul rescalat $u = t/T$
+    \begin{itemize}
+        \item $T$: mărimea eșantionului; un spectru variabil în timp $f(u, \omega)$ care se poate estima consistent printr-un spectru cu taper pe o fereastră mobilă (spectrograma)
     \end{itemize}
     \item \textbf{Principiul incertitudinii}: o fereastră de lungime $L$ separă frecvențele doar pînă la circa $1/L$; ferestrele lungi estompează timpul, cele scurte estompează frecvența
     \item Wavelets (secțiunile următoare) lasă lungimea ferestrei să varieze cu frecvența: scurtă pentru frecvențele înalte, lungă pentru cele joase
@@ -1000,37 +1146,60 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 %=============================================================================
 
 \begin{frame}{De la sinusoide la wavelets}
-\itemsize{\small}
+\itemsize{\footnotesize}
 \begin{columns}[T]
-\begin{column}{0.3\textwidth}
+\begin{column}{0.28\textwidth}
 \centering
-\includegraphics[height=0.4\textheight]{ch11_daubechies_2005.jpg}\\[1mm]
+\includegraphics[height=0.36\textheight]{ch11_daubechies_2005.jpg}\\[1mm]
 \imgcap{Ingrid Daubechies, 2005}
 \imgcredit{https://commons.wikimedia.org/wiki/File:Ingrid_Daubechies_(2005)_(cropped).jpg}{Foto: lucrarea autorului încărcării (2005); domeniu public; Wikimedia Commons}
 \end{column}
-\begin{column}{0.68\textwidth}
+\begin{column}{0.7\textwidth}
 \begin{itemize}
-    \item Un \textbf{wavelet} $\psi$: $\int\psi = 0$, $\int\psi^2 = 1$, localizat în timp și în frecvență; admisibil dacă $C_\psi = \int|\hat\psi(\omega)|^2/|\omega|\,d\omega < \infty$ \refGM
-    \item CWT: $W(s, \tau) = \int x(t)\frac{1}{\sqrt s}\psi^*\big(\frac{t - \tau}{s}\big)dt$; scala $s$ este invers legată de frecvență
-    \item Wavelets ortonormate cu suport compact \refDau{} și algoritmul piramidal \refMal{} dau DWT: $n$ coeficienți pentru $n$ observații
-    \item În economie și finanțe: \refCro; \refGSWb; \refACS
+    \item Un \textbf{wavelet} $\psi$: o undă scurtă, localizată în timp și în frecvență \refGM
+    \begin{itemize}
+        \item $\int\psi = 0$, $\int\psi^2 = 1$; admisibil dacă $C_\psi = \int|\hat\psi(\omega)|^2/|\omega|\,d\omega < \infty$, cu $\hat\psi$ transformata Fourier a lui $\psi$
+    \end{itemize}
+    \item Transformata wavelet continuă (CWT): corelăm seria cu copii dilatate și translatate ale lui $\psi$
+    \[ W(s, \tau) = \int x(t)\,\frac{1}{\sqrt s}\,\psi^*\Big(\frac{t - \tau}{s}\Big)dt \]
+    \begin{itemize}
+        \item $s > 0$: scala (invers legată de frecvență); $\tau$: poziția în timp; $\psi^*$: conjugatul complex
+    \end{itemize}
+    \item Wavelets ortonormate cu suport compact \refDau{} și algoritmul piramidal \refMal{} dau DWT: $n$ coeficienți pentru $n$ observații; aplicații: \refCro; \refGSWb; \refACS
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{DWT, MODWT și analiza multirezoluție}
+\begin{frame}{DWT, MODWT și analiza multirezoluție (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Filtre: de scalare $g_l$ (trece-jos), wavelet $h_l = (-1)^lg_{L-1-l}$ (trece-sus); Haar $L = 2$, Daubechies cel mai puțin asimetric LA(8) $L = 8$ \refPWb
+    \item Două filtre de lungime $L$ \refPWb
+    \[ \text{de scalare (trece-jos): } g_l, \qquad \text{wavelet (trece-sus): } h_l = (-1)^lg_{L-1-l} \]
     \begin{itemize}
-        \item nivelul $j$ captează perioadele $[2^j, 2^{j+1}]$: o bandă de o \textbf{octavă}; $J$ niveluri plus o componentă netedă
+        \item Haar $L = 2$; Daubechies cel mai puțin asimetric LA(8) $L = 8$; nivelul $j$ captează perioadele $[2^j, 2^{j+1}]$: o bandă de o \textbf{octavă}; $J$ niveluri plus o componentă netedă
     \end{itemize}
-    \item \textbf{MODWT}: fără eșantionare redusă; filtre rescalate $\tilde h = h/\sqrt2$, $\tilde g = g/\sqrt2$; $\tilde W_{j,t} = \sum_l\tilde h_{j,l}X_{t-l \bmod n}$
+    \item \textbf{MODWT} (DWT cu suprapunere maximă): fără eșantionare redusă, cu filtre rescalate
+    \[ \tilde h = h/\sqrt2, \quad \tilde g = g/\sqrt2, \qquad \tilde W_{j,t} = \sum_l\tilde h_{j,l}X_{t-l \bmod n} \]
     \begin{itemize}
-        \item orice mărime a eșantionului, invariantă la translații (mutarea datei de început nu schimbă coeficienții), $J \times n$ coeficienți, energia se conservă: $\|X\|^2 = \sum_j\|\tilde W_j\|^2 + \|\tilde V_J\|^2$
+        \item $\tilde h_{j,l}$: filtrul wavelet de nivel $j$; $\tilde W_{j,t}$: coeficientul wavelet de nivel $j$ la momentul $t$; $\bmod n$: eșantionul este tratat circular
     \end{itemize}
-    \item \textbf{MRA}: $X_t = \sum_{j=1}^J\mathcal D_{j,t} + \mathcal S_{J,t}$, fiecare detaliu $\mathcal D_j$ fiind inversa MODWT a nivelului $j$; fără defazaj, aliniat cu datele
+\end{itemize}
+\end{frame}
+
+\begin{frame}{DWT, MODWT și analiza multirezoluție (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Proprietățile MODWT
+    \begin{itemize}
+        \item orice mărime a eșantionului, invariantă la translații (mutarea datei de început nu schimbă coeficienții), $J \times n$ coeficienți
+        \item energia se conservă: $\|X\|^2 = \sum_j\|\tilde W_j\|^2 + \|\tilde V_J\|^2$, cu $\tilde V_J$ coeficienții de scalare (netezi)
+    \end{itemize}
+    \item \textbf{Analiza multirezoluție (MRA)}: seria este suma detaliilor și a unei componente netede
+    \[ X_t = \sum_{j=1}^J\mathcal D_{j,t} + \mathcal S_{J,t} \]
+    \begin{itemize}
+        \item $\mathcal D_j$: inversa MODWT a nivelului $j$ singur; $\mathcal S_J$: componenta netedă; fără defazaj, aliniate cu datele
+    \end{itemize}
     \item Marginile: primii $L_j - 1 = (2^j - 1)(L - 1)$ coeficienți folosesc date de la celălalt capăt (filtrare circulară) și se exclud din estimare
 \end{itemize}
 \end{frame}
@@ -1079,16 +1248,28 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Varianța, corelația și beta wavelet pe scale}
+\begin{frame}{Varianța, corelația și beta wavelet pe scale (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \textbf{Varianța wavelet} $\nu_X^2(\tau_j) = \Var\tilde W_{j,t}$; $\sum_j\nu^2_X(\tau_j) = \Var X$: o versiune pe octave a spectrului \refPer
+    \item \textbf{Varianța wavelet}: varianța coeficienților de nivel $j$; nivelurile însumează varianța seriei \refPer
+    \[ \nu_X^2(\tau_j) = \Var\tilde W_{j,t}, \qquad \sum_j\nu^2_X(\tau_j) = \Var X \]
     \begin{itemize}
-        \item estimatorul nedeplasat: media lui $\tilde W^2_{j,t}$ pe cei $M_j = n - L_j + 1$ coeficienți din afara marginilor; $\eta\hat\nu^2/\nu^2 \approx \chi^2_\eta$, $\eta = \max(M_j/2^j, 1)$
-        \item zgomot alb: $\nu^2(\tau_j) = \sigma^2/2^j$, se înjumătățește la fiecare nivel
+        \item $\tau_j = 2^{j-1}$: scala nivelului $j$; o versiune pe octave a spectrului; zgomot alb: $\nu^2(\tau_j) = \sigma^2/2^j$, se înjumătățește la fiecare nivel
+        \item estimatorul nedeplasat: media lui $\tilde W^2_{j,t}$ pe cei $M_j = n - L_j + 1$ coeficienți din afara marginilor; $\eta\hat\nu^2/\nu^2 \approx \chi^2_\eta$, cu $\eta = \max(M_j/2^j, 1)$ grade de libertate echivalente
     \end{itemize}
-    \item \textbf{Corelația wavelet} $\rho_{XY}(\tau_j) = \Cov(\tilde W^X_j, \tilde W^Y_j)/(\nu_X\nu_Y)$, intervalul $\tanh\big(\tanh^{-1}\hat\rho \pm z/\sqrt{M_j/2^j - 3}\big)$ \refWGP
-    \item \textbf{Beta wavelet} $\beta(\tau_j) = \Cov(\tilde W^r_j, \tilde W^m_j)/\Var\tilde W^m_j$: riscul sistematic pe orizonturi de investiție \refGSW
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Varianța, corelația și beta wavelet pe scale (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item \textbf{Corelația wavelet} \refWGP\ și \textbf{beta wavelet} \refGSW
+    \[ \rho_{XY}(\tau_j) = \frac{\Cov(\tilde W^X_j, \tilde W^Y_j)}{\nu_X(\tau_j)\nu_Y(\tau_j)} \]
+    \[ \beta(\tau_j) = \frac{\Cov(\tilde W^r_j, \tilde W^m_j)}{\Var\tilde W^m_j} \]
+    \begin{itemize}
+        \item $\tilde W^r_j$, $\tilde W^m_j$: coeficienții randamentului unui activ și ai randamentului pieței; $\beta(\tau_j)$: riscul sistematic la orizontul de investiție $\tau_j$
+        \item intervalul de 95\% pentru corelație: $\tanh\big(\tanh^{-1}\hat\rho \pm z/\sqrt{M_j/2^j - 3}\big)$, $z = 1{,}96$
+    \end{itemize}
     \item Mărimea efectivă a eșantionului se înjumătățește la fiecare nivel: estimările pe scale lungi sînt largi chiar și cu 25 de ani de date zilnice
 \end{itemize}
 \end{frame}
@@ -1151,17 +1332,32 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \section{Co-mișcarea timp--frecvență: coerența wavelet}
 %=============================================================================
 
-\begin{frame}{Transformata Morlet și semnificația ei}
+\begin{frame}{Transformata Morlet și semnificația ei (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item \refTC: $W_n(s) = \sum_kx\hat{}_k\hat\psi^*(s\omega_k)e^{i\omega_kn\delta t}$ prin FFT; scalele $s_j = s_02^{j\delta j}$; puterea wavelet $|W_n(s)|^2$
+    \item \refTC: CWT calculată prin FFT pe o grilă de scale
+    \[ W_n(s) = \sum_k\hat x_k\,\hat\psi^*(s\omega_k)\,e^{i\omega_kn\delta t}, \qquad s_j = s_02^{j\delta j} \]
     \begin{itemize}
-        \item \textbf{conul de influență} (COI): zona în care wavelet-ul de scală $s$ atinge marginea, la mai puțin de $\sqrt2\,s$ de oricare capăt; rezultatele de acolo sînt deplasate
+        \item $\hat x_k$: DFT al seriei la frecvența $\omega_k$; $\hat\psi$: transformata Fourier a wavelet-ului Morlet; $\delta t$: pasul de timp; $s_0$: scala cea mai mică; $\delta j$: pasul scalelor, în octave
+        \item puterea wavelet $|W_n(s)|^2$: varianța seriei la momentul $n$ și scala $s$
     \end{itemize}
-    \item Ipoteza nulă de zgomot roșu (AR(1) cu autocorelația de ordinul 1 egală cu $a$): $|W_n(s)|^2/\sigma^2 \sim P_k\chi^2_2/2$, $P_k = (1 - a^2)/(1 + a^2 - 2a\cos(2\pi k/N))$ la frecvența scalei $s$
+    \item \textbf{Conul de influență} (COI): zona în care wavelet-ul de scală $s$ atinge marginea, la mai puțin de $\sqrt2\,s$ de oricare capăt
     \begin{itemize}
-        \item spectrul wavelet global $\bar W^2(s) = \frac1n\sum_n|W_n(s)|^2$: un spectru Fourier netezit cu $\nu = 2\sqrt{1 + (n\delta t/(2{,}32s))^2}$ grade de libertate
+        \item rezultatele din COI sînt deplasate și nu se interpretează
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Transformata Morlet și semnificația ei (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Ipoteza nulă de zgomot roșu, un AR(1) cu autocorelația de ordinul 1 egală cu $a$: puterea este o variabilă $\chi^2_2$ scalată
+    \[ \frac{|W_n(s)|^2}{\sigma^2} \sim P_k\,\frac{\chi^2_2}{2}, \qquad P_k = \frac{1 - a^2}{1 + a^2 - 2a\cos(2\pi k/N)} \]
+    \begin{itemize}
+        \item $\sigma^2$: varianța seriei; $P_k$: spectrul zgomotului roșu la indicele Fourier $k$ care corespunde scalei $s$; $N$: numărul de observații
+    \end{itemize}
+    \item Spectrul wavelet global: media în timp a puterii, un spectru Fourier netezit
+    \[ \bar W^2(s) = \frac1n\sum_n|W_n(s)|^2, \qquad \nu = 2\sqrt{1 + \Big(\frac{n\delta t}{2{,}32\,s}\Big)^2} \ \text{grade de libertate} \]
     \item Rectificați puterea prin $1/s$ cînd comparați scalele \refLLW; testul punctual se aplică în mii de puncte: așteptați 5\% zone false \refMK
 \end{itemize}
 \end{frame}
@@ -1188,16 +1384,30 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Coerența și faza wavelet}
+\begin{frame}{Coerența și faza wavelet (1/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Transformata wavelet încrucișată $W^{xy}_n(s) = W^x_n(s)W^{y*}_n(s)$; \textbf{coerența wavelet pătratică} \refTW, \refGMJ:
+    \item Transformata wavelet încrucișată și \textbf{coerența wavelet pătratică} \refTW, \refGMJ
+    \[ W^{xy}_n(s) = W^x_n(s)W^{y*}_n(s) \]
+    \[ R^2_n(s) = \frac{|\mathcal S(s^{-1}W^{xy}_n(s))|^2}{\mathcal S(s^{-1}|W^x_n(s)|^2)\,\mathcal S(s^{-1}|W^y_n(s)|^2)} \in [0, 1] \]
     \begin{itemize}
-        \item $R^2_n(s) = \dfrac{|\mathcal S(s^{-1}W^{xy}_n(s))|^2}{\mathcal S(s^{-1}|W^x_n(s)|^2)\,\mathcal S(s^{-1}|W^y_n(s)|^2)}$, $\mathcal S$ = netezire gaussiană în timp (lățime $s$) și o medie pe 0,6 octave în scală
+        \item $\mathcal S$: netezirea, gaussiană în timp (lățime $s$) și o medie pe 0,6 octave în scală; $R^2_n(s)$: un $R^2$ local la momentul $n$ și scala $s$
         \item fără netezire $R^2 \equiv 1$, ca pentru coerența brută: netezirea o face un estimator
     \end{itemize}
-    \item Faza $\arg\mathcal S(s^{-1}W^{xy})$: săgeți spre dreapta = în fază, spre stînga = în antifază, în sus = $x$ conduce; avansul în timp = faza $\times$ perioada$/2\pi$
-    \item Semnificația prin \textbf{Monte Carlo} \refGMJ: perechi de serii AR(1) independente cu autocorelațiile de ordinul 1 ale datelor; percentila 95 a lui $R^2$ la fiecare scală
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Coerența și faza wavelet (2/2)}
+\itemsize{\small}
+\begin{itemize}
+    \item Faza $\arg\mathcal S(s^{-1}W^{xy})$, reprezentată prin săgeți
+    \begin{itemize}
+        \item spre dreapta = în fază, spre stînga = în antifază, în sus = $x$ conduce; avansul în timp = faza $\times$ perioada$/2\pi$
+    \end{itemize}
+    \item Semnificația prin \textbf{Monte Carlo} \refGMJ
+    \begin{itemize}
+        \item simulăm perechi de serii AR(1) independente cu autocorelațiile de ordinul 1 ale datelor; percentila 95 a lui $R^2$ la fiecare scală este pragul de 5\%
+    \end{itemize}
     \item Extensii: coerența wavelet parțială și multiplă, diferențe de fază cu benzi de încredere \refACS; politica monetară \refAAS; energie \refVB
 \end{itemize}
 \end{frame}
@@ -1241,7 +1451,7 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \begin{itemize}
     \item Aria semnificativă 26\% (percentila 95 sub ipoteza nulă: 7{,}7\%); $R^2$ la 8--64 de săptămîni 0{,}76 în 2008--2009 și 0{,}48 în 2014--2019
     \item În 2000--2006 faza este \ensuremath{-}1{,}24 rad: S\&P 500 conducea cu circa o cincime din ciclu; în crize piețele se mișcă în fază
-    \item Datele săptămînale elimină decalajul de o zi din corelația wavelet zilnică: alegerea frecvenței datelor contează pentru afirmațiile despre decalaje
+    \item Datele săptămînale elimină întîrzierea de o zi din corelația wavelet zilnică: alegerea frecvenței datelor contează pentru afirmațiile despre avans și întîrziere
     \item Imaginea noastră confirmă evidența internațională: co-mișcarea este cea mai puternică la frecvențe joase și în crize \refRN
 \end{itemize}
 \end{frame}
@@ -1262,7 +1472,7 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \itemsize{\footnotesize}
 \begin{itemize}
     \item Aria semnificativă 15\% (percentila 95 sub ipoteza nulă: 7{,}1\%): petrolul și acțiunile sînt legate doar în anumite episoade
-    \item Înainte de 2007: $R^2$ 0{,}41, cu faza \ensuremath{-}1{,}86 rad, nici în fază, nici în antifază: o legătură slabă, cu decalaj; 2008--2010: 0{,}70, în fază (\ensuremath{-}0{,}09 rad): un șoc comun de cerere
+    \item Înainte de 2007: $R^2$ 0{,}41, cu faza \ensuremath{-}1{,}86 rad, nici în fază, nici în antifază: o legătură slabă, de tip avans--întîrziere; 2008--2010: 0{,}70, în fază (\ensuremath{-}0{,}09 rad): un șoc comun de cerere
     \item 2020--2021: 0{,}58 în fază; 2022--2023: faza \ensuremath{-}2{,}31 rad, mai aproape de antifază: șocul prețurilor energiei din timpul războiului din Ucraina
     \item Semnul legăturii petrol--acțiuni depinde de tipul de șoc \refKP; faza wavelet arată schimbarea fără să o identifice
 \end{itemize}
@@ -1312,7 +1522,7 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
         \item formal: $H_0$: coerența wavelet dintre BET și DAX în ferestrele de criză preînregistrate este egală cu valoarea ei într-un model cu aceleași volatilități variabile în timp și dependență constantă
         \item infirmată dacă coerența din criză depășește percentila 95 a unui bootstrap dintr-un DCC-GARCH cu corelație constantă (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol8_volatilitate_avansata.pdf}{Capitolul 8}), la scale preînregistrate
     \end{itemize}
-    \item De ce contează: diversificarea eșuează tocmai cînd este nevoie de ea; corecția Forbes--Rigobon există pentru corelații, nu și pentru coerența wavelet
+    \item Miza: diversificarea eșuează tocmai cînd este nevoie de ea; corecția Forbes--Rigobon există pentru corelații, nu și pentru coerența wavelet
     \begin{itemize}
         \item literatura de pornire: \refFR, \refRN, \refMK, \refSch, \refACS
     \end{itemize}
@@ -1417,6 +1627,7 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 %=============================================================================
 
 \begin{frame}{Anexă: distribuția periodogramei}
+\hypertarget{atsapp1}{}\atsappback{atssrc1}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item Zgomot alb gaussian: $a_j = \sqrt{2/n}\sum_tx_t\cos(\omega_jt)$, $b_j = \sqrt{2/n}\sum_tx_t\sin(\omega_jt)$ sînt i.i.d.\ $N(0, \sigma^2)$ pentru $0 < \omega_j < \pi$ (ortogonalitatea bazei Fourier)
@@ -1427,6 +1638,7 @@ Petrol Brent & FRED (US Energy Information Administration), zilnic & 2000 -- 202
 \end{frame}
 
 \begin{frame}{Anexă: două proprietăți ale filtrelor}
+\hypertarget{atsapp2}{}\atsappback{atssrc1}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Coerența este invariantă la filtrare}: $\tilde x = A(L)x$, $\tilde y = B(L)y$ dau $f_{\tilde x\tilde y} = A(\omega)\overline{B(\omega)}f_{xy}$, $f_{\tilde x} = |A|^2f_x$, $f_{\tilde y} = |B|^2f_y$, deci $\kappa^2_{\tilde x\tilde y} = \kappa^2_{xy}$ acolo unde $A, B \ne 0$

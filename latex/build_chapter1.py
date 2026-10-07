@@ -243,7 +243,7 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
     (T('\\textbf{Question}: when is one forecast \\emph{really} better than another, and what do we gain by combining them?',
        '\\textbf{Întrebarea}: cînd este o prognoză \\emph{cu adevărat} mai bună decît alta și ce cîștigăm combinîndu-le?'),
      [T('``better\'\' needs a loss or a score, a reference distribution of the comparison and an honest evaluation design',
-        '„mai bună” cere o funcție de pierdere sau un scor, o distribuție de referință pentru comparație și un plan de evaluare onest')]),
+        '„mai bună” cere o funcție de pierdere sau un scor, o distribuție de referință pentru comparație și un plan de evaluare corect, fixat dinainte')]),
     (T('\\textbf{Route} of the chapter', '\\textbf{Traseul} capitolului'),
      [T('point forecasts: which functional a loss function rewards (consistency, Bregman losses)', 'prognoze punctuale: ce funcțională răsplătește o funcție de pierdere (consistență, pierderi Bregman)'),
       T('probabilistic forecasts: calibration, sharpness, PIT, proper scoring rules, elicitability', 'prognoze probabilistice: calibrare, sharpness, PIT, reguli de scor proprii, elicitabilitate'),
@@ -307,22 +307,31 @@ D.section('Point forecasts and loss functions', 'Prognoze punctuale și funcții
 
 D.frame(T('Setting and notation', 'Cadrul și notațiile'), items(
     (T('Target $Y_{t+h}$, information set $\\mathcal{F}_t$, horizon $h$; a \\textbf{point forecast} $\\hat y_{t+h|t}$ is $\\mathcal{F}_t$-measurable', 'Ținta $Y_{t+h}$, mulțimea de informații $\\mathcal{F}_t$, orizontul $h$; o \\textbf{prognoză punctuală} $\\hat y_{t+h|t}$ este măsurabilă în raport cu $\\mathcal{F}_t$'),
-     [T('a \\textbf{probabilistic forecast} is a predictive distribution $F_{t+h|t}$ (density, quantiles, interval, ensemble)', 'o \\textbf{prognoză probabilistică} este o distribuție predictivă $F_{t+h|t}$ (densitate, cuantile, interval, ansamblu)')]),
+     [T('$\\mathcal{F}_t$-measurable: computed only from information available at $t$', 'măsurabilă în raport cu $\\mathcal{F}_t$: calculată doar din informația disponibilă la momentul $t$'),
+      T('a \\textbf{probabilistic forecast} is a predictive distribution $F_{t+h|t}$ (density, quantiles, interval, ensemble)', 'o \\textbf{prognoză probabilistică} este o distribuție predictivă $F_{t+h|t}$ (densitate, cuantile, interval, ansamblu)')]),
     (T('Out-of-sample design: $R$ observations to estimate, $P$ forecasts to evaluate, $R + P + h - 1 = T$', 'Plan în afara eșantionului: $R$ observații pentru estimare, $P$ prognoze pentru evaluare, $R + P + h - 1 = T$'),
      [T('schemes: \\textbf{fixed} (estimate once), \\textbf{rolling} (last $R$), \\textbf{recursive} (all past); TSA, Chapter 4 called this rolling-origin evaluation', 'scheme: \\textbf{fixă} (o singură estimare), \\textbf{mobilă} (ultimele $R$), \\textbf{recursivă} (tot trecutul); în TSA, Capitolul 4 aceasta este evaluarea cu origine mobilă'),
-      T('the scheme matters for inference: West (1996) vs Giacomini--White (2006), Section 4', 'schema contează pentru inferență: West (1996) față de Giacomini--White (2006), secțiunea 4')]),
+      T('$T$: the total sample; the last forecast, made at $R + P - 1$, targets $T$; the scheme matters for inference: West (1996) vs Giacomini--White (2006), Section 4', '$T$: eșantionul total; ultima prognoză, făcută la $R + P - 1$, are ținta $T$; schema contează pentru inferență: West (1996) față de Giacomini--White (2006), secțiunea 4')]),
     (T('Known from TSA, Chapter 0: MAE, RMSE, MAPE and the scale-free MASE \\refHK', 'Cunoscute din TSA, Capitolul 0: MAE, RMSE, MAPE și MASE, independentă de scală \\refHK'),
      [T('here the question is different: \\emph{which} loss, and what does it reward?', 'aici întrebarea este alta: \\emph{ce} pierdere și ce răsplătește ea?')])), 'small')
 
-D.frame(T('The optimal point forecast and consistency', 'Prognoza punctuală optimă și consistența'), items(
-    (T('Given a loss $L(x, y)$ and a predictive distribution $F$, the \\textbf{optimal} (Bayes) forecast is $x^* = \\arg\\min_x \\E_F[L(x, Y)]$', 'Dată o pierdere $L(x, y)$ și o distribuție predictivă $F$, prognoza \\textbf{optimă} (Bayes) este $x^* = \\arg\\min_x \\E_F[L(x, Y)]$'),
-     [T('a loss is \\textbf{consistent} for a functional $\\mathrm{T}$ if $\\E_F L(\\mathrm{T}(F), Y) \\le \\E_F L(x, Y)$ for all $x$ and $F$ \\refGnaa', 'o pierdere este \\textbf{consistentă} pentru o funcțională $\\mathrm{T}$ dacă $\\E_F L(\\mathrm{T}(F), Y) \\le \\E_F L(x, Y)$ pentru orice $x$ și $F$ \\refGnaa'),
-      T('\\textbf{strictly} consistent: equality only at $x = \\mathrm{T}(F)$', 'consistentă \\textbf{strict}: egalitate doar pentru $x = \\mathrm{T}(F)$')]),
-    (T('Three classical cases ($e = y - x$)', 'Trei cazuri clasice ($e = y - x$)'),
+D.frame(T('The optimal point forecast and consistency (1/2)', 'Prognoza punctuală optimă și consistența (1/2)'), items(
+    (T('Given a loss $L(x, y)$ and a predictive distribution $F$, the \\textbf{optimal} (Bayes) forecast minimises the expected loss:', 'Dată o pierdere $L(x, y)$ și o distribuție predictivă $F$, prognoza \\textbf{optimă} (Bayes) minimizează pierderea așteptată:'),
+     ['$x^* = \\arg\\min_x \\E_F[L(x, Y)]$',
+      T('$x$: the point forecast; $y$: the outcome; $L(x, y) \\ge 0$: the penalty; $\\E_F$: the expectation when $Y \\sim F$', '$x$: prognoza punctuală; $y$: realizarea; $L(x, y) \\ge 0$: penalizarea; $\\E_F$: media calculată cînd $Y \\sim F$')]),
+    (T('A \\textbf{functional} $\\mathrm{T}(F)$ maps a distribution to a number: the mean, the median, a quantile', 'O \\textbf{funcțională} $\\mathrm{T}(F)$ asociază unei distribuții un număr: media, mediana, o cuantilă'),
+     [T('$L$ is \\textbf{consistent} for $\\mathrm{T}$ if $\\E_F L(\\mathrm{T}(F), Y) \\le \\E_F L(x, Y)$ for all $x$ and $F$ \\refGnaa', '$L$ este \\textbf{consistentă} pentru $\\mathrm{T}$ dacă $\\E_F L(\\mathrm{T}(F), Y) \\le \\E_F L(x, Y)$ pentru orice $x$ și $F$ \\refGnaa'),
+      T('i.e.\\ reporting $\\mathrm{T}(F)$ is optimal whatever $F$ is; \\textbf{strictly} consistent: equality only at $x = \\mathrm{T}(F)$', 'adică raportarea lui $\\mathrm{T}(F)$ este optimă oricare ar fi $F$; consistentă \\textbf{strict}: egalitate doar pentru $x = \\mathrm{T}(F)$')])))
+
+D.frame(T('The optimal point forecast and consistency (2/2)', 'Prognoza punctuală optimă și consistența (2/2)'), items(
+    (T('Three classical cases, with the forecast error $e = y - x$; set the derivative of the expected loss to zero', 'Trei cazuri clasice, cu eroarea de prognoză $e = y - x$; anulăm derivata pierderii așteptate'),
      [T('squared $e^2$: $\\frac{d}{dx}\\E(Y - x)^2 = -2\\E(Y - x) = 0 \\Rightarrow x^* = \\E Y$ (the mean)', 'pătratică $e^2$: $\\frac{d}{dx}\\E(Y - x)^2 = -2\\E(Y - x) = 0 \\Rightarrow x^* = \\E Y$ (media)'),
       T('absolute $|e|$: $\\frac{d}{dx}\\E|Y - x| = F(x) - (1 - F(x)) = 0 \\Rightarrow F(x^*) = 1/2$ (the median)', 'absolută $|e|$: $\\frac{d}{dx}\\E|Y - x| = F(x) - (1 - F(x)) = 0 \\Rightarrow F(x^*) = 1/2$ (mediana)'),
       T('pinball $\\rho_\\tau(e) = (\\tau - \\mathbf 1\\{e < 0\\})e$: $F(x) - \\tau = 0 \\Rightarrow x^* = F^{-1}(\\tau)$ (the $\\tau$-quantile)', 'pinball $\\rho_\\tau(e) = (\\tau - \\mathbf 1\\{e < 0\\})e$: $F(x) - \\tau = 0 \\Rightarrow x^* = F^{-1}(\\tau)$ (cuantila $\\tau$)')]),
-    T('Consequence: report the loss \\emph{before} asking for a forecast; a median forecast judged by RMSE is judged unfairly \\refGnaa', 'Consecință: anunțați pierderea \\emph{înainte} de a cere o prognoză; o prognoză-mediană judecată prin RMSE este judecată nedrept \\refGnaa')), 'small')
+    (T('Notation of the pinball loss', 'Notațiile pierderii pinball'),
+     [T('$\\tau \\in (0, 1)$: the quantile level; $\\mathbf 1\\{e < 0\\}$: 1 if the forecast is too high, 0 otherwise; $F^{-1}$: the quantile function', '$\\tau \\in (0, 1)$: nivelul cuantilei; $\\mathbf 1\\{e < 0\\}$: 1 dacă prognoza este prea mare, 0 altfel; $F^{-1}$: funcția cuantilă'),
+      T('under-forecasts cost $\\tau|e|$, over-forecasts $(1 - \\tau)|e|$: a high $\\tau$ pushes the forecast up', 'prognozele prea mici costă $\\tau|e|$, cele prea mari $(1 - \\tau)|e|$: un $\\tau$ mare împinge prognoza în sus')]),
+    T('Consequence: announce the loss \\emph{before} asking for a forecast; a median forecast judged by RMSE is judged unfairly \\refGnaa', 'Consecință: anunțați pierderea \\emph{înainte} de a cere o prognoză; o prognoză-mediană judecată prin RMSE este judecată nedrept \\refGnaa')), 'small')
 
 chart(T('Three losses, three optimal forecasts', 'Trei pierderi, trei prognoze optime'), 'ats_ch1_loss_minimizers', 'ATS_ch1_loss_functions', [
     T('$Y$ log-normal with $\\ln Y \\sim N(0, @{l.s}^2)$; expected loss as a function of the point forecast $x$ (simulation, $2 \\times 10^5$ draws)',
@@ -334,19 +343,27 @@ interp(('the three minimisers', 'celor trei puncte de minim'), [
     T('The pinball curve is flat near its minimum: quantile forecasts are hard to separate with few observations', 'Curba pinball este plată în jurul minimului: prognozele de cuantilă se deosebesc greu cu puține observații'),
     T('A forecaster who knows the loss reports the matching functional; ranking forecasts by another loss rewards the wrong behaviour', 'Un prognozator care cunoaște pierderea raportează funcționala potrivită; ierarhizarea cu altă pierdere răsplătește un comportament greșit')])
 
-D.frame(T('Bregman losses: all losses consistent for the mean', 'Pierderile Bregman: toate pierderile consistente pentru medie'), items(
-    (T('\\textbf{Theorem} \\refSav, \\refGnaa: under regularity, $L$ is consistent for the mean iff', '\\textbf{Teoremă} \\refSav, \\refGnaa: în condiții de regularitate, $L$ este consistentă pentru medie dacă și numai dacă'),
-     [T('$L(x, y) = \\phi(y) - \\phi(x) - \\phi\'(x)(y - x)$ with $\\phi$ convex (a \\textbf{Bregman} loss), up to terms in $y$ only', '$L(x, y) = \\phi(y) - \\phi(x) - \\phi\'(x)(y - x)$ cu $\\phi$ convexă (o pierdere \\textbf{Bregman}), pînă la termeni care depind doar de $y$'),
-      T('$\\phi(x) = x^2$: squared error; $\\phi(x) = -\\ln x$: \\textbf{QLIKE} $y/x - \\ln(y/x) - 1$ (Chapter 8); the conditional mean is optimal for every Bregman loss \\refBGW; proof for the quantile in the Appendix', '$\\phi(x) = x^2$: eroarea pătratică; $\\phi(x) = -\\ln x$: \\textbf{QLIKE} $y/x - \\ln(y/x) - 1$ (Capitolul 8); media condiționată este optimă pentru orice pierdere Bregman \\refBGW; demonstrația pentru cuantilă în Anexă')]),
-    (T('Proof sketch: $\\E L(x, Y) - \\E L(\\mu, Y) = \\phi(\\mu) - \\phi(x) - \\phi\'(x)(\\mu - x) \\ge 0$ by convexity', 'Schița demonstrației: $\\E L(x, Y) - \\E L(\\mu, Y) = \\phi(\\mu) - \\phi(x) - \\phi\'(x)(\\mu - x) \\ge 0$ din convexitate'),
-     [T('the linear term vanishes because $\\E(Y - \\mu) = 0$', 'termenul liniar dispare deoarece $\\E(Y - \\mu) = 0$')]),
+D.frame(T('Bregman losses: all losses consistent for the mean (1/2)', 'Pierderile Bregman: toate pierderile consistente pentru medie (1/2)'), items(
+    (T('\\textbf{Theorem} \\refSav, \\refGnaa: under regularity, $L$ is consistent for the mean iff it is a \\textbf{Bregman} loss', '\\textbf{Teoremă} \\refSav, \\refGnaa: în condiții de regularitate, $L$ este consistentă pentru medie dacă și numai dacă este o pierdere \\textbf{Bregman}'),
+     ['$L(x, y) = \\phi(y) - \\phi(x) - \\phi\'(x)(y - x)$',
+      T('$\\phi$: a convex function, $\\phi\'$ its derivative; $L$ is the gap between $\\phi(y)$ and the tangent of $\\phi$ at $x$, so $L \\ge 0$ (up to terms in $y$ only)', '$\\phi$: o funcție convexă, $\\phi\'$ derivata ei; $L$ este distanța dintre $\\phi(y)$ și tangenta la $\\phi$ în $x$, deci $L \\ge 0$ (pînă la termeni care depind doar de $y$)')]),
+    (T('Two members of the family', 'Doi membri ai familiei'),
+     [T('$\\phi(x) = x^2$: the squared error $(y - x)^2$', '$\\phi(x) = x^2$: eroarea pătratică $(y - x)^2$'),
+      T('$\\phi(x) = -\\ln x$: \\textbf{QLIKE} $y/x - \\ln(y/x) - 1$, for a variance forecast $x > 0$ and a variance proxy $y > 0$ (Chapter 8)', '$\\phi(x) = -\\ln x$: \\textbf{QLIKE} $y/x - \\ln(y/x) - 1$, pentru o prognoză de varianță $x > 0$ și un indicator al varianței $y > 0$ (Capitolul 8)'),
+      T('the conditional mean is optimal for every Bregman loss \\refBGW; proof for the quantile in the Appendix', 'media condiționată este optimă pentru orice pierdere Bregman \\refBGW; demonstrația pentru cuantilă în Anexă')])))
+
+D.frame(T('Bregman losses: all losses consistent for the mean (2/2)', 'Pierderile Bregman: toate pierderile consistente pentru medie (2/2)'), items(
+    (T('Proof sketch, with $\\mu = \\E Y$:', 'Schița demonstrației, cu $\\mu = \\E Y$:'),
+     ['$\\E L(x, Y) - \\E L(\\mu, Y) = \\phi(\\mu) - \\phi(x) - \\phi\'(x)(\\mu - x) \\ge 0$',
+      T('the linear term vanishes because $\\E(Y - \\mu) = 0$; the inequality is convexity of $\\phi$', 'termenul liniar dispare deoarece $\\E(Y - \\mu) = 0$; inegalitatea este convexitatea lui $\\phi$')]),
     (T('Correctly specified forecasts rank the same under every Bregman loss; misspecified ones need not \\refPatbz', 'Prognozele corect specificate se ierarhizează la fel sub orice pierdere Bregman; cele greșit specificate nu neapărat \\refPatbz'),
      [T('Murphy diagrams \\refEGJK\\ plot the score over the whole family: one forecast dominates only if its curve is lower everywhere', 'diagramele Murphy \\refEGJK\\ reprezintă scorul pe toată familia: o prognoză domină doar dacă este mai jos peste tot'),
-      T('robust proxies for volatility: only some losses keep the ranking with a noisy proxy \\refPataa', 'pentru volatilitate cu un indicator zgomotos, doar unele pierderi păstrează ierarhia \\refPataa')])), 'small')
+      T('robust proxies for volatility: only some losses keep the ranking with a noisy proxy \\refPataa', 'pentru volatilitate cu un indicator zgomotos, doar unele pierderi păstrează ierarhia \\refPataa')])))
 
 D.frame(T('Asymmetric loss', 'Pierderi asimetrice'), items(
-    (T('\\textbf{LinEx} loss $L(e) = b[\\exp(ae) - ae - 1]$, $e = y - x$: $a > 0$ penalises under-forecasts exponentially', 'Pierderea \\textbf{LinEx} $L(e) = b[\\exp(ae) - ae - 1]$, $e = y - x$: $a > 0$ penalizează exponențial prognozele prea mici'),
-     [T('optimal forecast $x^* = a^{-1}\\ln\\E e^{aY}$; with $Y \\mid \\mathcal F_t \\sim N(\\mu_t, \\sigma_t^2)$: $x^* = \\mu_t + a\\sigma^2_t/2$ \\refCD', 'prognoza optimă $x^* = a^{-1}\\ln\\E e^{aY}$; cu $Y \\mid \\mathcal F_t \\sim N(\\mu_t, \\sigma_t^2)$: $x^* = \\mu_t + a\\sigma^2_t/2$ \\refCD'),
+    (T('\\textbf{LinEx} loss $L(e) = b[\\exp(ae) - ae - 1]$, $e = y - x$: linear on one side, exponential on the other', 'Pierderea \\textbf{LinEx} $L(e) = b[\\exp(ae) - ae - 1]$, $e = y - x$: liniară de o parte, exponențială de cealaltă'),
+     [T('$b > 0$: a scale; $a$: the asymmetry; $a > 0$ penalises under-forecasts ($e > 0$) exponentially, over-forecasts about linearly', '$b > 0$: o scală; $a$: asimetria; $a > 0$ penalizează exponențial prognozele prea mici ($e > 0$) și aproximativ liniar pe cele prea mari'),
+      T('optimal forecast $x^* = a^{-1}\\ln\\E e^{aY}$; with $Y \\mid \\mathcal F_t \\sim N(\\mu_t, \\sigma_t^2)$ (conditional mean $\\mu_t$, variance $\\sigma_t^2$): $x^* = \\mu_t + a\\sigma^2_t/2$ \\refCD', 'prognoza optimă $x^* = a^{-1}\\ln\\E e^{aY}$; cu $Y \\mid \\mathcal F_t \\sim N(\\mu_t, \\sigma_t^2)$: $x^* = \\mu_t + a\\sigma^2_t/2$ \\refCD'),
       T('the optimal forecast is \\textbf{biased} and its bias moves with the conditional variance', 'prognoza optimă este \\textbf{deplasată}, iar deplasarea se mișcă odată cu varianța condiționată')]),
     (T('Consequences for evaluation', 'Consecințe pentru evaluare'),
      [T('a rational forecaster under asymmetric loss fails the MZ unbiasedness test (Section 4)', 'un prognozator rațional cu pierdere asimetrică pică testul MZ de nedeplasare (secțiunea 4)'),
@@ -366,8 +383,8 @@ D.section('Probabilistic forecasts: calibration and sharpness', 'Prognoze probab
 
 D.frame(T('Maximise sharpness subject to calibration', 'Sharpness maxim sub condiția de calibrare'), items(
     (T('\\textbf{Calibration}: statistical consistency between the forecasts $F_t$ and the outcomes $y_t$ (a joint property) \\refGBR', '\\textbf{Calibrarea}: consistența statistică dintre prognozele $F_t$ și realizările $y_t$ (o proprietate comună a lor) \\refGBR'),
-     [T('\\textbf{probabilistic} calibration: the PIT $u_t = F_t(y_t)$ is uniform on average', 'calibrare \\textbf{probabilistică}: PIT $u_t = F_t(y_t)$ este în medie uniform'),
-      T('\\textbf{marginal} calibration: $\\frac1T\\sum_t F_t(x) \\to G(x)$, the limit of the empirical distribution of $y_t$', 'calibrare \\textbf{marginală}: $\\frac1T\\sum_t F_t(x) \\to G(x)$, limita distribuției empirice a lui $y_t$')]),
+     [T('\\textbf{probabilistic} calibration: the PIT (probability integral transform) $u_t = F_t(y_t)$, the forecast probability of an outcome below $y_t$, is uniform on average', 'calibrare \\textbf{probabilistică}: PIT (probability integral transform) $u_t = F_t(y_t)$, probabilitatea prognozată a unei realizări sub $y_t$, este în medie uniform'),
+      T('\\textbf{marginal} calibration: $\\frac1T\\sum_t F_t(x) \\to G(x)$ for every $x$, with $G$ the limit of the empirical distribution of $y_t$', 'calibrare \\textbf{marginală}: $\\frac1T\\sum_t F_t(x) \\to G(x)$ pentru orice $x$, cu $G$ limita distribuției empirice a lui $y_t$')]),
     (T('\\textbf{Sharpness}: concentration of the predictive distributions; a property of the forecasts only', '\\textbf{Sharpness}: concentrarea distribuțiilor predictive; o proprietate doar a prognozelor'),
      [T('measured by the average width of central intervals or the average predictive variance', 'măsurată prin lățimea medie a intervalelor centrale sau prin varianța predictivă medie')]),
     (T('Paradigm \\refGBR: among calibrated forecasts, prefer the sharpest', 'Paradigma \\refGBR: dintre prognozele calibrate, o preferăm pe cea mai concentrată'),
@@ -376,9 +393,9 @@ D.frame(T('Maximise sharpness subject to calibration', 'Sharpness maxim sub cond
 
 D.frame(T('The probability integral transform', 'Transformarea integrală de probabilitate (PIT)'), items(
     (T('\\textbf{Theorem} \\refDawid, \\refDGT: if $F_t$ is the true conditional distribution of $Y_t$ given $\\mathcal{F}_{t-1}$ and continuous, then $u_t = F_t(y_t)$ are i.i.d.\\ $U(0, 1)$', '\\textbf{Teoremă} \\refDawid, \\refDGT: dacă $F_t$ este adevărata distribuție condiționată a lui $Y_t$ dată fiind $\\mathcal{F}_{t-1}$ și este continuă, atunci $u_t = F_t(y_t)$ sînt i.i.d.\\ $U(0, 1)$'),
-     [T('uniform: $P(u_t \\le v \\mid \\mathcal{F}_{t-1}) = P(Y_t \\le F_t^{-1}(v) \\mid \\mathcal F_{t-1}) = v$ for every past', 'uniform: $P(u_t \\le v \\mid \\mathcal{F}_{t-1}) = P(Y_t \\le F_t^{-1}(v) \\mid \\mathcal F_{t-1}) = v$ pentru orice trecut'),
+     [T('uniform: for every $v \\in (0,1)$, $P(u_t \\le v \\mid \\mathcal{F}_{t-1}) = P(Y_t \\le F_t^{-1}(v) \\mid \\mathcal F_{t-1}) = v$, whatever the past', 'uniform: pentru orice $v \\in (0,1)$, $P(u_t \\le v \\mid \\mathcal{F}_{t-1}) = P(Y_t \\le F_t^{-1}(v) \\mid \\mathcal F_{t-1}) = v$, oricare ar fi trecutul'),
       T('independent: a conditional distribution that does not depend on the past implies independence of the sequence', 'independent: o distribuție condiționată care nu depinde de trecut implică independența șirului')]),
-    (T('For $h > 1$ the PITs are uniform but serially dependent up to lag $h - 1$ (overlapping horizons)', 'Pentru $h > 1$, valorile PIT sînt uniforme, dar dependente pînă la decalajul $h - 1$ (orizonturi care se suprapun)'),
+    (T('For $h > 1$ the PITs are uniform but serially dependent up to lag $h - 1$ (overlapping horizons)', 'Pentru $h > 1$, valorile PIT sînt uniforme, dar dependente pînă la lagul $h - 1$ (orizonturi care se suprapun)'),
      [T('tests must allow this dependence \\refRS', 'testele trebuie să permită această dependență \\refRS')]),
     (T('Uniformity is necessary, not sufficient: \\refHamill\\ and \\refGBR\\ build uncalibrated forecasters whose PIT is uniform on average', 'Uniformitatea este necesară, nu suficientă: \\refHamill\\ și \\refGBR\\ construiesc prognozatori necalibrați al căror PIT este uniform în medie'),
      [T('check PIT conditionally: by sub-sample, by regime, by horizon', 'verificați PIT condiționat: pe subeșantioane, pe regimuri, pe orizonturi')])), 'small')
@@ -397,20 +414,29 @@ interp(('the PIT shapes', 'formelor PIT'), [
     T('CRPS (lower is better): ideal @{pit.id.crps}, too sharp @{pit.sh.crps}, too wide @{pit.wi.crps}, biased @{pit.bi.crps}: the proper score ranks the ideal forecast first',
       'CRPS (mai mic este mai bine): ideală @{pit.id.crps}, prea concentrată @{pit.sh.crps}, prea largă @{pit.wi.crps}, deplasată @{pit.bi.crps}: scorul propriu pune prognoza ideală pe primul loc')])
 
-D.frame(T('Testing calibration', 'Testarea calibrării'), items(
-    (T('\\textbf{Berkowitz (2001)}: $z_t = \\Phi^{-1}(u_t)$ should be i.i.d.\\ $N(0, 1)$ \\refBerk', '\\textbf{Berkowitz (2001)}: $z_t = \\Phi^{-1}(u_t)$ trebuie să fie i.i.d.\\ $N(0, 1)$ \\refBerk'),
-     [T('fit $z_t = \\mu + \\rho(z_{t-1} - \\mu) + \\varepsilon_t$, $\\varepsilon_t \\sim N(0, \\sigma^2(1 - \\rho^2))$; LR test of $\\mu = 0, \\sigma = 1, \\rho = 0$, $\\chi^2(3)$', 'estimăm $z_t = \\mu + \\rho(z_{t-1} - \\mu) + \\varepsilon_t$, $\\varepsilon_t \\sim N(0, \\sigma^2(1 - \\rho^2))$; test LR pentru $\\mu = 0, \\sigma = 1, \\rho = 0$, $\\chi^2(3)$'),
-      T('the transformation to $z$ makes the tails visible; it tests only the first two moments and AR(1) dependence', 'transformarea în $z$ face cozile vizibile; testul verifică doar primele două momente și dependența AR(1)')]),
+D.frame(T('Testing calibration (1/2)', 'Testarea calibrării (1/2)'), items(
+    (T('\\textbf{Berkowitz (2001)} \\refBerk: if the PITs are i.i.d.\\ uniform, $z_t = \\Phi^{-1}(u_t)$ is i.i.d.\\ $N(0, 1)$', '\\textbf{Berkowitz (2001)} \\refBerk: dacă valorile PIT sînt i.i.d.\\ uniforme, $z_t = \\Phi^{-1}(u_t)$ este i.i.d.\\ $N(0, 1)$'),
+     [T('$\\Phi^{-1}$: the quantile function of the standard Normal distribution', '$\\Phi^{-1}$: funcția cuantilă a distribuției Normale standard')]),
+    (T('Fit a Gaussian AR(1) to $z_t$ and test its parameters:', 'Estimăm un AR(1) gaussian pentru $z_t$ și îi testăm parametrii:'),
+     ['$z_t = \\mu + \\rho(z_{t-1} - \\mu) + \\varepsilon_t$, $\\quad \\varepsilon_t \\sim N(0, \\sigma^2(1 - \\rho^2))$',
+      T('$\\mu$: the mean of $z_t$; $\\sigma^2$: its variance; $\\rho$: its first-order autocorrelation; calibration means $\\mu = 0$, $\\sigma = 1$, $\\rho = 0$', '$\\mu$: media lui $z_t$; $\\sigma^2$: varianța lui; $\\rho$: autocorelația de ordinul întîi; calibrarea înseamnă $\\mu = 0$, $\\sigma = 1$, $\\rho = 0$'),
+      T('LR (likelihood ratio) statistic $2(\\ell_1 - \\ell_0) \\sim \\chi^2(3)$ under $H_0$; $\\ell_1, \\ell_0$: maximised log-likelihoods without and with the restrictions', 'statistica LR (raportul de verosimilitate) $2(\\ell_1 - \\ell_0) \\sim \\chi^2(3)$ sub $H_0$; $\\ell_1, \\ell_0$: log-verosimilitățile maxime fără și cu restricții'),
+      T('the transformation to $z$ makes the tails visible; the test checks only the first two moments and AR(1) dependence', 'transformarea în $z$ face cozile vizibile; testul verifică doar primele două momente și dependența AR(1)')])), 'small')
+
+D.frame(T('Testing calibration (2/2)', 'Testarea calibrării (2/2)'), items(
     (T('\\textbf{Correlograms} of $(u_t - \\bar u)^k$, $k = 1, 2$ \\refDGT: dependence in level and in volatility', '\\textbf{Corelogramele} lui $(u_t - \\bar u)^k$, $k = 1, 2$ \\refDGT: dependență în nivel și în volatilitate'),
-     [T('Ljung--Box on $(u_t - \\bar u)^2$ detects missing volatility dynamics', 'Ljung--Box pe $(u_t - \\bar u)^2$ detectează dinamica de volatilitate omisă')]),
-    T('Parameter estimation changes the null distribution of PIT tests; with $P/R$ small it can be ignored, otherwise use \\refRS', 'Estimarea parametrilor schimbă distribuția sub ipoteza nulă a testelor PIT; cu $P/R$ mic poate fi ignorată, altfel folosiți \\refRS'),
-    T('Interval forecasts: coverage and independence of the hits \\refChr; for VaR this becomes backtesting (Chapter 9)', 'Prognozele de interval: acoperirea și independența depășirilor \\refChr; pentru VaR aceasta devine backtesting (Capitolul 9)')), 'small')
+     [T('$\\bar u$: the mean PIT; Ljung--Box on $(u_t - \\bar u)^2$ detects missing volatility dynamics', '$\\bar u$: media valorilor PIT; testul Ljung--Box pe $(u_t - \\bar u)^2$ detectează dinamica de volatilitate omisă')]),
+    (T('Parameter estimation changes the null distribution of PIT tests', 'Estimarea parametrilor schimbă distribuția sub ipoteza nulă a testelor PIT'),
+     [T('with $P/R$ small (few forecasts relative to the estimation sample) it can be ignored, otherwise use \\refRS', 'cu $P/R$ mic (puține prognoze față de eșantionul de estimare) efectul poate fi ignorat, altfel folosiți \\refRS')]),
+    (T('Interval forecasts: coverage and independence of the hits \\refChr', 'Prognozele de interval: acoperirea și independența depășirilor \\refChr'),
+     [T('hit: an outcome outside the interval; for VaR this becomes backtesting (Chapter 9)', 'depășire: o realizare în afara intervalului; pentru VaR aceasta devine backtesting (Capitolul 9)')])))
 
 D.frame(T('Case study: Diebold, Gunther and Tay (1998)', 'Studiu de caz: Diebold, Gunther și Tay (1998)'), items(
     (T('The paper: daily S\\&P 500 returns; parameters estimated once on the first part of the sample, density forecasts evaluated on the second part with PIT histograms and correlograms of $(u - \\bar u)^k$ \\refDGT', 'Lucrarea: randamente zilnice S\\&P 500; parametrii estimați o singură dată pe prima parte a eșantionului, prognozele de densitate evaluate pe partea a doua cu histograme PIT și corelograme ale lui $(u - \\bar u)^k$ \\refDGT'),
      [T('their models: i.i.d.\\ Normal; MA(1)-GARCH(1,1) with Normal and with Student-$t$ innovations \\refBoll', 'modelele lor: i.i.d.\\ Normal; MA(1)-GARCH(1,1) cu inovații Normale și cu inovații Student-$t$ \\refBoll')]),
     (T('Our replication: the same three models, estimated by maximum likelihood on 2000--2012, fixed parameters, one-day density forecasts for 2013--2026 ($@{dgt.n}$ days)', 'Replicarea noastră: aceleași trei modele, estimate prin verosimilitate maximă pe 2000--2012, parametri ficși, prognoze de densitate la o zi pentru 2013--2026 ($@{dgt.n}$ zile)'),
-     [T('GARCH-$t$: $\\hat\\theta = @{dgt.th}$, $\\hat\\alpha + \\hat\\beta = @{dgt.ab}$, $\\hat\\nu = @{dgt.nu}$ degrees of freedom', 'GARCH-$t$: $\\hat\\theta = @{dgt.th}$, $\\hat\\alpha + \\hat\\beta = @{dgt.ab}$, $\\hat\\nu = @{dgt.nu}$ grade de libertate')]),
+     [T('model: $r_t = c + \\varepsilon_t + \\theta\\varepsilon_{t-1}$, $\\varepsilon_t = \\sigma_tz_t$, $\\sigma_t^2 = \\omega + \\alpha\\varepsilon_{t-1}^2 + \\beta\\sigma_{t-1}^2$; $z_t$ Normal or Student-$t$ with $\\nu$ degrees of freedom', 'modelul: $r_t = c + \\varepsilon_t + \\theta\\varepsilon_{t-1}$, $\\varepsilon_t = \\sigma_tz_t$, $\\sigma_t^2 = \\omega + \\alpha\\varepsilon_{t-1}^2 + \\beta\\sigma_{t-1}^2$; $z_t$ Normal sau Student-$t$ cu $\\nu$ grade de libertate'),
+      T('GARCH-$t$: $\\hat\\theta = @{dgt.th}$, $\\hat\\alpha + \\hat\\beta = @{dgt.ab}$ (the persistence of volatility), $\\hat\\nu = @{dgt.nu}$ (fat tails)', 'GARCH-$t$: $\\hat\\theta = @{dgt.th}$, $\\hat\\alpha + \\hat\\beta = @{dgt.ab}$ (persistența volatilității), $\\hat\\nu = @{dgt.nu}$ (cozi groase)')]),
     T('Question: which density forecast is calibrated, and do the proper scores agree with the PIT diagnosis?', 'Întrebarea: care prognoză de densitate este calibrată și sînt de acord scorurile proprii cu diagnosticul PIT?')), 'small')
 
 chart(T('PIT diagnostics of three S\\&P 500 density forecasts', 'Diagnosticul PIT pentru trei prognoze de densitate ale S\\&P 500'), 'ats_ch1_dgt', 'ATS_ch1_density_forecasts', [
@@ -438,38 +464,57 @@ D.section('Proper scoring rules and elicitability', 'Reguli de scor proprii și 
 
 D.frame(T('Proper scoring rules', 'Reguli de scor proprii'), items(
     (T('A \\textbf{scoring rule} $S(F, y)$ assigns a penalty to the forecast $F$ when $y$ occurs (negatively oriented: lower is better)', 'O \\textbf{regulă de scor} $S(F, y)$ atribuie o penalizare prognozei $F$ cînd se realizează $y$ (orientare negativă: mai mic este mai bine)'),
-     [T('\\textbf{proper}: $\\E_G S(G, Y) \\le \\E_G S(F, Y)$ for all $F, G$: reporting the true belief is optimal \\refGRa', '\\textbf{proprie}: $\\E_G S(G, Y) \\le \\E_G S(F, Y)$ pentru orice $F, G$: raportarea convingerii adevărate este optimă \\refGRa'),
-      T('\\textbf{strictly proper}: equality only if $F = G$; then the score cannot be gamed', '\\textbf{strict proprie}: egalitate doar dacă $F = G$; atunci scorul nu poate fi păcălit')]),
+     [T('\\textbf{proper}: $\\E_G S(G, Y) \\le \\E_G S(F, Y)$ for all $F, G$ \\refGRa', '\\textbf{proprie}: $\\E_G S(G, Y) \\le \\E_G S(F, Y)$ pentru orice $F, G$ \\refGRa'),
+      T('$G$: the distribution the forecaster believes; $\\E_G$: the expectation under $G$; reporting the true belief is optimal', '$G$: distribuția în care crede prognozatorul; $\\E_G$: media sub $G$; raportarea convingerii adevărate este optimă'),
+      T('\\textbf{strictly proper}: equality only if $F = G$; then the score cannot be manipulated', '\\textbf{strict proprie}: egalitate doar dacă $F = G$; atunci scorul nu poate fi manipulat')]),
     (T('Proper scores reward calibration and sharpness together: the expected score decomposes into uncertainty, minus resolution, plus reliability', 'Scorurile proprii răsplătesc calibrarea și sharpness împreună: scorul așteptat se descompune în incertitudine, minus rezoluție, plus fiabilitate'),
-     [T('the Brier score $(p - \\mathbf 1\\{\\text{event}\\})^2$ for binary events is the oldest example \\refBrier', 'scorul Brier $(p - \\mathbf 1\\{\\text{eveniment}\\})^2$ pentru evenimente binare este cel mai vechi exemplu \\refBrier')]),
+     [T('the Brier score $(p - \\mathbf 1\\{\\text{event}\\})^2$, with $p$ the forecast probability of a binary event, is the oldest example \\refBrier', 'scorul Brier $(p - \\mathbf 1\\{\\text{eveniment}\\})^2$, cu $p$ probabilitatea prognozată a unui eveniment binar, este cel mai vechi exemplu \\refBrier')]),
     T('A proper score of a probabilistic forecast reduces to a consistent loss of a point forecast when $F$ is a point mass (CRPS $\\to$ absolute error)', 'Un scor propriu al unei prognoze probabilistice devine o pierdere consistentă a unei prognoze punctuale cînd $F$ este o masă punctuală (CRPS $\\to$ eroarea absolută)')), 'small')
 
 D.frame(T('The logarithmic score', 'Scorul logaritmic'), items(
     (T('$\\mathrm{LogS}(f, y) = -\\ln f(y)$ \\refGood: the only proper score that is \\textbf{local} (depends on $f$ only at $y$, up to equivalence)', '$\\mathrm{LogS}(f, y) = -\\ln f(y)$ \\refGood: singurul scor propriu \\textbf{local} (depinde de $f$ doar în $y$, pînă la echivalență)'),
-     [T('properness: $\\E_g[\\mathrm{LogS}(f, Y)] - \\E_g[\\mathrm{LogS}(g, Y)] = \\int g \\ln(g/f) = \\mathrm{KL}(g \\| f) \\ge 0$ (Gibbs inequality)', 'proprietatea: $\\E_g[\\mathrm{LogS}(f, Y)] - \\E_g[\\mathrm{LogS}(g, Y)] = \\int g \\ln(g/f) = \\mathrm{KL}(g \\| f) \\ge 0$ (inegalitatea Gibbs)')]),
+     [T('$f$: the forecast density; $g$: the true density; properness: $\\E_g[\\mathrm{LogS}(f, Y)] - \\E_g[\\mathrm{LogS}(g, Y)] = \\int g \\ln(g/f) = \\mathrm{KL}(g \\| f) \\ge 0$', '$f$: densitatea prognozată; $g$: densitatea adevărată; caracterul propriu: $\\E_g[\\mathrm{LogS}(f, Y)] - \\E_g[\\mathrm{LogS}(g, Y)] = \\int g \\ln(g/f) = \\mathrm{KL}(g \\| f) \\ge 0$'),
+      T('$\\mathrm{KL}$: the Kullback--Leibler divergence, nonnegative and zero only if $f = g$ (Gibbs inequality)', '$\\mathrm{KL}$: divergența Kullback--Leibler, nenegativă și nulă doar dacă $f = g$ (inegalitatea Gibbs)')]),
     (T('Links: average log score = minus the out-of-sample log-likelihood; the difference of two log scores is a predictive likelihood ratio', 'Legături: scorul logaritmic mediu = minus log-verosimilitatea în afara eșantionului; diferența a două scoruri logaritmice este un raport de verosimilitate predictivă'),
      [T('Bayes factors and the predictive model choice of \\refGA\\ are built on it', 'factorii Bayes și alegerea predictivă a modelelor din \\refGA\\ se construiesc pe el')]),
     (T('Weaknesses: infinite if $f(y) = 0$; very sensitive to tail events; needs a density', 'Slăbiciuni: infinit dacă $f(y) = 0$; foarte sensibil la evenimentele din coadă; cere o densitate'),
      [T('cannot score ensembles or quantile forecasts directly', 'nu poate evalua direct ansambluri sau prognoze de cuantile')])), 'small')
 
-D.frame(T('The continuous ranked probability score', 'Scorul probabilistic continuu (CRPS)'), items(
-    (T('$\\mathrm{CRPS}(F, y) = \\int_{-\\infty}^{\\infty}(F(z) - \\mathbf 1\\{y \\le z\\})^2dz$ \\refMW', '$\\mathrm{CRPS}(F, y) = \\int_{-\\infty}^{\\infty}(F(z) - \\mathbf 1\\{y \\le z\\})^2dz$ \\refMW'),
-     [T('kernel form: $\\mathrm{CRPS}(F, y) = \\E_F|X - y| - \\frac12\\E_F|X - X\'|$, $X, X\' \\sim F$ independent \\refGRa\\ (proof in the Appendix)', 'forma cu nucleu: $\\mathrm{CRPS}(F, y) = \\E_F|X - y| - \\frac12\\E_F|X - X\'|$, $X, X\' \\sim F$ independente \\refGRa\\ (demonstrația în Anexă)'),
-      T('first term: accuracy; second: a reward for spread that stops the score from favouring point masses', 'primul termen: acuratețea; al doilea: o recompensă pentru dispersie care împiedică scorul să favorizeze masele punctuale')]),
-    (T('Closed forms: $N(\\mu, \\sigma^2)$: $\\sigma\\left[z(2\\Phi(z) - 1) + 2\\varphi(z) - 1/\\sqrt\\pi\\right]$, $z = (y - \\mu)/\\sigma$; also for Student $t$ (Quantlet)', 'Forme închise: $N(\\mu, \\sigma^2)$: $\\sigma\\left[z(2\\Phi(z) - 1) + 2\\varphi(z) - 1/\\sqrt\\pi\\right]$, $z = (y - \\mu)/\\sigma$; și pentru Student $t$ (Quantlet)'),
-     [T('ensembles: plug in the empirical distribution of the members', 'ansambluri: înlocuim cu distribuția empirică a membrilor')]),
-    (T('Decompositions: $\\mathrm{CRPS} = \\int \\mathrm{BS}_z\\,dz = 2\\int_0^1 \\rho_\\tau(y - F^{-1}(\\tau))\\,d\\tau$', 'Descompuneri: $\\mathrm{CRPS} = \\int \\mathrm{BS}_z\\,dz = 2\\int_0^1 \\rho_\\tau(y - F^{-1}(\\tau))\\,d\\tau$'),
-     [T('the integral of Brier scores over thresholds, or twice the integral of pinball losses over quantile levels', 'integrala scorurilor Brier pe praguri sau de două ori integrala pierderilor pinball pe niveluri de cuantilă'),
-      T('so the average pinball over the 99 percentiles (GEFCom2014) approximates CRPS/2 \\refGEF', 'deci media pinball pe cele 99 de percentile (GEFCom2014) aproximează CRPS/2 \\refGEF')])), 'small')
+D.frame(T('The continuous ranked probability score (1/2)', 'Scorul probabilistic continuu (CRPS) (1/2)'), items(
+    (T('Definition \\refMW: the squared distance between the forecast distribution function and the step function of the outcome', 'Definiția \\refMW: distanța pătratică dintre funcția de repartiție prognozată și funcția treaptă a realizării'),
+     ['$\\mathrm{CRPS}(F, y) = \\int_{-\\infty}^{\\infty}(F(z) - \\mathbf 1\\{y \\le z\\})^2dz$',
+      T('$z$: a threshold; $\\mathbf 1\\{y \\le z\\}$: the ``distribution function\'\' of the outcome, 0 below $y$ and 1 above; units: those of $y$', '$z$: un prag; $\\mathbf 1\\{y \\le z\\}$: „funcția de repartiție” a realizării, 0 sub $y$ și 1 peste $y$; unitatea de măsură: cea a lui $y$')]),
+    (T('Kernel form \\refGRa\\ (proof in the Appendix):', 'Forma cu nucleu \\refGRa\\ (demonstrația în Anexă):'),
+     ['$\\mathrm{CRPS}(F, y) = \\E_F|X - y| - \\frac12\\E_F|X - X\'|$, $\\quad X, X\' \\sim F$ ⟦independent||independente⟧',
+      T('first term: accuracy; second: a reward for spread that stops the score from favouring point masses', 'primul termen: acuratețea; al doilea: o recompensă pentru dispersie care împiedică scorul să favorizeze masele punctuale'),
+      T('for a point forecast ($F$ a point mass at $x$) it reduces to the absolute error $|y - x|$', 'pentru o prognoză punctuală ($F$ masă punctuală în $x$) devine eroarea absolută $|y - x|$')])))
 
-D.frame(T('Quantile, interval and multivariate scores', 'Scoruri pentru cuantile, intervale și vectori'), items(
-    (T('\\textbf{Quantile score}: $\\rho_\\tau(y - q)$, strictly consistent for the $\\tau$-quantile; any $g$ increasing gives $(\\mathbf 1\\{y \\le q\\} - \\tau)(g(q) - g(y))$ \\refGnaa', '\\textbf{Scorul de cuantilă}: $\\rho_\\tau(y - q)$, strict consistent pentru cuantila $\\tau$; orice $g$ crescătoare dă $(\\mathbf 1\\{y \\le q\\} - \\tau)(g(q) - g(y))$ \\refGnaa'), []),
+D.frame(T('The continuous ranked probability score (2/2)', 'Scorul probabilistic continuu (CRPS) (2/2)'), items(
+    (T('Closed form for $F = N(\\mu, \\sigma^2)$, with $z = (y - \\mu)/\\sigma$:', 'Forma închisă pentru $F = N(\\mu, \\sigma^2)$, cu $z = (y - \\mu)/\\sigma$:'),
+     ['$\\mathrm{CRPS} = \\sigma\\left[z(2\\Phi(z) - 1) + 2\\varphi(z) - 1/\\sqrt\\pi\\right]$',
+      T('$\\Phi$, $\\varphi$: the distribution and density functions of $N(0,1)$; a closed form exists also for Student $t$ (Quantlet)', '$\\Phi$, $\\varphi$: funcția de repartiție și densitatea lui $N(0,1)$; există o formă închisă și pentru Student $t$ (Quantlet)'),
+      T('ensembles: plug in the empirical distribution of the members', 'ansambluri: înlocuim $F$ cu distribuția empirică a membrilor')]),
+    (T('Decompositions:', 'Descompuneri:'),
+     ['$\\mathrm{CRPS} = \\int \\mathrm{BS}_z\\,dz = 2\\int_0^1 \\rho_\\tau(y - F^{-1}(\\tau))\\,d\\tau$',
+      T('$\\mathrm{BS}_z$: the Brier score of the event $\\{y \\le z\\}$; $\\rho_\\tau$: the pinball loss at level $\\tau$', '$\\mathrm{BS}_z$: scorul Brier al evenimentului $\\{y \\le z\\}$; $\\rho_\\tau$: pierderea pinball la nivelul $\\tau$'),
+      T('so the average pinball over the 99 percentiles (GEFCom2014) approximates CRPS/2 \\refGEF', 'deci media pinball pe cele 99 de percentile (GEFCom2014) aproximează CRPS/2 \\refGEF')])))
+
+D.frame(T('Quantile, interval and multivariate scores (1/2)', 'Scoruri pentru cuantile, intervale și vectori (1/2)'), items(
+    (T('\\textbf{Quantile score}: $\\rho_\\tau(y - q)$ for a forecast $q$ of the $\\tau$-quantile, strictly consistent \\refGnaa', '\\textbf{Scorul de cuantilă}: $\\rho_\\tau(y - q)$ pentru o prognoză $q$ a cuantilei $\\tau$, strict consistent \\refGnaa'),
+     [T('any increasing $g$ gives another consistent score: $(\\mathbf 1\\{y \\le q\\} - \\tau)(g(q) - g(y))$', 'orice funcție crescătoare $g$ dă un alt scor consistent: $(\\mathbf 1\\{y \\le q\\} - \\tau)(g(q) - g(y))$')]),
     (T('\\textbf{Interval score} of a central $(1 - \\alpha)$ interval $[l, u]$ \\refGRa', '\\textbf{Scorul de interval} al unui interval central $(1 - \\alpha)$, $[l, u]$ \\refGRa'),
-     [T('$\\mathrm{IS}_\\alpha = (u - l) + \\frac2\\alpha(l - y)\\mathbf 1\\{y < l\\} + \\frac2\\alpha(y - u)\\mathbf 1\\{y > u\\}$: width plus a penalty for misses', '$\\mathrm{IS}_\\alpha = (u - l) + \\frac2\\alpha(l - y)\\mathbf 1\\{y < l\\} + \\frac2\\alpha(y - u)\\mathbf 1\\{y > u\\}$: lățimea plus o penalizare pentru ratări'),
-      T('it equals $\\frac2\\alpha[\\rho_{\\alpha/2}(y - l) + \\rho_{1 - \\alpha/2}(y - u)]$; coverage alone is not a score', 'este egal cu $\\frac2\\alpha[\\rho_{\\alpha/2}(y - l) + \\rho_{1 - \\alpha/2}(y - u)]$; acoperirea singură nu este un scor')]),
-    (T('\\textbf{Energy score} for vectors: $\\mathrm{ES}(F, \\mathbf y) = \\E\\|\\mathbf X - \\mathbf y\\| - \\frac12\\E\\|\\mathbf X - \\mathbf X\'\\|$, the multivariate CRPS', '\\textbf{Energy score} pentru vectori: $\\mathrm{ES}(F, \\mathbf y) = \\E\\|\\mathbf X - \\mathbf y\\| - \\frac12\\E\\|\\mathbf X - \\mathbf X\'\\|$, CRPS multivariat'),
-     [T('weak at detecting wrong correlations; the \\textbf{variogram score} \\refSH\\ targets the dependence structure (24 hourly loads, a VAR path)', 'slab în detectarea corelațiilor greșite; \\textbf{variogram score} \\refSH\\ vizează structura de dependență (24 de consumuri orare, o traiectorie VAR)')]),
-    T('Tails: threshold-weighted CRPS $\\int (F(z) - \\mathbf 1\\{y \\le z\\})^2w(z)dz$ stays proper \\refGRjaa; the weighted likelihood ratio of \\refAG\\ does not \\refGRjaa', 'Cozile: CRPS ponderat pe praguri $\\int (F(z) - \\mathbf 1\\{y \\le z\\})^2w(z)dz$ rămîne propriu \\refGRjaa; raportul de verosimilitate ponderat din \\refAG\\ nu rămîne \\refGRjaa')), 'footnotesize')
+     ['$\\mathrm{IS}_\\alpha = (u - l) + \\frac2\\alpha(l - y)\\mathbf 1\\{y < l\\} + \\frac2\\alpha(y - u)\\mathbf 1\\{y > u\\}$',
+      T('$l, u$: the lower and upper limits; width plus a penalty $2/\\alpha$ per unit of miss', '$l, u$: limitele inferioară și superioară; lățimea plus o penalizare $2/\\alpha$ pe unitatea de ratare'),
+      T('it equals $\\frac2\\alpha[\\rho_{\\alpha/2}(y - l) + \\rho_{1 - \\alpha/2}(y - u)]$; coverage alone is not a score', 'este egal cu $\\frac2\\alpha[\\rho_{\\alpha/2}(y - l) + \\rho_{1 - \\alpha/2}(y - u)]$; acoperirea singură nu este un scor')])))
+
+D.frame(T('Quantile, interval and multivariate scores (2/2)', 'Scoruri pentru cuantile, intervale și vectori (2/2)'), items(
+    (T('\\textbf{Energy score} for vectors, the multivariate CRPS:', '\\textbf{Energy score} pentru vectori, CRPS multivariat:'),
+     ['$\\mathrm{ES}(F, \\mathbf y) = \\E\\|\\mathbf X - \\mathbf y\\| - \\frac12\\E\\|\\mathbf X - \\mathbf X\'\\|$',
+      T('$\\mathbf y$: the outcome vector; $\\mathbf X, \\mathbf X\'$: independent draws from the forecast $F$; $\\|\\cdot\\|$: the Euclidean norm', '$\\mathbf y$: vectorul realizărilor; $\\mathbf X, \\mathbf X\'$: extrageri independente din prognoza $F$; $\\|\\cdot\\|$: norma euclidiană'),
+      T('weak at detecting wrong correlations; the \\textbf{variogram score} \\refSH\\ targets the dependence structure (24 hourly loads, a VAR path)', 'slab în detectarea corelațiilor greșite; \\textbf{variogram score} \\refSH\\ vizează structura de dependență (24 de consumuri orare, o traiectorie VAR)')]),
+    (T('Tails: threshold-weighted CRPS stays proper \\refGRjaa', 'Cozile: CRPS ponderat pe praguri rămîne propriu \\refGRjaa'),
+     ['$\\int (F(z) - \\mathbf 1\\{y \\le z\\})^2w(z)dz$',
+      T('$w(z) \\ge 0$: a weight that emphasises the thresholds of interest (e.g.\\ the left tail); the weighted likelihood ratio of \\refAG\\ does not stay proper \\refGRjaa', '$w(z) \\ge 0$: o pondere care accentuează pragurile de interes (de exemplu coada stîngă); raportul de verosimilitate ponderat din \\refAG\\ nu rămîne propriu \\refGRjaa')])))
 
 chart(T('Proper and improper scores', 'Scoruri proprii și improprii'), 'ats_ch1_proper_scores', 'ATS_ch1_calibration_scores', [
     T('Truth $Y \\sim N(0, 1)$; forecast $N(0, s^2)$; expected score as a function of the spread $s$ (closed forms)', 'Adevărul $Y \\sim N(0, 1)$; prognoza $N(0, s^2)$; scorul așteptat ca funcție de dispersia $s$ (forme închise)'),
@@ -486,10 +531,11 @@ D.frame(T('Elicitability', 'Elicitabilitate'), items(
      [T('mean, quantiles, expectiles, ratios of expectations: elicitable', 'media, cuantilele, expectilele, rapoartele de medii: elicitabile'),
       T('only elicitable functionals can be compared and ranked meaningfully with point forecasts', 'doar funcționalele elicitabile pot fi comparate și ierarhizate cu sens prin prognoze punctuale')]),
     (T('\\textbf{Necessary condition} (Osband): convex level sets: $\\mathrm T(F_0) = \\mathrm T(F_1) = t \\Rightarrow \\mathrm T(\\lambda F_0 + (1 - \\lambda)F_1) = t$', '\\textbf{Condiție necesară} (Osband): mulțimi de nivel convexe: $\\mathrm T(F_0) = \\mathrm T(F_1) = t \\Rightarrow \\mathrm T(\\lambda F_0 + (1 - \\lambda)F_1) = t$'),
-     [T('the \\textbf{variance} fails it, so it is not elicitable; the pair (mean, second moment) is', '\\textbf{varianța} nu o îndeplinește, deci nu este elicitabilă; perechea (medie, al doilea moment) este')]),
-    (T('Risk measures with $\\mathrm{VaR}_\\alpha(X) = -q_\\alpha(X)$ (VaR 1\\%: $\\alpha = 0.01$)', 'Măsurile de risc cu $\\mathrm{VaR}_\\alpha(X) = -q_\\alpha(X)$ (VaR 1\\%: $\\alpha = 0{,}01$)'),
+     [T('$F_0, F_1$: two distributions with the same value $t$; $\\lambda \\in [0,1]$: the mixing weight', '$F_0, F_1$: două distribuții cu aceeași valoare $t$; $\\lambda \\in [0,1]$: ponderea mixturii'),
+      T('the \\textbf{variance} fails it, so it is not elicitable; the pair (mean, second moment) is', '\\textbf{varianța} nu o îndeplinește, deci nu este elicitabilă; perechea (medie, al doilea moment) este')]),
+    (T('Risk measures with $\\mathrm{VaR}_\\alpha(X) = -q_\\alpha(X)$, $q_\\alpha$ the $\\alpha$-quantile of the return $X$ (VaR 1\\%: $\\alpha = 0.01$)', 'Măsurile de risc cu $\\mathrm{VaR}_\\alpha(X) = -q_\\alpha(X)$, $q_\\alpha$ cuantila de ordin $\\alpha$ a randamentului $X$ (VaR 1\\%: $\\alpha = 0{,}01$)'),
      [T('VaR is a quantile: elicitable by the pinball loss', 'VaR este o cuantilă: elicitabil prin pierderea pinball'),
-      T('ES has non-convex level sets: \\textbf{not elicitable} alone \\refWeber, \\refGnaa; (VaR, ES) is \\textbf{jointly} elicitable \\refFZ', 'ES are mulțimi de nivel neconvexe: \\textbf{nu este elicitabil} singur \\refWeber, \\refGnaa; perechea (VaR, ES) este elicitabilă \\textbf{împreună} \\refFZ'),
+      T('ES (expected shortfall, the mean loss beyond VaR) has non-convex level sets: \\textbf{not elicitable} alone \\refWeber, \\refGnaa; (VaR, ES) is \\textbf{jointly} elicitable \\refFZ', 'ES (expected shortfall, pierderea medie dincolo de VaR) are mulțimi de nivel neconvexe: \\textbf{nu este elicitabil} singur \\refWeber, \\refGnaa; perechea (VaR, ES) este elicitabilă \\textbf{împreună} \\refFZ'),
       T('the Fissler--Ziegel scores and the backtests built on them: Chapter 9', 'funcțiile de scor Fissler--Ziegel și testele construite pe ele: Capitolul 9')])), 'small')
 
 D.frame(T('Scores of the S\\&P 500 density forecasts', 'Scorurile prognozelor de densitate pentru S\\&P 500'), table(
@@ -503,7 +549,7 @@ D.frame(T('Scores of the S\\&P 500 density forecasts', 'Scorurile prognozelor de
     T('Ranking and calibration are different questions: the best-scoring model can still fail a calibration test', 'Ierarhizarea și calibrarea sînt întrebări diferite: modelul cu cel mai bun scor poate pica totuși un test de calibrare')), 'footnotesize')
 
 D.recap(('Proper scores and elicitability', 'scoruri proprii și elicitabilitate'), [
-    T('Proper scores make honesty optimal; strictly proper scores cannot be gamed', 'Scorurile proprii fac onestitatea optimă; cele strict proprii nu pot fi păcălite'),
+    T('Proper scores make honesty optimal; strictly proper scores cannot be gamed', 'Scorurile proprii fac optimă raportarea sinceră; cele strict proprii nu pot fi manipulate'),
     T('LogS: local, tail-sensitive; CRPS: robust, works for ensembles, equals twice the integrated pinball loss', 'LogS: local, sensibil la cozi; CRPS: robust, merge pentru ansambluri, egal cu dublul pierderii pinball integrate'),
     T('Interval score for intervals, energy and variogram scores for vectors', 'Scorul de interval pentru intervale, energy și variogram score pentru vectori'),
     T('Elicitable: mean, quantile (VaR); not elicitable: variance, ES alone; (VaR, ES) jointly', 'Elicitabile: media, cuantila (VaR); neelicitabile: varianța, ES singur; (VaR, ES) împreună')])
@@ -521,14 +567,21 @@ D.frame(T('Two questions about predictive ability', 'Două întrebări despre ca
     (T('\\textbf{Diebold--Mariano} \\refDM\\ treats the forecasts as given (``primitives\'\'): it compares forecasts, not models \\refDie', '\\textbf{Diebold--Mariano} \\refDM\\ tratează prognozele ca date („primitive”): compară prognoze, nu modele \\refDie'),
      [T('using DM to compare models with estimated parameters needs the West or GW framework', 'folosirea DM pentru a compara modele cu parametri estimați cere cadrul West sau GW')])), 'small')
 
-D.frame(T('The Diebold--Mariano test with HAC variance', 'Testul Diebold--Mariano cu varianță HAC'), items(
-    (T('Loss differential $d_t = L(e_{1t}) - L(e_{2t})$, $H_0$: $\\E d_t = 0$; assume $d_t$ covariance stationary', 'Diferențialul de pierdere $d_t = L(e_{1t}) - L(e_{2t})$, $H_0$: $\\E d_t = 0$; presupunem $d_t$ staționar în covarianță'),
-     [T('$\\mathrm{DM} = \\bar d/\\sqrt{\\hat\\sigma^2_{LR}/P} \\to N(0, 1)$, $\\sigma^2_{LR} = \\gamma_0 + 2\\sum_{k \\ge 1}\\gamma_k$ the long-run variance (Chapter 0)', '$\\mathrm{DM} = \\bar d/\\sqrt{\\hat\\sigma^2_{LR}/P} \\to N(0, 1)$, $\\sigma^2_{LR} = \\gamma_0 + 2\\sum_{k \\ge 1}\\gamma_k$ varianța de termen lung (Capitolul 0)')]),
-    (T('Optimal $h$-step errors are at most MA($h - 1$), so DM truncate at $h - 1$ lags with a \\textbf{rectangular} kernel', 'Erorile optime la $h$ pași sînt cel mult MA($h - 1$), deci DM trunchiază la $h - 1$ decalaje cu un nucleu \\textbf{dreptunghiular}'),
+D.frame(T('The Diebold--Mariano test with HAC variance (1/2)', 'Testul Diebold--Mariano cu varianță HAC (1/2)'), items(
+    (T('Loss differential $d_t = L(e_{1t}) - L(e_{2t})$; $H_0$: $\\E d_t = 0$ (equal accuracy)', 'Diferențialul de pierdere $d_t = L(e_{1t}) - L(e_{2t})$; $H_0$: $\\E d_t = 0$ (acuratețe egală)'),
+     [T('$e_{it}$: the error of forecast $i$ at $t$; $d_t > 0$: forecast 2 did better at $t$; $d_t$ assumed covariance stationary', '$e_{it}$: eroarea prognozei $i$ la momentul $t$; $d_t > 0$: prognoza 2 a fost mai bună la $t$; presupunem $d_t$ staționar în covarianță')]),
+    (T('The statistic: the mean differential over its HAC standard error', 'Statistica: diferențialul mediu împărțit la eroarea lui standard HAC'),
+     ['$\\mathrm{DM} = \\bar d/\\sqrt{\\hat\\sigma^2_{LR}/P} \\to N(0, 1)$, $\\quad \\sigma^2_{LR} = \\gamma_0 + 2\\sum_{k \\ge 1}\\gamma_k$',
+      T('$\\bar d$: the mean of $d_t$ over the $P$ forecasts; $\\gamma_k$: the autocovariances of $d_t$; $\\sigma^2_{LR}$: its long-run variance (Chapter 0)', '$\\bar d$: media lui $d_t$ pe cele $P$ prognoze; $\\gamma_k$: autocovarianțele lui $d_t$; $\\sigma^2_{LR}$: varianța lui de termen lung (Capitolul 0)'),
+      T('a large positive DM: forecast 2 is more accurate; reject at 5\\% if $|\\mathrm{DM}| > 1.96$', 'un DM mare și pozitiv: prognoza 2 este mai precisă; respingem la 5\\% dacă $|\\mathrm{DM}| > 1{,}96$')])))
+
+D.frame(T('The Diebold--Mariano test with HAC variance (2/2)', 'Testul Diebold--Mariano cu varianță HAC (2/2)'), items(
+    (T('Optimal $h$-step errors are at most MA($h - 1$), so DM truncate at $h - 1$ lags with a \\textbf{rectangular} kernel', 'Erorile optime la $h$ pași sînt cel mult MA($h - 1$), deci DM trunchiază la $h - 1$ laguri cu un nucleu \\textbf{dreptunghiular}'),
      [T('the rectangular estimate can be \\textbf{negative}; Newey--West (Bartlett) weights keep it positive \\refNW, at the cost of downward bias', 'estimarea dreptunghiulară poate fi \\textbf{negativă}; ponderile Newey--West (Bartlett) o păstrează pozitivă \\refNW, cu prețul unei deplasări în jos'),
       T('suboptimal forecasts have errors with longer memory: use a data-driven bandwidth (Chapter 0)', 'prognozele suboptimale au erori cu memorie mai lungă: folosiți o lățime de bandă aleasă din date (Capitolul 0)')]),
-    (T('\\textbf{HLN correction} \\refHLNig: $\\mathrm{DM}^* = \\mathrm{DM}\\sqrt{(P + 1 - 2h + h(h - 1)/P)/P}$ compared with $t_{P-1}$', '\\textbf{Corecția HLN} \\refHLNig: $\\mathrm{DM}^* = \\mathrm{DM}\\sqrt{(P + 1 - 2h + h(h - 1)/P)/P}$ comparat cu $t_{P-1}$'),
-     [T('the factor removes the bias of the variance estimator for MA($h - 1$) errors; the $t$ distribution handles small $P$', 'factorul elimină deplasarea estimatorului varianței pentru erori MA($h - 1$); distribuția $t$ tratează $P$ mic')])), 'small')
+    (T('\\textbf{HLN correction} \\refHLNig: a small-sample rescaling of DM', '\\textbf{Corecția HLN} \\refHLNig: o rescalare a lui DM pentru eșantioane mici'),
+     ['$\\mathrm{DM}^* = \\mathrm{DM}\\sqrt{(P + 1 - 2h + h(h - 1)/P)/P}$, ⟦compared with||comparat cu⟧ $t_{P-1}$',
+      T('the factor (below 1) removes the bias of the variance estimator for MA($h - 1$) errors; $t_{P-1}$: Student $t$ with $P - 1$ degrees of freedom, for small $P$', 'factorul (sub 1) elimină deplasarea estimatorului varianței pentru erori MA($h - 1$); $t_{P-1}$: distribuția Student $t$ cu $P - 1$ grade de libertate, pentru $P$ mic')])))
 
 chart(T('Size of DM and HLN in small samples', 'Mărimea testelor DM și HLN în eșantioane mici'), 'ats_ch1_dm_size', 'ATS_ch1_dm_tests', [
     T('Two independent MA($h - 1$) error series with equal variance, squared loss; share of rejections at 5\\% in @{ds.reps} replications', 'Două serii de erori MA($h - 1$) independente, cu varianțe egale, pierdere pătratică; proporția respingerilor la 5\\% în @{ds.reps} de replicări')],
@@ -537,9 +590,9 @@ chart(T('Size of DM and HLN in small samples', 'Mărimea testelor DM și HLN în
 interp(('the size experiment', 'experimentului de mărime'), [
     (T('$h = 1$: both tests are close to 5\\%; DM over-rejects only at $P = 16$ (@{ds.1.16.dm}\\%)', '$h = 1$: ambele teste sînt aproape de 5\\%; DM respinge prea des doar la $P = 16$ (@{ds.1.16.dm}\\%)'), []),
     (T('$h = 8$, $P = 16$: DM rejects a true null @{ds.8.16.dm}\\% of the time, HLN @{ds.8.16.hln}\\%; at $P = 64$: @{ds.8.64.dm}\\% and @{ds.8.64.hln}\\%', '$h = 8$, $P = 16$: DM respinge o ipoteză nulă adevărată în @{ds.8.16.dm}\\% din cazuri, HLN în @{ds.8.16.hln}\\%; la $P = 64$: @{ds.8.64.dm}\\% și @{ds.8.64.hln}\\%'),
-     [T('the HAC variance with few observations and many lags is noisy and biased down', 'varianța HAC cu puține observații și multe decalaje este zgomotoasă și deplasată în jos')]),
+     [T('the HAC variance with few observations and many lags is noisy and biased down', 'varianța HAC cu puține observații și multe laguri este zgomotoasă și deplasată în jos')]),
     T('Rule: at multi-step horizons with fewer than about 100 forecasts, use HLN and treat $p$-values near 5\\% as inconclusive; fixed-$b$ critical values (Chapter 0) are an alternative',
-      'Regulă: la orizonturi de mai mulți pași și cu mai puțin de aproximativ 100 de prognoze, folosiți HLN și tratați valorile $p$ din jurul lui 5\\% ca neconcludente; valorile critice fixed-$b$ (Capitolul 0) sînt o alternativă')])
+      'Regulă: la orizonturi de mai mulți pași și cu mai puțin de aproximativ 100 de prognoze, folosiți HLN și tratați p-value-urile din jurul lui 5\\% ca neconcludente; valorile critice fixed-$b$ (Capitolul 0) sînt o alternativă')])
 
 D.frame(T('Romanian inflation one year ahead: the design', 'Inflația din România cu un an înainte: planul de evaluare'), items(
     (T('Target: HICP inflation, y/y, 12 months ahead; forecast origins from January 2013, targets @{ri.first} to @{ri.last}, $P = @{ri.n}$ forecasts', 'Ținta: inflația IAPC, anuală, cu 12 luni înainte; originile prognozelor din ianuarie 2013, ținte de la @{ri.first} pînă în @{ri.last}, $P = @{ri.n}$ prognoze'),
@@ -547,7 +600,7 @@ D.frame(T('Romanian inflation one year ahead: the design', 'Inflația din Român
     (T('Forecasts', 'Prognozele'),
      [T('\\textbf{no change}: $\\hat\\pi_{t+12} = \\pi_t$; \\textbf{direct AR(3)}: $\\pi_{t+12}$ on $1, \\pi_t, \\pi_{t-1}, \\pi_{t-2}$, OLS on a 10-year rolling window', '\\textbf{fără schimbare}: $\\hat\\pi_{t+12} = \\pi_t$; \\textbf{AR(3) direct}: $\\pi_{t+12}$ pe $1, \\pi_t, \\pi_{t-1}, \\pi_{t-2}$, OLS pe o fereastră mobilă de 10 ani'),
       T('\\textbf{target}: the BNR inflation target, 2.5\\%; \\textbf{average} of AR(3) and no change', '\\textbf{ținta}: ținta de inflație a BNR, 2,5\\%; \\textbf{media} dintre AR(3) și fără schimbare')]),
-    T('Overlapping 12-month targets: errors are serially correlated up to lag 11; DM with $h = 12$', 'Ținte de 12 luni care se suprapun: erorile sînt autocorelate pînă la decalajul 11; DM cu $h = 12$')), 'small')
+    T('Overlapping 12-month targets: errors are serially correlated up to lag 11; DM with $h = 12$', 'Ținte de 12 luni care se suprapun: erorile sînt autocorelate pînă la lagul 11; DM cu $h = 12$')), 'small')
 
 chart(T('Romanian inflation forecasts one year ahead', 'Prognoze ale inflației din România cu un an înainte'), 'ats_ch1_ro_inflation', 'ATS_ch1_dm_tests', [
     T('Left: inflation and the forecasts made 12 months earlier; right: cumulative sum of $e_{\\mathrm{nc},t}^2 - e_{m,t}^2$ (falling: model $m$ loses to no change)', 'Stînga: inflația și prognozele făcute cu 12 luni înainte; dreapta: suma cumulată a $e_{\\mathrm{nc},t}^2 - e_{m,t}^2$ (scade: modelul $m$ pierde în fața prognozei fără schimbare)')],
@@ -563,28 +616,45 @@ D.frame(T('Interpreting the Romanian inflation comparison', 'Interpretarea compa
     T('Newey--West instead of the rectangular kernel: HLN @{ri.nw.ar} for AR(3); the conclusion does not depend on the kernel', 'Newey--West în locul nucleului dreptunghiular: HLN @{ri.nw.ar} pentru AR(3); concluzia nu depinde de nucleu'),
     T('Relative RMSE of AR(3): @{ri.pre} before July 2021, @{ri.post} after: the ranking is not stable over time \\refGRaz', 'RMSE relativ al AR(3): @{ri.pre} înainte de iulie 2021, @{ri.post} după: ierarhia nu este stabilă în timp \\refGRaz')), 'footnotesize')
 
-D.frame(T('Conditional predictive ability: Giacomini--White', 'Capacitatea predictivă condiționată: Giacomini--White'), items(
-    (T('$H_0$: $\\E[d_{t+h} \\mid \\mathcal{G}_t] = 0$, i.e.\\ no instrument $h_t \\in \\mathcal{G}_t$ predicts which method wins \\refGW', '$H_0$: $\\E[d_{t+h} \\mid \\mathcal{G}_t] = 0$, adică niciun instrument $h_t \\in \\mathcal{G}_t$ nu prezice care metodă cîștigă \\refGW'),
-     [T('statistic $\\mathrm{GW} = P\\,\\bar Z\'\\hat\\Omega^{-1}\\bar Z \\to \\chi^2(q)$, $Z_t = h_t d_{t+h}$, $\\hat\\Omega$ HAC with $h - 1$ lags', 'statistica $\\mathrm{GW} = P\\,\\bar Z\'\\hat\\Omega^{-1}\\bar Z \\to \\chi^2(q)$, $Z_t = h_t d_{t+h}$, $\\hat\\Omega$ HAC cu $h - 1$ decalaje'),
-      T('$h_t = 1$ gives the unconditional test; adding $d_t$ or a state variable tests whether the past predicts the winner', '$h_t = 1$ dă testul necondiționat; adăugînd $d_t$ sau o variabilă de stare testăm dacă trecutul prezice cîștigătorul')]),
-    (T('Valid with a \\textbf{rolling} window of fixed size, nested or non-nested models, any loss; invalid with a recursive window', 'Valid cu o fereastră \\textbf{mobilă} de dimensiune fixă, modele imbricate sau nu, orice pierdere; nevalid cu o fereastră recursivă'),
-     [T('a rejection suggests a decision rule: use model 1 when $\\hat\\delta\'h_t > 0$', 'o respingere sugerează o regulă de decizie: folosiți modelul 1 cînd $\\hat\\delta\'h_t > 0$')]),
-    T('Romanian inflation, AR(3) against no change, $h_t = (1, d_t, \\pi_t - 2.5)$: $\\mathrm{GW} = @{ri.gw}$, $p$ @{ri.gwp}: neither the recent loss nor the distance from the target predicts the winner', 'Inflația din România, AR(3) față de fără schimbare, $h_t = (1, d_t, \\pi_t - 2{,}5)$: $\\mathrm{GW} = @{ri.gw}$, $p$ @{ri.gwp}: nici pierderea recentă, nici distanța față de țintă nu prezic cîștigătorul')), 'small')
+D.frame(T('Conditional predictive ability: Giacomini--White (1/2)', 'Capacitatea predictivă condiționată: Giacomini--White (1/2)'), items(
+    (T('$H_0$: $\\E[d_{t+h} \\mid \\mathcal{G}_t] = 0$ \\refGW', '$H_0$: $\\E[d_{t+h} \\mid \\mathcal{G}_t] = 0$ \\refGW'),
+     [T('$\\mathcal{G}_t$: the information at the forecast origin; $H_0$: no instrument $h_t \\in \\mathcal{G}_t$ predicts which method wins', '$\\mathcal{G}_t$: informația de la originea prognozei; $H_0$: niciun instrument $h_t \\in \\mathcal{G}_t$ nu prezice care metodă cîștigă'),
+      T('$h_t$: a $q \\times 1$ vector of instruments (not the horizon $h$), e.g.\\ a constant and the last loss differential', '$h_t$: un vector de $q$ instrumente (nu orizontul $h$), de exemplu o constantă și ultimul diferențial de pierdere')]),
+    (T('The statistic: a Wald test that the instruments do not predict $d_{t+h}$', 'Statistica: un test Wald că instrumentele nu prezic $d_{t+h}$'),
+     ['$\\mathrm{GW} = P\\,\\bar Z\'\\hat\\Omega^{-1}\\bar Z \\to \\chi^2(q)$, $\\quad Z_t = h_t d_{t+h}$',
+      T('$\\bar Z$: the mean of $Z_t$; $\\hat\\Omega$: its HAC covariance matrix with $h - 1$ lags; $\\chi^2(q)$: chi-squared with $q$ degrees of freedom', '$\\bar Z$: media lui $Z_t$; $\\hat\\Omega$: matricea ei de covarianță HAC cu $h - 1$ laguri; $\\chi^2(q)$: distribuția hi-pătrat cu $q$ grade de libertate'),
+      T('$h_t = 1$ gives the unconditional test; adding $d_t$ or a state variable tests whether the past predicts the winner', '$h_t = 1$ dă testul necondiționat; adăugînd $d_t$ sau o variabilă de stare testăm dacă trecutul prezice cîștigătorul')])))
 
-D.frame(T('Nested models: why DM fails and Clark--West', 'Modele imbricate: de ce eșuează DM și testul Clark--West'), items(
+D.frame(T('Conditional predictive ability: Giacomini--White (2/2)', 'Capacitatea predictivă condiționată: Giacomini--White (2/2)'), items(
+    (T('Valid with a \\textbf{rolling} window of fixed size, nested or non-nested models, any loss; invalid with a recursive window', 'Valid cu o fereastră \\textbf{mobilă} de dimensiune fixă, modele imbricate sau nu, orice pierdere; nevalid cu o fereastră recursivă'),
+     [T('a rejection suggests a decision rule: use model 1 when $\\hat\\delta\'h_t > 0$, with $\\hat\\delta$ the regression of $d_{t+h}$ on $h_t$', 'o respingere sugerează o regulă de decizie: folosiți modelul 1 cînd $\\hat\\delta\'h_t > 0$, cu $\\hat\\delta$ coeficienții regresiei lui $d_{t+h}$ pe $h_t$')]),
+    (T('Romanian inflation, AR(3) against no change, $h_t = (1, d_t, \\pi_t - 2.5)$', 'Inflația din România, AR(3) față de fără schimbare, $h_t = (1, d_t, \\pi_t - 2{,}5)$'),
+     [T('$\\pi_t - 2.5$: the distance of inflation from the BNR target', '$\\pi_t - 2{,}5$: distanța inflației față de ținta BNR'),
+      T('$\\mathrm{GW} = @{ri.gw}$, $p$ @{ri.gwp}: neither the recent loss nor the distance from the target predicts the winner', '$\\mathrm{GW} = @{ri.gw}$, p-value @{ri.gwp}: nici pierderea recentă, nici distanța față de țintă nu prezic cîștigătorul')])))
+
+D.frame(T('Nested models: why DM fails and Clark--West (1/2)', 'Modele imbricate: de ce eșuează DM și testul Clark--West (1/2)'), items(
     (T('Model 1 (small, e.g.\\ the random walk) is nested in model 2; under $H_0$ the extra coefficients are zero', 'Modelul 1 (mic, de exemplu mersul aleator) este imbricat în modelul 2; sub $H_0$ coeficienții suplimentari sînt nuli'),
-     [T('population MSPEs are equal, and $d_t$ is degenerate: the DM statistic is not asymptotically Normal \\refCM', 'erorile medii pătratice de prognoză (MSPE) în populație sînt egale, iar $d_t$ este degenerat: statistica DM nu este asimptotic Normală \\refCM'),
-      T('in finite samples model 2 estimates zero coefficients with noise, so its MSPE is \\textbf{larger}: DM is undersized and has little power', 'în eșantion finit modelul 2 estimează coeficienți nuli cu zgomot, deci MSPE-ul lui este \\textbf{mai mare}: DM respinge prea rar și are putere mică')]),
+     [T('MSPE: the mean squared prediction error; population MSPEs are equal, and $d_t$ is degenerate', 'MSPE: eroarea medie pătratică de prognoză; în populație, MSPE-urile sînt egale, iar $d_t$ este degenerat'),
+      T('so the DM statistic is not asymptotically Normal \\refCM', 'de aceea statistica DM nu este asimptotic Normală \\refCM')]),
+    (T('In finite samples model 2 estimates zero coefficients with noise', 'În eșantion finit, modelul 2 estimează cu zgomot niște coeficienți nuli'),
+     [T('its MSPE is \\textbf{larger} than that of model 1: DM is undersized (rejects too rarely) and has little power', 'MSPE-ul lui este \\textbf{mai mare} decît al modelului 1: DM respinge prea rar și are putere mică')])))
+
+D.frame(T('Nested models: why DM fails and Clark--West (2/2)', 'Modele imbricate: de ce eșuează DM și testul Clark--West (2/2)'), items(
     (T('\\textbf{Clark--West} \\refCW: adjust the larger model for the noise it adds', '\\textbf{Clark--West} \\refCW: corectăm modelul mare pentru zgomotul pe care îl adaugă'),
-     [T('$f_t = e_{1t}^2 - [e_{2t}^2 - (\\hat y_{1t} - \\hat y_{2t})^2]$; one-sided $t$ test of $\\E f_t = 0$ against $\\E f_t > 0$ with Normal critical values', '$f_t = e_{1t}^2 - [e_{2t}^2 - (\\hat y_{1t} - \\hat y_{2t})^2]$; test $t$ unilateral pentru $\\E f_t = 0$ față de $\\E f_t > 0$, cu valori critice Normale'),
-      T('under $H_0$, $\\E e_1^2 - \\E e_2^2 = -\\E(\\hat y_1 - \\hat y_2)^2$: the adjustment recentres the differential (Appendix)', 'sub $H_0$, $\\E e_1^2 - \\E e_2^2 = -\\E(\\hat y_1 - \\hat y_2)^2$: corecția recentrează diferențialul (Anexă)'),
-      T('approximately Normal for rolling and recursive schemes; the exact critical values of \\refCM\\ are non-standard', 'aproximativ Normal pentru schemele mobile și recursive; valorile critice exacte din \\refCM\\ sînt nestandard')])), 'small')
+     ['$f_t = e_{1t}^2 - [e_{2t}^2 - (\\hat y_{1t} - \\hat y_{2t})^2]$',
+      T('$e_{1t}, e_{2t}$: the errors of the small and large model; $\\hat y_{1t}, \\hat y_{2t}$: their forecasts; the squared gap between forecasts is the noise added by model 2', '$e_{1t}, e_{2t}$: erorile modelului mic și ale celui mare; $\\hat y_{1t}, \\hat y_{2t}$: prognozele lor; diferența la pătrat dintre prognoze este zgomotul adăugat de modelul 2'),
+      T('one-sided $t$ test of $\\E f_t = 0$ against $\\E f_t > 0$ (model 2 better) with Normal critical values', 'test $t$ unilateral pentru $\\E f_t = 0$ față de $\\E f_t > 0$ (modelul 2 mai bun), cu valori critice Normale')]),
+    (T('Why the adjustment works', 'De ce funcționează corecția'),
+     [T('under $H_0$, $\\E e_1^2 - \\E e_2^2 = -\\E(\\hat y_1 - \\hat y_2)^2$: the adjustment recentres the differential (Appendix)', 'sub $H_0$, $\\E e_1^2 - \\E e_2^2 = -\\E(\\hat y_1 - \\hat y_2)^2$: corecția recentrează diferențialul (Anexă)'),
+      T('approximately Normal for rolling and recursive schemes; the exact critical values of \\refCM\\ are non-standard', 'aproximativ Normal pentru schemele mobile și recursive; valorile critice exacte din \\refCM\\ sînt nestandard')])))
 
 D.frame(T('Case study: Meese and Rogoff on EUR/RON', 'Studiu de caz: Meese și Rogoff pentru EUR/RON'), items(
     (T('\\refMR: structural exchange-rate models do not beat the random walk out of sample at horizons up to one year', '\\refMR: modelele structurale ale cursului de schimb nu bat mersul aleator în afara eșantionului la orizonturi de pînă la un an'),
      [T('their design: rolling out-of-sample forecasts, RMSE against the random walk; the result has survived forty years', 'planul lor: prognoze în afara eșantionului cu origine mobilă, RMSE față de mersul aleator; rezultatul a rezistat patruzeci de ani')]),
     (T('Our data: monthly EUR/RON (BNR reference rate, end of month), $\\Delta s_{t+1} = 100\\Delta\\ln S_{t+1}$; recursive estimation, forecasts @{fx.first} to @{fx.last} ($P = @{fx.n}$)', 'Datele noastre: EUR/RON lunar (cursul de referință BNR, sfîrșitul lunii), $\\Delta s_{t+1} = 100\\Delta\\ln S_{t+1}$; estimare recursivă, prognoze din @{fx.first} pînă în @{fx.last} ($P = @{fx.n}$)'),
-     [T('nested in the random walk ($\\Delta\\hat s = 0$): drift, AR($p$), the UIP regression $\\Delta s_{t+1} = a + b(i^{RO}_t - i^{EA}_t)/12 + u$ \\refFama', 'imbricate în mersul aleator ($\\Delta\\hat s = 0$): deriva, AR($p$), regresia UIP $\\Delta s_{t+1} = a + b(i^{RO}_t - i^{ZE}_t)/12 + u$ \\refFama'),
+     [T('$S_t$: the rate (lei per euro); $\\Delta s_{t+1}$: its monthly log change in \\%, positive when the leu depreciates', '$S_t$: cursul (lei pentru un euro); $\\Delta s_{t+1}$: variația lui logaritmică lunară, în \\%, pozitivă cînd leul se depreciază'),
+      T('nested in the random walk ($\\Delta\\hat s = 0$): drift, AR($p$), the UIP regression $\\Delta s_{t+1} = a + b(i^{RO}_t - i^{EA}_t)/12 + u$ \\refFama', 'imbricate în mersul aleator ($\\Delta\\hat s = 0$): deriva, AR($p$), regresia UIP $\\Delta s_{t+1} = a + b(i^{RO}_t - i^{ZE}_t)/12 + u$ \\refFama'),
+      T('$i^{RO}_t, i^{EA}_t$: 3-month interest rates in \\% a year (divided by 12: per month); $a, b$: regression coefficients', '$i^{RO}_t, i^{ZE}_t$: dobînzile la 3 luni, în \\% pe an (împărțite la 12: pe lună); $a, b$: coeficienții regresiei'),
       T('no estimated parameters: UIP imposed ($a = 0, b = 1$), momentum (mean of the last three changes)', 'fără parametri estimați: UIP impusă ($a = 0, b = 1$), momentum (media ultimelor trei variații)')]),
     T('UIP: uncovered interest parity, the expected depreciation equals the interest differential', 'UIP: paritatea neacoperită a dobînzilor, deprecierea așteptată este egală cu diferențialul de dobîndă')), 'small')
 
@@ -597,21 +667,28 @@ D.frame(T('Interpreting the EUR/RON tests', 'Interpretarea testelor pentru EUR/R
     [T(e, r) + f' & @{{fx.{i}.rel}} & @{{fx.{i}.dm}} & @{{fx.{i}.cw}} & @{{fx.{i}.cwp}}' for i, (_, e, r) in enumerate(FXM)], size='scriptsize') + items(
     T('Every model has a higher RMSE than the random walk (random-walk RMSE @{fx.rmse} pp a month); the Meese--Rogoff result holds for the leu', 'Toate modelele au RMSE mai mare decît mersul aleator (RMSE al mersului aleator: @{fx.rmse} puncte procentuale pe lună); rezultatul Meese--Rogoff se confirmă pentru leu'),
     T('Clark--West does not reject either: the adjustment is not enough to make AR or UIP useful; only the drift gets close', 'Nici Clark--West nu respinge: corecția nu este suficientă pentru ca AR sau UIP să devină utile; doar deriva se apropie'),
-    T('Managed float: the BNR smooths EUR/RON, so monthly changes are small and close to unpredictable from these predictors', 'Flotare controlată: BNR netezește EUR/RON, deci variațiile lunare sînt mici și aproape imprevizibile cu acești predictori')), 'footnotesize')
+    T('Managed float: the BNR smooths EUR/RON, so monthly changes are small and close to unpredictable from these predictors', 'Managed float: BNR netezește cursul EUR/RON, deci variațiile lunare sînt mici și aproape imprevizibile cu acești predictori')), 'footnotesize')
 
-D.frame(T('Rationality: Mincer--Zarnowitz and encompassing', 'Raționalitate: Mincer--Zarnowitz și încadrarea'), items(
-    (T('\\textbf{Mincer--Zarnowitz} \\refMZ: $y_{t+h} = a + b\\hat y_{t+h|t} + u_{t+h}$; under squared loss an optimal forecast has $(a, b) = (0, 1)$', '\\textbf{Mincer--Zarnowitz} \\refMZ: $y_{t+h} = a + b\\hat y_{t+h|t} + u_{t+h}$; sub pierdere pătratică o prognoză optimă are $(a, b) = (0, 1)$'),
-     [T('Wald test with HAC errors ($u$ is MA($h - 1$)); $b < 1$: forecasts too volatile; $b > 1$: too timid', 'test Wald cu erori HAC ($u$ este MA($h - 1$)); $b < 1$: prognoze prea volatile; $b > 1$: prea timide'),
+D.frame(T('Rationality: Mincer--Zarnowitz and encompassing (1/2)', 'Raționalitate: Mincer--Zarnowitz și încadrarea (1/2)'), items(
+    (T('\\textbf{Mincer--Zarnowitz} \\refMZ: regress the outcome on the forecast', '\\textbf{Mincer--Zarnowitz} \\refMZ: regresăm realizarea pe prognoză'),
+     ['$y_{t+h} = a + b\\hat y_{t+h|t} + u_{t+h}$',
+      T('under squared loss an optimal forecast has $(a, b) = (0, 1)$: no bias, and a one-unit forecast change predicts a one-unit outcome change', 'sub pierdere pătratică o prognoză optimă are $(a, b) = (0, 1)$: fără deplasare, iar o variație cu o unitate a prognozei anunță o variație cu o unitate a realizării'),
+      T('Wald test of $(a, b) = (0, 1)$ with HAC errors ($u$ is MA($h - 1$)); $b < 1$: forecasts too volatile; $b > 1$: too timid', 'test Wald pentru $(a, b) = (0, 1)$ cu erori HAC ($u$ este MA($h - 1$)); $b < 1$: prognoze prea volatile; $b > 1$: prea timide'),
       T('extended version: add variables in $\\mathcal{F}_t$; a significant coefficient means unused information', 'versiunea extinsă: adăugăm variabile din $\\mathcal{F}_t$; un coeficient semnificativ înseamnă informație nefolosită')]),
+    T('MZ assumes squared loss: under asymmetric loss a rational forecast is biased (Section 1)', 'MZ presupune pierdere pătratică: sub pierdere asimetrică o prognoză rațională este deplasată (secțiunea 1)')))
+
+D.frame(T('Rationality: Mincer--Zarnowitz and encompassing (2/2)', 'Raționalitate: Mincer--Zarnowitz și încadrarea (2/2)'), items(
     (T('\\textbf{Encompassing} \\refChH, \\refHLNih: forecast 1 encompasses forecast 2 if 2 adds nothing to 1', '\\textbf{Încadrarea} \\refChH, \\refHLNih: prognoza 1 o încadrează pe prognoza 2 dacă 2 nu adaugă nimic la 1'),
-     [T('$y = (1 - \\lambda)\\hat y_1 + \\lambda\\hat y_2 + \\varepsilon$, $H_0$: $\\lambda = 0$; HLN test: DM--HLN on $d_t = e_{1t}(e_{1t} - e_{2t})$, one-sided', '$y = (1 - \\lambda)\\hat y_1 + \\lambda\\hat y_2 + \\varepsilon$, $H_0$: $\\lambda = 0$; testul HLN: DM--HLN pe $d_t = e_{1t}(e_{1t} - e_{2t})$, unilateral'),
-      T('if neither encompasses the other, a combination beats both (Section 5)', 'dacă niciuna nu o încadrează pe cealaltă, o combinație le bate pe amîndouă (secțiunea 5)')]),
-    T('MZ assumes squared loss: under asymmetric loss a rational forecast is biased (Section 1)', 'MZ presupune pierdere pătratică: sub pierdere asimetrică o prognoză rațională este deplasată (secțiunea 1)')), 'small')
+     ['$y = (1 - \\lambda)\\hat y_1 + \\lambda\\hat y_2 + \\varepsilon$, $\\quad H_0$: $\\lambda = 0$',
+      T('$\\lambda$: the weight of forecast 2 in the best combination; $\\lambda = 0$: forecast 2 is useless given forecast 1', '$\\lambda$: ponderea prognozei 2 în cea mai bună combinație; $\\lambda = 0$: prognoza 2 este inutilă dacă avem prognoza 1'),
+      T('HLN test: DM--HLN on $d_t = e_{1t}(e_{1t} - e_{2t})$, one-sided ($\\E d_t > 0$ means $\\lambda > 0$)', 'testul HLN: DM--HLN pe $d_t = e_{1t}(e_{1t} - e_{2t})$, unilateral ($\\E d_t > 0$ înseamnă $\\lambda > 0$)')]),
+    T('If neither encompasses the other, a combination beats both (Section 5)', 'Dacă niciuna nu o încadrează pe cealaltă, o combinație le bate pe amîndouă (secțiunea 5)')))
 
 D.frame(T('Case study: Atkeson and Ohanian (2001)', 'Studiu de caz: Atkeson și Ohanian (2001)'), items(
     (T('\\refAO: a naive forecast, ``inflation over the next four quarters equals inflation over the last four quarters\'\', beats Phillips-curve forecasts in the US after 1984', '\\refAO: o prognoză naivă, „inflația din următoarele patru trimestre este egală cu inflația din ultimele patru”, bate prognozele pe baza curbei Phillips în SUA după 1984'),
-     [T('the Phillips curve of \\refSWii: $\\pi^4_{t+4} - \\pi^4_t = a + \\beta(L)u_t + \\gamma(L)\\Delta\\pi_t + e_{t+4}$, unemployment $u_t$, quarterly inflation $\\pi_t$', 'curba Phillips din \\refSWii: $\\pi^4_{t+4} - \\pi^4_t = a + \\beta(L)u_t + \\gamma(L)\\Delta\\pi_t + e_{t+4}$, șomajul $u_t$, inflația trimestrială $\\pi_t$')]),
-    (T('Our update: CPI (quarterly average) and the unemployment rate (FRED); four lags of each, rolling window of 15 years; targets @{ao.first} to @{ao.last} ($P = @{ao.n}$)', 'Actualizarea noastră: IPC (media trimestrială) și rata șomajului (FRED); cîte patru decalaje, fereastră mobilă de 15 ani; ținte din @{ao.first} pînă în @{ao.last} ($P = @{ao.n}$)'),
+     [T('the Phillips curve of \\refSWii: $\\pi^4_{t+4} - \\pi^4_t = a + \\beta(L)u_t + \\gamma(L)\\Delta\\pi_t + e_{t+4}$', 'curba Phillips din \\refSWii: $\\pi^4_{t+4} - \\pi^4_t = a + \\beta(L)u_t + \\gamma(L)\\Delta\\pi_t + e_{t+4}$'),
+      T('$\\pi^4_t$: inflation over the last four quarters; $\\pi_t$: quarterly inflation; $u_t$: the unemployment rate; $\\beta(L), \\gamma(L)$: lag polynomials (four lags each)', '$\\pi^4_t$: inflația pe ultimele patru trimestre; $\\pi_t$: inflația trimestrială; $u_t$: rata șomajului; $\\beta(L), \\gamma(L)$: polinoame de laguri (cîte patru laguri)')]),
+    (T('Our update: CPI (quarterly average) and the unemployment rate (FRED); four lags of each, rolling window of 15 years; targets @{ao.first} to @{ao.last} ($P = @{ao.n}$)', 'Actualizarea noastră: IPC (media trimestrială) și rata șomajului (FRED); cîte patru laguri, fereastră mobilă de 15 ani; ținte din @{ao.first} pînă în @{ao.last} ($P = @{ao.n}$)'),
      [T('October 2025 CPI was not published; the 2025Q4 average uses two months', 'IPC pentru octombrie 2025 nu a fost publicat; media pentru T4 2025 folosește două luni')]),
     T('Tests: DM--HLN with $h = 4$; GW with $h_t = (1, d_{t})$ and $h_t = (1, u_t)$; encompassing in both directions', 'Teste: DM--HLN cu $h = 4$; GW cu $h_t = (1, d_t)$ și $h_t = (1, u_t)$; încadrare în ambele direcții')), 'small')
 
@@ -621,29 +698,37 @@ chart(T('The naive forecast against the Phillips curve', 'Prognoza naivă față
 
 interp(('the Atkeson--Ohanian update', 'actualizării Atkeson--Ohanian'), [
     T('RMSE: naive @{ao.rn}, Phillips curve @{ao.rp} (ratio @{ao.ratio}); by period: @{ao.r1985} (1985--2007), @{ao.r2008} (2008--2019), @{ao.r2020} (2020--2026)', 'RMSE: naivă @{ao.rn}, curba Phillips @{ao.rp} (raport @{ao.ratio}); pe perioade: @{ao.r1985} (1985--2007), @{ao.r2008} (2008--2019), @{ao.r2020} (2020--2026)'),
-    (T('Yet DM--HLN = @{ao.hln}, $p$ @{ao.p}: the large post-2020 errors inflate the HAC variance as much as the mean', 'Totuși DM--HLN = @{ao.hln}, $p$ @{ao.p}: erorile mari de după 2020 umflă varianța HAC la fel de mult ca media'),
+    (T('Yet DM--HLN = @{ao.hln}, $p$ @{ao.p}: the large post-2020 errors inflate the HAC variance as much as the mean', 'Totuși DM--HLN = @{ao.hln}, p-value @{ao.p}: erorile mari de după 2020 măresc varianța HAC la fel de mult ca media'),
      [T('the moving ratio peaks at @{ao.relmax} in @{ao.relmaxd}: the Phillips curve extrapolated the pandemic unemployment spike', 'raportul pe fereastră mobilă atinge @{ao.relmax} în @{ao.relmaxd}: curba Phillips a extrapolat saltul șomajului din pandemie')]),
-    T('GW: $p$ @{ao.gwp} with the lagged differential, $p$ @{ao.gwup} with unemployment; encompassing: $H_0$ ``naive encompasses PC\'\' $p$ @{ao.encn}; ``PC encompasses naive\'\' $p$ @{ao.encp}', 'GW: $p$ @{ao.gwp} cu diferențialul decalat, $p$ @{ao.gwup} cu șomajul; încadrare: $H_0$ „naiva încadrează PC” $p$ @{ao.encn}; „PC încadrează naiva” $p$ @{ao.encp}'),
+    T('GW: $p$ @{ao.gwp} with the lagged differential, $p$ @{ao.gwup} with unemployment; encompassing: $H_0$ ``naive encompasses PC\'\' $p$ @{ao.encn}; ``PC encompasses naive\'\' $p$ @{ao.encp}', 'GW: p-value @{ao.gwp} cu diferențialul din perioada anterioară, $p$ @{ao.gwup} cu șomajul; încadrare: $H_0$ „naiva încadrează PC” $p$ @{ao.encn}; „PC încadrează naiva” $p$ @{ao.encp}'),
     T('The AO conclusion holds in point estimates, and a test on 41 years of overlapping data cannot separate the two', 'Concluzia AO se păstrează în estimările punctuale, iar un test pe 41 de ani de date suprapuse nu le poate separa')])
 
 D.frame(T('Many models: data snooping, the reality check and SPA', 'Multe modele: data snooping, reality check și SPA'), items(
-    (T('Testing $k$ models against a benchmark and reporting the best $p$-value is \\textbf{data snooping}', 'Testarea a $k$ modele față de un reper și raportarea celei mai bune valori $p$ înseamnă \\textbf{data snooping}'),
-     [T('$H_0$: $\\max_{j \\le k}\\E[d_{j,t}] \\le 0$ with $d_{j,t} = L_{0,t} - L_{j,t}$: no model beats the benchmark', '$H_0$: $\\max_{j \\le k}\\E[d_{j,t}] \\le 0$ cu $d_{j,t} = L_{0,t} - L_{j,t}$: niciun model nu bate reperul')]),
-    (T('\\textbf{Reality check} \\refWhite: statistic $\\max_j\\sqrt P\\bar d_j$, $p$-value from the stationary bootstrap (Chapter 0) under the least favourable configuration', '\\textbf{Reality check} \\refWhite: statistica $\\max_j\\sqrt P\\bar d_j$, valoarea $p$ din bootstrap staționar (Capitolul 0) sub configurația cea mai puțin favorabilă'),
-     [T('conservative: very poor models inflate the null distribution', 'conservator: modelele foarte slabe umflă distribuția sub ipoteza nulă')]),
-    (T('\\textbf{SPA} \\refHan: studentise each $\\bar d_j$ and drop clearly inferior models from the null distribution (consistent $p$-value)', '\\textbf{SPA} \\refHan: studentizăm fiecare $\\bar d_j$ și scoatem modelele clar inferioare din distribuția sub ipoteza nulă (valoarea $p$ consistentă)'),
-     [T('lower and upper $p$-values bracket it; the upper one equals the RC with studentisation', 'valorile $p$ inferioară și superioară o încadrează; cea superioară este RC cu studentizare'),
+    (T('Testing $k$ models against a benchmark and reporting the best $p$-value is \\textbf{data snooping}', 'Testarea a $k$ modele față de un reper și raportarea celui mai mic p-value înseamnă \\textbf{data snooping}'),
+     [T('$H_0$: $\\max_{j \\le k}\\E[d_{j,t}] \\le 0$ with $d_{j,t} = L_{0,t} - L_{j,t}$: no model beats the benchmark', '$H_0$: $\\max_{j \\le k}\\E[d_{j,t}] \\le 0$ cu $d_{j,t} = L_{0,t} - L_{j,t}$: niciun model nu bate reperul'),
+      T('$L_{0,t}$: the loss of the benchmark; $L_{j,t}$: the loss of model $j$; $d_{j,t} > 0$: model $j$ did better at $t$', '$L_{0,t}$: pierderea reperului; $L_{j,t}$: pierderea modelului $j$; $d_{j,t} > 0$: modelul $j$ a fost mai bun la $t$')]),
+    (T('\\textbf{Reality check} \\refWhite: statistic $\\max_j\\sqrt P\\bar d_j$, $p$-value from the stationary bootstrap (Chapter 0) under the least favourable configuration', '\\textbf{Reality check} \\refWhite: statistica $\\max_j\\sqrt P\\bar d_j$, p-value-ul din bootstrap-ul staționar (Capitolul 0) sub configurația cea mai puțin favorabilă'),
+     [T('conservative: very poor models inflate the null distribution', 'conservator: modelele foarte slabe deplasează în sus distribuția sub ipoteza nulă')]),
+    (T('\\textbf{SPA} \\refHan: studentise each $\\bar d_j$ and drop clearly inferior models from the null distribution (consistent $p$-value)', '\\textbf{SPA} \\refHan: studentizăm fiecare $\\bar d_j$ și scoatem modelele clar inferioare din distribuția sub ipoteza nulă (p-value consistent)'),
+     [T('lower and upper $p$-values bracket it; the upper one equals the RC with studentisation', 'p-value-urile inferior și superior îl încadrează; cel superior este RC cu studentizare'),
       T('StepM \\refRWze\\ identifies \\emph{which} models beat the benchmark', 'StepM \\refRWze\\ identifică \\emph{care} modele bat reperul')]),
-    T('EUR/RON, $k = @{fx.spa.k}$ models against the random walk: SPA $p$ = @{fx.spa.lower} (lower), @{fx.spa.consistent} (consistent), @{fx.spa.upper} (upper): no model beats it', 'EUR/RON, $k = @{fx.spa.k}$ modele față de mersul aleator: SPA $p$ = @{fx.spa.lower} (inferioară), @{fx.spa.consistent} (consistentă), @{fx.spa.upper} (superioară): niciun model nu îl bate')), 'small')
+    T('EUR/RON, $k = @{fx.spa.k}$ models against the random walk: SPA $p$ = @{fx.spa.lower} (lower), @{fx.spa.consistent} (consistent), @{fx.spa.upper} (upper): no model beats it', 'EUR/RON, $k = @{fx.spa.k}$ modele față de mersul aleator: p-value SPA = @{fx.spa.lower} (inferior), @{fx.spa.consistent} (consistent), @{fx.spa.upper} (superior): niciun model nu îl bate')), 'small')
 
-D.frame(T('The model confidence set', 'Mulțimea de încredere a modelelor (MCS)'), items(
+D.frame(T('The model confidence set (1/2)', 'Mulțimea de încredere a modelelor (MCS) (1/2)'), items(
     (T('\\textbf{MCS} \\refHLNaa: the set $\\hat{\\mathcal M}_{1-\\alpha}$ that contains the best model(s) with probability at least $1 - \\alpha$ asymptotically', '\\textbf{MCS} \\refHLNaa: mulțimea $\\hat{\\mathcal M}_{1-\\alpha}$ care conține cel mai bun model (sau modelele cele mai bune) cu probabilitatea de cel puțin $1 - \\alpha$, asimptotic'),
      [T('no benchmark: all models are treated symmetrically; analogous to a confidence interval for a parameter', 'fără reper: toate modelele sînt tratate simetric; analog unui interval de încredere pentru un parametru')]),
-    (T('Algorithm: start with all $m$ models', 'Algoritmul: pornim cu toate cele $m$ modele'),
-     [T('\\textbf{equivalence test}: $H_0$: $\\E[d_{i\\cdot,t}] = 0$ for all $i$, $d_{i\\cdot,t} = L_{i,t} - \\frac1m\\sum_j L_{j,t}$, statistic $T_{\\max} = \\max_i \\bar d_{i\\cdot}/\\widehat{\\mathrm{se}}(\\bar d_{i\\cdot})$', '\\textbf{testul de echivalență}: $H_0$: $\\E[d_{i\\cdot,t}] = 0$ pentru orice $i$, $d_{i\\cdot,t} = L_{i,t} - \\frac1m\\sum_j L_{j,t}$, statistica $T_{\\max} = \\max_i \\bar d_{i\\cdot}/\\widehat{\\mathrm{se}}(\\bar d_{i\\cdot})$'),
-      T('if rejected, \\textbf{eliminate} the model with the largest $t_i$ and repeat; stop at the first non-rejection', 'dacă respingem, \\textbf{eliminăm} modelul cu cel mai mare $t_i$ și repetăm; ne oprim la prima nerespingere'),
-      T('block bootstrap for the null distribution and the standard errors; MCS $p$-value of a model = the largest test $p$-value up to its elimination', 'bootstrap pe blocuri pentru distribuția sub $H_0$ și erorile standard; valoarea $p$ MCS a unui model = cea mai mare valoare $p$ a testelor pînă la eliminarea lui')]),
-    T('A large MCS is a finding too: the data cannot separate the models (a weak sample, not equal models)', 'O mulțime MCS mare este și ea un rezultat: datele nu pot separa modelele (un eșantion slab, nu modele egale)')), 'small')
+    (T('Equivalence test on the $m$ models still in the set', 'Testul de echivalență pentru cele $m$ modele rămase în mulțime'),
+     ['$H_0$: $\\E[d_{i\\cdot,t}] = 0$ ⟦for all||pentru orice⟧ $i$, $\\quad d_{i\\cdot,t} = L_{i,t} - \\frac1m\\sum_j L_{j,t}$',
+      T('$d_{i\\cdot,t}$: the loss of model $i$ minus the average loss of all models; positive: model $i$ is worse than average', '$d_{i\\cdot,t}$: pierderea modelului $i$ minus pierderea medie a tuturor modelelor; pozitiv: modelul $i$ este mai slab decît media'),
+      T('statistic $T_{\\max} = \\max_i t_i$, $t_i = \\bar d_{i\\cdot}/\\widehat{\\mathrm{se}}(\\bar d_{i\\cdot})$: the worst model relative to the average, standardised', 'statistica $T_{\\max} = \\max_i t_i$, $t_i = \\bar d_{i\\cdot}/\\widehat{\\mathrm{se}}(\\bar d_{i\\cdot})$: cel mai slab model față de medie, standardizat')])))
+
+D.frame(T('The model confidence set (2/2)', 'Mulțimea de încredere a modelelor (MCS) (2/2)'), items(
+    (T('Algorithm: start with all models', 'Algoritmul: pornim cu toate modelele'),
+     [T('if the equivalence test rejects, \\textbf{eliminate} the model with the largest $t_i$ and repeat; stop at the first non-rejection', 'dacă testul de echivalență respinge, \\textbf{eliminăm} modelul cu cel mai mare $t_i$ și repetăm; ne oprim la prima nerespingere'),
+      T('a block bootstrap gives the null distribution and the standard errors', 'un bootstrap pe blocuri dă distribuția sub $H_0$ și erorile standard'),
+      T('MCS $p$-value of a model: the largest test $p$-value up to its elimination; it stays in $\\hat{\\mathcal M}_{1-\\alpha}$ if this is above $\\alpha$', 'p-value-ul MCS al unui model: cel mai mare p-value al testelor pînă la eliminarea lui; modelul rămîne în $\\hat{\\mathcal M}_{1-\\alpha}$ dacă acesta depășește $\\alpha$')]),
+    (T('A large MCS is a finding too', 'O mulțime MCS mare este și ea un rezultat'),
+     [T('the data cannot separate the models (a weak sample, not equal models)', 'datele nu pot separa modelele (un eșantion slab, nu modele egale)')])))
 
 D.frame(T('Case study: day-ahead electricity load in Romania', 'Studiu de caz: consumul de electricitate din România pentru ziua următoare'), two(
     ph('pylon', T('A 400 kV line, Predeluș Pass (2018)', 'O linie de 400 kV, Pasul Predeluș (2018)'), h='0.36\\textheight'),
@@ -672,7 +757,7 @@ D.frame(T('Interpreting the load comparison', 'Interpretarea comparației pentru
 D.recap(('Comparing forecasts', 'compararea prognozelor'), [
     T('DM compares forecasts; with estimated models choose West (population) or GW (methods, rolling window)', 'DM compară prognoze; pentru modele estimate alegeți West (populație) sau GW (metode, fereastră mobilă)'),
     T('Multi-step, small $P$: HAC variance plus the HLN correction and $t_{P-1}$', 'Mai mulți pași, $P$ mic: varianță HAC plus corecția HLN și $t_{P-1}$'),
-    T('Nested models: Clark--West; many models: SPA or the MCS, never the best $p$-value', 'Modele imbricate: Clark--West; multe modele: SPA sau MCS, niciodată cea mai bună valoare $p$'),
+    T('Nested models: Clark--West; many models: SPA or the MCS, never the best $p$-value', 'Modele imbricate: Clark--West; multe modele: SPA sau MCS, niciodată cel mai mic p-value'),
     T('Romanian inflation, US inflation, EUR/RON: the simple benchmark is hard to beat and differences are rarely significant', 'Inflația din România, inflația din SUA, EUR/RON: reperul simplu se bate greu, iar diferențele sînt rareori semnificative')])
 
 # =============================================================================
@@ -684,15 +769,17 @@ D.frame(T('Bates and Granger (1969)', 'Bates și Granger (1969)'), two(
     ph('granger', T('Clive W.~J.\\ Granger (1934--2009), Nobel Memorial Prize 2003', 'Clive W.~J.\\ Granger (1934--2009), Premiul Nobel pentru Economie 2003'), h='0.32\\textheight'),
     items((T('Two unbiased forecasts with error variances $\\sigma_1^2, \\sigma_2^2$ and covariance $\\sigma_{12}$; combination $w\\hat y_1 + (1 - w)\\hat y_2$ \\refBG', 'Două prognoze nedeplasate cu varianțele erorilor $\\sigma_1^2, \\sigma_2^2$ și covarianța $\\sigma_{12}$; combinația $w\\hat y_1 + (1 - w)\\hat y_2$ \\refBG'),
            [T('error variance $w^2\\sigma_1^2 + (1 - w)^2\\sigma_2^2 + 2w(1 - w)\\sigma_{12}$, minimised at', 'varianța erorii $w^2\\sigma_1^2 + (1 - w)^2\\sigma_2^2 + 2w(1 - w)\\sigma_{12}$, minimă pentru'),
-            T('$w^* = \\dfrac{\\sigma_2^2 - \\sigma_{12}}{\\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}}$, \\quad $\\sigma^2_c = \\dfrac{\\sigma_1^2\\sigma_2^2 - \\sigma_{12}^2}{\\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}} \\le \\min(\\sigma_1^2, \\sigma_2^2)$', '$w^* = \\dfrac{\\sigma_2^2 - \\sigma_{12}}{\\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}}$, \\quad $\\sigma^2_c = \\dfrac{\\sigma_1^2\\sigma_2^2 - \\sigma_{12}^2}{\\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}} \\le \\min(\\sigma_1^2, \\sigma_2^2)$')]),
-          (T('$N$ forecasts: $\\mathbf w^* = \\Sigma^{-1}\\iota/(\\iota\'\\Sigma^{-1}\\iota)$; \\refGRm: regress $y$ on the forecasts, with or without a constant and the sum-to-one restriction', '$N$ prognoze: $\\mathbf w^* = \\Sigma^{-1}\\iota/(\\iota\'\\Sigma^{-1}\\iota)$; \\refGRm: regresia lui $y$ pe prognoze, cu sau fără termen liber și restricția ca ponderile să însumeze 1'),
+            T('$w^* = \\dfrac{\\sigma_2^2 - \\sigma_{12}}{\\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}}$, \\quad $\\sigma^2_c = \\dfrac{\\sigma_1^2\\sigma_2^2 - \\sigma_{12}^2}{\\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}} \\le \\min(\\sigma_1^2, \\sigma_2^2)$', '$w^* = \\dfrac{\\sigma_2^2 - \\sigma_{12}}{\\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}}$, \\quad $\\sigma^2_c = \\dfrac{\\sigma_1^2\\sigma_2^2 - \\sigma_{12}^2}{\\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}} \\le \\min(\\sigma_1^2, \\sigma_2^2)$'),
+            T('$\\sigma^2_c$: the error variance of the optimal combination, never above that of the better forecast; the less precise forecast gets the smaller weight', '$\\sigma^2_c$: varianța erorii combinației optime, niciodată peste cea a prognozei mai bune; prognoza mai puțin precisă primește ponderea mai mică')]),
+          (T('$N$ forecasts: $\\mathbf w^* = \\Sigma^{-1}\\iota/(\\iota\'\\Sigma^{-1}\\iota)$, with $\\Sigma$ the covariance matrix of the errors and $\\iota$ a vector of ones; \\refGRm: regress $y$ on the forecasts, with or without a constant and the sum-to-one restriction', '$N$ prognoze: $\\mathbf w^* = \\Sigma^{-1}\\iota/(\\iota\'\\Sigma^{-1}\\iota)$, cu $\\Sigma$ matricea de covarianță a erorilor și $\\iota$ un vector de unu; \\refGRm: regresia lui $y$ pe prognoze, cu sau fără termen liber și restricția ca ponderile să însumeze 1'),
            [T('combination diversifies model risk, structural breaks and the private information of forecasters \\refTim', 'combinarea diversifică riscul de model, rupturile structurale și informația privată a prognozatorilor \\refTim')])), '0.30', '0.68'), 'footnotesize')
 
 D.frame(T('The forecast combination puzzle', 'Paradoxul combinării prognozelor'), items(
     (T('Empirical regularity: the simple average beats the ``optimal\'\' estimated weights \\refSWzd, \\refTim, \\refGKMT', 'Regularitate empirică: media simplă bate ponderile „optime” estimate \\refSWzd, \\refTim, \\refGKMT'),
      [T('Stock--Watson: across 7 countries and many predictors of output growth, equal weights and the median are among the best combinations', 'Stock--Watson: în 7 țări și cu mulți predictori ai creșterii economice, ponderile egale și mediana sînt printre cele mai bune combinații')]),
     (T('\\textbf{Explanation} \\refSWal, \\refCMVW: the weights are estimated', '\\textbf{Explicația} \\refSWal, \\refCMVW: ponderile sînt estimate'),
-     [T('$\\E[\\mathrm{MSE}(\\hat w)] = \\mathrm{MSE}(w^*) + \\E(\\hat w - w^*)^2 D$, $D = \\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}$', '$\\E[\\mathrm{MSE}(\\hat w)] = \\mathrm{MSE}(w^*) + \\E(\\hat w - w^*)^2 D$, $D = \\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}$'),
+     [T('$\\E[\\mathrm{MSE}(\\hat w)] = \\mathrm{MSE}(w^*) + \\E(\\hat w - w^*)^2 D$, $D = \\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}$ (the variance of $e_1 - e_2$)', '$\\E[\\mathrm{MSE}(\\hat w)] = \\mathrm{MSE}(w^*) + \\E(\\hat w - w^*)^2 D$, $D = \\sigma_1^2 + \\sigma_2^2 - 2\\sigma_{12}$ (varianța lui $e_1 - e_2$)'),
+      T('$\\hat w$: the weight estimated from $n$ past errors; MSE: the mean squared error of the combination', '$\\hat w$: ponderea estimată din $n$ erori trecute; MSE: eroarea pătratică medie a combinației'),
       T('gain of $w^*$ over $1/2$: $(w^* - 1/2)^2D$; loss from estimating: $\\mathrm{Var}(\\hat w)D$, of order $1/n$', 'cîștigul lui $w^*$ față de $1/2$: $(w^* - 1/2)^2D$; pierderea din estimare: $\\mathrm{Var}(\\hat w)D$, de ordinul $1/n$'),
       T('equal weights win when $(w^* - 1/2)^2 < \\mathrm{Var}(\\hat w)$: similar forecasts, short samples, correlated errors', 'ponderile egale cîștigă cînd $(w^* - 1/2)^2 < \\mathrm{Var}(\\hat w)$: prognoze asemănătoare, eșantioane scurte, erori corelate')]),
     T('Also: weights move with breaks, so long windows are biased and short ones noisy', 'În plus: ponderile se schimbă la rupturi, deci ferestrele lungi sînt deplasate, iar cele scurte zgomotoase')), 'small')
@@ -708,7 +795,8 @@ interp(('the puzzle simulation', 'simulării paradoxului'), [
 
 D.frame(T('Between equal and optimal: shrinkage and robust combinations', 'Între ponderi egale și optime: shrinkage și combinări robuste'), items(
     (T('\\textbf{Shrinkage}: $\\hat w_\\lambda = \\lambda\\hat w + (1 - \\lambda)\\iota/N$ \\refDP, \\refSWzd', '\\textbf{Shrinkage}: $\\hat w_\\lambda = \\lambda\\hat w + (1 - \\lambda)\\iota/N$ \\refDP, \\refSWzd'),
-     [T('a Bayesian prior centred on equal weights; $\\lambda$ falls with the number of forecasts and rises with the sample', 'un prior bayesian centrat pe ponderile egale; $\\lambda$ scade cu numărul de prognoze și crește cu eșantionul')]),
+     [T('$\\hat w$: the estimated weights; $\\iota/N$: equal weights for $N$ forecasts; $\\lambda \\in [0,1]$: $\\lambda = 0$ gives the mean, $\\lambda = 1$ the estimated weights', '$\\hat w$: ponderile estimate; $\\iota/N$: ponderi egale pentru $N$ prognoze; $\\lambda \\in [0,1]$: $\\lambda = 0$ dă media, $\\lambda = 1$ ponderile estimate'),
+      T('a Bayesian prior centred on equal weights; $\\lambda$ falls with the number of forecasts and rises with the sample', 'un prior bayesian centrat pe ponderile egale; $\\lambda$ scade cu numărul de prognoze și crește cu eșantionul')]),
     (T('\\textbf{Performance weights}: $w_i \\propto 1/\\mathrm{MSE}_i$ on a recent window, ignoring correlations; discounting gives recent errors more weight', '\\textbf{Ponderi după performanță}: $w_i \\propto 1/\\mathrm{MSE}_i$ pe o fereastră recentă, ignorînd corelațiile; actualizarea dă erorilor recente o pondere mai mare'),
      [T('\\textbf{previous best}: select the forecaster with the lowest past MSE (a weight of one)', '\\textbf{cel mai bun anterior}: alegem prognozatorul cu cel mai mic MSE trecut (o pondere egală cu 1)')]),
     (T('\\textbf{Robust}: median, trimmed mean: protect against outlying forecasters', '\\textbf{Robuste}: mediana, media trunchiată: protejează împotriva prognozatorilor extremi'), []),
@@ -717,7 +805,8 @@ D.frame(T('Between equal and optimal: shrinkage and robust combinations', 'Într
 
 D.frame(T('Combining density forecasts', 'Combinarea prognozelor de densitate'), items(
     (T('\\textbf{Linear pool}: $p(y) = \\sum_i w_ip_i(y)$, $w_i \\ge 0$, $\\sum w_i = 1$ \\refHM', '\\textbf{Combinarea liniară} (linear pool): $p(y) = \\sum_i w_ip_i(y)$, $w_i \\ge 0$, $\\sum w_i = 1$ \\refHM'),
-     [T('weights that minimise the average log score: \\textbf{optimal prediction pools} \\refGA', 'ponderile care minimizează scorul logaritmic mediu: \\textbf{optimal prediction pools} \\refGA'),
+     [T('$p_i$: the density forecast of model $i$; $w_i$: its weight; the pool is a mixture of the densities', '$p_i$: prognoza de densitate a modelului $i$; $w_i$: ponderea ei; combinarea este o mixtură de densități'),
+      T('weights that minimise the average log score: \\textbf{optimal prediction pools} \\refGA', 'ponderile care minimizează scorul logaritmic mediu: \\textbf{optimal prediction pools} \\refGA'),
       T('interior weights even when every model is misspecified: a pool is not a model average in the Bayesian sense', 'ponderi interioare chiar dacă toate modelele sînt greșit specificate: o combinare nu este o medie de modele în sens bayesian')]),
     (T('The linear pool of calibrated densities is \\textbf{over-dispersed} \\refGRjac', 'Combinarea liniară a unor densități calibrate este \\textbf{supradispersată} \\refGRjac'),
      [T('the mixture adds the variance of the means; remedy: a beta-transformed pool or quantile averaging (Vincentisation)', 'mixtura adaugă varianța mediilor; remediul: o combinare transformată beta sau medierea cuantilelor (vincentizare)')]),
@@ -814,7 +903,8 @@ D.section('AI for scientific discovery', 'AI în descoperirea științifică')
 D.frame(T('An open question', 'O întrebare deschisă'), items(
     (T('Does the forecast combination puzzle survive when the panel of experts changes over time and the outcome distribution shifts (2020--2023)?', 'Rezistă paradoxul combinării cînd panelul de experți se schimbă în timp, iar distribuția realizărilor se deplasează (2020--2023)?'),
      [T('formal: $H_0$: $\\E[(y - \\hat y_{\\lambda})^2 - (y - \\bar y)^2] \\ge 0$ for every shrinkage factor $\\lambda$ fixed in advance, in every sub-period', 'formal: $H_0$: $\\E[(y - \\hat y_{\\lambda})^2 - (y - \\bar y)^2] \\ge 0$ pentru orice factor de shrinkage $\\lambda$ fixat dinainte, în fiecare subperioadă'),
-      T('falsified by a pre-registered $\\lambda$ that beats the mean with DM--HLN $p < 0.05$ after a Holm correction across sub-periods', 'infirmată de un $\\lambda$ preînregistrat care bate media cu DM--HLN $p < 0{,}05$ după o corecție Holm pe subperioade')]),
+      T('$\\hat y_\\lambda$: the shrinkage combination with factor $\\lambda$; $\\bar y$: the mean of all forecasters', '$\\hat y_\\lambda$: combinația shrinkage cu factorul $\\lambda$; $\\bar y$: media tuturor prognozatorilor'),
+      T('falsified by a pre-registered $\\lambda$ that beats the mean with DM--HLN $p < 0.05$ after a Holm correction across sub-periods', 'infirmată de un $\\lambda$ preînregistrat care bate media cu DM--HLN și p-value $< 0{,}05$ după o corecție Holm pe subperioade')]),
     (T('Why it matters: central banks publish the survey mean; a better combination would change the published expectations', 'De ce contează: băncile centrale publică media anchetelor; o combinare mai bună ar schimba așteptările publicate'),
      [T('literature to start from: \\refGKMT, \\refCT, \\refSWal, \\refCMVW, \\refWHLK', 'literatura de pornire: \\refGKMT, \\refCT, \\refSWal, \\refCMVW, \\refWHLK')])), 'small')
 
@@ -829,11 +919,11 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
 D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('No look-ahead: weights at survey $s$ use only outcomes known at $s$ (here, forecasts from at least five surveys earlier, whose target quarter has ended)', 'Fără informație din viitor: ponderile la ancheta $s$ folosesc doar realizări cunoscute la $s$ (aici, prognoze din anchete cu cel puțin cinci trimestre mai vechi, al căror trimestru-țintă s-a încheiat)'),
-    T('The HAC lag matches the overlap of the targets ($h - 1$); the HLN correction is applied', 'Decalajul HAC corespunde suprapunerii țintelor ($h - 1$); corecția HLN este aplicată'),
+    T('The HAC lag matches the overlap of the targets ($h - 1$); the HLN correction is applied', 'Numărul de laguri HAC corespunde suprapunerii țintelor ($h - 1$); corecția HLN este aplicată'),
     T('$\\lambda$, sub-periods and the minimum record are fixed before the results; all variants are reported', '$\\lambda$, subperioadele și istoricul minim sînt fixate înaintea rezultatelor; toate variantele sînt raportate'),
     T('The interpretation separates ``not significant\'\' from ``equal\'\'', 'Interpretarea separă „nesemnificativ” de „egal”')), 'small')
 
-chart(T('Mini-case: shrinkage across sub-periods', 'Mini studiu de caz: shrinkage pe subperioade'), 'ats_ch1_ai_case', 'ATS_ch1_spf_combination', [
+chart(T('Mini-case: shrinkage across sub-periods', 'Mini-studiu de caz: shrinkage pe subperioade'), 'ats_ch1_ai_case', 'ATS_ch1_spf_combination', [
     T('RMSE of $\\lambda\\cdot$(inverse-MSE weights) + $(1 - \\lambda)\\cdot$(equal weights among eligible forecasters), relative to the mean of all forecasters; US SPF, CPI four quarters ahead', 'RMSE al combinației $\\lambda\\cdot$(ponderi după inversul MSE) + $(1 - \\lambda)\\cdot$(ponderi egale între prognozatorii eligibili), relativ la media tuturor prognozatorilor; SPF din SUA, IPC la patru trimestre'),
     T('$\\lambda = 1$: @{ai.1990_2007.1.00} (1990--2007, $P = @{ai.1990_2007.n}$), @{ai.2008_2019.1.00} (2008--2019), @{ai.2020_2025.1.00} (2020--2025); full sample HLN @{ai.h1}, $p$ @{ai.p1}', '$\\lambda = 1$: @{ai.1990_2007.1.00} (1990--2007, $P = @{ai.1990_2007.n}$), @{ai.2008_2019.1.00} (2008--2019), @{ai.2020_2025.1.00} (2020--2025); eșantionul complet HLN @{ai.h1}, $p$ @{ai.p1}'),
     T('Every sub-period: the more weight on past performance, the worse; the puzzle survives the 2020--2023 inflation surge', 'În fiecare subperioadă: cu cît ponderea performanței trecute este mai mare, cu atît rezultatul este mai slab; paradoxul rezistă valului inflaționist din 2020--2023')],
@@ -843,7 +933,7 @@ D.frame(T('Project idea', 'Idee de proiect'), items(
     (T('\\textbf{Combining Romanian inflation forecasts}: models (AR, Phillips curve with the output gap, BNR target), surveys and market-based expectations', '\\textbf{Combinarea prognozelor inflației din România}: modele (AR, curba Phillips cu deviația PIB, ținta BNR), anchete și așteptări din piață'),
      [T('pre-register horizons 1--12 months, the pinball loss at 5\\%, 50\\%, 95\\% and the CRPS, the Holm correction across horizons', 'preînregistrați orizonturile de 1--12 luni, pierderea pinball la 5\\%, 50\\%, 95\\% și CRPS, corecția Holm pe orizonturi'),
       T('replicate first: the Romanian inflation table of this lecture (Seminar 1, C1 does it by horizon)', 'replicați întîi: tabelul pentru inflația din România din acest curs (Seminarul 1, C1 îl face pe orizonturi)'),
-      T('extension: density combination by optimal pools; GW test of whether the 2022 shock changed the winner', 'extensie: combinarea densităților prin pooluri optime; testul GW pentru a vedea dacă șocul din 2022 a schimbat cîștigătorul')]),
+      T('extension: density combination by optimal pools; GW test of whether the 2022 shock changed the winner', 'extensie: combinarea densităților prin optimal pools; testul GW pentru a vedea dacă șocul din 2022 a schimbat cîștigătorul')]),
     T('Deliverables follow the course rules: repository, report, AI\\_USE.md, AI\\_ERRORS.md, oral defence', 'Livrabilele urmează regulile cursului: repository, raport, AI\\_USE.md, AI\\_ERRORS.md, susținere orală')), 'small')
 
 # =============================================================================
