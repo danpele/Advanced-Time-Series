@@ -137,6 +137,8 @@ def private_charts(n, names):
     """Graficele-raspuns ale problemelor [Proposed] dintre `names` (nume fara extensie)."""
     st, refs, out = exercise_status(n), _deck_refs(n), set()
     for nm in names:
+        if '_sem_primer_' in nm:
+            continue                                                   # grafic explicativ din primer: public
         r = [x for x in refs if x[0] == nm]
         if any(v for _, v, _ in r):
             continue                                                   # apare in prezentarea pentru studenti

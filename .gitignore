@@ -53,6 +53,7 @@ notebooks/RO/
 
 # seminar code and results (solutions of Proposed exercises), chapter level of Quantlets/Ch_NN
 /Quantlets/Ch_*/seminar[0-9]*.py
+!/Quantlets/Ch_*/seminar[0-9]*_explainers.py
 /Quantlets/Ch_*/seminar[0-9]*_charts.py
 /Quantlets/Ch_*/sem[0-9]*_results.json
 /Quantlets/Ch_*/seminar[0-9]*_results.json

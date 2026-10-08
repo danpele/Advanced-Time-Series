@@ -1123,6 +1123,46 @@
 5.463,
 1.372
 ],
+"ch0_sem_primer_ar1": [
+5.691,
+1.611
+],
+"ch0_sem_primer_blocks": [
+5.691,
+1.492
+],
+"ch0_sem_primer_fixed_b": [
+5.691,
+1.492
+],
+"ch0_sem_primer_fwer": [
+5.691,
+1.671
+],
+"ch0_sem_primer_garch": [
+5.691,
+1.551
+],
+"ch0_sem_primer_kernels": [
+5.691,
+1.551
+],
+"ch0_sem_primer_lrv_ratio": [
+5.691,
+1.432
+],
+"ch0_sem_primer_mc": [
+5.691,
+1.551
+],
+"ch0_sem_primer_naive_t": [
+2.959,
+2.387
+],
+"ch0_sem_primer_spurious": [
+5.691,
+1.551
+],
 "ch10_sem_b1": [
 5.463,
 1.85
@@ -1132,6 +1172,50 @@
 1.79
 ],
 "ch10_sem_b5": [
+5.463,
+1.85
+],
+"ch10_sem_primer_acf": [
+5.463,
+1.85
+],
+"ch10_sem_primer_bandwidth": [
+2.845,
+2.387
+],
+"ch10_sem_primer_fbm": [
+5.463,
+1.85
+],
+"ch10_sem_primer_kernel": [
+2.845,
+2.387
+],
+"ch10_sem_primer_mean": [
+2.845,
+2.387
+],
+"ch10_sem_primer_periodogram": [
+2.845,
+2.387
+],
+"ch10_sem_primer_qlike": [
+2.845,
+2.387
+],
+"ch10_sem_primer_qu": [
+2.845,
+2.387
+],
+"ch10_sem_primer_scaling": [
+5.463,
+1.85
+],
+"ch10_sem_primer_shifts": [
+5.463,
+1.85
+],
+"ch10_sem_primer_weights": [
 5.463,
 1.85
 ],
@@ -1167,6 +1251,42 @@
 5.463,
 1.671
 ],
+"ch11_sem_primer_coherence": [
+5.463,
+1.85
+],
+"ch11_sem_primer_gains": [
+2.845,
+2.387
+],
+"ch11_sem_primer_hp_rw": [
+5.463,
+1.85
+],
+"ch11_sem_primer_kernels": [
+5.463,
+1.85
+],
+"ch11_sem_primer_morlet": [
+5.463,
+1.85
+],
+"ch11_sem_primer_mra": [
+5.463,
+1.85
+],
+"ch11_sem_primer_multitaper": [
+5.463,
+1.85
+],
+"ch11_sem_primer_smoothing": [
+2.845,
+2.387
+],
+"ch11_sem_primer_spectra": [
+5.463,
+1.85
+],
 "ch12_sem_b1": [
 5.463,
 1.85
@@ -1182,6 +1302,46 @@
 "ch12_sem_b7": [
 5.463,
 1.79
+],
+"ch12_sem_primer_attention": [
+5.463,
+1.85
+],
+"ch12_sem_primer_bagging": [
+2.845,
+2.387
+],
+"ch12_sem_primer_cv": [
+5.463,
+1.85
+],
+"ch12_sem_primer_dlinear": [
+5.463,
+1.85
+],
+"ch12_sem_primer_gradients": [
+2.845,
+2.387
+],
+"ch12_sem_primer_overlap": [
+2.845,
+2.387
+],
+"ch12_sem_primer_pinball": [
+5.463,
+1.85
+],
+"ch12_sem_primer_shrink": [
+2.845,
+2.387
+],
+"ch12_sem_primer_tcn": [
+2.845,
+2.387
+],
+"ch12_sem_primer_trees": [
+5.463,
+1.85
 ],
 "ch13_sem_b1": [
 5.463,
@@ -1215,6 +1375,78 @@
 5.463,
 1.85
 ],
+"ch13_sem_primer_aci": [
+5.691,
+1.492
+],
+"ch13_sem_primer_aci_ro": [
+5.691,
+1.492
+],
+"ch13_sem_primer_cqr_weighted": [
+5.691,
+1.492
+],
+"ch13_sem_primer_cqr_weighted_ro": [
+5.691,
+1.492
+],
+"ch13_sem_primer_exchange": [
+5.691,
+1.492
+],
+"ch13_sem_primer_exchange_ro": [
+5.691,
+1.492
+],
+"ch13_sem_primer_holm_bh": [
+2.845,
+2.387
+],
+"ch13_sem_primer_holm_bh_ro": [
+2.845,
+2.387
+],
+"ch13_sem_primer_misses": [
+2.845,
+2.387
+],
+"ch13_sem_primer_misses_ro": [
+2.845,
+2.387
+],
+"ch13_sem_primer_pinball": [
+5.691,
+1.492
+],
+"ch13_sem_primer_pinball_ro": [
+5.691,
+1.492
+],
+"ch13_sem_primer_split_beta": [
+5.691,
+1.492
+],
+"ch13_sem_primer_split_beta_ro": [
+5.691,
+1.492
+],
+"ch13_sem_primer_tokens": [
+5.691,
+1.492
+],
+"ch13_sem_primer_tokens_ro": [
+5.691,
+1.492
+],
+"ch13_sem_primer_var_shift": [
+2.845,
+2.387
+],
+"ch13_sem_primer_var_shift_ro": [
+2.845,
+2.387
+],
 "ch14_sem_b3": [
 5.463,
 1.551
@@ -1235,9 +1467,153 @@
 5.463,
 1.85
 ],
+"ch14_sem_primer_ar1_sum": [
+2.845,
+2.387
+],
+"ch14_sem_primer_ar1_sum_ro": [
+2.845,
+2.387
+],
+"ch14_sem_primer_common_driver": [
+5.691,
+1.492
+],
+"ch14_sem_primer_common_driver_ro": [
+5.691,
+1.492
+],
+"ch14_sem_primer_dml": [
+2.845,
+2.387
+],
+"ch14_sem_primer_dml_ro": [
+2.845,
+2.387
+],
+"ch14_sem_primer_event": [
+2.845,
+2.387
+],
+"ch14_sem_primer_event_ro": [
+2.845,
+2.387
+],
+"ch14_sem_primer_hull": [
+5.691,
+1.492
+],
+"ch14_sem_primer_hull_ro": [
+5.691,
+1.492
+],
+"ch14_sem_primer_its": [
+5.691,
+1.492
+],
+"ch14_sem_primer_its_ro": [
+5.691,
+1.492
+],
+"ch14_sem_primer_local_level": [
+2.845,
+2.387
+],
+"ch14_sem_primer_local_level_ro": [
+2.845,
+2.387
+],
+"ch14_sem_primer_sc": [
+5.691,
+1.492
+],
+"ch14_sem_primer_sc_ro": [
+5.691,
+1.492
+],
+"ch14_sem_primer_wald_hac": [
+2.845,
+2.387
+],
+"ch14_sem_primer_wald_hac_ro": [
+2.845,
+2.387
+],
 "ch15_sem_b1": [
 5.463,
 1.313
+],
+"ch15_sem_primer_binom": [
+2.845,
+2.387
+],
+"ch15_sem_primer_binom_ro": [
+2.845,
+2.387
+],
+"ch15_sem_primer_dm_power": [
+2.845,
+2.387
+],
+"ch15_sem_primer_dm_power_ro": [
+2.845,
+2.387
+],
+"ch15_sem_primer_garch_hl": [
+2.845,
+2.387
+],
+"ch15_sem_primer_garch_hl_ro": [
+2.845,
+2.387
+],
+"ch15_sem_primer_halflife": [
+2.845,
+2.387
+],
+"ch15_sem_primer_halflife_ro": [
+2.845,
+2.387
+],
+"ch15_sem_primer_irf": [
+5.691,
+1.492
+],
+"ch15_sem_primer_irf_ro": [
+5.691,
+1.492
+],
+"ch15_sem_primer_kalman": [
+5.691,
+1.492
+],
+"ch15_sem_primer_kalman_ro": [
+5.691,
+1.492
+],
+"ch15_sem_primer_lrv": [
+5.691,
+1.492
+],
+"ch15_sem_primer_lrv_ro": [
+5.691,
+1.492
+],
+"ch15_sem_primer_markov": [
+2.845,
+2.387
+],
+"ch15_sem_primer_markov_ro": [
+2.845,
+2.387
+],
+"ch15_sem_primer_maxt": [
+2.845,
+2.387
+],
+"ch15_sem_primer_maxt_ro": [
+2.845,
+2.387
 ],
 "ch1_sem_b1": [
 5.463,
@@ -1254,6 +1630,38 @@
 "ch1_sem_b5": [
 5.463,
 1.671
+],
+"ch1_sem_primer_combination": [
+2.845,
+2.446
+],
+"ch1_sem_primer_crps": [
+5.691,
+1.671
+],
+"ch1_sem_primer_dm": [
+5.691,
+1.611
+],
+"ch1_sem_primer_interval": [
+2.504,
+2.387
+],
+"ch1_sem_primer_losses": [
+5.691,
+1.551
+],
+"ch1_sem_primer_mz": [
+2.845,
+2.446
+],
+"ch1_sem_primer_optimal": [
+2.845,
+2.446
+],
+"ch1_sem_primer_pit": [
+2.845,
+2.446
 ],
 "ch2_sem_b1": [
 5.463,
@@ -1275,6 +1683,42 @@
 5.463,
 1.85
 ],
+"ch2_sem_primer_bai": [
+2.845,
+2.446
+],
+"ch2_sem_primer_bp": [
+5.691,
+1.611
+],
+"ch2_sem_primer_break": [
+5.691,
+1.551
+],
+"ch2_sem_primer_icss": [
+5.691,
+1.611
+],
+"ch2_sem_primer_monitoring": [
+5.691,
+1.671
+],
+"ch2_sem_primer_setar": [
+5.691,
+1.611
+],
+"ch2_sem_primer_star": [
+5.691,
+1.611
+],
+"ch2_sem_primer_supwald": [
+2.845,
+2.446
+],
+"ch2_sem_primer_window": [
+2.618,
+2.387
+],
 "ch3_sem_b1": [
 5.463,
 1.85
@@ -1283,6 +1727,38 @@
 5.463,
 1.581
 ],
+"ch3_sem_primer_arset": [
+5.691,
+1.671
+],
+"ch3_sem_primer_bands": [
+2.504,
+2.446
+],
+"ch3_sem_primer_fevd": [
+2.845,
+2.446
+],
+"ch3_sem_primer_irf": [
+5.691,
+1.611
+],
+"ch3_sem_primer_longrun": [
+5.691,
+1.671
+],
+"ch3_sem_primer_lp": [
+5.691,
+1.671
+],
+"ch3_sem_primer_signs": [
+5.691,
+1.671
+],
+"ch3_sem_primer_weakiv": [
+2.845,
+2.446
+],
 "ch4_sem_b1": [
 5.463,
 1.85
@@ -1290,6 +1766,42 @@
 "ch4_sem_b3": [
 5.463,
 1.85
+],
+"ch4_sem_primer_adjustment": [
+2.845,
+2.387
+],
+"ch4_sem_primer_ardl_multipliers": [
+2.845,
+2.387
+],
+"ch4_sem_primer_bounds": [
+2.845,
+2.387
+],
+"ch4_sem_primer_cointegration": [
+5.463,
+1.492
+],
+"ch4_sem_primer_common_trend": [
+2.845,
+2.387
+],
+"ch4_sem_primer_nardl": [
+2.845,
+2.387
+],
+"ch4_sem_primer_panel_ips": [
+5.463,
+1.492
+],
+"ch4_sem_primer_small_sample": [
+2.845,
+2.327
+],
+"ch4_sem_primer_trace_null": [
+2.845,
+2.327
 ],
 "ch5_sem_b1": [
 5.463,
@@ -1303,6 +1815,42 @@
 5.463,
 1.85
 ],
+"ch5_sem_primer_conjugate": [
+5.463,
+1.79
+],
+"ch5_sem_primer_factors": [
+5.463,
+1.79
+],
+"ch5_sem_primer_gibbs": [
+5.463,
+1.79
+],
+"ch5_sem_primer_mcmc_diag": [
+5.463,
+1.79
+],
+"ch5_sem_primer_minnesota": [
+2.845,
+2.387
+],
+"ch5_sem_primer_mixed_freq": [
+5.463,
+1.79
+],
+"ch5_sem_primer_news": [
+2.845,
+2.387
+],
+"ch5_sem_primer_ragged_edge": [
+2.845,
+2.387
+],
+"ch5_sem_primer_shrinkage": [
+5.463,
+1.79
+],
 "ch6_sem_b1": [
 5.463,
 1.462
@@ -1310,6 +1858,46 @@
 "ch6_sem_b3": [
 5.463,
 1.462
+],
+"ch6_sem_primer_bn": [
+2.845,
+2.387
+],
+"ch6_sem_primer_diffuse": [
+2.845,
+2.387
+],
+"ch6_sem_primer_ffbs": [
+2.845,
+2.387
+],
+"ch6_sem_primer_gain": [
+2.845,
+2.387
+],
+"ch6_sem_primer_local_level": [
+2.845,
+2.387
+],
+"ch6_sem_primer_logchi2": [
+2.845,
+2.387
+],
+"ch6_sem_primer_particles": [
+2.845,
+2.387
+],
+"ch6_sem_primer_pileup": [
+2.845,
+2.387
+],
+"ch6_sem_primer_realtime_gap": [
+5.463,
+1.79
+],
+"ch6_sem_primer_sv": [
+5.463,
+1.79
 ],
 "ch7_sem_b1": [
 5.463,
@@ -1323,6 +1911,42 @@
 5.463,
 1.85
 ],
+"ch7_sem_primer_beta": [
+2.959,
+2.387
+],
+"ch7_sem_primer_durations": [
+2.959,
+2.387
+],
+"ch7_sem_primer_filter_smooth": [
+5.463,
+1.73
+],
+"ch7_sem_primer_forecast": [
+2.959,
+2.387
+],
+"ch7_sem_primer_long_memory": [
+2.959,
+2.387
+],
+"ch7_sem_primer_lr_null": [
+2.959,
+2.387
+],
+"ch7_sem_primer_mixture": [
+2.959,
+2.387
+],
+"ch7_sem_primer_ms_path": [
+5.463,
+1.73
+],
+"ch7_sem_primer_msgarch": [
+5.463,
+1.73
+],
 "ch8_sem_b1": [
 5.463,
 1.671
@@ -1335,6 +1959,46 @@
 5.463,
 1.462
 ],
+"ch8_sem_primer_attenuation": [
+2.959,
+2.387
+],
+"ch8_sem_primer_dcc": [
+5.463,
+1.73
+],
+"ch8_sem_primer_garch_path": [
+5.463,
+1.73
+],
+"ch8_sem_primer_har": [
+5.463,
+1.73
+],
+"ch8_sem_primer_jumps": [
+5.463,
+1.73
+],
+"ch8_sem_primer_kernels": [
+2.959,
+2.387
+],
+"ch8_sem_primer_losses": [
+2.959,
+2.387
+],
+"ch8_sem_primer_midas": [
+5.463,
+1.73
+],
+"ch8_sem_primer_qml_tails": [
+2.959,
+2.387
+],
+"ch8_sem_primer_signature": [
+2.959,
+2.387
+],
 "ch9_sem_b1": [
 5.463,
 1.85
@@ -1346,5 +2010,41 @@
 "ch9_sem_b5": [
 5.463,
 1.521
+],
+"ch9_sem_primer_aci": [
+5.463,
+1.73
+],
+"ch9_sem_primer_caviar": [
+2.959,
+2.387
+],
+"ch9_sem_primer_fz0": [
+5.463,
+1.73
+],
+"ch9_sem_primer_hazards": [
+2.959,
+2.387
+],
+"ch9_sem_primer_hits": [
+5.463,
+1.73
+],
+"ch9_sem_primer_kupiec": [
+2.959,
+2.387
+],
+"ch9_sem_primer_pinball": [
+5.463,
+1.73
+],
+"ch9_sem_primer_sqrt_time": [
+2.959,
+2.387
+],
+"ch9_sem_primer_var_es": [
+2.959,
+2.387
 ]
 }
