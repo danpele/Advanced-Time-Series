@@ -157,15 +157,17 @@ def fig_bands(save_it=True, n=240):
           'short (< 6)': (2 * np.pi / 6, np.pi)}
     share_th = {k: float(2 * np.trapezoid(f[(om >= a) & (om <= b)], om[(om >= a) & (om <= b)]) / g0) for k, (a, b) in th.items()}
     share_s = {k: float(np.var(v) / np.var(x)) for k, v in comp.items()}
-    fig, axs = plt.subplots(4, 1, figsize=(11, 6.6), sharex=True)
-    axs[0].plot(x, color=st.MainBlue, lw=1.1, label='AR(2) path')
+    fig, axs = plt.subplots(2, 2, figsize=(12, 4.8), sharex=True)
+    axs = axs.ravel()
+    axs[0].plot(x, color=st.MainBlue, lw=1.1)
+    axs[0].set_title('AR(2) path')
     for ax, (k, v), c in zip(axs[1:], comp.items(), [st.Forest, st.IDAred, st.Purple]):
-        ax.plot(v, color=c, lw=1.1, label=f'{k}: {100 * share_s[k]:.0f}% of the sample variance, {100 * share_th[k]:.0f}% in theory')
+        ax.plot(v, color=c, lw=1.1)
+        ax.set_title(f'{k}: {100 * share_s[k]:.0f}% of the sample variance, {100 * share_th[k]:.0f}% in theory')
         ax.set_ylim(axs[0].get_ylim())
-    for ax in axs:
-        ax.legend(loc='upper left', frameon=False, fontsize=10, bbox_to_anchor=(0, 1.18))
-    axs[-1].set_xlabel('t (quarters)')
-    plt.tight_layout(h_pad=1.4)
+    for ax in axs[2:]:
+        ax.set_xlabel('t (quarters)')
+    plt.tight_layout()
     save('ats_ch11_bands', save_it)
     peak = float(2 * np.pi / om[np.argmax(f)])
     return dict(theory=share_th, sample=share_s, peak=peak, n=n, g0=float(g0))
@@ -729,7 +731,7 @@ def fig_spectrogram(save_it=True, n=2048, win=256, step=16, NW=3):
         est.append(np.interp(nu, mt['w'] / (2 * np.pi), mt['f']))
         cent.append(s + win // 2)
     est = np.array(est).T
-    fig, axs = plt.subplots(1, 2, figsize=(13, 4.1), sharey=True)
+    fig, axs = plt.subplots(1, 2, figsize=(13, 4.1), sharey=True, layout='constrained')
     vmin, vmax = np.log10(true).min(), np.log10(true).max()
     axs[0].imshow(np.log10(true), aspect='auto', origin='lower', extent=(0, n, nu[0], nu[-1]), cmap='viridis', vmin=vmin, vmax=vmax)
     im = axs[1].imshow(np.log10(est), aspect='auto', origin='lower', extent=(cent[0], cent[-1], nu[0], nu[-1]), cmap='viridis', vmin=vmin, vmax=vmax)
@@ -796,15 +798,18 @@ def fig_mra(save_it=True, J=6):
     m = modwt(y.values, J)
     E = (y.values - y.values.mean()) ** 2
     share = [(m['W'][j] ** 2).sum() / ((m['W'] ** 2).sum() + (m['V'] ** 2).sum()) for j in range(J)]
-    fig, axs = plt.subplots(6, 1, figsize=(11.5, 7.0), sharex=True)
+    fig, axs = plt.subplots(3, 2, figsize=(12, 5.6), sharex=True)
+    axs = axs.T.ravel()
     axs[0].plot(y.index, y.values, color=st.MainBlue, lw=0.5, label='BET daily returns (%)')
     for ax, (lab, v), c in zip(axs[1:], [('D1 (2-4 days)', D[0]), ('D2 (4-8 days)', D[1]), ('D4 (16-32 days)', D[3]),
                                          ('D6 (64-128 days)', D[5]), ('S6 (> 128 days)', S)],
                                [st.IDAred, st.Orange, st.Forest, st.Purple, st.Teal]):
         ax.plot(y.index, v, color=c, lw=0.6 if 'D1' in lab or 'D2' in lab else 1.0, label=lab)
+    from matplotlib.ticker import MaxNLocator
     for ax in axs:
-        ax.set_title(ax.get_lines()[0].get_label(), loc='left', fontsize=10.5, pad=2)
-    plt.tight_layout(h_pad=0.6)
+        ax.set_title(ax.get_lines()[0].get_label(), loc='left', pad=2)
+        ax.yaxis.set_major_locator(MaxNLocator(3))
+    plt.tight_layout()
     save('ats_ch11_mra', save_it)
     return dict(n=len(y), share=[float(s) for s in share], err=float(np.abs(D.sum(0) + S - y.values).max()),
                 start=str(y.index[0].date()), end=str(y.index[-1].date()))

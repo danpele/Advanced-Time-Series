@@ -455,7 +455,7 @@ D.frame(T('Diffuse initialisation (2/2)', 'Inițializarea difuză (2/2)'), items
 chart(T('Exact diffuse against big kappa', 'Inițializarea difuză exactă față de big kappa'), 'ats_ch6_diffuse', 'ATS_ch6_kalman_mle', [
     T(r'Left: local level for US GDP-deflator inflation at the ML variances; right: local linear trend for 100$\times$log Romanian real GDP, $T = @{df.Tg}$; both against the exact diffuse filter',
       r'Stînga: modelul local level pentru inflația deflatorului PIB din SUA, la varianțele ML; dreapta: local linear trend pentru 100$\times$log PIB real al României, $T = @{df.Tg}$; ambele comparate cu filtrul difuz exact')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the diffuse initialisation', 'inițializării difuze'), [
     T(r'With all terms, the big-kappa log-likelihood falls by $\frac12\ln 10$ per decade of $\kappa$: @{df.raw7} at $\kappa = 10^7$, @{df.raw14} at $10^{14}$; the exact value is @{df.exact}',
@@ -504,7 +504,7 @@ D.frame(T('Maximising the likelihood', 'Maximizarea verosimilității'), items(
 chart(T('Local level for US inflation: numpy against statsmodels', 'Local level pentru inflația din SUA: numpy față de statsmodels'), 'ats_ch6_local_level', 'ATS_ch6_kalman_mle', [
     T(r'GDP-deflator inflation, @{ll.first}--@{ll.last}, $T = @{ll.T}$; exact diffuse ML; the smoothed level with a 90\% band and the one-sided (filtered) level',
       r'Inflația deflatorului PIB, @{ll.first}--@{ll.last}, $T = @{ll.T}$; ML difuz exact; nivelul netezit cu o bandă de 90\% și nivelul unilateral (filtrat)')],
-    h='0.52\\textheight')
+    h='0.65\\textheight')
 
 interp(('the local level estimates', 'estimațiilor local level'), [
     T(r'numpy: $\hat\sigma^2_\varepsilon = @{ll.s2e}$, $\hat\sigma^2_\eta = @{ll.s2h}$, $\hat q = @{ll.q}$; statsmodels: @{ll.sms2e} and @{ll.sms2h}: the same optimum',
@@ -534,7 +534,7 @@ D.frame(T('Inference at the boundary: the pile-up problem', 'Inferența la front
 chart(T('How often is the estimated level variance exactly zero?', 'Cît de des este varianța estimată a nivelului exact zero?'), 'ats_ch6_pileup', 'ATS_ch6_kalman_mle', [
     T(r'@{pu.reps} simulated local level series of length $T = @{pu.n}$ for each true $q$; ML of $q$ on a fine grid with $\sigma^2_\varepsilon$ concentrated out',
       r'Cîte @{pu.reps} de serii local level simulate de lungime $T = @{pu.n}$ pentru fiecare $q$ adevărat; ML pentru $q$ pe o grilă fină, cu $\sigma^2_\varepsilon$ eliminat prin concentrare')],
-    h='0.52\\textheight')
+    h='0.65\\textheight')
 
 interp(('the pile-up simulation', 'simulării pile-up'), [
     T(r'True $q = 0$: @{pu.z0}\% of the estimates are exactly zero; the rest spread over several orders of magnitude',
@@ -611,7 +611,7 @@ D.frame(T('The precision sampler', 'Eșantionarea pe baza matricei de precizie')
 chart(T('Three samplers of the same posterior', 'Trei eșantionatoare pentru aceeași distribuție a posteriori'), 'ats_ch6_simsmoother', 'ATS_ch6_simulation_smoother', [
     T(r'Local level for US inflation at the ML variances, proper prior $\mu_1 \sim N(y_1, 100)$; left: s.d. of @{sm.draws} draws against the exact smoother; right: time per draw for simulated samples',
       r'Local level pentru inflația din SUA la varianțele ML, a priori propriu $\mu_1 \sim N(y_1, 100)$; stînga: abaterea standard a @{sm.draws} de extrageri față de netezitorul exact; dreapta: timpul pe extragere pentru eșantioane simulate')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the three samplers', 'celor trei eșantionatoare'), [
     T(r'Ratios of draw s.d. to exact s.d. lie in [@{sm.ck.lo}; @{sm.ck.hi}] (FFBS), [@{sm.dk.lo}; @{sm.dk.hi}] (DK) and [@{sm.pr.lo}; @{sm.pr.hi}] (precision): Monte Carlo noise only',
@@ -638,7 +638,7 @@ D.frame(T('A Gibbs sampler for the local level model', 'Un eșantionator Gibbs p
 chart(T('Gibbs posterior of the signal-to-noise ratio', 'Distribuția a posteriori Gibbs a raportului semnal--zgomot'), 'ats_ch6_gibbs_ll', 'ATS_ch6_simulation_smoother', [
     T(r'US inflation, local level, @{gb.draws} draws after burn-in; left: posterior of $\log_{10}q$ and the ML value; right: traces of the two variances',
       r'Inflația din SUA, local level, @{gb.draws} de extrageri după perioada de ardere; stînga: distribuția a posteriori a lui $\log_{10}q$ și valoarea ML; dreapta: traiectoriile celor două varianțe')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the Gibbs output', 'rezultatelor Gibbs'), [
     T(r'Posterior median of $q$: @{gb.qmed}, 90\% credible interval [@{gb.qlo}; @{gb.qhi}]; ML: @{gb.mlq}',
@@ -715,7 +715,7 @@ D.frame(T('The KSC mixture: a conditionally Gaussian model', 'Mixtura KSC: un mo
 chart(T('The log chi-square law and its approximations', 'Legea log chi-pătrat și aproximările ei'), 'ats_ch6_ksc', 'ATS_ch6_stochastic_volatility', [
     T(r'Left: density of $\ln\epsilon^2$ (exact), the KSC mixture and the normal with the same two moments used by QML; right: the two approximation errors',
       r'Stînga: densitatea lui $\ln\epsilon^2$ (exactă), mixtura KSC și distribuția Normală cu aceleași două momente folosită de QML; dreapta: cele două erori de aproximare')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the mixture approximation', 'aproximării prin mixtură'), [
     T(r'The law is strongly skewed to the left: small returns produce very negative $\ln y^2_t$; the normal approximation misses both the skew and the peak',
@@ -740,7 +740,7 @@ D.frame(T('Gibbs sampling of the SV model', 'Eșantionarea Gibbs a modelului SV'
 chart(T('Stochastic volatility of the S\\&P 500 and the BET', 'Volatilitatea stochastică pentru S\\&P 500 și BET'), 'ats_ch6_sv', 'ATS_ch6_stochastic_volatility', [
     T(r'Daily log returns in \%, demeaned, 2016--2026 ($T = @{sv.sp500.T}$ and @{sv.bet.T}); KSC Gibbs sampler, @{sv.draws} draws; GARCH(1,1) by ML on the same data',
       r'Randamente logaritmice zilnice în \%, centrate, 2016--2026 ($T = @{sv.sp500.T}$ și @{sv.bet.T}); eșantionatorul Gibbs KSC, @{sv.draws} de extrageri; GARCH(1,1) prin ML pe aceleași date')],
-    h='0.56\\textheight')
+    h='0.65\\textheight')
 
 D.frame(T('Interpreting the SV estimates', 'Interpretarea estimațiilor SV'), table(
     'lcccccc', T('Index', 'Indice') + r' & $\phi$ & $\sigma_\eta$ & $\mu$ & ' + T('ineff.', 'inef.') + r' $\phi$, $\sigma_\eta$ & GARCH $\alpha + \beta$ & ' + T('corr. vol.', 'corel. vol.'),
@@ -805,7 +805,7 @@ D.frame(T('The unscented Kalman filter', 'Filtrul Kalman unscented'), items(
 chart(T('Linearisation against the unscented transform', 'Liniarizarea față de transformarea unscented'), 'ats_ch6_ukf', 'ATS_ch6_nonlinear_filters', [
     T(r'Volatility from log-variance: mean and s.d. of $\exp(h/2)$ for $h \sim N(0, s^2)$; exact lognormal moments, first-order linearisation (EKF) and the unscented transform with three sigma points',
       r'Volatilitatea din logaritmul varianței: media și abaterea standard a lui $\exp(h/2)$ pentru $h \sim N(0, s^2)$; momentele lognormale exacte, liniarizarea de ordinul întîi (EKF) și transformarea unscented cu trei puncte sigma')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the unscented transform', 'transformării unscented'), [
     T(r'At $s = 1$: exact mean @{uk.ex_m}, linearisation @{uk.lin_m}, unscented @{uk.ut_m}; exact s.d. @{uk.ex_sd}, linearisation @{uk.lin_sd}, unscented @{uk.ut_sd}',
@@ -843,7 +843,7 @@ D.frame(T('The particle likelihood', 'Verosimilitatea din filtrul de particule')
 chart(T('Particle filter for the S\\&P 500 SV model', 'Filtrul de particule pentru modelul SV al S\\&P 500'), 'ats_ch6_pf', 'ATS_ch6_stochastic_volatility', [
     T(r'Left: filtered volatility $\E[\exp(h_t/2) | Y_t]$ (bootstrap filter, $N = 20\,000$, Gibbs posterior mean of $\psi$) against GARCH(1,1) and the smoothed SV path, last two years; right: log-likelihood estimates, @{pf.reps} runs per $N$',
       r'Stînga: volatilitatea filtrată $\E[\exp(h_t/2) | Y_t]$ (filtrul bootstrap, $N = 20\,000$, media a posteriori Gibbs pentru $\psi$) față de GARCH(1,1) și traiectoria SV netezită, ultimii doi ani; dreapta: estimații ale log-verosimilității, cîte @{pf.reps} de rulări pentru fiecare $N$')],
-    h='0.5\\textheight')
+    h='0.61\\textheight')
 
 interp(('the particle filter', 'filtrului de particule'), [
     T(r'Monte Carlo s.d. of $\ln\hat L$: @{pf.sd100} ($N = 100$), @{pf.sd500} ($N = 500$), @{pf.sd2000} ($N = 2000$); small $N$ also biases $\ln\hat L$ downwards',
@@ -872,7 +872,7 @@ D.frame(T('The auxiliary particle filter', 'Filtrul de particule auxiliar'), ite
 chart(T('Particle likelihoods against the exact Kalman likelihood', 'Verosimilitățile din filtrele de particule față de verosimilitatea Kalman exactă'), 'ats_ch6_pf_check', 'ATS_ch6_nonlinear_filters', [
     T(r'Local level model for US inflation at the ML variances: error of $\ln\hat L$ (given $y_1$) for the bootstrap and the auxiliary filter, @{pc.reps} runs per $N$',
       r'Modelul local level pentru inflația din SUA, la varianțele ML: eroarea lui $\ln\hat L$ (condiționat de $y_1$) pentru filtrul bootstrap și pentru cel auxiliar, cîte @{pc.reps} de rulări pentru fiecare $N$')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the particle check', 'verificării filtrelor de particule'), [
     T(r'Mean error of $\ln\hat L$: @{pc.b50.m}, @{pc.b200.m}, @{pc.b1000.m} (bootstrap, $N = 50, 200, 1000$) and @{pc.a50.m}, @{pc.a200.m}, @{pc.a1000.m} (auxiliary)',
@@ -901,7 +901,7 @@ D.frame(T('Particle MCMC', 'Particle MCMC'), items(
 chart(T('PMMH against the KSC Gibbs sampler', 'PMMH față de eșantionatorul Gibbs KSC'), 'ats_ch6_pmmh', 'ATS_ch6_stochastic_volatility', [
     T(r'Last @{pm.n} S\&P 500 returns; PMMH with a bootstrap filter of $N = @{pm.N}$ particles, @{pm.iter} iterations, random walk on $(\mu, \operatorname{atanh}\phi, \ln\sigma_\eta)$; Gibbs with the KSC mixture',
       r'Ultimele @{pm.n} de randamente S\&P 500; PMMH cu un filtru bootstrap de $N = @{pm.N}$ particule, @{pm.iter} de iterații, mers aleator pe $(\mu, \operatorname{atanh}\phi, \ln\sigma_\eta)$; Gibbs cu mixtura KSC')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the PMMH run', 'rulării PMMH'), [
     T(r'Posterior means of $\phi$: @{pm.g.phi} (Gibbs) and @{pm.p.phi} (PMMH); of $\sigma_\eta$: @{pm.g.sig} and @{pm.p.sig}; posterior s.d. @{pm.gs.sig} and @{pm.ps.sig}',
@@ -940,7 +940,7 @@ D.frame(T('A TVP regression in state space form', 'O regresie TVP în forma în 
 chart(T('Romanian on euro-area inflation: a time-varying slope?', 'Inflația din România și inflația din zona euro: o pantă variabilă în timp?'), 'ats_ch6_tvp', 'ATS_ch6_tvp_inflation', [
     T(r'Top: the two inflation rates; bottom: smoothed $b_t$ with a 90\% band (exact diffuse ML) and the slope of a rolling 12-quarter regression with the same dummies',
       r'Sus: cele două rate ale inflației; jos: $b_t$ netezit cu o bandă de 90\% (ML difuz exact) și panta unei regresii mobile pe 12 trimestre cu aceleași variabile dummy')],
-    h='0.56\\textheight')
+    h='0.65\\textheight')
 
 interp(('the TVP regression', 'regresiei TVP'), [
     T(r'ML: $\hat\sigma^2_c = @{tv.s2c}$, $\hat\sigma^2_b = @{tv.s2b}$, $\hat\sigma^2_\varepsilon = @{tv.s2e}$; numpy and \texttt{statsmodels} log-likelihoods @{tv.ll} and @{tv.smll}',
@@ -1009,7 +1009,7 @@ D.frame(T('The DFM as a state space model (2/2)', 'DFM ca model în spațiul st�
 chart(T('A one-factor model of the US coincident indicators', 'Un model cu un factor pentru indicatorii coincidenți ai SUA'), 'ats_ch6_dfm', 'ATS_ch6_dfm_ragged_edge', [
     T(r'Monthly growth of industrial production, payrolls, real income less transfers and real sales (FRED), standardised, @{fm.first}--@{fm.last}; two-step estimator, univariate treatment of the observation vector; last 36 months',
       r'Creșterea lunară a producției industriale, a numărului de salariați, a venitului real fără transferuri și a vînzărilor reale (FRED), standardizate, @{fm.first}--@{fm.last}; estimatorul în doi pași, tratarea univariată a vectorului de observații; ultimele 36 de luni')],
-    h='0.5\\textheight')
+    h='0.61\\textheight')
 
 interp(('the ragged edge', 'datelor incomplete la sfîrșitul eșantionului (ragged edge)'), [
     T(r'Loadings @{fm.l0}, @{fm.l1}, @{fm.l2}, @{fm.l3}; factor AR coefficient @{fm.a}: monthly growth rates have little persistence, so the factor is mostly a weighted average of the month',
@@ -1052,7 +1052,7 @@ D.frame(T('Unobserved components with correlated shocks', 'Componente neobservat
 chart(T('Replicating Morley, Nelson and Zivot (2003)', 'Replicarea Morley, Nelson și Zivot (2003)'), 'ats_ch6_mnz', 'ATS_ch6_trend_cycle', [
     T(r'100$\times$log US real GDP (FRED GDPC1), $T = @{mz.T}$; UC0 and UC-UR by exact diffuse ML; BN cycle from an ARIMA(2,1,2); Hamilton (2018) cycle for comparison',
       r'100$\times$log PIB real al SUA (FRED GDPC1), $T = @{mz.T}$; UC0 și UC-UR prin ML difuz exact; ciclul BN dintr-un ARIMA(2,1,2); ciclul Hamilton (2018) pentru comparație')],
-    h='0.52\\textheight')
+    h='0.65\\textheight')
 
 D.frame(T('Interpreting the MNZ replication', 'Interpretarea replicării MNZ'), table(
     'lccccccc', T('Model', 'Model') + r' & $\mu$ & $\phi_1$ & $\phi_2$ & $\sigma_\eta$ & $\sigma_\varepsilon$ & $\rho$ & $\ln L$',
@@ -1081,7 +1081,7 @@ D.frame(T('Romania: the cycle is the trend', 'România: ciclul este trendul'), t
 chart(T('The Romanian output gap', 'Output gap-ul României'), 'ats_ch6_ro_gap', 'ATS_ch6_trend_cycle', [
     T(r'100$\times$log real GDP, Eurostat, seasonally and calendar adjusted; smooth-trend UC (smoothed, with 90\% band, and filtered), random-walk-trend UC0, Hamilton (2018) on the full series',
       r'100$\times$log PIB real, Eurostat, ajustat sezonier și cu numărul de zile lucrătoare; UC cu trend neted (netezit, cu bandă de 90\%, și filtrat), UC0 cu trend mers aleator, Hamilton (2018) pe seria completă')],
-    h='0.52\\textheight')
+    h='0.65\\textheight')
 
 interp(('the Romanian output gap', 'output gap-ului României'), [
     T(r'Smooth-trend gap: @{rg.g08}\% in 2008Q3 (s.d. @{rg.sd08}), @{rg.g10}\% in 2010Q3, @{rg.g19}\% in 2019Q4; last quarter @{rg.lasts}\% (s.d. @{rg.lastsd})',
@@ -1120,7 +1120,7 @@ D.frame(T('The UC-SV model of Stock and Watson (2007)', 'Modelul UC-SV al lui St
 chart(T('US trend inflation, 1953--2026', 'Inflația de trend în SUA, 1953--2026'), 'ats_ch6_ucsv_us', 'ATS_ch6_ucsv_inflation', [
     T(r'GDP-deflator inflation, $T = @{us.T}$ quarters; UC-SV with $\gamma = 0.2$, Gibbs sampler; top: trend with 68\% band; bottom: posterior means of $\sigma_{\varepsilon,t}$ (trend) and $\sigma_{\eta,t}$ (transitory)',
       r'Inflația deflatorului PIB, $T = @{us.T}$ trimestre; UC-SV cu $\gamma = 0{,}2$, eșantionator Gibbs; sus: trendul cu bandă de 68\%; jos: mediile a posteriori ale lui $\sigma_{\varepsilon,t}$ (trend) și $\sigma_{\eta,t}$ (tranzitoriu)')],
-    h='0.56\\textheight')
+    h='0.65\\textheight')
 
 interp(('US trend inflation', 'inflației de trend din SUA'), [
     T(r'Trend: @{us.t75}\% in 1975Q1, @{us.t95}\% in 1995Q1, @{us.t19}\% in 2019Q4, @{us.t22}\% [@{us.tl22}; @{us.th22}] in 2022Q2, @{us.tlast}\% [@{us.tllast}; @{us.thlast}] in @{us.last}',
@@ -1135,7 +1135,7 @@ interp(('US trend inflation', 'inflației de trend din SUA'), [
 chart(T('Romanian trend inflation and the BNR target', 'Inflația de trend din România și ținta BNR'), 'ats_ch6_ucsv_ro', 'ATS_ch6_ucsv_inflation', [
     T(r'Quarterly HICP inflation (quarterly averages of the monthly index), $T = @{ro.T}$, 2001Q1--@{ro.last}; UC-SV with $\gamma = 0.2$ and quarterly seasonal dummies; inflation-target band of the BNR since 2013',
       r'Inflația IAPC trimestrială (medii trimestriale ale indicelui lunar), $T = @{ro.T}$, T1 2001--@{ro.last}; UC-SV cu $\gamma = 0{,}2$ și variabile dummy sezoniere trimestriale; banda-țintă a BNR din 2013')],
-    h='0.52\\textheight')
+    h='0.64\\textheight')
 
 interp(('Romanian trend inflation', 'inflației de trend din România'), [
     T(r'Trend: @{ro.t05}\% when inflation targeting began (2005Q3), @{ro.t15}\% in 2015Q3, @{ro.t19}\% in 2019Q4, @{ro.t23}\% in 2023Q1',
@@ -1197,7 +1197,7 @@ chart(T('Mini-case: one fixed parameter, four trends', 'Mini studiu de caz: un p
       r'Trendul UC-SV pentru SUA din 2015, pentru $\gamma \in \{0{,}05; 0{,}1; 0{,}2; 0{,}4\}$: trendul în T2 2022 @{ai.pk05}, @{ai.pk1}, @{ai.pk2}, @{ai.pk4}\% (inflația @{ai.pi}\%); în ultimul trimestru @{ai.last05}, @{ai.last1}, @{ai.last2}, @{ai.last4}\%'),
     T(r'The ranking is stable but the level of the 2022 trend is not: an AI summary that reports ``trend inflation peaked at X\%\'\' without $\gamma$ hides a modelling choice',
       r'Ordinea este stabilă, dar nivelul trendului din 2022 nu este: un rezumat AI care raportează „inflația de trend a atins un maxim de X\%” fără $\gamma$ ascunde o alegere de modelare')],
-    h='0.5\\textheight')
+    h='0.55\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{Trend inflation and anchoring in Central and Eastern Europe}: replicate first, then extend', r'\textbf{Inflația de trend și ancorarea în Europa Centrală și de Est}: întîi replicare, apoi extindere'),

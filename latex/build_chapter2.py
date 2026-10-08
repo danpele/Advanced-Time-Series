@@ -421,7 +421,7 @@ D.frame(T('The date chosen by looking at the data', 'Data aleasă privind datele
 
 chart(T('A Chow test at the data-chosen date', 'Un test Chow la data aleasă din date'), 'ats_ch2_chow_snooping', 'ATS_ch2_chow_snooping', [
     T('Left: white noise, mean-shift Chow test at 5\\%, @{ch.reps} replications per $T$; right: simulated null density of $\\sup_\\pi W_T(\\pi)$, $\\pi \\in [0.15, 0.85]$, against $\\chi^2(1)$',
-      'Stînga: zgomot alb, testul Chow pentru o schimbare de medie la 5\\%, @{ch.reps} de replicări pentru fiecare $T$; dreapta: densitatea simulată sub $H_0$ a lui $\\sup_\\pi W_T(\\pi)$, $\\pi \\in [0{,}15; 0{,}85]$, față de $\\chi^2(1)$')], h='0.52\\textheight')
+      'Stînga: zgomot alb, testul Chow pentru o schimbare de medie la 5\\%, @{ch.reps} de replicări pentru fiecare $T$; dreapta: densitatea simulată sub $H_0$ a lui $\\sup_\\pi W_T(\\pi)$, $\\pi \\in [0{,}15; 0{,}85]$, față de $\\chi^2(1)$')], h='0.57\\textheight')
 
 interp(('the size distortion', 'distorsiunii de mărime'), [
     (T('At a fixed date the test keeps its size (@{ch.fix}\\% for $T = 100$); at the maximising date it rejects a true null in @{ch.size50}\\% to @{ch.size800}\\% of samples', 'La o dată fixată dinainte testul își păstrează mărimea (@{ch.fix}\\% pentru $T = 100$); la data care maximizează statistica respinge o ipoteză nulă adevărată în @{ch.size50}\\% pînă la @{ch.size800}\\% din eșantioane'),
@@ -572,7 +572,7 @@ D.frame(T('Interpreting the Bai--Perron results', 'Interpretarea rezultatelor Ba
 
 chart(T('Mean shifts in Romanian inflation', 'Schimbări de medie în inflația din România'), 'ats_ch2_ro_inflation_breaks', 'ATS_ch2_ro_inflation_breaks', [
     T('HICP inflation, y/y, @{ri.first}--@{ri.last} ($T = @{ri.n}$), Bai--Perron mean shifts, $\\varepsilon = 0.15$, $M = 5$; red: the partition chosen by BIC and LWZ',
-      'Inflația IAPC, anuală, @{ri.first}--@{ri.last} ($T = @{ri.n}$), schimbări de medie Bai--Perron, $\\varepsilon = 0{,}15$, $M = 5$; roșu: partiția aleasă de BIC și LWZ')], h='0.48\\textheight')
+      'Inflația IAPC, anuală, @{ri.first}--@{ri.last} ($T = @{ri.n}$), schimbări de medie Bai--Perron, $\\varepsilon = 0{,}15$, $M = 5$; roșu: partiția aleasă de BIC și LWZ')], h='0.62\\textheight')
 
 interp(('the Romanian inflation regimes', 'regimurilor inflației din România'), [
     (T('BIC and LWZ: @{ri.mbic} breaks (@{ri.dates}); means @{ri.mu0}\\%, @{ri.mu1}\\%, @{ri.mu2}\\%, @{ri.mu3}\\%', 'BIC și LWZ: @{ri.mbic} rupturi (@{ri.dates}); mediile @{ri.mu0}\\%, @{ri.mu1}\\%, @{ri.mu2}\\%, @{ri.mu3}\\%'),
@@ -634,7 +634,7 @@ D.frame(T('Monitoring: the failure of repeated tests (2/2)', 'Monitorizarea: eș
 
 chart(T('False alarms and real-time monitoring of Romanian inflation', 'Alarme false și monitorizarea în timp real a inflației din România'), 'ats_ch2_monitoring', 'ATS_ch2_monitoring', [
     T('Left: white noise, $m = 100$, @{mo.reps} replications; right: mean of monthly HICP inflation (m/m), historical sample 2015--2019, monitoring from January 2020',
-      'Stînga: zgomot alb, $m = 100$, @{mo.reps} de replicări; dreapta: media inflației IAPC lunare, eșantion istoric 2015--2019, monitorizare din ianuarie 2020')], h='0.5\\textheight')
+      'Stînga: zgomot alb, $m = 100$, @{mo.reps} de replicări; dreapta: media inflației IAPC lunare, eșantion istoric 2015--2019, monitorizare din ianuarie 2020')], h='0.55\\textheight')
 
 interp(('the monitoring results', 'rezultatelor monitorizării'), [
     (T('Repeated 5\\% tests raise a false alarm in @{mo.n1}\\% of samples by $n = 2m$ and in @{mo.n9}\\% by $n = 10m$; the CSW boundary in @{mo.c9}\\%', 'Testele de 5\\% repetate dau o alarmă falsă în @{mo.n1}\\% din eșantioane pînă la $n = 2m$ și în @{mo.n9}\\% pînă la $n = 10m$; frontiera CSW în @{mo.c9}\\%'),
@@ -672,7 +672,7 @@ D.frame(T('The ICSS algorithm and its correction (2/2)', 'Algoritmul ICSS și co
 
 chart(T('Variance regimes of EUR/RON', 'Regimuri de varianță pentru EUR/RON'), 'ats_ch2_variance_breaks', 'ATS_ch2_variance_breaks', [
     T('Daily log returns of the BNR reference rate, @{va.n} days; red ticks: ICSS with the Inclán--Tiao statistic; green ticks and shaded bands: ICSS with $\\kappa_2$',
-      'Randamente logaritmice zilnice ale cursului de referință BNR, @{va.n} de zile; marcaje roșii: ICSS cu statistica Inclán--Tiao; marcaje verzi și benzi umbrite: ICSS cu $\\kappa_2$')], h='0.5\\textheight')
+      'Randamente logaritmice zilnice ale cursului de referință BNR, @{va.n} de zile; marcaje roșii: ICSS cu statistica Inclán--Tiao; marcaje verzi și benzi umbrite: ICSS cu $\\kappa_2$')], h='0.64\\textheight')
 
 interp(('the EUR/RON variance breaks', 'rupturilor în varianța EUR/RON'), [
     (T('Excess kurtosis @{va.kurt}: the Inclán--Tiao statistic is @{va.it} and ICSS finds @{va.nit} breaks; $\\kappa_2 = @{va.k2}$ and @{va.nk2} breaks', 'Excesul de boltire @{va.kurt}: statistica Inclán--Tiao este @{va.it}, iar numărul rupturilor găsite de ICSS este @{va.nit}; $\\kappa_2 = @{va.k2}$, cu @{va.nk2} rupturi'),
@@ -695,7 +695,7 @@ D.frame(T('Beyond Zivot--Andrews', 'Dincolo de Zivot--Andrews'), items(
 
 chart(T('Romanian GDP: unit root or broken trend?', 'PIB-ul României: rădăcină unitară sau trend cu rupturi?'), 'ats_ch2_unit_root_breaks', 'ATS_ch2_unit_root_breaks', [
     T('Log real GDP (SCA), @{ur.first}--@{ur.last}; one and two breaks in level and trend; null distributions from a sieve bootstrap (AR on $\\Delta y_t$, @{ur.B} replications)',
-      'Logaritmul PIB real (ajustat sezonier), @{ur.first}--@{ur.last}; una și două rupturi în nivel și în trend; distribuții sub $H_0$ dintr-un bootstrap sieve (AR pe $\\Delta y_t$, @{ur.B} de replicări)')], h='0.5\\textheight')
+      'Logaritmul PIB real (ajustat sezonier), @{ur.first}--@{ur.last}; una și două rupturi în nivel și în trend; distribuții sub $H_0$ dintr-un bootstrap sieve (AR pe $\\Delta y_t$, @{ur.B} de replicări)')], h='0.58\\textheight')
 
 interp(('the unit-root tests with breaks', 'testelor de rădăcină unitară cu rupturi'), [
     T('ADF with trend: @{ur.adf} ($p$ @{ur.adfp}); Zivot--Andrews: @{ur.za} at @{ur.zad} (5\\%: @{ur.zacv}; bootstrap $p$ @{ur.pone})', 'ADF cu trend: @{ur.adf} ($p$ @{ur.adfp}); Zivot--Andrews: @{ur.za} în @{ur.zad} (5\\%: @{ur.zacv}; $p$ bootstrap @{ur.pone})'),
@@ -732,7 +732,7 @@ D.frame(T('The choice of the estimation window', 'Alegerea ferestrei de estimare
 
 chart(T('Window choice: simulation and Romanian inflation', 'Alegerea ferestrei: simulare și inflația din România'), 'ats_ch2_forecast_windows', 'ATS_ch2_forecast_windows', [
     T('Left: $T = 200$, break $n_2 = 20$ periods before the end, @{wi.reps} replications, MSFE relative to the post-break mean with the true date; right: AR(2), one month ahead, cumulated squared-error gains over the expanding window',
-      'Stînga: $T = 200$, ruptura cu $n_2 = 20$ de perioade înainte de final, @{wi.reps} de replicări, MSFE relativ la media de după ruptură cu data adevărată; dreapta: AR(2), o lună înainte, cîștigurile cumulate în eroarea pătratică față de fereastra extinsă')], h='0.5\\textheight')
+      'Stînga: $T = 200$, ruptura cu $n_2 = 20$ de perioade înainte de final, @{wi.reps} de replicări, MSFE relativ la media de după ruptură cu data adevărată; dreapta: AR(2), o lună înainte, cîștigurile cumulate în eroarea pătratică față de fereastra extinsă')], h='0.57\\textheight')
 
 interp(('the window choice', 'alegerii ferestrei'), [
     (T('Simulation: without a break the expanding window wins (@{wi.exp0}); with $\\delta = 1$: expanding @{wi.exp1}, rolling @{wi.roll1}, AveW @{wi.ave1}, estimated post-break @{wi.est1}', 'Simulare: fără ruptură cîștigă fereastra extinsă (@{wi.exp0}); cu $\\delta = 1$: extinsă @{wi.exp1}, mobilă @{wi.roll1}, AveW @{wi.ave1}, după ruptura estimată @{wi.est1}'),
@@ -802,7 +802,7 @@ D.frame(T('Case study: Tong and Lim (1980), the Canadian lynx', 'Studiu de caz: 
 
 chart(T('The lynx cycle and the SETAR skeleton', 'Ciclul linxului și scheletul SETAR'), 'ats_ch2_lynx', 'ATS_ch2_lynx', [
     T('Left: data and the estimated threshold; right: the skeleton iterated 60 years from the last observations, noise switched off',
-      'Stînga: datele și pragul estimat; dreapta: scheletul iterat 60 de ani pornind de la ultimele observații, fără zgomot')], h='0.5\\textheight')
+      'Stînga: datele și pragul estimat; dreapta: scheletul iterat 60 de ani pornind de la ultimele observații, fără zgomot')], h='0.55\\textheight')
 
 interp(('the lynx SETAR', 'modelului SETAR pentru linx'), [
     (T('The skeleton settles on a stable limit cycle of period @{ly.per} years: the model produces the cycle without any noise', 'Scheletul se stabilizează pe un ciclu limită stabil cu perioada de @{ly.per} ani: modelul produce ciclul fără niciun zgomot'),
@@ -819,7 +819,7 @@ D.frame(T('Case study: Hansen (1997), US unemployment', 'Studiu de caz: Hansen (
 
 chart(T('A threshold model for US unemployment', 'Un model cu prag pentru șomajul din SUA'), 'ats_ch2_unemp_tar', 'ATS_ch2_unemp_tar', [
     T('Left: heteroskedasticity-adjusted $\\mathrm{LR}^*(\\gamma)$, $d = 12$; the 95\\% set is where the curve lies below 7.35. Right: months in the rising-unemployment regime ($q_{t-1} > \\hat\\gamma$)',
-      'Stînga: $\\mathrm{LR}^*(\\gamma)$ ajustat pentru heteroscedasticitate, $d = 12$; mulțimea de 95\\% este acolo unde curba se află sub 7,35. Dreapta: lunile din regimul cu șomaj în creștere ($q_{t-1} > \\hat\\gamma$)')], h='0.5\\textheight')
+      'Stînga: $\\mathrm{LR}^*(\\gamma)$ ajustat pentru heteroscedasticitate, $d = 12$; mulțimea de 95\\% este acolo unde curba se află sub 7,35. Dreapta: lunile din regimul cu șomaj în creștere ($q_{t-1} > \\hat\\gamma$)')], h='0.57\\textheight')
 
 interp(('the unemployment TAR', 'modelului TAR pentru șomaj'), [
     (T('$\\hat\\gamma = @{ta.g}$ pp (paper: 0.302), regimes of @{ta.n1} and @{ta.n2} months, the same split as in \\refHb; 95\\% set [@{ta.ci0}, @{ta.ci1}]', '$\\hat\\gamma = @{ta.g}$ pp (lucrarea: 0,302), regimuri de @{ta.n1} și @{ta.n2} de luni, aceeași împărțire ca la \\refHb; mulțimea de 95\\% [@{ta.ci0}; @{ta.ci1}]'),
@@ -873,7 +873,7 @@ D.frame(T('Case study: van Dijk, Teräsvirta and Franses (2002)', 'Studiu de caz
 
 chart(T('An LSTAR for US unemployment', 'Un LSTAR pentru șomajul din SUA'), 'ats_ch2_unemp_lstar', 'ATS_ch2_unemp_lstar', [
     T('Left: the estimated transition function over time with the unemployment rate; right: $G$ as a function of $s_t = \\Delta_{12}y_{t-1}$, ours and the published one',
-      'Stînga: funcția de tranziție estimată în timp, împreună cu rata șomajului; dreapta: $G$ ca funcție de $s_t = \\Delta_{12}y_{t-1}$, a noastră și cea publicată')], h='0.5\\textheight')
+      'Stînga: funcția de tranziție estimată în timp, împreună cu rata șomajului; dreapta: $G$ ca funcție de $s_t = \\Delta_{12}y_{t-1}$, a noastră și cea publicată')], h='0.56\\textheight')
 
 interp(('the LSTAR', 'modelului LSTAR'), [
     (T('LM3 $p$-values: $d = 1$: @{ls.p1}, $d = 2$: @{ls.p2}, $d = 3$: @{ls.p3}; for $d = 2$: $H_{04}$ @{ls.p24}, $H_{03}$ @{ls.p23}, $H_{02}$ @{ls.p22}: LSTAR', 'P-value-urile LM3: $d = 1$: @{ls.p1}, $d = 2$: @{ls.p2}, $d = 3$: @{ls.p3}; pentru $d = 2$: $H_{04}$ @{ls.p24}, $H_{03}$ @{ls.p23}, $H_{02}$ @{ls.p22}: LSTAR'),
@@ -902,7 +902,7 @@ D.frame(T('Case study: Taylor, Peel and Sarno (2001)', 'Studiu de caz: Taylor, P
 
 chart(T('Nonlinear mean reversion of the real dollar--sterling rate', 'Revenirea neliniară la medie a cursului real dolar--liră'), 'ats_ch2_ppp_estar', 'ATS_ch2_ppp_estar', [
     T('Left: $q_t$ and the estimated equilibria; right: generalised impulse responses of the 1973--1996 ESTAR, shocks of 1--40\\%, averaged over the observed histories',
-      'Stînga: $q_t$ și echilibrele estimate; dreapta: răspunsurile la impuls generalizate ale ESTAR 1973--1996, șocuri de 1--40\\%, mediate peste istoriile observate')], h='0.5\\textheight')
+      'Stînga: $q_t$ și echilibrele estimate; dreapta: răspunsurile la impuls generalizate ale ESTAR 1973--1996, șocuri de 1--40\\%, mediate peste istoriile observate')], h='0.57\\textheight')
 
 interp(('the ESTAR', 'modelului ESTAR'), [
     (T('1973--1996: $\\hat\\theta^2 = @{es.th}$ (s.e.\\ @{es.thse}), $\\hat\\mu = @{es.mu}$, $s = @{es.s}$; Monte Carlo $p$-value of the $t$-ratio @{es.pmc} (paper: 0.002)', '1973--1996: $\\hat\\theta^2 = @{es.th}$ (eroarea standard @{es.thse}), $\\hat\\mu = @{es.mu}$, $s = @{es.s}$; p-value-ul Monte Carlo al raportului $t$ @{es.pmc} (lucrarea: 0,002)'),
@@ -935,7 +935,7 @@ D.frame(T('General and specific tests', 'Teste generale și teste specifice'), i
 
 chart(T('Five series, five tests', 'Cinci serii, cinci teste'), 'ats_ch2_nonlinearity_tests', 'ATS_ch2_nonlinearity_tests', [
     T('$p$-values; darker: stronger rejection of linearity. BDS on the AR residuals ($m = 3$, $\\varepsilon = \\hat\\sigma$); LM3 and sup-Wald with $s = q = y_{t-d}$; sup-Wald with 200 bootstrap replications',
-      'P-value-uri; mai închis: respingere mai puternică a liniarității. BDS pe reziduurile AR ($m = 3$, $\\varepsilon = \\hat\\sigma$); LM3 și sup-Wald cu $s = q = y_{t-d}$; sup-Wald cu 200 de replicări bootstrap')], h='0.5\\textheight')
+      'P-value-uri; mai închis: respingere mai puternică a liniarității. BDS pe reziduurile AR ($m = 3$, $\\varepsilon = \\hat\\sigma$); LM3 și sup-Wald cu $s = q = y_{t-d}$; sup-Wald cu 200 de replicări bootstrap')], h='0.62\\textheight')
 
 interp(('the test battery', 'bateriei de teste'), [
     T('Lynx and unemployment: every specific test rejects; the nonlinearity is real and of the threshold type', 'Linxul și șomajul: toate testele specifice resping; neliniaritatea este reală și de tipul cu prag'),
@@ -966,7 +966,7 @@ D.frame(T('Multi-step forecasts are not the skeleton', 'Prognozele pe mai mulți
 
 chart(T('TAR and AR forecasts of US unemployment', 'Prognoze TAR și AR pentru șomajul din SUA'), 'ats_ch2_nonlinear_forecasts', 'ATS_ch2_nonlinear_forecasts', [
     T('Hansen\'s TAR ($d = 12$) and a linear AR(12) in differences, parameters fixed at 1959--1996; forecasts of the level by 500 simulated paths, origins 1996--2019. Left: 12-month densities from @{nf.origin}',
-      'TAR-ul lui Hansen ($d = 12$) și un AR(12) liniar în diferențe, parametri ficși din 1959--1996; prognoze ale nivelului prin 500 de traiectorii simulate, origini 1996--2019. Stînga: densitățile la 12 luni din @{nf.origin}')], h='0.5\\textheight')
+      'TAR-ul lui Hansen ($d = 12$) și un AR(12) liniar în diferențe, parametri ficși din 1959--1996; prognoze ale nivelului prin 500 de traiectorii simulate, origini 1996--2019. Stînga: densitățile la 12 luni din @{nf.origin}')], h='0.55\\textheight')
 
 interp(('the nonlinear forecasts', 'prognozelor neliniare'), [
     (T('From @{nf.origin} (before the 2008--2009 surge): TAR mean @{nf.tm}\\%, 90\\% range [@{nf.tq0}; @{nf.tq1}]; AR mean @{nf.am}\\%, [@{nf.aq0}; @{nf.aq1}]; outcome @{nf.actual}\\%', 'Din @{nf.origin} (înainte de creșterea din 2008--2009): media TAR @{nf.tm}\\%, intervalul de 90\\% [@{nf.tq0}; @{nf.tq1}]; media AR @{nf.am}\\%, [@{nf.aq0}; @{nf.aq1}]; realizarea @{nf.actual}\\%'),
@@ -1013,7 +1013,7 @@ chart(T('Mini-case: ESTAR evidence or mean shifts?', 'Mini-studiu de caz: dovezi
       'Stînga: cursul real dolar--liră cu regimurile de medie Bai--Perron (BIC: trei rupturi, @{ai.dates}); dreapta: distribuțiile KSS sub ipoteza nulă din @{ai.reps} de mersuri aleatoare trecute prin aceiași pași'),
     T('Demeaned: KSS @{ai.kr}, $p$ @{ai.pr} (5\\%: @{ai.cvr}); within regimes: @{ai.ks}, $p$ @{ai.ps} (5\\%: @{ai.cvs}): the evidence for ESTAR disappears once the break search is part of the null',
       'Cu media scăzută: KSS @{ai.kr}, $p$ @{ai.pr} (5\\%: @{ai.cvr}); în interiorul regimurilor: @{ai.ks}, $p$ @{ai.ps} (5\\%: @{ai.cvs}): dovezile pentru ESTAR dispar odată ce căutarea rupturilor face parte din ipoteza nulă')],
-    h='0.46\\textheight')
+    h='0.54\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T('\\textbf{Regimes in Romanian inflation and the policy rate}: breaks, thresholds or both?', '\\textbf{Regimuri în inflația din România și în dobînda de politică monetară}: rupturi, praguri sau ambele?'),

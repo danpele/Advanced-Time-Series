@@ -442,7 +442,7 @@ D.frame(T('Case study: Diebold, Gunther and Tay (1998)', 'Studiu de caz: Diebold
 
 chart(T('PIT diagnostics of three S\\&P 500 density forecasts', 'Diagnosticul PIT pentru trei prognoze de densitate ale S\\&P 500'), 'ats_ch1_dgt', 'ATS_ch1_density_forecasts', [
     T('Top: PIT histograms (20 bins); bottom: autocorrelations of $(u - \\bar u)$ and $(u - \\bar u)^2$ with $\\pm 2/\\sqrt{T}$ bands', 'Sus: histograme PIT (20 de intervale); jos: autocorelațiile lui $(u - \\bar u)$ și $(u - \\bar u)^2$, cu benzile $\\pm 2/\\sqrt{T}$')],
-    h='0.60\\textheight')
+    h='0.68\\textheight')
 
 interp(('the S\\&P 500 diagnostics', 'diagnosticului pentru S\\&P 500'), [
     (T('i.i.d.\\ Normal: a hump and strong autocorrelation of $(u - \\bar u)^2$: the forecast ignores volatility clustering; Berkowitz LR @{dgt.iid.lr} ($p$ @{dgt.iid.p})', 'i.i.d.\\ Normal: o cocoașă și autocorelație puternică a lui $(u - \\bar u)^2$: prognoza ignoră volatility clustering; Berkowitz LR @{dgt.iid.lr} ($p$ @{dgt.iid.p})'),
@@ -606,7 +606,7 @@ D.frame(T('Romanian inflation one year ahead: the design', 'Inflația din Român
 
 chart(T('Romanian inflation forecasts one year ahead', 'Prognoze ale inflației din România cu un an înainte'), 'ats_ch1_ro_inflation', 'ATS_ch1_dm_tests', [
     T('Left: inflation and the forecasts made 12 months earlier; right: cumulative sum of $e_{\\mathrm{nc},t}^2 - e_{m,t}^2$ (falling: model $m$ loses to no change)', 'Stînga: inflația și prognozele făcute cu 12 luni înainte; dreapta: suma cumulată a $e_{\\mathrm{nc},t}^2 - e_{m,t}^2$ (scade: modelul $m$ pierde în fața prognozei fără schimbare)')],
-    h='0.50\\textheight')
+    h='0.57\\textheight')
 
 D.frame(T('Interpreting the Romanian inflation comparison', 'Interpretarea comparației pentru inflația din România'), table(
     'lrrrrr', T('\\textbf{Forecast}', '\\textbf{Prognoza}') + ' & \\textbf{RMSE} & \\textbf{DM} & \\textbf{HLN} & ' + T('\\textbf{$p$ (HLN)}', '\\textbf{$p$ (HLN)}') + ' & ' + T('\\textbf{$p$, abs.\\ loss}', '\\textbf{$p$, pierdere abs.}'),
@@ -662,7 +662,7 @@ D.frame(T('Case study: Meese and Rogoff on EUR/RON', 'Studiu de caz: Meese și R
 
 chart(T('EUR/RON: models against the random walk', 'EUR/RON: modele față de mersul aleator'), 'ats_ch1_eurron', 'ATS_ch1_nested_spa', [
     T('Cumulative $\\sum_t(e^2_{RW,t} - e^2_{m,t})$ \\refGWel: a line below zero means model $m$ has accumulated more squared error than the random walk', 'Suma cumulată $\\sum_t(e^2_{RW,t} - e^2_{m,t})$ \\refGWel: o linie sub zero arată că modelul $m$ a acumulat mai multă eroare pătratică decît mersul aleator')],
-    h='0.52\\textheight')
+    h='0.65\\textheight')
 
 D.frame(T('Interpreting the EUR/RON tests', 'Interpretarea testelor pentru EUR/RON'), table(
     'lrrrr', T('\\textbf{Model}', '\\textbf{Model}') + ' & ' + T('\\textbf{RMSE / RW}', '\\textbf{RMSE / RW}') + ' & ' + T('\\textbf{DM (HLN)}', '\\textbf{DM (HLN)}') + ' & \\textbf{CW} & ' + T('\\textbf{$p$ (CW, one-sided)}', '\\textbf{$p$ (CW, unilateral)}'),
@@ -696,7 +696,7 @@ D.frame(T('Case study: Atkeson and Ohanian (2001)', 'Studiu de caz: Atkeson și 
 
 chart(T('The naive forecast against the Phillips curve', 'Prognoza naivă față de curba Phillips'), 'ats_ch1_ao', 'ATS_ch1_dm_tests', [
     T('Left: four-quarter CPI inflation and the two forecasts made four quarters earlier; right: MSE ratio on a moving 10-year window', 'Stînga: inflația IPC pe patru trimestre și cele două prognoze făcute cu patru trimestre înainte; dreapta: raportul MSE pe o fereastră mobilă de 10 ani')],
-    h='0.50\\textheight')
+    h='0.55\\textheight')
 
 interp(('the Atkeson--Ohanian update', 'actualizării Atkeson--Ohanian'), [
     T('RMSE: naive @{ao.rn}, Phillips curve @{ao.rp} (ratio @{ao.ratio}); by period: @{ao.r1985} (1985--2007), @{ao.r2008} (2008--2019), @{ao.r2020} (2020--2026)', 'RMSE: naivă @{ao.rn}, curba Phillips @{ao.rp} (raport @{ao.ratio}); pe perioade: @{ao.r1985} (1985--2007), @{ao.r2008} (2008--2019), @{ao.r2020} (2020--2026)'),
@@ -745,11 +745,11 @@ D.frame(T('Case study: day-ahead electricity load in Romania', 'Studiu de caz: c
 
 chart(T('A winter week of load forecasts', 'O săptămînă de iarnă cu prognoze de consum'), 'ats_ch1_load_week', 'ATS_ch1_load_mcs', [
     T('12--18 January 2026; the weekly naive forecast copies the holiday week of 5--9 January (Orthodox Epiphany and St John, 6--7 January)', '12--18 ianuarie 2026; prognoza naivă săptămînală copiază săptămîna cu sărbători 5--9 ianuarie (Boboteaza și Sfîntul Ion, 6--7 ianuarie)')],
-    h='0.50\\textheight')
+    h='0.65\\textheight')
 
 chart(T('Average pinball loss and the 90\\% MCS', 'Pierderea pinball medie și MCS de 90\\%'), 'ats_ch1_load_mcs', 'ATS_ch1_load_mcs', [
     T('Daily average losses; MCS with $T_{\\max}$, moving-block bootstrap (blocks of 7 days), 2000 replications; green: in the MCS', 'Pierderi medii zilnice; MCS cu $T_{\\max}$, bootstrap pe blocuri mobile (blocuri de 7 zile), 2000 de replicări; verde: în MCS')],
-    h='0.46\\textheight')
+    h='0.62\\textheight')
 
 D.frame(T('Interpreting the load comparison', 'Interpretarea comparației pentru consumul de electricitate'), table(
     'lrrrr', T('\\textbf{Model}', '\\textbf{Model}') + ' & ' + T('\\textbf{Pinball (MW)}', '\\textbf{Pinball (MW)}') + ' & \\textbf{MAE (MW)} & ' + T('\\textbf{90\\% coverage}', '\\textbf{Acoperire 90\\%}') + ' & ' + T('\\textbf{MCS $p$}', '\\textbf{$p$ MCS}'),
@@ -819,7 +819,7 @@ D.frame(T('Combining density forecasts', 'Combinarea prognozelor de densitate'),
 chart(T('Optimal pools for the S\\&P 500 densities', 'Combinări optime pentru densitățile S\\&P 500'), 'ats_ch1_pool', 'ATS_ch1_density_forecasts', [
     T('Average log score of $wp_{\\mathrm{GARCH}\\text{-}t} + (1 - w)p_2$ on 2013--2026; dots: minima', 'Scorul logaritmic mediu al $wp_{\\mathrm{GARCH}\\text{-}t} + (1 - w)p_2$ pe 2013--2026; punctele: minimele'),
     T('With the i.i.d.\\ Normal: $w^* = @{pool.w1}$, score @{pool.ls1} against @{pool.lsa} for GARCH-$t$ alone; with GARCH-N: $w^* = @{pool.w2}$: GARCH-$t$ dominates, the pool adds almost nothing', 'Cu i.i.d.\\ Normal: $w^* = @{pool.w1}$, scorul @{pool.ls1} față de @{pool.lsa} pentru GARCH-$t$ singur; cu GARCH-N: $w^* = @{pool.w2}$: GARCH-$t$ domină, combinarea nu adaugă aproape nimic')],
-    h='0.46\\textheight')
+    h='0.59\\textheight')
 
 interp(('the optimal pools', 'combinărilor optime'), [
     T('The pool with the i.i.d.\\ Normal puts almost all weight on GARCH-$t$: a small Normal component only insures against extreme days', 'Combinarea cu i.i.d.\\ Normal pune aproape toată ponderea pe GARCH-$t$: o mică componentă Normală doar asigură împotriva zilelor extreme'),
@@ -839,7 +839,7 @@ chart(T('Individual SPF forecasts and the outcome', 'Prognozele individuale SPF 
 
 chart(T('Combination schemes against the mean', 'Scheme de combinare față de medie'), 'ats_ch1_spf_schemes', 'ATS_ch1_spf_combination', [
     T('RMSE relative to the equal-weight mean (RMSE @{sp.rmse} pp); blue: at least as good as the mean', 'RMSE relativ la media cu ponderi egale (RMSE @{sp.rmse} puncte procentuale); albastru: cel puțin la fel de bun ca media')],
-    h='0.44\\textheight')
+    h='0.56\\textheight')
 
 D.frame(T('Interpreting the SPF combination', 'Interpretarea combinării SPF'), items(
     (T('Median @{sp.0.rel}, trimmed mean @{sp.1.rel}, inverse-MSE @{sp.4.rel}, previous best @{sp.5.rel} (relative RMSE)', 'Mediana @{sp.0.rel}, media trunchiată @{sp.1.rel}, inversul MSE @{sp.4.rel}, cel mai bun anterior @{sp.5.rel} (RMSE relativ)'),
@@ -878,7 +878,7 @@ D.frame(T('Vintages and revisions', 'Versiuni ale datelor și revizuiri'), items
 
 chart(T('US real GDP growth: first release and latest vintage', 'Creșterea PIB real în SUA: prima publicare și ultima versiune'), 'ats_ch1_realtime', 'ATS_ch1_real_time', [
     T('Annualised q/q growth, 1990--2026; revisions = latest minus first release (Philadelphia Fed RTDSM); the 2025Q4 first release is missing (government shutdown)', 'Creșterea trimestrială anualizată, 1990--2026; revizuirile = ultima versiune minus prima publicare (Philadelphia Fed RTDSM); prima publicare pentru T4 2025 lipsește (închiderea guvernului federal)')],
-    h='0.48\\textheight')
+    h='0.56\\textheight')
 
 interp(('the revisions', 'revizuirilor'), [
     (T('Mean revision @{rt.mean} pp, standard deviation @{rt.sd} pp, mean absolute revision @{rt.mad} pp over @{rt.n} quarters; correlation first--latest @{rt.corr}', 'Revizuirea medie @{rt.mean} pp, abaterea standard @{rt.sd} pp, revizuirea absolută medie @{rt.mad} pp pe @{rt.n} de trimestre; corelația prima--ultima @{rt.corr}'),
@@ -931,7 +931,7 @@ chart(T('Mini-case: shrinkage across sub-periods', 'Mini-studiu de caz: shrinkag
     T('RMSE of $\\lambda\\cdot$(inverse-MSE weights) + $(1 - \\lambda)\\cdot$(equal weights among eligible forecasters), relative to the mean of all forecasters; US SPF, CPI four quarters ahead', 'RMSE al combinației $\\lambda\\cdot$(ponderi după inversul MSE) + $(1 - \\lambda)\\cdot$(ponderi egale între prognozatorii eligibili), relativ la media tuturor prognozatorilor; SPF din SUA, IPC la patru trimestre'),
     T('$\\lambda = 1$: @{ai.1990_2007.1.00} (1990--2007, $P = @{ai.1990_2007.n}$), @{ai.2008_2019.1.00} (2008--2019), @{ai.2020_2025.1.00} (2020--2025); full sample HLN @{ai.h1}, $p$ @{ai.p1}', '$\\lambda = 1$: @{ai.1990_2007.1.00} (1990--2007, $P = @{ai.1990_2007.n}$), @{ai.2008_2019.1.00} (2008--2019), @{ai.2020_2025.1.00} (2020--2025); eșantionul complet HLN @{ai.h1}, $p$ @{ai.p1}'),
     T('Every sub-period: the more weight on past performance, the worse; the puzzle survives the 2020--2023 inflation surge', 'În fiecare subperioadă: cu cît ponderea performanței trecute este mai mare, cu atît rezultatul este mai slab; paradoxul rezistă valului inflaționist din 2020--2023')],
-    h='0.46\\textheight')
+    h='0.49\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T('\\textbf{Combining Romanian inflation forecasts}: models (AR, Phillips curve with the output gap, BNR target), surveys and market-based expectations', '\\textbf{Combinarea prognozelor inflației din România}: modele (AR, curba Phillips cu deviația PIB, ținta BNR), anchete și așteptări din piață'),

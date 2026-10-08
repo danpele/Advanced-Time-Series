@@ -694,15 +694,15 @@ def fig_ro_infl(save_it=True, starts=25):
             if best is None or r['loglik'] > best['loglik']:
                 best = r
         cps[K] = best
-    fig, axs = plt.subplots(2, 1, figsize=(11, 5.2), sharex=True, gridspec_kw=dict(height_ratios=[1.3, 1]))
+    fig, axs = plt.subplots(2, 1, figsize=(11, 5.2), sharex=True, gridspec_kw=dict(height_ratios=[1.6, 1]))
     cols = [st.IDAred, st.Amber, st.Forest]
     reg = ms3['smooth'].argmax(1)
     for j in range(3):
         shade(axs[0], pd.Series(reg == j, index=idx), color=cols[j], alpha=0.18)
     axs[0].plot(y.index, y.values, color=st.MainBlue, lw=1.3, label='annual HICP inflation, %')
     axs[0].set_yscale('symlog', linthresh=10)
-    axs[0].set_yticks([0, 2, 5, 10, 20, 50, 100])
-    axs[0].set_yticklabels(['0', '2', '5', '10', '20', '50', '100'])
+    axs[0].set_yticks([0, 5, 20, 100])
+    axs[0].set_yticklabels(['0', '5', '20', '100'])
     cp = cps[4]
     seg = cp['smooth'].argmax(1)
     brk = [idx[i] for i in range(1, len(seg)) if seg[i] != seg[i - 1]]

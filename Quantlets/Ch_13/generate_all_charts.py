@@ -773,8 +773,12 @@ def fig_scaling(save_it=True):
         ax.plot([par[k] for k in bolt], [R[k] for k in bolt], color=col, lw=1.2, marker=mk, label=lab + ' (Chronos-Bolt family)')
         oth = [k for k in names if not k.startswith('Chronos-Bolt')]
         ax.scatter([par[k] for k in oth], [R[k] for k in oth], color=col, marker=mk, s=60, facecolors='none', linewidths=1.5)
-        for k in oth:
-            ax.annotate(k, (par[k], R[k]), textcoords='offset points', xytext=(4, 3), fontsize=8.5, color=col)
+    for k in oth:                                   # one name per model, above its highest marker
+        top = max(R[k] for R in (r_load, r_inf, r_rv))
+        ax.annotate(k, (par[k], top), textcoords='offset points', xytext=(0, 7), ha='center', fontsize=8.5,
+                    color=st.DarkText)
+    ax.scatter([], [], color=st.DarkText, marker='o', s=60, facecolors='none', linewidths=1.5,
+               label='other foundation models (open markers)')
     ax.set_xscale('log')
     ax.axhline(1, color=st.DarkText, ls=':', lw=1)
     ax.set_xlabel('parameters (millions, log scale)')

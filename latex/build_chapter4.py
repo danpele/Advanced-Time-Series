@@ -436,7 +436,7 @@ D.frame(T('Five ways to place a constant and a trend', 'Cinci moduri de a plasa 
 chart(T('The case changes the null distribution', 'Cazul schimbă distribuția sub ipoteza nulă'), 'ats_ch4_trace_dists', 'ATS_ch4_johansen_asymptotics', [
     T(r'Trace statistic under $H(r)$ with $n - r = 2$, simulated from random walks (@{sim.reps} replications, $T = 400$; drift in cases 3 and 5)', r'Statistica trace sub $H(r)$ cu $n - r = 2$, simulată din mersuri aleatoare (@{sim.reps} de replicări, $T = 400$; drift în cazurile 3 și 5)'),
     T(r'95\% quantiles: @{cv.1.2} (case 1), @{cv.2.2} (2), @{cv.3.2} (3), @{cv.4.2} (4), @{cv.5.2} (5)', r'Cuantilele de 95\%: @{cv.1.2} (cazul 1), @{cv.2.2} (2), @{cv.3.2} (3), @{cv.4.2} (4), @{cv.5.2} (5)')],
-    h='0.5\\textheight')
+    h='0.60\\textheight')
 
 interp(('the five distributions', 'celor cinci distribuții'), [
     T('Each restricted deterministic term adds a regressor to the reduced-rank problem and shifts the distribution to the right', 'Fiecare termen determinist restricționat adaugă un regresor problemei de rang redus și deplasează distribuția spre dreapta'),
@@ -502,7 +502,7 @@ D.frame(T('The bootstrap rank test, step by step', 'Testul de rang bootstrap, pa
 chart(T('Size of the rank test in small samples (simulation)', 'Nivelul efectiv al testului de rang în eșantioane mici (simulare)'), 'ats_ch4_size_mc', 'ATS_ch4_johansen_asymptotics', [
     T(r'Three-variable VECM, true rank 1, $\Gamma_1 = 0.8I$, case 2, VAR(2); test of $H(1)$ at 5\%; @{mc.reps} replications, @{mc.B} bootstrap samples each', r'VECM cu trei variabile, rangul adevărat 1, $\Gamma_1 = 0.8I$, cazul 2, VAR(2); testul lui $H(1)$ la 5\%; @{mc.reps} de replicări, cîte @{mc.B} de eșantioane bootstrap'),
     T(r'$T = 50$, i.i.d. errors: asymptotic @{mc.iid.50.as}\%, Reinsel--Ahn @{mc.iid.50.ra}\%, wild bootstrap @{mc.iid.50.bo}\%', r'$T = 50$, erori i.i.d.: asimptotic @{mc.iid.50.as}\%, Reinsel--Ahn @{mc.iid.50.ra}\%, bootstrap wild @{mc.iid.50.bo}\%')],
-    h='0.5\\textheight')
+    h='0.59\\textheight')
 
 interp(('the size simulation', 'simulării nivelului efectiv'), [
     T(r'With persistent short-run dynamics the asymptotic test finds a spurious second relation in @{mc.iid.50.as}\% of samples of 50 and @{mc.iid.100.as}\% of samples of 100', r'Cu dinamică persistentă pe termen scurt, testul asimptotic găsește o a doua relație falsă în @{mc.iid.50.as}\% din eșantioanele de 50 și în @{mc.iid.100.as}\% din cele de 100'),
@@ -600,7 +600,7 @@ D.frame(T('How fast and how fully do banks follow ROBOR?', 'Cît de repede și c
 chart(T('Lending rate, deposit rate and ROBOR 3M', 'Dobînda la credite, dobînda la depozite și ROBOR 3M'), 'ats_ch4_rates', 'ATS_ch4_passthrough_vecm', [
     T(r'Monthly, \% per year; lending and deposit rates in lei (IMF IFS, reported by the BNR); ROBOR 3M (Eurostat)', r'Lunar, \% pe an; dobînzile la credite și la depozite în lei (FMI IFS, raportate de BNR); ROBOR 3M (Eurostat)'),
     T(r'ROBOR ranges from @{pt.mmin}\% to @{pt.mmax}\%; the lending--ROBOR spread falls from @{pt.s0} pp to @{pt.s1} pp', r'ROBOR variază între @{pt.mmin}\% și @{pt.mmax}\%; diferența dintre dobînda la credite și ROBOR scade de la @{pt.s0} pp la @{pt.s1} pp')],
-    h='0.5\\textheight')
+    h='0.63\\textheight')
 
 interp(('the three rates', 'celor trei dobînzi'), [
     T('All three rates wander far from any mean over twenty years: treat them as I(1) within the sample, even if interest rates are bounded in theory', 'Toate trei se îndepărtează mult de orice medie în douăzeci de ani: le tratăm ca I(1) în eșantion, chiar dacă dobînzile sînt mărginite teoretic'),
@@ -638,7 +638,7 @@ D.frame(T('Identified relations and the tests', 'Relațiile identificate și tes
 
 chart(T('The two equilibrium errors', 'Cele două erori de echilibru'), 'ats_ch4_pt_ect', 'ATS_ch4_passthrough_vecm', [
     T(r'$\hat\beta_i\'y_t$ for the just-identified relations, demeaned; they should look stationary if the rank and $\beta$ are right', r'$\hat\beta_i\'y_t$ pentru relațiile exact identificate, centrate; ar trebui să arate staționar dacă rangul și $\beta$ sînt corecte')],
-    h='0.52\\textheight')
+    h='0.69\\textheight')
 
 interp(('the pass-through VECM', 'VECM-ului de transmitere'), [
     T(r'Lending rates over-react slightly in the long run (@{pt.thl} per point of ROBOR), deposit rates under-react (@{pt.thd}): the bank margin widens when ROBOR rises', r'Dobînzile la credite reacționează ușor peste unu pe termen lung (@{pt.thl} pentru un punct de ROBOR), cele la depozite sub unu (@{pt.thd}): marja băncilor crește cînd crește ROBOR'),
@@ -672,7 +672,7 @@ D.frame(T('When the I(1) model is not enough', 'Cînd modelul I(1) nu este sufic
 chart(T('Is the Romanian price level I(2)?', 'Este nivelul prețurilor din România I(2)?'), 'ats_ch4_i2', 'ATS_ch4_i2_check', [
     T(r'Left: $100\ln$ HICP; right: monthly inflation, annualised; dashed line: inflation targeting from August 2005', r'Stînga: $100\ln$ IAPC; dreapta: inflația lunară, anualizată; linia punctată: țintirea inflației din august 2005'),
     T(r'ADF $t$ on monthly inflation (12 lags): @{i2.all} for 1997--2026, @{i2.it} since 2005 (5\% critical value $-2.87$); on its change: @{i2.d2}', r'ADF $t$ pentru inflația lunară (12 laguri): @{i2.all} pentru 1997--2026, @{i2.it} din 2005 (valoarea critică 5\%: $-2.87$); pentru modificarea ei: @{i2.d2}')],
-    h='0.48\\textheight')
+    h='0.59\\textheight')
 
 interp(('the I(2) check', 'verificării I(2)'), [
     T('Over 1997--2026, disinflation looks like mean reversion and inflation tests as stationary: the price level is I(1)', 'Pe 1997--2026, dezinflația arată ca revenire la medie, iar inflația apare staționară: nivelul prețurilor este I(1)'),
@@ -727,7 +727,7 @@ D.frame(T('Case study: King, Plosser, Stock and Watson (1991) (2/2)', 'Studiu de
 chart(T('The balanced-growth shock', 'Șocul de creștere echilibrată'), 'ats_ch4_kpsw', 'ATS_ch4_common_trends', [
     T(r'Great ratios imposed (case 3); one-standard-deviation permanent shock; 90\% residual-bootstrap bands (@{kp.B} samples, $\beta$ fixed)', r'Rapoartele de echilibru impuse (cazul 3); șoc permanent de o abatere standard; benzi bootstrap pe reziduuri de 90\% (@{kp.B} de eșantioane, $\beta$ fixat)'),
     T(r'Long-run effect @{kp.lrun}\% on all three; share in output variance: @{kp.y1}\% at 1 quarter, @{kp.y8}\% at 8, @{kp.y24}\% at 24 [@{kp.y24lo}; @{kp.y24hi}]', r'Efectul pe termen lung @{kp.lrun}\% pentru toate trei; ponderea în varianța producției: @{kp.y1}\% la 1 trimestru, @{kp.y8}\% la 8, @{kp.y24}\% la 24 [@{kp.y24lo}; @{kp.y24hi}]')],
-    h='0.48\\textheight')
+    h='0.56\\textheight')
 
 interp(('the common-trends model', 'modelului cu trenduri comune'), [
     T(r'Balanced growth holds by construction in the long run: the shock moves $c$, $i$ and $y$ by the same @{kp.lrun}\%; investment overshoots in the short run', r'Creșterea echilibrată are loc prin construcție pe termen lung: șocul mișcă $c$, $i$ și $y$ cu același @{kp.lrun}\%; investițiile depășesc nivelul final pe termen scurt'),
@@ -833,7 +833,7 @@ D.frame(T('ARDL pass-through of ROBOR to the lending rate', 'ARDL: transmiterea 
 chart(T('Small-sample bounds and the dynamic multipliers', 'Limitele pentru eșantioane mici și multiplicatorii dinamici'), 'ats_ch4_bounds', 'ATS_ch4_ardl_bounds', [
     T(r'Left: simulated 5\% bounds, case III, $k = 1$, against $T$ (dashed: $T = 1000$); right: cumulative response of the lending rate to a permanent 1 pp rise of ROBOR (dashed: $\hat\theta$)', r'Stînga: limite simulate de 5\%, cazul III, $k = 1$, în funcție de $T$ (punctat: $T = 1000$); dreapta: răspunsul cumulat al dobînzii la credite la o creștere permanentă de 1 pp a ROBOR (punctat: $\hat\theta$)'),
     T(r'Multipliers: @{ar.m0} on impact, @{ar.m6} after 6 months, @{ar.m12} after 12, @{ar.m24} after 24, @{ar.m60} after 60', r'Multiplicatori: @{ar.m0} la impact, @{ar.m6} după 6 luni, @{ar.m12} după 12, @{ar.m24} după 24, @{ar.m60} după 60')],
-    h='0.48\\textheight')
+    h='0.59\\textheight')
 
 interp(('the ARDL results', 'rezultatelor ARDL'), [
     T(r'The upper bound falls from @{bd.s30.hi} at $T = 30$ to @{bd.s250.hi} at $T = 250$: with annual data the asymptotic table over-rejects', r'Limita superioară scade de la @{bd.s30.hi} la $T = 30$ la @{bd.s250.hi} la $T = 250$: cu date anuale tabelul asimptotic respinge prea des'),
@@ -1072,7 +1072,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
 chart(T('Mini-case: the estimate is robust, the verdict is not', 'Mini studiu de caz: estimația este robustă, verdictul nu'), 'ats_ch4_ai_case', 'ATS_ch4_ai_robustness', [
     T(r'Long-run pass-through to the lending rate in the rank-2 VECM: lags $p = 2, \dots, 6$, cases 2 and 3, samples ending in 2019 and in 2026; filled markers: $\theta = 1$ rejected at 5\%', r'Transmiterea pe termen lung către dobînda la credite în VECM de rang 2: laguri $p = 2, \dots, 6$, cazurile 2 și 3, eșantioane care se încheie în 2019 și în 2026; marcaje pline: $\theta = 1$ respins la 5\%'),
     T(r'All @{ai.n} estimates lie between @{ai.min} and @{ai.max}, yet complete pass-through is rejected in @{ai.nrej} of them: an AI summary that reports one $p$-value ``with confidence\'\' is wrong', r'Toate cele @{ai.n} de estimații se află între @{ai.min} și @{ai.max}, dar transmiterea completă este respinsă în @{ai.nrej} dintre ele: un rezumat AI care raportează un singur p-value „cu încredere” greșește')],
-    h='0.5\\textheight')
+    h='0.55\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{Interest-rate pass-through in Central and Eastern Europe}: replicate first, then extend', r'\textbf{Transmiterea dobînzilor în Europa Centrală și de Est}: întîi replicare, apoi extindere'),

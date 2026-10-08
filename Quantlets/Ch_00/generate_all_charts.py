@@ -310,16 +310,20 @@ def iid_means(x, B, rng):
 def fig_data_dashboard(save_it=True):
     """Four series of the chapter: Romanian HICP inflation and GDP growth, EUR/RON and S&P 500 daily returns."""
     infl, gdp, d = ro_inflation(), ro_gdp_growth(), daily_series()
-    fig, ax = plt.subplots(2, 2, figsize=(12, 6.2))
-    ax[0, 0].plot(infl.index, infl, color=st.IDAred, label='Romania: HICP inflation, annual rate (%)')
-    ax[0, 0].axhline(TARGET, color=st.Forest, ls='--', lw=1, label='2.5% (BNR target since 2013)')
-    ax[0, 1].bar(gdp.index, gdp, width=70, color=st.MainBlue, label='Romania: real GDP growth, q/q (%)')
+    fig, ax = plt.subplots(1, 4, figsize=(14, 3.6))
+    ax = ax.reshape(2, 2)
+    ax[0, 0].plot(infl.index, infl, color=st.IDAred)
+    ax[0, 0].axhline(TARGET, color=st.Forest, ls='--', lw=1, label='2.5%: BNR inflation target since 2013')
+    ax[0, 0].set_title('Romania: HICP inflation,\nannual rate (%)')
+    ax[0, 1].bar(gdp.index, gdp, width=70, color=st.MainBlue)
+    ax[0, 1].set_title('Romania: real GDP\ngrowth, q/q (%)')
     e = d['EUR/RON returns']
-    ax[1, 0].plot(e.index, e, color=st.Forest, lw=0.5, label='EUR/RON (BNR) daily log change (%)')
+    ax[1, 0].plot(e.index, e, color=st.Forest, lw=0.5)
+    ax[1, 0].set_title('EUR/RON (BNR): daily\nlog change (%)')
     s = d['S&P 500 returns']
-    ax[1, 1].plot(s.index, s, color=st.Purple, lw=0.5, label='S&P 500 daily log return (%)')
-    for a in ax.flat:
-        a.legend(loc='upper center', bbox_to_anchor=(0.5, -0.12), frameon=False, fontsize=10.5)
+    ax[1, 1].plot(s.index, s, color=st.Purple, lw=0.5)
+    ax[1, 1].set_title('S&P 500: daily\nlog return (%)')
+    st.fig_legend_bottom(fig, ncol=1)
     plt.tight_layout()
     save('ats_ch0_data_dashboard', save_it)
     out = {'infl_first': str(infl.index[0].date()), 'infl_last': str(infl.index[-1].date()), 'infl_n': len(infl),

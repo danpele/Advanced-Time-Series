@@ -1,0 +1,1350 @@
+{
+"ats_ch0_acf_panel": [
+5.52,
+1.879
+],
+"ats_ch0_ai_minicase": [
+5.52,
+1.79
+],
+"ats_ch0_block_length": [
+5.52,
+2.058
+],
+"ats_ch0_bootstrap": [
+5.52,
+1.939
+],
+"ats_ch0_data_dashboard": [
+5.52,
+1.671
+],
+"ats_ch0_fixed_b": [
+5.52,
+1.969
+],
+"ats_ch0_hac_bandwidth": [
+5.52,
+1.969
+],
+"ats_ch0_kernels": [
+5.52,
+1.76
+],
+"ats_ch0_lrv_ar1": [
+5.52,
+1.79
+],
+"ats_ch0_mc_size": [
+5.52,
+2.058
+],
+"ats_ch0_reality_check": [
+5.52,
+1.73
+],
+"ats_ch0_snooping": [
+5.52,
+1.939
+],
+"ats_ch0_term_spread": [
+5.52,
+1.82
+],
+"ats_ch10_acf_spec": [
+5.52,
+1.879
+],
+"ats_ch10_aggregation": [
+5.52,
+1.611
+],
+"ats_ch10_ai_case": [
+5.52,
+1.551
+],
+"ats_ch10_assets_d": [
+5.52,
+1.76
+],
+"ats_ch10_bandwidth": [
+5.52,
+1.641
+],
+"ats_ch10_decouple": [
+5.52,
+1.611
+],
+"ats_ch10_fbm_paths": [
+5.52,
+1.939
+],
+"ats_ch10_fcvar": [
+5.52,
+1.641
+],
+"ats_ch10_figarch": [
+5.52,
+1.939
+],
+"ats_ch10_forecast": [
+5.52,
+1.671
+],
+"ats_ch10_gjr": [
+5.52,
+1.611
+],
+"ats_ch10_gjr_assets": [
+5.52,
+1.76
+],
+"ats_ch10_har_approx": [
+5.52,
+1.611
+],
+"ats_ch10_hybrid": [
+5.52,
+1.999
+],
+"ats_ch10_inflation": [
+5.52,
+1.611
+],
+"ats_ch10_mc_estimators": [
+5.52,
+1.879
+],
+"ats_ch10_noise_sim": [
+5.52,
+1.939
+],
+"ats_ch10_overview": [
+5.52,
+1.581
+],
+"ats_ch10_qu": [
+5.52,
+1.611
+],
+"ats_ch10_rfsv_kernel": [
+5.52,
+1.909
+],
+"ats_ch11_ai_case": [
+5.52,
+1.641
+],
+"ats_ch11_bands": [
+5.52,
+1.939
+],
+"ats_ch11_bias_variance": [
+5.52,
+1.939
+],
+"ats_ch11_causality": [
+5.52,
+1.939
+],
+"ats_ch11_cogley_nason": [
+5.52,
+1.939
+],
+"ats_ch11_coherence": [
+5.52,
+1.879
+],
+"ats_ch11_cwt_bet": [
+5.52,
+1.939
+],
+"ats_ch11_dpss": [
+5.52,
+1.671
+],
+"ats_ch11_dyncorr": [
+5.52,
+1.939
+],
+"ats_ch11_endpoint": [
+5.52,
+1.879
+],
+"ats_ch11_ftest": [
+5.52,
+1.462
+],
+"ats_ch11_gains": [
+5.52,
+1.939
+],
+"ats_ch11_ip_spectrum": [
+5.52,
+1.939
+],
+"ats_ch11_kernels": [
+5.52,
+1.939
+],
+"ats_ch11_leakage": [
+5.52,
+1.939
+],
+"ats_ch11_mra": [
+5.52,
+2.029
+],
+"ats_ch11_mt_mc": [
+5.52,
+1.939
+],
+"ats_ch11_ro_cycles": [
+5.52,
+1.7
+],
+"ats_ch11_spectrogram": [
+5.52,
+1.939
+],
+"ats_ch11_sync": [
+5.52,
+2.029
+],
+"ats_ch11_wavelets": [
+5.52,
+1.879
+],
+"ats_ch11_wcorr": [
+5.52,
+1.7
+],
+"ats_ch11_wtc_bet_dax": [
+5.52,
+1.671
+],
+"ats_ch11_wtc_bet_spx": [
+5.52,
+1.671
+],
+"ats_ch11_wtc_infl_ro": [
+5.52,
+1.611
+],
+"ats_ch11_wtc_oil": [
+5.52,
+1.671
+],
+"ats_ch11_wvar": [
+5.52,
+1.939
+],
+"ats_ch12_ai_case": [
+5.52,
+1.641
+],
+"ats_ch12_attention": [
+5.52,
+2.029
+],
+"ats_ch12_cv_bhk": [
+5.52,
+2.029
+],
+"ats_ch12_deepar": [
+5.52,
+1.611
+],
+"ats_ch12_global_local": [
+5.52,
+2.029
+],
+"ats_ch12_leakage": [
+5.52,
+2.029
+],
+"ats_ch12_load_trees": [
+5.52,
+1.82
+],
+"ats_ch12_m4": [
+5.52,
+1.73
+],
+"ats_ch12_monotone": [
+5.52,
+2.029
+],
+"ats_ch12_overview": [
+5.52,
+1.969
+],
+"ats_ch12_ro_lasso": [
+5.52,
+1.939
+],
+"ats_ch12_rv_deep": [
+5.52,
+2.029
+],
+"ats_ch12_shap": [
+5.52,
+1.611
+],
+"ats_ch12_snooping": [
+5.52,
+1.85
+],
+"ats_ch12_vanishing": [
+5.52,
+1.939
+],
+"ats_ch12_zeng": [
+5.52,
+1.879
+],
+"ats_ch13_aci": [
+5.52,
+1.671
+],
+"ats_ch13_aci_gamma": [
+5.52,
+1.85
+],
+"ats_ch13_ai_case": [
+5.52,
+1.372
+],
+"ats_ch13_condcov": [
+5.52,
+1.939
+],
+"ats_ch13_contamination": [
+5.52,
+1.76
+],
+"ats_ch13_covariates": [
+5.52,
+1.82
+],
+"ats_ch13_cqr": [
+5.52,
+1.581
+],
+"ats_ch13_fm_calib": [
+5.52,
+1.909
+],
+"ats_ch13_fm_var": [
+5.52,
+1.939
+],
+"ats_ch13_inflation": [
+5.52,
+1.939
+],
+"ats_ch13_load": [
+5.52,
+1.82
+],
+"ats_ch13_multiple": [
+5.52,
+1.492
+],
+"ats_ch13_pid": [
+5.52,
+1.82
+],
+"ats_ch13_ro_inflation": [
+5.52,
+1.939
+],
+"ats_ch13_rv": [
+5.52,
+1.939
+],
+"ats_ch13_scaling": [
+5.52,
+1.76
+],
+"ats_ch13_split_coverage": [
+5.52,
+1.641
+],
+"ats_ch13_tokens": [
+5.52,
+1.939
+],
+"ats_ch13_weighted": [
+5.52,
+1.641
+],
+"ats_ch13_zeroshot": [
+5.52,
+1.939
+],
+"ats_ch14_ai_case": [
+5.52,
+1.671
+],
+"ats_ch14_brexit": [
+5.52,
+1.939
+],
+"ats_ch14_btc": [
+5.52,
+2.029
+],
+"ats_ch14_btc_placebo": [
+5.52,
+1.939
+],
+"ats_ch14_ccm": [
+5.52,
+1.76
+],
+"ats_ch14_dml": [
+5.52,
+1.939
+],
+"ats_ch14_event": [
+5.52,
+1.939
+],
+"ats_ch14_germany": [
+5.52,
+1.969
+],
+"ats_ch14_germany_placebo": [
+5.52,
+1.611
+],
+"ats_ch14_granger_markets": [
+5.52,
+1.939
+],
+"ats_ch14_granger_sim": [
+5.52,
+1.76
+],
+"ats_ch14_its": [
+5.52,
+1.879
+],
+"ats_ch14_overview": [
+5.52,
+1.969
+],
+"ats_ch14_pcmci_sim": [
+5.52,
+1.939
+],
+"ats_ch14_pcmci_vol": [
+5.52,
+1.939
+],
+"ats_ch14_ro_placebo": [
+5.52,
+1.879
+],
+"ats_ch14_ro_sc": [
+5.52,
+1.939
+],
+"ats_ch14_ro_tax": [
+5.52,
+1.85
+],
+"ats_ch14_staggered": [
+5.52,
+1.939
+],
+"ats_ch14_te": [
+5.52,
+1.76
+],
+"ats_ch15_leakage": [
+5.52,
+1.969
+],
+"ats_ch15_power": [
+5.52,
+1.671
+],
+"ats_ch15_snooping": [
+5.52,
+1.969
+],
+"ats_ch16_ai_case": [
+5.52,
+1.551
+],
+"ats_ch16_asymptotics": [
+5.52,
+1.641
+],
+"ats_ch16_dating": [
+5.52,
+1.939
+],
+"ats_ch16_episodes": [
+5.52,
+2.029
+],
+"ats_ch16_evaluation": [
+5.52,
+1.82
+],
+"ats_ch16_housing": [
+5.52,
+1.939
+],
+"ats_ch16_lppls": [
+5.52,
+1.82
+],
+"ats_ch16_monitor": [
+5.52,
+1.939
+],
+"ats_ch16_null": [
+5.52,
+1.939
+],
+"ats_ch16_rational": [
+5.52,
+1.671
+],
+"ats_ch16_size": [
+5.52,
+1.939
+],
+"ats_ch1_ai_case": [
+5.52,
+1.462
+],
+"ats_ch1_ao": [
+5.52,
+1.641
+],
+"ats_ch1_dgt": [
+5.52,
+2.029
+],
+"ats_ch1_dm_size": [
+5.52,
+1.909
+],
+"ats_ch1_eurron": [
+5.52,
+1.939
+],
+"ats_ch1_load_mcs": [
+5.52,
+1.85
+],
+"ats_ch1_load_week": [
+5.52,
+1.939
+],
+"ats_ch1_loss_minimizers": [
+5.52,
+1.551
+],
+"ats_ch1_pit_shapes": [
+5.52,
+1.432
+],
+"ats_ch1_pool": [
+5.52,
+1.76
+],
+"ats_ch1_proper_scores": [
+5.52,
+1.432
+],
+"ats_ch1_puzzle": [
+5.52,
+1.909
+],
+"ats_ch1_realtime": [
+5.52,
+1.671
+],
+"ats_ch1_ro_inflation": [
+5.52,
+1.7
+],
+"ats_ch1_spf": [
+5.52,
+1.909
+],
+"ats_ch1_spf_schemes": [
+5.52,
+1.671
+],
+"ats_ch2_ai_case": [
+5.52,
+1.611
+],
+"ats_ch2_bai_perron": [
+5.52,
+1.909
+],
+"ats_ch2_chow_snooping": [
+5.52,
+1.7
+],
+"ats_ch2_forecast_windows": [
+5.52,
+1.7
+],
+"ats_ch2_great_moderation": [
+5.52,
+1.909
+],
+"ats_ch2_lynx": [
+5.52,
+1.641
+],
+"ats_ch2_monitoring": [
+5.52,
+1.641
+],
+"ats_ch2_nonlinear_forecasts": [
+5.52,
+1.641
+],
+"ats_ch2_nonlinearity_tests": [
+5.52,
+1.85
+],
+"ats_ch2_ppp_estar": [
+5.52,
+1.7
+],
+"ats_ch2_ro_inflation_breaks": [
+5.52,
+1.85
+],
+"ats_ch2_unemp_lstar": [
+5.52,
+1.671
+],
+"ats_ch2_unemp_tar": [
+5.52,
+1.7
+],
+"ats_ch2_unit_root_breaks": [
+5.52,
+1.73
+],
+"ats_ch2_variance_breaks": [
+5.52,
+1.909
+],
+"ats_ch3_ai_case": [
+5.52,
+1.641
+],
+"ats_ch3_bq": [
+5.52,
+1.939
+],
+"ats_ch3_cee_irf": [
+5.52,
+1.611
+],
+"ats_ch3_gk": [
+5.52,
+1.611
+],
+"ats_ch3_kilian_hd": [
+5.52,
+2.058
+],
+"ats_ch3_kilian_irf": [
+5.52,
+1.909
+],
+"ats_ch3_lp_gk": [
+5.52,
+1.641
+],
+"ats_ch3_lp_sim": [
+5.52,
+1.73
+],
+"ats_ch3_ro_data": [
+5.52,
+1.581
+],
+"ats_ch3_ro_lp": [
+5.52,
+1.432
+],
+"ats_ch3_ro_var": [
+5.52,
+1.939
+],
+"ats_ch3_rotation": [
+5.52,
+1.939
+],
+"ats_ch3_rz": [
+5.52,
+1.909
+],
+"ats_ch3_uhlig": [
+5.52,
+1.76
+],
+"ats_ch4_ai_case": [
+5.52,
+1.641
+],
+"ats_ch4_bounds": [
+5.52,
+1.76
+],
+"ats_ch4_i2": [
+5.52,
+1.76
+],
+"ats_ch4_kpsw": [
+5.52,
+1.671
+],
+"ats_ch4_panel": [
+5.52,
+1.79
+],
+"ats_ch4_pt_ect": [
+5.52,
+2.058
+],
+"ats_ch4_rates": [
+5.52,
+1.879
+],
+"ats_ch4_size_mc": [
+5.52,
+1.76
+],
+"ats_ch4_trace_dists": [
+5.52,
+1.79
+],
+"ats_ch5_ai_case": [
+5.52,
+1.641
+],
+"ats_ch5_bgr": [
+5.52,
+1.85
+],
+"ats_ch5_bvar_irf": [
+5.52,
+2.029
+],
+"ats_ch5_common_vol": [
+5.52,
+2.029
+],
+"ats_ch5_conjugate": [
+5.52,
+1.939
+],
+"ats_ch5_curse": [
+5.52,
+1.939
+],
+"ats_ch5_di": [
+5.52,
+1.79
+],
+"ats_ch5_factors": [
+5.52,
+1.82
+],
+"ats_ch5_favar": [
+5.52,
+1.939
+],
+"ats_ch5_gibbs": [
+5.52,
+1.939
+],
+"ats_ch5_lambda": [
+5.52,
+1.939
+],
+"ats_ch5_midas": [
+5.52,
+2.029
+],
+"ats_ch5_mr2": [
+5.52,
+2.029
+],
+"ats_ch5_news": [
+5.52,
+1.82
+],
+"ats_ch5_nowcast": [
+5.52,
+2.029
+],
+"ats_ch5_ro_data": [
+5.52,
+1.79
+],
+"ats_ch5_tradeoff": [
+5.52,
+1.939
+],
+"ats_ch6_ai_case": [
+5.52,
+1.641
+],
+"ats_ch6_dfm": [
+5.52,
+1.82
+],
+"ats_ch6_diffuse": [
+5.52,
+1.939
+],
+"ats_ch6_gibbs_ll": [
+5.52,
+1.939
+],
+"ats_ch6_ksc": [
+5.52,
+1.939
+],
+"ats_ch6_local_level": [
+5.52,
+1.939
+],
+"ats_ch6_mnz": [
+5.52,
+1.939
+],
+"ats_ch6_pf": [
+5.52,
+1.82
+],
+"ats_ch6_pf_check": [
+5.52,
+1.939
+],
+"ats_ch6_pileup": [
+5.52,
+1.939
+],
+"ats_ch6_pmmh": [
+5.52,
+1.939
+],
+"ats_ch6_ro_gap": [
+5.52,
+1.939
+],
+"ats_ch6_simsmoother": [
+5.52,
+1.939
+],
+"ats_ch6_sv": [
+5.52,
+1.939
+],
+"ats_ch6_tvp": [
+5.52,
+1.939
+],
+"ats_ch6_ucsv_ro": [
+5.52,
+1.909
+],
+"ats_ch6_ucsv_us": [
+5.52,
+1.939
+],
+"ats_ch6_ukf": [
+5.52,
+1.939
+],
+"ats_ch7_ai_case": [
+5.52,
+1.402
+],
+"ats_ch7_bullbear": [
+5.52,
+1.939
+],
+"ats_ch7_chain": [
+5.52,
+1.76
+],
+"ats_ch7_em": [
+5.52,
+1.939
+],
+"ats_ch7_eurron": [
+5.52,
+1.73
+],
+"ats_ch7_forecast": [
+5.52,
+1.82
+],
+"ats_ch7_gibbs": [
+5.52,
+1.909
+],
+"ats_ch7_hamilton89": [
+5.52,
+1.7
+],
+"ats_ch7_longmem": [
+5.52,
+1.85
+],
+"ats_ch7_lrtest": [
+5.52,
+1.939
+],
+"ats_ch7_msgarch": [
+5.52,
+1.939
+],
+"ats_ch7_msvar": [
+5.52,
+1.879
+],
+"ats_ch7_realtime": [
+5.52,
+1.581
+],
+"ats_ch7_ro_infl": [
+5.52,
+1.671
+],
+"ats_ch7_tvtp": [
+5.52,
+2.029
+],
+"ats_ch8_ai_case": [
+5.52,
+1.79
+],
+"ats_ch8_cgarch": [
+5.52,
+1.76
+],
+"ats_ch8_corr_crypto": [
+5.52,
+1.939
+],
+"ats_ch8_dcc_sim": [
+5.52,
+1.939
+],
+"ats_ch8_garch_midas": [
+5.52,
+1.909
+],
+"ats_ch8_gmv": [
+5.52,
+1.79
+],
+"ats_ch8_har_oos": [
+5.52,
+1.939
+],
+"ats_ch8_har_weights": [
+5.52,
+1.939
+],
+"ats_ch8_harq": [
+5.52,
+1.939
+],
+"ats_ch8_jump_power": [
+5.52,
+1.939
+],
+"ats_ch8_jumps_crypto": [
+5.52,
+1.939
+],
+"ats_ch8_kernels": [
+5.52,
+1.939
+],
+"ats_ch8_patton": [
+5.52,
+1.939
+],
+"ats_ch8_qmle_markets": [
+5.52,
+1.939
+],
+"ats_ch8_qmle_sim": [
+5.52,
+1.939
+],
+"ats_ch8_rgarch": [
+5.52,
+1.939
+],
+"ats_ch8_rk_overview": [
+5.52,
+1.939
+],
+"ats_ch8_rv_clt": [
+5.52,
+1.939
+],
+"ats_ch8_signature": [
+5.52,
+1.939
+],
+"ats_ch8_vol_oos": [
+5.52,
+1.939
+],
+"ats_ch9_ai_case": [
+5.52,
+1.521
+],
+"ats_ch9_backtests": [
+5.52,
+1.939
+],
+"ats_ch9_caviar": [
+5.52,
+1.939
+],
+"ats_ch9_conformal": [
+5.52,
+1.85
+],
+"ats_ch9_dm": [
+5.52,
+1.909
+],
+"ats_ch9_durations": [
+5.52,
+1.939
+],
+"ats_ch9_es_ci": [
+5.52,
+1.939
+],
+"ats_ch9_esreg": [
+5.52,
+1.939
+],
+"ats_ch9_estrisk_mc": [
+5.52,
+1.909
+],
+"ats_ch9_extremal": [
+5.52,
+1.939
+],
+"ats_ch9_fz0_contour": [
+5.52,
+1.7
+],
+"ats_ch9_level_sets": [
+5.52,
+1.521
+],
+"ats_ch9_mcs": [
+5.52,
+1.969
+],
+"ats_ch9_murphy": [
+5.52,
+1.939
+],
+"ats_ch9_nic": [
+5.52,
+2.029
+],
+"ats_ch9_overview": [
+5.52,
+1.939
+],
+"ats_ch9_pzc_paths": [
+5.52,
+1.79
+],
+"ats_ch9_pzc_table": [
+5.52,
+1.85
+],
+"ats_ch9_riskratio": [
+5.52,
+1.939
+],
+"ats_ch9_sqrt": [
+5.52,
+1.551
+],
+"ats_ch9_stress": [
+5.52,
+1.82
+],
+"ch0_sem_b1_tstats": [
+5.463,
+1.462
+],
+"ch0_sem_b2_gdp": [
+5.463,
+1.462
+],
+"ch0_sem_b3_size": [
+5.463,
+1.671
+],
+"ch0_sem_b4_garch": [
+5.463,
+1.671
+],
+"ch0_sem_b5_spurious": [
+5.463,
+1.462
+],
+"ch0_sem_b6_eurron": [
+5.463,
+1.372
+],
+"ch10_sem_b1": [
+5.463,
+1.85
+],
+"ch10_sem_b3": [
+5.463,
+1.79
+],
+"ch10_sem_b5": [
+5.463,
+1.85
+],
+"ch11_sem_b1": [
+5.463,
+1.462
+],
+"ch11_sem_b2": [
+5.463,
+1.462
+],
+"ch11_sem_b3": [
+5.463,
+1.581
+],
+"ch11_sem_b4": [
+5.463,
+1.671
+],
+"ch11_sem_b5": [
+5.463,
+1.551
+],
+"ch11_sem_b6": [
+5.463,
+1.462
+],
+"ch11_sem_b7": [
+5.463,
+1.641
+],
+"ch11_sem_b8": [
+5.463,
+1.671
+],
+"ch12_sem_b1": [
+5.463,
+1.85
+],
+"ch12_sem_b3": [
+5.463,
+1.85
+],
+"ch12_sem_b5": [
+5.463,
+1.85
+],
+"ch12_sem_b7": [
+5.463,
+1.79
+],
+"ch13_sem_b1": [
+5.463,
+1.551
+],
+"ch13_sem_b2": [
+5.463,
+1.79
+],
+"ch13_sem_b3": [
+5.463,
+1.671
+],
+"ch13_sem_b4": [
+5.463,
+1.462
+],
+"ch13_sem_b5": [
+5.463,
+1.7
+],
+"ch13_sem_b6": [
+5.463,
+1.611
+],
+"ch13_sem_b7": [
+5.463,
+1.372
+],
+"ch13_sem_b8": [
+5.463,
+1.85
+],
+"ch14_sem_b3": [
+5.463,
+1.551
+],
+"ch14_sem_b4": [
+5.463,
+1.581
+],
+"ch14_sem_b5": [
+5.463,
+1.671
+],
+"ch14_sem_b6": [
+5.463,
+1.671
+],
+"ch14_sem_b7": [
+5.463,
+1.85
+],
+"ch15_sem_b1": [
+5.463,
+1.313
+],
+"ch1_sem_b1": [
+5.463,
+1.85
+],
+"ch1_sem_b2": [
+5.463,
+1.85
+],
+"ch1_sem_b3": [
+5.463,
+1.85
+],
+"ch1_sem_b5": [
+5.463,
+1.671
+],
+"ch2_sem_b1": [
+5.463,
+1.432
+],
+"ch2_sem_b2": [
+5.463,
+1.462
+],
+"ch2_sem_b3": [
+5.463,
+1.521
+],
+"ch2_sem_b4": [
+5.463,
+1.85
+],
+"ch2_sem_b5": [
+5.463,
+1.85
+],
+"ch3_sem_b1": [
+5.463,
+1.85
+],
+"ch3_sem_b3": [
+5.463,
+1.581
+],
+"ch4_sem_b1": [
+5.463,
+1.85
+],
+"ch4_sem_b3": [
+5.463,
+1.85
+],
+"ch5_sem_b1": [
+5.463,
+1.85
+],
+"ch5_sem_b3": [
+5.463,
+1.85
+],
+"ch5_sem_b5": [
+5.463,
+1.85
+],
+"ch6_sem_b1": [
+5.463,
+1.462
+],
+"ch6_sem_b3": [
+5.463,
+1.462
+],
+"ch7_sem_b1": [
+5.463,
+1.85
+],
+"ch7_sem_b3": [
+5.463,
+1.85
+],
+"ch7_sem_b5": [
+5.463,
+1.85
+],
+"ch8_sem_b1": [
+5.463,
+1.671
+],
+"ch8_sem_b2": [
+5.463,
+1.641
+],
+"ch8_sem_b4": [
+5.463,
+1.462
+],
+"ch9_sem_b1": [
+5.463,
+1.85
+],
+"ch9_sem_b3": [
+5.463,
+1.581
+],
+"ch9_sem_b5": [
+5.463,
+1.521
+]
+}

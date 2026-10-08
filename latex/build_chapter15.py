@@ -566,7 +566,7 @@ D.frame(T('Scoreboard of the course replications (2/2)', 'Tabloul replicărilor 
 
 chart(T('A replication that worked: Patton, Ziegel and Chen (2019)', 'O replicare reușită: Patton, Ziegel și Chen (2019)'), 'ats_ch9_pzc_table', 'ATS_ch9_pzc', [
     T(r'Average FZ0 loss of ten (VaR, ES) models, S\&P 500, 2000--2016, the design of \refPZC: our data (bars) against their Table 8 (diamonds)', r'Pierderea FZ0 medie a zece modele (VaR, ES), S\&P 500, 2000--2016, designul \refPZC: datele noastre (bare), față de tabelul 8 al lucrării (romburi)')],
-    h='0.5\\textheight', ch=9)
+    h='0.62\\textheight', ch=9)
 
 interp(('the two kinds of outcome', 'celor două tipuri de rezultat'), [
     T(r'Average losses over 4\,000 days are robust to small data differences: GAS-1F @{c9.loss} against @{pub.pzc_loss}', r'Pierderile medii pe 4\,000 de zile sînt robuste la mici diferențe de date: GAS-1F @{c9.loss}, față de @{pub.pzc_loss}'),
@@ -643,7 +643,7 @@ D.frame(T('Data snooping and p-hacking', 'Data snooping și p-hacking'), items(
 
 chart(T('A specification search on a series with no predictability', 'O căutare de specificații pe o serie fără predictibilitate'), 'ats_ch15_snooping', 'ATS_ch15_pitfalls', [
     T(r'@{sn.reps} simulated data sets, $T$ = @{sn.T}; $K$ persistent candidate predictors ($\rho = 0.9$, a common factor); HAC $t$-tests; the share of data sets with at least one ``discovery\'\'', r'@{sn.reps} seturi de date simulate, $T$ = @{sn.T}; $K$ predictori candidați persistenți ($\rho = 0{,}9$, un factor comun); teste $t$ HAC; proporția seturilor cu cel puțin o „descoperire”')],
-    h='0.62\\textheight')
+    h='0.66\\textheight')
 
 interp(('the specification search', 'căutării de specificații'), [
     T(r'Reporting the best of $K$ as if it were the only one: @{sn.5.n}\% false positives with 5 predictors, @{sn.20.n}\% with 20, @{sn.50.n}\% with 50', r'Raportarea celui mai bun dintre $K$ ca și cum ar fi singurul încercat: @{sn.5.n}\% rezultate fals pozitive cu 5 predictori, @{sn.20.n}\% cu 20, @{sn.50.n}\% cu 50'),
@@ -664,7 +664,7 @@ D.frame(T('Leakage and look-ahead', 'Leakage și look-ahead'), items(
 
 chart(T('Predictor selection with look-ahead', 'Selecția predictorilor cu look-ahead'), 'ats_ch15_leakage', 'ATS_ch15_pitfalls', [
     T(r'@{lk.reps} simulations: $T$ = @{lk.T}, last @{lk.n_test} periods for testing, @{lk.P} pure-noise candidate predictors, the @{lk.k} most correlated kept, OLS on the training sample', r'@{lk.reps} de simulări: $T$ = @{lk.T}, ultimele @{lk.n_test} de perioade pentru test, @{lk.P} de predictori candidați de tip zgomot pur, se păstrează cei @{lk.k} mai corelați, MCO pe eșantionul de antrenare')],
-    h='0.62\\textheight')
+    h='0.66\\textheight')
 
 interp(('the leakage experiment', 'experimentului cu leakage'), [
     T(r'Honest selection: mean out-of-sample $R^2$ = @{lk.honest}\%, positive in @{lk.hpos}\% of runs: noise does not forecast', r'Selecție corectă: $R^2$ mediu în afara eșantionului = @{lk.honest}\%, pozitiv în @{lk.hpos}\% din rulări: zgomotul nu prognozează'),

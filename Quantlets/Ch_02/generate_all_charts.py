@@ -643,7 +643,7 @@ def fig_great_moderation(save_it=True):
     paper, d1, ks1, W1, e1 = mpq_test(g, *MPQ_SAMPLE)
     ext, d2, ks2, W2, e2 = mpq_test(g, MPQ_SAMPLE[0], None)
     ex19, _, _, _, _ = mpq_test(g, MPQ_SAMPLE[0], '2019-10-01')
-    fig, axs = plt.subplots(2, 1, figsize=(11, 6.2), gridspec_kw={'height_ratios': [1.25, 1]})
+    fig, axs = plt.subplots(1, 2, figsize=(13, 4.0), gridspec_kw={'width_ratios': [1.35, 1]})
     ax = axs[0]
     y = g.loc[MPQ_SAMPLE[0]:]
     ax.plot(y.index, y.values, color=st.MainBlue, lw=1.0, label='US real GDP growth, % q/q')
@@ -655,14 +655,15 @@ def fig_great_moderation(save_it=True):
     ax.set_ylim(-4.5, 4.5)
     ax.set_ylabel('%')
     low = y.idxmin()
-    ax.text(low, -4.3, f'{qlabel(low)}: {y.min():.1f}% (off scale)', color=st.IDAred, fontsize=9, ha='right')
-    st.legend_outside_bottom(ax, ncol=3, y=-0.14)
+    ax.text(low - pd.DateOffset(years=2), -4.3, f'{qlabel(low)}: {y.min():.1f}% (off scale)', color=st.IDAred, fontsize=9,
+            ha='right')
+    st.legend_outside_bottom(ax, ncol=1, y=-0.14)
     ax = axs[1]
     ax.plot(d1[ks1], W1, color=st.MainBlue, lw=1.6, label='Wald sequence, 1953Q2-1999Q2 (MPQ sample)')
     ax.plot(d2[ks2], W2, color=st.Forest, lw=1.3, label='Wald sequence, 1953Q2-2026 (extended)')
     ax.axhline(paper['var']['cv_sup'], color=st.IDAred, ls='--', lw=1.2, label='5% critical value of sup-Wald')
     ax.set_ylabel('Wald, break in s.d.')
-    st.legend_outside_bottom(ax, ncol=3, y=-0.2)
+    st.legend_outside_bottom(ax, ncol=1, y=-0.2)
     plt.tight_layout()
     save('ats_ch2_great_moderation', save_it)
     return {'paper': paper, 'ext': ext, 'ex2019': ex19, 'min': float(y.min()), 'min_date': qlabel(y.idxmin())}
@@ -701,13 +702,17 @@ def fig_bai_perron(save_it=True):
     rz = bp_analysis(z.values, M=5, cv=cv)
     mz = rz['m_seq']
     fitz = bp_fit(z.values, rz['breaks'][mz])
-    fig, axs = plt.subplots(2, 1, figsize=(11, 6.4))
+    fig, axs = plt.subplots(1, 2, figsize=(13, 4.0), gridspec_kw={'width_ratios': [1, 1.6]})
     plot_bp(axs[0], y, fit, st.MainBlue, 'ex-post real rate, %, Bai-Perron data, 1961Q1-1986Q3')
     plot_bp(axs[1], z, fitz, st.Forest, f'ex-post real rate, %, rebuilt from FRED, 1961Q1-{qlabel(z.index[-1])}')
+    axs[0].set_title('Bai-Perron data, 1961Q1-1986Q3')
+    axs[1].set_title(f'rebuilt from FRED, 1961Q1-{qlabel(z.index[-1])}')
     for ax in axs:
         ax.axhline(0, color=st.DarkText, lw=0.5)
-        ax.set_ylabel('%')
-        st.legend_outside_bottom(ax, ncol=2, y=-0.13)
+    axs[0].set_ylabel('ex-post real rate, %')
+    h0, l0 = axs[0].get_legend_handles_labels()
+    h1, l1 = axs[1].get_legend_handles_labels()
+    st.fig_legend_bottom(fig, [h0[0], h1[0]] + h0[1:], ['Bai-Perron data', 'rebuilt from FRED'] + l0[1:], ncol=4)
     plt.tight_layout()
     save('ats_ch2_bai_perron', save_it)
     lab = lambda s, ks: [qlabel(s.index[k]) for k in ks]

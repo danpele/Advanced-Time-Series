@@ -453,7 +453,7 @@ D.frame(T('Tokenisation: from real values to a vocabulary (2/2)', 'Tokenizarea: 
 chart(T('The Chronos tokeniser on real data', 'Tokenizatorul Chronos pe date reale'), 'ats_ch13_tokens', 'ATS_ch13_pretraining', [
     T(r'Left: BET closes, @{tok.first} -- @{tok.last} ($C = @{tok.n}$), and a 64-bin quantisation (illustration); right: a context near 1 followed by a rise to 25 times that level',
       r'Stînga: închiderile BET, @{tok.first} -- @{tok.last} ($C = @{tok.n}$), și o cuantizare cu 64 de intervale (ilustrare); dreapta: un context în jurul valorii 1, urmat de o creștere pînă la un nivel de 25 de ori mai mare')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the tokeniser', 'tokenizatorului'), [
     T(r'BET: $s = @{tok.s}$ points, bin width @{tok.w} points, maximum quantisation error @{tok.err} points: negligible for prices, but a fixed share of the level',
@@ -499,7 +499,7 @@ chart(T('Size and accuracy on our three tasks', 'Mărimea și acuratețea pe cel
     T(r'Losses relative to the baseline of each task: Romanian load (MAE / expert ARX, 2025--2026), EU inflation (MAE / random walk, $h = 12$, geometric mean over 27 countries), Bitcoin log RV (MSE / HAR)',
       r'Pierderi relative la modelul de referință al fiecărei sarcini: consumul României (MAE / ARX expert, 2025--2026), inflația UE (MAE / mers aleator, $h = 12$, medie geometrică pe 27 de țări), log RV Bitcoin (MSE / HAR)'),
     T('Parameters counted in the loaded checkpoints; a value below 1 means the model beats the baseline', 'Parametrii sînt numărați în modelele încărcate; o valoare sub 1 înseamnă că modelul întrece modelul de referință')],
-    h='0.5\\textheight')
+    h='0.59\\textheight')
 
 interp(('size against accuracy', 'relației dintre mărime și acuratețe'), [
     T(r'Chronos-Bolt family (@{sc.ptiny}--@{sc.pbase} M parameters): load @{sc.l.tiny} $\to$ @{sc.l.base}, inflation @{sc.i.tiny} $\to$ @{sc.i.base}, Bitcoin @{sc.r.tiny} $\to$ @{sc.r.base}',
@@ -597,7 +597,7 @@ D.frame(T('Zero-shot, fine-tuning, in-context covariates', 'Zero-shot, fine-tuni
 chart(T('Four zero-shot forecasts from one model', 'Patru prognoze zero-shot cu același model'), 'ats_ch13_zeroshot', 'ATS_ch13_zero_shot', [
     T(r'Chronos-2 from the last origin of each data set: Romanian load (48 hours), Romanian HICP inflation (12 months), Bitcoin log realised variance and BET daily returns (22 days); bands 10--90\% and 1--99\%',
       r'Chronos-2 de la ultima origine a fiecărui set de date: consumul României (48 de ore), inflația HICP a României (12 luni), logaritmul varianței realizate Bitcoin și randamentele zilnice BET (22 de zile); benzi 10--90\% și 1--99\%')],
-    h='0.55\\textheight')
+    h='0.65\\textheight')
 
 interp(('the four forecasts', 'celor patru prognoze'), [
     T('Load: the daily and weekly shapes are continued with narrow bands: the most favourable case for shape transfer', 'Consumul: profilurile zilnice și săptămînale sînt continuate cu benzi înguste: cazul cel mai favorabil pentru transferul de formă'),
@@ -717,7 +717,7 @@ D.frame(T('The design of our comparisons', 'Designul comparațiilor noastre'), i
 chart(T('Romanian load: day-ahead accuracy', 'Consumul României: acuratețea pentru ziua următoare'), 'ats_ch13_load', 'ATS_ch13_zero_shot', [
     T(r'Left: MAE (GW) over 24 hours and @{ld.n} days, models in the 10\% MCS marked; right: the last week of the sample, expert ARX and Chronos-2 with its 80\% band',
       r'Stînga: MAE (GW) pe 24 de ore și @{ld.n} zile, modelele din MCS de 10\% marcate; dreapta: ultima săptămînă din eșantion, ARX expert și Chronos-2 cu banda lui de 80\%')],
-    h='0.5\\textheight')
+    h='0.61\\textheight')
 
 interp(('the load comparison', 'comparației pentru consum'), [
     T(r'MAE: Chronos-2 @{ld.mae.c2}, expert ARX @{ld.mae.arx}, TiRex @{ld.mae.tx}, Chronos-Bolt @{ld.mae.bolt}, TimesFM @{ld.mae.tf}; DLinear @{ld.mae.dl}, N-BEATS @{ld.mae.nb}, weekly naive @{ld.mae.naive} GW',
@@ -732,7 +732,7 @@ interp(('the load comparison', 'comparației pentru consum'), [
 chart(T('In-context covariates: calendar and temperature', 'Covariabile în context: calendarul și temperatura'), 'ats_ch13_covariates', 'ATS_ch13_zero_shot', [
     T(r'Chronos-2 MAE on all days, on ordinary days and on the @{cv.nh} public holidays: univariate, with weekend and holiday flags, and with flags plus Bucharest hourly temperature (realised values for the forecast day: an upper bound)',
       r'MAE Chronos-2 pe toate zilele, pe zilele obișnuite și pe cele @{cv.nh} zile de sărbătoare legală: univariat, cu indicatori de weekend și de sărbătoare și cu indicatori plus temperatura orară la București (valorile realizate pentru ziua prognozată: o limită superioară)')],
-    h='0.5\\textheight')
+    h='0.61\\textheight')
 
 interp(('the covariate experiment', 'experimentului cu covariabile'), [
     T(r'Holidays: MAE @{cv.u.hol} univariate, @{cv.c.hol} with the calendar, @{cv.t.hol} with temperature; ordinary days: @{cv.u.oth}, @{cv.c.oth}, @{cv.t.oth}',
@@ -746,7 +746,7 @@ interp(('the covariate experiment', 'experimentului cu covariabile'), [
 chart(T('EU inflation: 27 countries, 12 horizons', 'Inflația UE: 27 de țări, 12 orizonturi'), 'ats_ch13_inflation', 'ATS_ch13_benchmark', [
     T(r'Left: MAE relative to the random walk by horizon, geometric mean over countries; right: $h = 12$ with 95\% bootstrap intervals over countries; origins @{inf.first} -- @{inf.last}',
       r'Stînga: MAE relativ la mersul aleator pe orizonturi, medie geometrică pe țări; dreapta: $h = 12$ cu intervale bootstrap de 95\% pe țări; origini @{inf.first} -- @{inf.last}')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the inflation panel', 'panelului de inflație'), [
     T(r'$h = 1$: AR @{inf.h1.ar}, Chronos-2 @{inf.h1.c2}, TimesFM @{inf.h1.tf}, TiRex @{inf.h1.tx}; $h = 12$: AR @{inf.h12.ar}, ETS @{inf.h12.ets}, Chronos-2 @{inf.h12.c2}, TimesFM @{inf.h12.tf}, TiRex @{inf.h12.tx}, Bolt @{inf.h12.bolt}',
@@ -761,7 +761,7 @@ interp(('the inflation panel', 'panelului de inflație'), [
 chart(T('Romania: forecasts from three origins', 'România: prognoze din trei origini'), 'ats_ch13_ro_inflation', 'ATS_ch13_benchmark', [
     T(r'Romanian HICP annual inflation and 12-month forecasts with 80\% bands from Chronos-2 and AR($p$), from @{ri.o1}, @{ri.o2} and @{ri.o3}',
       r'Inflația anuală HICP a României și prognoze pe 12 luni cu benzi de 80\% din Chronos-2 și AR($p$), de la @{ri.o1}, @{ri.o2} și @{ri.o3}')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the Romanian paths', 'traiectoriilor pentru România'), [
     T(r'From @{ri.o1}: 12 months later inflation was @{ri.a1}\%; Chronos-2 median @{ri.c1}\% (80\%: @{ri.c1l} -- @{ri.c1h}), AR @{ri.r1}\%',
@@ -777,7 +777,7 @@ interp(('the Romanian paths', 'traiectoriilor pentru România'), [
 chart(T('Twenty-seven tests at once', 'Douăzeci și șapte de teste deodată'), 'ats_ch13_multiple', 'ATS_ch13_benchmark', [
     T(r'Country-level DM--HLN statistics (HAC with $h - 1$ lags) of the absolute errors of @{mt.model} minus AR($p$) at $h = @{mt.h}$; negative: @{mt.model} better',
       r'Statisticile DM--HLN pe țări (HAC cu $h - 1$ laguri) ale erorilor absolute @{mt.model} minus AR($p$) la $h = @{mt.h}$; negativ: @{mt.model} este mai bun')],
-    h='0.48\\textheight')
+    h='0.50\\textheight')
 
 interp(('the multiple tests', 'testelor multiple'), [
     T(r'@{mt.neg} of 27 statistics are negative; @{mt.rej} are significant at 5\% without correction (@{mt.rejfm} in favour of @{mt.model}, @{mt.rejar} in favour of AR)',
@@ -792,7 +792,7 @@ interp(('the multiple tests', 'testelor multiple'), [
 chart(T('Realised variance: foundation models against HAR', 'Varianța realizată: foundation models față de HAR'), 'ats_ch13_rv', 'ATS_ch13_benchmark', [
     T(r'One-day-ahead log RV: MSE and QLIKE relative to HAR; Bitcoin (Binance, @{rv.b.first} -- @{rv.b.last}, $n = @{rv.b.n}$), S\&P 500 (Oxford-Man, @{rv.s.first} -- @{rv.s.last}, $n = @{rv.s.n}$)',
       r'Log RV pentru ziua următoare: MSE și QLIKE relativ la HAR; Bitcoin (Binance, @{rv.b.first} -- @{rv.b.last}, $n = @{rv.b.n}$), S\&P 500 (Oxford-Man, @{rv.s.first} -- @{rv.s.last}, $n = @{rv.s.n}$)')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the volatility comparison', 'comparației pentru volatilitate'), [
     T(r'Bitcoin, QLIKE relative to HAR: Chronos-2 @{rv.b.c2}, TimesFM @{rv.b.tf}, TiRex @{rv.b.tx}, Bolt @{rv.b.bolt}; MCS (10\%): @{rv.b.mcs}',
@@ -808,7 +808,7 @@ interp(('the volatility comparison', 'comparației pentru volatilitate'), [
 chart(T('Before and after the releases', 'Înainte și după lansări'), 'ats_ch13_contamination', 'ATS_ch13_benchmark', [
     T(r'Relative loss of each model in an earlier window and in the window after every release (from 1 November 2025): load (MAE / expert ARX) and Bitcoin (QLIKE / HAR)',
       r'Pierderea relativă a fiecărui model într-o fereastră anterioară și în fereastra de după toate lansările (din 1 noiembrie 2025): consum (MAE / ARX expert) și Bitcoin (QLIKE / HAR)')],
-    h='0.5\\textheight')
+    h='0.59\\textheight')
 
 interp(('the contamination check', 'verificării contaminării'), [
     T(r'Load, Chronos-2: @{ct.l.c2a} before, @{ct.l.c2b} after; TimesFM: @{ct.l.tfa}, @{ct.l.tfb}; the earlier window (January--October 2025) precedes both releases',
@@ -957,7 +957,7 @@ chart(T('Coverage given the calibration set', 'Acoperirea condiționată de setu
       r'Acoperirea $F(\hat q)$ a punctului următor pentru @{sp.reps} de seturi de calibrare cu $n = 50$ și cu $n = 500$ de scoruri, $\alpha = 0{,}1$, și legea exactă Beta($k$, $n + 1 - k$)'),
     T(r'$F$: the distribution function of the scores, so $F(\hat q) = \Pr\{S_{n+1} \le \hat q \mid \text{calibration set}\}$ is the coverage obtained with one given calibration set',
       r'$F$: funcția de repartiție a scorurilor, deci $F(\hat q) = \Pr\{S_{n+1} \le \hat q \mid \text{setul de calibrare}\}$ este acoperirea obținută cu un anumit set de calibrare')],
-    h='0.48\\textheight')
+    h='0.55\\textheight')
 
 interp(('the coverage distribution', 'distribuției acoperirii'), [
     T(r'Mean coverage @{sp.m50} ($n = 50$) and @{sp.m500} ($n = 500$), as the theory gives (@{sp.t50}, @{sp.t500}): the marginal guarantee holds on average over calibration sets',
@@ -989,7 +989,7 @@ chart(T('CQR on the design of Romano, Patterson and Candès', 'CQR pe designul l
       r'$\mathrm{Pois}(\lambda)$: o extragere Poisson cu media $\lambda$; $\varepsilon_1, \varepsilon_2$: zgomot cu distribuția Normală standard; $U \sim U[0, 1]$, deci 1\% dintre puncte primesc o valoare extremă mare; zgomotul crește cu $X$'),
     T(r'1000 training and 1000 calibration points; gradient boosting for the mean and for the 5\% and 95\% quantiles',
       r'1000 de puncte de antrenare și 1000 de calibrare; gradient boosting pentru medie și pentru cuantilele de 5\% și 95\%')],
-    h='0.44\\textheight')
+    h='0.53\\textheight')
 
 interp(('CQR', 'CQR'), [
     T(r'Test coverage: split conformal @{cq.sc}, CQR @{cq.cc}, the raw quantile models @{cq.rc}; mean width @{cq.sw}, @{cq.cw} and @{cq.rw}',
@@ -1068,7 +1068,7 @@ chart(T('Weighted conformal under changepoints', 'Predicția conformală pondera
       r'Regresie simulată $Y_t = X_t\'\beta_t + \varepsilon_t$: $X_t \sim N(0, I_4)$, patru regresori independenți cu distribuția Normală standard ($I_4$: matricea unitate $4 \times 4$); $\varepsilon_t$: zgomot cu distribuția Normală; vectorul de coeficienți $\beta_t$ se schimbă la $t = 500$ și $t = 1500$'),
     T(r'Least squares on all past data; scores: absolute one-step-ahead residuals (prequential: each computed before $Y_t$ is used); coverage averaged over 200 runs (20-step moving average)',
       r'Cele mai mici pătrate pe toate datele trecute; scorurile: reziduurile absolute la un pas (prequential: fiecare calculat înainte ca $Y_t$ să fie folosit); acoperirea mediată pe 200 de rulări (medie mobilă pe 20 de pași)')],
-    h='0.42\\textheight')
+    h='0.55\\textheight')
 
 interp(('the weighted method', 'metodei ponderate'), [
     T(r'Average coverage after the burn-in: standard @{wt.sc}, weighted ($\rho = 0.99$) @{wt.wc}; worst 20-step average @{wt.smin} against @{wt.wmin}',
@@ -1119,7 +1119,7 @@ chart(T('ACI on stock-market volatility', 'ACI pe volatilitatea bursieră'), 'at
       r'Designul din \refGC: ținta este $V_t = r_t^2$, randamentul zilnic la pătrat; $\hat\sigma_t^2$: prognoza ei dintr-un GARCH(1,1) estimat pe ultimele 1250 de zile'),
     T(r'Score $|V_t - \hat\sigma_t^2|/\hat\sigma_t^2$ (relative error of the variance forecast), $\alpha = 0.1$, $\gamma = 0.005$; local coverage over 500 days; evaluation from @{ac.sp.first}',
       r'Scorul $|V_t - \hat\sigma_t^2|/\hat\sigma_t^2$ (eroarea relativă a prognozei de varianță), $\alpha = 0{,}1$, $\gamma = 0{,}005$; acoperirea locală pe 500 de zile; evaluare din @{ac.sp.first}')],
-    h='0.42\\textheight')
+    h='0.56\\textheight')
 
 interp(('ACI on volatility', 'ACI pe volatilitate'), [
     (T('Three thresholds compared', 'Trei praguri comparate'),
@@ -1137,7 +1137,7 @@ interp(('ACI on volatility', 'ACI pe volatilitate'), [
 chart(T('The step size of ACI', 'Pasul ACI'), 'ats_ch13_aci_gamma', 'ATS_ch13_conformal_time', [
     T(r'S\&P 500 scores of the previous chart: the level $\alpha_t$ for $\gamma = 0.001$, 0.005 and 0.05',
       r'Scorurile S\&P 500 din graficul anterior: nivelul $\alpha_t$ pentru $\gamma = 0{,}001$, 0,005 și 0,05')],
-    h='0.46\\textheight')
+    h='0.62\\textheight')
 
 interp(('the step size', 'pasului'), [
     T(r'Miss rates @{ag.m1}, @{ag.m2}, @{ag.m3} against the bounds @{ag.b1}, @{ag.b2}, @{ag.b3} ($T = @{ag.T}$): the theorem holds with room to spare',
@@ -1175,7 +1175,7 @@ D.frame(T('Conformal PID control (2/2)', 'Controlul PID conformal (2/2)'), items
 chart(T('Online methods on Romanian load', 'Metode online pe consumul României'), 'ats_ch13_pid', 'ATS_ch13_conformal_time', [
     T(r'90\% day-ahead intervals around the Chronos-Bolt median, one score stream per hour (24 streams), calibration window 91 days; EnbPI on the expert ARX regressors (ridge, 20 block-bootstrap models); evaluation from @{pd.first}',
       r'Intervale de 90\% pentru ziua următoare în jurul medianei Chronos-Bolt, cîte un flux de scoruri pe oră (24 de fluxuri), fereastra de calibrare 91 de zile; EnbPI pe regresorii ARX expert (ridge, 20 de modele bootstrap pe blocuri); evaluare din @{pd.first}')],
-    h='0.48\\textheight')
+    h='0.61\\textheight')
 
 interp(('the online methods', 'metodelor online'), [
     T(r'Coverage: static @{pd.st}, rolling @{pd.ro}, ACI @{pd.ac}, quantile tracking @{pd.qt}, PID @{pd.pid}, EnbPI @{pd.en}',
@@ -1203,7 +1203,7 @@ D.frame(T('Coverage diagnostics', 'Diagnosticarea acoperirii'), items(
 chart(T('Coverage by volatility regime', 'Acoperirea pe regimuri de volatilitate'), 'ats_ch13_condcov', 'ATS_ch13_conformal_time', [
     T(r'S\&P 500, 90\% volatility intervals of the ACI chart: coverage by tercile of the GARCH variance forecast and on the day after a miss',
       r'S\&P 500, intervalele de volatilitate de 90\% din graficul ACI: acoperirea pe terțile ale varianței prognozate de GARCH și în ziua de după o ratare')],
-    h='0.46\\textheight')
+    h='0.65\\textheight')
 
 interp(('conditional coverage', 'acoperirii condiționate'), [
     T(r'Static: @{cc.st0} (low variance), @{cc.st2} (high), @{cc.st3} after a miss; ACI: @{cc.ac0}, @{cc.ac2}, @{cc.ac3}',
@@ -1249,7 +1249,7 @@ D.frame(T('The need to calibrate foundation-model quantiles (2/2)', 'Nevoia de c
 chart(T('Raw and conformal coverage of foundation models', 'Acoperirea brută și cea conformală a foundation models'), 'ats_ch13_fm_calib', 'ATS_ch13_calibration', [
     T(r'Coverage of the raw 10--90\% band and of the online-CQR 80\% and 95\% intervals (ACI, window 250, $\gamma = 0.005$): Romanian load (24 hourly streams), Bitcoin log RV, EU inflation at $h = 1$ (27 streams), BET daily returns',
       r'Acoperirea benzii brute de 10--90\% și a intervalelor CQR online de 80\% și 95\% (ACI, fereastra 250, $\gamma = 0{,}005$): consumul României (24 de fluxuri orare), log RV Bitcoin, inflația UE la $h = 1$ (27 de fluxuri), randamentele zilnice BET')],
-    h='0.48\\textheight')
+    h='0.64\\textheight')
 
 interp(('the calibration', 'calibrării'), [
     T(r'Raw 80\% bands: load @{fc.l.lo}--@{fc.l.hi}\%, Bitcoin @{fc.b.lo}--@{fc.b.hi}\%, inflation @{fc.i.lo}--@{fc.i.hi}\%, BET returns @{fc.r.lo}--@{fc.r.hi}\% across the four models',
@@ -1263,7 +1263,7 @@ interp(('the calibration', 'calibrării'), [
 chart(T('Value at Risk from foundation models', 'Valoarea la risc din foundation models'), 'ats_ch13_fm_var', 'ATS_ch13_calibration', [
     T(r'VaR 1\% exceedances, BET and S\&P 500 from @{fv.first} (@{fv.n} days): GARCH-$t$ (rolling 1000 days, Chapter 9), Chronos-2 raw and with ACI, deciles of the other models extended by a one-sided conformal shift',
       r'Depășirile VaR 1\%, BET și S\&P 500 din @{fv.first} (@{fv.n} zile): GARCH-$t$ (fereastră mobilă de 1000 de zile, Capitolul 9), Chronos-2 brut și cu ACI, decilele celorlalte modele extinse printr-o deplasare conformală unilaterală')],
-    h='0.48\\textheight')
+    h='0.65\\textheight')
 
 interp(('the VaR backtest', 'backtesting-ului VaR'), [
     T(r'BET, VaR 1\%: GARCH-$t$ @{fv.b.g}\% (Kupiec $p$ @{fv.b.gk}), Chronos-2 raw @{fv.b.c}\% ($p$ @{fv.b.ck}), Chronos-2 + ACI @{fv.b.a}\% ($p$ @{fv.b.ak}), TimesFM + conformal @{fv.b.t}\%',
@@ -1325,7 +1325,7 @@ chart(T('Mini-case: how much can the choice of benchmark change the verdict?', '
       r'@{ai.win}\% dintre benchmark-urile aleatoare declară Chronos-2 semnificativ mai bun, iar @{ai.lose}\% semnificativ mai slab; panelul întreg dă $t = @{ai.t}$ ($p$ @{ai.p})'),
     T('An AI summary that presents one such paper as evidence for (or against) foundation models is wrong; only the pre-registered panel answers the question',
       'Un rezumat AI care prezintă o astfel de lucrare ca dovadă pentru (sau împotriva) foundation models greșește; doar panelul preînregistrat răspunde la întrebare')],
-    h='0.4\\textheight')
+    h='0.46\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{A pre-registered, post-release benchmark of foundation models for CEE macro and risk, with conformal calibration}',

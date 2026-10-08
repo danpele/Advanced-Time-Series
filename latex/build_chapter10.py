@@ -366,7 +366,7 @@ D.frame(T('Records of the river', 'Înregistrările fluviului'), two(
 
 chart(T('Twenty-two years of log realised variance', 'Douăzeci și doi de ani de logaritm al varianței realizate'), 'ats_ch10_overview', 'ATS_ch10_memory', [
     T(r'Left: S\&P 500 (Oxford-Man, $n = @{ov.n}$ days to @{ov.end}) and Bitcoin ($n = @{ov.nb}$ days to @{ov.bend}); right: sample ACF of S\&P 500 log RV, lags 1--500, log-log',
-      r'Stînga: S\&P 500 (Oxford-Man, $n = @{ov.n}$ zile pînă la @{ov.end}) și Bitcoin ($n = @{ov.nb}$ zile pînă la @{ov.bend}); dreapta: ACF de eșantion a logaritmului RV pentru S\&P 500, laguri 1--500, scară log-log')], h='0.5\\textheight')
+      r'Stînga: S\&P 500 (Oxford-Man, $n = @{ov.n}$ zile pînă la @{ov.end}) și Bitcoin ($n = @{ov.nb}$ zile pînă la @{ov.bend}); dreapta: ACF de eșantion a logaritmului RV pentru S\&P 500, laguri 1--500, scară log-log')], h='0.53\\textheight')
 
 interp(('the long view', 'imaginii de ansamblu'), [
     T(r'ACF @{ov.acf1} at lag 1, @{ov.acf22} at lag 22, still @{ov.acf250} at lag 250: an AR(1) with the same first lag would give about $10^{-22}$ at lag 250', r'ACF @{ov.acf1} la lagul 1, @{ov.acf22} la 22, încă @{ov.acf250} la 250: un AR(1) cu același prim lag ar da circa $10^{-22}$ la lagul 250'),
@@ -437,7 +437,7 @@ D.frame(T('Fractional integration and ARFIMA (2/2)', 'Integrarea fracționară �
 
 chart(T('Hyperbolic and geometric decay', 'Descreștere hiperbolică și geometrică'), 'ats_ch10_acf_spec', 'ATS_ch10_memory', [
     T(r'Left: ACF of ARFIMA$(0,d,0)$ and of an AR(1) with the same $\rho(1)$, log-log; right: spectral densities near zero, the AR(1) scaled to the same variance',
-      r'Stînga: ACF pentru ARFIMA$(0,d,0)$ și pentru un AR(1) cu același $\rho(1)$, scară log-log; dreapta: densitățile spectrale lîngă zero, AR(1) scalat la aceeași varianță')], h='0.5\\textheight')
+      r'Stînga: ACF pentru ARFIMA$(0,d,0)$ și pentru un AR(1) cu același $\rho(1)$, scară log-log; dreapta: densitățile spectrale lîngă zero, AR(1) scalat la aceeași varianță')], h='0.63\\textheight')
 
 interp(('the two decays', 'celor două descreșteri'), [
     T(r'$d = 0.4$: $\rho(1) = @{ac.r1}$, $\rho(10) = @{ac.r10}$, $\rho(100) = @{ac.r100}$; the matching AR(1) has $\rho(100)$ of order $10^{-@{ac.ar100}}$', r'$d = 0{,}4$: $\rho(1) = @{ac.r1}$, $\rho(10) = @{ac.r10}$, $\rho(100) = @{ac.r100}$; AR(1) corespunzător are $\rho(100)$ de ordinul $10^{-@{ac.ar100}}$'),
@@ -461,7 +461,7 @@ D.frame(T('Where long memory comes from: aggregation', 'Originea memoriei lungi:
 
 chart(T('Aggregation of AR(1) series', 'Agregarea seriilor AR(1)'), 'ats_ch10_aggregation', 'ATS_ch10_memory', [
     T(r'$\phi_i^2 \sim \mathrm{Beta}(1, 1.4)$, so $d = 1 - q/2 = @{ag.d0}$; $n = 4000$; local Whittle with $m = @{ag.m}$, @{ag.reps} replications per $N$; left: periodogram of one aggregate of 3000 series',
-      r'$\phi_i^2 \sim \mathrm{Beta}(1; 1{,}4)$, deci $d = 1 - q/2 = @{ag.d0}$; $n = 4000$; local Whittle cu $m = @{ag.m}$, @{ag.reps} replicări pentru fiecare $N$; stînga: periodograma unui agregat de 3000 de serii')], h='0.5\\textheight')
+      r'$\phi_i^2 \sim \mathrm{Beta}(1; 1{,}4)$, deci $d = 1 - q/2 = @{ag.d0}$; $n = 4000$; local Whittle cu $m = @{ag.m}$, @{ag.reps} replicări pentru fiecare $N$; stînga: periodograma unui agregat de 3000 de serii')], h='0.54\\textheight')
 
 interp(('aggregation', 'agregării'), [
     T(r'One AR(1): median $\hat d = @{ag.m1}$; ten series: @{ag.m10}; 100 series: @{ag.m100}; 3000 series: @{ag.m3000} (10\%--90\%: @{ag.lo} to @{ag.hi})', r'Un singur AR(1): mediana $\hat d = @{ag.m1}$; zece serii: @{ag.m10}; 100 de serii: @{ag.m100}; 3000 de serii: @{ag.m3000} (10\%--90\%: între @{ag.lo} și @{ag.hi})'),
@@ -562,7 +562,7 @@ D.frame(T('Exact local Whittle', 'Local Whittle exact'), items(
 
 chart(T('GPH, local Whittle and exact local Whittle by Monte Carlo', 'GPH, local Whittle și local Whittle exact prin Monte Carlo'), 'ats_ch10_mc_estimators', 'ATS_ch10_estimation', [
     T(r'@{mc.reps} Gaussian ARFIMA$(0,d,0)$ paths, $n = 2000$, $m = n^{0.65} = @{mc.m}$; asymptotic SD: GPH @{mc.seg}, local Whittle @{mc.sel}; $d = 1.2$ is simulated as the partial sum of an ARFIMA$(0, 0.2, 0)$',
-      r'@{mc.reps} de traiectorii ARFIMA$(0,d,0)$ gaussiene, $n = 2000$, $m = n^{0{,}65} = @{mc.m}$; abaterea standard asimptotică: GPH @{mc.seg}, local Whittle @{mc.sel}; $d = 1{,}2$ se simulează ca sumă parțială a unui ARFIMA$(0; 0{,}2; 0)$')], h='0.5\\textheight')
+      r'@{mc.reps} de traiectorii ARFIMA$(0,d,0)$ gaussiene, $n = 2000$, $m = n^{0{,}65} = @{mc.m}$; abaterea standard asimptotică: GPH @{mc.seg}, local Whittle @{mc.sel}; $d = 1{,}2$ se simulează ca sumă parțială a unui ARFIMA$(0; 0{,}2; 0)$')], h='0.63\\textheight')
 
 interp(('the Monte Carlo', 'experimentului Monte Carlo'), [
     T(r'$d = 0.3$: means @{mc.s.GPH.m}, @{mc.s.LW.m}, @{mc.s.ELW.m}; SD @{mc.s.GPH.s}, @{mc.s.LW.s}, @{mc.s.ELW.s}; 95\% coverage @{mc.s.GPH.c}\%, @{mc.s.LW.c}\%, @{mc.s.ELW.c}\% (GPH, LW, ELW)', r'$d = 0{,}3$: medii @{mc.s.GPH.m}, @{mc.s.LW.m}, @{mc.s.ELW.m}; abateri standard @{mc.s.GPH.s}, @{mc.s.LW.s}, @{mc.s.ELW.s}; acoperirea de 95\%: @{mc.s.GPH.c}\%, @{mc.s.LW.c}\%, @{mc.s.ELW.c}\% (GPH, LW, ELW)'),
@@ -585,7 +585,7 @@ D.frame(T('Bandwidth: bias against variance', 'Lățimea de bandă: deplasare ș
 
 chart(T('Bias and RMSE across bandwidths', 'Deplasarea și RMSE în funcție de lățimea de bandă'), 'ats_ch10_bandwidth', 'ATS_ch10_estimation', [
     T(r'Local Whittle, ARFIMA$(1, 0.3, 0)$ with $\phi = 0.6$, $n = 2000$, 300 replications, $m = n^a$ for $a = 0.40, \dots, 0.80$; dashed: the leading bias $C(m/n)^2$ with $C = @{bw.C}$ and the asymptotic RMSE',
-      r'Local Whittle, ARFIMA$(1; 0{,}3; 0)$ cu $\phi = 0{,}6$, $n = 2000$, 300 de replicări, $m = n^a$ pentru $a = 0{,}40, \dots, 0{,}80$; linie întreruptă: deplasarea principală $C(m/n)^2$ cu $C = @{bw.C}$ și RMSE asimptotic')], h='0.5\\textheight')
+      r'Local Whittle, ARFIMA$(1; 0{,}3; 0)$ cu $\phi = 0{,}6$, $n = 2000$, 300 de replicări, $m = n^a$ pentru $a = 0{,}40, \dots, 0{,}80$; linie întreruptă: deplasarea principală $C(m/n)^2$ cu $C = @{bw.C}$ și RMSE asimptotic')], h='0.55\\textheight')
 
 interp(('the bandwidth trade-off', 'compromisului lățimii de bandă'), [
     T(r'Small $m$ ($a = 0.40$): bias @{bw.b40}, RMSE @{bw.r40}, dominated by variance; large $m$ ($a = 0.80$): bias @{bw.b80}, RMSE @{bw.r80}', r'$m$ mic ($a = 0{,}40$): deplasare @{bw.b40}, RMSE @{bw.r40}, dominat de varianță; $m$ mare ($a = 0{,}80$): deplasare @{bw.b80}, RMSE @{bw.r80}'),
@@ -638,7 +638,7 @@ D.frame(T('The Qu (2011) test', 'Testul Qu (2011)'), items(
 
 chart(T('Size, power and the bandwidth signature', 'Mărime, putere și semnătura lățimii de bandă'), 'ats_ch10_qu', 'ATS_ch10_qu_test', [
     T(r'$n = 2000$, @{qu.reps} replications, $m = n^{0.7} = @{qu.m}$, $\varepsilon = 0.02$; left: mean local Whittle $\hat d(m)$ (100 paths) and the S\&P 500 log RV; right: rejection rates at 5\%',
-      r'$n = 2000$, @{qu.reps} de replicări, $m = n^{0{,}7} = @{qu.m}$, $\varepsilon = 0{,}02$; stînga: media $\hat d(m)$ local Whittle (100 de traiectorii) și logaritmul RV pentru S\&P 500; dreapta: ratele de respingere la 5\%')], h='0.5\\textheight')
+      r'$n = 2000$, @{qu.reps} de replicări, $m = n^{0{,}7} = @{qu.m}$, $\varepsilon = 0{,}02$; stînga: media $\hat d(m)$ local Whittle (100 de traiectorii) și logaritmul RV pentru S\&P 500; dreapta: ratele de respingere la 5\%')], h='0.54\\textheight')
 
 interp(('the Qu test', 'testului Qu'), [
     T(r'Size: @{qu.r0}\% under ARFIMA$(0, 0.3, 0)$, @{qu.r1}\% when an AR(1) with $\phi = 0.5$ is added: short-run dynamics distort size in finite samples', r'Mărimea: @{qu.r0}\% sub ARFIMA$(0; 0{,}3; 0)$, @{qu.r1}\% cînd se adaugă un AR(1) cu $\phi = 0{,}5$: dinamica de termen scurt distorsionează mărimea în eșantioane finite'),
@@ -648,7 +648,7 @@ interp(('the Qu test', 'testului Qu'), [
 
 chart(T('Inflation persistence and the disinflation', 'Persistența inflației și dezinflația'), 'ats_ch10_inflation', 'ATS_ch10_qu_test', [
     T(r'Monthly inflation, \% annualised: US CPI (seasonally adjusted) to @{in.us.end}, Romanian HICP (monthly means removed) to @{in.ro.end}; exact local Whittle with unknown mean, 95\% bands; full sample and after the disinflation (US from 1985, Romania from 2005)',
-      r'Inflația lunară, \% anualizat: IPC SUA (ajustat sezonier) pînă în @{in.us.end}, IAPC România (fără mediile lunare) pînă în @{in.ro.end}; local Whittle exact cu media necunoscută, benzi de 95\%; eșantionul complet și după dezinflație (SUA din 1985, România din 2005)')], h='0.5\\textheight')
+      r'Inflația lunară, \% anualizat: IPC SUA (ajustat sezonier) pînă în @{in.us.end}, IAPC România (fără mediile lunare) pînă în @{in.ro.end}; local Whittle exact cu media necunoscută, benzi de 95\%; eșantionul complet și după dezinflație (SUA din 1985, România din 2005)')], h='0.54\\textheight')
 
 interp(('inflation persistence', 'persistenței inflației'), [
     T(r'US: $\hat d = @{in.us.full.d}$ (SE @{in.us.full.se}) on 1960--2026 but @{in.us.post.d} after 1985; Qu $W = @{in.us.full.W}$ (1\% value @{in.c.99}) rejects for the full sample, $W = @{in.us.post.W}$ after 1985', r'SUA: $\hat d = @{in.us.full.d}$ (SE @{in.us.full.se}) pe 1960--2026, dar @{in.us.post.d} după 1985; Qu $W = @{in.us.full.W}$ (valoarea de 1\%: @{in.c.99}) respinge pentru eșantionul complet, $W = @{in.us.post.W}$ după 1985'),
@@ -701,7 +701,7 @@ D.frame(T('Semiparametric co-memory', 'Memorie comună semiparametrică'), items
 
 chart(T('FCVAR: realised and implied variance', 'FCVAR: varianța realizată și cea implicită'), 'ats_ch10_fcvar', 'ATS_ch10_fcvar', [
     T(r'S\&P 500 log 5-minute RV and $\log(\mathrm{VIX}^2/252)$, $n = @{fc.n}$ common days to @{fc.end}; right: profile log-likelihood of the rank-one FCVAR with $k = 0$ over $(d, b)$, the 60 log-points below the maximum',
-      r'Logaritmul RV de 5 minute pentru S\&P 500 și $\log(\mathrm{VIX}^2/252)$, $n = @{fc.n}$ zile comune pînă la @{fc.end}; dreapta: log-verosimilitatea profilată a FCVAR de rang unu cu $k = 0$ în $(d, b)$, ultimele 60 de puncte logaritmice sub maxim')], h='0.48\\textheight')
+      r'Logaritmul RV de 5 minute pentru S\&P 500 și $\log(\mathrm{VIX}^2/252)$, $n = @{fc.n}$ zile comune pînă la @{fc.end}; dreapta: log-verosimilitatea profilată a FCVAR de rang unu cu $k = 0$ în $(d, b)$, ultimele 60 de puncte logaritmice sub maxim')], h='0.55\\textheight')
 
 interp(('the FCVAR', 'modelului FCVAR'), [
     T(r'Local Whittle: $d$ = @{fc.d_rv} for log RV, @{fc.d_iv} for log VIX$^2$, @{fc.d_spread} for the spread $\beta\'X_t$ (SE @{fc.se}): the combination is less persistent', r'Local Whittle: $d$ = @{fc.d_rv} pentru logaritmul RV, @{fc.d_iv} pentru logaritmul VIX$^2$, @{fc.d_spread} pentru combinația $\beta\'X_t$ (SE @{fc.se}): combinația este mai puțin persistentă'),
@@ -741,7 +741,7 @@ D.frame(T('FIGARCH (2/2): the variance paradox and HYGARCH', 'FIGARCH (2/2): par
 
 chart(T('ARCH weights: geometric and hyperbolic', 'Ponderi ARCH: geometrice și hiperbolice'), 'ats_ch10_figarch', 'ATS_ch10_figarch', [
     T(r'S\&P 500 daily returns 2000--2026 ($n = @{fg.sp500.n}$), Student $t$ QML, ARCH($\infty$) truncated at 1000 lags; GARCH $(\alpha, \beta) = (@{fg.sp500.ga}, @{fg.sp500.gb})$, FIGARCH $d = @{fg.sp500.d}$, $\phi = @{fg.sp500.phi}$, $\beta = @{fg.sp500.beta}$',
-      r'Randamentele zilnice ale S\&P 500, 2000--2026 ($n = @{fg.sp500.n}$), QML cu distribuția Student $t$, ARCH($\infty$) trunchiat la 1000 de laguri; GARCH $(\alpha, \beta) = (@{fg.sp500.ga}; @{fg.sp500.gb})$, FIGARCH $d = @{fg.sp500.d}$, $\phi = @{fg.sp500.phi}$, $\beta = @{fg.sp500.beta}$')], h='0.48\\textheight')
+      r'Randamentele zilnice ale S\&P 500, 2000--2026 ($n = @{fg.sp500.n}$), QML cu distribuția Student $t$, ARCH($\infty$) trunchiat la 1000 de laguri; GARCH $(\alpha, \beta) = (@{fg.sp500.ga}; @{fg.sp500.gb})$, FIGARCH $d = @{fg.sp500.d}$, $\phi = @{fg.sp500.phi}$, $\beta = @{fg.sp500.beta}$')], h='0.65\\textheight')
 
 D.frame(T('Interpreting the FIGARCH estimates', 'Interpretarea estimațiilor FIGARCH'), table(
     'lcccccc', T(r'\textbf{Market}', r'\textbf{Piața}') + r' & $\hat d$ & LR & $\hat a$ & BIC GARCH & BIC FIGARCH & ' + T('weight after lag 22', 'ponderea după lagul 22'),
@@ -768,7 +768,7 @@ D.frame(T('Long-memory stochastic volatility and noise', 'Volatilitate stochasti
 
 chart(T('Memory of volatility proxies across markets', 'Memoria proxy-urilor de volatilitate pe mai multe piețe'), 'ats_ch10_assets_d', 'ATS_ch10_figarch', [
     T(r'Local Whittle $\hat d$ with $m = n^{0.65}$ of $|r_t|$ and $\log(r_t^2 + c)$, $c$ = 1\% of the variance; LW with noise on $\log(r_t^2 + c)$ with $m = n^{0.8}$; log RV where realised measures exist (S\&P 500, DAX to 2022; Bitcoin to 2026)',
-      r'$\hat d$ local Whittle cu $m = n^{0{,}65}$ pentru $|r_t|$ și $\log(r_t^2 + c)$, $c$ = 1\% din varianță; LW cu zgomot pentru $\log(r_t^2 + c)$ cu $m = n^{0{,}8}$; logaritmul RV acolo unde există măsuri realizate (S\&P 500, DAX pînă în 2022; Bitcoin pînă în 2026)')], h='0.5\\textheight')
+      r'$\hat d$ local Whittle cu $m = n^{0{,}65}$ pentru $|r_t|$ și $\log(r_t^2 + c)$, $c$ = 1\% din varianță; LW cu zgomot pentru $\log(r_t^2 + c)$ cu $m = n^{0{,}8}$; logaritmul RV acolo unde există măsuri realizate (S\&P 500, DAX pînă în 2022; Bitcoin pînă în 2026)')], h='0.59\\textheight')
 
 interp(('volatility memory across markets', 'memoriei volatilității pe mai multe piețe'), [
     T(r'S\&P 500: $|r|$ @{ad.sp500.abs}, $\log r^2$ @{ad.sp500.lsq}, with noise @{ad.sp500.lwn}, log RV @{ad.sp500.rv}: the noise correction moves $\log r^2$ to the RV level', r'S\&P 500: $|r|$ @{ad.sp500.abs}, $\log r^2$ @{ad.sp500.lsq}, cu zgomot @{ad.sp500.lwn}, logaritmul RV @{ad.sp500.rv}: corecția de zgomot aduce $\log r^2$ la nivelul RV'),
@@ -788,7 +788,7 @@ D.frame(T('HAR as an approximation of long memory', 'HAR ca aproximare a memorie
 
 chart(T('HAR weights and the ACF it implies', 'Ponderile HAR și ACF implicată'), 'ats_ch10_har_approx', 'ATS_ch10_figarch', [
     T(r'S\&P 500 log RV; HAR by OLS: $\beta_d = @{har.bd}$, $\beta_w = @{har.bw}$, $\beta_m = @{har.bm}$; left: implied AR weights and ARFIMA $-\pi_k$ with $d = @{har.d}$; right: ACF of a long simulation of the fitted HAR and the sample ACF',
-      r'Logaritmul RV pentru S\&P 500; HAR prin OLS: $\beta_d = @{har.bd}$, $\beta_w = @{har.bw}$, $\beta_m = @{har.bm}$; stînga: ponderile AR implicate și $-\pi_k$ ARFIMA cu $d = @{har.d}$; dreapta: ACF a unei simulări lungi a HAR estimat și ACF de eșantion')], h='0.48\\textheight')
+      r'Logaritmul RV pentru S\&P 500; HAR prin OLS: $\beta_d = @{har.bd}$, $\beta_w = @{har.bw}$, $\beta_m = @{har.bm}$; stînga: ponderile AR implicate și $-\pi_k$ ARFIMA cu $d = @{har.d}$; dreapta: ACF a unei simulări lungi a HAR estimat și ACF de eșantion')], h='0.54\\textheight')
 
 interp(('the HAR approximation', 'aproximării HAR'), [
     T(r'Sum of HAR weights @{har.pers}: close to a unit root, which is how a short-memory model buys persistence', r'Suma ponderilor HAR @{har.pers}: aproape de o rădăcină unitară, așa își obține persistența un model de memorie scurtă'),
@@ -826,7 +826,7 @@ D.frame(T('Fractional Brownian motion (2/2)', 'Mișcarea browniană fracționar�
      [T(r'long memory for $H > 1/2$ ($d = H - 1/2$); negative correlation for $H < 1/2$', r'memorie lungă pentru $H > 1/2$ ($d = H - 1/2$); corelație negativă pentru $H < 1/2$')])), 'small')
 
 chart(T('Fractional Brownian paths', 'Traiectorii browniene fracționare'), 'ats_ch10_fbm_paths', 'ATS_ch10_simulation', [
-    T(r'One path each on 1000 steps, exact simulation by circulant embedding; $H = 0.5$ is Brownian motion', r'O traiectorie pentru fiecare valoare, pe 1000 de pași, simulare exactă prin scufundare circulantă; $H = 0{,}5$ este mișcarea browniană')], h='0.5\\textheight')
+    T(r'One path each on 1000 steps, exact simulation by circulant embedding; $H = 0.5$ is Brownian motion', r'O traiectorie pentru fiecare valoare, pe 1000 de pași, simulare exactă prin scufundare circulantă; $H = 0{,}5$ este mișcarea browniană')], h='0.65\\textheight')
 
 interp(('the paths', 'traiectoriilor'), [
     T(r'Lag-one correlation of the increments: @{fb.1} for $H = 0.1$, @{fb.3} for $H = 0.3$, 0 for $H = 0.5$, @{fb.7} for $H = 0.7$', r'Corelația de ordinul unu a creșterilor: @{fb.1} pentru $H = 0{,}1$, @{fb.3} pentru $H = 0{,}3$, 0 pentru $H = 0{,}5$, @{fb.7} pentru $H = 0{,}7$'),
@@ -859,7 +859,7 @@ D.frame(T('The hybrid scheme for Volterra processes', 'Schema hibridă pentru pr
     T('The sum is a convolution: $O(n\\log n)$ by FFT; the scheme extends to Brownian semistationary processes', 'Suma este o convoluție: $O(n\\log n)$ prin FFT; schema se extinde la procesele browniene semistaționare')), 'footnotesize')
 
 chart(T('Riemann sum against the hybrid scheme', 'Suma Riemann și schema hibridă'), 'ats_ch10_hybrid', 'ATS_ch10_simulation', [
-    T(r'$\Var X(1)$ of the Riemann--Liouville process, exact value $1/(2H)$; $n = @{hy.n}$ steps, @{hy.paths} paths', r'$\Var X(1)$ pentru procesul Riemann--Liouville, valoarea exactă $1/(2H)$; $n = @{hy.n}$ pași, @{hy.paths} de traiectorii')], h='0.46\\textheight')
+    T(r'$\Var X(1)$ of the Riemann--Liouville process, exact value $1/(2H)$; $n = @{hy.n}$ steps, @{hy.paths} paths', r'$\Var X(1)$ pentru procesul Riemann--Liouville, valoarea exactă $1/(2H)$; $n = @{hy.n}$ pași, @{hy.paths} de traiectorii')], h='0.67\\textheight')
 
 interp(('the simulation schemes', 'schemelor de simulare'), [
     T(r'Forward Riemann sum: @{hy.r05} of the true variance at $H = 0.05$ and @{hy.r1} at $H = 0.1$: it misses the mass of the kernel near the singularity', r'Suma Riemann înainte: @{hy.r05} din varianța adevărată la $H = 0{,}05$ și @{hy.r1} la $H = 0{,}1$: ratează masa nucleului de lîngă singularitate'),
@@ -887,7 +887,7 @@ D.frame(T('The evidence: scaling of log volatility (2/2)', 'Evidența: scalarea 
 
 chart(T('Replicating the scaling on the S\\&P 500', 'Replicarea scalării pe S\\&P 500'), 'ats_ch10_gjr', 'ATS_ch10_rough', [
     T(r'Oxford-Man 5-minute RV of the S\&P 500, January 2000 -- February 2022; left: $\log m(q, \Delta)$ and OLS lines; right: $\zeta_q$ and the line $qH$',
-      r'RV de 5 minute Oxford-Man pentru S\&P 500, ianuarie 2000 -- februarie 2022; stînga: $\log m(q, \Delta)$ și dreptele OLS; dreapta: $\zeta_q$ și dreapta $qH$')], h='0.5\\textheight')
+      r'RV de 5 minute Oxford-Man pentru S\&P 500, ianuarie 2000 -- februarie 2022; stînga: $\log m(q, \Delta)$ și dreptele OLS; dreapta: $\zeta_q$ și dreapta $qH$')], h='0.54\\textheight')
 
 interp(('the scaling', 'scalării'), [
     T(r'$\zeta_q$ = @{gj.z0}, @{gj.z1}, @{gj.z2}, @{gj.z3}, @{gj.z4} for $q$ = 0.5, 1, 1.5, 2, 3: linear in $q$, $\hat H = @{gj.H}$', r'$\zeta_q$ = @{gj.z0}; @{gj.z1}; @{gj.z2}; @{gj.z3}; @{gj.z4} pentru $q$ = 0,5; 1; 1,5; 2; 3: liniar în $q$, $\hat H = @{gj.H}$'),
@@ -912,7 +912,7 @@ D.frame(T('The RFSV model', 'Modelul RFSV'), items(
 
 chart(T('Roughness across markets and proxies', 'Neregularitatea pe mai multe piețe și proxy-uri'), 'ats_ch10_gjr_assets', 'ATS_ch10_rough', [
     T(r'$H$ from 5-minute RV (Oxford-Man; Bitcoin: Binance) by the moment regression and with a measurement-error intercept; Parkinson range of EODHD daily highs and lows over the same days, where available',
-      r'$H$ din RV de 5 minute (Oxford-Man; Bitcoin: Binance) prin regresia momentelor și cu un termen liber pentru eroarea de măsurare; amplitudinea Parkinson din maximele și minimele zilnice EODHD pe aceleași zile, acolo unde există')], h='0.5\\textheight')
+      r'$H$ din RV de 5 minute (Oxford-Man; Bitcoin: Binance) prin regresia momentelor și cu un termen liber pentru eroarea de măsurare; amplitudinea Parkinson din maximele și minimele zilnice EODHD pe aceleași zile, acolo unde există')], h='0.59\\textheight')
 
 interp(('roughness across markets', 'neregularității pe mai multe piețe'), [
     T(r'RV: $H$ from @{ga.min} to @{ga.max} for six indices and Bitcoin (S\&P 500 @{ga.spx.H}, DAX @{ga.dax.H}, Euro Stoxx 50 @{ga.sx.H}, Bitcoin @{ga.btc.H})', r'RV: $H$ între @{ga.min} și @{ga.max} pentru șase indici și Bitcoin (S\&P 500 @{ga.spx.H}, DAX @{ga.dax.H}, Euro Stoxx 50 @{ga.sx.H}, Bitcoin @{ga.btc.H})'),
@@ -930,7 +930,7 @@ D.frame(T('Critiques: is roughness an artefact?', 'Critici: este neregularitatea
 
 chart(T('Measurement error and the estimate of $H$', 'Eroarea de măsurare și estimația lui $H$'), 'ats_ch10_noise_sim', 'ATS_ch10_rough', [
     T(r'Log volatility a fractional OU on 78 intraday steps a day, @{nz.days} days, @{nz.reps} replications; daily IV (no error) and RV from the 78 squared returns; GJR estimator',
-      r'Logaritmul volatilității este un OU fracționar pe 78 de pași intraday pe zi, @{nz.days} de zile, @{nz.reps} replicări; IV zilnic (fără eroare) și RV din cele 78 de randamente pătratice; estimatorul GJR')], h='0.48\\textheight')
+      r'Logaritmul volatilității este un OU fracționar pe 78 de pași intraday pe zi, @{nz.days} de zile, @{nz.reps} replicări; IV zilnic (fără eroare) și RV din cele 78 de randamente pătratice; estimatorul GJR')], h='0.65\\textheight')
 
 interp(('the simulation', 'simulării'), [
     T(r'True $H = 0.1$: from IV @{nz.1.iv}, from RV @{nz.1.rv}, RV with intercept @{nz.1.rvn}: the integration bias and the error bias almost cancel', r'$H$ adevărat $= 0{,}1$: din IV @{nz.1.iv}, din RV @{nz.1.rv}, RV cu termen liber @{nz.1.rvn}: deplasarea de integrare și cea de eroare aproape se anulează'),
@@ -947,7 +947,7 @@ D.frame(T('Roughness and persistence', 'Neregularitate și persistență'), item
 
 chart(T('Short scales and long scales', 'Scări mici și scări mari'), 'ats_ch10_decouple', 'ATS_ch10_rough', [
     T(r'S\&P 500 log volatility, lags 1--1000 days; left: variogram $m(2, \Delta)$ with slopes on lags 1--10 and 100--1000; right: sample ACF with a $k^{2d-1}$ fit on lags 10--250',
-      r'Logaritmul volatilității pentru S\&P 500, laguri 1--1000 de zile; stînga: variograma $m(2, \Delta)$ cu pantele pe lagurile 1--10 și 100--1000; dreapta: ACF de eșantion cu o ajustare $k^{2d-1}$ pe lagurile 10--250')], h='0.48\\textheight')
+      r'Logaritmul volatilității pentru S\&P 500, laguri 1--1000 de zile; stînga: variograma $m(2, \Delta)$ cu pantele pe lagurile 1--10 și 100--1000; dreapta: ACF de eșantion cu o ajustare $k^{2d-1}$ pe lagurile 10--250')], h='0.54\\textheight')
 
 interp(('the two scales', 'celor două scări'), [
     T(r'Short lags: slope $2H = @{dc.2H}$, $H = @{dc.H}$; long lags: slope @{dc.sl}, still rising at 1000 days, above $2\Var(\log\sigma)$', r'Laguri scurte: panta $2H = @{dc.2H}$, $H = @{dc.H}$; laguri lungi: panta @{dc.sl}, încă în creștere la 1000 de zile, peste $2\Var(\log\sigma)$'),
@@ -983,7 +983,7 @@ D.frame(T('The RFSV predictor (2/2): the variance forecast', 'Predictorul RFSV (
     T('Two parameters ($H$, $\\nu$), both from the variogram: no likelihood, no optimisation', 'Doi parametri ($H$, $\\nu$), ambii din variogramă: fără verosimilitate, fără optimizare')), 'small')
 
 chart(T('How far back the forecasts look', 'Cît de departe privesc prognozele'), 'ats_ch10_rfsv_kernel', 'ATS_ch10_forecast', [
-    T(r'RFSV kernel with $H = @{kr.H}$ (S\&P 500) for $h = 1$ and $h = 22$ days, against the normalised HAR weights for $h = 1$', r'Nucleul RFSV cu $H = @{kr.H}$ (S\&P 500) pentru $h = 1$ și $h = 22$ de zile, față de ponderile HAR normalizate pentru $h = 1$')], h='0.5\\textheight')
+    T(r'RFSV kernel with $H = @{kr.H}$ (S\&P 500) for $h = 1$ and $h = 22$ days, against the normalised HAR weights for $h = 1$', r'Nucleul RFSV cu $H = @{kr.H}$ (S\&P 500) pentru $h = 1$ și $h = 22$ de zile, față de ponderile HAR normalizate pentru $h = 1$')], h='0.64\\textheight')
 
 interp(('the kernels', 'nucleelor'), [
     T(r'$h = 1$: RFSV puts @{kr.1.w1}\% on the last day, @{kr.1.w5}\% on the last week, @{kr.1.w22}\% on the last month; HAR: @{kr.har.w1}\% and @{kr.har.w5}\%', r'$h = 1$: RFSV pune @{kr.1.w1}\% pe ultima zi, @{kr.1.w5}\% pe ultima săptămînă, @{kr.1.w22}\% pe ultima lună; HAR: @{kr.har.w1}\% și @{kr.har.w5}\%'),
@@ -1000,7 +1000,7 @@ D.frame(T('An honest out-of-sample comparison', 'O comparație riguroasă în af
 
 chart(T('RFSV and ARFIMA against HAR', 'RFSV și ARFIMA față de HAR'), 'ats_ch10_forecast', 'ATS_ch10_forecast', [
     T(r'Average QLIKE relative to HAR (below 1: better than HAR); a star marks a DM $p$-value below 5\%; S\&P 500 @{fo.spx.start} -- @{fo.spx.end} ($T = @{fo.spx.T}$), DAX ($T = @{fo.dax.T}$), Bitcoin @{fo.btc.start} -- @{fo.btc.end} ($T = @{fo.btc.T}$)',
-      r'QLIKE mediu relativ la HAR (sub 1: mai bun decît HAR); o stea marchează un p-value DM sub 5\%; S\&P 500 @{fo.spx.start} -- @{fo.spx.end} ($T = @{fo.spx.T}$), DAX ($T = @{fo.dax.T}$), Bitcoin @{fo.btc.start} -- @{fo.btc.end} ($T = @{fo.btc.T}$)')], h='0.48\\textheight')
+      r'QLIKE mediu relativ la HAR (sub 1: mai bun decît HAR); o stea marchează un p-value DM sub 5\%; S\&P 500 @{fo.spx.start} -- @{fo.spx.end} ($T = @{fo.spx.T}$), DAX ($T = @{fo.dax.T}$), Bitcoin @{fo.btc.start} -- @{fo.btc.end} ($T = @{fo.btc.T}$)')], h='0.56\\textheight')
 
 D.frame(T('Interpreting the forecast comparison', 'Interpretarea comparației prognozelor'), table(
     'lcccccc', T(r'\textbf{QLIKE / HAR}', r'\textbf{QLIKE / HAR}') + r' & \multicolumn{2}{c}{S\&P 500} & \multicolumn{2}{c}{DAX} & \multicolumn{2}{c}{Bitcoin} \\ & ARFIMA & RFSV & ARFIMA & RFSV & ARFIMA & RFSV',
@@ -1048,7 +1048,7 @@ chart(T('Mini-case: how robust is ``$H$ of order 0.1\'\'?', 'Mini studiu de caz:
       r'@{ai.cells} de celule: șapte active $\times$ cinci măsuri realizate $\times$ două jumătăți ale eșantionului; doi estimatori pentru fiecare (@{ai.n} de estimații); dreapta: $H$ față de $d$ local Whittle din aceeași celulă'),
     T(r'$H$ from @{ai.Hmin} to @{ai.Hmax}, median @{ai.Hmed} (moments @{ai.Hmedmom}, with intercept @{ai.Hmedint}); @{ai.sh}\% below 0.2; $d$ from @{ai.dmin} to @{ai.dmax}; correlation of $H$ and $d$ @{ai.corr}: an AI summary that calls volatility ``short memory because $H < 1/2$\'\' is wrong',
       r'$H$ între @{ai.Hmin} și @{ai.Hmax}, mediana @{ai.Hmed} (momente @{ai.Hmedmom}, cu termen liber @{ai.Hmedint}); @{ai.sh}\% sub 0,2; $d$ între @{ai.dmin} și @{ai.dmax}; corelația dintre $H$ și $d$ @{ai.corr}: un rezumat AI care numește volatilitatea „cu memorie scurtă pentru că $H < 1/2$” greșește')],
-    h='0.42\\textheight')
+    h='0.52\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{Roughness and persistence of volatility in Central and Eastern European markets}: replicate first, then extend', r'\textbf{Neregularitatea și persistența volatilității pe piețele din Europa Centrală și de Est}: întîi replicare, apoi extindere'),

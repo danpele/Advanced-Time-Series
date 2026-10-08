@@ -422,7 +422,7 @@ D.frame(T('Conditional risk forecasts: three routes (2/2)', 'Prognoze condițion
 chart(T('Thirty-six years of tail forecasts', 'Treizeci și șase de ani de prognoze ale cozii'), 'ats_ch9_overview', 'ATS_ch9_pzc', [
     T(r'S\&P 500 daily returns; the GAS-1F model of Patton, Ziegel and Chen, parameters estimated once on 1990--1999 and then only filtered; shaded: the four stress periods',
       r'Randamentele zilnice ale S\&P 500; modelul GAS-1F al lui Patton, Ziegel și Chen, cu parametrii estimați o singură dată pe 1990--1999 și apoi doar filtrați; zonele colorate: cele patru perioade de criză')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the long-run forecasts', 'prognozelor pe termen lung'), [
     T(r'The ES 2.5\% forecast ranges from about @{ov.med}\% (median) to @{ov.min}\% on @{ov.day}: tail risk moves as much as volatility', r'Prognoza ES 2,5\% variază de la circa @{ov.med}\% (mediana) la @{ov.min}\% la @{ov.day}: riscul de coadă se mișcă la fel de mult ca volatilitatea'),
@@ -491,7 +491,7 @@ D.frame(T('ES is not elicitable', 'ES nu este elicitabil'), items(
 chart(T('Level sets under mixing', 'Mulțimile de nivel la amestecare'), 'ats_ch9_level_sets', 'ATS_ch9_scoring', [
     T(r'Left: $N(0, 1)$ and a $t(3)$ rescaled to the same 2.5\% quantile; right: $N(0, 1)$ and a $t(3)$ rescaled to the same ES 2.5\%; curves: the functional of the mixture',
       r'Stînga: $N(0, 1)$ și o $t(3)$ rescalată la aceeași cuantilă de 2,5\%; dreapta: $N(0, 1)$ și o $t(3)$ rescalată la același ES 2,5\%; curbele: funcționala amestecului')],
-    h='0.5\\textheight')
+    h='0.51\\textheight')
 
 interp(('the level sets', 'mulțimilor de nivel'), [
     T(r'The quantile of every mixture stays at @{ls.zq}: the level set of $q_{0.025}$ is convex', r'Cuantila oricărui amestec rămîne @{ls.zq}: mulțimea de nivel a lui $q_{0{,}025}$ este convexă'),
@@ -536,7 +536,7 @@ D.frame(T('FZ0: the zero-homogeneous member', 'FZ0: membrul omogen de grad zero'
 chart(T('Expected losses around the truth', 'Pierderile așteptate în jurul valorii corecte'), 'ats_ch9_fz0_contour', 'ATS_ch9_scoring', [
     T(r'Student $t(5)$ with unit variance, $\alpha = 0.025$, expectations by simulation ($4\times10^5$ draws): left, expected pinball loss; right, contours of the expected FZ0 loss',
       r'Distribuția Student $t(5)$ cu varianță unitară, $\alpha = 0{,}025$, mediile prin simulare ($4\times10^5$ extrageri): stînga, pierderea pinball așteptată; dreapta, contururile pierderii FZ0 așteptate')],
-    h='0.5\\textheight')
+    h='0.57\\textheight')
 
 interp(('the expected losses', 'pierderilor așteptate'), [
     T(r'The pinball curve is minimal at @{ct.vmin}, the true quantile @{ct.v0}: consistency in action', r'Curba pinball este minimă la @{ct.vmin}, cuantila corectă fiind @{ct.v0}: consistența în acțiune'),
@@ -558,7 +558,7 @@ D.frame(T('Murphy diagrams: ranking for all consistent scores', 'Diagramele Murp
 chart(T('A Murphy diagram for VaR 2.5\\%', 'O diagramă Murphy pentru VaR 2,5\\%'), 'ats_ch9_murphy', 'ATS_ch9_scoring', [
     T(r'S\&P 500, out of sample 2000--2016 (PZC design); mean elementary scores of three VaR 2.5\% forecasts against the threshold $\theta$',
       r'S\&P 500, în afara eșantionului 2000--2016 (schema PZC); scorurile elementare medii ale celor trei prognoze VaR 2,5\% în funcție de pragul $\theta$')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the Murphy diagram', 'diagramei Murphy'), [
     T(r'GARCH-EDF lies below RW-250 at @{mu.edf}\% of the thresholds: the dynamic forecast dominates almost uniformly', r'GARCH-EDF este sub RW-250 la @{mu.edf}\% din praguri: prognoza dinamică domină aproape uniform'),
@@ -660,7 +660,7 @@ D.frame(T('Case study: Engle and Manganelli (2004) on today\'s data', 'Studiu de
 chart(T('CAViaR VaR 1\\% of the S\\&P 500', 'VaR 1\\% CAViaR pentru S\\&P 500'), 'ats_ch9_caviar', 'ATS_ch9_caviar', [
     T(r'The last year of the estimation sample and the 500 out-of-sample days; lines: the 1\% return quantile $q_t = -\mathrm{VaR}_t$ of the four specifications',
       r'Ultimul an al eșantionului de estimare și cele 500 de zile din afara lui; liniile: cuantila de 1\% a randamentelor $q_t = -\mathrm{VaR}_t$ pentru cele patru specificații')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 D.frame(T('Estimates, standard errors and DQ tests', 'Estimații, erori standard și teste DQ'), '\\setlength{\\tabcolsep}{3pt}\n' + table(
     'lrrrrrrrr', T(r'\textbf{Model}', r'\textbf{Modelul}') + r' & $\beta_1$ & $\beta_2$ & $\beta_3$ & $\beta_4$ & RQ$\times10^2$ & ' + T(r'\shortstack[r]{hits in\\sample (\%)}', r'\shortstack[r]{depășiri în\\eșantion (\%)}') + ' & ' + T(r'\shortstack[r]{hits out of\\sample (\%)}', r'\shortstack[r]{depășiri în afara\\eșantionului (\%)}') + ' & ' + T(r'\shortstack[r]{DQ out of\\sample ($p$)}', r'\shortstack[r]{DQ în afara\\eșantionului ($p$)}'),
@@ -683,7 +683,7 @@ interp(('the CAViaR estimates', 'estimațiilor CAViaR'), [
 chart(T('News impact curves', 'Curbele de impact al știrilor'), 'ats_ch9_nic', 'ATS_ch9_caviar', [
     T(r'$\mathrm{VaR}_t$ as a function of $y_{t-1}$, with $\mathrm{VaR}_{t-1}$ at its in-sample median (@{nic.med}\% for AS); estimated parameters of the table',
       r'$\mathrm{VaR}_t$ în funcție de $y_{t-1}$, cu $\mathrm{VaR}_{t-1}$ la mediana din eșantion (@{nic.med}\% pentru AS); parametrii estimați din tabel')],
-    h='0.5\\textheight')
+    h='0.68\\textheight')
 
 interp(('the news impact curves', 'curbelor de impact'), [
     T('SAV and IG are symmetric by design: a 5\\% rally raises the 1\\% VaR as much as a 5\\% fall', 'SAV și IG sînt simetrice prin construcție: o creștere de 5\\% ridică VaR 1\\% la fel de mult ca o cădere de 5\\%'),
@@ -762,7 +762,7 @@ D.frame(T('Case study: Patton, Ziegel and Chen (2019), Section 5', 'Studiu de ca
 chart(T('Three ways to forecast the tail', 'Trei moduri de a prognoza coada'), 'ats_ch9_pzc_paths', 'ATS_ch9_pzc', [
     T(r'VaR and ES 5\% of the S\&P 500 in 2015--2016 (PZC, Figure 5 on our data): RW-125, GARCH-EDF and GAS-1F',
       r'VaR și ES 5\% pentru S\&P 500 în 2015--2016 (PZC, Figura 5 pe datele noastre): RW-125, GARCH-EDF și GAS-1F')],
-    h='0.5\\textheight')
+    h='0.60\\textheight')
 
 interp(('the three forecasts', 'celor trei prognoze'), [
     T('The rolling window moves in steps as extreme days enter and leave the window, months after the shock', 'Fereastra mobilă se mișcă în trepte, pe măsură ce zilele extreme intră și ies din fereastră, la luni după șoc'),
@@ -773,7 +773,7 @@ interp(('the three forecasts', 'celor trei prognoze'), [
 chart(T('Replication: average out-of-sample FZ0 loss', 'Replicare: pierderea FZ0 medie în afara eșantionului'), 'ats_ch9_pzc_table', 'ATS_ch9_pzc', [
     T(r'Bars: our data and code, same design; diamonds: the values printed in PZC, Table 8 ($\alpha$ = 5\%) and Table S5 ($\alpha$ = 2.5\%)',
       r'Bare: datele și codul nostru, aceeași schemă; romburi: valorile tipărite în PZC, Tabelul 8 ($\alpha$ = 5\%) și Tabelul S5 ($\alpha$ = 2,5\%)')],
-    h='0.5\\textheight')
+    h='0.62\\textheight')
 
 D.frame(T('Replication in numbers', 'Replicarea în cifre'), table(
     'lcccccc', T(r'\textbf{Model}', r'\textbf{Modelul}') + r' & \multicolumn{2}{c}{$\alpha = 5\%$} & \multicolumn{2}{c}{$\alpha = 2.5\%$} & \multicolumn{2}{c}{GoF $p$, $\alpha = 5\%$} \\ & ' + T('ours', 'noi') + ' & PZC & ' + T('ours', 'noi') + ' & PZC & VaR & ES',
@@ -791,7 +791,7 @@ interp(('the replication', 'replicării'), [
 chart(T('Diebold--Mariano tests on FZ0 losses', 'Teste Diebold--Mariano pe pierderile FZ0'), 'ats_ch9_dm', 'ATS_ch9_pzc', [
     T(r'S\&P 500, 2000--2016, $\alpha$ = 5\%: DM statistic of row minus column, Newey--West variance; red: the row model is worse (PZC, Table 9)',
       r'S\&P 500, 2000--2016, $\alpha$ = 5\%: statistica DM a rîndului minus coloana, varianță Newey--West; roșu: modelul de pe rînd este mai slab (PZC, Tabelul 9)')],
-    h='0.56\\textheight')
+    h='0.64\\textheight')
 
 interp(('the DM matrix', 'matricei DM'), [
     T(r'Column GAS-1F, ours against PZC: RW-125 @{dm.rw125} (@{dmp.rw125}), RW-500 @{dm.rw500} (@{dmp.rw500}), GARCH-N @{dm.gchn} (@{dmp.gchn}), GARCH-EDF @{dm.gchedf} (@{dmp.gchedf})', r'Coloana GAS-1F, noi față de PZC: RW-125 @{dm.rw125} (@{dmp.rw125}), RW-500 @{dm.rw500} (@{dmp.rw500}), GARCH-N @{dm.gchn} (@{dmp.gchn}), GARCH-EDF @{dm.gchedf} (@{dmp.gchedf})'),
@@ -815,7 +815,7 @@ D.frame(T('Joint (VaR, ES) regression', 'Regresia comună (VaR, ES)'), items(
 chart(T('The tail of the S\\&P 500 against the VIX', 'Coada S\\&P 500 în funcție de VIX'), 'ats_ch9_esreg', 'ATS_ch9_esreg', [
     T(r'Daily returns against the VIX of the previous close, $T = @{er.T}$; lines: fitted 2.5\% quantile and tail mean of the joint regression',
       r'Randamentele zilnice în funcție de VIX-ul închiderii anterioare, $T = @{er.T}$; liniile: cuantila de 2,5\% și media cozii estimate prin regresia comună')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the joint regression', 'regresiei comune'), [
     T(r'Quantile: $@{er.b0} @{er.b1}\,\mathrm{VIX}$ (s.e.\ @{er.bs0}; @{er.bs1}); tail mean: $@{er.g0} @{er.g1}\,\mathrm{VIX}$ (s.e.\ @{er.gs0}; @{er.gs1})', r'Cuantila: $@{er.b0} @{er.b1}\,\mathrm{VIX}$ (erori standard @{er.bs0}; @{er.bs1}); media cozii: $@{er.g0} @{er.g1}\,\mathrm{VIX}$ (erori standard @{er.gs0}; @{er.gs1})'),
@@ -872,7 +872,7 @@ D.frame(T('Duration-based backtests', 'Teste pe baza duratelor'), items(
 chart(T('How far apart are the hits?', 'Cît de departe sînt depășirile una de alta?'), 'ats_ch9_durations', 'ATS_ch9_backtests', [
     T(r'S\&P 500, VaR 2.5\%, out of sample 2000--2026; empirical survival of the durations between hits (log scale) against the geometric law of a correct model',
       r'S\&P 500, VaR 2,5\%, în afara eșantionului 2000--2026; funcția de supraviețuire empirică a duratelor dintre depășiri (scară logaritmică) față de legea geometrică a unui model corect')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the durations', 'duratelor'), [
     T(r'RW-250: @{du.rw250.s5}\% of the durations are at most 5 days (geometric: @{du.geo5}\%); Weibull $b$ = @{du.rw250.b}, $p$ @{du.rw250.p}: strong clustering', r'RW-250: @{du.rw250.s5}\% din durate sînt de cel mult 5 zile (geometric: @{du.geo5}\%); Weibull $b$ = @{du.rw250.b}, $p$ @{du.rw250.p}: grupare puternică'),
@@ -908,7 +908,7 @@ D.frame(T('Estimation risk in backtests', 'Riscul de estimare în backtesting'),
 chart(T('Size of backtests with estimated parameters', 'Mărimea testelor cu parametri estimați'), 'ats_ch9_estrisk_mc', 'ATS_ch9_backtests', [
     T(r'GARCH(1,1) data ($\omega$ = 0.02, $\alpha$ = 0.08, $\beta$ = 0.90, Normal), the correct model estimated by QML on $R$ days, VaR 1\% on the next $P$ days; @{mc.reps} replications; nominal size 5\%',
       r'Date GARCH(1,1) ($\omega$ = 0,02, $\alpha$ = 0,08, $\beta$ = 0,90, distribuția Normală), modelul corect estimat prin QML pe $R$ zile, VaR 1\% pe următoarele $P$ zile; @{mc.reps} de replicări; mărimea nominală 5\%')],
-    h='0.5\\textheight')
+    h='0.64\\textheight')
 
 interp(('the Monte Carlo', 'experimentului Monte Carlo'), [
     T(r'Known parameters: Kupiec rejects @{mc.250_250.kup0}\%, @{mc.250_1000.kup0}\% and @{mc.250_2500.kup0}\% for $P$ = 250, 1000, 2500: close to 5\% except with few hits', r'Parametri cunoscuți: Kupiec respinge @{mc.250_250.kup0}\%, @{mc.250_1000.kup0}\% și @{mc.250_2500.kup0}\% pentru $P$ = 250, 1000, 2500: aproape de 5\%, cu excepția cazului cu puține depășiri'),
@@ -919,7 +919,7 @@ interp(('the Monte Carlo', 'experimentului Monte Carlo'), [
 chart(T('Calibration tests across assets', 'Teste de calibrare pe active'), 'ats_ch9_backtests', 'ATS_ch9_backtests', [
     T(r'PZC goodness-of-fit regressions for VaR and ES 2.5\%, ten models, parameters estimated on the first ten years (five for Bitcoin) and kept fixed to 18 September 2026',
       r'Regresiile de adecvare PZC pentru VaR și ES 2,5\%, zece modele, parametri estimați pe primii zece ani (cinci pentru Bitcoin) și păstrați ficși pînă la 18 septembrie 2026')],
-    h='0.52\\textheight')
+    h='0.65\\textheight')
 
 interp(('the calibration tests', 'testelor de calibrare'), [
     T(r'Only @{bt.npass} of 50 asset--model pairs pass both regressions at 10\%: over 10--26 years with fixed parameters almost every model is miscalibrated somewhere', r'Doar @{bt.npass} din 50 de perechi activ--model trec ambele regresii la 10\%: pe 10--26 de ani cu parametri ficși, aproape orice model este necalibrat undeva'),
@@ -956,7 +956,7 @@ D.frame(T('Design of the comparison', 'Schema comparației'), items(
 chart(T('Losses in stress periods', 'Pierderile în perioadele de criză'), 'ats_ch9_stress', 'ATS_ch9_comparison', [
     T(r'Average FZ0 loss of each model minus that of the best model in the same period (symmetric log scale); bars missing when the period is not out of sample',
       r'Pierderea FZ0 medie a fiecărui model minus cea a celui mai bun model din aceeași perioadă (scară logaritmică simetrică); barele lipsesc cînd perioada nu este în afara eșantionului')],
-    h='0.52\\textheight')
+    h='0.61\\textheight')
 
 interp(('the stress-period losses', 'pierderilor din perioadele de criză'), [
     T(r'Winners over the whole period: S\&P 500 @{best.sp500.full}, DAX @{best.dax.full}, BET @{best.bet.full}, EUR/RON @{best.eurron.full}, Bitcoin @{best.btc.full}', r'Cîștigătorii pe toată perioada: S\&P 500 @{best.sp500.full}, DAX @{best.dax.full}, BET @{best.bet.full}, EUR/RON @{best.eurron.full}, Bitcoin @{best.btc.full}'),
@@ -966,7 +966,7 @@ interp(('the stress-period losses', 'pierderilor din perioadele de criză'), [
 
 chart(T('Model confidence sets', 'Mulțimi de încredere ale modelelor'), 'ats_ch9_mcs', 'ATS_ch9_comparison', [
     T(r'MCS $p$-values (FZ0 loss, $\alpha$ = 2.5\%); green: in the 90\% MCS', r'P-value-urile MCS (pierderea FZ0, $\alpha$ = 2,5\%); verde: în MCS de 90\%')],
-    h='0.52\\textheight')
+    h='0.66\\textheight')
 
 interp(('the MCS', 'mulțimilor MCS'), [
     T(r'Whole period, MCS sizes: S\&P 500 @{mcs.full.sp500}, DAX @{mcs.full.dax}, BET @{mcs.full.bet}, EUR/RON @{mcs.full.eurron}, Bitcoin @{mcs.full.btc} of 10', r'Toată perioada, mărimea MCS: S\&P 500 @{mcs.full.sp500}, DAX @{mcs.full.dax}, BET @{mcs.full.bet}, EUR/RON @{mcs.full.eurron}, Bitcoin @{mcs.full.btc} din 10'),
@@ -1018,7 +1018,7 @@ D.frame(T('Multi-day forecasts and their backtests', 'Prognozele pe mai multe zi
 chart(T('10-day VaR 1\\% against the square-root-of-time rule', 'VaR 1\\% pe 10 zile față de regula rădăcinii pătrate'), 'ats_ch9_sqrt', 'ATS_ch9_horizon', [
     T(r'S\&P 500, 2001--2026: ratio of the 10-day VaR 1\% by FHS to $\sqrt{10}$ times the 1-day VaR 1\% of the same model; right: the ratio against today\'s forecast volatility',
       r'S\&P 500, 2001--2026: raportul dintre VaR 1\% pe 10 zile prin FHS și $\sqrt{10}$ înmulțit cu VaR 1\% pe o zi al aceluiași model; dreapta: raportul în funcție de volatilitatea prognozată azi')],
-    h='0.5\\textheight')
+    h='0.52\\textheight')
 
 interp(('the horizon ratio', 'raportului de orizont'), [
     T(r'Median ratio @{sq.r_med}, range @{sq.r_min} to @{sq.r_max}: $\sqrt{10}$ scaling usually understates the 10-day VaR 1\% of the S\&P 500', r'Raportul median @{sq.r_med}, între @{sq.r_min} și @{sq.r_max}: scalarea cu $\sqrt{10}$ subestimează de obicei VaR 1\% pe 10 zile pentru S\&P 500'),
@@ -1050,7 +1050,7 @@ D.frame(T('Model risk of risk models', 'Riscul de model al modelelor de risc'), 
 chart(T('How much do standard models disagree?', 'Cît de mult diferă modelele standard?'), 'ats_ch9_riskratio', 'ATS_ch9_modelrisk', [
     T(r'Risk ratio of six VaR 1\% forecasts, 21-day rolling median, S\&P 500 and BET, 2002--2026 (BET from 2004); shaded: stress periods',
       r'Raportul de risc al celor șase prognoze VaR 1\%, mediana mobilă pe 21 de zile, S\&P 500 și BET, 2002--2026 (BET din 2004); zonele colorate: perioadele de criză')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the risk ratio', 'raportului de risc'), [
     T(r'Median risk ratio @{rr.sp500.med} (S\&P 500) and @{rr.bet.med} (BET); 90th percentile @{rr.sp500.q90} and @{rr.bet.q90}; maximum @{rr.sp500.mx} on @{rr.sp500.day}', r'Raportul de risc median @{rr.sp500.med} (S\&P 500) și @{rr.bet.med} (BET); percentila 90 @{rr.sp500.q90} și @{rr.bet.q90}; maximul @{rr.sp500.mx} la @{rr.sp500.day}'),
@@ -1068,7 +1068,7 @@ D.frame(T('Estimation risk in tail forecasts', 'Riscul de estimare în prognozel
 chart(T('An ES forecast with its estimation error', 'O prognoză ES cu eroarea ei de estimare'), 'ats_ch9_es_ci', 'ATS_ch9_modelrisk', [
     T(r'S\&P 500, GARCH-t ES 2.5\% for the next day at half-year ends 2019--2026, with 90\% parametric bootstrap intervals (150 re-estimations each)',
       r'S\&P 500, ES 2,5\% GARCH-t pentru ziua următoare la sfîrșitul fiecărui semestru 2019--2026, cu intervale bootstrap parametric de 90\% (cîte 150 de reestimări)')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the estimation error', 'erorii de estimare'), [
     T(r'Interval width relative to the forecast: median @{ci.med}\%, from @{ci.min}\% to @{ci.max}\%', r'Lățimea intervalului raportată la prognoză: mediana @{ci.med}\%, între @{ci.min}\% și @{ci.max}\%'),
@@ -1102,7 +1102,7 @@ D.frame(T('Extremes of dependent series', 'Extremele seriilor dependente'), item
 chart(T('Extremal index before and after filtering', 'Indicele extremal înainte și după filtrare'), 'ats_ch9_extremal', 'ATS_ch9_extremes', [
     T(r'Exceedances of daily losses over their 95\% quantile, whole samples; raw losses and GARCH-standardised losses (in-sample ARMA-GARCH parameters)',
       r'Depășiri ale pierderilor zilnice peste cuantila lor de 95\%, eșantioanele întregi; pierderi brute și pierderi standardizate prin GARCH (parametri ARMA-GARCH din eșantion)')],
-    h='0.48\\textheight')
+    h='0.65\\textheight')
 
 interp(('the extremal index', 'indicelui extremal'), [
     T(r'Raw losses: $\hat\theta$ = @{ex.sp500.r} (S\&P 500), @{ex.bet.r} (BET), @{ex.eurron.r} (EUR/RON): extremes come in clusters of two to eight days', r'Pierderi brute: $\hat\theta$ = @{ex.sp500.r} (S\&P 500), @{ex.bet.r} (BET), @{ex.eurron.r} (EUR/RON): extremele vin în grupuri de două pînă la opt zile'),
@@ -1125,7 +1125,7 @@ D.frame(T('Conformal calibration of VaR', 'Calibrarea conformală a VaR'), items
 chart(T('Adaptive conformal correction of VaR 1\\%', 'Corecția conformală adaptivă a VaR 1\\%'), 'ats_ch9_conformal', 'ATS_ch9_conformal', [
     T(r'GARCH-N VaR 1\% (rolling 1000-day window, re-estimated every 250 days) from 2016, and its ACI correction with $\gamma$ = 0.005; rolling 250-day hit rates',
       r'VaR 1\% GARCH-N (fereastră mobilă de 1000 de zile, reestimat la fiecare 250 de zile) din 2016 și corecția ACI cu $\gamma$ = 0,005; ratele de depășire pe 250 de zile')],
-    h='0.5\\textheight')
+    h='0.62\\textheight')
 
 interp(('the conformal correction', 'corecției conformale'), [
     T(r'BET: GARCH-N hits @{cf.bet.b}\% of @{cf.bet.T} days (Kupiec $p$ @{cf.bet.kb}); with ACI @{cf.bet.a}\% ($p$ = @{cf.bet.ka}), conditional coverage $p$ = @{cf.bet.ca}', r'BET: GARCH-N are depășiri în @{cf.bet.b}\% din @{cf.bet.T} de zile (Kupiec $p$ @{cf.bet.kb}); cu ACI @{cf.bet.a}\% ($p$ = @{cf.bet.ka}), acoperire condiționată $p$ = @{cf.bet.ca}'),
@@ -1170,7 +1170,7 @@ chart(T('Mini-case: is there a best ES model?', 'Mini studiu de caz: există un 
       r'@{ai.n}@{ai.nde} celule: cinci active $\times$ două niveluri (2,5\%, 5\%) $\times$ pînă la trei perioade (toată, înainte de 2020, din 2020); stînga: modelul cu cea mai mică pierdere FZ0; dreapta: mărimea MCS de 90\%'),
     T(r'@{ai.nw} different winners; GARCH-Skt wins @{ai.skt} cells, GAS-1F @{ai.fz1}; MCS sizes from @{ai.smin} to @{ai.smax}, median @{ai.smed}; GAS-1F is in the MCS in @{ai.fzin} cells: an AI summary that names ``the best ES model\'\' is wrong',
       r'@{ai.nw} cîștigători diferiți; GARCH-Skt cîștigă @{ai.skt} celule, GAS-1F @{ai.fz1}; mărimea MCS între @{ai.smin} și @{ai.smax}, mediana @{ai.smed}; GAS-1F este în MCS în @{ai.fzin}@{ai.fzde} celule: un rezumat AI care numește „cel mai bun model ES” greșește')],
-    h='0.44\\textheight')
+    h='0.51\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{ES models for Central and Eastern European markets under rolling re-estimation}: replicate first, then extend', r'\textbf{Modele ES pentru piețele din Europa Centrală și de Est cu reestimare mobilă}: întîi replicare, apoi extindere'),

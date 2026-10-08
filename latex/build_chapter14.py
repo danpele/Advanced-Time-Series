@@ -394,7 +394,7 @@ D.frame(T('Two languages of causality', 'Două limbaje ale cauzalității'), col
 
 chart(T('Four case studies', 'Patru studii de caz'), 'ats_ch14_overview', 'ATS_ch14_romania', [
     T(r'Romanian inflation against 26 EU countries; West Germany against the OECD sample; UK real GDP against 23 OECD countries; Bitcoin realised variance around the spot ETF approval',
-      r'Inflația României față de 26 de țări UE; Germania de Vest față de eșantionul OCDE; PIB-ul real al Regatului Unit față de 23 de țări OCDE; varianța realizată a Bitcoin în jurul aprobării ETF-urilor spot')], h='0.58\\textheight')
+      r'Inflația României față de 26 de țări UE; Germania de Vest față de eșantionul OCDE; PIB-ul real al Regatului Unit față de 23 de țări OCDE; varianța realizată a Bitcoin în jurul aprobării ETF-urilor spot')], h='0.66\\textheight')
 
 interp(('the four case studies', 'celor patru studii de caz'), [
     T(r'Romania: annual HICP inflation @{ov.ro25}\% in June 2025, @{ov.roaug}\% in August 2025, peak @{ov.romax}\% in @{ov.romaxd}; @{ov.rolast}\% in @{ov.hend} (EU median @{ov.eulast}\%)',
@@ -454,7 +454,7 @@ D.frame(T('Granger causality is about prediction', 'Cauzalitatea Granger priveș
 chart(T('A common driver creates Granger causality', 'Un factor comun creează cauzalitate Granger'), 'ats_ch14_granger_sim', 'ATS_ch14_granger', [
     T(r'Simulated system: a driver $w_t = 0.9w_{t-1} + \eta_t$ (AR(1), $\phi = 0.9$); $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $\eta_t, e_t, u_t$: independent noise',
       r'Sistem simulat: un factor $w_t = 0{,}9w_{t-1} + \eta_t$ (AR(1), $\phi = 0{,}9$); $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $\eta_t, e_t, u_t$: zgomot independent'),
-    T(r'$x$ has no effect on $y$; tests with $p = 2$ lags (pairwise) and $p = 4$ (conditional on $w$), @{gs.reps} replications', r'$x$ nu are niciun efect asupra lui $y$; teste cu $p = 2$ laguri (pe perechi) și $p = 4$ (condiționat de $w$), @{gs.reps} de repetări')], h='0.5\\textheight')
+    T(r'$x$ has no effect on $y$; tests with $p = 2$ lags (pairwise) and $p = 4$ (conditional on $w$), @{gs.reps} replications', r'$x$ nu are niciun efect asupra lui $y$; teste cu $p = 2$ laguri (pe perechi) și $p = 4$ (condiționat de $w$), @{gs.reps} de repetări')], h='0.59\\textheight')
 
 interp(('the common-driver experiment', 'experimentului cu factor comun'), [
     T(r'Pairwise, $x$ ``Granger-causes\'\' $y$ in @{gs.100.pw}\% of the samples already at $T = 100$: $x$ carries news about $w$ two periods before $y$ does', r'Pe perechi, $x$ „cauzează în sens Granger” pe $y$ în @{gs.100.pw}\% din eșantioane încă de la $T = 100$: $x$ aduce informație despre $w$ cu două perioade înaintea lui $y$'),
@@ -464,7 +464,7 @@ interp(('the common-driver experiment', 'experimentului cu factor comun'), [
 
 chart(T('Lead and lag between New York, Frankfurt and Bucharest', 'Relații lead--lag între New York, Frankfurt și București'), 'ats_ch14_granger_markets', 'ATS_ch14_granger', [
     T(r'Daily log returns, common trading days @{gm.start} -- @{gm.end} ($T = @{gm.T}$); correlation of the BET at $t$ with the S\&P 500 and the DAX at $t - k$',
-      r'Randamente logaritmice zilnice, zile comune de tranzacționare @{gm.start} -- @{gm.end} ($T = @{gm.T}$); corelația BET la $t$ cu S\&P 500 și DAX la $t - k$')], h='0.56\\textheight')
+      r'Randamente logaritmice zilnice, zile comune de tranzacționare @{gm.start} -- @{gm.end} ($T = @{gm.T}$); corelația BET la $t$ cu S\&P 500 și DAX la $t - k$')], h='0.65\\textheight')
 
 D.frame(T('Granger tests on the three indices', 'Teste Granger pe cei trei indici'), table(
     'lccc', T(r'\textbf{Hypothesis} ($p = 2$) & \textbf{Wald (HAC)} & $p$\textbf{-value} & \textbf{conditioning}', r'\textbf{Ipoteza} ($p = 2$) & \textbf{Wald (HAC)} & \textbf{p-value} & \textbf{condiționare}'),
@@ -525,7 +525,7 @@ D.frame(T('Transfer entropy (2/2)', 'Entropia de transfer (2/2)'), items(
 
 chart(T('A nonlinear coupling that linear Granger misses', 'O legătură neliniară pe care testul Granger liniar o ratează'), 'ats_ch14_te', 'ATS_ch14_granger', [
     T(r'Simulated: $y_t = 0.4y_{t-1} + 0.6(x_{t-1}^2 - 1) + u_t$, $x$ a Gaussian AR(1) with unit variance, $u_t$ standard Normal noise, $T = @{te.T}$', r'Simulare: $y_t = 0{,}4y_{t-1} + 0{,}6(x_{t-1}^2 - 1) + u_t$, $x$ un AR(1) gaussian cu varianța 1, $u_t$ zgomot cu distribuția Normală standard, $T = @{te.T}$'),
-    T(r'$x_{t-1}^2 - 1$ has mean zero and no correlation with $x_{t-1}$; kNN TE with $k = 5$ neighbours, @{te.B} block permutations', r'$x_{t-1}^2 - 1$ are media zero și nu este corelat cu $x_{t-1}$; TE kNN cu $k = 5$ vecini, @{te.B} de permutări pe blocuri')], h='0.5\\textheight')
+    T(r'$x_{t-1}^2 - 1$ has mean zero and no correlation with $x_{t-1}$; kNN TE with $k = 5$ neighbours, @{te.B} block permutations', r'$x_{t-1}^2 - 1$ are media zero și nu este corelat cu $x_{t-1}$; TE kNN cu $k = 5$ vecini, @{te.B} de permutări pe blocuri')], h='0.59\\textheight')
 
 interp(('transfer entropy', 'entropiei de transfer'), [
     T(r'Linear Granger: p-value @{te.linp}; Gaussian TE @{te.gauss}$\times10^{-3}$ nats: the symmetric effect averages out in a linear regression', r'Granger liniar: p-value @{te.linp}; TE gaussiană @{te.gauss}$\times10^{-3}$ nats: efectul simetric se anulează în medie într-o regresie liniară'),
@@ -573,7 +573,7 @@ D.frame(T('PCMCI', 'PCMCI'), items(
     T('Hidden confounders, contemporaneous links, nonstationarity and measurement error break the guarantees; the output is a hypothesis about a graph', 'Factorii de confuzie ascunși, legăturile contemporane, nestaționaritatea și erorile de măsurare anulează garanțiile; rezultatul este o ipoteză despre un graf')), 'small')
 
 chart(T('PCMCI against correlation and the full VAR', 'PCMCI față de corelație și VAR complet'), 'ats_ch14_pcmci_sim', 'ATS_ch14_discovery', [
-    T(r'A known lagged system (a persistent common driver, chains and a collider), $\tau_{\max} = 3$, $\alpha = 0.01$, @{ps.reps} replications; right: 14 extra independent AR(1) series', r'Un sistem cunoscut cu laguri (un factor comun persistent, lanțuri și un colizor), $\tau_{\max} = 3$, $\alpha = 0{,}01$, @{ps.reps} de repetări; dreapta: 14 serii AR(1) independente în plus')], h='0.56\\textheight')
+    T(r'A known lagged system (a persistent common driver, chains and a collider), $\tau_{\max} = 3$, $\alpha = 0.01$, @{ps.reps} replications; right: 14 extra independent AR(1) series', r'Un sistem cunoscut cu laguri (un factor comun persistent, lanțuri și un colizor), $\tau_{\max} = 3$, $\alpha = 0{,}01$, @{ps.reps} de repetări; dreapta: 14 serii AR(1) independente în plus')], h='0.65\\textheight')
 
 interp(('the discovery experiment', 'experimentului de descoperire'), [
     T(r'Lagged correlations find most true links but flag @{ps.lo.pc.f} of the absent ones: autocorrelation and the common driver make everything correlated', r'Corelațiile cu lag găsesc majoritatea legăturilor reale, dar semnalează @{ps.lo.pc.f} dintre cele absente: autocorelația și factorul comun fac totul corelat'),
@@ -583,7 +583,7 @@ interp(('the discovery experiment', 'experimentului de descoperire'), [
 
 chart(T('A discovered graph of market volatility', 'Un graf descoperit al volatilității piețelor'), 'ats_ch14_pcmci_vol', 'ATS_ch14_discovery', [
     T(r'PCMCI on weekly log realised variances (sum of squared daily returns), @{pv.start} -- @{pv.end}, $T = @{pv.T}$ weeks, $\tau_{\max} = 2$, $\alpha = 0.01$; weeks remove the ordering of daily closes',
-      r'PCMCI pe logaritmul varianțelor realizate săptămînale (suma pătratelor randamentelor zilnice), @{pv.start} -- @{pv.end}, $T = @{pv.T}$ de săptămîni, $\tau_{\max} = 2$, $\alpha = 0{,}01$; săptămînile elimină ordinea închiderilor zilnice')], h='0.58\\textheight')
+      r'PCMCI pe logaritmul varianțelor realizate săptămînale (suma pătratelor randamentelor zilnice), @{pv.start} -- @{pv.end}, $T = @{pv.T}$ de săptămîni, $\tau_{\max} = 2$, $\alpha = 0{,}01$; săptămînile elimină ordinea închiderilor zilnice')], h='0.65\\textheight')
 
 interp(('the volatility graph', 'grafului volatilității'), [
     T(r'Lagged correlation tests are significant for @{pv.ncorr} of the @{pv.npos} possible lagged cross links; PCMCI keeps @{pv.n}', r'Testele de corelație cu lag sînt semnificative pentru @{pv.ncorr} dintre cele @{pv.npos} de legături încrucișate posibile; PCMCI păstrează @{pv.n}'),
@@ -605,7 +605,7 @@ D.frame(T('Convergent cross mapping', 'Convergent cross mapping'), two(
 chart(T('Cross mapping: a coupling and a common forcing', 'Estimarea încrucișată: o cuplare și un factor periodic comun'), 'ats_ch14_ccm', 'ATS_ch14_discovery', [
     T(r'Coupled logistic maps of \refSug: $x_{t+1} = x_t(r_x - r_xx_t - \beta_{xy}y_t)$, $y_{t+1} = y_t(r_y - r_yy_t - \beta_{yx}x_t)$', r'Aplicațiile logistice cuplate din \refSug: $x_{t+1} = x_t(r_x - r_xx_t - \beta_{xy}y_t)$, $y_{t+1} = y_t(r_y - r_yy_t - \beta_{yx}x_t)$'),
     T(r'$r_x = 3.8$, $r_y = 3.5$: growth rates (chaotic regime); $\beta_{yx} = 0.32$: effect of $x$ on $y$; $\beta_{xy} = 0$: no effect of $y$ on $x$; right: two uncoupled maps with the same periodic forcing; $E = 2$',
-      r'$r_x = 3{,}8$, $r_y = 3{,}5$: ratele de creștere (regim haotic); $\beta_{yx} = 0{,}32$: efectul lui $x$ asupra lui $y$; $\beta_{xy} = 0$: niciun efect al lui $y$ asupra lui $x$; dreapta: două aplicații necuplate cu același factor periodic; $E = 2$')], h='0.48\\textheight')
+      r'$r_x = 3{,}8$, $r_y = 3{,}5$: ratele de creștere (regim haotic); $\beta_{yx} = 0{,}32$: efectul lui $x$ asupra lui $y$; $\beta_{xy} = 0$: niciun efect al lui $y$ asupra lui $x$; dreapta: două aplicații necuplate cu același factor periodic; $E = 2$')], h='0.59\\textheight')
 
 interp(('cross mapping', 'estimării încrucișate'), [
     T(r'Left: skill for $x\to y$ rises from @{cc.axy0} ($L = @{cc.L0}$) to @{cc.axy} ($L = @{cc.L1}$); the reverse stays near @{cc.ayx}: the published pattern', r'Stînga: abilitatea pentru $x\to y$ crește de la @{cc.axy0} ($L = @{cc.L0}$) la @{cc.axy} ($L = @{cc.L1}$); direcția inversă rămîne în jur de @{cc.ayx}: tiparul publicat'),
@@ -656,7 +656,7 @@ D.frame(T('Romania 2025: two measures one month apart', 'România 2025: două m�
 
 chart(T('An interrupted time series for Romanian inflation', 'O serie de timp întreruptă pentru inflația României'), 'ats_ch14_its', 'ATS_ch14_its_event', [
     T(r'Monthly HICP inflation (log change); pre-period model: 12 month effects and a step for July 2021 -- June 2023, fitted on @{its.Tpre} months to June 2025; effects July 2025 -- June 2026',
-      r'Inflația IAPC lunară (variația logaritmică); modelul perioadei anterioare: 12 efecte lunare și o treaptă pentru iulie 2021 -- iunie 2023, estimat pe @{its.Tpre} luni pînă în iunie 2025; efectele iulie 2025 -- iunie 2026')], h='0.56\\textheight')
+      r'Inflația IAPC lunară (variația logaritmică); modelul perioadei anterioare: 12 efecte lunare și o treaptă pentru iulie 2021 -- iunie 2023, estimat pe @{its.Tpre} luni pînă în iunie 2025; efectele iulie 2025 -- iunie 2026')], h='0.63\\textheight')
 
 interp(('the interrupted time series', 'seriei de timp întrerupte'), [
     T(r'July 2025: +@{its.jul} pp above the seasonal norm; August 2025: +@{its.aug} pp; later months +@{its.rest} pp on average', r'Iulie 2025: +@{its.jul} pp peste norma sezonieră; august 2025: +@{its.aug} pp; lunile următoare, în medie +@{its.rest} pp'),
@@ -676,7 +676,7 @@ D.frame(T('Event studies with dependent errors', 'Studii de eveniment cu erori d
     T(r'Here: the BET index against the Euro Stoxx 50, four Romanian political and fiscal events of 2024--2025, window $[0, 2]$', r'Aici: indicele BET față de Euro Stoxx 50, patru evenimente politice și fiscale din România în 2024--2025, fereastra $[0, 2]$')), 'small')
 
 chart(T('Romanian stocks around political and fiscal news', 'Acțiunile românești în jurul știrilor politice și fiscale'), 'ats_ch14_event', 'ATS_ch14_its_event', [
-    T(r'Cumulative abnormal return of the BET, normalised at day $-1$; market model on the Euro Stoxx 50; rating actions announced after the close on a Friday are dated on the next Monday', r'Randamentul anormal cumulat al BET, normalizat în ziua $-1$; modelul de piață pe Euro Stoxx 50; acțiunile de rating anunțate după închidere, într-o vineri, sînt datate în lunea următoare')], h='0.54\\textheight')
+    T(r'Cumulative abnormal return of the BET, normalised at day $-1$; market model on the Euro Stoxx 50; rating actions announced after the close on a Friday are dated on the next Monday', r'Randamentul anormal cumulat al BET, normalizat în ziua $-1$; modelul de piață pe Euro Stoxx 50; acțiunile de rating anunțate după închidere, într-o vineri, sînt datate în lunea următoare')], h='0.65\\textheight')
 
 interp(('the event study', 'studiului de eveniment'), [
     T(r'Annulment of the presidential election (6 December 2024): CAR[0, 2] @{ev0.car}\%, $t$ = @{ev0.t} (i.i.d.) and @{ev0.th} (HAC): the market priced a lower political risk', r'Anularea alegerilor prezidențiale (6 decembrie 2024): CAR[0, 2] @{ev0.car}\%, $t$ = @{ev0.t} (i.i.d.) și @{ev0.th} (HAC): piața a încorporat un risc politic mai mic'),
@@ -780,7 +780,7 @@ D.frame(T('Replication: weights and predictor balance', 'Replicare: ponderile ș
     T('The simple OECD average differs on every predictor: the unweighted comparison would be biased', 'Media simplă OCDE diferă la fiecare predictor: comparația neponderată ar fi deplasată')), 'small')
 
 chart(T('West Germany and its synthetic control', 'Germania de Vest și controlul ei sintetic'), 'ats_ch14_germany', 'ATS_ch14_germany', [
-    T(r'Left: GDP per capita (PPP, current USD); right: the gap; pre-1990 RMSPE @{ge.rmspe} USD', r'Stînga: PIB pe locuitor (PPC, USD curenți); dreapta: diferența; RMSPE înainte de 1990: @{ge.rmspe} USD')], h='0.56\\textheight')
+    T(r'Left: GDP per capita (PPP, current USD); right: the gap; pre-1990 RMSPE @{ge.rmspe} USD', r'Stînga: PIB pe locuitor (PPC, USD curenți); dreapta: diferența; RMSPE înainte de 1990: @{ge.rmspe} USD')], h='0.66\\textheight')
 
 interp(('the German replication', 'replicării germane'), [
     T(r'The synthetic West Germany tracks the actual series for thirty years (1960--1989), then grows faster', r'Germania de Vest sintetică urmărește seria reală timp de treizeci de ani (1960--1989), apoi crește mai repede'),
@@ -813,7 +813,7 @@ D.frame(T('Case study: the Brexit doppelganger', 'Studiu de caz: dublura Brexit'
            [T(r'the same donors and window; the current OECD vintage (to @{ov.oecd}); the GDP path only (no covariates)', r'aceiași donatori și aceeași fereastră; ediția curentă a datelor OCDE (pînă în @{ov.oecd}); doar traiectoria PIB (fără covariate)')])), '0.3', '0.68'), 'small')
 
 chart(T('The doppelganger on today\'s data', 'Dublura pe datele de azi'), 'ats_ch14_brexit', 'ATS_ch14_brexit', [
-    T(r'Left: UK real GDP and its doppelganger (\% from 2016Q2), with the doppelgangers of fictitious votes in every quarter 2010Q1--2016Q1; right: the 12 largest post/pre RMSPE ratios of the 24 countries', r'Stînga: PIB-ul real al Regatului Unit și dublura lui (\% față de T2 2016), cu dublurile voturilor fictive din fiecare trimestru T1 2010 -- T1 2016; dreapta: cele mai mari 12 rapoarte RMSPE după/înainte dintre cele 24 de țări')], h='0.56\\textheight')
+    T(r'Left: UK real GDP and its doppelganger (\% from 2016Q2), with the doppelgangers of fictitious votes in every quarter 2010Q1--2016Q1; right: the 12 largest post/pre RMSPE ratios of the 24 countries', r'Stînga: PIB-ul real al Regatului Unit și dublura lui (\% față de T2 2016), cu dublurile voturilor fictive din fiecare trimestru T1 2010 -- T1 2016; dreapta: cele mai mari 12 rapoarte RMSPE după/înainte dintre cele 24 de țări')], h='0.65\\textheight')
 
 interp(('the Brexit replication', 'replicării Brexit'), [
     T(r'Weights on today\'s data: @{bx.w}; the doppelganger changes with the data vintage', r'Ponderile pe datele de azi: @{bx.w}; dublura se schimbă odată cu ediția datelor'),
@@ -870,7 +870,7 @@ D.frame(T('Romania 2025: design of the synthetic control', 'România 2025: desig
     T('Threats: other countries\' own energy and tax measures; anticipation of the VAT increase; Romania outside the donors\' range', 'Amenințări: măsurile proprii de energie și fiscale ale altor țări; anticiparea majorării TVA; România în afara domeniului donatorilor')), 'small')
 
 chart(T('Four counterfactuals for Romanian inflation', 'Patru contrafactuale pentru inflația României'), 'ats_ch14_ro_sc', 'ATS_ch14_romania', [
-    T(r'Left: Romania and the four estimated counterfactuals; right: the gaps; vertical line: June 2025; data to @{ro.end}', r'Stînga: România și cele patru contrafactuale estimate; dreapta: diferențele; linia verticală: iunie 2025; date pînă în @{ro.end}')], h='0.56\\textheight')
+    T(r'Left: Romania and the four estimated counterfactuals; right: the gaps; vertical line: June 2025; data to @{ro.end}', r'Stînga: România și cele patru contrafactuale estimate; dreapta: diferențele; linia verticală: iunie 2025; date pînă în @{ro.end}')], h='0.65\\textheight')
 
 D.frame(T('Interpreting the four estimators', 'Interpretarea celor patru estimatori'), table(
     'lcccc', T(r'\textbf{Estimator} & \textbf{pre RMSPE} & \textbf{August 2025} & \textbf{avg. Jul 2025 -- Jun 2026} & \textbf{August 2026}', r'\textbf{Estimator} & \textbf{RMSPE anterior} & \textbf{august 2025} & \textbf{media iul. 2025 -- iun. 2026} & \textbf{august 2026}'),
@@ -884,7 +884,7 @@ D.frame(T('Interpreting the four estimators', 'Interpretarea celor patru estimat
     T(r'Falsification: in August 2026 the gap falls to @{ro.dsc.aug26} (demeaned SC) and @{ro.sdid.aug26} (SDID); the augmented SC keeps @{ro.asc.aug26}, the price of extrapolating with negative weights', r'Falsificarea: în august 2026 diferența scade la @{ro.dsc.aug26} (SC cu termen liber) și @{ro.sdid.aug26} (SDID); SC augmentat păstrează @{ro.asc.aug26}, prețul extrapolării cu ponderi negative')), 'small')
 
 chart(T('Placebo inference for Romania', 'Inferența prin placebo pentru România'), 'ats_ch14_ro_placebo', 'ATS_ch14_romania', [
-    T('Demeaned SC applied to every EU country in turn; left: gaps; right: the 12 largest post/pre RMSPE ratios over July 2025 -- June 2026', 'SC cu termen liber aplicat pe rînd fiecărei țări UE; stînga: diferențele; dreapta: cele mai mari 12 rapoarte RMSPE după/înainte pe iulie 2025 -- iunie 2026')], h='0.56\\textheight')
+    T('Demeaned SC applied to every EU country in turn; left: gaps; right: the 12 largest post/pre RMSPE ratios over July 2025 -- June 2026', 'SC cu termen liber aplicat pe rînd fiecărei țări UE; stînga: diferențele; dreapta: cele mai mari 12 rapoarte RMSPE după/înainte pe iulie 2025 -- iunie 2026')], h='0.63\\textheight')
 
 interp(('the Romanian placebos', 'testelor placebo pentru România'), [
     T(r'Romania has the largest ratio (@{rp.r}; next @{rp.second}, @{rp.r2}): $p = 1/@{rp.n}$ = @{rp.p}', r'România are cel mai mare raport (@{rp.r}; următoarea @{rp.second}, @{rp.r2}): $p = 1/@{rp.n}$ = @{rp.p}'),
@@ -893,7 +893,7 @@ interp(('the Romanian placebos', 'testelor placebo pentru România'), [
     T('Other countries\' measures in the window (tax changes, the end of their own caps) bias the effect towards zero if they raised inflation there', 'Măsurile altor țări din fereastră (schimbări fiscale, încheierea propriilor plafonări) deplasează efectul spre zero dacă au crescut inflația acolo')])
 
 chart(T('How much was the tax?', 'Ponderea componentei fiscale'), 'ats_ch14_ro_tax', 'ATS_ch14_romania', [
-    T(r'Left: Romanian HICP and HICP at constant tax rates (\refEuroCT); right: the total gap, the gap of the constant-tax inflation (same demeaned SC on all countries) and the tax wedge', r'Stînga: IAPC al României și IAPC la cote de taxare constante (\refEuroCT); dreapta: diferența totală, diferența inflației la taxe constante (același SC cu termen liber pe toate țările) și componenta fiscală')], h='0.54\\textheight')
+    T(r'Left: Romanian HICP and HICP at constant tax rates (\refEuroCT); right: the total gap, the gap of the constant-tax inflation (same demeaned SC on all countries) and the tax wedge', r'Stînga: IAPC al României și IAPC la cote de taxare constante (\refEuroCT); dreapta: diferența totală, diferența inflației la taxe constante (același SC cu termen liber pe toate țările) și componenta fiscală')], h='0.62\\textheight')
 
 interp(('the tax decomposition', 'descompunerii fiscale'), [
     T(r'The constant-tax index assumes full and immediate pass-through of tax changes: the tax wedge jumps by @{rt.aug} pp in August 2025, when the VAT rose', r'Indicele la taxe constante presupune transmiterea completă și imediată a modificărilor fiscale: componenta fiscală crește cu @{rt.aug} pp în august 2025, cînd a crescut TVA'),
@@ -918,7 +918,7 @@ D.frame(T('Staggered adoption and two-way fixed effects (2/2)', 'Adoptarea eșal
     T('Pre-trend tests have low power; report the sensitivity of the effect to violations of parallel trends', 'Testele trendurilor anterioare au putere mică; raportați sensibilitatea efectului la încălcarea trendurilor paralele')), 'small')
 
 chart(T('TWFE against Callaway and Sant\'Anna', 'TWFE față de Callaway și Sant\'Anna'), 'ats_ch14_staggered', 'ATS_ch14_did_dml', [
-    T(r'Simulated panel: three cohorts adopting in periods 6, 11 and 16 and a never-treated group; effects grow with exposure, faster for early adopters', r'Panel simulat: trei cohorte care adoptă în perioadele 6, 11 și 16 și un grup niciodată tratat; efectele cresc cu expunerea, mai repede pentru cei care adoptă devreme')], h='0.56\\textheight')
+    T(r'Simulated panel: three cohorts adopting in periods 6, 11 and 16 and a never-treated group; effects grow with exposure, faster for early adopters', r'Panel simulat: trei cohorte care adoptă în perioadele 6, 11 și 16 și un grup niciodată tratat; efectele cresc cu expunerea, mai repede pentru cei care adoptă devreme')], h='0.65\\textheight')
 
 interp(('staggered adoption', 'adoptării eșalonate'), [
     T(r'Static TWFE: @{sg.tw}; true average effect on the treated: @{sg.true}; Callaway--Sant\'Anna: @{sg.cs}', r'TWFE static: @{sg.tw}; efectul mediu real asupra tratatelor: @{sg.true}; Callaway--Sant\'Anna: @{sg.cs}'),
@@ -972,7 +972,7 @@ D.frame(T('Case study: the US spot Bitcoin ETFs', 'Studiu de caz: ETF-urile spot
            [T('BlackRock filed on 15 June 2023; a court ruled for Grayscale on 29 August 2023', 'BlackRock a depus cererea pe 15 iunie 2023; o instanță a decis în favoarea Grayscale pe 29 august 2023')])), '0.34', '0.64'), 'small')
 
 chart(T('CausalImpact for the spot ETF approval', 'CausalImpact pentru aprobarea ETF-urilor spot'), 'ats_ch14_btc', 'ATS_ch14_causalimpact', [
-    T('Top: observed and counterfactual log RV with a 95\\% interval; middle: pointwise effect; bottom: cumulative effect', 'Sus: log RV observat și contrafactual, cu interval de 95\\%; mijloc: efectul punctual; jos: efectul cumulat')], h='0.6\\textheight')
+    T('Top: observed and counterfactual log RV with a 95\\% interval; middle: pointwise effect; bottom: cumulative effect', 'Sus: log RV observat și contrafactual, cu interval de 95\\%; mijloc: efectul punctual; jos: efectul cumulat')], h='0.68\\textheight')
 
 interp(('the ETF analysis', 'analizei ETF'), [
     T(r'Average effect on weekly log RV: @{bt.avg} (95\% interval [@{bt.lo}, @{bt.hi}]), tail probability @{bt.p}: no detectable change', r'Efectul mediu asupra log RV săptămînal: @{bt.avg} (interval de 95\% [@{bt.lo}, @{bt.hi}]), probabilitatea din coadă @{bt.p}: nicio schimbare detectabilă'),
@@ -981,7 +981,7 @@ interp(('the ETF analysis', 'analizei ETF'), [
     T('Absence of evidence is not evidence of absence: with this noise, a 50\\% change in volatility would not be detected', 'Lipsa dovezilor nu este dovada lipsei: cu acest zgomot, o modificare de 50\\% a volatilității nu ar fi detectată')])
 
 chart(T('Placebo dates and the choice of controls', 'Date placebo și alegerea seriilor de control'), 'ats_ch14_btc_placebo', 'ATS_ch14_causalimpact', [
-    T(r'The same analysis with @{bp.n} fictitious approval dates in 2019--2022 (53 pre-weeks, 25 post-weeks each) and the true date with the same window lengths', r'Aceeași analiză cu @{bp.n} date fictive de aprobare în 2019--2022 (cîte 53 de săptămîni înainte și 25 după) și data reală cu aceleași lungimi ale ferestrelor')], h='0.54\\textheight')
+    T(r'The same analysis with @{bp.n} fictitious approval dates in 2019--2022 (53 pre-weeks, 25 post-weeks each) and the true date with the same window lengths', r'Aceeași analiză cu @{bp.n} date fictive de aprobare în 2019--2022 (cîte 53 de săptămîni înainte și 25 după) și data reală cu aceleași lungimi ale ferestrelor')], h='0.65\\textheight')
 
 interp(('the placebo dates', 'datelor placebo'), [
     T(r'Only @{bp.ex} of the @{bp.n} placebo intervals @{bp.verb_en} zero; the placebo estimates have a standard deviation of @{bp.sd}: the real estimate is inside their range', r'Doar @{bp.ex} dintre cele @{bp.n} intervale placebo @{bp.verb_ro} zero; estimațiile placebo au abaterea standard @{bp.sd}: estimația reală se află în domeniul lor'),
@@ -1016,7 +1016,7 @@ D.frame(T('Double/debiased machine learning for time series (2/2)', 'Double/debi
      [T(r'$d_t$ must be unconfounded given $X_t$', r'$d_t$ trebuie să fie neconfundat, dat $X_t$')])), 'small')
 
 chart(T('DML against a linear adjustment', 'DML față de o ajustare liniară'), 'ats_ch14_dml', 'ATS_ch14_did_dml', [
-    T(r'Simulated dependent data: 10 VAR(1) covariates, nonlinear $g$ and $m$, AR(1) errors, $\theta = 0.5$, $T = @{dml.T}$, @{dml.reps} replications; random forests with five blocked folds', r'Date dependente simulate: 10 covariate VAR(1), $g$ și $m$ neliniare, erori AR(1), $\theta = 0{,}5$, $T = @{dml.T}$, @{dml.reps} de repetări; păduri aleatoare cu cinci blocuri')], h='0.54\\textheight')
+    T(r'Simulated dependent data: 10 VAR(1) covariates, nonlinear $g$ and $m$, AR(1) errors, $\theta = 0.5$, $T = @{dml.T}$, @{dml.reps} replications; random forests with five blocked folds', r'Date dependente simulate: 10 covariate VAR(1), $g$ și $m$ neliniare, erori AR(1), $\theta = 0{,}5$, $T = @{dml.T}$, @{dml.reps} de repetări; păduri aleatoare cu cinci blocuri')], h='0.65\\textheight')
 
 interp(('the DML experiment', 'experimentului DML'), [
     T(r'OLS with linear controls: mean estimate @{dml.ols}, far from 0.5: the nonlinear confounding is not removed', r'OLS cu controale liniare: estimația medie @{dml.ols}, departe de 0,5: confuzia neliniară nu este eliminată'),
@@ -1077,7 +1077,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
 chart(T('Mini-case: a specification curve for Romania', 'Mini studiu de caz: curba specificațiilor pentru România'), 'ats_ch14_ai_case', 'ATS_ch14_ai_case', [
     T(r'@{ai.n} specifications: four estimators $\times$ three donor pools (EU-26, euro area, non-euro EU) $\times$ four pre-periods (from 2017, 2019, July 2023, 2024; the 2021--2023 surge excluded)', r'@{ai.n} de specificații: patru estimatori $\times$ trei grupuri de donatori (UE-26, zona euro, UE din afara zonei euro) $\times$ patru perioade anterioare (din 2017, 2019, iulie 2023, 2024; valul 2021--2023 exclus)'),
     T(r'Without classic SC: from @{ai.min} to @{ai.max} pp, median @{ai.med}; classic SC: median @{ai.sc} (poor pre-fit); @{ai.neg} specifications give a non-positive effect: the hypothesis survives', r'Fără SC clasic: între @{ai.min} și @{ai.max} pp, mediana @{ai.med}; SC clasic: mediana @{ai.sc} (potrivire anterioară slabă); @{ai.neg} specificații dau un efect nepozitiv: ipoteza rezistă')],
-    h='0.54\\textheight')
+    h='0.56\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{Tax pass-through in Central and Eastern Europe with synthetic controls}: replicate first, then extend', r'\textbf{Transmiterea taxelor în Europa Centrală și de Est cu controale sintetice}: întîi replicare, apoi extindere'),

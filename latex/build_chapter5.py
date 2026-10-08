@@ -327,7 +327,7 @@ D.frame(T('Counting parameters', 'Numărarea parametrilor'), items(
 chart(T('Simulation: OLS VAR against a Minnesota BVAR', 'Simulare: VAR estimat prin OLS comparat cu un BVAR Minnesota'), 'ats_ch5_curse', 'ATS_ch5_bvar', [
     T(r'True model: stationary VAR(1) $A = 0.5I + (0.3/n)\mathbf{1}\mathbf{1}\'$ ($\mathbf{1}$: a vector of ones); estimated VAR(4), $T = 120$; one-step MSE of variable 1 relative to the true model; @{cu.reps} replications',
       r'Modelul adevărat: VAR(1) staționar $A = 0.5I + (0.3/n)\mathbf{1}\mathbf{1}\'$ ($\mathbf{1}$: vectorul de unu); se estimează un VAR(4), $T = 120$; MSE la un pas al variabilei 1 raportat la modelul adevărat; @{cu.reps} de replicări')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the simulation', 'simulării'), [
     T(r'OLS: the relative MSE climbs to @{cu.ols24} at $n = 24$ ($k = @{cu.k24}$ regressors for 116 observations)', r'OLS: MSE relativ urcă la @{cu.ols24} pentru $n = 24$ ($k = @{cu.k24}$ de regresori pentru 116 observații)'),
@@ -375,7 +375,7 @@ D.frame(T('The Normal update is a precision-weighted average (2/2)', 'Actualizar
 chart(T('Updating an AR(1) coefficient', 'Actualizarea unui coeficient AR(1)'), 'ats_ch5_conjugate', 'ATS_ch5_bayes', [
     T(r'US unemployment rate, monthly, windows ending December 2019; prior $N(1, 0.2^2)$ (random walk), $\sigma^2$ at its OLS estimate',
       r'Rata șomajului din SUA, lunar, ferestre care se încheie în decembrie 2019; distribuția a priori $N(1, 0.2^2)$ (mers aleator), $\sigma^2$ la estimația OLS')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the update', 'actualizării'), [
     T(r'$T = 24$: OLS @{cj.T24.ols} (SE @{cj.T24.se}), posterior mean @{cj.T24.post} (sd @{cj.T24.post_sd}); the prior has weight @{cj.T24.w}\%',
@@ -428,7 +428,7 @@ D.frame(T('MCMC diagnostics (2/2)', 'Diagnosticarea MCMC (2/2)'), items(
 chart(T('Gibbs sampling: a bad and a good parametrisation', 'Eșantionarea Gibbs: o parametrizare ineficientă și una eficientă'), 'ats_ch5_gibbs', 'ATS_ch5_bayes', [
     T(r'Monthly US IP growth on lagged capacity utilisation (mean @{gb.xm}\%, sd @{gb.xs}), 1967--2019, $T = @{gb.T}$; one-at-a-time Gibbs, four chains, 4\,000 draws, burn-in 1\,000',
       r'Creșterea lunară a IP din SUA pe gradul de utilizare a capacităților cu lag (media @{gb.xm}\%, abaterea standard @{gb.xs}), 1967--2019, $T = @{gb.T}$; Gibbs pe cîte un parametru, patru lanțuri, 4\,000 de extrageri, burn-in 1\,000')],
-    h='0.56\\textheight')
+    h='0.65\\textheight')
 
 interp(('the two samplers', 'celor două eșantionatoare'), [
     (T(r'Raw regressor: the posterior correlation of intercept and slope is @{gb.raw.corr}, so each conditional step moves very little', r'Regresorul brut: corelația a posteriori dintre termenul liber și pantă este @{gb.raw.corr}, deci fiecare pas condiționat se mișcă foarte puțin'),
@@ -491,7 +491,7 @@ D.frame(T('Dummy observations (2/2)', 'Observații fictive (2/2)'), items(
 chart(T('How much shrinkage? In-sample fit against out-of-sample accuracy', 'Cît shrinkage? Potrivirea în eșantion comparată cu acuratețea în afara eșantionului'), 'ats_ch5_tradeoff', 'ATS_ch5_large_bvar', [
     T(r'MEDIUM system (20 variables, $p = 13$, $k = @{tr.k}$), BGR prior, rolling 10-year windows; out-of-sample: one-step MSFE of employment, CPI and the funds rate, 1971--2003, relative to a random walk',
       r'Sistemul MEDIUM (20 de variabile, $p = 13$, $k = @{tr.k}$), distribuția a priori BGR, ferestre mobile de 10 ani; în afara eșantionului: MSFE la un pas pentru ocupare, IPC și dobînda federal funds, 1971--2003, relativ la mersul aleator')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the trade-off', 'compromisului'), [
     T(r'The in-sample fit improves without limit as $\lambda$ grows: with $k = @{tr.k}$ and $T = 120$, a loose prior interpolates the data', r'Potrivirea în eșantion se îmbunătățește fără limită cînd $\lambda$ crește: cu $k = @{tr.k}$ și $T = 120$, o distribuție a priori largă interpolează datele'),
@@ -519,7 +519,7 @@ D.frame(T('Giannone, Lenza and Primiceri (2015)', 'Giannone, Lenza și Primiceri
 chart(T('The marginal likelihood as a function of the tightness', 'Verosimilitatea marginală în funcție de gradul de strîngere'), 'ats_ch5_lambda', 'ATS_ch5_large_bvar', [
     T(r'SMALL ($n = 3$), MEDIUM ($n = 20$), LARGE ($n = @{lb.LARGE.n}$), $p = 13$, 1960:1--2019:12 ($T = @{lb.T}$); $\mu = \phi = 1$; log ML minus its maximum, divided by $nT$',
       r'SMALL ($n = 3$), MEDIUM ($n = 20$), LARGE ($n = @{lb.LARGE.n}$), $p = 13$, 1960:1--2019:12 ($T = @{lb.T}$); $\mu = \phi = 1$; log ML minus maximul, împărțit la $nT$')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the marginal likelihood', 'verosimilității marginale'), [
     T(r'Optimal tightness: @{lb.SMALL} (SMALL), @{lb.MEDIUM} (MEDIUM), @{lb.LARGE} (LARGE): bigger systems need a tighter prior', r'Gradul optim de strîngere: @{lb.SMALL} (SMALL), @{lb.MEDIUM} (MEDIUM), @{lb.LARGE} (LARGE): sistemele mai mari cer o distribuție a priori mai strînsă'),
@@ -569,7 +569,7 @@ D.frame(T('Bańbura, Giannone and Reichlin (2010): our replication', 'Bańbura, 
 chart(T('Forecast accuracy, 1971--2003', 'Acuratețea prognozelor, 1971--2003'), 'ats_ch5_bgr', 'ATS_ch5_large_bvar', [
     T('MSFE relative to the random walk with drift (log scale; below 1 = better), employment and CPI in 100 $\\times$ log levels, funds rate in percent',
       'MSFE relativ la mersul aleator cu derivă (scară logaritmică; sub 1 = mai bine), ocuparea și IPC în 100 $\\times$ logaritmul nivelului, dobînda în procente')],
-    h='0.5\\textheight')
+    h='0.62\\textheight')
 
 interp(('the forecast comparison', 'comparației prognozelor'), [
     (T(r'$h = 1$, employment: OLS SMALL @{bg.eval1.ols.emp1}, BGR MEDIUM @{bg.eval1.med.emp1}, LARGE @{bg.eval1.lar.emp1} (BGR Table~1: 1.14, 0.54, 0.46)', r'$h = 1$, ocuparea: OLS SMALL @{bg.eval1.ols.emp1}, BGR MEDIUM @{bg.eval1.med.emp1}, LARGE @{bg.eval1.lar.emp1} (BGR, tabelul~1: 1,14; 0,54; 0,46)'),
@@ -596,7 +596,7 @@ D.frame(T('A monetary policy shock in a large VAR', 'Un șoc de politică moneta
 
 chart(T('Responses to a 100 bp funds-rate shock', 'Răspunsuri la un șoc de 100 bp al dobînzii federal funds'), 'ats_ch5_bvar_irf', 'ATS_ch5_large_bvar', [
     T('Posterior medians with 68\\% and 90\\% bands; rows: SMALL, MEDIUM, LARGE; employment and CPI in percent', 'Mediane a posteriori cu benzi de 68\\% și 90\\%; liniile: SMALL, MEDIUM, LARGE; ocuparea și IPC în procente')],
-    h='0.6\\textheight')
+    h='0.68\\textheight')
 
 interp(('the responses', 'răspunsurilor'), [
     T(r'Employment: trough @{ir.SMALL.emp_min}\% (SMALL, month @{ir.SMALL.ea}), @{ir.LARGE.emp_min}\% (LARGE, month @{ir.LARGE.ea}); after four years LARGE is back to @{ir.LARGE.emp48}\% (band [@{ir.LARGE.emp48_lo}, @{ir.LARGE.emp48_hi}])', r'Ocuparea: minimum @{ir.SMALL.emp_min}\% (SMALL, luna @{ir.SMALL.ea}), @{ir.LARGE.emp_min}\% (LARGE, luna @{ir.LARGE.ea}); după patru ani LARGE revine la @{ir.LARGE.emp48}\% (banda [@{ir.LARGE.emp48_lo}, @{ir.LARGE.emp48_hi}])'),
@@ -625,7 +625,7 @@ D.frame(T('Large BVARs with stochastic volatility', 'Modele BVAR mari cu volatil
 
 chart(T('A common volatility factor in the BVAR residuals', 'Un factor comun de volatilitate în reziduurile BVAR'), 'ats_ch5_common_vol', 'ATS_ch5_large_bvar', [
     T('MEDIUM BVAR (GLP hyperparameters), 1960--2026: log of the cross-sectional mean of the squared standardised residuals', 'BVAR MEDIUM (hiperparametri GLP), 1960--2026: logaritmul mediei transversale a pătratelor reziduurilor standardizate')],
-    h='0.5\\textheight')
+    h='0.68\\textheight')
 
 interp(('the volatility proxy', 'indicatorului de volatilitate'), [
     T(r'Common movements: the residual variance rises in every recession and falls in the Great Moderation (1960--1984 is @{vo.gm} times 1985--2007)', r'Mișcări comune: varianța reziduală crește în fiecare recesiune și scade în Marea Moderație (1960--1984 este de @{vo.gm} ori 1985--2007)'),
@@ -665,7 +665,7 @@ D.frame(T('The FRED-MD database', 'Baza de date FRED-MD'), items(
 chart(T('Factors of the FRED-MD panel', 'Factorii panelului FRED-MD'), 'ats_ch5_factors', 'ATS_ch5_factors', [
     T(r'Left: share of the variance of the standardised panel explained by each principal component; right: the first factor (EM, 8 factors), NBER recessions shaded',
       r'Stînga: ponderea varianței panelului standardizat explicată de fiecare componentă principală; dreapta: primul factor (EM, 8 factori), recesiunile NBER marcate')],
-    h='0.5\\textheight')
+    h='0.61\\textheight')
 
 interp(('the factors', 'factorilor'), [
     T(r'The first component explains @{fa.s1}\%, the second @{fa.s2}\%; five explain @{fa.c5}\%, eight @{fa.c8}\%', r'Prima componentă explică @{fa.s1}\%, a doua @{fa.s2}\%; cinci explică @{fa.c5}\%, opt @{fa.c8}\%'),
@@ -683,7 +683,7 @@ D.frame(T('How many factors? Bai and Ng (2002)', 'Cîți factori? Bai și Ng (20
 
 chart(T('The economic content of the factors', 'Conținutul economic al factorilor'), 'ats_ch5_mr2', 'ATS_ch5_factors', [
     T(r'Average marginal $R^2$ of the regression of each standardised series on one factor, by group (as in McCracken and Ng 2016)', r'$R^2$ marginal mediu al regresiei fiecărei serii standardizate pe un singur factor, pe grupe (ca în McCracken și Ng 2016)')],
-    h='0.5\\textheight')
+    h='0.68\\textheight')
 
 interp(('the marginal $R^2$', 'lui $R^2$ marginal'), [
     T(r'Factor 1 is real activity: $R^2$ @{mr.f1.out} for output, @{mr.f1.lab} for labour; the best single series has @{mr.top1}', r'Factorul 1 este activitatea reală: $R^2$ @{mr.f1.out} pentru producție, @{mr.f1.lab} pentru muncă; cea mai bine explicată serie are @{mr.top1}'),
@@ -702,7 +702,7 @@ D.frame(T('Diffusion-index forecasts: Stock and Watson (2002)', 'Prognoze cu ind
 
 chart(T('Diffusion-index forecasts against an AR', 'Prognoze cu indici de difuziune comparate cu un AR'), 'ats_ch5_di', 'ATS_ch5_factors', [
     T('MSE relative to the AR forecast with BIC lags (below 1 = better)', 'MSE relativ la prognoza AR cu laguri alese prin BIC (sub 1 = mai bine)')],
-    h='0.5\\textheight')
+    h='0.60\\textheight')
 
 interp(('the diffusion indexes', 'indicilor de difuziune'), [
     T(r'1970--1998: large gains for real activity at $h = 12$: IP @{di.eval1.ip.di12}, employment @{di.eval1.emp.di12}; for inflation only with own lags (DI-AR, Lag @{di.eval1.cpi.dl12})', r'1970--1998: cîștiguri mari pentru activitatea reală la $h = 12$: IP @{di.eval1.ip.di12}, ocupare @{di.eval1.emp.di12}; pentru inflație doar cu lagurile proprii (DI-AR, Lag @{di.eval1.cpi.dl12})'),
@@ -742,7 +742,7 @@ D.frame(T('FAVAR: estimation and our replication', 'FAVAR: estimarea și replica
 
 chart(T('FAVAR responses to a 25 bp monetary policy shock', 'Răspunsurile FAVAR la un șoc de politică monetară de 25 bp'), 'ats_ch5_favar', 'ATS_ch5_favar', [
     T(r'Levels in percent (rates and unemployment in pp); 90\% residual-bootstrap bands, factors treated as data; dashed: sample to 2007:12', r'Niveluri în procente (dobînzi și șomaj în pp); benzi bootstrap pe reziduuri de 90\%, factorii tratați ca date; linia întreruptă: eșantion pînă în 2007:12')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the FAVAR', 'FAVAR'), [
     T(r'Real activity falls with a lag: IP trough @{fv.ipmin}\% after @{fv.iparg} months, capacity utilisation @{fv.cumin} pp, payrolls @{fv.empmin}\%, unemployment up by @{fv.umax} pp', r'Activitatea reală scade cu întîrziere: IP minim @{fv.ipmin}\% după @{fv.iparg} luni, gradul de utilizare a capacităților @{fv.cumin} pp, numărul de salariați @{fv.empmin}\%, șomajul crește cu @{fv.umax} pp'),
@@ -822,7 +822,7 @@ D.frame(T('Case study: nowcasting Romanian GDP', 'Studiu de caz: nowcasting pent
 
 chart(T('Romanian GDP and two monthly indicators', 'PIB-ul României și doi indicatori lunari'), 'ats_ch5_ro_data', 'ATS_ch5_nowcast', [
     T(r'Quarterly GDP growth (2020Q2: @{rd.covid}\%, truncated); IP growth (3-month average) and the standardised ESI', r'Creșterea trimestrială a PIB-ului (T2 2020: @{rd.covid}\%, trunchiată); creșterea IP (medie pe 3 luni) și ESI standardizat')],
-    h='0.5\\textheight')
+    h='0.60\\textheight')
 
 interp(('the Romanian data', 'datelor pentru România'), [
     T('Quarterly growth is volatile: 2009--2012 swings of $\\pm 5$ pp and the 2020 collapse dominate the variance', 'Creșterea trimestrială este volatilă: oscilațiile de $\\pm 5$ pp din 2009--2012 și prăbușirea din 2020 domină varianța'),
@@ -831,7 +831,7 @@ interp(('the Romanian data', 'datelor pentru România'), [
 
 chart(T('MIDAS weights for Romania', 'Ponderile MIDAS pentru România'), 'ats_ch5_midas', 'ATS_ch5_nowcast', [
     T('ADL-MIDAS with exponential Almon weights at the end of the third month of the quarter, 2003--2026', 'ADL-MIDAS cu ponderi Almon exponențiale la sfîrșitul lunii a treia a trimestrului, 2003--2026')],
-    h='0.48\\textheight')
+    h='0.68\\textheight')
 
 interp(('the MIDAS weights', 'ponderilor MIDAS'), [
     T(r'IP: hump-shaped weights peaking at lag @{md.iparg} (@{md.ipmax}): the months of the quarter itself matter, as the Mariano--Murasawa weights predict', r'IP: ponderi în formă de cocoașă, cu maximul la lagul @{md.iparg} (@{md.ipmax}): contează lunile trimestrului însuși, cum prezic ponderile Mariano--Murasawa'),
@@ -847,7 +847,7 @@ D.frame(T('Pseudo-real-time evaluation', 'Evaluarea în pseudo timp real'), item
 
 chart(T('Nowcast accuracy by information set', 'Acuratețea nowcast-ului în funcție de setul de informații'), 'ats_ch5_nowcast', 'ATS_ch5_nowcast', [
     T('RMSE of the nowcasts of q/q GDP growth, 2013Q1--2026Q2 without 2020Q2--Q3', 'RMSE al nowcast-urilor pentru creșterea t/t a PIB-ului, T1 2013--T2 2026 fără T2--T3 2020')],
-    h='0.5\\textheight')
+    h='0.68\\textheight')
 
 interp(('the nowcast accuracy', 'acurateței nowcast-ului'), [
     T(r'AR: @{nc.ar.M3} pp throughout; DFM: @{nc.dfm.M1} (month 1) to @{nc.dfm.Mp1} (month 1 after); MIDAS: @{nc.md.M1} to @{nc.md.Mp1}', r'AR: @{nc.ar.M3} pp peste tot; DFM: de la @{nc.dfm.M1} (luna 1) la @{nc.dfm.Mp1} (luna 1 de după); MIDAS: de la @{nc.md.M1} la @{nc.md.Mp1}'),
@@ -871,7 +871,7 @@ D.frame(T('News and revisions: Bańbura and Modugno (2014) (2/2)', 'Știri și r
 
 chart(T('Nowcasting 2026Q3, and where the revision came from', 'Nowcast pentru T3 2026 și sursa revizuirii'), 'ats_ch5_news', 'ATS_ch5_nowcast', [
     T('Left: nowcasts at the ends of June--September 2026; right: news decomposition of the two-step DFM nowcast between the August and September information sets', 'Stînga: nowcast-uri la sfîrșitul lunilor iunie--septembrie 2026; dreapta: descompunerea în știri a nowcast-ului DFM în doi pași între seturile de informații din august și septembrie')],
-    h='0.5\\textheight')
+    h='0.61\\textheight')
 
 interp(('the news', 'știrilor'), [
     T(r'DFM nowcast of 2026Q3: @{nw.aug.dfm}\% at the end of August, @{nw.sep.dfm}\% at the end of September; the @{nw.n} new releases add up to @{nw.sum} pp exactly', r'Nowcast-ul DFM pentru T3 2026: @{nw.aug.dfm}\% la sfîrșitul lui august, @{nw.sep.dfm}\% la sfîrșitul lui septembrie; cele @{nw.n} publicări noi însumează exact @{nw.sum} pp'),
@@ -915,7 +915,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
 chart(T('Mini-case: how robust is one ranking?', 'Mini studiu de caz: cît de robustă este o clasificare?'), 'ats_ch5_ai_case', 'ATS_ch5_nowcast', [
     T(r'RMSE of the DFM nowcast relative to the AR at the end of month 3, 2013--2026, across factors, sample start, release lags and the treatment of 2020', r'RMSE al nowcast-ului DFM relativ la AR la sfîrșitul lunii 3, 2013--2026, pentru diferite numere de factori, începuturi ale eșantionului, întîrzieri de publicare și tratări ale anului 2020'),
     T(r'@{ai.n} variants range from @{ai.min} to @{ai.max}; the DFM wins in @{ai.nb} of them: an AI summary that reports the best variant as ``the\'\' result is wrong', r'Cele @{ai.n} variante variază între @{ai.min} și @{ai.max}; DFM este superior în @{ai.nb} dintre ele: un rezumat AI care raportează cea mai bună variantă drept „rezultatul” greșește')],
-    h='0.48\\textheight')
+    h='0.55\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{A real-time nowcasting model for Romanian GDP}: replicate first, then extend', r'\textbf{Un model de nowcasting în timp real pentru PIB-ul României}: întîi replicare, apoi extindere'),

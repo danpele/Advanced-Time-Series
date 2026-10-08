@@ -446,7 +446,7 @@ interp('the four series', 'celor patru serii', [
 chart('⟦Autocorrelation in six series||Autocorelația în șase serii⟧', 'ats_ch0_acf_panel', 'ATS_ch0_dependence_data', [
     '⟦Sample ACF, lags 1--24, with the $\\pm 1.96/\\sqrt{T}$ band of the i.i.d.\\ hypothesis (shaded)||ACF de selecție, lagurile 1--24, cu banda $\\pm 1.96/\\sqrt{T}$ a ipotezei i.i.d.\\ (zona hașurată)⟧',
     '⟦$\\hat\\rho_1$: S\\&P 500 $@{a.sp.r1}$, squared $@{a.sq.r1}$, EUR/RON $@{a.eur.r1}$, BET $@{a.bet.r1}$, GDP $@{a.gdp.r1}$, inflation $@{a.inf.r1}$||$\\hat\\rho_1$: S\\&P 500 $@{a.sp.r1}$, pătrate $@{a.sq.r1}$, EUR/RON $@{a.eur.r1}$, BET $@{a.bet.r1}$, PIB $@{a.gdp.r1}$, inflație $@{a.inf.r1}$⟧'],
-    h='0.55\\textheight')
+    h='0.63\\textheight')
 
 interp('the autocorrelations', 'autocorelațiilor', [
     ('⟦S\\&P 500 returns: small negative $\\hat\\rho_1$; squared returns: all 24 lags above the band, $\\hat\\rho_{12} = @{a.sq.r12}$||Randamentele S\\&P 500: $\\hat\\rho_1$ mic și negativ; pătratele: toate cele 24 de laguri peste bandă, $\\hat\\rho_{12} = @{a.sq.r12}$⟧',
@@ -550,7 +550,7 @@ frame('⟦Central limit theorems beyond martingale differences (2/2)||Teoreme li
 
 chart('⟦Information lost to dependence||Informația pierdută prin dependență⟧', 'ats_ch0_lrv_ar1', 'ATS_ch0_long_run_variance', [
     '⟦Left: $T\\Var(\\bar x)/\\gamma_0$ for an AR(1), theory $(1+\\phi)/(1-\\phi)$ and @{l.reps} simulations with $T = @{l.T}$; right: asymptotic size of the naive 5\\% test, $2[1 - \\Phi(1.96/\\sqrt{(1+\\phi)/(1-\\phi)})]$, with $\\Phi$ the standard normal distribution function||Stînga: $T\\Var(\\bar x)/\\gamma_0$ pentru un AR(1), teoria $(1+\\phi)/(1-\\phi)$ și @{l.reps} simulări cu $T = @{l.T}$; dreapta: mărimea asimptotică a testului naiv de 5\\%, $2[1 - \\Phi(1.96/\\sqrt{(1+\\phi)/(1-\\phi)})]$, unde $\\Phi$ este funcția de repartiție a distribuției Normale standard⟧'],
-    h='0.56\\textheight')
+    h='0.60\\textheight')
 
 interp('the variance inflation', 'creșterii varianței', [
     ('⟦$\\phi = 0.5$: the factor is $@{l.f05}$ (simulated $@{l.sim05}$); $\\phi = 0.9$: $@{l.f09}$ (simulated $@{l.sim09}$, the finite-$T$ factor $1 - |j|/T$ lowers it)||$\\phi = 0.5$: factorul este $@{l.f05}$ (simulat $@{l.sim05}$); $\\phi = 0.9$: $@{l.f09}$ (simulat $@{l.sim09}$; factorul $1 - |j|/T$ al eșantionului finit îl reduce)⟧',
@@ -623,7 +623,7 @@ frame('⟦A truncated kernel can give a negative variance||Un nucleu trunchiat p
 chart('⟦Kernels||Nucleele⟧', 'ats_ch0_kernels', 'ATS_ch0_long_run_variance', [
     '⟦Weight $k(x)$ against $x = j/S$, the lag relative to the bandwidth; Bartlett: $1 - |x|$ ($|x| \\le 1$)||Ponderea $k(x)$ în funcție de $x = j/S$, lagul raportat la lățimea de bandă; Bartlett: $1 - |x|$ ($|x| \\le 1$)⟧',
     '⟦Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \\le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \\le 1$); QS (quadratic spectral): $\\frac{25}{12\\pi^2x^2}\\big[\\frac{\\sin(6\\pi x/5)}{6\\pi x/5} - \\cos(6\\pi x/5)\\big]$, all lags||Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \\le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \\le 1$); QS (quadratic spectral): $\\frac{25}{12\\pi^2x^2}\\big[\\frac{\\sin(6\\pi x/5)}{6\\pi x/5} - \\cos(6\\pi x/5)\\big]$, toate lagurile⟧'],
-    h='0.52\\textheight')
+    h='0.59\\textheight')
 
 interp('the kernels', 'nucleelor', [
     ('⟦Bartlett, Parzen and QS have nonnegative spectral windows (the Fourier transform of the weights): $\\hat\\Omega \\ge 0$ always||Bartlett, Parzen și QS au ferestre spectrale (transformata Fourier a ponderilor) nenegative: întotdeauna $\\hat\\Omega \\ge 0$⟧',
@@ -653,7 +653,7 @@ frame('⟦Case study: Andrews (1991) and the choice of bandwidth (2/2)||Studiu d
 
 chart('⟦HAC standard errors as a function of the bandwidth||Erorile standard HAC în funcție de lățimea de bandă⟧', 'ats_ch0_hac_bandwidth', 'ATS_ch0_hac', [
     '⟦Ratio of the Bartlett HAC standard error of the mean to the naive one, $S$ from 1 to $\\min(400, T/2)$; dots: Andrews AR(1) plug-in||Raportul dintre eroarea standard HAC Bartlett a mediei și cea naivă, $S$ de la 1 la $\\min(400, T/2)$; puncte: metoda plug-in AR(1) a lui Andrews⟧'],
-    h='0.56\\textheight')
+    h='0.66\\textheight')
 
 interp('the bandwidth paths', 'traiectoriilor în funcție de lățimea de bandă', [
     ('⟦Squared S\\&P 500 returns: ratio $@{bw.sq.rn}$ with the rule of thumb ($S = @{bw.sq.Sn}$), $@{bw.sq.ra}$ with Andrews ($S = @{bw.sq.Sa}$), still rising to $@{bw.sq.rmax}$ at $S = 400$||Pătratele randamentelor S\\&P 500: raport $@{bw.sq.rn}$ cu regula practică ($S = @{bw.sq.Sn}$), $@{bw.sq.ra}$ cu Andrews ($S = @{bw.sq.Sa}$), în creștere pînă la $@{bw.sq.rmax}$ la $S = 400$⟧',
@@ -675,7 +675,7 @@ frame('⟦Fixed-$b$ asymptotics||Asimptotica fixed-$b$⟧', items(
 
 chart('⟦Fixed-$b$ critical values||Valorile critice fixed-$b$⟧', 'ats_ch0_fixed_b', 'ATS_ch0_hac', [
     '⟦Two-sided 5\\% critical values of the $t$-test for a mean with $S = bT$, simulated (20\\,000 i.i.d.\\ normal samples, $T = 500$)||Valori critice bilaterale de 5\\% ale testului $t$ pentru medie cu $S = bT$, simulate (20\\,000 de eșantioane normale i.i.d., $T = 500$)⟧'],
-    h='0.55\\textheight')
+    h='0.66\\textheight')
 
 interp('the fixed-$b$ critical values', 'valorilor critice fixed-$b$', [
     ('⟦Bartlett: $@{fb.b0.1}$ at $b = 0.1$, $@{fb.b0.5}$ at $b = 0.5$, $@{fb.b1.0}$ at $b = 1$ (Kiefer--Vogelsang--Bunzel statistic)||Bartlett: $@{fb.b0.1}$ la $b = 0.1$, $@{fb.b0.5}$ la $b = 0.5$, $@{fb.b1.0}$ la $b = 1$ (statistica Kiefer--Vogelsang--Bunzel)⟧',
@@ -720,7 +720,7 @@ frame('⟦Monte Carlo design||Planul Monte Carlo⟧', items(
 
 chart('⟦Size of seven tests under AR(1) dependence||Mărimea a șapte teste sub dependență AR(1)⟧', 'ats_ch0_mc_size', 'ATS_ch0_size_monte_carlo', [
     '⟦Rejection rate of $H_0: \\mu = 0$ (true) against $\\phi$; dotted line: 5\\%||Rata de respingere a ipotezei $H_0: \\mu = 0$ (adevărată) în funcție de $\\phi$; linia punctată: 5\\%⟧'],
-    h='0.58\\textheight')
+    h='0.69\\textheight')
 
 D.frame('⟦Size in numbers (\\%)||Mărimea în cifre (\\%)⟧', table(
     'lrrrrrr', '& \\multicolumn{3}{c}{$T = 100$} & \\multicolumn{3}{c}{$T = 400$} \\\\\n⟦Test||Testul⟧ & $\\phi = 0$ & $0.5$ & $0.9$ & $\\phi = 0$ & $0.5$ & $0.9$', [
@@ -812,7 +812,7 @@ frame('⟦The wild bootstrap and its limits (2/2)||Wild bootstrap și limitele l
 
 chart('⟦Three bootstraps of one mean||Trei bootstrap-uri ale aceleiași medii⟧', 'ats_ch0_bootstrap', 'ATS_ch0_block_bootstrap', [
     '⟦Mean of squared daily S\\&P 500 returns ($@{bo.mean}$, $T = @{t.sq.T}$); 1999 resamples each; block lengths from Politis--White||Media pătratelor randamentelor zilnice S\\&P 500 ($@{bo.mean}$, $T = @{t.sq.T}$); cîte 1999 de reeșantionări; lungimile blocurilor Politis--White⟧'],
-    h='0.56\\textheight')
+    h='0.65\\textheight')
 
 interp('the three bootstraps', 'celor trei bootstrap-uri', [
     ('⟦i.i.d.\\ bootstrap: standard error $@{bo.se_iid}$, equal to the naive $@{bo.se_naive}$, as theory says||Bootstrap i.i.d.: eroare standard $@{bo.se_iid}$, egală cu cea naivă, $@{bo.se_naive}$, cum spune teoria⟧',
@@ -823,7 +823,7 @@ interp('the three bootstraps', 'celor trei bootstrap-uri', [
 
 chart('⟦Bootstrap standard error against the block length||Eroarea standard bootstrap în funcție de lungimea blocului⟧', 'ats_ch0_block_length', 'ATS_ch0_block_bootstrap', [
     '⟦Circular block bootstrap, 999 resamples per length; ratio to the naive standard error||Bootstrap circular pe blocuri, 999 de reeșantionări pentru fiecare lungime; raportul față de eroarea standard naivă⟧'],
-    h='0.55\\textheight')
+    h='0.69\\textheight')
 
 interp('the block-length paths', 'traiectoriilor în funcție de lungimea blocului', [
     ('⟦$l = 1$ is the i.i.d.\\ bootstrap (ratio 1); the ratio grows with $l$ while $l$ is shorter than the memory of the series||$l = 1$ este bootstrap-ul i.i.d.\\ (raport 1); raportul crește odată cu $l$ cît timp $l$ este mai scurt decît memoria seriei⟧',
@@ -875,7 +875,7 @@ frame('⟦Case study: Estrella and Hardouvelis (1991) (2/2)||Studiu de caz: Estr
 
 chart('⟦The spread and future growth||Marja la termen și creșterea viitoare⟧', 'ats_ch0_term_spread', 'ATS_ch0_term_spread', [
     '⟦Left: the two series; right: ACF of the OLS residuals, $\\hat\\rho_1 = @{ts.rho1}$, $\\hat\\rho_3 = @{ts.rho3}$, $\\hat\\rho_4 = @{ts.rho4}$||Stînga: cele două serii; dreapta: ACF a reziduurilor MCMMP, $\\hat\\rho_1 = @{ts.rho1}$, $\\hat\\rho_3 = @{ts.rho3}$, $\\hat\\rho_4 = @{ts.rho4}$⟧'],
-    h='0.55\\textheight')
+    h='0.61\\textheight')
 
 D.frame('⟦One slope, six standard errors||O pantă, șase erori standard⟧', table(
     'lrrr', '⟦Standard error||Eroarea standard⟧ & $\\widehat{se}(\\hat\\beta_1)$ & $t$ & ⟦Critical value||Valoarea critică⟧', [
@@ -910,7 +910,7 @@ frame('⟦Data snooping||Data snooping⟧', items(
 
 chart('⟦The best of $K$ tests||Cel mai bun dintre $K$ teste⟧', 'ats_ch0_snooping', 'ATS_ch0_data_snooping', [
     '⟦Probability that the largest $|t|$ of $K$ tests exceeds 1.96 when all nulls are true: independent and equicorrelated statistics (20\\,000 simulations)||Probabilitatea ca cel mai mare $|t|$ din $K$ teste să depășească 1,96 cînd toate ipotezele nule sînt adevărate: statistici independente și echicorelate (20\\,000 de simulări)⟧'],
-    h='0.55\\textheight')
+    h='0.65\\textheight')
 
 interp('the family-wise error', 'erorii la nivelul familiei de teste', [
     ('⟦Independent tests: FWER $@{sn.i20}\\%$ with $K = 20$ and $@{sn.i100}\\%$ with $K = 100$||Teste independente: FWER $@{sn.i20}\\%$ cu $K = 20$ și $@{sn.i100}\\%$ cu $K = 100$⟧',
@@ -937,7 +937,7 @@ frame('⟦Case study: the Reality Check of White (2000) (2/2)||Studiu de caz: te
 
 chart('⟦The Reality Check on the BET||Testul Reality Check pe BET⟧', 'ats_ch0_reality_check', 'ATS_ch0_data_snooping', [
     '⟦Bootstrap distribution of $\\bar V^*$ under $H_0$ (999 stationary-bootstrap resamples) and the observed $\\bar V$; two subsamples||Distribuția bootstrap a lui $\\bar V^*$ sub $H_0$ (999 de reeșantionări prin bootstrap staționar) și valoarea observată $\\bar V$; două subeșantioane⟧'],
-    h='0.55\\textheight')
+    h='0.58\\textheight')
 
 interp('the Reality Check', 'testului Reality Check', [
     ('⟦2001--2012 ($n = @{rc.e.N}$ days): the best rule MA(@{rc.e.n}) beats buy-and-hold by $@{rc.e.m}\\%$ a day, $t = @{rc.e.t}$, naive one-sided $p = @{rc.e.p}$||2001--2012 ($n = @{rc.e.N}$ zile): cea mai bună regulă, MA(@{rc.e.n}), bate buy-and-hold cu $@{rc.e.m}\\%$ pe zi, $t = @{rc.e.t}$, p-value naiv unilateral $= @{rc.e.p}$⟧',
@@ -1016,7 +1016,7 @@ frame('⟦The AI-assisted discovery loop||Bucla de descoperire asistată de AI�
 
 chart('⟦Mini-case: one hypothesis, six answers||Mini-studiu de caz: o ipoteză, șase răspunsuri⟧', 'ats_ch0_ai_minicase', 'ATS_ch0_ai_discovery', [
     '⟦Left: 95\\% intervals for the mean HICP inflation since 2013 (mean $@{ai.mean}\\%$); right: size of each test in a Monte Carlo with the fitted AR(1), $\\phi = @{ai.phi}$, $T = @{ai.T}$||Stînga: intervale de 95\\% pentru media inflației IAPC din 2013 (media $@{ai.mean}\\%$); dreapta: mărimea fiecărui test într-un Monte Carlo cu AR(1) estimat, $\\phi = @{ai.phi}$, $T = @{ai.T}$⟧'],
-    h='0.52\\textheight')
+    h='0.60\\textheight')
 
 interp('the mini-case', 'mini-studiului de caz', [
     ('⟦A typical assistant proposal: ``NW with $\\lfloor 4(T/100)^{2/9}\\rfloor$ lags\'\' gives $t = @{ai.t_nw}$ and rejects $\\mu = 2.5$||O propunere tipică a unui asistent AI: „NW cu $\\lfloor 4(T/100)^{2/9}\\rfloor$ laguri” dă $t = @{ai.t_nw}$ și respinge $\\mu = 2.5$⟧',

@@ -52,6 +52,7 @@ Repo local: `~/Documents/Teaching/ATS - Modelarea avansata a seriilor de timp/re
 ## Grafice
 - Fundal transparent; legenda întotdeauna în afara graficului, jos (`legend_outside_bottom`); paleta din `ats_style.py`; niciodată serii sau text în gri (griul doar pentru linii de referință, benzi de încredere, grilă); etichete în engleză.
 - `Quantlets/Ch_NN/generate_all_charts.py` + `build_quantlets.py` (foldere `ATS_chN_*` cu Metainfo.txt, notebook Colab autonom, copii ale graficelor).
+- Text lizibil pe slide: orice text al unui grafic are cel puțin 6 pt la mărimea la care graficul apare pe slide (textul slide-ului are 8 pt). `ats_style.save_fig` dimensionează automat figura pentru caseta ei de pe slide (`Quantlets/common/chart_boxes.json`, scris de `python3 tools/chart_boxes.py` din fișierele .tex); după schimbarea înălțimii unui grafic într-un generator se rulează `tools/chart_boxes.py` și apoi din nou scriptul graficului. Benzile de încredere au opacitatea de cel puțin 0,3. Figurile cu multe panouri pe un rînd scund se rearanjează (un rînd, titluri în locul legendelor) sau se împart.
 
 ## Seminar
 - 2 ore pe săptămînă: părțile A (derivări), B (estimare, verificare și inferență pe date: erori standard, bootstrap, teste robuste, cazuri în care metoda standard greșește; fiecare problemă se încheie cu o întrebare de interpretare), C (deschisă, idee de proiect; include exercițiul C2 „Analiza critică a unui răspuns AI”, cu soluția doar la profesor).

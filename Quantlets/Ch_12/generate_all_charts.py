@@ -503,14 +503,14 @@ def fig_ro_lasso(save_it=True, h=12, refit=3):
     e = {k: (y - f) ** 2 for k, f in F.items()}
     rmse = {k: float(np.sqrt(v.mean())) for k, v in e.items()}
     dm = {k: dm_test(e[k] - e['AR(3)'], h) for k in F if k != 'AR(3)'}
-    fig, axs = plt.subplots(1, 2, figsize=(11.5, 4.6), gridspec_kw={'width_ratios': [1.25, 1]})
-    im = axs[0].imshow(freq, aspect='auto', cmap='Blues', vmin=0, vmax=1)
-    axs[0].set_yticks(range(N))
-    axs[0].set_yticklabels(cn, fontsize=7)
-    axs[0].set_xticks(range(len(yrs)))
-    axs[0].set_xticklabels([str(v)[2:] for v in yrs], fontsize=9)
-    axs[0].set_xlabel('year of the target (20..)')
-    plt.colorbar(im, ax=axs[0], fraction=0.04, pad=0.02, label='share of origins with the country selected')
+    fig, axs = plt.subplots(1, 2, figsize=(13, 4.6), gridspec_kw={'width_ratios': [1.7, 1]})
+    im = axs[0].imshow(freq.T, aspect='auto', cmap='Blues', vmin=0, vmax=1)     # years in rows, the 26 countries in columns
+    axs[0].set_xticks(range(N))
+    axs[0].set_xticklabels(cn, rotation=90)
+    axs[0].set_yticks(range(0, len(yrs), 2))
+    axs[0].set_yticklabels([str(v) for v in yrs[::2]])
+    axs[0].set_ylabel('year of the target')
+    plt.colorbar(im, ax=axs[0], fraction=0.04, pad=0.02, label='selection frequency')
     ks = [k for k in F if k != 'AR(3)']
     rel = [rmse[k] / rmse['AR(3)'] for k in ks]
     cols = [st.MainBlue if dm[k]['p_hln'] < 0.05 and r < 1 else st.IDAred if dm[k]['p_hln'] < 0.05 else st.Amber for k, r in zip(ks, rel)]

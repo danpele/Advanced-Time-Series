@@ -185,7 +185,8 @@ def fig_overview(save_it=True):
     G = germany()
     U = oecd_gdp()
     W = weekly_logrv(['btc'], start='2022-06-01', end='2024-12-29')
-    fig, ax = plt.subplots(2, 2, figsize=(11, 7.6))
+    fig, ax = plt.subplots(1, 4, figsize=(14, 4.8))
+    ax = ax.reshape(2, 2)
     a = ax[0, 0]
     for c in EU27:
         if c != 'RO':
@@ -193,7 +194,7 @@ def fig_overview(save_it=True):
     a.plot(A.index, A.drop(columns='RO').median(axis=1), color=st.MainBlue, lw=1.6, label='EU median')
     a.plot(A.index, A['RO'], color=st.IDAred, lw=1.8, label='Romania')
     a.axvline(pd.Timestamp('2025-07-01'), color=st.Amber, ls='--', lw=1)
-    a.set_title('HICP inflation, % y/y (Eurostat)')
+    a.set_title('HICP inflation, % y/y\n(Eurostat)')
     st.legend_outside_bottom(a, ncol=2, y=-0.16)
     a = ax[0, 1]
     for nm, g in G.groupby('country'):
@@ -202,7 +203,7 @@ def fig_overview(save_it=True):
     g = G[G['country'] == 'West Germany']
     a.plot(g['year'], g['gdp'], color=st.IDAred, lw=1.8, label='West Germany')
     a.axvline(1990, color=st.Amber, ls='--', lw=1)
-    a.set_title('GDP per capita, PPP USD (ADH 2015 data)')
+    a.set_title('GDP per capita, PPP USD\n(ADH 2015 data)')
     st.legend_outside_bottom(a, ncol=2, y=-0.16)
     a = ax[1, 0]
     x = pd.PeriodIndex(U.index, freq='Q').to_timestamp()
@@ -212,15 +213,15 @@ def fig_overview(save_it=True):
     a.axvline(pd.Timestamp('2016-07-01'), color=st.Amber, ls='--', lw=1)
     a.set_xlim(pd.Timestamp('1995-01-01'), pd.Timestamp('2019-12-31'))
     a.set_ylim(0.9, 2.4)
-    a.set_title('Real GDP, 1995 = 1 (OECD)')
+    a.set_title('Real GDP, 1995 = 1\n(OECD)')
     st.legend_outside_bottom(a, ncol=2, y=-0.16)
     a = ax[1, 1]
     a.plot(W.index, W['btc'], color=st.Amber, lw=1.2, label='Bitcoin')
     a.axvline(pd.Timestamp('2024-01-10'), color=st.IDAred, ls='--', lw=1)
-    a.set_title('Bitcoin weekly log realised variance')
+    a.set_title('Bitcoin weekly log\nrealised variance')
     st.legend_outside_bottom(a, ncol=2, y=-0.16)
     datefmt(ax[0, 0], ax[1, 0], ax[1, 1])
-    plt.tight_layout(h_pad=3.0)
+    plt.tight_layout()
     save('ats_ch14_overview', save_it)
     return {'hicp_end': str(A['RO'].dropna().index[-1].date()), 'n_eu': len(EU27),
             'ro_jun25': float(A.loc['2025-06-01', 'RO']), 'ro_aug25': float(A.loc['2025-08-01', 'RO']),
@@ -379,26 +380,21 @@ def fig_pcmci_vol(save_it=True, tau_max=2, alpha=0.01, start='2008-01-01'):
     corr = corr_links(W.values, tau_max, alpha)['links']
     n_corr = int(sum(corr[i, j, t] for i in range(N) for j in range(N) for t in range(1, tau_max + 1) if i != j))
     ang = np.linspace(np.pi / 2, np.pi / 2 - 2 * np.pi, N, endpoint=False)
-    pos = {k: (np.cos(a), np.sin(a)) for k, a in zip(PCMCI_NAMES, ang)}
-    fig, ax = plt.subplots(figsize=(6.4, 5.2))
+    pos = {k: (2.2 * np.cos(a), np.sin(a)) for k, a in zip(PCMCI_NAMES, ang)}     # nodes on an ellipse (wide slide box)
+    fig, ax = plt.subplots(figsize=(10, 4.4))
     for k, (x0, y0) in pos.items():
-        ax.add_patch(plt.Circle((x0, y0), 0.17, color=st.MainBlue, alpha=0.15))
-        ax.text(x0, y0, PCMCI_LABELS[k], ha='center', va='center', fontsize=11, color=st.DarkText)
+        ax.text(x0, y0, PCMCI_LABELS[k], ha='center', va='center', fontsize=12, color=st.DarkText, zorder=3,
+                bbox=dict(boxstyle='round,pad=0.45', fc=st.LightBlue, ec='none', alpha=0.45))
     for a_, b_, tau, v in links:
-        (x0, y0), (x1, y1) = pos[a_], pos[b_]
-        d = np.hypot(x1 - x0, y1 - y0)
-        sx, sy = x0 + 0.19 * (x1 - x0) / d, y0 + 0.19 * (y1 - y0) / d
-        ex, ey = x1 - 0.19 * (x1 - x0) / d, y1 - 0.19 * (y1 - y0) / d
         col = st.IDAred if v > 0 else st.MainBlue
-        ax.annotate('', xy=(ex, ey), xytext=(sx, sy),
-                    arrowprops=dict(arrowstyle='-|>', color=col, lw=1 + 8 * abs(v), alpha=0.85,
+        ax.annotate('', xy=pos[b_], xytext=pos[a_],
+                    arrowprops=dict(arrowstyle='-|>', color=col, lw=1 + 8 * abs(v), alpha=0.85, shrinkA=24, shrinkB=24,
                                     connectionstyle='arc3,rad=0.12' if tau == 1 else 'arc3,rad=-0.25'))
     ax.plot([], [], color=st.IDAred, lw=2, label='positive MCI')
     ax.plot([], [], color=st.MainBlue, lw=2, label='negative MCI')
     ax.plot([], [], color=st.DarkText, lw=0, label='lag 1: arc to the left; lag 2: arc to the right')
-    ax.set_xlim(-1.35, 1.35)
-    ax.set_ylim(-1.3, 1.3)
-    ax.set_aspect('equal')
+    ax.set_xlim(-2.75, 2.75)
+    ax.set_ylim(-1.25, 1.25)
     ax.axis('off')
     st.legend_outside_bottom(ax, ncol=3, y=-0.0)
     save('ats_ch14_pcmci_vol', save_it)
@@ -482,9 +478,11 @@ def fig_its(save_it=True, start='2015-01-01', T0='2025-06-01', end='2026-06-01')
     ct = np.cumsum(eff)
     ax[1].plot(xi, ct, 'o-', color=st.IDAred, label='cumulative effect')
     k = np.arange(1, len(ct) + 1)
-    for key, c, lab in (('iid', st.Amber, '95% band, i.i.d. errors'), ('hac', st.MainBlue, '95% band, HAC')):
-        sd = out[key]['cum_se'] * np.sqrt(k / len(ct))
-        ax[1].fill_between(xi, ct - 1.96 * sd, ct + 1.96 * sd, color=c, alpha=0.15, label=lab)
+    sd = out['hac']['cum_se'] * np.sqrt(k / len(ct))
+    ax[1].fill_between(xi, ct - 1.96 * sd, ct + 1.96 * sd, color=st.MainBlue, alpha=0.3, label='95% band, HAC')
+    sd = out['iid']['cum_se'] * np.sqrt(k / len(ct))   # the narrower i.i.d. band as dashed bounds
+    ax[1].plot(xi, ct - 1.96 * sd, color=st.Amber, ls='--', lw=1.4, label='95% band, i.i.d. errors')
+    ax[1].plot(xi, ct + 1.96 * sd, color=st.Amber, ls='--', lw=1.4)
     ax[1].axhline(0, color=st.DarkText, lw=0.6)
     ax[1].set_ylabel('percentage points (log)')
     st.legend_outside_bottom(ax[1], ncol=2, y=-0.16)
@@ -649,24 +647,25 @@ def fig_germany_placebo(save_it=True):
             wl, _, _, _ = adh_fit(d, 7, c2, starts=2)
             loo[names[u]] = Y[c2].values @ wl
     fig, ax = plt.subplots(1, 3, figsize=(12, 3.8))
-    ax[0].barh(range(len(rank)), [ratios[k] for k in rank][::-1],
-               color=[st.IDAred if k == 'West Germany' else st.MainBlue for k in rank][::-1])
-    ax[0].set_yticks(range(len(rank)))
-    ax[0].set_yticklabels(rank[::-1], fontsize=8)
-    ax[0].set_xlabel('post/pre RMSPE ratio')
-    ax[0].set_title('In-space placebos', fontsize=11)
+    top = rank[:6]                                   # the six largest ratios (legible labels on the slide)
+    ax[0].barh(range(len(top)), [ratios[k] for k in top][::-1],
+               color=[st.IDAred if k == 'West Germany' else st.MainBlue for k in top][::-1])
+    ax[0].set_yticks(range(len(top)))
+    ax[0].set_yticklabels(top[::-1], fontsize=8)
+    ax[0].set_xlabel(f'post/pre RMSPE ratio ({len(top)} largest of {len(rank)})')
+    ax[0].set_title('In-space placebos')
     sel = yrs <= 1990
     ax[1].plot(yrs[sel], Y[7].values[sel], color=st.IDAred, lw=2, label='West Germany')
     ax[1].plot(yrs[sel], s75[sel], color=st.MainBlue, lw=2, ls='--', label='synthetic (outcomes 1960-1974)')
     ax[1].axvline(1975, color=st.Amber, ls=':', lw=1)
-    ax[1].set_title('In-time placebo: 1975', fontsize=11)
+    ax[1].set_title('In-time placebo: 1975')
     st.legend_outside_bottom(ax[1], ncol=2, y=-0.16)
     ax[2].plot(yrs, Y[7].values, color=st.IDAred, lw=2, label='West Germany')
     ax[2].plot(yrs, Y[ctrl].values @ w0, color=st.MainBlue, lw=2, ls='--', label='synthetic')
     for i, (k, s) in enumerate(loo.items()):
         ax[2].plot(yrs, s, color=st.Teal, lw=1, alpha=0.8, label='leave-one-out' if i == 0 else '_')
     ax[2].axvline(1990, color=st.Amber, ls=':', lw=1)
-    ax[2].set_title('Leave one donor out', fontsize=11)
+    ax[2].set_title('Leave one donor out')
     st.legend_outside_bottom(ax[2], ncol=2, y=-0.16)
     plt.tight_layout()
     save('ats_ch14_germany_placebo', save_it)

@@ -425,17 +425,17 @@ def fig_dm(save_it=True, a=0.05):
     D = np.array(rep[str(a)]['dm'], float)
     from matplotlib.colors import LinearSegmentedColormap
     cmap = LinearSegmentedColormap.from_list('dm', [st.Forest, '#FFFFFF', st.IDAred])
-    fig, ax = plt.subplots(figsize=(8.6, 6.0))
-    im = ax.imshow(np.clip(D, -6, 6), cmap=cmap, vmin=-6, vmax=6)
+    fig, ax = plt.subplots(figsize=(12, 4.6))
+    im = ax.imshow(np.clip(D, -6, 6), cmap=cmap, vmin=-6, vmax=6, aspect='auto')
     for i in range(10):
         for j in range(10):
             if i != j:
                 ax.text(j, i, f'{D[i, j]:.1f}', ha='center', va='center', fontsize=8, color=st.DarkText)
     ax.set_xticks(range(10))
     ax.set_yticks(range(10))
-    ax.set_xticklabels(MODELS, rotation=45, ha='right')
+    ax.set_xticklabels(MODELS, rotation=30, ha='right')
     ax.set_yticklabels(MODELS)
-    cb = plt.colorbar(im, ax=ax, fraction=0.04)
+    cb = plt.colorbar(im, ax=ax, fraction=0.03)
     cb.set_label('DM t statistic: row minus column')
     save('ats_ch9_dm', save_it)
     j = MODELS.index('FZ-1F')

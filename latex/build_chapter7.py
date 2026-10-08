@@ -434,7 +434,7 @@ chart(T('Durations and the speed of mixing', 'Duratele și viteza de amestecare'
     T(r'$p_{11} = 0.9$, $p_{22} = 0.75$: expected durations @{ch.d1} and @{ch.d2} periods; $\pi_1 = @{ch.pi}$; $\lambda = @{ch.lam}$',
       r'$p_{11} = 0{,}9$, $p_{22} = 0{,}75$: durate așteptate de @{ch.d1} și @{ch.d2} perioade; $\pi_1 = @{ch.pi}$; $\lambda = @{ch.lam}$'),
     T('The gap to the ergodic probability shrinks by the factor $\\lambda$ each period: after 10 periods the starting regime is almost forgotten', 'Distanța față de probabilitatea ergodică scade cu factorul $\\lambda$ în fiecare perioadă: după 10 perioade regimul de pornire este aproape uitat')],
-    h='0.48\\textheight')
+    h='0.59\\textheight')
 
 D.recap(('The model', 'modelul'), [
     T('A latent Markov chain selects the parameters of the observation equation', 'Un lanț Markov latent alege parametrii ecuației observațiilor'),
@@ -519,7 +519,7 @@ D.frame(T('EM and numerical ML in practice', 'EM și verosimilitatea maximă num
 chart(T('EM from @{em.n} starting values', 'EM din @{em.n} puncte de pornire'), 'ats_ch7_em', 'ATS_ch7_estimation', [
     T(r'MSIH(2)-AR(1) on Hamilton\'s GNP data: switching intercept and variance, common AR(1) coefficient; random starting values; log scale for iterations',
       r'MSIH(2)-AR(1) pe datele PNB ale lui Hamilton: termen liber și varianță care comută, coeficient AR(1) comun; puncte de pornire aleatoare; scară logaritmică pentru iterații')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the EM paths', 'traiectoriilor EM'), [
     T(r'@{em.ng} limits (log-likelihood, number of starts): @{em.groups}; median @{em.itmed} iterations, at most @{em.itmax}', r'@{em.ng} limite (log-verosimilitatea, numărul de puncte de pornire): @{em.groups}; în mediană @{em.itmed} de iterații, cel mult @{em.itmax}'),
@@ -567,7 +567,7 @@ D.frame(T('Solutions in the literature', 'Soluțiile din literatură'), items(
 chart(T('The bootstrap null distribution of the LR statistic', 'Distribuția bootstrap a statisticii LR sub ipoteza nulă'), 'ats_ch7_lrtest', 'ATS_ch7_estimation', [
     T(r'US GDP growth, 1947Q2--2019Q4 ($T = @{lr.T}$): $H_0$ Gaussian AR(1), $H_1$ MSIH(2)-AR(1); @{lr.B} samples simulated from the estimated AR(1), both models re-estimated, EM with 4 starts',
       r'Creșterea PIB-ului SUA, T2 1947--T4 2019 ($T = @{lr.T}$): $H_0$ AR(1) Gaussian, $H_1$ MSIH(2)-AR(1); @{lr.B} de eșantioane simulate din AR(1) estimat, ambele modele reestimate, EM cu 4 puncte de pornire')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the test', 'testului'), [
     T(r'Bootstrap 95\% quantile @{lr.q95}, against @{lr.c2} ($\chi^2_2$) and @{lr.c4} ($\chi^2_4$); mean of the null draws @{lr.mean}: counting parameters gets the critical value wrong', r'Cuantila bootstrap de 95\% este @{lr.q95}, față de @{lr.c2} ($\chi^2_2$) și @{lr.c4} ($\chi^2_4$); media extragerilor sub $H_0$ @{lr.mean}: numărarea parametrilor dă o valoare critică greșită'),
@@ -606,7 +606,7 @@ D.frame(T('Replication: Hamilton\'s data, two implementations', 'Replicare: date
 chart(T('Hamilton\'s regimes then and now', 'Regimurile lui Hamilton atunci și acum'), 'ats_ch7_hamilton89', 'ATS_ch7_hamilton', [
     T(r'Left: smoothed probability of the low-growth regime on Hamilton\'s data. Right: the same specification on today\'s GDPC1, estimated on 1953Q2--2019Q4 ($T = @{ht.T}$), probabilities to @{ht.lastq} with the same parameters',
       r'Stînga: probabilitatea netezită a regimului de creștere scăzută pe datele lui Hamilton. Dreapta: aceeași specificație pe GDPC1 de azi, estimată pe T2 1953--T4 2019 ($T = @{ht.T}$), probabilități pînă în @{ht.lastq} cu aceiași parametri')],
-    h='0.5\\textheight')
+    h='0.57\\textheight')
 
 interp(('the replication', 'replicării'), [
     T(r'On his data, the regime tracks the NBER: QPS @{hq.qps} and @{hq.conc}\% concordance (probability above 0.5 against the NBER quarters) \refDR, \refHP', r'Pe datele lui, regimul urmărește datările NBER: QPS @{hq.qps} și concordanță de @{hq.conc}\% (probabilitate peste 0,5 comparată cu trimestrele NBER) \refDR, \refHP'),
@@ -617,7 +617,7 @@ interp(('the replication', 'replicării'), [
 chart(T('Dating in pseudo real time', 'Datarea în pseudo timp real'), 'ats_ch7_realtime', 'ATS_ch7_hamilton', [
     T(r'Hamilton\'s model re-estimated every year on the data available then (current vintage, no data revisions); filtered probability of each quarter with information up to that quarter, 1990--2026',
       r'Modelul lui Hamilton reestimat în fiecare an pe datele disponibile atunci (ediția curentă, fără revizuiri ale datelor); probabilitatea filtrată a fiecărui trimestru cu informația de pînă la acel trimestru, 1990--2026')],
-    h='0.48\\textheight')
+    h='0.53\\textheight')
 
 interp(('real-time dating', 'datării în timp real'), [
     T(r'First quarter above 0.5: 1990--91 @{rt.1990} (maximum @{rt.1990.max}), 2001 @{rt.2001} (maximum @{rt.2001.max}), 2008 @{rt.2008}, 2020 @{rt.2020}', r'Primul trimestru peste 0,5: 1990--91 @{rt.1990} (maximum @{rt.1990.max}), 2001 @{rt.2001} (maximum @{rt.2001.max}), 2008 @{rt.2008}, 2020 @{rt.2020}'),
@@ -656,7 +656,7 @@ D.frame(T('Replication: Filardo (1994)', 'Replicare: Filardo (1994)'), table(
 
 chart(T('Transition probabilities driven by the leading indicator', 'Probabilități de tranziție determinate de indicatorul avansat'), 'ats_ch7_tvtp', 'ATS_ch7_tvtp', [
     T('Top: smoothed probability of the low-growth regime; bottom: the probabilities of staying in each regime, month by month', 'Sus: probabilitatea netezită a regimului de creștere scăzută; jos: probabilitățile de rămînere în fiecare regim, lună de lună')],
-    h='0.5\\textheight')
+    h='0.68\\textheight')
 
 interp(('TVTP', 'TVTP'), [
     T(r'Stay in expansion: median @{tv.med}, but down to @{tv.min} when the leading indicator falls sharply: expansions end when the indicator turns', r'Rămînerea în expansiune: mediana @{tv.med}, dar coboară pînă la @{tv.min} cînd indicatorul avansat scade puternic: expansiunile se încheie cînd indicatorul se întoarce'),
@@ -681,7 +681,7 @@ D.frame(T('MS-VAR and regime-dependent responses', 'MS-VAR și răspunsuri depen
 chart(T('A two-regime VAR for output and unemployment', 'Un VAR cu două regimuri pentru producție și șomaj'), 'ats_ch7_msvar', 'ATS_ch7_msvar', [
     T(r'MSIAH(2)-VAR(1) for US GDP growth and the change of the unemployment rate, 1960Q1--2019Q4 ($T = @{mv.T}$, @{mv.k} parameters), EM from 12 starts; Cholesky order: output first; responses scaled to a 1 pp output shock',
       r'MSIAH(2)-VAR(1) pentru creșterea PIB-ului SUA și variația ratei șomajului, T1 1960--T4 2019 ($T = @{mv.T}$, @{mv.k} parametri), EM din 12 puncte de pornire; ordinea Cholesky: producția prima; răspunsuri scalate la un șoc de producție de 1 pp')],
-    h='0.5\\textheight')
+    h='0.63\\textheight')
 
 interp(('the MS-VAR', 'modelului MS-VAR'), [
     (T('The regimes are calm and volatile', 'Regimurile sînt calm și volatil'),
@@ -728,7 +728,7 @@ D.frame(T('S\\&P 500: GARCH against MS-GARCH', 'S\\&P 500: GARCH comparat cu MS-
 
 chart(T('Conditional volatility and the high-volatility regime', 'Volatilitatea condiționată și regimul de volatilitate ridicată'), 'ats_ch7_msgarch', 'ATS_ch7_msgarch', [
     T('Top: annualised conditional volatility, GARCH(1,1) and MS-GARCH (HMP, mixture variance); bottom: filtered probability of the high-volatility regime', 'Sus: volatilitatea condiționată anualizată, GARCH(1,1) și MS-GARCH (HMP, varianța amestecului); jos: probabilitatea filtrată a regimului de volatilitate ridicată')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('MS-GARCH', 'modelului MS-GARCH'), [
     T(r'BIC prefers HMP (@{mg.hmp.bic}) to GARCH (@{mg.garch.bic}); the high-volatility regime is active on @{mg.share}\% of days', r'BIC preferă HMP (@{mg.hmp.bic}) față de GARCH (@{mg.garch.bic}); regimul de volatilitate ridicată este activ în @{mg.share}\% din zile'),
@@ -755,7 +755,7 @@ D.frame(T('Equity regimes: S\\&P 500 and BET', 'Regimuri pe piața de acțiuni: 
 
 chart(T('Turbulent regimes on two markets', 'Regimuri agitate pe două piețe'), 'ats_ch7_bullbear', 'ATS_ch7_bullbear', [
     T(r'Log index levels (first week = 100); shaded: smoothed probability of the turbulent regime above 0.5; EM from 15 starts and a numerical polish (\texttt{statsmodels}: same $\ln L$)', r'Nivelurile indicilor pe scară logaritmică (prima săptămînă = 100); hașurat: probabilitatea netezită a regimului agitat peste 0,5; EM din 15 puncte de pornire și rafinare numerică (\texttt{statsmodels}: același $\ln L$)')],
-    h='0.52\\textheight')
+    h='0.65\\textheight')
 
 interp(('the equity regimes', 'regimurilor pieței de acțiuni'), [
     T(r'Turbulent share: S\&P 500 @{bb.sp500.share}\%, BET @{bb.bet.share}\%; correlation of the two turbulent probabilities @{bb.corr}; both turbulent in @{bb.both}\% of weeks', r'Ponderea regimului agitat: S\&P 500 @{bb.sp500.share}\%, BET @{bb.bet.share}\%; corelația celor două probabilități @{bb.corr}; ambele agitate în @{bb.both}\% din săptămîni'),
@@ -798,7 +798,7 @@ D.frame(T('Label switching in MCMC, and choosing $K$', 'Schimbarea etichetelor �
 chart(T('Romanian GDP growth: two regimes by Gibbs sampling', 'Creșterea PIB-ului României: două regimuri prin eșantionare Gibbs'), 'ats_ch7_gibbs', 'ATS_ch7_bayes', [
     T(r'Quarterly growth, @{gb.start}--@{gb.end} ($T = @{gb.T}$), MSIH(2) without AR term; @{gb.n} draws after burn-in; left: permutation sampler, right: sampler identified by $\mu_1 < \mu_2$',
       r'Creșterea trimestrială, @{gb.start}--@{gb.end} ($T = @{gb.T}$), MSIH(2) fără termen AR; @{gb.n} extrageri după burn-in; stînga: eșantionatorul cu permutări, dreapta: eșantionatorul identificat prin $\mu_1 < \mu_2$')],
-    h='0.5\\textheight')
+    h='0.64\\textheight')
 
 interp(('the posterior', 'distribuției a posteriori'), [
     T(r'Permutation sampler: label 1 carries the larger mean in @{gb.swap}\% of draws: the bimodal histogram is the two regimes, not two answers', r'Eșantionatorul cu permutări: eticheta 1 are media mai mare în @{gb.swap}\% din extrageri: histograma bimodală reprezintă cele două regimuri, nu două răspunsuri'),
@@ -830,7 +830,7 @@ D.frame(T('Rare switches look like long memory', 'Comutările rare arată ca mem
 chart(T('Simulation: GPH estimates of $d$ under regime switching', 'Simulare: estimații GPH ale lui $d$ cu schimbare de regim'), 'ats_ch7_longmem', 'ATS_ch7_longmem', [
     T(r'$y_t = \mu_{S_t} + \varepsilon_t$, $\mu \in \{0, 1\}$, $\sigma = 1$; mean GPH estimate ($m = T^{0.5}$) over @{lm.reps} replications, $\pm 2$ standard errors',
       r'$y_t = \mu_{S_t} + \varepsilon_t$, $\mu \in \{0, 1\}$, $\sigma = 1$; media estimațiilor GPH ($m = T^{0{,}5}$) pe @{lm.reps} de replicări, $\pm 2$ erori standard')],
-    h='0.5\\textheight')
+    h='0.62\\textheight')
 
 interp(('the simulation', 'simulării'), [
     T(r'Rare switches ($p = 1 - 5/T$): mean $\hat d$ = @{lm.r0}, @{lm.r1}, @{lm.r2}, @{lm.r3} for $T$ = @{lm.T0}, @{lm.T1}, @{lm.T2}, @{lm.T3}: it does not vanish as $T$ grows', r'Comutări rare ($p = 1 - 5/T$): media $\hat d$ = @{lm.r0}; @{lm.r1}; @{lm.r2}; @{lm.r3} pentru $T$ = @{lm.T0}; @{lm.T1}; @{lm.T2}; @{lm.T3}: nu dispare cînd $T$ crește'),
@@ -847,7 +847,7 @@ D.frame(T('Regimes or breaks?', 'Regimuri sau rupturi?'), items(
 chart(T('Romanian inflation regimes since 1997', 'Regimurile inflației din România din 1997'), 'ats_ch7_ro_infl', 'ATS_ch7_ro_inflation', [
     T(r'Annual HICP inflation, $100\ln(P_t/P_{t-12})$, from @{ri.start} ($T = @{ri.T}$); MSIH(3)-AR(1), EM from 25 starts; dashed: change points of the 4-regime change-point model; symmetric log scale',
       r'Inflația anuală IAPC, $100\ln(P_t/P_{t-12})$, din @{ri.start} ($T = @{ri.T}$); MSIH(3)-AR(1), EM din 25 de puncte de pornire; linii întrerupte: punctele de schimbare ale modelului cu 4 regimuri; scară logaritmică simetrică')],
-    h='0.52\\textheight')
+    h='0.56\\textheight')
 
 interp(('the inflation regimes', 'regimurilor inflației'), [
     T(r'Regime levels $\nu_j/(1 - \phi)$: @{ri.l0}\%, @{ri.l1}\% and @{ri.l2}\%; shock s.d.\ @{ri.s0}, @{ri.s1} and @{ri.s2} pp; $\phi = @{ri.phi}$: after 2001 the two lower regimes differ mainly in volatility', r'Nivelurile regimurilor $\nu_j/(1 - \phi)$: @{ri.l0}\%, @{ri.l1}\% și @{ri.l2}\%; abaterea standard a șocurilor @{ri.s0}; @{ri.s1} și @{ri.s2} pp; $\phi = @{ri.phi}$: după 2001 cele două regimuri inferioare diferă mai ales prin volatilitate'),
@@ -877,7 +877,7 @@ D.frame(T('Romania\'s exchange-rate regimes', 'Regimurile cursului de schimb din
 chart(T('EUR/RON volatility regimes, 1999--2026', 'Regimurile de volatilitate ale EUR/RON, 1999--2026'), 'ats_ch7_eurron', 'ATS_ch7_eurron', [
     T(r'Top: EUR/RON (ECB reference rate to June 2005, BNR from July 2005); bottom: smoothed probabilities of the calm, intermediate and turbulent regimes; $T = @{eu.T}$ weeks',
       r'Sus: EUR/RON (cursul de referință BCE pînă în iunie 2005, BNR din iulie 2005); jos: probabilitățile netezite ale regimurilor calm, intermediar și agitat; $T = @{eu.T}$ de săptămîni')],
-    h='0.52\\textheight')
+    h='0.58\\textheight')
 
 interp(('the EUR/RON regimes', 'regimurilor EUR/RON'), [
     T(r'Weekly s.d.\ by regime: @{eu.s0}, @{eu.s1} and @{eu.s2}\%; expected durations @{eu.d0}, @{eu.d1} and @{eu.d2} weeks', r'Abaterea standard săptămînală pe regim: @{eu.s0}; @{eu.s1} și @{eu.s2}\%; durate așteptate de @{eu.d0}; @{eu.d1} și @{eu.d2} săptămîni'),
@@ -902,7 +902,7 @@ D.frame(T('Forecasts from a switching model', 'Prognozele unui model cu schimbar
 chart(T('US GDP: one-step density forecasts, 1990--2019', 'PIB-ul SUA: prognoze de densitate la un pas, 1990--2019'), 'ats_ch7_forecast', 'ATS_ch7_forecast', [
     T(r'Expanding window from 1947Q2, @{fc.n} quarters, AR(1) re-estimated each quarter, MSIH(2)-AR(1) every 4 quarters (EM, warm start); left: cumulative log-score difference; right: PIT histograms (dashed: uniform)',
       r'Fereastră extinsă din T2 1947, @{fc.n} trimestre, AR(1) reestimat în fiecare trimestru, MSIH(2)-AR(1) la fiecare 4 trimestre (EM, pornind de la soluția anterioară); stînga: diferența cumulată a scorurilor logaritmice; dreapta: histogramele PIT (linia întreruptă: uniformă)')],
-    h='0.5\\textheight')
+    h='0.61\\textheight')
 
 interp(('the forecast comparison', 'comparației prognozelor'), [
     T(r'RMSE: AR(1) @{fc.rmse_ar}, MSIH(2)-AR(1) @{fc.rmse_ms}: the point forecasts are almost the same, as Clements and Krolzig found', r'RMSE: AR(1) @{fc.rmse_ar}, MSIH(2)-AR(1) @{fc.rmse_ms}: prognozele punctuale sînt aproape identice, cum au găsit Clements și Krolzig'),
@@ -948,7 +948,7 @@ chart(T('Mini-case: how robust is a recession dating?', 'Mini studiu de caz: cî
     (T(r'QPS from @{ai.qmin} to @{ai.qmax} (a constant probability scores @{ai.qc})', r'QPS între @{ai.qmin} și @{ai.qmax} (o probabilitate constantă are scorul @{ai.qc})'),
      [T(r'@{ai.nf} variants flag most quarters: their low-mean regime is the Great Moderation', r'@{ai.nf} variante semnalează majoritatea trimestrelor: regimul lor cu media scăzută este Marea Moderație'),
       T(r'@{ai.both} of @{ai.n} dates both 2001 and 2008 without false alarms: an AI summary that reports one variant as ``the\'\' dating is wrong', r'@{ai.both} din @{ai.n} datează atît 2001, cît și 2008 fără alarme false: un rezumat AI care raportează o singură variantă drept „datarea” greșește')])],
-    h='0.46\\textheight')
+    h='0.47\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{A regime-based business-cycle chronology for Romania}: replicate first, then extend', r'\textbf{O cronologie a ciclului economic din România pe baza regimurilor}: întîi replicare, apoi extindere'),

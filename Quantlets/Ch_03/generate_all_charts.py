@@ -555,7 +555,7 @@ def fig_kilian(save_it=True, B=NBOOT):
     th2[:, 0, :] = np.cumsum(th2[:, 0, :], axis=0)
     shocks = ['Oil supply shock', 'Aggregate demand shock', 'Oil-specific demand shock']
     resp = ['Oil production (cum., %)', 'Real activity (index)', 'Real price of oil (%)']
-    fig, axs = plt.subplots(3, 3, figsize=(12, 7.6), sharex=True)
+    fig, axs = plt.subplots(3, 3, figsize=(14, 6.4), sharex=True)
     hh = np.arange(H + 1)
     cols = [st.MainBlue, st.Forest, st.IDAred]
     for j in range(3):
@@ -1038,7 +1038,7 @@ def fig_rz(save_it=True):
         ax.set_xlabel('quarters')
         ax.set_ylim(-1.0, 2.5)
     axs[0].set_ylabel('cumulative multiplier')
-    st.fig_legend_bottom(fig, [axs[0].lines[0], axs[1].lines[1], axs[1].lines[3], patch(st.MainBlue)],
+    st.fig_legend_bottom(fig, [axs[0].lines[0], axs[1].lines[0], axs[1].lines[2], patch(st.MainBlue)],
                          ['linear', 'high unemployment (slack)', 'low unemployment', '95% band (Newey-West)'], ncol=4, y=0.0)
     plt.tight_layout(rect=(0, 0.08, 1, 1))
     save('ats_ch3_rz', save_it)

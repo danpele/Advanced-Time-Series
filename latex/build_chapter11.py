@@ -428,7 +428,7 @@ D.frame(T('The spectral density matrix (2/2): cross-spectra', 'Matricea densită
 chart(T('Variance by frequency band', 'Varianța pe benzi de frecvență'), 'ats_ch11_bands', 'ATS_ch11_spectral_estimation', [
     T(r'An AR(2) path, $X_t = 1.3X_{t-1} - 0.7X_{t-2} + \varepsilon_t$, 240 ``quarters\'\', split by the DFT into three bands; shares of variance in the sample and $2\int_{\mathrm{band}}f/\gamma(0)$ in theory',
       r'O traiectorie AR(2), $X_t = 1.3X_{t-1} - 0.7X_{t-2} + \varepsilon_t$, 240 de „trimestre”, separată prin DFT în trei benzi; ponderile varianței în eșantion și $2\int_{\mathrm{banda}}f/\gamma(0)$ în teorie')],
-    h='0.52\\textheight')
+    h='0.65\\textheight')
 
 interp(('the band decomposition', 'descompunerii pe benzi'), [
     T(r'The spectral peak is at a period of @{bd.peak}: @{bd.t.bc}\% of the variance lies in the band of 6--32 periods (sample: @{bd.s.bc}\%)',
@@ -490,7 +490,7 @@ D.frame(T('Lag-window estimators (2/2): the kernels', 'Estimatori cu fereastră 
 chart(T('Lag windows and spectral windows', 'Ferestre de laguri și ferestre spectrale'), 'ats_ch11_kernels', 'ATS_ch11_spectral_estimation', [
     T(r'Left: $k(u)$; right: the spectral window $W_M(\omega)$ for $M = 10$, the weights that each estimator gives to the periodogram around $\omega$',
       r'Stînga: $k(u)$; dreapta: fereastra spectrală $W_M(\omega)$ pentru $M = 10$, ponderile pe care fiecare estimator le dă periodogramei în jurul lui $\omega$')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the windows', 'ferestrelor'), [
     (T(r'A narrow $W_M$ means low bias and high variance', r'O fereastră $W_M$ îngustă înseamnă deplasare mică și varianță mare'),
@@ -524,7 +524,7 @@ D.frame(T('Bias, variance and the optimal bandwidth (2/2)', 'Deplasare, varianț
 chart(T('The bias--variance trade-off at a spectral peak', 'Compromisul deplasare--varianță într-un vîrf spectral'), 'ats_ch11_bias_variance', 'ATS_ch11_spectral_estimation', [
     T(r'Parzen estimator at the peak (period @{bv.peak}) of $X_t = 1.6X_{t-1} - 0.9X_{t-2} + \varepsilon_t$, $n = 512$, @{bv.reps} simulations; curves divided by $f(\mathrm{peak})^2$; dashed: the asymptotic formulas',
       r'Estimatorul Parzen în vîrful (perioada @{bv.peak}) lui $X_t = 1.6X_{t-1} - 0.9X_{t-2} + \varepsilon_t$, $n = 512$, @{bv.reps} de simulări; curbele sînt împărțite la $f(\text{vîrf})^2$; linii întrerupte: formulele asimptotice')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the trade-off', 'compromisului'), [
     T(r'With $M = 12$ the relative RMSE is @{bv.r12}, almost all of it bias (@{bv.b12}): heavy smoothing flattens the peak',
@@ -575,7 +575,7 @@ D.frame(T('Multitaper estimation (2/2): adaptive weights', 'Estimarea multitaper
 chart(T('Slepian tapers', 'Taper-ele Slepian'), 'ats_ch11_dpss', 'ATS_ch11_spectral_estimation', [
     T(r'$n = 512$, $NW = 4$: the first four tapers and the leakage $1 - \lambda_k$ of the first ten (blue: $k < 2NW - 1$)',
       r'$n = 512$, $NW = 4$: primele patru taper-e și leakage-ul $1 - \lambda_k$ a primelor zece (albastru: $k < 2NW - 1$)')],
-    h='0.48\\textheight')
+    h='0.56\\textheight')
 
 interp(('the tapers', 'taper-elor'), [
     T('Taper $k$ has $k$ zero crossings: higher tapers weight the ends of the sample, so together they use all the data',
@@ -590,7 +590,7 @@ interp(('the tapers', 'taper-elor'), [
 chart(T('Leakage on a spectrum with a high dynamic range', 'Leakage-ul spectral pe un spectru cu domeniu dinamic mare'), 'ats_ch11_leakage', 'ATS_ch11_spectral_estimation', [
     T(r'The AR(4) of Percival and Walden (1993), $n = 1024$, range of @{lk.range} dB between peak and trough; one simulated path (median leakage of 21)',
       r'Modelul AR(4) al lui Percival și Walden (1993), $n = 1024$, @{lk.range} dB între vîrf și minim; o traiectorie simulată (cu leakage-ul median din 21)')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('leakage', 'leakage-ului'), [
     T(r'Mean bias at frequencies above 0.3 cycles (@{lk.reps} simulations): periodogram +@{lk.raw} dB, Hann taper @{lk.hann} dB, multitaper +@{lk.mt} dB, adaptive multitaper @{lk.mta} dB',
@@ -605,7 +605,7 @@ interp(('leakage', 'leakage-ului'), [
 chart(T('Five estimators in a Monte Carlo', 'Cinci estimatori într-un experiment Monte Carlo'), 'ats_ch11_mt_mc', 'ATS_ch11_spectral_estimation', [
     T(r'$X_t = 1.6X_{t-1} - 0.9X_{t-2} + \varepsilon_t$, $n = 512$, @{mc.reps} simulations: mean log-bias by frequency and coverage of the nominal 95\% $\chi^2$ bands',
       r'$X_t = 1.6X_{t-1} - 0.9X_{t-2} + \varepsilon_t$, $n = 512$, @{mc.reps} de simulări: deplasarea medie în logaritmi pe frecvențe și acoperirea benzilor $\chi^2$ nominale de 95\%')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the Monte Carlo', 'experimentului Monte Carlo'), [
     T(r'Standard deviation of $10\log_{10}(\hat f/f)$: periodogram @{mc.pg.sd} dB, Daniell @{mc.dn.sd}, multitaper @{mc.mt.sd}, Parzen @{mc.pz.sd}, Welch @{mc.we.sd}',
@@ -620,7 +620,7 @@ interp(('the Monte Carlo', 'experimentului Monte Carlo'), [
 chart(T('Industrial production: Romania and the euro area', 'Producția industrială: România și zona euro'), 'ats_ch11_ip_spectrum', 'ATS_ch11_ip_spectrum', [
     T(r'Monthly growth of industrial production (seasonally and calendar adjusted), February 2000 -- July 2026, @{ip.n} months; multitaper $NW = 4$ with 95\% bands',
       r'Creșterea lunară a producției industriale (ajustată sezonier și pentru zilele lucrătoare), februarie 2000 -- iulie 2026, @{ip.n} luni; multitaper $NW = 4$ cu benzi de 95\%')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the industrial production spectra', 'spectrelor producției industriale'), [
     T(r'Monthly growth is dominated by short periods: cycles under 6 months carry @{ip.RO.sh}\% of the variance in Romania and @{ip.EA20.sh}\% in the euro area',
@@ -655,7 +655,7 @@ D.frame(T('Lines in the spectrum: Thomson\'s F test (2/2)', 'Linii în spectru: 
 chart(T('Residual seasonality in Romanian industrial production', 'Sezonalitatea reziduală în producția industrială a României'), 'ats_ch11_ftest', 'ATS_ch11_ip_spectrum', [
     T(r'Harmonic F test ($NW = 4$, $K = 7$) on monthly growth, unadjusted and adjusted series; dotted lines: the six seasonal frequencies',
       r'Testul F armonic ($NW = 4$, $K = 7$) pe creșterea lunară, seria neajustată și seria ajustată; liniile punctate: cele șase frecvențe sezoniere')],
-    h='0.5\\textheight')
+    h='0.49\\textheight')
 
 interp(('the F test', 'testului F'), [
     T(r'Unadjusted: @{ft.nsa} of 6 seasonal harmonics are lines at 1\% ($p$ @{ft.p2} and @{ft.p3} at 2 and 3 cycles per year); the annual harmonic is borderline ($p$ = @{ft.p1})',
@@ -711,7 +711,7 @@ D.frame(T('Inference on coherence and phase', 'Inferență pentru coerență și
 chart(T('Romania and the euro area: coherence, phase and gain', 'România și zona euro: coerență, fază și cîștig'), 'ats_ch11_coherence', 'ATS_ch11_cross_spectrum', [
     T(r'Monthly industrial production growth, euro area ($x$) and Romania ($y$); multitaper $NW = 6$, $K = @{co.K}$; shaded: 18--96 months',
       r'Creșterea lunară a producției industriale, zona euro ($x$) și România ($y$); multitaper $NW = 6$, $K = @{co.K}$; zona colorată: 18--96 de luni')],
-    h='0.48\\textheight')
+    h='0.63\\textheight')
 
 interp(('the cross-spectrum', 'spectrului încrucișat'), [
     T(r'Coherence averages @{co.bc} in the business-cycle band and @{co.sh} below 12 months; the 5\% threshold is @{co.thr}: significant at @{co.sbc}\% of business-cycle frequencies and @{co.ssh}\% of short ones',
@@ -765,7 +765,7 @@ D.frame(T('Granger causality by frequency (2/2): the Breitung--Candelon test', '
 chart(T('Does the euro area cause Romanian industry, and at which frequencies?', 'Cauzează zona euro industria românească și la ce frecvențe?'), 'ats_ch11_causality', 'ATS_ch11_causality', [
     T(r'VAR(@{ca.p}) in monthly industrial production growth (order by AIC, at least 3); left: Geweke measures; right: Breitung--Candelon $F$ with its 5\% critical value @{ca.crit}',
       r'VAR(@{ca.p}) pentru creșterea lunară a producției industriale (ordinul ales prin AIC, cel puțin 3); stînga: măsurile Geweke; dreapta: statistica $F$ Breitung--Candelon cu valoarea critică de 5\% @{ca.crit}')],
-    h='0.48\\textheight')
+    h='0.65\\textheight')
 
 interp(('frequency-domain causality', 'cauzalității în domeniul frecvenței'), [
     T(r'Euro area $\to$ Romania: total Geweke measure @{ca.F1} (integral of the curve: @{ca.int}); Romania $\to$ euro area: @{ca.F2}',
@@ -834,7 +834,7 @@ D.frame(T('Hamilton\'s critique', 'Critica lui Hamilton'), items(
 chart(T('Filters judged by their gain', 'Filtre judecate după cîștig'), 'ats_ch11_gains', 'ATS_ch11_filters', [
     T(r'Gain from the level to the cycle, by period in quarters; Christiano--Fitzgerald: the weights in the middle of a 126-quarter sample; Hamilton: $h = 8$, $p = 4$',
       r'Cîștigul de la nivel la ciclu, pe perioade în trimestre; Christiano--Fitzgerald: ponderile din mijlocul unui eșantion de 126 de trimestre; Hamilton: $h = 8$, $p = 4$')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the gains', 'cîștigurilor'), [
     T(r'HP is a high-pass filter: gain @{ga.hp32} at 32 quarters, @{ga.hp40} at 40 and still @{ga.hp60} at 60: the ``HP cycle\'\' contains cycles longer than 8 years',
@@ -848,7 +848,7 @@ interp(('the gains', 'cîștigurilor'), [
 chart(T('A cycle made by the filter', 'Un ciclu creat de filtru'), 'ats_ch11_cogley_nason', 'ATS_ch11_filters', [
     T(r'Spectrum of the HP ($\lambda = 1600$) cycle of a random walk: $G(\omega)^2/(2\pi\cdot2(1 - \cos\omega))$, and the average periodogram of HP-filtered simulated random walks',
       r'Spectrul ciclului HP ($\lambda = 1600$) al unui mers aleator: $G(\omega)^2/(2\pi\cdot2(1 - \cos\omega))$ și periodograma medie a unor mersuri aleatoare simulate filtrate HP')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the spurious cycle', 'ciclului fals'), [
     T(r'A random walk has no cycle, yet its HP cycle peaks at a period of @{cn.pth} quarters (@{cn.yr} years); simulation: @{cn.pmc}',
@@ -863,7 +863,7 @@ interp(('the spurious cycle', 'ciclului fals'), [
 chart(T('Romanian business cycles by four filters', 'Ciclurile economice ale României după patru filtre'), 'ats_ch11_ro_cycles', 'ATS_ch11_filters', [
     T(r'100 $\times$ log real GDP of Romania, 1995Q1 -- @{cy.end}; HP ($\lambda = 1600$), BK(6, 32, 12), CF(6, 32, random walk with drift), Hamilton ($h = 8$, $p = 4$)',
       r'100 $\times$ logaritmul PIB-ului real al României, T1 1995 -- @{cy.end}; HP ($\lambda = 1600$), BK(6, 32, 12), CF(6, 32, mers aleator cu derivă), Hamilton ($h = 8$, $p = 4$)')],
-    h='0.5\\textheight')
+    h='0.57\\textheight')
 
 interp(('the Romanian cycles', 'ciclurilor României'), [
     T(r'All four place the 2008 peak (HP @{cy.max.hp}\%, BK @{cy.max.bk}\%) and the trough of @{cy.mq.hp} (HP @{cy.min.hp}\%, BK @{cy.min.bk}\%) at the same time',
@@ -878,7 +878,7 @@ interp(('the Romanian cycles', 'ciclurilor României'), [
 chart(T('The end-point problem', 'Problema capetelor de eșantion'), 'ats_ch11_endpoint', 'ATS_ch11_filters', [
     T(r'Romanian GDP: the cycle at each date computed with the data available at that date (real time) and with the full sample (final), from @{ep.start}',
       r'PIB-ul României: ciclul la fiecare dată calculat cu datele disponibile la acea dată (timp real) și cu tot eșantionul (final), din @{ep.start}')],
-    h='0.5\\textheight')
+    h='0.63\\textheight')
 
 interp(('the real-time revisions', 'revizuirilor în timp real'), [
     T(r'HP: root mean square revision @{ep.rhp} points, as large as the cycle itself (standard deviation @{ep.sdhp}); correlation of real-time and final cycles @{ep.chp}; sign wrong in @{ep.shp}\% of quarters',
@@ -904,7 +904,7 @@ D.frame(T('Measuring business-cycle synchronisation', 'Măsurarea sincronizării
 chart(T('Romania and the euro area: synchronisation over time', 'România și zona euro: sincronizarea în timp'), 'ats_ch11_sync', 'ATS_ch11_filters', [
     T(r'Baxter--King cycles of real GDP, @{sy.start} -- @{sy.end}, and their rolling 20-quarter correlation',
       r'Ciclurile Baxter--King ale PIB-ului real, @{sy.start} -- @{sy.end}, și corelația lor mobilă pe 20 de trimestre')],
-    h='0.5\\textheight')
+    h='0.68\\textheight')
 
 interp(('synchronisation', 'sincronizării'), [
     T(r'Correlation of the cycles: @{sy.corr} over the whole sample; @{sy.cpre} before 2008, @{sy.cgfc} in 2008--2012, @{sy.cpost} in 2013--2019, @{sy.ccov} from 2020',
@@ -919,7 +919,7 @@ interp(('synchronisation', 'sincronizării'), [
 chart(T('Dynamic correlation with the euro area', 'Corelația dinamică cu zona euro'), 'ats_ch11_dyncorr', 'ATS_ch11_cross_spectrum', [
     T(r'Quarterly GDP growth, multitaper $NW = 3$; left: $\rho(\omega)$ for 1995--2019; right: band averages for 6--32 quarters (bars) and 2--6 quarters (diamonds), without and with 2020--2026',
       r'Creșterea trimestrială a PIB, multitaper $NW = 3$; stînga: $\rho(\omega)$ pentru 1995--2019; dreapta: mediile pe banda de 6--32 de trimestre (bare) și 2--6 trimestre (romburi), fără și cu 2020--2026')],
-    h='0.48\\textheight')
+    h='0.65\\textheight')
 
 interp(('the dynamic correlations', 'corelațiilor dinamice'), [
     T(r'Before 2020, business-cycle dynamic correlation: Hungary @{dc.HU.pre.bc}, Czechia @{dc.CZ.pre.bc}, Poland @{dc.PL.pre.bc}, Romania @{dc.RO.pre.bc}',
@@ -958,7 +958,7 @@ D.frame(T('Evolutionary spectra and local stationarity', 'Spectre evolutive și 
 chart(T('A spectrum that drifts', 'Un spectru care alunecă'), 'ats_ch11_spectrogram', 'ATS_ch11_evolutionary', [
     T(r'$X_t = 2r\cos(\theta_t)X_{t-1} - r^2X_{t-2} + \varepsilon_t$, $r = 0.95$, peak period moving from 20 to 5 over 2048 observations; short-time multitaper on windows of 256 (step 16)',
       r'$X_t = 2r\cos(\theta_t)X_{t-1} - r^2X_{t-2} + \varepsilon_t$, $r = 0.95$, perioada vîrfului trece de la 20 la 5 pe 2048 de observații; multitaper pe ferestre de 256 (pas 16)')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the spectrogram', 'spectrogramei'), [
     T('The spectrogram follows the moving peak: a single spectrum of the whole sample would show a smeared band from 0.05 to 0.2 cycles',
@@ -1033,7 +1033,7 @@ D.frame(T('DWT, MODWT and multiresolution (2/2)', 'DWT, MODWT și analiza multir
 chart(T('Wavelet filters and the Morlet wavelet', 'Filtre wavelet și wavelet-ul Morlet'), 'ats_ch11_wavelets', 'ATS_ch11_wavelets', [
     T(r'Left: squared gains of the MODWT LA(8) filters of levels 1--5; right: the Morlet wavelet $\psi_0(\eta) = \pi^{-1/4}e^{i\omega_0\eta}e^{-\eta^2/2}$, $\omega_0 = 6$',
       r'Stînga: pătratele cîștigurilor filtrelor MODWT LA(8) pentru nivelurile 1--5; dreapta: wavelet-ul Morlet $\psi_0(\eta) = \pi^{-1/4}e^{i\omega_0\eta}e^{-\eta^2/2}$, $\omega_0 = 6$')],
-    h='0.48\\textheight')
+    h='0.63\\textheight')
 
 interp(('the wavelet filters', 'filtrelor wavelet'), [
     T('Each MODWT level is an approximate band-pass filter for one octave; the bands overlap, so leakage between neighbouring levels is part of the design',
@@ -1082,7 +1082,7 @@ D.frame(T('Wavelet variance, correlation and beta by scale (2/2)', 'Varianța, c
 chart(T('Wavelet variance of three equity indices', 'Varianța wavelet a trei indici bursieri'), 'ats_ch11_wvar', 'ATS_ch11_wavelets', [
     T(r'Daily log returns 2000--2026, MODWT LA(8), levels 1--8 with 95\% intervals; dashed: white noise with the same level-1 variance',
       r'Randamente logaritmice zilnice 2000--2026, MODWT LA(8), nivelurile 1--8 cu intervale de 95\%; linii întrerupte: zgomot alb cu aceeași varianță la nivelul 1')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the wavelet variances', 'varianțelor wavelet'), [
     T(r'Ratio of the variance at level 6 (64--128 days) to the white-noise line: BET @{wv.bet.r6}, DAX @{wv.dax.r6}, S\&P 500 @{wv.sp500.r6}',
@@ -1096,7 +1096,7 @@ interp(('the wavelet variances', 'varianțelor wavelet'), [
 chart(T('Co-movement by scale: BET, DAX and S\\&P 500', 'Co-mișcarea pe scale: BET, DAX și S\\&P 500'), 'ats_ch11_wcorr', 'ATS_ch11_wavelets', [
     T(r'Daily returns on @{wc.n} common trading days, MODWT LA(8); left: three pairs, 2000--2026; right: BET--DAX in two halves; 95\% Fisher-$z$ intervals',
       r'Randamente zilnice în @{wc.n} zile comune de tranzacționare, MODWT LA(8); stînga: trei perechi, 2000--2026; dreapta: BET--DAX în două jumătăți; intervale Fisher-$z$ de 95\%')],
-    h='0.5\\textheight')
+    h='0.57\\textheight')
 
 interp(('the wavelet correlations', 'corelațiilor wavelet'), [
     T(r'BET--DAX rises from @{wc.bet_dax.1} (2--4 days) to @{wc.bet_dax.8} (256--512 days); the daily correlation (@{wc.corr}) understates long-run integration',
@@ -1145,7 +1145,7 @@ D.frame(T('The Morlet transform and its significance (2/2)', 'Transformata Morle
 chart(T('Wavelet power of the BET', 'Puterea wavelet a BET'), 'ats_ch11_cwt_bet', 'ATS_ch11_wavelet_coherence', [
     T(r'Weekly BET returns (standardised), @{cw.n} weeks 2000--2026, Morlet $\omega_0 = 6$, $\delta j = 1/12$; black contours: 5\% red-noise test; hatched: cone of influence; right: global wavelet spectrum',
       r'Randamente săptămînale BET (standardizate), @{cw.n} de săptămîni 2000--2026, Morlet $\omega_0 = 6$, $\delta j = 1/12$; contururi negre: testul de 5\% față de zgomotul roșu; hașurat: conul de influență; dreapta: spectrul wavelet global')],
-    h='0.48\\textheight')
+    h='0.65\\textheight')
 
 interp(('the wavelet power', 'puterii wavelet'), [
     T(r'Maximum power at a period of @{cw.per} weeks on @{cw.date}: the Lehman weeks; significant power in 2007--2011 at periods of 32 to 128 weeks',
@@ -1179,7 +1179,7 @@ D.frame(T('Wavelet coherence and phase (2/2)', 'Coerența și faza wavelet (2/2)
 chart(T('BET and DAX in time and frequency', 'BET și DAX în timp și frecvență'), 'ats_ch11_wtc_bet_dax', 'ATS_ch11_wavelet_coherence', [
     T(r'Weekly returns 2000--2026; contours: 5\% significance from @{wd.reps} AR(1) pairs; arrows only where significant',
       r'Randamente săptămînale 2000--2026; contururi: semnificația de 5\% din @{wd.reps} de perechi AR(1); săgeți doar unde coerența este semnificativă')],
-    h='0.52\\textheight')
+    h='0.56\\textheight')
 
 interp(('BET--DAX coherence', 'coerenței BET--DAX'), [
     T(r'@{wd.obs}\% of the reliable area is significant (null 95th percentile @{wd.q95}\%): the co-movement is real, but concentrated',
@@ -1194,7 +1194,7 @@ interp(('BET--DAX coherence', 'coerenței BET--DAX'), [
 chart(T('BET and S\\&P 500 in time and frequency', 'BET și S\\&P 500 în timp și frecvență'), 'ats_ch11_wtc_bet_spx', 'ATS_ch11_wavelet_coherence', [
     T(r'Weekly returns 2000--2026; Monte Carlo significance as before',
       r'Randamente săptămînale 2000--2026; semnificația Monte Carlo ca mai înainte')],
-    h='0.52\\textheight')
+    h='0.56\\textheight')
 
 interp(('BET--S\\&P 500 coherence', 'coerenței BET--S\\&P 500'), [
     T(r'Significant area @{ws.obs}\% (null 95th percentile @{ws.q95}\%); $R^2$ at 8--64 weeks @{ws.gfc} in 2008--2009 and @{ws.calm} in 2014--2019',
@@ -1209,7 +1209,7 @@ interp(('BET--S\\&P 500 coherence', 'coerenței BET--S\\&P 500'), [
 chart(T('Oil and stocks', 'Petrolul și acțiunile'), 'ats_ch11_wtc_oil', 'ATS_ch11_wavelet_coherence', [
     T(r'Weekly returns of Brent crude oil (FRED) and the S\&P 500, 2000--2026; Monte Carlo significance from @{wo.reps} AR(1) pairs',
       r'Randamente săptămînale ale petrolului Brent (FRED) și ale S\&P 500, 2000--2026; semnificația Monte Carlo din @{wo.reps} de perechi AR(1)')],
-    h='0.52\\textheight')
+    h='0.56\\textheight')
 
 interp(('oil--stock coherence', 'coerenței petrol--acțiuni'), [
     T(r'Significant area @{wo.obs}\% (null 95th percentile @{wo.q95}\%): oil and stocks are linked only in episodes',
@@ -1224,7 +1224,7 @@ interp(('oil--stock coherence', 'coerenței petrol--acțiuni'), [
 chart(T('Inflation in Romania and the euro area', 'Inflația în România și în zona euro'), 'ats_ch11_wtc_infl_ro', 'ATS_ch11_wavelet_coherence', [
     T(r'Annual HICP inflation (monthly), January 2001 -- August 2026; Monte Carlo significance against AR(1) pairs with lag-1 autocorrelation @{wi.ro.ar}',
       r'Inflația anuală HICP (lunar), ianuarie 2001 -- august 2026; semnificația Monte Carlo față de perechi AR(1) cu autocorelația de ordinul 1 egală cu @{wi.ro.ar}')],
-    h='0.5\\textheight')
+    h='0.54\\textheight')
 
 interp(('inflation co-movement', 'co-mișcării inflației'), [
     T(r'Romania--euro area: $R^2$ at 24--64 months @{wi.ro.pre} in 2002--2012, @{wi.ro.post} from 2015; significant area @{wi.ro.obs}\% (null 95th percentile @{wi.ro.q95}\%)',
@@ -1282,7 +1282,7 @@ chart(T('Mini-case: how many islands does chance produce?', 'Mini studiu de caz:
       r'Ponderea ariei timp--perioadă fiabile dintr-o hartă de coerență wavelet care este semnificativă punctual la 5\%: @{ai.reps} de perechi noi de serii AR(1) independente, cu autocorelațiile BET și DAX, și harta observată BET--DAX'),
     T(r'Null: mean @{ai.mean}\%, 95th percentile @{ai.q95}\%, maximum @{ai.max}\%; @{ai.any}\% of null maps contain significant islands; BET--DAX: @{ai.obs}\%. An AI summary that reads every island as a contagion episode is wrong; the overall excess is real',
       r'Ipoteza nulă: media @{ai.mean}\%, percentila 95 @{ai.q95}\%, maximum @{ai.max}\%; @{ai.any}\% din hărțile nule conțin insule semnificative; BET--DAX: @{ai.obs}\%. Un rezumat AI care citește fiecare insulă ca un episod de contagiune greșește; surplusul total este real')],
-    h='0.42\\textheight')
+    h='0.55\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{Contagion or volatility? Wavelet coherence of Central and Eastern European stock markets under a volatility-matched null}',

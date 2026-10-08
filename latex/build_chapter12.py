@@ -325,7 +325,7 @@ D.frame(T('Four generations of forecasting models', 'Patru generații de modele 
 
 chart(T('Four data sets, four kinds of structure', 'Patru seturi de date, patru tipuri de structură'), 'ats_ch12_overview', 'ATS_ch12_validation', [
     T(r'Romanian load (daily mean, @{ov.lmean} GW on average); EU inflation (Romania in red); S\&P 500 realised variance (log scale); three M4 hourly series (last two weeks)',
-      r'Consumul României (media zilnică, în medie @{ov.lmean} GW); inflația UE (România cu roșu); varianța realizată S\&P 500 (scară logaritmică); trei serii orare M4 (ultimele două săptămîni)')], h='0.52\\textheight')
+      r'Consumul României (media zilnică, în medie @{ov.lmean} GW); inflația UE (România cu roșu); varianța realizată S\&P 500 (scară logaritmică); trei serii orare M4 (ultimele două săptămîni)')], h='0.66\\textheight')
 
 interp(('the four data sets', 'celor patru seturi de date'), [
     T('Load: strong daily and weekly seasonality, holidays, slow annual cycle: calendar structure that trees and linear models capture well',
@@ -432,7 +432,7 @@ D.frame(T('Replication design: Bergmeir, Hyndman and Koo (2018, Section 4)', 'Sc
         r'$PE$: eroarea de predicție adevărată (RMSE pe datele de evaluare); $\widehat{PE}$: estimația ei prin procedură; medii pe repetări; MPAE $< 0$: estimare optimistă')])), 'small')
 
 chart(T('Which validation estimates the future error?', 'Precizia și deplasarea schemelor de validare'), 'ats_ch12_cv_bhk', 'ATS_ch12_validation', [
-    T('Top: precision (log scale); bottom: bias, by fitted AR order and data-generating process', 'Sus: precizia (scară logaritmică); jos: deplasarea, după ordinul AR estimat și procesul generator')], h='0.58\\textheight')
+    T('Top: precision (log scale); bottom: bias, by fitted AR order and data-generating process', 'Sus: precizia (scară logaritmică); jos: deplasarea, după ordinul AR estimat și procesul generator')], h='0.68\\textheight')
 
 interp(('the replication', 'replicării'), [
     T(r'AR(3) data, AR(3) model: 5-fold CV has MAPAE @{cv.ar.cv.3.a} against @{cv.ar.oos.3.a} for OOS, bias @{cv.ar.cv.3.b}: as in the paper, CV is unbiased and more precise',
@@ -450,7 +450,7 @@ D.frame(T('Leakage through overlapping targets and time features', 'Leakage prin
       r'Simulare: AR(1) cu $\phi = 0{,}9$, $h = 20$, o pădure aleatoare pe $y_t,\dots,y_{t-4}$ și un indice de timp; @{lk.reps} de repetări; raportul dintre RMSE estimat și RMSE adevărat pe date noi')), 'small')
 
 chart(T('How optimistic is each validation scheme?', 'Optimismul fiecărei scheme de validare'), 'ats_ch12_leakage', 'ATS_ch12_validation', [
-    T('Ratio 1: the scheme estimates the error on new data without bias; below 1: optimistic', 'Raportul 1: schema estimează fără deplasare eroarea pe date noi; sub 1: optimistă')], h='0.46\\textheight')
+    T('Ratio 1: the scheme estimates the error on new data without bias; below 1: optimistic', 'Raportul 1: schema estimează fără deplasare eroarea pe date noi; sub 1: optimistă')], h='0.68\\textheight')
 
 interp(('the leakage experiment', 'experimentului de leakage'), [
     T(r'Random 5-fold: median ratio @{lk.rnd} (quartiles @{lk.rnd.q1}--@{lk.rnd.q3}): it claims an error three times smaller than the truth', r'5 subeșantioane aleatoare: raportul median @{lk.rnd} (quartile @{lk.rnd.q1}--@{lk.rnd.q3}): pretinde o eroare de trei ori mai mică decît cea reală'),
@@ -485,7 +485,7 @@ D.frame(T('Design: EU inflation, local against global', 'Schema studiului: infla
     T('Loss: RMSE in percentage points; DM test on the cross-country average loss differential (HLN correction, Chapter 1)', 'Pierderea: RMSE în puncte procentuale; testul DM pe diferența medie a pierderilor dintre țări (corecția HLN, Capitolul 1)')), 'small')
 
 chart(T('Memory helps global models and hurts local ones', 'Memoria ajută modelele globale și le afectează pe cele locale'), 'ats_ch12_global_local', 'ATS_ch12_global_models', [
-    T('RMSE against the memory $p$; circles: average over the 27 countries; squares: Romania', 'RMSE în funcție de memoria $p$; cercuri: media celor 27 de țări; pătrate: România')], h='0.5\\textheight')
+    T('RMSE against the memory $p$; circles: average over the 27 countries; squares: Romania', 'RMSE în funcție de memoria $p$; cercuri: media celor 27 de țări; pătrate: România')], h='0.68\\textheight')
 
 interp(('local and global', 'modelelor locale și globale'), [
     T(r'$h = 1$: local RMSE is best at $p = @{gl.1.bl}$ (@{gl.1.lbest}) and then deteriorates; global keeps improving up to $p = @{gl.1.bg}$ (@{gl.1.gbest}); DM on the 27-country average @{gl.1.dmall} ($p$ @{gl.1.pall})',
@@ -557,7 +557,7 @@ D.frame(T('Design: Romanian inflation from the EU panel', 'Schema studiului: inf
     T(r'In the spirit of the data-rich inflation literature \refMVVZ, \refGCLSS, with the EU panel as the data set', r'Literatura despre prognoza inflației cu multe date \refMVVZ, \refGCLSS, aplicată aici pe panelul UE')), 'small')
 
 chart(T('What the panel lasso selects, and what it delivers', 'Selecția lasso pe panel și acuratețea ei'), 'ats_ch12_ro_lasso', 'ATS_ch12_global_models', [
-    T('Left: share of forecast origins in each year at which a country enters the lasso; right: RMSE relative to AR(3), colour by the DM test', 'Stînga: ponderea originilor din fiecare an în care o țară intră în lasso; dreapta: RMSE relativ la AR(3), culoarea după testul DM')], h='0.48\\textheight')
+    T('Left: share of forecast origins in each year at which a country enters the lasso; right: RMSE relative to AR(3), colour by the DM test', 'Stînga: ponderea originilor din fiecare an în care o țară intră în lasso; dreapta: RMSE relativ la AR(3), culoarea după testul DM')], h='0.65\\textheight')
 
 interp(('the panel lasso', 'lasso pe panel'), [
     T(r'Selection is unstable: median @{la.nsel} of @{la.nf} predictors (from @{la.nmin} to @{la.nmax}); the most frequent are @{la.top}, not Romania\'s neighbours', r'Selecția este instabilă: mediana de @{la.nsel} din @{la.nf} predictori (între @{la.nmin} și @{la.nmax}); cele mai frecvente sînt @{la.top}, nu vecinii României'),
@@ -630,7 +630,7 @@ D.frame(T('Design: Romanian day-ahead load', 'Schema studiului: consumul Români
           T('Losses: MAE, average pinball over the deciles, 80\\% coverage; DM against ARX and MCS (Chapter 1)', 'Pierderi: MAE, pinball mediu pe decile, acoperirea de 80\\%; DM față de ARX și MCS (Capitolul 1)')), '0.34', '0.64'), 'small')
 
 chart(T('Trees against the expert ARX', 'Arbori față de ARX-ul expert'), 'ats_ch12_load_trees', 'ATS_ch12_trees', [
-    T('Left: one January week with QRF 10\\%--90\\% bands; right: MAE in MW, MCS marks the models in the 90\\% Model Confidence Set', 'Stînga: o săptămînă din ianuarie cu benzile QRF 10\\%--90\\%; dreapta: MAE în MW, MCS marchează modelele din mulțimea de încredere de 90\\%')], h='0.46\\textheight')
+    T('Left: one January week with QRF 10\\%--90\\% bands; right: MAE in MW, MCS marks the models in the 90\\% Model Confidence Set', 'Stînga: o săptămînă din ianuarie cu benzile QRF 10\\%--90\\%; dreapta: MAE în MW, MCS marchează modelele din mulțimea de încredere de 90\\%')], h='0.61\\textheight')
 
 interp(('the load comparison', 'comparației pentru consum'), [
     T(r'MAE (MW): ARX @{ld.arx}, RF @{ld.rf}, HGB @{ld.hgb}, monotone HGB @{ld.mono}; the forest is significantly worse (DM @{ld.rf.t}), boosting is not significantly different from ARX', r'MAE (MW): ARX @{ld.arx}, RF @{ld.rf}, HGB @{ld.hgb}, HGB monoton @{ld.mono}; pădurea este semnificativ mai slabă (DM @{ld.rf.t}), boosting nu diferă semnificativ de ARX'),
@@ -639,7 +639,7 @@ interp(('the load comparison', 'comparației pentru consum'), [
     T('A daily-refitted linear model with the right structure is a strong baseline; trees add value as a complement, not as a replacement', 'Un model liniar reestimat zilnic, cu structura corectă, este un reper puternic; arborii aduc valoare ca o completare, nu ca un înlocuitor')])
 
 chart(T('Monotone constraints in practice', 'Restricțiile de monotonie în practică'), 'ats_ch12_monotone', 'ATS_ch12_trees', [
-    T('Partial dependence of the boosted forecast on the load of day $d$ at the same hour, trained on 2023--2024', 'Dependența parțială a prognozei boosting de consumul din ziua $d$ la aceeași oră, antrenat pe 2023--2024')], h='0.46\\textheight')
+    T('Partial dependence of the boosted forecast on the load of day $d$ at the same hour, trained on 2023--2024', 'Dependența parțială a prognozei boosting de consumul din ziua $d$ la aceeași oră, antrenat pe 2023--2024')], h='0.68\\textheight')
 
 interp(('the constraint', 'restricției'), [
     T(r'Unconstrained: @{mo.down} decreasing steps (the largest @{mo.worst} MW): more load yesterday would sometimes mean less load tomorrow, a fit to noise', r'Fără restricție: @{mo.down} pași descrescători (cel mai mare de @{mo.worst} MW): mai mult consum ieri ar însemna uneori mai puțin consum mîine, o potrivire a zgomotului'),
@@ -714,7 +714,7 @@ D.frame(T('LSTM and GRU: gates (2/2)', 'LSTM și GRU: porțile (2/2)'), items(
         r'$\tilde h_t$: starea candidată, calculată din $r_t\odot h_{t-1}$ și $x_t$; mai puțini parametri decît LSTM, comportament asemănător')])), 'small')
 
 chart(T('How far back does the gradient reach?', 'Distanța în timp pînă la care ajunge gradientul'), 'ats_ch12_vanishing', 'ATS_ch12_recurrent', [
-    T(r'Mean $|\partial h_T/\partial x_t|$ of freshly initialised networks (32 units, $T = @{va.T}$, Gaussian inputs, average of @{va.seeds} seeds), log scale', r'Media $|\partial h_T/\partial x_t|$ pentru rețele proaspăt inițializate (32 de unități, $T = @{va.T}$, intrări gaussiene, media a @{va.seeds} seed-uri), scară logaritmică')], h='0.5\\textheight')
+    T(r'Mean $|\partial h_T/\partial x_t|$ of freshly initialised networks (32 units, $T = @{va.T}$, Gaussian inputs, average of @{va.seeds} seeds), log scale', r'Media $|\partial h_T/\partial x_t|$ pentru rețele proaspăt inițializate (32 de unități, $T = @{va.T}$, intrări gaussiene, media a @{va.seeds} seed-uri), scară logaritmică')], h='0.65\\textheight')
 
 interp(('the gradients', 'gradienților'), [
     T(r'At lag 50 the gradient is a fraction @{va.rnn.e50} of its lag-1 value for the tanh RNN, @{va.gru.e50} for the GRU and @{va.lstm.e50} for the LSTM with the default forget bias 0', r'La lagul 50, gradientul este o fracțiune @{va.rnn.e50} din valoarea de la lagul 1 pentru RNN tanh, @{va.gru.e50} pentru GRU și @{va.lstm.e50} pentru LSTM cu bias-ul implicit 0 al porții de uitare'),
@@ -751,7 +751,7 @@ D.frame(T('Design: deep models against HAR', 'Schema studiului: modele deep faț
     T(r'QLIKE \refPat, DM (HLN) against HAR, MCS; the literature: neural networks gain little over HAR \refBuc; ML gains appear mostly with many predictors \refCSV', r'QLIKE \refPat, DM (HLN) față de HAR, MCS; literatura: rețelele neuronale cîștigă puțin față de HAR \refBuc; cîștigurile ML apar mai ales cu mulți predictori \refCSV')), 'small')
 
 chart(T('Can deep networks beat HAR?', 'Rețele deep față de HAR'), 'ats_ch12_rv_deep', 'ATS_ch12_recurrent', [
-    T(r'QLIKE relative to HAR (1 = HAR); a star marks a DM rejection at 5\%', r'QLIKE relativ la HAR (1 = HAR); steaua marchează o respingere DM la 5\%')], h='0.5\\textheight')
+    T(r'QLIKE relative to HAR (1 = HAR); a star marks a DM rejection at 5\%', r'QLIKE relativ la HAR (1 = HAR); steaua marchează o respingere DM la 5\%')], h='0.68\\textheight')
 
 interp(('deep models against HAR', 'modelelor deep față de HAR'), [
     T(r'$h = 1$: MLP @{rv.1.mlp}, LSTM @{rv.1.lstm} (DM @{rv.1.lstm.t}), TCN @{rv.1.tcn}, HGB @{rv.1.hgb} (DM @{rv.1.hgb.t}): nothing beats HAR, two are significantly worse', r'$h = 1$: MLP @{rv.1.mlp}, LSTM @{rv.1.lstm} (DM @{rv.1.lstm.t}), TCN @{rv.1.tcn}, HGB @{rv.1.hgb} (DM @{rv.1.hgb.t}): niciun model nu este mai bun decît HAR, două modele sînt semnificativ mai slabe'),
@@ -811,7 +811,7 @@ D.frame(T('Replication design: the Zeng et al.\\ protocol on Romanian load', 'Sc
     T(r'Adam, MSE, early stopping on the validation block; three seeds averaged (one for the point-token Transformer, whose cost is $O(n^2)$)', r'Adam, MSE, oprire timpurie pe blocul de validare; media a trei seed-uri (unul pentru Transformer-ul cu tokeni punctuali, al cărui cost este $O(n^2)$)')), 'small')
 
 chart(T('Linear models, Transformers and the role of tokens', 'Modele liniare, Transformers și rolul tokenilor'), 'ats_ch12_zeng', 'ATS_ch12_transformers', [
-    T(r'Left: test MSE by horizon (repeating the last value, @{ze.96.rep} and @{ze.336.rep}, is off the scale); right: one test window at $H = 96$ (the last week of input, the actual load and three forecasts)', r'Stînga: MSE de test după orizont (repetarea ultimei valori, @{ze.96.rep} și @{ze.336.rep}, iese din scară); dreapta: o fereastră de test la $H = 96$ (ultima săptămînă de intrare, consumul real și trei prognoze)')], h='0.48\\textheight')
+    T(r'Left: test MSE by horizon (repeating the last value, @{ze.96.rep} and @{ze.336.rep}, is off the scale); right: one test window at $H = 96$ (the last week of input, the actual load and three forecasts)', r'Stînga: MSE de test după orizont (repetarea ultimei valori, @{ze.96.rep} și @{ze.336.rep}, iese din scară); dreapta: o fereastră de test la $H = 96$ (ultima săptămînă de intrare, consumul real și trei prognoze)')], h='0.63\\textheight')
 
 interp(('the protocol', 'protocolului'), [
     T(r'$H = 96$: seasonal naive @{ze.96.sn}, Linear @{ze.96.lin}, NLinear @{ze.96.nlin}, DLinear @{ze.96.dlin}; point-token Transformer @{ze.96.trp}; patch Transformer @{ze.96.tr}', r'$H = 96$: naiv sezonier @{ze.96.sn}, Linear @{ze.96.lin}, NLinear @{ze.96.nlin}, DLinear @{ze.96.dlin}; Transformer cu tokeni punctuali @{ze.96.trp}; Transformer pe segmente @{ze.96.tr}'),
@@ -873,7 +873,7 @@ D.frame(T('Design: the M4 hourly subset', 'Schema studiului: subsetul orar M4'),
     T('All global models are trained only on the training parts', 'Toate modelele globale sînt antrenate doar pe părțile de antrenare')), 'small')
 
 chart(T('Global deep models on the M4 hourly series', 'Modele deep globale pe seriile orare M4'), 'ats_ch12_m4', 'ATS_ch12_global_deep', [
-    T(r'Left: OWA (Naive 2 = 1); right: one series with the seasonal naive, N-BEATS and N-HiTS forecasts', r'Stînga: OWA (Naive 2 = 1); dreapta: o serie cu prognozele naivului sezonier, N-BEATS și N-HiTS')], h='0.48\\textheight')
+    T(r'Left: OWA (Naive 2 = 1); right: one series with the seasonal naive, N-BEATS and N-HiTS forecasts', r'Stînga: OWA (Naive 2 = 1); dreapta: o serie cu prognozele naivului sezonier, N-BEATS și N-HiTS')], h='0.58\\textheight')
 
 interp(('the M4 hourly results', 'rezultatelor M4 orare'), [
     T(r'OWA: seasonal naive @{m4.sn.o}, DLinear @{m4.dl.o}, N-BEATS @{m4.nb.o} (sMAPE @{m4.nb.s}, MASE @{m4.nb.m}), N-HiTS @{m4.nh.o}', r'OWA: naiv sezonier @{m4.sn.o}, DLinear @{m4.dl.o}, N-BEATS @{m4.nb.o} (sMAPE @{m4.nb.s}, MASE @{m4.nb.m}), N-HiTS @{m4.nh.o}'),
@@ -896,7 +896,7 @@ D.frame(T('DeepAR: probabilistic forecasts from a global RNN', 'DeepAR: prognoze
     T('The model of choice for large retail and energy panels; the base of several foundation models (Chapter 13)', 'Modelul preferat pentru paneluri mari din retail și energie; baza mai multor foundation models (Capitolul 13)')), 'small')
 
 chart(T('A small DeepAR on the M4 hourly series', 'Un DeepAR mic pe seriile orare M4'), 'ats_ch12_deepar', 'ATS_ch12_global_deep', [
-    T(r'Two-layer LSTM (40 units), context 168 hours, @{da.steps} training steps of 64 windows, 100 sample paths; the same series as on the previous chart', r'LSTM cu două straturi (40 de unități), context de 168 de ore, @{da.steps} de pași de antrenare cu cîte 64 de ferestre, 100 de traiectorii simulate; aceeași serie ca în graficul anterior')], h='0.46\\textheight')
+    T(r'Two-layer LSTM (40 units), context 168 hours, @{da.steps} training steps of 64 windows, 100 sample paths; the same series as on the previous chart', r'LSTM cu două straturi (40 de unități), context de 168 de ore, @{da.steps} de pași de antrenare cu cîte 64 de ferestre, 100 de traiectorii simulate; aceeași serie ca în graficul anterior')], h='0.54\\textheight')
 
 interp(('DeepAR', 'DeepAR'), [
     T(r'wQL by training budget (steps): 500: @{da.b500}, 1000: @{da.b1000}, 2000: @{da.b2000}, 4000: @{da.b4000}; seasonal naive with empirical quantiles: @{da.snw}', r'wQL după bugetul de antrenare (pași): 500: @{da.b500}, 1000: @{da.b1000}, 2000: @{da.b2000}, 4000: @{da.b4000}; naivul sezonier cu cuantile empirice: @{da.snw}'),
@@ -941,7 +941,7 @@ D.frame(T('Shapley values (2/2): SHAP for forecasts', 'Valorile Shapley (2/2): S
     T(r'Here: exact Shapley values of three lag groups (day, days 2--5, days 6--22) for boosting on S\&P 500 log RV, @{sh.ne} forecast days, @{sh.nb} background days', r'Aici: valori Shapley exacte pentru trei grupuri de laguri (ziua, zilele 2--5, zilele 6--22) pentru boosting pe logaritmul RV S\&P 500, @{sh.ne} zile de prognoză, @{sh.nb} zile de fundal')), 'small')
 
 chart(T('What the boosted model has learned', 'Tiparul învățat de modelul boosting'), 'ats_ch12_shap', 'ATS_ch12_interpretation', [
-    T('Each point: one forecast day; horizontal: the mean log RV of the group; vertical: its Shapley value', 'Fiecare punct: o zi de prognoză; orizontal: media logaritmului RV a grupului; vertical: valoarea lui Shapley')], h='0.44\\textheight')
+    T('Each point: one forecast day; horizontal: the mean log RV of the group; vertical: its Shapley value', 'Fiecare punct: o zi de prognoză; orizontal: media logaritmului RV a grupului; vertical: valoarea lui Shapley')], h='0.54\\textheight')
 
 interp(('the Shapley values', 'valorilor Shapley'), [
     T(r'Mean $|\phi|$ shares: last day @{sh.d}\%, days 2--5 @{sh.w}\%, days 6--22 @{sh.m}\%', r'Ponderile mediei $|\phi|$: ultima zi @{sh.d}\%, zilele 2--5 @{sh.w}\%, zilele 6--22 @{sh.m}\%'),
@@ -956,7 +956,7 @@ D.frame(T('Attention is not explanation', 'Atenția nu este explicație'), items
      [T(r'on the patch Transformer of Section 5 ($H = 96$), the first 1000 test windows', r'pe Transformer-ul pe segmente din secțiunea 5 ($H = 96$), primele 1000 de ferestre de test')])), 'small')
 
 chart(T('Where the Transformer looks, and what it uses', 'Atenția Transformer-ului și informația folosită'), 'ats_ch12_attention', 'ATS_ch12_interpretation', [
-    T(r'Share of attention received by each of the @{at.nt} daily patches against the share of occlusion importance', r'Ponderea atenției primite de fiecare dintre cele @{at.nt} segmente zilnice față de ponderea importanței prin ocluzie')], h='0.46\\textheight')
+    T(r'Share of attention received by each of the @{at.nt} daily patches against the share of occlusion importance', r'Ponderea atenției primite de fiecare dintre cele @{at.nt} segmente zilnice față de ponderea importanței prin ocluzie')], h='0.68\\textheight')
 
 interp(('attention and occlusion', 'atenției și ocluziei'), [
     T(r'The last day carries @{at.lo}\% of the occlusion importance but receives only @{at.la}\% of the attention', r'Ultima zi poartă @{at.lo}\% din importanța prin ocluzie, dar primește doar @{at.la}\% din atenție'),
@@ -971,7 +971,7 @@ D.frame(T('The honest benchmark', 'Comparația riguroasă'), items(
     T('Report seeds, hardware, training time, every architecture tried; pre-register the design (Chapter 0)', 'Raportați seed-urile, hardware-ul, timpul de antrenare, fiecare arhitectură încercată; preînregistrați schema (Capitolul 0)')), 'small')
 
 chart(T('Seeds and data snooping', 'Seed-uri și data snooping'), 'ats_ch12_snooping', 'ATS_ch12_interpretation', [
-    T(r'Left: MLP against HAR for S\&P 500 RV, $h = 1$, with @{sn.n} seeds and their ensemble; right: simulation, $K$ equally good models, 2500 test days, correlation 0.5', r'Stînga: MLP față de HAR pentru RV S\&P 500, $h = 1$, cu @{sn.n} seed-uri și ansamblul lor; dreapta: simulare, $K$ modele la fel de bune, 2500 de zile de test, corelație 0,5')], h='0.46\\textheight')
+    T(r'Left: MLP against HAR for S\&P 500 RV, $h = 1$, with @{sn.n} seeds and their ensemble; right: simulation, $K$ equally good models, 2500 test days, correlation 0.5', r'Stînga: MLP față de HAR pentru RV S\&P 500, $h = 1$, cu @{sn.n} seed-uri și ansamblul lor; dreapta: simulare, $K$ modele la fel de bune, 2500 de zile de test, corelație 0,5')], h='0.62\\textheight')
 
 interp(('seeds and snooping', 'seed-urilor și a data snooping'), [
     T(r'Seeds alone move the QLIKE ratio from @{sn.best} to @{sn.worst} (median @{sn.med}); the ensemble of the seeds reaches @{sn.ens}, better than every single seed', r'Doar seed-urile mută raportul QLIKE între @{sn.best} și @{sn.worst} (mediana @{sn.med}); ansamblul seed-urilor ajunge la @{sn.ens}, mai bun decît orice seed individual'),
@@ -1014,7 +1014,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
 chart(T('Mini-case: do learners beat HAR across markets?', 'Mini studiu de caz: algoritmii față de HAR pe mai multe piețe'), 'ats_ch12_ai_case', 'ATS_ch12_ai_case', [
     T(r'@{ai.n} cells: six indices $\times$ three horizons $\times$ two learners (MLP, boosting), the expanding design of Section 4; QLIKE ratio to HAR, a star where DM rejects at 5\%', r'@{ai.n} de celule: șase indici $\times$ trei orizonturi $\times$ doi algoritmi (MLP, boosting), schema cu fereastră extinsă din secțiunea 4; raportul QLIKE față de HAR, o stea unde DM respinge la 5\%'),
     T(r'Ratios from @{ai.min} to @{ai.max}, median @{ai.med} (MLP @{ai.mlp}, boosting @{ai.hgb}); @{ai.better} cells below 1, @{ai.sb} significantly better, @{ai.sw} significantly worse: the hypothesis is falsified for these learners', r'Rapoarte între @{ai.min} și @{ai.max}, mediana @{ai.med} (MLP @{ai.mlp}, boosting @{ai.hgb}); @{ai.better} celule sub 1, @{ai.sb} semnificativ mai bune, @{ai.sw} semnificativ mai slabe: ipoteza este infirmată pentru acești algoritmi')],
-    h='0.44\\textheight')
+    h='0.55\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{Deep learning against HAR for Central and Eastern European volatility}: replicate first, then extend', r'\textbf{Deep learning față de HAR pentru volatilitatea din Europa Centrală și de Est}: întîi replicare, apoi extindere'),

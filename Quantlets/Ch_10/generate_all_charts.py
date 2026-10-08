@@ -358,7 +358,7 @@ def fig_qu(save_it=True, n=2000, reps=300, a=0.7):
     axs[0].plot(a_grid, spx, 's-', ms=3, color=st.Forest, lw=2, label='S&P 500 log RV')
     axs[0].set_xlabel('bandwidth exponent a (m = n$^a$)')
     axs[0].set_ylabel('local Whittle $\\hat d$')
-    st.legend_outside_bottom(axs[0], ncol=3, y=-0.18)
+    st.fig_legend_bottom(fig, ncol=3)
     names = list(rej)
     axs[1].barh(range(len(names)), [100 * rej[k] for k in names], color=cols)
     axs[1].axvline(5, color=st.DarkText, ls='--', lw=1)
@@ -594,15 +594,16 @@ def fig_har_approx(save_it=True, K=500, n_sim=200_000):
 # =============================================================================
 def fig_fbm_paths(save_it=True, n=1000):
     """Fractional Brownian motion with H = 0.1, 0.3, 0.5, 0.7 (circulant embedding)."""
-    fig, axs = plt.subplots(4, 1, figsize=(12, 5.2), sharex=True)
+    fig, axs = plt.subplots(2, 2, figsize=(12, 4.6), sharex=True)
     out = {}
-    for ax, H, c in zip(axs, (0.1, 0.3, 0.5, 0.7), (st.IDAred, st.Orange, st.MainBlue, st.Forest)):
+    for ax, H, c in zip(axs.flat, (0.1, 0.3, 0.5, 0.7), (st.IDAred, st.Orange, st.MainBlue, st.Forest)):
         B = fbm(n, H, np.random.default_rng(SEED), 1)[0]
-        ax.plot(np.linspace(0, 1, n + 1), B, color=c, lw=0.8, label=f'H = {H}')
+        ax.plot(np.linspace(0, 1, n + 1), B, color=c, lw=0.8)
         ax.set_yticks([])
-        ax.legend(loc='upper left', frameon=False)
+        ax.set_title(f'H = {H}')
         out[str(H)] = dict(rho1=float(fgn_acov(H, 2)[1]), eig_min=float(circulant_eigs(fgn_acov(H, 2 ** 10)).min()))
-    axs[-1].set_xlabel('t')
+    for ax in axs[-1]:
+        ax.set_xlabel('t')
     plt.tight_layout()
     save('ats_ch10_fbm_paths', save_it)
     return out

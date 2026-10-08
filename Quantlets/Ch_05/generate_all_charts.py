@@ -1741,8 +1741,8 @@ def fig_news(save_it=True, em=True):
     nd = news_decomposition(RO['news_old'], RO['news_new'], target)
     det = nd['detail']
     by = det.groupby('var')['impact'].sum().reindex(list(RO_SPEC)).fillna(0.0)
-    fig, axs = plt.subplots(1, 2, figsize=(13, 3.9), gridspec_kw=dict(width_ratios=[1, 1.3]))
-    labs = ['end of June', 'end of July', 'end of August', 'end of September']
+    fig, axs = plt.subplots(1, 2, figsize=(13, 4.6), gridspec_kw=dict(width_ratios=[1, 1.6]))
+    labs = ['end-June', 'end-July', 'end-Aug.', 'end-Sep.']
     xs = np.arange(len(path))
     axs[0].plot(xs, [v['dfm'] for v in path.values()], 'o-', color=st.MainBlue, lw=1.8, label='DFM (two-step)')
     if em:
@@ -1750,14 +1750,14 @@ def fig_news(save_it=True, em=True):
     axs[0].plot(xs, [v['bridge'] for v in path.values()], '^:', color=st.Teal, lw=1.4, label='bridge')
     axs[0].axhline(0, color=st.DarkText, lw=0.6)
     axs[0].set_xticks(xs)
-    axs[0].set_xticklabels(labs, fontsize=10)
-    axs[0].set_title('Nowcast of 2026Q3 GDP growth (q/q, %)')
+    axs[0].set_xticklabels(labs)
+    axs[0].set_title('Nowcast of 2026Q3\nGDP growth (q/q, %)')
     cols = [st.IDAred if v < 0 else st.Forest for v in by.values]
     axs[1].barh(np.arange(len(by)), by.values, color=cols, label='_impact')
     axs[1].set_yticks(np.arange(len(by)))
-    axs[1].set_yticklabels([RO_SPEC[k][3] for k in by.index], fontsize=9.5)
+    axs[1].set_yticklabels([RO_SPEC[k][3] for k in by.index])
     axs[1].axvline(0, color=st.DarkText, lw=0.6)
-    axs[1].set_title('News between end-August and end-September (pp)')
+    axs[1].set_title('News, end-August to end-September (pp)')
     h0, l0 = axs[0].get_legend_handles_labels()
     st.fig_legend_bottom(fig, h0 + [patch(st.Forest, 0.9), patch(st.IDAred, 0.9)],
                          l0 + ['positive impact', 'negative impact'], ncol=5, y=0.0)

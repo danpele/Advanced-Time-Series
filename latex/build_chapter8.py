@@ -471,7 +471,7 @@ D.frame(T('The sandwich and the Bollerslev--Wooldridge standard errors (2/2)', '
 chart(T('Hessian against sandwich: a Monte Carlo', 'Hessiana față de sandwich: un experiment Monte Carlo'), 'ats_ch8_qmle_sim', 'ATS_ch8_qmle', [
     T(r'GARCH(1,1) with $(\omega, \alpha, \beta) = (0.05, 0.08, 0.90)$, $T = @{qs.T}$, @{qs.reps} replications; Gaussian QML in each; histogram of $(\hat\alpha - \alpha_0)/\widehat{\mathrm{se}}$',
       r'GARCH(1,1) cu $(\omega, \alpha, \beta) = (0.05, 0.08, 0.90)$, $T = @{qs.T}$, @{qs.reps} de replicări; QML gaussian în fiecare; histograma lui $(\hat\alpha - \alpha_0)/\widehat{\mathrm{se}}$')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the Monte Carlo', 'experimentului Monte Carlo'), [
     T(r'Gaussian $\eta$: coverage of nominal 95\% intervals for $\alpha$ is @{qs.normal.h.a}\% (Hessian) and @{qs.normal.bw.a}\% (sandwich): both fine',
@@ -486,7 +486,7 @@ interp(('the Monte Carlo', 'experimentului Monte Carlo'), [
 chart(T('Robust and naive standard errors in five markets', 'Erori standard robuste și naive pe cinci piețe'), 'ats_ch8_qmle_markets', 'ATS_ch8_qmle', [
     T(r'Gaussian QML of GARCH(1,1), daily returns 2010--2026; bars: sandwich s.e. divided by Hessian s.e.; labels: kurtosis $\hat\kappa_\eta$ of the standardised residuals',
       r'QML gaussian pentru GARCH(1,1), randamente zilnice 2010--2026; bare: eroarea standard sandwich împărțită la eroarea standard din hessiană; etichete: kurtosis-ul $\hat\kappa_\eta$ al reziduurilor standardizate')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the five markets', 'celor cinci piețe'), [
     T(r'S\&P 500: $\hat\alpha = @{qm.sp500.a}$ with s.e. @{qm.sp500.a.h} (Hessian) against @{qm.sp500.a.bw} (sandwich); $\hat\kappa_\eta = @{qm.sp500.k}$, theoretical factor @{qm.sp500.th}',
@@ -558,7 +558,7 @@ D.frame(T('The component GARCH of Engle and Lee (2/2): two speeds', 'Component G
 chart(T('Component GARCH for the S\\&P 500', 'Component GARCH pentru S\\&P 500'), 'ats_ch8_cgarch', 'ATS_ch8_components', [
     T(r'Daily returns since 1990, $T = @{cg.T}$; Gaussian QML; annualised total volatility $\sqrt{252\sigma^2_t}$ and long-run component $\sqrt{252q_t}$',
       r'Randamente zilnice din 1990, $T = @{cg.T}$; QML gaussian; volatilitatea totală anualizată $\sqrt{252\sigma^2_t}$ și componenta de termen lung $\sqrt{252q_t}$')],
-    h='0.6\\textheight')
+    h='0.59\\textheight')
 
 interp(('the component model', 'modelului cu componente'), [
     T(r'$\hat\rho = @{cg.rho}$, $\hat\phi = @{cg.phi}$; transitory part $\hat\alpha + \hat\beta = @{cg.ab}$: half-lives @{cg.hll} days (long run) and @{cg.hls} days (short run)',
@@ -630,7 +630,7 @@ D.frame(T('Case study: Engle, Ghysels and Sohn (2013) on our data', 'Studiu de c
 chart(T('GARCH-MIDAS for the S\\&P 500', 'GARCH-MIDAS pentru S\\&P 500'), 'ats_ch8_garch_midas', 'ATS_ch8_components', [
     T(r'Annualised $\sqrt{252\tau_tg_{i,t}}$ of the industrial-production model and the long-run components $\sqrt{252\tau_t}$ of the three models',
       r'$\sqrt{252\tau_tg_{i,t}}$ anualizat pentru modelul cu producția industrială și componentele de termen lung $\sqrt{252\tau_t}$ ale celor trei modele')],
-    h='0.6\\textheight')
+    h='0.64\\textheight')
 
 D.frame(T('GARCH-MIDAS estimates', 'Estimațiile GARCH-MIDAS'), table(
     'lcccccc', T(r'\textbf{Long-run driver}', r'\textbf{Factorul de termen lung}') + r' & $\hat\alpha$ & $\hat\beta$ & $\hat\theta$ (s.e.) & $\hat w$ & VR (\%) & BIC',
@@ -743,7 +743,7 @@ D.frame(T('A simulated market with a known truth', 'O piață simulată cu adev�
 chart(T('Coverage of the feasible CLT', 'Acoperirea TLC fezabile'), 'ats_ch8_rv_clt', 'ATS_ch8_realised_measures', [
     T(r'@{cl.days} simulated days without jumps; 95\% intervals for $\mathrm{IV}_t$ (raw and log) from returns sampled every 30 minutes to every 5 seconds, without and with noise',
       r'@{cl.days} de zile simulate fără salturi; intervale de 95\% pentru $\mathrm{IV}_t$ (în nivel și în logaritmi) din randamente eșantionate la 30 de minute pînă la 5 secunde, fără și cu zgomot')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the CLT coverage', 'acoperirii TLC'), [
     T(r'Without noise, coverage approaches 95\% as $n$ grows: raw interval @{cl.clean.raw.13}\% at $n = 13$ and @{cl.clean.raw.390}\% at $n = 390$; the log interval is closer at small $n$ (@{cl.clean.log.13}\%)',
@@ -767,7 +767,7 @@ D.frame(T('Where the realised measures come from', 'Sursa măsurilor realizate')
 chart(T('Realised volatility across markets', 'Volatilitatea realizată pe mai multe piețe'), 'ats_ch8_rk_overview', 'ATS_ch8_realised_measures', [
     T(r'Annualised realised kernel, 5-day means: S\&P 500, DAX and Nikkei 225 (Oxford-Man, 2000--2022); Bitcoin (Binance one-minute prices, 2018--2026, 365 days a year)',
       r'Realised kernel anualizat, medii pe 5 zile: S\&P 500, DAX și Nikkei 225 (Oxford-Man, 2000--2022); Bitcoin (prețuri Binance la un minut, 2018--2026, 365 de zile pe an)')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the realised volatilities', 'volatilităților realizate'), [
     T(r'Average annualised volatility from the kernel: S\&P 500 @{ov.spx}\%, DAX @{ov.dax}\%, Nikkei @{ov.nk}\%, Bitcoin @{ov.btc}\%',
@@ -853,7 +853,7 @@ D.frame(T('Two scales and realised kernels (2/2): the realised kernel', 'Două s
 chart(T('Estimators against the true quadratic variation', 'Estimatorii comparați cu variația pătratică adevărată'), 'ats_ch8_kernels', 'ATS_ch8_realised_measures', [
     T(r'@{kn.days} simulated days with jumps and noise; bias and root mean square error relative to the mean QV; TSRV with $K = 300$ seconds; RK with the BNHLS bandwidth (median $H = @{kn.H}$)',
       r'@{kn.days} de zile simulate cu salturi și zgomot; deplasarea și rădăcina erorii pătratice medii, relativ la media QV; TSRV cu $K = 300$ de secunde; RK cu lățimea de bandă BNHLS (mediana $H = @{kn.H}$)')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the estimator comparison', 'comparației estimatorilor'), [
     T(r'RV at one second is dominated by noise: bias @{kn.rv1s.b}\% of QV; at one minute the bias is @{kn.rv1m.b}\% and the RMSE @{kn.rv1m.r}\%',
@@ -867,7 +867,7 @@ interp(('the estimator comparison', 'comparației estimatorilor'), [
 chart(T('Signature plot and Epps effect: Bitcoin and Ether', 'Signature plot și efectul Epps: Bitcoin și Ether'), 'ats_ch8_signature', 'ATS_ch8_realised_measures', [
     T(r'Binance one-second prices, August 2026 (@{sg.days} days); average daily RV by sampling interval (subsampled); realised correlation of the two coins by interval',
       r'Prețuri Binance la o secundă, august 2026 (@{sg.days} de zile); RV zilnic mediu în funcție de intervalul de eșantionare (subeșantionat); corelația realizată a celor două monede în funcție de interval')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the signature plot', 'signature plot-ului'), [
     T(r'Bitcoin: RV is @{sg.b1} at one second, @{sg.b60} at one minute, @{sg.b300} at five minutes: the signature \emph{rises}, the opposite of the i.i.d.-noise prediction',
@@ -941,7 +941,7 @@ D.frame(T('Testing for jumps (2/2): in practice', 'Testarea salturilor (2/2): ap
 chart(T('Size and power of the ratio test', 'Mărimea și puterea testului raport'), 'ats_ch8_jump_power', 'ATS_ch8_jumps', [
     T(r'@{js.days} simulated days (two-factor SV, no jumps), then one jump of size $c\sqrt{\mathrm{IV}_t}$ at a random time; one-sided test at 0.1\% with 5-minute and 1-minute returns',
       r'@{js.days} de zile simulate (SV cu doi factori, fără salturi), apoi un salt de mărime $c\sqrt{\mathrm{IV}_t}$ la un moment aleator; test unilateral la 0,1\% cu randamente la 5 minute și la 1 minut')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the size and power', 'mărimii și puterii'), [
     T(r'Size without jumps: @{js.clean.5m}\% (5 minutes) and @{js.clean.1m}\% (1 minute) against the nominal 0.1\%; with i.i.d. noise of the calibrated size still @{js.noisy.1m}\% at 1 minute',
@@ -955,7 +955,7 @@ interp(('the size and power', 'mărimii și puterii'), [
 chart(T('Jump days of Bitcoin and Ether', 'Zilele cu salturi pentru Bitcoin și Ether'), 'ats_ch8_jumps_crypto', 'ATS_ch8_jumps', [
     T(r'Huang--Tauchen test with 5-minute returns ($n = 288$ a UTC day), 2018--2026, $T = @{ju.T}$ days; left: share of jump days at 0.1\% by year; right: distribution of $z_t$ against $N(0, 1)$',
       r'Testul Huang--Tauchen cu randamente la 5 minute ($n = 288$ pe zi UTC), 2018--2026, $T = @{ju.T}$ de zile; stînga: ponderea zilelor cu salturi la 0,1\% pe an; dreapta: distribuția lui $z_t$ față de $N(0, 1)$')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the crypto jump tests', 'testelor de salt pentru criptomonede'), [
     T(r'Bitcoin: @{ju.btc.n} jump days (@{ju.btc.share}\%) where about @{ju.btc.exp} false rejections are expected; Ether: @{ju.eth.n} days (@{ju.eth.share}\%)',
@@ -1007,7 +1007,7 @@ D.frame(T('The HAR model of Corsi (2/2): estimation and variants', 'Modelul HAR 
 chart(T('HAR as a restricted AR(22)', 'HAR ca AR(22) restricționat'), 'ats_ch8_har_weights', 'ATS_ch8_har', [
     T(r'S\&P 500 (Oxford-Man, 5-minute RV, 2000--2022, $T = @{hr.T}$): coefficients of an unrestricted AR(22) by OLS and the step weights implied by the HAR estimates',
       r'S\&P 500 (Oxford-Man, RV la 5 minute, 2000--2022, $T = @{hr.T}$): coeficienții unui AR(22) nerestricționat estimat prin OLS și ponderile în trepte implicate de estimațiile HAR')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the HAR estimates', 'estimațiilor HAR'), [
     T(r'HAR: $\hat\beta_d = @{hr.d}$ (@{hr.d.se}), $\hat\beta_w = @{hr.w}$ (@{hr.w.se}), $\hat\beta_m = @{hr.m}$ (@{hr.m.se}), Newey--West s.e.; $R^2 = @{hr.r2}$; persistence $\sum\hat\beta = @{hr.sum}$',
@@ -1040,7 +1040,7 @@ D.frame(T('Forecasting design', 'Schema de prognoză'), items(
 chart(T('HAR extensions out of sample', 'Extensiile HAR în afara eșantionului'), 'ats_ch8_har_oos', 'ATS_ch8_har', [
     T(r'Average QLIKE relative to HAR (below 1 = better), six Oxford-Man indices (2004--2022) and two cryptocurrencies (from @{ho.btc.first}); 1\,000-day rolling window',
       r'QLIKE mediu relativ la HAR (sub 1 = mai bun), șase indici Oxford-Man (2004--2022) și două criptomonede (din @{ho.btc.first}); fereastră mobilă de 1\,000 de zile')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the out-of-sample HAR comparison', 'comparației HAR în afara eșantionului'), [
     T(r'Log-HAR beats HAR in QLIKE for @{ho.nlog} of 6 indices: S\&P 500 @{ho.spx.loghar} (DM @{ho.spx.loghar.dm}), CAC 40 @{ho.cac.loghar} (DM @{ho.cac.loghar.dm}), FTSE @{ho.ftse.loghar} (DM @{ho.ftse.loghar.dm})',
@@ -1082,7 +1082,7 @@ D.frame(T('HARQ (2/2): a weight that depends on precision', 'HARQ (2/2): o ponde
 chart(T('HARQ for Bitcoin: a weight that moves with precision', 'HARQ pentru Bitcoin: o pondere care se schimbă cu precizia'), 'ats_ch8_harq', 'ATS_ch8_har', [
     T(r'Full-sample HARQ on Bitcoin 5-minute RV and RQ: daily weight $\hat\beta_d + \hat\beta_{dQ}(\sqrt{\mathrm{RQ}_t} - \overline{\sqrt{\mathrm{RQ}}})$ against the constant HAR weight',
       r'HARQ pe tot eșantionul, pentru RV și RQ la 5 minute ale Bitcoin: ponderea zilnică $\hat\beta_d + \hat\beta_{dQ}(\sqrt{\mathrm{RQ}_t} - \overline{\sqrt{\mathrm{RQ}}})$ față de ponderea constantă din HAR')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('HARQ', 'modelului HARQ'), [
     T(r'$\hat\beta_{dQ} = @{hq.q}$ ($t = @{hq.tq}$, Newey--West): negative, as predicted; the daily weight at average precision is @{hq.d}, against @{hq.hd} in HAR',
@@ -1153,7 +1153,7 @@ D.frame(T('HEAVY and the family of realised-measure models', 'HEAVY și familia 
 chart(T('Case study: Realized GARCH for the S\\&P 500', 'Studiu de caz: Realized GARCH pentru S\\&P 500'), 'ats_ch8_rgarch', 'ATS_ch8_realized_garch', [
     T(r'Open-to-close returns and the Parzen realised kernel (Oxford-Man), 2000--2022, $T = @{rg.T}$, as in \refHHS; left: the 2008 crisis; right: the estimated leverage function',
       r'Randamente deschidere--închidere și realised kernel-ul Parzen (Oxford-Man), 2000--2022, $T = @{rg.T}$, ca în \refHHS; stînga: criza din 2008; dreapta: funcția de levier estimată')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 D.frame(T('Realized GARCH estimates', 'Estimațiile Realized GARCH'), table(
     'cccccccc', r'$\omega$ & $\beta$ & $\gamma$ & $\xi$ & $\varphi$ & $\tau_1$ & $\tau_2$ & $\sigma_u$',
@@ -1218,7 +1218,7 @@ D.frame(T('The proxy problem and robust losses (2/2)', 'Problema proxy-ului și 
 chart(T('Robust and non-robust losses', 'Funcții de pierdere robuste și nerobuste'), 'ats_ch8_patton', 'ATS_ch8_robust_loss', [
     T(r'True variance against a forecast biased down by the factor @{pt.c}; proxy = RV from $n$ intraday returns ($n = 1$: squared daily return); relative gap of expected losses, above zero = the true variance wins',
       r'Varianța adevărată față de o prognoză deplasată în jos cu factorul @{pt.c}; proxy = RV din $n$ randamente intraday ($n = 1$: pătratul randamentului zilnic); diferența relativă a pierderilor așteptate, peste zero = cîștigă varianța adevărată')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the robustness experiment', 'experimentului de robustețe'), [
     T(r'With the squared return as proxy, MAE prefers the biased forecast (gap @{pt.mae.1}\%) and so does MSE-log (@{pt.ml.1}\%); MSE (@{pt.mse.1}\%) and QLIKE (@{pt.ql.1}\%) do not',
@@ -1231,7 +1231,7 @@ interp(('the robustness experiment', 'experimentului de robustețe'), [
 chart(T('Seven forecasts of S\\&P 500 volatility', 'Șapte prognoze ale volatilității S\\&P 500'), 'ats_ch8_vol_oos', 'ATS_ch8_robust_loss', [
     T(r'Open-to-close variance, one day ahead, 2016--2022 ($@{vo.T}$ days); expanding window from 2000, parameters re-estimated every 250 days; proxy: realised kernel',
       r'Varianța deschidere--închidere, un pas înainte, 2016--2022 ($@{vo.T}$ zile); fereastră extinsă din 2000, parametrii reestimați la fiecare 250 de zile; proxy: realised kernel')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the forecast comparison', 'comparației prognozelor'), [
     T(r'QLIKE: HAR @{vo.har.q}, log-HAR @{vo.lh.q}, Realized GARCH @{vo.rg.q}, HEAVY @{vo.hv.q}, GARCH-$t$ @{vo.gt.q}, GJR @{vo.gjr.q}, GARCH @{vo.g.q}',
@@ -1332,7 +1332,7 @@ D.frame(T('DCC and its corrected version cDCC (2/2): cDCC', 'DCC și versiunea c
 chart(T('DCC against cDCC: a simulation', 'DCC față de cDCC: o simulare'), 'ats_ch8_dcc_sim', 'ATS_ch8_mgarch', [
     T(r'Bivariate cDCC process with $a = 0.05$, $b = 0.93$, target correlation 0.5, unit variances; $T = @{ds.T}$, @{ds.reps} replications; both estimators on each sample',
       r'Proces cDCC bivariat cu $a = 0{,}05$, $b = 0{,}93$, corelația-țintă 0,5, varianțe unitare; $T = @{ds.T}$, @{ds.reps} de replicări; ambii estimatori pe fiecare eșantion')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the DCC simulation', 'simulării DCC'), [
     T(r'Mean estimates: DCC $\hat a = @{ds.d.a}$, $\hat b = @{ds.d.b}$; cDCC $\hat a = @{ds.c.a}$, $\hat b = @{ds.c.b}$ (true 0.05 and 0.93)',
@@ -1418,7 +1418,7 @@ D.frame(T('Realised covariance', 'Covarianța realizată'), items(
 chart(T('Bitcoin and Ether: realised and DCC correlation', 'Bitcoin și Ether: corelația realizată și corelația DCC'), 'ats_ch8_corr_crypto', 'ATS_ch8_mgarch', [
     T(r'Daily realised correlation from 5-minute returns (5-day means) and the DCC correlation of daily close-to-close (UTC) returns, 2018--2026',
       r'Corelația realizată zilnică din randamente la 5 minute (medii pe 5 zile) și corelația DCC a randamentelor zilnice închidere--închidere (UTC), 2018--2026')],
-    h='0.6\\textheight')
+    h='0.65\\textheight')
 
 interp(('the correlations', 'corelațiilor'), [
     T(r'Average realised correlation @{cc.rc}, average DCC correlation @{cc.dcc}; correlation between the two series @{cc.cor}',

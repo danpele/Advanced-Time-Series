@@ -365,7 +365,7 @@ D.frame(T('Case study: Christiano, Eichenbaum and Evans (1999)', 'Studiu de caz:
 
 chart(T('A recursive monetary policy shock (CEE specification)', 'Un șoc de politică monetară recursiv (specificația CEE)'), 'ats_ch3_cee_irf', 'ATS_ch3_recursive_var', [
     T(r'Responses to a one-standard-deviation funds-rate shock (@{cee.sd} pp); 90\% residual-bootstrap bands', r'Răspunsuri la un șoc al dobînzii federal funds de o abatere standard (@{cee.sd} pp); benzi bootstrap de 90\%')],
-    h='0.52\\textheight')
+    h='0.54\\textheight')
 
 interp(('the CEE responses', 'răspunsurilor CEE'), [
     (T(r'Industrial production falls slowly: trough @{cee.ipmin}\% after @{cee.iparg} months (band [@{cee.iplo}, @{cee.iphi}]); unemployment rises by up to @{cee.umax} pp', r'Producția industrială scade lent: minimum @{cee.ipmin}\% după @{cee.iparg} luni (banda [@{cee.iplo}, @{cee.iphi}]); șomajul crește cu cel mult @{cee.umax} pp'),
@@ -425,7 +425,7 @@ interp(('the oil responses', 'răspunsurilor pe piața petrolului'), [
 
 chart(T('Historical decomposition of the real price of oil', 'Descompunerea istorică a prețului real al petrolului'), 'ats_ch3_kilian_hd', 'ATS_ch3_oil_shocks', [
     T(r'Cumulative contribution of each structural shock, 1976--2026 (recursive VAR(24), extended sample); log points $\times 100$', r'Contribuția cumulată a fiecărui șoc structural, 1976--2026 (VAR(24) recursiv, eșantionul extins); puncte logaritmice $\times 100$')],
-    h='0.54\\textheight')
+    h='0.69\\textheight')
 
 interp(('the historical decomposition', 'descompunerii istorice'), [
     T(r'2003--mid-2008: aggregate demand adds @{hd.c2003_2008.ad} log points, supply @{hd.c2003_2008.sup}: the boom was a global demand boom', r'2003--mijlocul lui 2008: cererea agregată adaugă @{hd.c2003_2008.ad} de puncte logaritmice, oferta @{hd.c2003_2008.sup}: boom-ul a fost unul al cererii globale'),
@@ -461,7 +461,7 @@ D.frame(T('Case study: Blanchard and Quah (1989)', 'Studiu de caz: Blanchard și
 
 chart(T('Supply and demand shocks identified by a long-run restriction', 'Șocuri de ofertă și de cerere identificate printr-o restricție de termen lung'), 'ats_ch3_bq', 'ATS_ch3_long_run', [
     T(r'Output level (cumulated growth) and unemployment; one-standard-deviation shocks; 90\% bootstrap bands', r'Nivelul producției (creșterea cumulată) și șomajul; șocuri de o abatere standard; benzi bootstrap de 90\%')],
-    h='0.54\\textheight')
+    h='0.65\\textheight')
 
 interp(('the Blanchard--Quah responses', 'răspunsurilor Blanchard--Quah'), [
     T(r'Demand shock: output peaks at @{bq.dpeak}\% after @{bq.dpeakq} quarters and returns to zero by construction; unemployment falls by @{bq.dumin} pp', r'Șocul de cerere: producția atinge un maxim de @{bq.dpeak}\% după @{bq.dpeakq} trimestre și revine la zero prin construcție; șomajul scade cu @{bq.dumin} pp'),
@@ -502,7 +502,7 @@ D.frame(T('Identification by signs (2/2)', 'Identificarea prin semne (2/2)'), it
 
 chart(T('Sign restrictions in two dimensions', 'Restricții de semn în două dimensiuni'), 'ats_ch3_rotation', 'ATS_ch3_sign_restrictions', [
     T(r'Price and quantity innovations with variances 1 and 0.5 and covariance 0.3; impact responses $P(\cos\theta, \sin\theta)\'$ to shock 1 as the rotation angle varies; demand: $(+, +)$, supply: $(+, -)$', r'Inovații ale prețului și cantității cu varianțele 1 și 0,5 și covarianța 0,3; răspunsurile la impact $P(\cos\theta, \sin\theta)\'$ la șocul 1 cînd variază unghiul de rotație; cererea: $(+, +)$, oferta: $(+, -)$')],
-    h='0.54\\textheight')
+    h='0.65\\textheight')
 
 interp(('the rotation set', 'mulțimii de rotații'), [
     T(r'All signs hold for $\theta \in (0, @{rot.thhi})$, @{rot.share}\% of the circle: a whole interval of models is equally consistent with the data', r'Toate semnele sînt respectate pentru $\theta \in (0; @{rot.thhi})$, @{rot.share}\% din cerc: un interval întreg de modele este la fel de compatibil cu datele'),
@@ -519,7 +519,7 @@ D.frame(T('Case study: Uhlig (2005)', 'Studiu de caz: Uhlig (2005)'), items(
 
 chart(T('An agnostic monetary policy shock', 'Un șoc de politică monetară agnostic'), 'ats_ch3_uhlig', 'ATS_ch3_sign_restrictions', [
     T(r'One-standard-deviation shock; posterior median and 16--84\% band; dashed: 1--99\% range of the identified set at the OLS estimate; shaded: restricted months', r'Șoc de o abatere standard; mediana a posteriori și banda 16--84\%; linia întreruptă: intervalul 1--99\% al mulțimii identificate la estimația OLS; zona colorată: lunile restricționate')],
-    h='0.52\\textheight')
+    h='0.59\\textheight')
 
 interp(('the agnostic responses', 'răspunsurilor agnostice'), [
     T(r'Output after 12 months: median @{uh.ip12}\%, band [@{uh.ip12lo}, @{uh.ip12hi}]; @{uh.neg}\% of draws negative: no evidence that output falls', r'Producția după 12 luni: mediana @{uh.ip12}\%, banda [@{uh.ip12lo}, @{uh.ip12hi}]; @{uh.neg}\% dintre extrageri negative: nicio dovadă că producția scade'),
@@ -595,7 +595,7 @@ D.frame(T('Case study: Gertler and Karadi (2015)', 'Studiu de caz: Gertler și K
 
 chart(T('A monetary policy shock identified with FF4 surprises', 'Un șoc de politică monetară identificat cu surprizele FF4'), 'ats_ch3_gk', 'ATS_ch3_proxy_svar', [
     T(r'Shock normalised to raise the 1-year yield by 25 bp on impact; 68\% and 90\% moving-block bootstrap bands', r'Șoc normalizat să crească randamentul la 1 an cu 25 bp la impact; benzi bootstrap pe blocuri mobile de 68\% și 90\%')],
-    h='0.52\\textheight')
+    h='0.54\\textheight')
 
 interp(('the proxy SVAR', 'modelului proxy SVAR'), [
     T(r'The excess bond premium jumps by @{gk.ebp0} pp on impact (band [@{gk.ebp0lo}, @{gk.ebp0hi}]): monetary policy works through credit costs, in line with \refGK', r'Prima de risc excedentară crește cu @{gk.ebp0} pp la impact (banda [@{gk.ebp0lo}, @{gk.ebp0hi}]): politica monetară acționează prin costul creditului, în acord cu \refGK'),
@@ -687,7 +687,7 @@ D.frame(T('LP and VAR estimate the same responses', 'LP și VAR estimează acele
 
 chart(T('Bias and variance: LP against VAR (simulation)', 'Deplasare și varianță: LP comparat cu VAR (simulare)'), 'ats_ch3_lp_sim', 'ATS_ch3_lp_vs_var', [
     T(r'DGP: $x_t = 0.5x_{t-1} + e_t$, $y_t = 0.6y_{t-1} + \sum_{j=0}^{11}\psi_je_{t-j} + u_t$ (hump-shaped $\psi_j$), $T = @{ls.T}$, @{ls.reps} replications; $e_t, u_t$: independent white noises; a VAR(2) is misspecified', r'DGP: $x_t = 0.5x_{t-1} + e_t$, $y_t = 0.6y_{t-1} + \sum_{j=0}^{11}\psi_je_{t-j} + u_t$ ($\psi_j$ în formă de cocoașă), $T = @{ls.T}$, @{ls.reps} de replicări; $e_t, u_t$: zgomote albe independente; un VAR(2) este greșit specificat')],
-    h='0.52\\textheight')
+    h='0.58\\textheight')
 
 interp(('the bias--variance trade-off', 'compromisului deplasare--varianță'), [
     (T(r'At $h = 8$ (true response @{ls.true8}): VAR(2) bias @{ls.VAR2.bias8}, LP(2) bias @{ls.LP2.bias8}; RMSE @{ls.VAR2.rmse8} and @{ls.LP2.rmse8}', r'La $h = 8$ (răspunsul adevărat @{ls.true8}): deplasarea VAR(2) @{ls.VAR2.bias8}, a LP(2) @{ls.LP2.bias8}; RMSE @{ls.VAR2.rmse8} și @{ls.LP2.rmse8}'),
@@ -707,7 +707,7 @@ D.frame(T('LP-IV', 'LP-IV'), items(
 
 chart(T('The same instrument, two estimators', 'Același instrument, doi estimatori'), 'ats_ch3_lp_gk', 'ATS_ch3_lp_vs_var', [
     T(r'LP-IV with FF4 as instrument for the 1-year yield, 2 lags of all variables and of the instrument as controls, origins 1990:1--2012:6 ($T = @{lg.T}$) \refRam; dashed: the proxy SVAR', r'LP-IV cu FF4 ca instrument pentru randamentul la 1 an, 2 laguri ale tuturor variabilelor și ale instrumentului drept controale, origini 1990:1--2012:6 ($T = @{lg.T}$) \refRam; linia întreruptă: proxy SVAR')],
-    h='0.52\\textheight')
+    h='0.55\\textheight')
 
 interp(('LP-IV against the proxy SVAR', 'comparației LP-IV cu proxy SVAR'), [
     T(r'Impact first stage $F = @{lg.F0}$; after 24 months IP: LP-IV @{lg.ip24}\% (SE @{lg.ip24se}), proxy SVAR @{lg.svip24}\%', r'Prima etapă la impact: $F = @{lg.F0}$; după 24 de luni IP: LP-IV @{lg.ip24}\% (SE @{lg.ip24se}), proxy SVAR @{lg.svip24}\%'),
@@ -731,7 +731,7 @@ D.frame(T('State-dependent local projections (2/2)', 'Proiecții locale dependen
 
 chart(T('Government spending multipliers by state of the economy', 'Multiplicatorii cheltuielilor publice după starea economiei'), 'ats_ch3_rz', 'ATS_ch3_state_dependent_lp', [
     T(r'Cumulative multiplier $\sum_{j\le h}\Delta y_{t+j}/\sum_{j\le h}\Delta g_{t+j}$ by horizon; 95\% Newey--West bands; dashed: multiplier of one', r'Multiplicatorul cumulat $\sum_{j\le h}\Delta y_{t+j}/\sum_{j\le h}\Delta g_{t+j}$ pe orizonturi; benzi Newey--West de 95\%; linia întreruptă: multiplicatorul egal cu unu')],
-    h='0.54\\textheight')
+    h='0.64\\textheight')
 
 interp(('the state-dependent multipliers', 'multiplicatorilor dependenți de stare'), [
     T(r'Linear: @{rz.lin8} at two years (SE @{rz.lin8se}) and @{rz.lin16} at four years (SE @{rz.lin16se})', r'Liniar: @{rz.lin8} la doi ani (SE @{rz.lin8se}) și @{rz.lin16} la patru ani (SE @{rz.lin16se})'),
@@ -761,7 +761,7 @@ D.frame(T('Monetary policy in a small open economy', 'Politica monetară într-o
 
 chart(T('Romanian and euro-area data', 'Date pentru România și zona euro'), 'ats_ch3_ro_data', 'ATS_ch3_romania', [
     T(r'Monthly, @{rd.first}--@{rd.last}: IP (SCA), HICP, 3-month money-market rates (Eurostat), EUR/RON (BNR reference rate, monthly average)', r'Lunar, @{rd.first}--@{rd.last}: IP (ajustată sezonier), IAPC, dobînzile pieței monetare la 3 luni (Eurostat), EUR/RON (cursul de referință BNR, media lunară)')],
-    h='0.5\\textheight')
+    h='0.53\\textheight')
 
 interp(('the Romanian data', 'datelor pentru România'), [
     T(r'HICP inflation peaked at @{rd.imax}\% in @{rd.imaxd} and is @{rd.ilast}\% in the last month; ROBOR 3M reached @{rd.rmax}\% in the 2008 liquidity squeeze', r'Inflația IAPC a atins maximul de @{rd.imax}\% în @{rd.imaxd} și este @{rd.ilast}\% în ultima lună; ROBOR 3M a ajuns la @{rd.rmax}\% în criza de lichiditate din 2008'),
@@ -778,7 +778,7 @@ D.frame(T('A VAR for Romania with a euro-area block', 'Un VAR pentru România cu
 
 chart(T('Responses to a domestic and a euro-area rate shock', 'Răspunsuri la un șoc al dobînzii interne și la unul al zonei euro'), 'ats_ch3_ro_var', 'ATS_ch3_romania', [
     T(r'VAR(2), Cholesky with the euro-area block first; one-standard-deviation shocks (ROBOR @{rv.sdro} pp, Euribor @{rv.sdea} pp); 90\% residual-bootstrap bands', r'VAR(2), Cholesky cu blocul zonei euro pe primul loc; șocuri de o abatere standard (ROBOR @{rv.sdro} pp, Euribor @{rv.sdea} pp); benzi bootstrap de 90\%')],
-    h='0.62\\textheight')
+    h='0.65\\textheight')
 
 interp(('the Romanian responses', 'răspunsurilor pentru România'), [
     (T(r'ROBOR shock: IP @{rv.ro.ip12}\% after 12 months (band [@{rv.ro.ip12.lo}, @{rv.ro.ip12.hi}]); HICP @{rv.ro.p12}\% (band [@{rv.ro.p12.lo}, @{rv.ro.p12.hi}]); EUR/RON @{rv.ro.fx12}\%', r'Șocul ROBOR: IP @{rv.ro.ip12}\% după 12 luni (banda [@{rv.ro.ip12.lo}, @{rv.ro.ip12.hi}]); IAPC @{rv.ro.p12}\% (banda [@{rv.ro.p12.lo}, @{rv.ro.p12.hi}]); EUR/RON @{rv.ro.fx12}\%'),
@@ -853,7 +853,7 @@ D.frame(T('Required checks', 'Verificări necesare'), items(
 chart(T('Mini-case: the robustness of one number', 'Mini-studiu de caz: robustețea unei singure cifre'), 'ats_ch3_ai_case', 'ATS_ch3_romania', [
     T(r'Response of Romanian HICP after 12 months to a 25 bp Euribor shock: recursive VAR and recursive LP (90\% Newey--West bars), lag length $p$, samples ending in 2019 and in 2026', r'Răspunsul IAPC din România după 12 luni la un șoc Euribor de 25 bp: VAR recursiv și LP recursivă (bare Newey--West de 90\%), numărul de laguri $p$, eșantioane care se încheie în 2019 și în 2026'),
     T(r'@{ai.n} estimates range from @{ai.min}\% to @{ai.max}\%, @{ai.npos} of them positive: the sign depends on the lag length and on the post-2020 data; an AI assistant that reports one of them ``with confidence\'\' is wrong', r'Cele @{ai.n} de estimații variază între @{ai.min}\% și @{ai.max}\%, iar @{ai.npos} dintre ele sînt pozitive: semnul depinde de numărul de laguri și de datele de după 2020; un asistent AI care raportează una dintre ele „cu încredere” greșește')],
-    h='0.5\\textheight')
+    h='0.55\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{Euro-area monetary spillovers to Romania}: replicate first, then extend', r'\textbf{Efectele politicii monetare din zona euro asupra României}: întîi replicare, apoi extindere'),

@@ -21,7 +21,8 @@ This repository is local only (branch `main`, no remote). The future public repo
 | `latex/appendix_links.py` | Appendix buttons and back-buttons; "Chapter N" becomes a link to the ATS PDF on the site (built chapters only); "TSA, Chapter N" / "Chapter N of TSA" and "MFM, Chapter N" / "Chapter N of MFM" link to the sister courses (`EXTERNAL`). |
 | `data/market/*.csv`, `data/manifest.csv` | Daily market data from EODHD, saved once (91 series, copied from TSA, ending 18.09.2026). |
 | `Quantlets/common/ats_data.py` | Data loader: local `data/market` or the raw GitHub URL of this repository; `read_omi` for the Oxford-Man realized library (local copy, otherwise downloaded from the Internet Archive); BNR reference rate, FRED, Eurostat, ECB Data Portal (online, no key); statsmodels data sets. |
-| `Quantlets/common/ats_style.py` | Chart style: transparent background, legend below the plot, course palette, no grey; `check_no_grey`. |
+| `Quantlets/common/ats_style.py` | Chart style: transparent background, legend below the plot, course palette, no grey; `check_no_grey`; `save_fig` sizes each slide chart for its box on the slides (text at least 6 pt there) and darkens pale confidence bands. |
+| `Quantlets/common/chart_boxes.json`, `tools/chart_boxes.py` | The box (width, height) of every chart on the slides, read from the decks; re-run `python3 tools/chart_boxes.py` after changing the size of a chart in a generator, then redraw the chart. |
 | `Quantlets/common/ats_quantlets.py` | Quantlet builder: `Metainfo.txt` plus a self-contained Colab notebook plus charts. |
 | `Quantlets/Ch_NN/` | Per chapter: `generate_all_charts.py`, `build_quantlets.py`, `ATS_chN_*` folders. |
 | `notebooks/ats_notebook.py`, `notebooks/build_notebooks_chN.py` | Notebook builders. Output is English only, in `notebooks/EN/`. |
@@ -71,6 +72,7 @@ Slugs are derived from the chapter titles. To list them all, run `python3 latex/
 # 1. charts, tables and numbers (Quantlets/Ch_NN)
 python3 Quantlets/Ch_NN/generate_all_charts.py
 python3 Quantlets/Ch_NN/seminarN.py                    # if the chapter has seminar computations
+#    (after changing the size of a chart on a slide: python3 tools/chart_boxes.py, then step 1 again)
 # 2. Quantlet folders (Metainfo.txt + Colab notebook + charts)
 python3 Quantlets/Ch_NN/build_quantlets.py
 # 3. decks EN + RO (each generator also runs latex/acronyms.py N, which runs appendix_links.py)

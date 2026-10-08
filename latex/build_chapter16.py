@@ -420,7 +420,7 @@ chart(T('Simulated rational bubbles and their detection', 'Bule raționale simul
       r'Stînga: Blanchard--Watson, $r = 0.02$, $\pi = 0.98$; mijloc: bula Evans înmulțită cu 20 peste fundamentul din exemplul rezolvat ($r = 0.05$, $\alpha = 1$, $\delta = 0.5$, $\pi = 0.85$); dreapta: BSADF al prețului Evans față de valoarea critică punctuală de 95\% (@{ra.R} de traiectorii Monte Carlo)'),
     T(r'Whole-sample ADF $@{ra.adf}$ (95\% critical value $@{ra.cvadf}$); SADF $@{ra.sadf}$ ($@{ra.cvsadf}$); GSADF $@{ra.gsadf}$ ($@{ra.cvgsadf}$); @{ra.nep} dated episodes',
       r'ADF pe tot eșantionul $@{ra.adf}$ (valoarea critică de 95\% $@{ra.cvadf}$); SADF $@{ra.sadf}$ ($@{ra.cvsadf}$); GSADF $@{ra.gsadf}$ ($@{ra.cvgsadf}$); @{ra.nep} episoade datate')],
-    h='0.54\\textheight')
+    h='0.56\\textheight')
 
 interp(('the simulated bubbles', 'bulelor simulate'), [
     T(r'The Blanchard--Watson path restarts below zero after a burst and then explodes downwards: exactly the negative bubble that Diba and Grossman exclude',
@@ -494,7 +494,7 @@ chart(T('Cauchy limits in finite samples', 'Limitele Cauchy în eșantioane fini
       r'@{as.R} de eșantioane; eroarea normată $\rho^n(\hat\rho - \rho)/(\rho^2 - 1)$ cu erori gaussiene și exponențiale centrate (asimetrice), față de densitatea Cauchy'),
     T(r'Kolmogorov--Smirnov distance to Cauchy: mild, $n = 200$: @{as.mildnormal.ks} and @{as.mildexp.ks}; $n = 2000$ ($\rho = @{as.rhobig}$): @{as.mildbignormal.ks} ($p$ @{as.mildbignormal.p}) and @{as.mildbigexp.ks} ($p$ @{as.mildbigexp.p}); fixed $\rho = 2$: @{as.fixednormal.ks} ($p$ @{as.fixednormal.p}) and @{as.fixedexp.ks} ($p$ @{as.fixedexp.p})',
       r'Distanța Kolmogorov--Smirnov față de Cauchy: ușor exploziv, $n = 200$: @{as.mildnormal.ks} și @{as.mildexp.ks}; $n = 2000$ ($\rho = @{as.rhobig}$): @{as.mildbignormal.ks} ($p$ @{as.mildbignormal.p}) și @{as.mildbigexp.ks} ($p$ @{as.mildbigexp.p}); $\rho = 2$ fix: @{as.fixednormal.ks} ($p$ @{as.fixednormal.p}) și @{as.fixedexp.ks} ($p$ @{as.fixedexp.p})')],
-    h='0.46\\textheight')
+    h='0.55\\textheight')
 
 interp(('the Cauchy limits', 'limitelor Cauchy'), [
     T(r'Fixed root: with Gaussian errors the Cauchy law fits ($p$ @{as.fixednormal.p}); with skewed errors it is rejected ($p$ @{as.fixedexp.p}): no invariance principle, as Anderson showed',
@@ -556,7 +556,7 @@ D.frame(T('The recursive statistics (2/2)', 'Statisticile recursive (2/2)'), ite
 chart(T('Null distributions and critical values', 'Distribuțiile sub ipoteza nulă și valorile critice'), 'ats_ch16_null', 'ATS_ch16_recursive_tests', [
     T(r'Null model $y_t = T^{-1} + y_{t-1} + e_t$, $e_t \sim N(0, 1)$, no lags; 95\% critical values at $T = 100, 200, 400, 800$: SADF @{nu.100.sadf}, @{nu.200.sadf}, @{nu.400.sadf}, @{nu.800.sadf}; GSADF @{nu.100.gsadf}, @{nu.200.gsadf}, @{nu.400.gsadf}, @{nu.800.gsadf}',
       r'Modelul nul $y_t = T^{-1} + y_{t-1} + e_t$, $e_t \sim N(0, 1)$, fără laguri; valori critice de 95\% la $T = 100, 200, 400, 800$: SADF @{nu.100.sadf}, @{nu.200.sadf}, @{nu.400.sadf}, @{nu.800.sadf}; GSADF @{nu.100.gsadf}, @{nu.200.gsadf}, @{nu.400.gsadf}, @{nu.800.gsadf}')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the null distributions', 'distribuțiilor sub ipoteza nulă'), [
     T(r'The whole-sample ADF has a negative 95\% quantile (@{nu.400.adf} at $T = 400$): using 1.645 would almost never reject, the right tail of the Dickey--Fuller law is short',
@@ -593,7 +593,7 @@ D.frame(T('Many dates, one false alarm', 'Multe date, o alarmă falsă'), items(
 chart(T('Size under changing volatility and across dates', 'Nivelul testelor sub volatilitate variabilă și pe multe date'), 'ats_ch16_size', 'ATS_ch16_size_wild_bootstrap', [
     T(r'@{sz.N} null paths of $T = @{sz.T}$ per design, each with its own wild bootstrap (@{sz.B} draws); a dated episode needs @{sz.L} consecutive exceedances; nominal level 5\%',
       r'@{sz.N} de traiectorii sub ipoteza nulă cu $T = @{sz.T}$ pentru fiecare design, fiecare cu propriul wild bootstrap (@{sz.B} de extrageri); un episod datat cere @{sz.L} depășiri consecutive; nivelul nominal 5\%')],
-    h='0.52\\textheight')
+    h='0.65\\textheight')
 
 interp(('the size study', 'studiului de nivel'), [
     T(r'GSADF with Monte Carlo critical values: @{sz.iid.rejmc}\% with constant volatility, @{sz.up.rejmc}\% after a late tripling, @{sz.garch.rejmc}\% under GARCH; the wild bootstrap gives @{sz.iid.rejwild}\%, @{sz.up.rejwild}\% and @{sz.garch.rejwild}\%',
@@ -642,7 +642,7 @@ D.frame(T('Date-stamping: design of the experiment', 'Datarea: designul experime
 chart(T('How late is the start dated?', 'Cît de tîrziu este datat începutul?'), 'ats_ch16_dating', 'ATS_ch16_date_stamping', [
     T(r'Delay of the first dated exceedance after the true start (periods); pointwise 95\% Monte Carlo critical values; growth over the bubble $\rho^{@{dt.dur}}$: @{dt.a.g}, @{dt.b.g} and @{dt.c.g}',
       r'Întîrzierea primei depășiri datate după începutul adevărat (perioade); valori critice punctuale de 95\% Monte Carlo; creșterea pe durata bulei $\rho^{@{dt.dur}}$: @{dt.a.g}, @{dt.b.g} și @{dt.c.g}')],
-    h='0.5\\textheight')
+    h='0.65\\textheight')
 
 interp(('the date-stamping experiment', 'experimentului de datare'), [
     T(r'Detection rates @{dt.a.det}\%, @{dt.b.det}\% and @{dt.c.det}\% for $\rho = 1.005, 1.01, 1.02$: a bubble of @{dt.dur} periods is almost always found',
@@ -676,7 +676,7 @@ D.frame(T('Real-time monitoring (2/2)', 'Monitorizarea în timp real (2/2)'), it
 chart(T('Monitoring the Nasdaq 100 and Bitcoin', 'Monitorizarea Nasdaq 100 și Bitcoin'), 'ats_ch16_monitor', 'ATS_ch16_monitoring', [
     T(r'Weekly log returns; training: 1990--1994 (Nasdaq 100, $n = @{mo.ndx.n}$) and September 2014 -- June 2016 (Bitcoin, $n = @{mo.btc.n}$); BSADF with pointwise Monte Carlo critical values',
       r'Randamente logaritmice săptămînale; antrenare: 1990--1994 (Nasdaq 100, $n = @{mo.ndx.n}$) și septembrie 2014 -- iunie 2016 (Bitcoin, $n = @{mo.btc.n}$); BSADF cu valori critice punctuale Monte Carlo')],
-    h='0.52\\textheight')
+    h='0.65\\textheight')
 
 interp(('the monitoring charts', 'graficelor de monitorizare'), [
     T(r'Nasdaq 100: the CUSUM alarm comes on @{mo.ndx.cus}, three months before the peak of @{mo.ndx.peak}; the first confirmed BSADF alarm after training comes on @{mo.ndx.bs}, more than four years earlier',
@@ -729,7 +729,7 @@ D.frame(T('Testing the ratio, the price and the fundamental', 'Testarea raportul
 chart(T('US and Romanian housing: ratio and fundamental', 'Locuințele din SUA și din România: raportul și fundamentul'), 'ats_ch16_housing', 'ATS_ch16_housing', [
     T(r'Log price-to-rent and log real rent; BSADF with $k$ lags (US ratio $k = @{ho.usratio.k}$, rent $k = @{ho.usrent.k}$) and pointwise 95\% wild-bootstrap critical values (@{ho.B} draws); shaded: dated episodes of the ratio',
       r'Logaritmul raportului preț/chirie și al chiriei reale; BSADF cu $k$ laguri (raportul SUA $k = @{ho.usratio.k}$, chiria $k = @{ho.usrent.k}$) și valori critice punctuale de 95\% prin wild bootstrap (@{ho.B} de extrageri); zonele colorate: episoadele datate ale raportului')],
-    h='0.54\\textheight')
+    h='0.65\\textheight')
 
 interp(('the housing tests', 'testelor pe locuințe'), [
     T(r'US price-to-rent: GSADF @{ho.usratio.g} against the wild-bootstrap value @{ho.usratio.cv}; the main episode runs from @{ho.e1a} to @{ho.e1b}, the boom before the subprime crisis found by \refPY',
@@ -782,7 +782,7 @@ D.frame(T('Inference on the critical time', 'Inferența asupra timpului critic')
 chart(T('Shanghai 2015: indicator and critical time', 'Shanghai 2015: indicatorul și timpul critic'), 'ats_ch16_lppls', 'ATS_ch16_lppls_inference', [
     T(r'Left: confidence indicator every fifth trading day; right: profile likelihood of $t_c$ for the window from the low of @{lp.low} to @{lp.t2} (@{lp.n} days), as in the real-time analysis of \refSha',
       r'Stînga: indicatorul de încredere în fiecare a cincea zi de tranzacționare; dreapta: verosimilitatea profil a lui $t_c$ pentru fereastra de la minimul din @{lp.low} pînă la @{lp.t2} (@{lp.n} de zile), ca în analiza în timp real din \refSha')],
-    h='0.5\\textheight')
+    h='0.61\\textheight')
 
 interp(('the Shanghai fit', 'ajustării pentru Shanghai'), [
     T(r'The fit ending on @{lp.t2} passes the whole filter: $m = @{lp.m}$, $\omega = @{lp.w}$, @{lp.osc} oscillations, damping @{lp.damp}; $\hat t_c$ = @{lp.tc}',
@@ -831,7 +831,7 @@ D.frame(T('Five episodes, one protocol', 'Cinci episoade, un singur protocol'), 
 chart(T('BSADF of the five episodes', 'BSADF pentru cele cinci episoade'), 'ats_ch16_episodes', 'ATS_ch16_episodes', [
     T(r'Shaded: episodes dated with the pointwise wild bootstrap; dotted vertical lines: price peaks',
       r'Zonele colorate: episoade datate cu wild bootstrap punctual; liniile verticale punctate: maximele prețurilor')],
-    h='0.66\\textheight')
+    h='0.68\\textheight')
 
 D.frame(T('Interpreting the five tests', 'Interpretarea celor cinci teste'), table(
     'lrrrrrr',
@@ -860,7 +860,7 @@ D.frame(T('Alarms before the peaks', 'Alarmele dinaintea maximelor'), table(
 chart(T('Early-warning value over decades', 'Valoarea avertizării timpurii pe decenii'), 'ats_ch16_evaluation', 'ATS_ch16_early_warning', [
     T(r'Event: a fall of 20\% within 182 days; evaluation every fifth trading day (S\&P 500 @{ev.sp500.n} dates, Bitcoin @{ev.btc.n}); scores: LPPLS confidence indicator, BSADF minus its pointwise 95\% critical value (weekly, real time), trailing one-year return',
       r'Evenimentul: o scădere de 20\% în 182 de zile; evaluare în fiecare a cincea zi de tranzacționare (S\&P 500 @{ev.sp500.n} de date, Bitcoin @{ev.btc.n}); scoruri: indicatorul de încredere LPPLS, BSADF minus valoarea critică punctuală de 95\% (săptămînal, în timp real), randamentul din ultimul an')],
-    h='0.5\\textheight')
+    h='0.61\\textheight')
 
 interp(('the early-warning evaluation', 'evaluării avertizărilor timpurii'), [
     T(r'Base rates: @{ev.sp500.base}\% of S\&P 500 dates and @{ev.btc.base}\% of Bitcoin dates are followed by a 20\% fall: the same alarm means very different things in the two markets',
@@ -928,7 +928,7 @@ chart(T('Mini-case: how many bubbles does a screen find?', 'Mini studiu de caz: 
       r'GSADF pe logaritmul prețului lunar pentru @{ai.K} serii din datele cursului (din 1990 sau din prima lună disponibilă), p-value-uri din @{ai.B} de extrageri wild bootstrap și @{ai.B} Monte Carlo (cel mai mic p-value posibil: @{ai.minp})'),
     T(r'Rejections at 5\%: @{ai.mc} with Monte Carlo, @{ai.wild} with the wild bootstrap (@{ai.exp} expected by chance); after Holm @{ai.holm}, after Benjamini--Hochberg @{ai.bh}. An AI summary such as \textquotedblleft bubbles in @{ai.mc} assets\textquotedblright{} is wrong twice: wrong null and no correction',
       r'Respingeri la 5\%: @{ai.mc} cu Monte Carlo, @{ai.wild} cu wild bootstrap (@{ai.exp} așteptate din întîmplare); după Holm @{ai.holm}, după Benjamini--Hochberg @{ai.bh}. Un rezumat AI precum „bule în @{ai.mc} dintre active” greșește de două ori: ipoteză nulă greșită și nicio corecție')],
-    h='0.44\\textheight')
+    h='0.52\\textheight')
 
 D.frame(T('Project idea', 'Idee de proiect'), items(
     (T(r'\textbf{A pre-registered evaluation of bubble alarms on Central and Eastern European markets}',
