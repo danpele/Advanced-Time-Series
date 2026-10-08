@@ -109,7 +109,9 @@
     function linkButton(l) {
         if (l.soon) return `<span class="btn disabled" aria-disabled="true" title="${T.comingSoon}">${linkLabel(l)} · ${T.comingSoonShort}</span>`;
         const external = /^https?:/.test(l.href) ? ' target="_blank" rel="noopener"' : '';
-        const main = `<a href="${l.href}" class="btn ${LINK_CLASS[l.type]}"${external}>${linkLabel(l)}</a>`;
+        // local PDFs open in the bundled PDF.js viewer: its history makes the in-slide "Back" buttons work in every browser
+        const href = (!/^https?:/.test(l.href) && /\.pdf$/i.test(l.href)) ? `pdfjs/web/viewer.html?file=${encodeURIComponent('../../' + l.href + '?t=' + Math.floor(Date.now() / 600000))}` : l.href;
+        const main = `<a href="${href}" class="btn ${LINK_CLASS[l.type]}"${external}>${linkLabel(l)}</a>`;
         if (!l.colab) return main;
         return `<span class="link-group">${main}<a href="${l.colab}" class="btn btn-colab" target="_blank" rel="noopener" title="${T.links.colab}">Colab</a></span>`;
     }

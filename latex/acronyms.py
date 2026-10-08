@@ -410,3 +410,5 @@ if __name__ == '__main__':
     import subprocess
     subprocess.run([sys.executable, os.path.join(HERE, 'appendix_links.py')] + sys.argv[1:], check=True,
                    stdout=subprocess.DEVNULL)
+    # codurile exercitiilor clicabile si butoanele Inapoi / Lista exercitiilor in seminare (latex/exercise_links.py)
+    subprocess.run([sys.executable, os.path.join(HERE, 'exercise_links.py')] + sys.argv[1:], check=True)

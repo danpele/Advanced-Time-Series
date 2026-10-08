@@ -290,6 +290,102 @@ class Deck:
             body.append(f'\\item ⟦Notebook: section {nb}||Notebook: secțiunea {nb}⟧')
         self.frame(title, '\\begin{itemize}\n' + '\n'.join(body) + '\n\\end{itemize}', size)
 
+    # ---- seminar: the opening frames "Today's question and seminar structure (i/n)" (model: MFM, Seminar 1)
+    def route(self, question, before=None, primer_note=None, types=None, outputs=None, per=13):
+        """Placeholder for the opening frames; filled in write(), once the whole deck is known.
+        question: ⟦en||ro⟧ text of the seminar question (without the "Question:" label).
+        before: header of the "before the lecture" bullet (default: the seminar comes before Lecture N).
+        primer_note: second sub-bullet on the primer (default: the formulas and concepts used in the exercises).
+        types: {'A': ⟦..⟧, 'B': ⟦..⟧, 'C': ⟦..⟧} replaces the default description of the exercise types.
+        outputs: list of ⟦..⟧ items replacing the default "Outputs to produce".
+        per: lines (part headers + exercises) per list frame."""
+        self._route = dict(question=question, before=before, primer_note=primer_note, types=types or {},
+                           outputs=outputs, per=per)
+        self.FR.append('@@ROUTE@@')
+
+    def _route_frames(self):
+        r = self._route
+        en = lambda s: MARK.sub(lambda m: m.group(1), s)   # noqa: E731
+        ro = lambda s: MARK.sub(lambda m: m.group(2), s)   # noqa: E731
+        primer, in_primer, sec = 0, False, None
+        parts, seen = [], set()               # [(section ⟦..⟧, [⟦code: title⟧, ...])]
+        for fr in self.FR:
+            if not isinstance(fr, str) or fr == '@@ROUTE@@':
+                continue
+            m = re.search(r'\\section\{(⟦.*?⟧)\}', fr)
+            if m and fr.lstrip('\n').startswith('%'):
+                sec = m.group(1)
+                in_primer = 'Prerequisites for Today' in sec
+                continue
+            if fr.startswith('\\ifsolutions'):
+                continue                       # instructor-only frames are not part of the student route
+            if in_primer:
+                primer += fr.count('\\begin{frame}')
+                continue
+            m = re.match(r'\\begin\{frame\}(?:\[[^\]]*\])?\{(.*)\}\s*$', fr.split('\n', 1)[0])
+            if not m:
+                continue
+            strip = lambda s: re.sub(r'\s*\[(Solved|Proposed|Rezolvat|Propus)\]', '', s).strip()   # noqa: E731
+            te, tr = strip(en(m.group(1))), strip(ro(m.group(1)))
+            me, mr = re.match(r'([ABC]\d+): (.+)$', te), re.match(r'([ABC]\d+): (.+)$', tr)
+            if not (me and mr) or me.group(1) in seen:
+                continue
+            seen.add(me.group(1))
+            if not parts or parts[-1][0] != sec:
+                parts.append((sec, []))
+            parts[-1][1].append(f'⟦{te}||{tr}⟧')
+        if not parts or not primer:
+            raise ValueError('route(): no exercises or no "Prerequisites for Today" frames found')
+        n = self.n
+        ty = {'A': '⟦\\textbf{A}: calculations and derivations on paper||\\textbf{A}: calcule și derivări pe hîrtie⟧',
+              'B': '⟦\\textbf{B}: real data, solved in the notebook||\\textbf{B}: exerciții pe date reale, rezolvate în notebook⟧',
+              'C': '⟦\\textbf{C}: open questions, for example correcting an answer given by an AI tool||'
+                   '\\textbf{C}: întrebări deschise, de exemplu corectarea unui răspuns dat de un instrument AI⟧'}
+        ty.update(r['types'])
+        before = r['before'] or f'⟦The seminar takes place \\textbf{{before}} Lecture {n}||Seminarul are loc \\textbf{{înaintea}} Cursului {n}⟧'
+        note = r['primer_note'] or '⟦they explain the formulas and concepts used in the exercises||ele explică formulele și conceptele folosite în exerciții⟧'
+        # the exercise lists, split into frames of at most `per` lines (a part is never split if it fits on one frame)
+        pages, cur, used = [], [], 0
+        for s, ex in parts:
+            chunks = [ex[i:i + r['per'] - 1] for i in range(0, len(ex), r['per'] - 1)]
+            for k, ch in enumerate(chunks):
+                if cur and used + 1 + len(ch) > r['per']:
+                    pages.append(cur)
+                    cur, used = [], 0
+                head = s if k == 0 else s[:-1].replace('||', ' (continued)||') + ' (continuare)⟧'
+                cur.append((head, ch))
+                used += 1 + len(ch)
+        pages.append(cur)
+        total = len(pages) + 2
+        title = lambda i: f"⟦Today's question and seminar structure ({i}/{total})||Întrebarea de azi și structura seminarului ({i}/{total})⟧"   # noqa: E731
+        out = [f'\\begin{{frame}}{{{title(1)}}}\n\\itemsize{{\\small}}\n' + items(
+            ('⟦The question of the seminar||Întrebarea seminarului⟧', [f'\\textbf{{{question_}}}' for question_ in [r['question']]]),
+            (before, [f'⟦this is why it begins with {primer} ``Prerequisites for Today\'\' slides||de aceea începe cu {primer}'
+                      f'{" de" if primer >= 20 else ""} slide-uri „Noțiuni necesare azi”⟧', note]),
+            ('⟦Three types of exercises||Trei tipuri de exerciții⟧', [ty['A'], ty['B'], ty['C']]),
+            ('⟦Each exercise is marked||Fiecare exercițiu este marcat⟧',
+             ['⟦\\textbf{[Solved]}: the full solution is presented in the seminar, in the slides and in the notebook; it is the model to follow||'
+              '\\textbf{[Rezolvat]}: rezolvarea completă este prezentată la seminar, în slide-uri și în notebook; este modelul de urmat⟧',
+              '⟦\\textbf{[Proposed]}: you solve it yourselves, following the model; the solution is discussed in the seminar||'
+              '\\textbf{[Propus]}: îl rezolvați dumneavoastră, după model; soluția se discută la seminar⟧'])) + '\n\\end{frame}\n']
+        for i, page in enumerate(pages):
+            body = items(*page)
+            out.append(f'\\begin{{frame}}{{{title(i + 2)}}}\n\\itemsize{{\\small}}\n' + body + '\n\\end{frame}\n')
+        outputs = r['outputs'] or [
+            '⟦the answers to the A exercises||răspunsurile la exercițiile A⟧',
+            '⟦one figure and one table for each B exercise||cîte o figură și un tabel pentru fiecare exercițiu B⟧',
+            '⟦the analysis requested in C1 and the verdicts on the AI answer in C2, each with one line of justification||'
+            'analiza cerută în C1 și verdictele asupra răspunsului AI din C2, fiecare cu un rînd de justificare⟧',
+            '⟦one sentence of interpretation for each exercise||o frază de interpretare pentru fiecare exercițiu⟧']
+        out.append(f'\\begin{{frame}}{{{title(total)}}}\n\\itemsize{{\\small}}\n' + items(
+            ('⟦Outputs to produce||Rezultate de obținut⟧', outputs),
+            ('⟦Notebook for today: \\href{\\nb}{open the seminar notebook in Google Colab}||'
+             'Notebook-ul de azi: \\href{\\nb}{deschideți notebook-ul seminarului în Google Colab}⟧',
+             ['⟦each task names its notebook section||fiecare cerință indică secțiunea din notebook⟧']),
+            '⟦Seminar: Prof.\\ Daniel Traian Pele, \\href{mailto:danpele@ase.ro}{danpele@ase.ro}||'
+            'Seminar: prof.\\ Daniel Traian Pele, \\href{mailto:danpele@ase.ro}{danpele@ase.ro}⟧') + '\n\\end{frame}\n')
+        return '\n'.join(out)
+
     def references(self, refs, per=16):
         """Bibliografia: intrari complete cu \\href (DOI verificat), in ordine alfabetica."""
         self.section('References', 'Bibliografie')
@@ -338,6 +434,8 @@ class Deck:
 
     # ---- scriere
     def write(self, values=None, glossary=True):
+        if '@@ROUTE@@' in self.FR:
+            self.FR[self.FR.index('@@ROUTE@@')] = self._route_frames()
         src = self.chapter_macros() + '@@TITLE@@' + DOC_START + '\n'.join(self.FR) + '\n\\end{document}\n'
         out = []
         for lang in ('en', 'ro'):

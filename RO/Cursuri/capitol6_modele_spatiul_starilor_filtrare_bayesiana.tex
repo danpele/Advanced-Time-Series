@@ -1581,7 +1581,7 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
 \itemsize{\small}
 \begin{itemize}
     \item Filtrul bootstrap, un pas: $\E[\frac1N\sum_iw^{(i)}_t\,|\,\mathcal F_{t-1}] = \int g(y_t | x)\,\hat p_{N}(x | Y_{t-1})\,dx$, unde $\hat p_N$ este legea predictivă empirică a particulelor
-    \item Aplicînd succesiv speranțele condiționate pentru $t = n, n-1, \dots, 1$, cu reeșantionare multinomială sau sistematică, obținem $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM
+    \item Aplicînd succesiv proprietatea speranțelor condiționate iterate pentru $t = n, n-1, \dots, 1$ (la fiecare pas, speranța ultimului factor condiționată de $\mathcal F_{t-1}$ se înlocuiește cu formula de mai sus), cu reeșantionare multinomială sau sistematică, obținem $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM
     \item Fiecare factor este o estimație de tip raport, dar produsul este nedeplasat, pentru că reeșantionarea păstrează ponderile așteptate; mărimile normalizate (mediile filtrate) sînt doar consistente
     \item Jensen: $\E\ln\hat L \le \ln\E\hat L = \ln L$; sub o TLC pentru $\ln\hat L$, deplasarea este $-\frac12\Var(\ln\hat L)$
 \end{itemize}

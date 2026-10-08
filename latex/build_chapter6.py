@@ -1262,8 +1262,8 @@ D.frame(T('Appendix: exactness of the Durbin--Koopman simulation smoother', 'Ane
 D.frame(T('Appendix: unbiasedness of the particle likelihood', 'Anexă: nedeplasarea verosimilității din filtrul de particule'), items(
     T(r'Bootstrap filter, one step: $\E[\frac1N\sum_iw^{(i)}_t\,|\,\mathcal F_{t-1}] = \int g(y_t | x)\,\hat p_{N}(x | Y_{t-1})\,dx$, with $\hat p_N$ the empirical predictive law of the particles',
       r'Filtrul bootstrap, un pas: $\E[\frac1N\sum_iw^{(i)}_t\,|\,\mathcal F_{t-1}] = \int g(y_t | x)\,\hat p_{N}(x | Y_{t-1})\,dx$, unde $\hat p_N$ este legea predictivă empirică a particulelor'),
-    T(r'Telescoping the conditional expectations over $t = n, n-1, \dots, 1$ with multinomial or systematic resampling gives $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM',
-      r'Aplicînd succesiv speranțele condiționate pentru $t = n, n-1, \dots, 1$, cu reeșantionare multinomială sau sistematică, obținem $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM'),
+    T(r'Applying the tower property successively for $t = n, n-1, \dots, 1$ (at each step the expectation of the last factor given $\mathcal F_{t-1}$ is replaced by the formula above), with multinomial or systematic resampling, gives $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM',
+      r'Aplicînd succesiv proprietatea speranțelor condiționate iterate pentru $t = n, n-1, \dots, 1$ (la fiecare pas, speranța ultimului factor condiționată de $\mathcal F_{t-1}$ se înlocuiește cu formula de mai sus), cu reeșantionare multinomială sau sistematică, obținem $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM'),
     T(r'Each factor is a ratio estimate, but the product is unbiased because resampling preserves the expected weights; normalised quantities (filtered means) are only consistent',
       r'Fiecare factor este o estimație de tip raport, dar produsul este nedeplasat, pentru că reeșantionarea păstrează ponderile așteptate; mărimile normalizate (mediile filtrate) sînt doar consistente'),
     T(r'Jensen: $\E\ln\hat L \le \ln\E\hat L = \ln L$; under a CLT for $\ln\hat L$ the bias is $-\frac12\Var(\ln\hat L)$',

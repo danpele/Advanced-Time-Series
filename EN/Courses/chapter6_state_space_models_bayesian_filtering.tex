@@ -1565,7 +1565,7 @@ UC-UR & 0.859 & 1.334 & \ensuremath{-}0.738 & 1.185 & 0.669 & \ensuremath{-}0.92
 \itemsize{\small}
 \begin{itemize}
     \item Bootstrap filter, one step: $\E[\frac1N\sum_iw^{(i)}_t\,|\,\mathcal F_{t-1}] = \int g(y_t | x)\,\hat p_{N}(x | Y_{t-1})\,dx$, with $\hat p_N$ the empirical predictive law of the particles
-    \item Telescoping the conditional expectations over $t = n, n-1, \dots, 1$ with multinomial or systematic resampling gives $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM
+    \item Applying the tower property successively for $t = n, n-1, \dots, 1$ (at each step the expectation of the last factor given $\mathcal F_{t-1}$ is replaced by the formula above), with multinomial or systematic resampling, gives $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM
     \item Each factor is a ratio estimate, but the product is unbiased because resampling preserves the expected weights; normalised quantities (filtered means) are only consistent
     \item Jensen: $\E\ln\hat L \le \ln\E\hat L = \ln L$; under a CLT for $\ln\hat L$ the bias is $-\frac12\Var(\ln\hat L)$
 \end{itemize}
