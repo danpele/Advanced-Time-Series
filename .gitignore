@@ -184,3 +184,7 @@ EN/Seminars/seminar*.tex
 RO/Seminarii/seminar*.tex
 latex/build_seminar*.py
 notebooks/build_notebooks_ch*.py
+
+# seminar explainer/primer data files (kept local)
+/Quantlets/Ch_*/seminar*_explainers.json
+/Quantlets/Ch_*/sem*_primer.json
