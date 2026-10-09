@@ -343,7 +343,7 @@ MSCA Digital Finance}
         \item exerciții [Rezolvat], cu soluții complete, și exerciții [Propus], discutate la seminar
         \item fiecare seminar include analiza critică a unui răspuns dat de un instrument AI
     \end{itemize}
-    \item Seminarul are rol de exercițiu și nu se notează; rezolvările cerințelor [Propus] se discută la seminar
+    \item Seminarul are rol de exercițiu și nu se notează
 \end{itemize}
 \end{frame}
 
@@ -823,7 +823,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
     \item \textbf{TLC pentru procese mixing} \refIbragimov: dacă $x_t$ este staționar și
     \begin{itemize}
         \item $E|x_t|^{2+\delta} < \infty$, $\quad \sum_m \alpha(m)^{\delta/(2+\delta)} < \infty$, $\quad \Omega > 0$ $\;\Rightarrow\;$ $\sqrt{T}(\bar x - \mu) \to_d N(0, \Omega)$
-        \item $\delta > 0$: numărul de momente peste ordinul doi; $\alpha(m)$: coeficientul de mixing din secțiunea anterioară
+        \item $\delta > 0$: numărul de momente peste ordinul doi; $\alpha(m)$: coeficientul de mixing tare definit mai sus
         \item compromis: mai multe momente ($\delta$ mai mare) permit un mixing mai lent; prima TLC sub mixing tare este \refRosenblatt
     \end{itemize}
     \item \textbf{Procese liniare} \refPS: $x_t - \mu = \sum\psi_j\varepsilon_{t-j}$ cu $\varepsilon_t$ i.i.d.\ sau MDS și $\sum j|\psi_j| < \infty$
@@ -940,7 +940,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
     \item \textbf{Estimatorul prin nucleu}: o sumă ponderată a autocovarianțelor de selecție
     \begin{itemize}
         \item $\hat\Omega = \sum_{|j|<T} k(j/S)\,\hat\gamma_j$, $\quad k(0) = 1$, $\quad k(x)$ descrescătoare în $|x|$
-        \item $k(j/S)$: ponderea lagului $j$; $S$: lățimea de bandă; echivalent, o periodogramă netezită la frecvența 0, $\hat\Omega = 2\pi\hat f(0)$ \refSS
+        \item echivalent, o periodogramă netezită la frecvența 0: $\hat\Omega = 2\pi\hat f(0)$ \refSS
     \end{itemize}
     \item Consistență: $S \to \infty$ și $S/T \to 0$, sub condiții de mixing și de momente \refAndrews
     \begin{itemize}
@@ -1006,7 +1006,7 @@ Spațiul stărilor, Markov switching & \atschlink{https://danpele.github.io/Time
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Ponderea $k(x)$ în funcție de $x = j/S$, lagul raportat la lățimea de bandă; Bartlett: $1 - |x|$ ($|x| \le 1$)
+    \item Ponderea $k(x)$ în funcție de $x = j/S$, lagul raportat la lățimea de bandă; Bartlett ca în studiul de caz Newey--West
     \item Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \le 1$); QS (quadratic spectral): $\frac{25}{12\pi^2x^2}\big[\frac{\sin(6\pi x/5)}{6\pi x/5} - \cos(6\pi x/5)\big]$, toate lagurile
 \end{itemize}
 \quantlet{ATS\_ch0\_long\_run\_variance}{\qlurl{ATS_ch0_long_run_variance}}
@@ -1236,7 +1236,7 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item Erori standard Monte Carlo: aproximativ 0,3 pp în jurul valorii de 5\%, aproximativ 0,7 pp în jurul valorii de 30\% (rîndurile bootstrap: de aproximativ două ori mai mari)
+    \item Erori standard Monte Carlo: aproximativ 0,7 pp în jurul valorii de 30\%; rîndurile bootstrap: de aproximativ două ori mai mari
 \end{itemize}
 \end{frame}
 
@@ -1470,9 +1470,9 @@ bootstrap circular pe blocuri & 7{,}4 & 12{,}0 & 30{,}8 & 5{,}6 & 8{,}6 & 15{,}6
 Seria & $T$ & Media & $\hat\rho_1$ & naivă & NW-A & boot.\ staț. & $t_{\text{naiv}}$ / $t_{\text{EWC}}$ \\
 \midrule
 S\&P 500, randamente & 6\,714 & 0{,}025 & \ensuremath{-}0{,}10 & 0{,}0148 & 0{,}0131 & 0{,}0129 & 1{,}67 / 2{,}07 \\
-S\&P 500, pătrate & 6\,714 & 1{,}472 & 0{,}31 & 0{,}064 & 0{,}152 & 0{,}292 & 23{,}06 / 6{,}71 \\
+S\&P 500, pătrate & 6\,714 & 1{,}472 & 0{,}31 & 0{,}064 & 0{,}152 & 0{,}269 & 23{,}06 / 6{,}71 \\
 randamente BET & 6\,670 & 0{,}064 & 0{,}11 & 0{,}0171 & 0{,}0188 & 0{,}0187 & 3{,}73 / 2{,}89 \\
-EUR/RON & 5\,352 & 0{,}007 & 0{,}17 & 0{,}0038 & 0{,}0040 & 0{,}0039 & 1{,}86 / 1{,}73 \\
+EUR/RON & 5\,352 & 0{,}007 & 0{,}17 & 0{,}0038 & 0{,}0040 & 0{,}0040 & 1{,}86 / 1{,}73 \\
 Creșterea PIB RO & 106 & 0{,}829 & \ensuremath{-}0{,}03 & 0{,}240 & 0{,}240 & 0{,}240 & 3{,}46 / 3{,}67 \\
 Inflația RO & 248 & 4{,}799 & 0{,}98 & 0{,}218 & 1{,}131 & 0{,}957 & 22{,}05 / 5{,}92 \\
 \bottomrule
@@ -1731,7 +1731,7 @@ NW, $S = 1{,}3\sqrt{T} = 21$, fixed-$b$ & 0{,}25 & 2{,}04 & 2{,}18 \\
     \end{itemize}
     \item Raportați ce face o simulare verificabilă
     \begin{itemize}
-        \item DGP, $T$, numărul de replicări $R$, valorile inițiale eliminate, sămînța, eroarea standard Monte Carlo $\sqrt{p(1-p)/R}$
+        \item DGP, $T$, numărul de replicări $R$, valorile inițiale eliminate, sămînța, eroarea standard Monte Carlo
         \item Rezultatele nu trebuie să depindă de sămînță peste eroarea Monte Carlo: rulați din nou cu o a doua sămînță
     \end{itemize}
     \item Fiecare grafic și fiecare cifră din acest capitol sînt produse de un singur script cu sămînța 2026 (Quantlets/Ch\_00)

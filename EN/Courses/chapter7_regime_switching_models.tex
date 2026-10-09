@@ -322,15 +322,6 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
 \quantlet{ATS\_ch7\_hamilton}{\qlurl{ATS_ch7_hamilton}}
 \end{frame}
 
-\begin{frame}{Recap: The model}
-\itemsize{\small}
-\begin{itemize}
-    \item A latent Markov chain selects the parameters of the observation equation
-    \item Krolzig's letters say what switches; MSM needs the expanded state
-    \item Durations are geometric; $\lambda = p_{11} + p_{22} - 1$ measures persistence
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{The Hamilton filter and the Kim smoother}
@@ -379,7 +370,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
     \begin{itemize}
         \item sum over $j$: $\hat\xi_{t|T} = \hat\xi_{t|t}\odot\left[\mathbf{P}(\hat\xi_{t+1|T}\oslash\hat\xi_{t+1|t})\right]$, backwards from $\hat\xi_{T|T}$; $\oslash$: element-wise division
     \end{itemize}
-    \item The joint probabilities of $(S_t, S_{t+1})$ are the E-step of EM; sampling instead of summing gives FFBS (Section 7)
+    \item The joint probabilities of $(S_t, S_{t+1})$ are the E-step of EM; sampling instead of summing gives FFBS (section \hyperlink{ch7bayes}{\textcolor{MainBlue}{Bayesian estimation}})
 \end{itemize}
 \end{frame}
 
@@ -396,15 +387,6 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
         \item the dating of past regimes, and the weights of the M-step
     \end{itemize}
     \item Confusing them is the most common error in applied work: a smoothed probability is not a forecast
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Filter and smoother}
-\itemsize{\small}
-\begin{itemize}
-    \item Filter: predict with $\mathbf{P}'$, update with Bayes, accumulate the log-likelihood
-    \item Smoother: one backward pass with the ratio of smoothed to predicted probabilities
-    \item Work in logs; expand the state only when the mean switches
 \end{itemize}
 \end{frame}
 
@@ -455,7 +437,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
     \end{itemize}
     \item The likelihood is unbounded: $\sigma_j \to 0$ around one observation with $p_{jj} \to 0$ gives $\ln L \to \infty$
     \begin{itemize}
-        \item remedies: a lower bound on $\sigma_j/\sigma_k$ \refHath, priors (Section 7), or reject regimes that last one period
+        \item remedies: a lower bound on $\sigma_j/\sigma_k$ \refHath, priors (section \hyperlink{ch7bayes}{\textcolor{MainBlue}{Bayesian estimation}}), or reject regimes that last one period
     \end{itemize}
     \item Standard errors near the boundary ($p_{ii} \approx 1$) are unreliable: report profile likelihoods or bootstrap intervals
 \end{itemize}
@@ -496,15 +478,6 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
         \item this is the root of the testing problem of the next section
     \end{itemize}
     \item Statistical regimes need not be economic regimes: the same GDP data give recessions (MSM), volatility eras (MSIH) or single outliers
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Estimation}
-\itemsize{\small}
-\begin{itemize}
-    \item EM = Kim smoother + weighted regressions + transition counts
-    \item Many starts, then a numerical polish; inspect every local maximum
-    \item Degenerate maxima and label switching are features of mixtures, not bugs of the code
 \end{itemize}
 \end{frame}
 
@@ -565,15 +538,6 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
     \item Observed LR = 71.7, bootstrap $p$-value 0.005 (the smallest possible with $B = 199$): two regimes
     \item But which regimes? Standard deviations 0.46 and 1.11 pp, $p_{ii}$ = 0.990 and 0.985: volatility eras (the Great Moderation), not recessions
     \item BIC: 755.5 ($K = 1$), 706.4 ($K = 2$), 734.7 ($K = 3$); AIC: 744.5, 680.8, 687.0
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: The number of regimes}
-\itemsize{\small}
-\begin{itemize}
-    \item Unidentified nuisance parameters, a boundary and a zero score: no chi-square limit
-    \item Use bootstrap $p$-values or Garcia-type critical values; information criteria for selection
-    \item A significant test says that the model fits better, not that the regimes mean what we hoped
 \end{itemize}
 \end{frame}
 
@@ -664,15 +628,6 @@ statsmodels & 1.164 & \ensuremath{-}0.359 & 0.013 & \ensuremath{-}0.058 & \ensur
     \item QPS before 2020: 0.127 in real time against 0.152 smoothed; 0 false signals above 0.5
     \item \refCP: with real-time vintages, MS models call the start of recessions faster than the NBER announcement, but mild recessions are missed
     \item Our exercise flatters the model: today's revised GDP was not available in 2001
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Hamilton (1989)}
-\itemsize{\small}
-\begin{itemize}
-    \item Replicated exactly on his data with two independent implementations
-    \item The same model on today's data finds short sharp contractions and misses 2001
-    \item Judge dating in real time with filtered probabilities, not with smoothed ones
 \end{itemize}
 \end{frame}
 
@@ -809,7 +764,7 @@ constant transitions & & 2.77 & $p_{00} = 0.983$ & $p_{11} = 0.14$ & \ensuremath
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item \refLL: structural shifts in the variance bias GARCH persistence $\alpha + \beta$ towards 1
+    \item \hypertarget{ch7msg}{}\refLL: structural shifts in the variance bias GARCH persistence $\alpha + \beta$ towards 1
     \item \refHS: SWARCH, an ARCH whose scale switches with a Markov chain; most of the persistence moves into the chain
     \item MSIH on returns: the simplest volatility-regime model, already a useful benchmark for GARCH \refBoll
     \item \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter8_advanced_volatility.pdf}{Chapter 8} develops realised measures and multivariate GARCH; here: what regimes do to GARCH
@@ -877,15 +832,6 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
     \item Single-regime persistence 0.981; within the regimes 0.964 (calm) and 0.998 (high volatility): regimes do not remove persistence automatically, they move it to where it belongs
     \item Gray's collapsing fits worse here (\ensuremath{-}9207.4): the approximation is not innocuous
     \item Local maxima are frequent: different starts give different regime splits (always report the starting design)
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Volatility regimes}
-\itemsize{\small}
-\begin{itemize}
-    \item Variance regimes and GARCH persistence are entangled: report the persistence inside each regime and of the chain
-    \item Path dependence: collapse (Gray, Klaassen) or run GARCH processes in parallel (HMP)
-    \item \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter8_advanced_volatility.pdf}{Chapter 8} compares these models with realised measures
 \end{itemize}
 \end{frame}
 
@@ -962,7 +908,7 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \begin{frame}{Gibbs sampling with data augmentation}
 \itemsize{\small}
 \begin{itemize}
-    \item Treat $S = (S_1, \dots, S_T)$ as parameters \refAC: given $S$, the model is a set of regressions; given $\theta$, $S$ is a hidden Markov chain
+    \item \hypertarget{ch7bayes}{}Treat $S = (S_1, \dots, S_T)$ as parameters \refAC: given $S$, the model is a set of regressions; given $\theta$, $S$ is a hidden Markov chain
     \begin{itemize}
         \item 1. $S \mid \theta, Y$; 2. $\mathbf{P} \mid S$: rows $\sim$ Dirichlet$(a_{i\cdot} + n_{i\cdot})$, $n_{ij}$ the transition counts, $a_{ij}$ the prior Dirichlet parameters
         \item 3. $\mu_j \mid \sigma_j^2, S, Y \sim$ Normal and $\sigma_j^2 \mid \mu_j, S, Y \sim$ inverse gamma: conjugate updates on the observations of regime $j$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter5_bvar_factor_models_nowcasting.pdf}{Chapter 5})
@@ -1015,15 +961,6 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recap: Bayesian estimation}
-\itemsize{\small}
-\begin{itemize}
-    \item Data augmentation turns the switching model into conjugate regressions plus FFBS
-    \item Let the sampler switch labels, then identify with the parameter that separates regimes
-    \item Marginal likelihoods compare $K$ and change-point models on the same footing
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Regimes, long memory and breaks}
@@ -1041,7 +978,7 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
     \item Consequences
     \begin{itemize}
         \item a significant GPH or local Whittle estimate (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter10_long_memory_rough_volatility.pdf}{Chapter 10}) does not discriminate fractional integration from occasional breaks or regimes
-        \item the same holds for GARCH persistence (previous section) and for unit-root tests with breaks (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter2_structural_breaks_nonlinear_models.pdf}{Chapter 2})
+        \item the same holds for GARCH persistence (section \hyperlink{ch7msg}{\textcolor{MainBlue}{Volatility regimes and MS-GARCH}}) and for unit-root tests with breaks (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter2_structural_breaks_nonlinear_models.pdf}{Chapter 2})
     \end{itemize}
     \item Which description is "true" matters less than which one forecasts better out of sample
 \end{itemize}
@@ -1106,15 +1043,6 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
         \item after 2000 a single, very persistent segment absorbs the 2022 and 2025 surges as shocks
         \item whether they are a recurrent regime is decided out of sample
     \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Regimes, memory and breaks}
-\itemsize{\small}
-\begin{itemize}
-    \item Rare switches mimic long memory: memory tests cannot tell them apart
-    \item Breaks are non-recurrent regimes: same filter, restricted $\mathbf{P}$
-    \item Model choice is an out-of-sample question
 \end{itemize}
 \end{frame}
 
@@ -1205,15 +1133,6 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
     \item Mean log score: \ensuremath{-}1.028 against \ensuremath{-}0.890; Diebold--Mariano on the difference 1.16 ($p = 0.24$)
     \item The gain comes from the variance regime: the AR(1) density is too wide after 1984 (PIT piled in the middle, KS $p < 0.001$); the MS density is closer to uniform but not calibrated either (KS $p = 0.01$)
     \item Cumulative log-score gain before 2008: 17.72; from 2008: \ensuremath{-}1.10: the regime model pays in calm times and loses in the crisis
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Forecasting}
-\itemsize{\small}
-\begin{itemize}
-    \item Forecast densities are mixtures; regime forecasts decay to the ergodic probabilities
-    \item Evaluate densities and regime probabilities, not only RMSE
-    \item Gains are episodic: test them over time (fluctuation tests, \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1})
 \end{itemize}
 \end{frame}
 

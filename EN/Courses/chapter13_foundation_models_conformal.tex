@@ -208,9 +208,9 @@ MSCA Digital Finance}
         \item conformal prediction: exchangeability, split conformal, CQR, the limits of conditional coverage
         \item dependent data: weights, EnbPI, ACI, conformal PID; diagnostics; calibrating foundation-model intervals and VaR
     \end{itemize}
-    \item Prerequisites; Seminar 13 comes before this lecture
+    \item Prerequisites
     \begin{itemize}
-        \item \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter11_foundation_models_time_series.pdf}{TSA, Chapter 11}: Chronos, TimesFM, Moirai, zero-shot tests, CRPS and WQL
+        \item Seminar 13; \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter11_foundation_models_time_series.pdf}{TSA, Chapter 11} (slide \hyperlink{c13known}{\textcolor{MainBlue}{Known from TSA and new here}})
         \item \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1} (scoring rules, DM, MCS), \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9} (VaR backtests, ACI for VaR), \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12} (deep architectures)
     \end{itemize}
 \end{itemize}
@@ -292,7 +292,7 @@ BET, S\&P 500, NVIDIA, daily & EODHD daily closes & 2000 -- 2026 \\
 \begin{frame}{Known from TSA and new here}
 \itemsize{\small}
 \begin{itemize}
-    \item Known (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter11_foundation_models_time_series.pdf}{TSA, Chapter 11})
+    \item \hypertarget{c13known}{}Known (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter11_foundation_models_time_series.pdf}{TSA, Chapter 11})
     \begin{itemize}
         \item zero-shot use of Chronos, TimesFM, Moirai and Lag-Llama; mean scaling and quantisation in brief
         \item pinball loss, CRPS, WQL, MASE; first warnings about contamination
@@ -756,7 +756,6 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
     \item \textbf{Temporal contamination}
     \begin{itemize}
         \item the test window precedes the training cutoff: the model may have seen the outcomes of other, correlated series in the same period
-        \item LLMs recall exact economic values from before their cutoff \refLTZ
         \item a two-data-set design against contamination, for electricity prices \refPE
     \end{itemize}
     \item Designs that help
@@ -1666,10 +1665,7 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
     \begin{itemize}
         \item miscalibration is the default, in either direction (bands too narrow or too wide)
     \end{itemize}
-    \item Most models output only the 10\%--90\% quantiles
-    \begin{itemize}
-        \item a 95\% interval or a VaR 1\% requires extrapolation beyond the trained levels
-    \end{itemize}
+    \item Most models output only deciles (Section 2): a 95\% interval or a VaR 1\% is beyond their trained levels
     \item Procedure: online CQR on the model's own 10\%--90\% band \[ S_t = \max\{\hat q_{0.1,t} - y_t,\; y_t - \hat q_{0.9,t}\}, \qquad \hat C_t = [\hat q_{0.1,t} - q_t,\; \hat q_{0.9,t} + q_t] \]
     \begin{itemize}
         \item $\hat q_{0.1,t}$, $\hat q_{0.9,t}$: the 10\% and 90\% quantiles forecast by the model for period $t$; $S_t$: the CQR score

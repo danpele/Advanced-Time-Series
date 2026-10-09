@@ -270,8 +270,8 @@ D.frame(T('The question of the chapter and the route', 'Întrebarea capitolului 
       T('LPPLS as a competing detector; applications: dot-com, Shanghai 2015, Bitcoin, BET 2007, housing',
         'LPPLS ca detector alternativ; aplicații: dot-com, Shanghai 2015, Bitcoin, BET 2007, piața locuințelor')]),
     (T('Prerequisites and continuation', 'Cunoștințe necesare și continuare'),
-     [T('TSA, Chapter 13: bubbles in history, PSY basics, LPPL with the Filimonov--Sornette calibration', 'TSA, Capitolul 13: bulele în istorie, elementele de bază PSY, LPPL cu calibrarea Filimonov--Sornette'),
-      T('Chapter 2: unit roots, structural breaks; MFM, Chapter 17 applies the tests to markets', 'Capitolul 2: rădăcini unitare, rupturi structurale; MFM, Capitolul 17 aplică testele pe piețe')])), 'small')
+     [T(r'TSA, Chapter 13 (slide \hyperlink{c16known}{\textcolor{MainBlue}{Known from TSA and new here}}); Chapter 2: unit roots, structural breaks', r'TSA, Capitolul 13 (slide-ul \hyperlink{c16known}{\textcolor{MainBlue}{Cunoscut din TSA și elemente noi}}); Capitolul 2: rădăcini unitare, rupturi structurale'),
+      T('MFM, Chapter 17 applies the tests to markets', 'MFM, Capitolul 17 aplică testele pe piețe')])), 'small')
 
 D.frame(T('Self-study guide', 'Ghid de studiu individual'), items(
     (T(r'This chapter is for \textbf{self-study}: there is no seminar; every section ends with a recap', r'Acest capitol este pentru \textbf{studiu individual}: nu are seminar; fiecare secțiune se încheie cu o recapitulare'),
@@ -318,7 +318,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
 
 D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), two(
     ph('nasdaq', T('Nasdaq MarketSite, Times Square, 2021', 'Nasdaq MarketSite, Times Square, 2021'), h='0.4\\textheight'),
-    items((T('Known (TSA, Chapter 13)', 'Cunoscut (TSA, Capitolul 13)'),
+    items((T(r'\hypertarget{c16known}{}Known (TSA, Chapter 13)', r'\hypertarget{c16known}{}Cunoscut (TSA, Capitolul 13)'),
            [T('manias in history; the right-tailed ADF, SADF, GSADF and BSADF with Monte Carlo critical values', 'maniile din istorie; ADF pe coada din dreapta, SADF, GSADF și BSADF cu valori critice Monte Carlo'),
             T('the LPPL equation, the two-step calibration, the confidence indicator', 'ecuația LPPL, calibrarea în doi pași, indicatorul de încredere')]),
           (T('New: the research layer', 'Nou: nivelul de cercetare'),

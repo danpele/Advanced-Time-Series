@@ -227,16 +227,16 @@ ga = N['gjr_assets']
 GA = {'.SPX': 'spx', '.GDAXI': 'dax', '.FTSE': 'ftse', '.N225': 'nik', '.STOXX50E': 'sx', '.FCHI': 'cac', 'btc': 'btc'}
 for k, kk in GA.items():
     r = ga[k]
-    P(f'ga.{kk}.H', r['H'], 2)
-    P(f'ga.{kk}.Hn', r['Hn'], 2)
+    P(f'ga.{kk}.H', r['H'], 3)    # three decimals, as in Seminar 10 (B3, B4)
+    P(f'ga.{kk}.Hn', r['Hn'], 3)
     P(f'ga.{kk}.d', r['d'], 2)
     if 'Hp' in r:
         P(f'ga.{kk}.Hp', r['Hp'], 2)
         P(f'ga.{kk}.Hpn', r['Hpn'], 2)
         P(f'ga.{kk}.sh', 100 * r['sharep'], 0)
 Hs_ = [ga[k]['H'] for k in GA]
-P('ga.min', min(Hs_), 2)
-P('ga.max', max(Hs_), 2)
+P('ga.min', min(Hs_), 3)
+P('ga.max', max(Hs_), 3)
 P('ga.ftsesh', 100 * ga['.FTSE']['share'], 0)
 nz = N['noise']
 for H_ in ('0.1', '0.3', '0.5'):
@@ -515,7 +515,7 @@ D.frame(T('GPH: the log-periodogram regression', 'GPH: regresia pe logaritmul pe
     \[ \sqrt m(\hat d_{GPH} - d) \to N(0, \pi^2/24) \]''',
      [T(r'origin of $\pi^2/24$: $\Var(\hat d) = \dfrac{\pi^2/6}{4\sum_j\nu_j^2}$, with $\nu_j = \log j - \overline{\log j}$ the centred regressor and $\sum_j\nu_j^2 \sim m$',
         r'originea lui $\pi^2/24$: $\Var(\hat d) = \dfrac{\pi^2/6}{4\sum_j\nu_j^2}$, cu $\nu_j = \log j - \overline{\log j}$ regresorul centrat și $\sum_j\nu_j^2 \sim m$')]),
-    (T(r'Bias for ARFIMA \refHDB: $\E\hat d - d \approx -\dfrac{2\pi^2}{9}\dfrac{f^{*\prime\prime}(0)}{f^*(0)}\dfrac{m^2}{n^2}$', r'Deplasarea pentru ARFIMA \refHDB: $\E\hat d - d \approx -\dfrac{2\pi^2}{9}\dfrac{f^{*\prime\prime}(0)}{f^*(0)}\dfrac{m^2}{n^2}$'),
+    (T(r'Bias of order $(m/n)^2$ (formula on the bandwidth slide below)', r'Deplasarea este de ordinul $(m/n)^2$ (formula pe slide-ul despre lățimea de bandă, mai jos)'),
      [T('the condition $m^5/n^4 \\to 0$ makes the bias negligible relative to the standard deviation $m^{-1/2}$', 'condiția $m^5/n^4 \\to 0$ face deplasarea neglijabilă față de abaterea standard $m^{-1/2}$')])), 'small')
 
 D.frame(T('Local Whittle (1/2): the objective', 'Local Whittle (1/2): funcția obiectiv'), items(
@@ -571,7 +571,7 @@ interp(('the Monte Carlo', 'experimentului Monte Carlo'), [
     T('For series that may be non-stationary (prices, inflation in levels, log RV with $d$ near 0.5) report ELW', 'Pentru seriile care pot fi nestaționare (prețuri, inflația în nivel, logaritmul RV cu $d$ aproape de 0,5) raportați ELW')])
 
 D.frame(T('Bandwidth: bias against variance', 'Lățimea de bandă: deplasare și varianță'), items(
-    (T(r'Leading bias (GPH and LW): the curvature of $\log f^*$ near zero leaks into the slope', r'Deplasarea principală (GPH și LW): curbura lui $\log f^*$ lîngă zero trece în pantă'
+    (T(r'Leading bias (GPH and LW) \refHDB: the curvature of $\log f^*$ near zero leaks into the slope', r'Deplasarea principală (GPH și LW) \refHDB: curbura lui $\log f^*$ lîngă zero trece în pantă'
        ) + r'''
     \[ \E\hat d - d \approx -\frac{2\pi^2}{9}\,\frac{f^{*\prime\prime}(0)}{f^*(0)}\Big(\frac mn\Big)^2 = C\Big(\frac mn\Big)^2 \]''',
      [T(r'from regressing $\log f^*(\lambda_j) \approx \log f^*(0) + b\lambda_j^2$, $b = \tfrac12f^{*\prime\prime}(0)/f^*(0)$, on $-2\nu_j$; $C$: the bias constant',
@@ -892,8 +892,7 @@ chart(T('Replicating the scaling on the S\\&P 500', 'Replicarea scalării pe S\\
 interp(('the scaling', 'scalării'), [
     T(r'$\zeta_q$ = @{gj.z0}, @{gj.z1}, @{gj.z2}, @{gj.z3}, @{gj.z4} for $q$ = 0.5, 1, 1.5, 2, 3: linear in $q$, $\hat H = @{gj.H}$', r'$\zeta_q$ = @{gj.z0}; @{gj.z1}; @{gj.z2}; @{gj.z3}; @{gj.z4} pentru $q$ = 0,5; 1; 1,5; 2; 3: liniar în $q$, $\hat H = @{gj.H}$'),
     T(r'Vol-of-vol $\hat\nu = @{gj.nu}$ from $m(2, \Delta) = \nu^2\Delta^{2H}$; subsamples: @{gj.s1} (2000--2010), @{gj.s2} (2011--2022)', r'Volatilitatea volatilității $\hat\nu = @{gj.nu}$ din $m(2, \Delta) = \nu^2\Delta^{2H}$; subeșantioane: @{gj.s1} (2000--2010), @{gj.s2} (2011--2022)'),
-    T(r'The paper\'s result replicates: roughly $H \approx 0.1$ to 0.15, stable over time', r'Rezultatul lucrării se replică: aproximativ $H \approx 0{,}1$--0,15, stabil în timp'),
-    T(r'Link with Section 1: on the ARFIMA scale this is $d = H + 1/2 \approx @{gj.dH}$, close to the local Whittle $\hat d$ of log RV', r'Legătura cu secțiunea 1: pe scara ARFIMA aceasta înseamnă $d = H + 1/2 \approx @{gj.dH}$, aproape de $\hat d$ local Whittle al logaritmului RV')])
+    T(r'The paper\'s result replicates: roughly $H \approx 0.1$ to 0.15, stable over time', r'Rezultatul lucrării se replică: aproximativ $H \approx 0{,}1$--0,15, stabil în timp')])
 
 D.frame(T('The RFSV model', 'Modelul RFSV'), items(
     (T(r'\refGJR: rough fractional stochastic volatility (RFSV), log volatility a fractional Ornstein--Uhlenbeck (OU) process', r'\refGJR: rough fractional stochastic volatility (RFSV), logaritmul volatilității este un proces Ornstein--Uhlenbeck (OU) fracționar'
@@ -902,7 +901,7 @@ D.frame(T('The RFSV model', 'Modelul RFSV'), items(
      [T(r'$\nu$: volatility of volatility; $m$: long-run mean of $X$; $\alpha > 0$: speed of mean reversion, very small',
         r'$\nu$: volatilitatea volatilității; $m$: media de termen lung a lui $X$; $\alpha > 0$: viteza revenirii la medie, foarte mică'),
       T(r'for $\alpha T \ll 1$ ($T$: sample span) the increments behave like those of $\nu W^H$; stationarity only shows at horizons of order $1/\alpha$', r'pentru $\alpha T \ll 1$ ($T$: lungimea eșantionului) creșterile se comportă ca ale lui $\nu W^H$; staționaritatea apare doar pe orizonturi de ordinul $1/\alpha$')]),
-    (T(r'The link with long memory: over observable horizons $\log\sigma$ is close to a non-stationary fBm with $H \approx 0.1$, whose ARFIMA reading is $d = H + 1/2 \approx 0.6$', r'Legătura cu memoria lungă: pe orizonturile observabile, $\log\sigma$ este aproape de o fBm nestaționară cu $H \approx 0{,}1$, a cărei lectură ARFIMA este $d = H + 1/2 \approx 0{,}6$'),
+    (T(r'The link with long memory: over observable horizons $\log\sigma$ is close to a non-stationary fBm with $H \approx 0.1$, whose ARFIMA reading is $d = H + 1/2$ (@{gj.dH} for the S\&P 500, close to the local Whittle $\hat d$ of log RV)', r'Legătura cu memoria lungă: pe orizonturile observabile, $\log\sigma$ este aproape de o fBm nestaționară cu $H \approx 0{,}1$, a cărei lectură ARFIMA este $d = H + 1/2$ (@{gj.dH} pentru S\&P 500, aproape de $\hat d$ local Whittle al logaritmului RV)'),
      [T('GJR show that local Whittle and similar estimators applied to RFSV simulations return the ``long-memory\'\' values found in the literature', 'GJR arată că local Whittle și estimatori similari aplicați simulărilor RFSV dau valorile de „memorie lungă” găsite în literatură')]),
     (T(r'Pricing: rough Bergomi \refBFG\ and rough Heston \refER', r'Evaluarea opțiunilor: rough Bergomi \refBFG\ și rough Heston \refER'),
      [T(r'both fit the term structure of the implied-volatility skew, $\propto \tau^{H-1/2}$ ($\tau$: option maturity), with few parameters',

@@ -24,7 +24,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ats_build import Deck, Values, items, cols, table, photo, ql   # noqa: E402
 from ats_chapters import TITLES, SELF_STUDY                         # noqa: E402
-from ch0_common import BIB, REFS, T, day, finalize, load, month, quarter   # noqa: E402
+from ch0_common import BIB, REFS, T, day, finalize, load, load_sem, month, quarter   # noqa: E402
 
 SITE = 'https://danpele.github.io/Advanced-Time-Series/'
 TSA_SITE = 'https://danpele.github.io/Time-Series-Analysis/'
@@ -163,6 +163,10 @@ for k, r in TB.items():
     P(f't.{k}.rs', r['ratio_sb'], 2)
     V.int(f't.{k}.T', r['T'])
 P('t.sp.cv', TB['sp']['cv_llsw'], 2)
+# one stationary-bootstrap standard error per series across the chapter: the squared S&P 500 returns as on the
+# slide "Three bootstraps of one mean" (1999 resamples), EUR/RON as in Seminar 0, B6
+P('t.sq.se_sb', BO['se_sb'], 3)
+P('t.eur.se_sb', load_sem()['B6']['se_sb'], 4)
 P('t.sp.ann', 252 * TB['sp']['mean'], 1)
 
 TS = N['ts']
@@ -288,9 +292,9 @@ frame('⟦Lectures and seminars||Cursuri și seminarii⟧', items(
       '⟦each lecture ends with a section on AI for scientific discovery||fiecare curs se încheie cu o secțiune despre AI în descoperirea științifică⟧']),
     ('⟦\\textbf{Seminars}: each seminar comes \\emph{before} its lecture and opens with the notions it needs||\\textbf{Seminarii}: fiecare seminar are loc \\emph{înaintea} cursului și începe cu noțiunile necesare⟧',
      ['⟦Part A: derivations; Part B: estimation and inference on data, each exercise closing with an interpretation question; Part C: open problems that can seed the project||Partea A: derivări; Partea B: estimare și inferență pe date, fiecare exercițiu încheindu-se cu o întrebare de interpretare; Partea C: probleme deschise, care pot deveni idei de proiect⟧',
-      '⟦[Solved] exercises with full solutions and [Proposed] exercises discussed in class||exerciții [Rezolvat], cu soluții complete, și exerciții [Propus], discutate la seminar⟧',
+      '⟦exercises marked [Solved], with full solutions, and exercises marked [Proposed], discussed in class||exerciții [Rezolvat], cu soluții complete, și exerciții [Propus], discutate la seminar⟧',
       '⟦every seminar includes the critique of an answer given by an AI tool||fiecare seminar include analiza critică a unui răspuns dat de un instrument AI⟧']),
-    '⟦Seminars are practice and are not graded; the solutions of the [Proposed] exercises are discussed in class||Seminarul are rol de exercițiu și nu se notează; rezolvările cerințelor [Propus] se discută la seminar⟧'),
+    '⟦Seminars are practice and are not graded||Seminarul are rol de exercițiu și nu se notează⟧'),
     'footnotesize')
 
 frame('⟦The team project||Proiectul de echipă⟧', items(
@@ -533,7 +537,7 @@ frame('⟦Martingale differences and their central limit theorem||Diferențele d
 frame('⟦Central limit theorems beyond martingale differences (1/2)||Teoreme limită centrală dincolo de diferențele de martingală (1/2)⟧', items(
     ('⟦\\textbf{Mixing CLT} \\refIbragimov: if $x_t$ is stationary and||\\textbf{TLC pentru procese mixing} \\refIbragimov: dacă $x_t$ este staționar și⟧',
      ['$E|x_t|^{2+\\delta} < \\infty$, $\\quad \\sum_m \\alpha(m)^{\\delta/(2+\\delta)} < \\infty$, $\\quad \\Omega > 0$ $\\;\\Rightarrow\\;$ $\\sqrt{T}(\\bar x - \\mu) \\to_d N(0, \\Omega)$',
-      '⟦$\\delta > 0$: the number of moments beyond the second; $\\alpha(m)$: the mixing coefficient of the previous section||$\\delta > 0$: numărul de momente peste ordinul doi; $\\alpha(m)$: coeficientul de mixing din secțiunea anterioară⟧',
+      '⟦$\\delta > 0$: the number of moments beyond the second; $\\alpha(m)$: the strong mixing coefficient defined above||$\\delta > 0$: numărul de momente peste ordinul doi; $\\alpha(m)$: coeficientul de mixing tare definit mai sus⟧',
       '⟦trade-off: more moments (larger $\\delta$) allow slower mixing; the first CLT under strong mixing is \\refRosenblatt||compromis: mai multe momente ($\\delta$ mai mare) permit un mixing mai lent; prima TLC sub mixing tare este \\refRosenblatt⟧']),
     ('⟦\\textbf{Linear processes} \\refPS: $x_t - \\mu = \\sum\\psi_j\\varepsilon_{t-j}$ with i.i.d.\\ or MDS $\\varepsilon_t$ and $\\sum j|\\psi_j| < \\infty$||\\textbf{Procese liniare} \\refPS: $x_t - \\mu = \\sum\\psi_j\\varepsilon_{t-j}$ cu $\\varepsilon_t$ i.i.d.\\ sau MDS și $\\sum j|\\psi_j| < \\infty$⟧',
      ['⟦the condition on $\\psi_j$ requires the effect of a shock to die out fast enough||condiția asupra lui $\\psi_j$ cere ca efectul unui șoc să se stingă suficient de repede⟧'])))
@@ -590,7 +594,7 @@ frame('⟦Estimating the long-run variance||Estimarea varianței de termen lung�
      ['⟦high-order $\\hat\\gamma_j$ use few pairs and are mostly noise||autocovarianțele $\\hat\\gamma_j$ de ordin mare folosesc puține perechi și sînt în mare parte zgomot⟧']),
     ('⟦\\textbf{Kernel estimator}: a weighted sum of sample autocovariances||\\textbf{Estimatorul prin nucleu}: o sumă ponderată a autocovarianțelor de selecție⟧',
      ['$\\hat\\Omega = \\sum_{|j|<T} k(j/S)\\,\\hat\\gamma_j$, $\\quad k(0) = 1$, $\\quad k(x)$ ⟦decreasing in $|x|$||descrescătoare în $|x|$⟧',
-      '⟦$k(j/S)$: the weight of lag $j$; $S$: the bandwidth; equivalently a smoothed periodogram at frequency 0, $\\hat\\Omega = 2\\pi\\hat f(0)$ \\refSS||$k(j/S)$: ponderea lagului $j$; $S$: lățimea de bandă; echivalent, o periodogramă netezită la frecvența 0, $\\hat\\Omega = 2\\pi\\hat f(0)$ \\refSS⟧']),
+      '⟦equivalently, a smoothed periodogram at frequency 0: $\\hat\\Omega = 2\\pi\\hat f(0)$ \\refSS||echivalent, o periodogramă netezită la frecvența 0: $\\hat\\Omega = 2\\pi\\hat f(0)$ \\refSS⟧']),
     ('⟦Consistency: $S \\to \\infty$ and $S/T \\to 0$, under mixing and moment conditions \\refAndrews||Consistență: $S \\to \\infty$ și $S/T \\to 0$, sub condiții de mixing și de momente \\refAndrews⟧',
      ['⟦the down-weighted lags create bias, the included ones create variance: $S$ balances the two||lagurile subponderate produc deplasare, cele incluse produc varianță: $S$ echilibrează cele două⟧']),
     '⟦A variance estimator must be nonnegative: not every kernel guarantees this||Un estimator de varianță trebuie să fie nenegativ: nu orice nucleu garantează acest lucru⟧'))
@@ -621,7 +625,7 @@ frame('⟦A truncated kernel can give a negative variance||Un nucleu trunchiat p
     '⟦Lesson: a negative variance is not a numerical accident; it is a property of the kernel (Seminar 0, A3--A4)||Lecția: o varianță negativă nu este un accident numeric; este o proprietate a nucleului (Seminarul 0, A3--A4)⟧'))
 
 chart('⟦Kernels||Nucleele⟧', 'ats_ch0_kernels', 'ATS_ch0_long_run_variance', [
-    '⟦Weight $k(x)$ against $x = j/S$, the lag relative to the bandwidth; Bartlett: $1 - |x|$ ($|x| \\le 1$)||Ponderea $k(x)$ în funcție de $x = j/S$, lagul raportat la lățimea de bandă; Bartlett: $1 - |x|$ ($|x| \\le 1$)⟧',
+    '⟦Weight $k(x)$ against $x = j/S$, the lag relative to the bandwidth; Bartlett as in the Newey--West case study||Ponderea $k(x)$ în funcție de $x = j/S$, lagul raportat la lățimea de bandă; Bartlett ca în studiul de caz Newey--West⟧',
     '⟦Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \\le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \\le 1$); QS (quadratic spectral): $\\frac{25}{12\\pi^2x^2}\\big[\\frac{\\sin(6\\pi x/5)}{6\\pi x/5} - \\cos(6\\pi x/5)\\big]$, all lags||Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \\le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \\le 1$); QS (quadratic spectral): $\\frac{25}{12\\pi^2x^2}\\big[\\frac{\\sin(6\\pi x/5)}{6\\pi x/5} - \\cos(6\\pi x/5)\\big]$, toate lagurile⟧'],
     h='0.59\\textheight')
 
@@ -729,7 +733,7 @@ D.frame('⟦Size in numbers (\\%)||Mărimea în cifre (\\%)⟧', table(
                        ('andrews', '⟦NW, Andrews||NW, Andrews⟧'), ('qs', '⟦QS, Andrews||QS, Andrews⟧'),
                        ('llsw', '⟦NW, $1.3\\sqrt{T}$, fixed-$b$||NW, $1.3\\sqrt{T}$, fixed-$b$⟧'), ('ewc', 'EWC, $t_\\nu$'),
                        ('cbb', '⟦circular block bootstrap||bootstrap circular pe blocuri⟧'))], 'footnotesize') +
-    items('⟦Monte Carlo standard errors: about 0.3 pp near 5\\%, about 0.7 pp near 30\\% (bootstrap rows: about twice as large)||Erori standard Monte Carlo: aproximativ 0,3 pp în jurul valorii de 5\\%, aproximativ 0,7 pp în jurul valorii de 30\\% (rîndurile bootstrap: de aproximativ două ori mai mari)⟧'),
+    items('⟦Monte Carlo standard errors: about 0.7 pp near 30\\%; bootstrap rows: about twice as large||Erori standard Monte Carlo: aproximativ 0,7 pp în jurul valorii de 30\\%; rîndurile bootstrap: de aproximativ două ori mai mari⟧'),
     'footnotesize')
 
 interp('the Monte Carlo', 'studiului Monte Carlo', [
@@ -959,7 +963,7 @@ frame('⟦Seeds and Monte Carlo experiments||Semințe și experimente Monte Carl
     ('⟦One seed per project, set once: \\texttt{rng = np.random.default\\_rng(2026)}; pass \\texttt{rng} to every function||O singură sămînță pe proiect, fixată o dată: \\texttt{rng = np.random.default\\_rng(2026)}; transmiteți \\texttt{rng} fiecărei funcții⟧',
      ['⟦Parallel runs: \\texttt{np.random.SeedSequence(2026).spawn(k)} gives independent streams; never reuse a global state||Rulări paralele: \\texttt{np.random.SeedSequence(2026).spawn(k)} dă fluxuri independente; nu refolosiți niciodată o stare globală⟧']),
     ('⟦Report what makes a simulation checkable||Raportați ce face o simulare verificabilă⟧',
-     ['⟦DGP, $T$, number of replications $R$, burn-in, seed, Monte Carlo standard error $\\sqrt{p(1-p)/R}$||DGP, $T$, numărul de replicări $R$, valorile inițiale eliminate, sămînța, eroarea standard Monte Carlo $\\sqrt{p(1-p)/R}$⟧',
+     ['⟦DGP, $T$, number of replications $R$, burn-in, seed, Monte Carlo standard error||DGP, $T$, numărul de replicări $R$, valorile inițiale eliminate, sămînța, eroarea standard Monte Carlo⟧',
       '⟦Results must not depend on the seed beyond the Monte Carlo error: rerun with a second seed||Rezultatele nu trebuie să depindă de sămînță peste eroarea Monte Carlo: rulați din nou cu o a doua sămînță⟧']),
     '⟦Every chart and every number of this chapter is produced by one script with seed 2026 (Quantlets/Ch\\_00)||Fiecare grafic și fiecare cifră din acest capitol sînt produse de un singur script cu sămînța 2026 (Quantlets/Ch\\_00)⟧'))
 

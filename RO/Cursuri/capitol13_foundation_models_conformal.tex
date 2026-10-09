@@ -220,9 +220,9 @@ MSCA Digital Finance}
         \item predicția conformală: interschimbabilitate, split conformal, CQR, limitele acoperirii condiționate
         \item date dependente: ponderi, EnbPI, ACI, PID conformal; diagnosticare; calibrarea intervalelor produse de foundation models și VaR
     \end{itemize}
-    \item Cunoștințe necesare; Seminarul 13 are loc înaintea acestui curs
+    \item Cunoștințe necesare
     \begin{itemize}
-        \item \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol11_foundation_models_serii_timp.pdf}{TSA, Capitolul 11}: Chronos, TimesFM, Moirai, teste zero-shot, CRPS și WQL
+        \item Seminarul 13; \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol11_foundation_models_serii_timp.pdf}{TSA, Capitolul 11} (slide-ul \hyperlink{c13known}{\textcolor{MainBlue}{Cunoscut din TSA și elemente noi}})
         \item \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1} (reguli de scor, DM, MCS), \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9} (backtesting VaR, ACI pentru VaR), \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12} (arhitecturi deep)
     \end{itemize}
 \end{itemize}
@@ -304,7 +304,7 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
 \begin{frame}{Cunoscut din TSA și elemente noi}
 \itemsize{\small}
 \begin{itemize}
-    \item Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol11_foundation_models_serii_timp.pdf}{TSA, Capitolul 11})
+    \item \hypertarget{c13known}{}Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol11_foundation_models_serii_timp.pdf}{TSA, Capitolul 11})
     \begin{itemize}
         \item folosirea zero-shot a modelelor Chronos, TimesFM, Moirai și Lag-Llama; scalarea prin medie și cuantizarea, pe scurt
         \item pierderea pinball, CRPS, WQL, MASE; primele avertismente despre contaminare
@@ -768,7 +768,6 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
     \item \textbf{Contaminarea temporală}
     \begin{itemize}
         \item fereastra de test precede data-limită a antrenării: modelul poate să fi văzut rezultatele altor serii, corelate, din aceeași perioadă
-        \item LLM-urile reproduc valori economice exacte din perioada dinaintea datei-limită \refLTZ
         \item un design cu două seturi de date împotriva contaminării, pentru prețurile electricității \refPE
     \end{itemize}
     \item Designuri care ajută
@@ -1678,10 +1677,7 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
     \begin{itemize}
         \item calibrarea greșită este situația implicită, în ambele sensuri (benzi prea înguste sau prea largi)
     \end{itemize}
-    \item Majoritatea modelelor dau doar cuantilele de 10\%--90\%
-    \begin{itemize}
-        \item un interval de 95\% sau un VaR 1\% cere extrapolare dincolo de nivelurile antrenate
-    \end{itemize}
+    \item Majoritatea modelelor dau doar decile (secțiunea 2): un interval de 95\% sau un VaR 1\% depășește nivelurile lor antrenate
     \item Procedura: CQR online pe banda proprie de 10\%--90\% a modelului \[ S_t = \max\{\hat q_{0{,}1,t} - y_t,\; y_t - \hat q_{0{,}9,t}\}, \qquad \hat C_t = [\hat q_{0{,}1,t} - q_t,\; \hat q_{0{,}9,t} + q_t] \]
     \begin{itemize}
         \item $\hat q_{0{,}1,t}$, $\hat q_{0{,}9,t}$: cuantilele de 10\% și 90\% prognozate de model pentru perioada $t$; $S_t$: scorul CQR

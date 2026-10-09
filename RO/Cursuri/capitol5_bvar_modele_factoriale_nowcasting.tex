@@ -283,8 +283,9 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
     \end{itemize}
     \item Trei remedii
     \begin{itemize}
-        \item shrinkage: distribuții a priori bayesiene, ridge, LASSO
-        \item reducerea dimensiunii: factori; selecția variabilelor
+        \item shrinkage (distribuții a priori bayesiene, ridge, LASSO): o deplasare mică în schimbul unei reduceri mari a varianței
+        \item reducerea dimensiunii prin factori: cîteva componente comune rezumă multe serii
+        \item selecția variabilelor: se păstrează doar o parte dintre regresori
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -308,15 +309,6 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
     \item BVAR: 1{,}25 pentru $n = 24$; gradul de strîngere ales prin verosimilitatea marginală scade de la 0{,}31 ($n = 2$) la 0{,}14 ($n = 24$)
     \item Un AR(4) univariat rămîne în jurul valorii 1{,}08: informația dintre variabile există, dar este mică, iar OLS o irosește pe zgomot
     \item Cu cît sistemul este mai mare, cu atît distribuția a priori trebuie să fie mai strînsă: tema întregului capitol \refDGRa
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: blestemul dimensionalității}
-\itemsize{\small}
-\begin{itemize}
-    \item Parametrii cresc cu $n^2p$; observațiile nu
-    \item Shrinkage-ul acceptă o deplasare mică în schimbul unei reduceri mari a varianței
-    \item Factorii rezumă multe serii prin cîteva componente comune
 \end{itemize}
 \end{frame}
 
@@ -409,7 +401,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \begin{frame}{Verosimilitatea marginală și factorii Bayes}
 \itemsize{\small}
 \begin{itemize}
-    \item $p(y\mid M) = \int p(y\mid\theta, M)p(\theta\mid M)\,d\theta$: densitatea datelor \emph{înainte} de a le vedea
+    \item \hypertarget{ch5ml}{}$p(y\mid M) = \int p(y\mid\theta, M)p(\theta\mid M)\,d\theta$: densitatea datelor \emph{înainte} de a le vedea
     \begin{itemize}
         \item $M$: un model, adică o verosimilitate împreună cu distribuția ei a priori; integrala mediază verosimilitatea după distribuția a priori
         \item descompunerea erorilor de predicție: $\ln p(y) = \sum_t \ln p(y_t\mid y_{1:t-1})$, o sumă de scoruri logaritmice la un pas (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}); $y_{1:t-1}$: datele pînă la $t - 1$
@@ -512,15 +504,6 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
         \item același model, aceeași distribuție a posteriori a pantei (media 0{,}0123); s-a schimbat doar eșantionatorul
     \end{itemize}
     \item Lecția: reparametrizați sau extrageți împreună blocurile corelate; BVAR-urile conjugate evită problema extrăgînd $B$ într-un singur bloc
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: inferența bayesiană}
-\itemsize{\small}
-\begin{itemize}
-    \item Precizia a posteriori = precizia a priori + precizia datelor; media este o medie ponderată
-    \item Verosimilitatea marginală evaluează un model împreună cu distribuția lui a priori și poate alege hiperparametri
-    \item Eșantionarea Gibbs cere distribuțiile condiționate complete; verificați ESS, $\widehat R$ și Geweke înainte de a avea încredere în extrageri
 \end{itemize}
 \end{frame}
 
@@ -629,15 +612,6 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recapitulare: distribuțiile a priori Minnesota și NIW}
-\itemsize{\small}
-\begin{itemize}
-    \item Minnesota: centrăm fiecare ecuație pe un mers aleator sau pe zgomot alb; strîngem mai mult lagurile îndepărtate și celelalte variabile
-    \item Forma natural conjugată păstrează formulele închise cu prețul $\vartheta = 1$
-    \item Observațiile fictive implementează distribuția a priori prin OLS și adaugă convingeri despre suma coeficienților și observația inițială
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Alegerea shrinkage-ului: distribuții a priori ierarhice}
@@ -651,7 +625,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
         \item $p(y\mid\gamma)$ este cunoscută în formă închisă pentru distribuția NIW cu observații fictive: datele plus observațiile fictive, minus observațiile fictive singure
         \item distribuții a priori pentru hiperparametri: Gamma cu modul 0,2 și abaterea standard 0,4 pentru $\lambda$, modul 1 și abaterea standard 1 pentru $\mu$ și $\phi$
     \end{itemize}
-    \item Interpretare: verosimilitatea marginală este un scor în afara eșantionului al densităților predictive la un pas (secțiunea anterioară)
+    \item Interpretare: verosimilitatea marginală este un scor în afara eșantionului al densităților predictive la un pas (slide-ul \hyperlink{ch5ml}{\textcolor{MainBlue}{Verosimilitatea marginală și factorii Bayes}})
     \begin{itemize}
         \item deci echilibrează potrivirea și complexitatea fără un eșantion de evaluare
     \end{itemize}
@@ -703,15 +677,6 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
         \item intervalul 10\%--90\% al modului MEDIUM între ferestre: [0{,}23; 0{,}33]
     \end{itemize}
     \item Pachetul Python \texttt{bvar} al Băncii Angliei implementează optimizarea GLP pentru modelul conjugat; notebook-ul îl compară cu codul nostru \texttt{numpy}
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: distribuții a priori ierarhice}
-\itemsize{\small}
-\begin{itemize}
-    \item Verosimilitatea marginală alege shrinkage-ul; acesta scade cînd sistemul crește
-    \item Distribuțiile pentru suma coeficienților și observația inițială se aleg la fel
-    \item O regulă de potrivire este o alternativă transparentă atunci cînd evaluarea trebuie să reproducă un studiu publicat
 \end{itemize}
 \end{frame}
 
@@ -832,15 +797,6 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
     \item IPC: anomalia prețurilor scade de la 0{,}26\% (SMALL) la 0{,}13\% (LARGE); după patru ani LARGE dă \ensuremath{-}0{,}43\% (banda [\ensuremath{-}0{,}97; 0{,}11])
     \item Ca în BGR: mai multă informație face răspunsul ocupării mai puțin persistent și răspunsul prețurilor mai plauzibil
     \item Benzile nu se lărgesc cu 102 variabile: distribuția a priori compensează coeficienții suplimentari
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: modele BVAR mari}
-\itemsize{\small}
-\begin{itemize}
-    \item Cu un shrinkage care crește odată cu sistemul, un VAR cu 102 variabile prognozează mai bine decît un VAR cu 3 variabile estimat prin OLS
-    \item Rezultatele BGR pentru 1971--2003 se replică pe datele actuale; după 2020 BVAR-ul homoscedastic eșuează
-    \item Seturile mari de informații reduc anomalia prețurilor din VAR-urile monetare mici
 \end{itemize}
 \end{frame}
 
@@ -1037,15 +993,6 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
     \item 1999--2019: cîștigurile dispar (IP 1{,}07, ocupare 1{,}09, inflație 1{,}35): Marea Moderație a făcut activitatea mai puțin previzibilă din panel
     \item BIC alege în mediană 7 factori (10\%--90\%: 5--12) pentru DI-AR, Lag la $h = 12$
     \item Shrinkage-ul bayesian și componentele principale dau prognoze puternic corelate în panelurile mari \refDGRa: două căi pentru aceeași informație
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: modele factoriale}
-\itemsize{\small}
-\begin{itemize}
-    \item Cîțiva factori rezumă o sută de serii; PCA estimează consistent spațiul factorilor cînd $N, T \to \infty$
-    \item Criteriile Bai--Ng aleg numărul de factori; verificați sensibilitatea lor
-    \item Indicii de difuziune au ajutat mult înainte de 1999 și mult mai puțin după: evaluați pe mai multe perioade
 \end{itemize}
 \end{frame}
 
@@ -1393,16 +1340,6 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
     \item Publicarea IP pentru iulie a fost cu \ensuremath{-}3{,}7 pp sub așteptarea modelului; cu ponderea 0{,}073 a redus nowcast-ul cu \ensuremath{-}0{,}27 pp; ESI \ensuremath{-}0{,}13, IP din zona euro \ensuremath{-}0{,}12
     \item Alte modele la sfîrșitul lui septembrie: DFM EM 0{,}08\%, punte \ensuremath{-}0{,}64\%, AR 0{,}76\%: prima estimare oficială pentru T3 2026 le va judeca
     \item Descompunerea în știri transformă o cifră într-o explicație pe care o bancă centrală o poate verifica publicare cu publicare
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: nowcasting}
-\itemsize{\small}
-\begin{itemize}
-    \item Nowcasting = filtrarea unui sistem cu frecvențe mixte și date incomplete la sfîrșitul eșantionului
-    \item Ecuațiile punte, MIDAS și DFM folosesc aceeași legătură Mariano--Murasawa între luni și trimestre
-    \item Pentru România, datele lunare îmbunătățesc nowcast-ul spre sfîrșitul trimestrului; cîștigul este modest și nesemnificativ
-    \item Orice revizuire se descompune exact în știri cînd parametrii sînt ficși
 \end{itemize}
 \end{frame}
 

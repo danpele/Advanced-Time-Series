@@ -258,7 +258,11 @@ VIX & EODHD daily closes & regressor of the joint (VaR, ES) regression \\
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item Daily log returns in \%; ten in-sample years as in Patton, Ziegel and Chen (2019), five for Bitcoin; stress periods: September 2008 -- March 2009, February -- June 2020, 2022, March -- June 2025
+    \item Daily log returns in \%; ten in-sample years, as in Patton, Ziegel and Chen (2019), five for Bitcoin
+    \item Four stress periods, fixed before looking at the losses
+    \begin{itemize}
+        \item September 2008 -- March 2009; 19 February -- 30 June 2020; the calendar year 2022; March -- June 2025
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -785,7 +789,7 @@ ADAPT & 1.190 (0.069) & -- & -- & -- & 4.044 & 0.9 & 0.8 & 27.5 ($<$0.001) \\
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item Standard errors from the asymptotic covariance of EM; RQ: the minimised in-sample criterion; DQ out of sample with four lagged hits and the VaR, $\chi^2_6$; 500 days give 5 expected hits
+    \item Standard errors from the asymptotic covariance of EM; RQ: the minimised in-sample criterion; DQ out of sample with four lagged hits and the VaR, $\chi^2_6$
     \item Out-of-sample average pinball loss ($\times10^2$): SAV 3.87, AS 3.66, IG 3.66, adaptive 4.42
 \end{itemize}
 \end{frame}
@@ -1259,9 +1263,8 @@ Hybrid & 0.869 & 0.869 & 1.051 & 1.034 & $<$0.001 & $<$0.001 \\
 \begin{itemize}
     \item Ten PZC models, $\alpha$ = 2.5\%, FZ0 losses out of sample: S\&P 500 and DAX from 2000, BET from 2010, EUR/RON from July 2015, Bitcoin from 2020
     \item 90\% MCS with the $T_{\max}$ statistic, moving-block bootstrap (blocks of 10 days over the whole period, 5 days in a stress period), 1000 replications
-    \item Stress periods fixed before looking at the losses
+    \item The four stress periods of the data slide: 2008, 2020, 2022 and 2025
     \begin{itemize}
-        \item 2008: September 2008 -- March 2009; 2020: 19 February -- 30 June 2020; 2022: the calendar year; 2025: March -- June 2025
         \item S\&P 500 in 2020: 93 days, of which 9 GAS-1F hits; in 2025: 83 days, 5 hits
     \end{itemize}
     \item A stress window holds a few tail days: expect wide MCS sets and unstable winners

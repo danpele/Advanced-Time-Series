@@ -520,7 +520,7 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
     \begin{itemize}
         \item origin of $\pi^2/24$: $\Var(\hat d) = \dfrac{\pi^2/6}{4\sum_j\nu_j^2}$, with $\nu_j = \log j - \overline{\log j}$ the centred regressor and $\sum_j\nu_j^2 \sim m$
     \end{itemize}
-    \item Bias for ARFIMA \refHDB: $\E\hat d - d \approx -\dfrac{2\pi^2}{9}\dfrac{f^{*\prime\prime}(0)}{f^*(0)}\dfrac{m^2}{n^2}$
+    \item Bias of order $(m/n)^2$ (formula on the bandwidth slide below)
     \begin{itemize}
         \item the condition $m^5/n^4 \to 0$ makes the bias negligible relative to the standard deviation $m^{-1/2}$
     \end{itemize}
@@ -617,7 +617,7 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \begin{frame}{Bandwidth: bias against variance}
 \itemsize{\small}
 \begin{itemize}
-    \item Leading bias (GPH and LW): the curvature of $\log f^*$ near zero leaks into the slope
+    \item Leading bias (GPH and LW) \refHDB: the curvature of $\log f^*$ near zero leaks into the slope
     \[ \E\hat d - d \approx -\frac{2\pi^2}{9}\,\frac{f^{*\prime\prime}(0)}{f^*(0)}\Big(\frac mn\Big)^2 = C\Big(\frac mn\Big)^2 \]
     \begin{itemize}
         \item from regressing $\log f^*(\lambda_j) \approx \log f^*(0) + b\lambda_j^2$, $b = \tfrac12f^{*\prime\prime}(0)/f^*(0)$, on $-2\nu_j$; $C$: the bias constant
@@ -1185,7 +1185,6 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
     \item $\zeta_q$ = 0.073, 0.146, 0.220, 0.295, 0.452 for $q$ = 0.5, 1, 1.5, 2, 3: linear in $q$, $\hat H = 0.149$
     \item Vol-of-vol $\hat\nu = 0.35$ from $m(2, \Delta) = \nu^2\Delta^{2H}$; subsamples: 0.140 (2000--2010), 0.155 (2011--2022)
     \item The paper's result replicates: roughly $H \approx 0.1$ to 0.15, stable over time
-    \item Link with Section 1: on the ARFIMA scale this is $d = H + 1/2 \approx 0.65$, close to the local Whittle $\hat d$ of log RV
 \end{itemize}
 \end{frame}
 
@@ -1198,7 +1197,7 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
         \item $\nu$: volatility of volatility; $m$: long-run mean of $X$; $\alpha > 0$: speed of mean reversion, very small
         \item for $\alpha T \ll 1$ ($T$: sample span) the increments behave like those of $\nu W^H$; stationarity only shows at horizons of order $1/\alpha$
     \end{itemize}
-    \item The link with long memory: over observable horizons $\log\sigma$ is close to a non-stationary fBm with $H \approx 0.1$, whose ARFIMA reading is $d = H + 1/2 \approx 0.6$
+    \item The link with long memory: over observable horizons $\log\sigma$ is close to a non-stationary fBm with $H \approx 0.1$, whose ARFIMA reading is $d = H + 1/2$ (0.65 for the S\&P 500, close to the local Whittle $\hat d$ of log RV)
     \begin{itemize}
         \item GJR show that local Whittle and similar estimators applied to RFSV simulations return the ``long-memory'' values found in the literature
     \end{itemize}
@@ -1226,8 +1225,8 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \begin{frame}{Interpreting roughness across markets}
 \itemsize{\small}
 \begin{itemize}
-    \item RV: $H$ from 0.09 to 0.15 for six indices and Bitcoin (S\&P 500 0.15, DAX 0.13, Euro Stoxx 50 0.09, Bitcoin 0.10)
-    \item The error intercept changes little (S\&P 500 0.15); only for the FTSE 100 does it absorb 31\% of $m(2, 1)$
+    \item RV: $H$ from 0.093 to 0.149 for six indices and Bitcoin (S\&P 500 0.149, DAX 0.127, Euro Stoxx 50 0.093, Bitcoin 0.098)
+    \item The error intercept changes little (S\&P 500 0.148); only for the FTSE 100 does it absorb 31\% of $m(2, 1)$
     \item Parkinson range, a much noisier proxy: S\&P 500 0.09, DAX 0.07; with the intercept 0.15 and 0.11 (noise share 52\% and 42\%)
     \item Measurement error pushes $H$ down; the correction brings the range back near the RV estimate, but not above it
 \end{itemize}

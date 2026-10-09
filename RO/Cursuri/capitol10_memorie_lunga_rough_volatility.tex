@@ -533,7 +533,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
     \begin{itemize}
         \item originea lui $\pi^2/24$: $\Var(\hat d) = \dfrac{\pi^2/6}{4\sum_j\nu_j^2}$, cu $\nu_j = \log j - \overline{\log j}$ regresorul centrat și $\sum_j\nu_j^2 \sim m$
     \end{itemize}
-    \item Deplasarea pentru ARFIMA \refHDB: $\E\hat d - d \approx -\dfrac{2\pi^2}{9}\dfrac{f^{*\prime\prime}(0)}{f^*(0)}\dfrac{m^2}{n^2}$
+    \item Deplasarea este de ordinul $(m/n)^2$ (formula pe slide-ul despre lățimea de bandă, mai jos)
     \begin{itemize}
         \item condiția $m^5/n^4 \to 0$ face deplasarea neglijabilă față de abaterea standard $m^{-1/2}$
     \end{itemize}
@@ -630,7 +630,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \begin{frame}{Lățimea de bandă: deplasare și varianță}
 \itemsize{\small}
 \begin{itemize}
-    \item Deplasarea principală (GPH și LW): curbura lui $\log f^*$ lîngă zero trece în pantă
+    \item Deplasarea principală (GPH și LW) \refHDB: curbura lui $\log f^*$ lîngă zero trece în pantă
     \[ \E\hat d - d \approx -\frac{2\pi^2}{9}\,\frac{f^{*\prime\prime}(0)}{f^*(0)}\Big(\frac mn\Big)^2 = C\Big(\frac mn\Big)^2 \]
     \begin{itemize}
         \item din regresia lui $\log f^*(\lambda_j) \approx \log f^*(0) + b\lambda_j^2$, $b = \tfrac12f^{*\prime\prime}(0)/f^*(0)$, pe $-2\nu_j$; $C$: constanta deplasării
@@ -1198,7 +1198,6 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
     \item $\zeta_q$ = 0{,}073; 0{,}146; 0{,}220; 0{,}295; 0{,}452 pentru $q$ = 0,5; 1; 1,5; 2; 3: liniar în $q$, $\hat H = 0{,}149$
     \item Volatilitatea volatilității $\hat\nu = 0{,}35$ din $m(2, \Delta) = \nu^2\Delta^{2H}$; subeșantioane: 0{,}140 (2000--2010), 0{,}155 (2011--2022)
     \item Rezultatul lucrării se replică: aproximativ $H \approx 0{,}1$--0,15, stabil în timp
-    \item Legătura cu secțiunea 1: pe scara ARFIMA aceasta înseamnă $d = H + 1/2 \approx 0{,}65$, aproape de $\hat d$ local Whittle al logaritmului RV
 \end{itemize}
 \end{frame}
 
@@ -1211,7 +1210,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
         \item $\nu$: volatilitatea volatilității; $m$: media de termen lung a lui $X$; $\alpha > 0$: viteza revenirii la medie, foarte mică
         \item pentru $\alpha T \ll 1$ ($T$: lungimea eșantionului) creșterile se comportă ca ale lui $\nu W^H$; staționaritatea apare doar pe orizonturi de ordinul $1/\alpha$
     \end{itemize}
-    \item Legătura cu memoria lungă: pe orizonturile observabile, $\log\sigma$ este aproape de o fBm nestaționară cu $H \approx 0{,}1$, a cărei lectură ARFIMA este $d = H + 1/2 \approx 0{,}6$
+    \item Legătura cu memoria lungă: pe orizonturile observabile, $\log\sigma$ este aproape de o fBm nestaționară cu $H \approx 0{,}1$, a cărei lectură ARFIMA este $d = H + 1/2$ (0{,}65 pentru S\&P 500, aproape de $\hat d$ local Whittle al logaritmului RV)
     \begin{itemize}
         \item GJR arată că local Whittle și estimatori similari aplicați simulărilor RFSV dau valorile de „memorie lungă” găsite în literatură
     \end{itemize}
@@ -1239,8 +1238,8 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \begin{frame}{Interpretarea neregularității pe mai multe piețe}
 \itemsize{\small}
 \begin{itemize}
-    \item RV: $H$ între 0{,}09 și 0{,}15 pentru șase indici și Bitcoin (S\&P 500 0{,}15, DAX 0{,}13, Euro Stoxx 50 0{,}09, Bitcoin 0{,}10)
-    \item Termenul liber pentru eroare schimbă puțin (S\&P 500 0{,}15); doar pentru FTSE 100 absoarbe 31\% din $m(2, 1)$
+    \item RV: $H$ între 0{,}093 și 0{,}149 pentru șase indici și Bitcoin (S\&P 500 0{,}149, DAX 0{,}127, Euro Stoxx 50 0{,}093, Bitcoin 0{,}098)
+    \item Termenul liber pentru eroare schimbă puțin (S\&P 500 0{,}148); doar pentru FTSE 100 absoarbe 31\% din $m(2, 1)$
     \item Amplitudinea Parkinson, un proxy mult mai zgomotos: S\&P 500 0{,}09, DAX 0{,}07; cu termenul liber 0{,}15 și 0{,}11 (ponderea zgomotului 52\% și 42\%)
     \item Eroarea de măsurare împinge $H$ în jos; corecția aduce amplitudinea aproape de estimația din RV, dar nu peste ea
 \end{itemize}

@@ -348,15 +348,6 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
 \quantlet{ATS\_ch7\_hamilton}{\qlurl{ATS_ch7_hamilton}}
 \end{frame}
 
-\begin{frame}{Recapitulare: modelul}
-\itemsize{\small}
-\begin{itemize}
-    \item Un lanț Markov latent alege parametrii ecuației observațiilor
-    \item Literele lui Krolzig spun ce comută; MSM cere starea extinsă
-    \item Duratele sînt geometrice; $\lambda = p_{11} + p_{22} - 1$ măsoară persistența
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Filtrul Hamilton și netezitorul Kim}
@@ -405,7 +396,7 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
     \begin{itemize}
         \item sumăm după $j$: $\hat\xi_{t|T} = \hat\xi_{t|t}\odot\left[\mathbf{P}(\hat\xi_{t+1|T}\oslash\hat\xi_{t+1|t})\right]$, înapoi de la $\hat\xi_{T|T}$; $\oslash$: împărțirea element cu element
     \end{itemize}
-    \item Probabilitățile comune ale perechii $(S_t, S_{t+1})$ sînt pasul E al algoritmului EM; eșantionarea în locul sumării dă FFBS (secțiunea 7)
+    \item Probabilitățile comune ale perechii $(S_t, S_{t+1})$ sînt pasul E al algoritmului EM; eșantionarea în locul sumării dă FFBS (secțiunea \hyperlink{ch7bayes}{\textcolor{MainBlue}{Estimarea bayesiană}})
 \end{itemize}
 \end{frame}
 
@@ -422,15 +413,6 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
         \item datarea regimurilor trecute și ponderile pasului M
     \end{itemize}
     \item Confuzia lor este cea mai frecventă eroare în lucrările aplicate: o probabilitate netezită nu este o prognoză
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: filtru și netezitor}
-\itemsize{\small}
-\begin{itemize}
-    \item Filtrul: predicție cu $\mathbf{P}'$, actualizare cu Bayes, acumularea log-verosimilității
-    \item Netezitorul: o trecere înapoi cu raportul dintre probabilitățile netezite și cele prezise
-    \item Se lucrează în logaritmi; starea se extinde doar cînd comută media
 \end{itemize}
 \end{frame}
 
@@ -481,7 +463,7 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
     \end{itemize}
     \item Verosimilitatea este nemărginită: $\sigma_j \to 0$ în jurul unei observații, cu $p_{jj} \to 0$, dă $\ln L \to \infty$
     \begin{itemize}
-        \item remedii: o limită inferioară pentru $\sigma_j/\sigma_k$ \refHath, distribuții a priori (secțiunea 7) sau respingerea regimurilor care durează o singură perioadă
+        \item remedii: o limită inferioară pentru $\sigma_j/\sigma_k$ \refHath, distribuții a priori (secțiunea \hyperlink{ch7bayes}{\textcolor{MainBlue}{Estimarea bayesiană}}) sau respingerea regimurilor care durează o singură perioadă
     \end{itemize}
     \item Erorile standard lîngă frontieră ($p_{ii} \approx 1$) nu sînt de încredere: raportați verosimilitatea de profil sau intervale bootstrap
 \end{itemize}
@@ -522,15 +504,6 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
         \item aceasta este rădăcina problemei de testare din secțiunea următoare
     \end{itemize}
     \item Regimurile statistice nu sînt neapărat regimuri economice: aceleași date de PIB dau recesiuni (MSM), ere de volatilitate (MSIH) sau valori extreme izolate
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: estimarea}
-\itemsize{\small}
-\begin{itemize}
-    \item EM = netezitorul Kim + regresii ponderate + numărarea tranzițiilor
-    \item Multe puncte de pornire, apoi o rafinare numerică; inspectați fiecare maxim local
-    \item Maximele degenerate și schimbarea etichetelor sînt trăsături ale amestecurilor, nu erori ale codului
 \end{itemize}
 \end{frame}
 
@@ -591,15 +564,6 @@ EUR/RON & cursul de referință BCE pînă în iunie 2005, cursul de referință
     \item LR observat = 71{,}7, p-value-ul bootstrap 0{,}005 (cea mai mică posibilă cu $B = 199$): două regimuri
     \item Dar ce regimuri? Abaterile standard 0{,}46 și 1{,}11 pp, $p_{ii}$ = 0{,}990 și 0{,}985: ere de volatilitate (Marea Moderație), nu recesiuni
     \item BIC: 755{,}5 ($K = 1$), 706{,}4 ($K = 2$), 734{,}7 ($K = 3$); AIC: 744{,}5; 680{,}8; 687{,}0
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: numărul de regimuri}
-\itemsize{\small}
-\begin{itemize}
-    \item Parametri de perturbare neidentificați, o frontieră și un scor nul: nicio limită chi-pătrat
-    \item Folosiți p-value-uri bootstrap sau valori critice de tip Garcia; criterii informaționale pentru selecție
-    \item Un test semnificativ spune că modelul se potrivește mai bine, nu că regimurile înseamnă ce am sperat
 \end{itemize}
 \end{frame}
 
@@ -690,15 +654,6 @@ statsmodels & 1{,}164 & \ensuremath{-}0{,}359 & 0{,}013 & \ensuremath{-}0{,}058 
     \item QPS înainte de 2020: 0{,}127 în timp real față de 0{,}152 netezit; 0 semnale false peste 0,5
     \item \refCP: cu ediții în timp real, modelele MS semnalează începutul recesiunilor mai repede decît anunțul NBER, dar recesiunile ușoare sînt ratate
     \item Exercițiul nostru avantajează modelul: PIB-ul revizuit de azi nu era disponibil în 2001
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: studiul de caz Hamilton (1989)}
-\itemsize{\small}
-\begin{itemize}
-    \item Replicat exact pe datele lui cu două implementări independente
-    \item Același model pe datele de azi găsește contracții scurte și bruște și ratează 2001
-    \item Datarea se judecă în timp real cu probabilități filtrate, nu cu cele netezite
 \end{itemize}
 \end{frame}
 
@@ -835,7 +790,7 @@ tranziții constante & & 2{,}77 & $p_{00} = 0{,}983$ & $p_{11} = 0{,}14$ & \ensu
 \end{column}
 \begin{column}{0.68\textwidth}
 \begin{itemize}
-    \item \refLL: schimbările structurale ale varianței deplasează persistența GARCH $\alpha + \beta$ spre 1
+    \item \hypertarget{ch7msg}{}\refLL: schimbările structurale ale varianței deplasează persistența GARCH $\alpha + \beta$ spre 1
     \item \refHS: SWARCH, un ARCH a cărui scală comută după un lanț Markov; mare parte din persistență trece în lanț
     \item MSIH pe randamente: cel mai simplu model cu regimuri de volatilitate, deja un reper util pentru GARCH \refBoll
     \item \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol8_volatilitate_avansata.pdf}{Capitolul 8} dezvoltă măsurile realizate și GARCH multivariat; aici: ce fac regimurile cu GARCH
@@ -903,15 +858,6 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
     \item Persistența cu un singur regim 0{,}981; în interiorul regimurilor 0{,}964 (calm) și 0{,}998 (volatilitate ridicată): regimurile nu elimină automat persistența, ci o mută acolo unde îi este locul
     \item Comprimarea lui Gray se potrivește mai slab aici (\ensuremath{-}9207{,}4): aproximarea nu este inofensivă
     \item Maximele locale sînt frecvente: puncte de pornire diferite dau împărțiri diferite în regimuri (raportați întotdeauna schema punctelor de pornire)
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: regimurile de volatilitate}
-\itemsize{\small}
-\begin{itemize}
-    \item Regimurile de varianță și persistența GARCH sînt legate: raportați persistența din fiecare regim și pe cea a lanțului
-    \item Dependența de traiectorie: comprimare (Gray, Klaassen) sau procese GARCH paralele (HMP)
-    \item \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol8_volatilitate_avansata.pdf}{Capitolul 8} compară aceste modele cu măsurile realizate
 \end{itemize}
 \end{frame}
 
@@ -988,7 +934,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \begin{frame}{Eșantionarea Gibbs cu augmentarea datelor}
 \itemsize{\small}
 \begin{itemize}
-    \item Tratăm $S = (S_1, \dots, S_T)$ ca parametri \refAC: dat fiind $S$, modelul este un set de regresii; dat fiind $\theta$, $S$ este un lanț Markov ascuns
+    \item \hypertarget{ch7bayes}{}Tratăm $S = (S_1, \dots, S_T)$ ca parametri \refAC: dat fiind $S$, modelul este un set de regresii; dat fiind $\theta$, $S$ este un lanț Markov ascuns
     \begin{itemize}
         \item 1. $S \mid \theta, Y$; 2. $\mathbf{P} \mid S$: rîndurile $\sim$ Dirichlet$(a_{i\cdot} + n_{i\cdot})$, $n_{ij}$ numărul de tranziții, $a_{ij}$ parametrii Dirichlet a priori
         \item 3. $\mu_j \mid \sigma_j^2, S, Y \sim$ Normală și $\sigma_j^2 \mid \mu_j, S, Y \sim$ inverse gamma: actualizări conjugate pe observațiile regimului $j$ (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol5_bvar_modele_factoriale_nowcasting.pdf}{Capitolul 5})
@@ -1041,15 +987,6 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recapitulare: estimarea bayesiană}
-\itemsize{\small}
-\begin{itemize}
-    \item Augmentarea datelor transformă modelul cu schimbare de regim în regresii conjugate plus FFBS
-    \item Lăsați eșantionatorul să schimbe etichetele, apoi identificați cu parametrul care separă regimurile
-    \item Verosimilitățile marginale compară valorile lui $K$ și modelele cu puncte de schimbare pe aceeași bază
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Regimuri, memorie lungă și rupturi}
@@ -1067,7 +1004,7 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
     \item Consecințe
     \begin{itemize}
         \item o estimație GPH sau Whittle locală semnificativă (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol10_memorie_lunga_rough_volatility.pdf}{Capitolul 10}) nu deosebește integrarea fracționară de rupturile ocazionale sau de regimuri
-        \item același lucru este valabil pentru persistența GARCH (secțiunea anterioară) și pentru testele de rădăcină unitară cu rupturi (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2})
+        \item același lucru este valabil pentru persistența GARCH (secțiunea \hyperlink{ch7msg}{\textcolor{MainBlue}{Regimuri de volatilitate și MS-GARCH}}) și pentru testele de rădăcină unitară cu rupturi (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2})
     \end{itemize}
     \item Care descriere este „adevărată” contează mai puțin decît care prognozează mai bine în afara eșantionului
 \end{itemize}
@@ -1132,15 +1069,6 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
         \item după 2000 un singur segment, foarte persistent, absoarbe creșterile din 2022 și 2025 ca șocuri
         \item dacă ele sînt un regim recurent se decide în afara eșantionului
     \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: regimuri, memorie și rupturi}
-\itemsize{\small}
-\begin{itemize}
-    \item Comutările rare imită memoria lungă: testele de memorie nu le pot deosebi
-    \item Rupturile sînt regimuri nerecurente: același filtru, $\mathbf{P}$ restricționată
-    \item Alegerea modelului este o întrebare de performanță în afara eșantionului
 \end{itemize}
 \end{frame}
 
@@ -1231,15 +1159,6 @@ MS-GARCH (Gray) & 1{,}000 & 0{,}921 & 0{,}981; 0{,}956 & \ensuremath{-}9207{,}4 
     \item Scorul logaritmic mediu: \ensuremath{-}1{,}028 față de \ensuremath{-}0{,}890; Diebold--Mariano pe diferență 1{,}16 ($p = 0{,}24$)
     \item Cîștigul vine din regimul de varianță: densitatea AR(1) este prea largă după 1984 (PIT concentrat la mijloc, KS $p < 0{,}001$); densitatea MS este mai aproape de uniformă, dar nici ea nu este calibrată (KS $p = 0{,}01$)
     \item Cîștigul cumulat de scor logaritmic înainte de 2008: 17{,}72; din 2008: \ensuremath{-}1{,}10: modelul cu regimuri cîștigă în perioadele calme și pierde în criză
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: prognoza}
-\itemsize{\small}
-\begin{itemize}
-    \item Densitățile de prognoză sînt amestecuri; prognozele regimurilor converg spre probabilitățile ergodice
-    \item Evaluați densitățile și probabilitățile regimurilor, nu doar RMSE
-    \item Cîștigurile sînt episodice: testați-le în timp (teste de fluctuație, \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1})
 \end{itemize}
 \end{frame}
 

@@ -18,7 +18,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ats_build import Deck, Values, table, photo, cols, block   # noqa: E402
 from ats_build import items as _items   # noqa: E402
-from ch3_common import REFS, QLURL, T, bib, finalize, load, minus_fix, pv, month   # noqa: E402
+from ch3_common import REFS, QLURL, T, bib, finalize, load, load_sem, minus_fix, pv, month   # noqa: E402
 
 
 def items(*xs):
@@ -101,6 +101,11 @@ for a in ('sup_p0', 'sup_p12', 'sup_p12_lo', 'sup_p12_hi', 'ad_p0', 'ad_p12', 'a
 for i, s in enumerate(('sup', 'ad', 'os')):
     P(f'kil.fe.{s}', 100 * k['fevd_p60'][i], 0)
 P('kil.root', k['root'], 3)
+# the bootstrap bands quoted in the text are those of Seminar 3 (B1, B3): one set of numbers for the same result
+SEM3 = load_sem()
+for i, s_ in enumerate(('sup', 'ad')):
+    P(f'kil.{s_}_p12_lo', SEM3['B1']['lo12'][i], 1)
+    P(f'kil.{s_}_p12_hi', SEM3['B1']['hi12'][i], 1)
 hd = N['kilian_hd']
 for per in ('c2003_2008', 'c2008_2009', 'c2020', 'c2022'):
     for s in ('sup', 'ad', 'os'):
@@ -162,6 +167,10 @@ P('gk.ipmin', g['ip_min'], 2)
 V.raw('gk.iparg', str(g['ip_argmin']))
 P('gk.ipminlo', g['ip_min_lo'], 2)
 P('gk.ipminhi', g['ip_min_hi'], 2)
+P('gk.ebp0lo', SEM3['B3']['ebp0_lo'], 2)
+P('gk.ebp0hi', SEM3['B3']['ebp0_hi'], 2)
+P('gk.ipminlo', SEM3['B3']['ip_lo'], 2)
+P('gk.ipminhi', SEM3['B3']['ip_hi'], 2)
 P('gk.cpi24', g['cpi24'], 2)
 P('gk.cpi24lo', g['cpi24_lo'], 2)
 P('gk.cpi24hi', g['cpi24_hi'], 2)
@@ -900,8 +909,7 @@ D.frame(T('Appendix: the long-run restriction in closed form', 'Anexă: restric�
 D.frame(T('Appendix: identifying the column $b_1$ with a proxy', 'Anexă: identificarea coloanei $b_1$ prin proxy'), items(
     T(r'$u_t = B_0\varepsilon_t = b_1\varepsilon_{1t} + \sum_{j\ge2}b_j\varepsilon_{jt}$', r'$u_t = B_0\varepsilon_t = b_1\varepsilon_{1t} + \sum_{j\ge2}b_j\varepsilon_{jt}$'),
     T(r'$\E u_tz_t = b_1\E\varepsilon_{1t}z_t + \sum_{j\ge2}b_j\E\varepsilon_{jt}z_t = \alpha b_1$ by exogeneity', r'$\E u_tz_t = b_1\E\varepsilon_{1t}z_t + \sum_{j\ge2}b_j\E\varepsilon_{jt}z_t = \alpha b_1$ din exogenitate'),
-    T(r'Relative impacts $b_{i1}/b_{11} = \E u_{it}z_t/\E u_{1t}z_t$ need $\alpha \ne 0$ (relevance); the scale of $b_1$ follows from $b_1\'\Sigma_u^{-1}b_1 = 1$', r'Impacturile relative $b_{i1}/b_{11} = \E u_{it}z_t/\E u_{1t}z_t$ cer $\alpha \ne 0$ (relevanța); scala lui $b_1$ rezultă din $b_1\'\Sigma_u^{-1}b_1 = 1$'),
-    T(r'Equivalent 2SLS: regress $u_{it}$ on $u_{1t}$ with instrument $z_t$; the first stage is the regression of $u_{1t}$ on $z_t$', r'2SLS echivalent: regresăm $u_{it}$ pe $u_{1t}$ cu instrumentul $z_t$; prima etapă este regresia lui $u_{1t}$ pe $z_t$')), 'small')
+    T(r'Relative impacts $b_{i1}/b_{11} = \E u_{it}z_t/\E u_{1t}z_t$ need $\alpha \ne 0$ (relevance); the scale of $b_1$ follows from $b_1\'\Sigma_u^{-1}b_1 = 1$', r'Impacturile relative $b_{i1}/b_{11} = \E u_{it}z_t/\E u_{1t}z_t$ cer $\alpha \ne 0$ (relevanța); scala lui $b_1$ rezultă din $b_1\'\Sigma_u^{-1}b_1 = 1$')), 'small')
 
 D.frame(T('Appendix: LP and VAR agree up to horizon $p$', 'Anexă: LP și VAR coincid pînă la orizontul $p$'), items(
     T(r'Let $w_t = (y_{t-1}, \dots, y_{t-p})$ and the shock be the innovation $\tilde x_t = x_t - \mathrm{proj}(x_t\mid w_t)$', r'Fie $w_t = (y_{t-1}, \dots, y_{t-p})$, iar șocul inovația $\tilde x_t = x_t - \mathrm{proj}(x_t\mid w_t)$'),

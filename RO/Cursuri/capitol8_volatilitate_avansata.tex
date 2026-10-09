@@ -167,12 +167,11 @@ MSCA Digital Finance}
     \item \textbf{IQ}: Integrated Quarticity (cuarticitatea integrată)
     \item \textbf{LLM}: Large Language Model (model lingvistic de mari dimensiuni)
     \item \textbf{MAE}: Mean Absolute Error (eroarea absolută medie)
-    \item \textbf{MCS}: Model Confidence Set (mulțimea de încredere a modelelor)
+    \item \textbf{MFM}: Modelling Financial Markets (Modelarea piețelor financiare, cursul de master)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{MFM}: Modelling Financial Markets (Modelarea piețelor financiare, cursul de master)
     \item \textbf{MIDAS}: MIxed DAta Sampling (regression) — regresie cu date de frecvențe mixte
     \item \textbf{ML}: Machine Learning (învățare automată)
     \item \textbf{MSE}: Mean Squared Error (eroarea pătratică medie)
@@ -205,7 +204,6 @@ MSCA Digital Finance}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
     \item \textbf{TLC}: Teorema Limită Centrală
-    \item \textbf{TQ}: Tripower Quarticity (cuarticitatea tripower)
     \item \textbf{TSA}: Time Series Analysis (Serii de timp, cursul de licență)
     \item \textbf{TSLA}: Tesla Inc., NASDAQ ticker (Tesla Inc., simbolul bursier NASDAQ)
     \item \textbf{TSRV}: Two-Scales Realised Variance (varianța realizată cu două scale de timp)
@@ -483,15 +481,6 @@ producția industrială și IPP pentru bunuri finite ale SUA (lunar) & FRED (IND
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recapitulare: QML pentru GARCH}
-\itemsize{\small}
-\begin{itemize}
-    \item QML gaussian este consistent dacă ecuația varianței este corectă, oricare ar fi forma inovațiilor
-    \item Teoria are nevoie de staționaritate strictă, nu de varianță finită; IGARCH și chiar GARCH exploziv sînt acoperite
-    \item Cu cozi groase, erorile standard din hessiană sînt prea mici cu factorul $\sqrt{(\kappa_\eta - 1)/2}$; folosiți Bollerslev--Wooldridge
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Volatilitatea de termen lung și de termen scurt}
@@ -688,15 +677,6 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recapitulare: componentele de termen lung}
-\itemsize{\small}
-\begin{itemize}
-    \item Volatilitatea are cel puțin două viteze; o singură persistență GARCH le face media
-    \item GARCH-MIDAS permite unei variabile lunare să determine nivelul de termen lung; identificarea vine din frecvențele mixte
-    \item Raportați VR și BIC alături de $\hat\theta$: semnificația statistică nu înseamnă importanță
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Măsuri realizate: teorie, zgomot și kernel-uri}
@@ -782,7 +762,7 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
     \item Salturi: proces Poisson cu 0,08 salturi pe zi, mărimi $N(0, 0{,}8^2)$ (\%): salturile reprezintă aproximativ 5{,}6\% din variația pătratică
     \item Zgomot: observăm $Y_s = X_s + u_s$, cu $u_s$ i.i.d. $N(0, \omega^2)$ și $\omega = 0{,}004\%$
     \begin{itemize}
-        \item $Y_s$: logaritmul prețului observat; $X_s$: logaritmul prețului eficient; $u_s$: zgomotul de microstructură, cu abaterea standard $\omega$; la o secundă, $2n\omega^2 = 0{,}75$ (slide-urile următoare)
+        \item $Y_s$: logaritmul prețului observat; $X_s$: logaritmul prețului eficient; $u_s$: zgomotul de microstructură, cu abaterea standard $\omega$; la o secundă, $2n\omega^2 = 0{,}75$ (slide-ul \hyperlink{ch8noise}{\textcolor{MainBlue}{Zgomotul de microstructură}})
     \end{itemize}
     \item Fiecare estimator de mai jos este comparat cu IV sau QV adevărate din aceeași zi simulată
 \end{itemize}
@@ -855,7 +835,7 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
 \begin{frame}{Zgomotul de microstructură (1/2): deplasarea lui RV}
 \itemsize{\small}
 \begin{itemize}
-    \item Logaritmul prețului observat este prețul eficient plus un termen de zgomot
+    \item \hypertarget{ch8noise}{}Logaritmul prețului observat este prețul eficient plus un termen de zgomot
     \[ Y_{i/n} = X_{i/n} + u_i \]
     \begin{itemize}
         \item $u_i$: zgomot i.i.d. cu varianța $\omega^2$, independent de $X$; surse: oscilația între bid și ask, discretizarea prețului, cotațiile stale (neactualizate)
@@ -895,7 +875,7 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
     \[ n^* \approx \Big(\frac{\mathrm{IQ}}{4\omega^4}\Big)^{1/3} \]
     \begin{itemize}
         \item grila optimă este mai rară cînd zgomotul ($\omega^2$) este mare față de volatilitate ($\mathrm{IQ}$)
-        \item exemplu (Seminarul 8, A3): IV = IQ = 1, $\omega^2 = 1{,}6\times10^{-5}$ dă $n^* \approx 990$, un randament la fiecare 24 de secunde
+        \item exemplu (Seminarul 8, A3): IV = IQ = 1, $\omega^2 = 1{,}6\times10^{-5}$ dă $n^* \approx 992$, un randament la fiecare 23{,}6 secunde
     \end{itemize}
     \item Cel mai bun RV rar converge doar cu rata $n^{1/6}$ și renunță la majoritatea datelor: de aici estimatorii care folosesc toate observațiile
     \item Subeșantionarea: media RV pe cele $K$ grile decalate (cu start în secunda $0, 1, \dots, K-1$); aceeași deplasare, varianță mai mică
@@ -977,15 +957,6 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
     \item Motivul: 52\% dintre randamentele la o secundă sînt zero (nicio tranzacție sau același preț), iar prețurile se ajustează treptat, deci randamentele la o secundă sînt autocorelate pozitiv
     \item Realised kernel-ul pe date la o secundă (3{,}46, mediana $H = 22$) adaugă înapoi autocovarianțele pozitive și ajunge în zona plată de 1--30 de minute
     \item Efectul Epps \refEpp: corelația realizată 0{,}64 la o secundă față de 0{,}82 la cinci minute; tranzacționarea asincronă deplasează covarianțele spre zero la frecvență înaltă
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: măsurile realizate}
-\itemsize{\small}
-\begin{itemize}
-    \item RV estimează QV cu eroarea $\sqrt{2\mathrm{IQ}/n}$; intervalul în logaritmi se comportă mai bine; convergența stabilă face validă studentizarea
-    \item Zgomotul deplasează RV la frecvență înaltă; semnul și mărimea acestui efect sînt empirice: priviți întîi signature plot-ul
-    \item Realised kernels folosesc toate datele și corectează zgomotul cu dependență pe distanțe scurte; RV la 5 minute rămîne un reper robust
 \end{itemize}
 \end{frame}
 
@@ -1098,15 +1069,6 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
     \item Totuși, salturile sînt mici: reprezintă 3{,}0\% (Bitcoin) și 2{,}3\% (Ether) din variația totală; restul este continuu
     \item Întreaga distribuție a lui $z_t$ este deplasată (media 1{,}16, nu 0): pe lîngă salturi, sezonalitatea intraday pe 24 de ore, randamentele nule și mișcările bruște încalcă ipotezele nulei
     \item Înainte de a declara o zi drept zi cu salt: standardizați randamentele cu un profil al volatilității intraday, verificați randamentele nule și controlați numărul de teste
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: salturile}
-\itemsize{\small}
-\begin{itemize}
-    \item BV estimează partea continuă; RV $-$ BV partea de salt; TQ face testul robust la salturi în cuarticitate
-    \item Testul raport are o mărime bună în simulări; puterea lui crește cu $c\sqrt n$
-    \item În datele reale, ipoteza nulă este fragilă: multe respingeri, puțină variație din salturi; tratați numărul de salturi ca dependent de model
 \end{itemize}
 \end{frame}
 
@@ -1276,15 +1238,6 @@ GARCH(1,1) & & & & & & 22721{,}9 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recapitulare: HAR și HARQ}
-\itemsize{\small}
-\begin{itemize}
-    \item HAR este un AR(22) restricționat și parcimonios, estimat prin OLS; logaritmii îl stabilizează
-    \item Cîștigurile în afara eșantionului depind de funcția de pierdere și de piață: raportați toate seriile, filtrul și testele DM
-    \item HARQ lasă eroarea de măsurare a RV să stabilească ponderea zilei de ieri: un parametru, un cîștig robust după QLIKE
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Realized GARCH și HEAVY}
@@ -1383,15 +1336,6 @@ $\omega$ & $\beta$ & $\gamma$ & $\xi$ & $\varphi$ & $\tau_1$ & $\tau_2$ & $\sigm
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recapitulare: modelele GARCH cu măsuri realizate}
-\itemsize{\small}
-\begin{itemize}
-    \item O măsură realizată în ecuația varianței este o variabilă de știri mai bună decît pătratul randamentului
-    \item Realized GARCH adaugă o ecuație de măsurare: prognoze cu mai mulți pași, levier și o verosimilitate comună
-    \item Comparația cu GARCH se face doar pe verosimilitatea parțială a randamentelor
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Evaluarea prognozelor de volatilitate față de o țintă zgomotoasă}
@@ -1473,15 +1417,6 @@ $\omega$ & $\beta$ & $\gamma$ & $\xi$ & $\varphi$ & $\tau_1$ & $\tau_2$ & $\sigm
     \item DM față de HAR (QLIKE): GARCH 8{,}62, GJR 6{,}27, Realized GARCH 1{,}42, log-HAR \ensuremath{-}0{,}37: modelele cu măsuri realizate sînt clar mai bune decît cele doar cu randamente; între ele diferențele sînt mici
     \item După MSE, HAR (1{,}60) conduce, iar statisticile DM sînt mai mici: crahul din 2020 domină erorile pătratice
     \item Un singur proxy (RK) pentru toate modelele: familia HAR este estimată pe aceeași măsură, ceea ce o avantajează; o comparație corectă încearcă și alt proxy (RV, BV)
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: evaluarea}
-\itemsize{\small}
-\begin{itemize}
-    \item Doar funcțiile din clasa Patton păstrează ordinea cu un proxy nedeplasat zgomotos: MSE și QLIKE
-    \item La un pas, modelele cu măsuri realizate depășesc modelele GARCH care folosesc doar randamentele; DM și MCS din \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1} cuantifică diferența
-    \item Precizați proxy-ul, funcția de pierdere, fereastra și filtrul: fiecare poate schimba ordinea
 \end{itemize}
 \end{frame}
 
@@ -1744,15 +1679,6 @@ $N$ & VEC & BEKK & BEKK diagonal & BEKK scalar & DCC \\
     \item DCC folosește o observație pe zi ($\hat a = 0{,}051$, $\hat b = 0{,}928$): netezește și reacționează cu întîrziere; măsura realizată se mișcă zilnic și scade repede în episoadele specifice unei monede (cuantila de 5\% 0{,}68)
     \item Combinarea lor (o măsură realizată în ecuația corelației) este analogul multivariat al Realized GARCH
     \item Eșantionarea la cinci minute se află pe partea plată a curbei Epps pentru aceste două monede (slide-ul cu signature plot): corelația realizată nu este deplasată spre zero
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: cazul multivariat}
-\itemsize{\small}
-\begin{itemize}
-    \item BEKK garantează pozitivitatea cu un cost pătratic în parametri; DCC separă varianțele de corelații și funcționează pentru $N$ mare
-    \item cDCC corectează inconsistența țintei DCC; în configurații moderate, diferența este mică
-    \item În dimensiune mare, ținta are nevoie de shrinkage (DCC-NL); evaluați prin riscul GMV sau prin funcții de pierdere matriceale robuste
 \end{itemize}
 \end{frame}
 

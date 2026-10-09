@@ -107,7 +107,6 @@ MSCA Digital Finance}
     \item \textbf{BN}: Beveridge–Nelson (decomposition)
     \item \textbf{BNR}: Banca Națională a României (the National Bank of Romania)
     \item \textbf{BSTS}: Bayesian Structural Time Series
-    \item \textbf{CLT}: Central Limit Theorem
     \item \textbf{DFM}: Dynamic Factor Model
     \item \textbf{DK}: Durbin–Koopman (simulation smoother, 2002)
 \end{itemize}
@@ -315,7 +314,7 @@ US industrial production, payrolls, real income less transfers, real sales (mont
 \begin{frame}{The Kalman filter from one lemma}
 \itemsize{\small}
 \begin{itemize}
-    \item Lemma (conditioning of jointly normal vectors): if $(x, y)$ is Gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$
+    \item \hypertarget{kflemma}{}Lemma (conditioning of jointly normal vectors): if $(x, y)$ is Gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$
     \begin{itemize}
         \item $\mu_x$, $\mu_y$: the means; $\Sigma_{xy} = \Cov(x, y)$, $\Sigma_{yy} = \Var(y)$: the covariance blocks
         \item apply it to $x = \alpha_t$ and $y = y_t$, conditional on $Y_{t-1}$: $v_t = y_t - Z_ta_t$ is the new information (the prediction error)
@@ -330,7 +329,7 @@ US industrial production, payrolls, real income less transfers, real sales (mont
 \begin{frame}{The filter in one pass}
 \itemsize{\small}
 \begin{itemize}
-    \item $v_t = y_t - Z_ta_t$, $\quad F_t = Z_tP_tZ_t' + H_t$, $\quad K_t = T_tP_tZ_t'F_t^{-1}$ (Kalman gain), $\quad L_t = T_t - K_tZ_t$
+    \item With $v_t$ and $F_t$ of the previous slide: $K_t = T_tP_tZ_t'F_t^{-1}$ (Kalman gain), $\quad L_t = T_t - K_tZ_t$
     \item $a_{t+1} = c_t + T_ta_t + K_tv_t$, $\quad P_{t+1} = T_tP_tL_t' + R_tQ_tR_t'$
     \item Cost: $O(n(m^3 + p^3))$; with time-invariant matrices $P_t$ converges to the steady state of the Riccati equation
     \begin{itemize}
@@ -354,7 +353,7 @@ US industrial production, payrolls, real income less transfers, real sales (mont
         \item $\hat\alpha_t$ corrects $a_t$ by everything learned from $t$ on
     \end{itemize}
     \item Disturbance smoother: $\hat\varepsilon_t = H_t(F_t^{-1}v_t - K_t'r_t)$, $\hat\eta_t = Q_tR_t'r_t$: auxiliary residuals for outliers and breaks, and the score of the likelihood
-    \item Derivation from the same lemma, now conditioning on $v_t, \dots, v_n$, which are independent (\atsapplink{atsapp1}{atssrc1}{Appendix})
+    \item Derivation from the same lemma, now conditioning on $v_t, \dots, v_n$, which are independent (\atsapplink{atsapp1}{atssrc1}{Appendix})  % applink: smoother from the lemma
 \end{itemize}
 \end{frame}
 
@@ -406,15 +405,6 @@ US industrial production, payrolls, real income less transfers, real sales (mont
     \item Replacing the first term by its diffuse limit repairs the level (\ensuremath{-}452.66 at $10^7$), but only because $d = 1$ is known; ML over $\psi$ is unaffected, model comparison across different $d$ is not
     \item Smoothed variances: error 0.000012 at $\kappa = 10^4$, 0.06 at $10^8$ and $10^{15}$ at $10^{16}$: no single $\kappa$ is safe for both states and variances
     \item Practical rule: use the exact diffuse filter whenever the model has nonstationary or fixed unknown states
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: The general linear Gaussian model}
-\itemsize{\small}
-\begin{itemize}
-    \item One lemma (Gaussian conditioning) gives the filter, the smoother and the disturbance smoother
-    \item Missing data, mixed frequencies and multivariate observations are handled inside the same recursions
-    \item Nonstationary states need the exact diffuse filter; big kappa breaks the likelihood level and the smoothed variances
 \end{itemize}
 \end{frame}
 
@@ -509,15 +499,6 @@ US industrial production, payrolls, real income less transfers, real sales (mont
     \item True $q = 0.01$: still 14\% zeros; median estimate 0.0077; with $q = 0.05$: 2\% zeros
     \item A reported $\hat\sigma^2_\eta = 0$ is therefore not evidence of a constant level; a small positive value is compatible with a deterministic one
     \item Report the profile likelihood or the posterior of $q$, not a point estimate with a Hessian standard error
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: The exact likelihood}
-\itemsize{\small}
-\begin{itemize}
-    \item The filter delivers the Gaussian likelihood; with diffuse states the first $d$ terms are replaced by their diffuse limits
-    \item Concentrate the scale, parameterise without constraints, use several starts, and check the numbers against a second implementation
-    \item Variances near zero pile up at zero: standard errors and $\chi^2$ tests fail at the boundary
 \end{itemize}
 \end{frame}
 
@@ -649,15 +630,6 @@ US industrial production, payrolls, real income less transfers, real sales (mont
     \item Posterior means 0.515 and 0.441 against ML 0.517 and 0.453: with $n = 294$ the prior barely matters away from the boundary
     \item Inefficiency factors 9.9 and 11.3: the variance draws inherit the autocorrelation of the state draws
     \item The interval for $q$ excludes zero: the trend of US inflation moves, but the upper end of the interval is 2.7 times the lower end
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Bayesian state space}
-\itemsize{\small}
-\begin{itemize}
-    \item Gibbs: states as one block given the parameters, parameters given the states
-    \item FFBS, the DK simulation smoother and the precision sampler draw from the same distribution
-    \item Priors regularise boundary problems but must be reported and varied
 \end{itemize}
 \end{frame}
 
@@ -824,15 +796,6 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
     \item The two volatility paths are close (correlation in the last column), but SV reacts less to a single large return than GARCH, whose variance jumps by $\alpha y^2_{t-1}$
     \item Large inefficiency factors for $\sigma_\eta$ are typical: $\sigma_\eta$ and the path $h_{1:n}$ are strongly dependent; long chains or interweaving are needed
     \item Kurtosis of returns: 19.5 (S\&P 500) and 20.8 (BET); with Gaussian $\epsilon_t$, SV explains only part of it (SV-$t$ errors are the usual extension)
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Stochastic volatility}
-\itemsize{\small}
-\begin{itemize}
-    \item SV adds a shock to the variance: its likelihood is an integral over the volatility path
-    \item Log-squared returns make the model linear; the KSC mixture makes it conditionally Gaussian, so the whole path can be drawn in one block
-    \item On daily index returns SV and GARCH give similar volatility paths but different reactions to single large returns
 \end{itemize}
 \end{frame}
 
@@ -1045,15 +1008,6 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recap: Nonlinear filtering}
-\itemsize{\small}
-\begin{itemize}
-    \item EKF linearises the model, UKF propagates sigma points, particle filters propagate weighted samples
-    \item The particle likelihood is unbiased in levels; its log variance decides the number of particles
-    \item PMMH turns any simulable model into an exact Bayesian procedure, at a computational price
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Time-varying parameters}
@@ -1137,15 +1091,6 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
     \item The order of the Gibbs steps matters: the original algorithm drew the mixture indicators at the wrong point of the cycle; \refDNP\ give the corrected order, and the substantive results change little
     \item Priors from a training sample at the start of the data, as in \refPri, with small scales for the random-walk covariances: the prior decides how much variation is allowed
     \item Overparameterisation: with $k$ coefficients per equation, shrink the variances, or select which coefficients vary (non-centred parameterisation, \refFSW)
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Time-varying parameters}
-\itemsize{\small}
-\begin{itemize}
-    \item A TVP regression is a state space model with $Z_t$ built from the regressors; fixed coefficients are diffuse states without shocks
-    \item Rolling windows exaggerate time variation; test it at the boundary with a bootstrap
-    \item TVP-VAR-SV combines the simulation smoother and the KSC mixture in one Gibbs sampler
 \end{itemize}
 \end{frame}
 
@@ -1318,15 +1263,6 @@ UC-UR & 0.859 & 1.334 & \ensuremath{-}0.738 & 1.185 & 0.669 & \ensuremath{-}0.92
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recap: Trend--cycle decompositions}
-\itemsize{\small}
-\begin{itemize}
-    \item BN, UC and Hamilton define the cycle differently; MNZ show that BN and UC agree once trend and cycle shocks may correlate
-    \item In short, volatile samples (Romania) the correlation is not identified and the trend specification decides the gap
-    \item Report filtered and smoothed estimates: the end-of-sample gap is the least reliable number
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Trend inflation with stochastic volatility}
@@ -1408,15 +1344,6 @@ UC-UR & 0.859 & 1.334 & \ensuremath{-}0.738 & 1.185 & 0.669 & \ensuremath{-}0.92
         \item state space models with regime switching (Kim filter, Gibbs sampling) \refKN: \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter7_regime_switching_models.pdf}{Chapter 7}
     \end{itemize}
     \item Forecast evaluation of all these models (density forecasts, scoring rules): \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Trend inflation}
-\itemsize{\small}
-\begin{itemize}
-    \item UC-SV lets the split between permanent and transitory shocks change over time
-    \item Two KSC blocks and one precision sampler make the Gibbs sampler fast
-    \item US trend inflation rose sharply in 2021--2022; Romanian trend inflation is still above the target band
 \end{itemize}
 \end{frame}
 
@@ -1538,14 +1465,14 @@ UC-UR & 0.859 & 1.334 & \ensuremath{-}0.738 & 1.185 & 0.669 & \ensuremath{-}0.92
 \section{Appendix}
 %=============================================================================
 
-\begin{frame}{Appendix: the Kalman filter from the lemma}
+\begin{frame}{Appendix: the smoother from the lemma}
 \hypertarget{atsapp1}{}\atsappback{atssrc1}{Back}
 \itemsize{\small}
 \begin{itemize}
-    \item Given $Y_{t-1}$: $\begin{pmatrix}\alpha_t\\ y_t\end{pmatrix} \sim N\left(\begin{pmatrix}a_t\\ Z_ta_t\end{pmatrix}, \begin{pmatrix}P_t & P_tZ_t'\\ Z_tP_t & F_t\end{pmatrix}\right)$, $F_t = Z_tP_tZ_t' + H_t$
-    \item Conditioning on $y_t$ (equivalently on $v_t$, since $Y_t = (Y_{t-1}, v_t)$ and $v_t$ is independent of $Y_{t-1}$) gives $a_{t|t}$ and $P_{t|t}$
-    \item $\alpha_{t+1} = c_t + T_t\alpha_t + R_t\eta_t$ with $\eta_t$ independent of $Y_t$: $a_{t+1} = c_t + T_ta_{t|t}$, $P_{t+1} = T_tP_{t|t}T_t' + R_tQ_tR_t'$
-    \item Smoother: $\hat\alpha_t = a_t + \sum_{j=t}^n\Cov(\alpha_t, v_j)F_j^{-1}v_j$ (the $v_j$ are independent); $\Cov(\alpha_t, v_j) = P_tL_t'\cdots L_{j-1}'Z_j'$ gives $\hat\alpha_t = a_t + P_tr_{t-1}$
+    \item $Y_n = (Y_{t-1}, v_t, \dots, v_n)$, and $v_t, \dots, v_n$ are independent of each other and of $Y_{t-1}$: the lemma applies to each $v_j$ separately
+    \item Smoother: $\hat\alpha_t = a_t + \sum_{j=t}^n\Cov(\alpha_t, v_j)F_j^{-1}v_j$, with $\Cov(\alpha_t, v_j) = P_tL_t'\cdots L_{j-1}'Z_j'$
+    \item Hence $\hat\alpha_t = a_t + P_tr_{t-1}$ with $r_{t-1} = \sum_{j=t}^nL_t'\cdots L_{j-1}'Z_j'F_j^{-1}v_j$ (empty product for $j = t$), which satisfies the backward recursion $r_{t-1} = Z_t'F_t^{-1}v_t + L_t'r_t$
+    \item The filtering steps (update and prediction) follow from the same lemma with $j = t$ only: slide \hyperlink{kflemma}{\textcolor{MainBlue}{The Kalman filter from one lemma}}
 \end{itemize}
 \end{frame}
 
@@ -1567,7 +1494,6 @@ UC-UR & 0.859 & 1.334 & \ensuremath{-}0.738 & 1.185 & 0.669 & \ensuremath{-}0.92
     \item Bootstrap filter, one step: $\E[\frac1N\sum_iw^{(i)}_t\,|\,\mathcal F_{t-1}] = \int g(y_t | x)\,\hat p_{N}(x | Y_{t-1})\,dx$, with $\hat p_N$ the empirical predictive law of the particles
     \item Applying the tower property successively for $t = n, n-1, \dots, 1$ (at each step the expectation of the last factor given $\mathcal F_{t-1}$ is replaced by the formula above), with multinomial or systematic resampling, gives $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM
     \item Each factor is a ratio estimate, but the product is unbiased because resampling preserves the expected weights; normalised quantities (filtered means) are only consistent
-    \item Jensen: $\E\ln\hat L \le \ln\E\hat L = \ln L$; under a CLT for $\ln\hat L$ the bias is $-\frac12\Var(\ln\hat L)$
 \end{itemize}
 \end{frame}
 

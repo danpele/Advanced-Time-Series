@@ -485,7 +485,7 @@ EU-27 household consumption, disposable income, consumption deflator, population
 \vspace{-0.25cm}
 \begin{itemize}
     \item Trace statistic under $H(r)$ with $n - r = 2$, simulated from random walks (10\,000 replications, $T = 400$; drift in cases 3 and 5)
-    \item 95\% quantiles: 12.38 (case 1), 20.53 (2), 15.48 (3), 25.84 (4), 18.50 (5)
+    \item 95\% quantiles for every case and $n - r = 1, \dots, 4$: the table two slides later
 \end{itemize}
 \quantlet{ATS\_ch4\_johansen\_asymptotics}{\qlurl{ATS_ch4_johansen_asymptotics}}
 \end{frame}
@@ -494,9 +494,8 @@ EU-27 household consumption, disposable income, consumption deflator, population
 \itemsize{\small}
 \begin{itemize}
     \item Each restricted deterministic term adds a regressor to the reduced-rank problem and shifts the distribution to the right
-    \item A trend in the levels (cases 3 and 5) makes one direction of the common trend deterministic: for $n - r = 1$ the limit is $\chi^2(1)$, 95\% quantile 3.89
+    \item A trend in the levels (cases 3 and 5) makes one direction of the common trend deterministic: for $n - r = 1$ the limit is $\chi^2(1)$
     \item Using case-3 critical values in a case-2 model over-rejects: the 95\% quantile for $n - r = 1$ is 9.25 in case 2 and 3.89 in case 3
-    \item Our simulated quantiles differ from the published tables \refMHM\ by a few tenths at most; the Quantlet gives all cases and $n - r = 1, \dots, 4$
 \end{itemize}
 \end{frame}
 
@@ -1202,7 +1201,7 @@ Structural use & multipliers of $x$ on $y$ & common trends, identified shocks \\
 \begin{frame}{Two related tools (2/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item Nonlinear ARDL: $x_t^+$ and $x_t^-$ as two regressors
+    \item Nonlinear ARDL: estimation and tests
     \begin{itemize}
         \item $x_t^+$ and $x_t^-$ enter the ARDL as two regressors, with long-run coefficients $\theta^+$, $\theta^-$ and short-run coefficients $\omega_j^+$, $\omega_j^-$
         \item long-run asymmetry: $\theta^+ \ne \theta^-$; short-run asymmetry: different $\omega_j^+$ and $\omega_j^-$

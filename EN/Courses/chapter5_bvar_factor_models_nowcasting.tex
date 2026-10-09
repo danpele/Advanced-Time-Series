@@ -267,8 +267,9 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
     \end{itemize}
     \item Three remedies
     \begin{itemize}
-        \item shrinkage: Bayesian priors, ridge, LASSO
-        \item dimension reduction: factors; variable selection
+        \item shrinkage (Bayesian priors, ridge, LASSO): a small bias for a large reduction of variance
+        \item dimension reduction by factors: a few common components summarise many series
+        \item variable selection: keep only some regressors
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -292,15 +293,6 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
     \item BVAR: 1.25 at $n = 24$; the tightness chosen by the marginal likelihood falls from 0.31 ($n = 2$) to 0.14 ($n = 24$)
     \item A univariate AR(4) stays near 1.08: the cross-variable information is real but small, and OLS spends it on noise
     \item The larger the system, the tighter the prior should be: the theme of the whole chapter \refDGRa
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: The curse of dimensionality}
-\itemsize{\small}
-\begin{itemize}
-    \item Parameters grow with $n^2p$; observations do not
-    \item Shrinkage trades a small bias for a large reduction of variance
-    \item Factors summarise many series by a few common components
 \end{itemize}
 \end{frame}
 
@@ -393,7 +385,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \begin{frame}{Marginal likelihood and Bayes factors}
 \itemsize{\small}
 \begin{itemize}
-    \item $p(y\mid M) = \int p(y\mid\theta, M)p(\theta\mid M)\,d\theta$: the density of the data \emph{before} seeing them
+    \item \hypertarget{ch5ml}{}$p(y\mid M) = \int p(y\mid\theta, M)p(\theta\mid M)\,d\theta$: the density of the data \emph{before} seeing them
     \begin{itemize}
         \item $M$: a model, i.e.\ a likelihood together with its prior; the integral averages the likelihood over the prior
         \item prediction-error decomposition: $\ln p(y) = \sum_t \ln p(y_t\mid y_{1:t-1})$, a sum of one-step log scores (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1}); $y_{1:t-1}$: the data up to $t - 1$
@@ -496,15 +488,6 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
         \item same model, same posterior of the slope (mean 0.0123); only the sampler changed
     \end{itemize}
     \item Lesson: reparametrise or draw correlated blocks jointly; conjugate BVARs avoid the problem by drawing $B$ in one block
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Bayesian inference}
-\itemsize{\small}
-\begin{itemize}
-    \item Posterior precision = prior precision + data precision; the mean is a weighted average
-    \item The marginal likelihood scores a model with its prior and can choose hyperparameters
-    \item Gibbs sampling needs full conditionals; check ESS, $\widehat R$ and Geweke before trusting the draws
 \end{itemize}
 \end{frame}
 
@@ -613,15 +596,6 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recap: Minnesota and NIW priors}
-\itemsize{\small}
-\begin{itemize}
-    \item Minnesota: centre each equation on a random walk or white noise; shrink distant lags and other variables more
-    \item The natural conjugate form keeps closed forms at the cost of $\vartheta = 1$
-    \item Dummy observations implement the prior by OLS and add sum-of-coefficients and initial-observation beliefs
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Choosing the shrinkage: hierarchical priors}
@@ -635,7 +609,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
         \item $p(y\mid\gamma)$ is known in closed form for the NIW prior with dummies: data plus dummies, minus dummies alone
         \item hyperpriors: Gamma with mode 0.2 and sd 0.4 for $\lambda$, mode 1 and sd 1 for $\mu$ and $\phi$
     \end{itemize}
-    \item Interpretation: the marginal likelihood is an out-of-sample score of one-step predictive densities (previous section)
+    \item Interpretation: the marginal likelihood is an out-of-sample score of one-step predictive densities (slide \hyperlink{ch5ml}{\textcolor{MainBlue}{Marginal likelihood and Bayes factors}})
     \begin{itemize}
         \item so it trades fit against complexity without an evaluation sample
     \end{itemize}
@@ -687,15 +661,6 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
         \item 10\%--90\% range of the MEDIUM mode across windows: [0.23, 0.33]
     \end{itemize}
     \item The Python package \texttt{bvar} of the Bank of England implements the GLP optimisation for the conjugate model; the notebook compares it with our \texttt{numpy} code
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Hierarchical priors}
-\itemsize{\small}
-\begin{itemize}
-    \item The marginal likelihood chooses the shrinkage; it falls as the system grows
-    \item Sum-of-coefficients and initial-observation priors are chosen in the same way
-    \item A fit rule is a transparent alternative when the evaluation must mimic a published study
 \end{itemize}
 \end{frame}
 
@@ -816,15 +781,6 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
     \item CPI: the price puzzle shrinks from 0.26\% (SMALL) to 0.13\% (LARGE); after four years LARGE gives \ensuremath{-}0.43\% (band [\ensuremath{-}0.97, 0.11])
     \item As in BGR: more information makes the employment response less persistent and the price response more plausible
     \item The bands do not widen with 102 variables: the prior pays for the extra coefficients
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Large BVARs}
-\itemsize{\small}
-\begin{itemize}
-    \item With shrinkage that grows with the system, a 102-variable VAR forecasts better than a 3-variable OLS VAR
-    \item The 1971--2003 results of BGR replicate on today's data; after 2020 the homoskedastic BVAR fails
-    \item Large information sets reduce the price puzzle of small monetary VARs
 \end{itemize}
 \end{frame}
 
@@ -1021,15 +977,6 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
     \item 1999--2019: the gains vanish (IP 1.07, employment 1.09, inflation 1.35): the Great Moderation made activity less predictable from the panel
     \item BIC selects a median of 7 factors (10\%--90\%: 5--12) for DI-AR, Lag at $h = 12$
     \item Bayesian shrinkage and principal components give highly correlated forecasts in large panels \refDGRa: two ways to use the same information
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Factor models}
-\itemsize{\small}
-\begin{itemize}
-    \item A few factors summarise a hundred series; PCA estimates the factor space consistently as $N, T \to \infty$
-    \item Bai--Ng criteria choose the number of factors; check their sensitivity
-    \item Diffusion indexes helped strongly before 1999 and much less after: evaluate on more than one period
 \end{itemize}
 \end{frame}
 
@@ -1377,16 +1324,6 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
     \item The July IP release was \ensuremath{-}3.7 pp below the model's expectation; with weight 0.073 it cut the nowcast by \ensuremath{-}0.27 pp; ESI \ensuremath{-}0.13, euro-area IP \ensuremath{-}0.12
     \item Other models at the end of September: EM DFM 0.08\%, bridge \ensuremath{-}0.64\%, AR 0.76\%: the first official estimate for 2026Q3 will judge them
     \item The news decomposition turns a number into a story that a central bank can check release by release
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recap: Nowcasting}
-\itemsize{\small}
-\begin{itemize}
-    \item Nowcasting = filtering a mixed-frequency system with a ragged edge
-    \item Bridge, MIDAS and DFM share the Mariano--Murasawa link between months and quarters
-    \item For Romania, monthly data improve the nowcast late in the quarter; the gain is modest and not significant
-    \item Every revision decomposes exactly into news with fixed parameters
 \end{itemize}
 \end{frame}
 

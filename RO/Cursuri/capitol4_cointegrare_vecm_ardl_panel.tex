@@ -500,7 +500,7 @@ UE-27: consumul gospodăriilor, venitul disponibil, deflatorul consumului, popul
 \vspace{-0.25cm}
 \begin{itemize}
     \item Statistica trace sub $H(r)$ cu $n - r = 2$, simulată din mersuri aleatoare (10\,000 de replicări, $T = 400$; drift în cazurile 3 și 5)
-    \item Cuantilele de 95\%: 12{,}38 (cazul 1), 20{,}53 (2), 15{,}48 (3), 25{,}84 (4), 18{,}50 (5)
+    \item Cuantilele de 95\% pentru toate cazurile și $n - r = 1, \dots, 4$: tabelul aflat la două slide-uri distanță
 \end{itemize}
 \quantlet{ATS\_ch4\_johansen\_asymptotics}{\qlurl{ATS_ch4_johansen_asymptotics}}
 \end{frame}
@@ -509,9 +509,8 @@ UE-27: consumul gospodăriilor, venitul disponibil, deflatorul consumului, popul
 \itemsize{\small}
 \begin{itemize}
     \item Fiecare termen determinist restricționat adaugă un regresor problemei de rang redus și deplasează distribuția spre dreapta
-    \item Un trend în niveluri (cazurile 3 și 5) face deterministă o direcție a trendului comun: pentru $n - r = 1$ limita este $\chi^2(1)$, cuantila de 95\% 3{,}89
+    \item Un trend în niveluri (cazurile 3 și 5) face deterministă o direcție a trendului comun: pentru $n - r = 1$ limita este $\chi^2(1)$
     \item Folosirea valorilor critice ale cazului 3 într-un model al cazului 2 respinge prea des: cuantila de 95\% pentru $n - r = 1$ este 9{,}25 în cazul 2 și 3{,}89 în cazul 3
-    \item Cuantilele simulate diferă de tabelele publicate \refMHM\ cu cel mult cîteva zecimi; Quantlet-ul dă toate cazurile și $n - r = 1, \dots, 4$
 \end{itemize}
 \end{frame}
 
@@ -1217,7 +1216,7 @@ Utilizare structurală & multiplicatorii lui $x$ asupra lui $y$ & trenduri comun
 \begin{frame}{Două instrumente înrudite (2/2)}
 \itemsize{\small}
 \begin{itemize}
-    \item ARDL neliniar: $x_t^+$ și $x_t^-$ ca doi regresori
+    \item ARDL neliniar: estimare și teste
     \begin{itemize}
         \item $x_t^+$ și $x_t^-$ intră în ARDL ca doi regresori, cu coeficienții de termen lung $\theta^+$, $\theta^-$ și cei de termen scurt $\omega_j^+$, $\omega_j^-$
         \item asimetrie pe termen lung: $\theta^+ \ne \theta^-$; asimetrie pe termen scurt: $\omega_j^+$ și $\omega_j^-$ diferiți

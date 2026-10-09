@@ -305,8 +305,8 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
         'predicția conformală: interschimbabilitate, split conformal, CQR, limitele acoperirii condiționate'),
       T('dependent data: weights, EnbPI, ACI, conformal PID; diagnostics; calibrating foundation-model intervals and VaR',
         'date dependente: ponderi, EnbPI, ACI, PID conformal; diagnosticare; calibrarea intervalelor produse de foundation models și VaR')]),
-    (T('Prerequisites; Seminar 13 comes before this lecture', 'Cunoștințe necesare; Seminarul 13 are loc înaintea acestui curs'),
-     [T('TSA, Chapter 11: Chronos, TimesFM, Moirai, zero-shot tests, CRPS and WQL', 'TSA, Capitolul 11: Chronos, TimesFM, Moirai, teste zero-shot, CRPS și WQL'),
+    (T('Prerequisites', 'Cunoștințe necesare'),
+     [T(r'Seminar 13; TSA, Chapter 11 (slide \hyperlink{c13known}{\textcolor{MainBlue}{Known from TSA and new here}})', r'Seminarul 13; TSA, Capitolul 11 (slide-ul \hyperlink{c13known}{\textcolor{MainBlue}{Cunoscut din TSA și elemente noi}})'),
       T('Chapter 1 (scoring rules, DM, MCS), Chapter 9 (VaR backtests, ACI for VaR), Chapter 12 (deep architectures)',
         'Capitolul 1 (reguli de scor, DM, MCS), Capitolul 9 (backtesting VaR, ACI pentru VaR), Capitolul 12 (arhitecturi deep)')])), 'small')
 
@@ -359,7 +359,7 @@ D.frame(T('Two lines of research that met', 'Două direcții de cercetare care s
             r'2017--2025: Transformers \refVas, foundation models \refBom; pentru serii: Lag-Llama, TimesFM, Moirai, Chronos (2023--2024), TiRex, Chronos-2 (2025)')), '0.4', '0.58'), 'footnotesize')
 
 D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), items(
-    (T('Known (TSA, Chapter 11)', 'Cunoscut (TSA, Capitolul 11)'),
+    (T(r'\hypertarget{c13known}{}Known (TSA, Chapter 11)', r'\hypertarget{c13known}{}Cunoscut (TSA, Capitolul 11)'),
      [T('zero-shot use of Chronos, TimesFM, Moirai and Lag-Llama; mean scaling and quantisation in brief',
         'folosirea zero-shot a modelelor Chronos, TimesFM, Moirai și Lag-Llama; scalarea prin medie și cuantizarea, pe scurt'),
       T('pinball loss, CRPS, WQL, MASE; first warnings about contamination', 'pierderea pinball, CRPS, WQL, MASE; primele avertismente despre contaminare')]),
@@ -658,7 +658,6 @@ D.frame(T('Leakage and contamination', 'Leakage și contaminare'), items(
       T(r'Chronos separates in-domain (Benchmark I) from zero-shot (Benchmark II) results for this reason \refAns', r'Chronos separă din acest motiv rezultatele în domeniu (Benchmark I) de cele zero-shot (Benchmark II) \refAns')]),
     (T(r'\textbf{Temporal contamination}', r'\textbf{Contaminarea temporală}'),
      [T('the test window precedes the training cutoff: the model may have seen the outcomes of other, correlated series in the same period', 'fereastra de test precede data-limită a antrenării: modelul poate să fi văzut rezultatele altor serii, corelate, din aceeași perioadă'),
-      T(r'LLMs recall exact economic values from before their cutoff \refLTZ', r'LLM-urile reproduc valori economice exacte din perioada dinaintea datei-limită \refLTZ'),
       T(r'a two-data-set design against contamination, for electricity prices \refPE', r'un design cu două seturi de date împotriva contaminării, pentru prețurile electricității \refPE')]),
     (T('Designs that help', 'Designuri care ajută'),
      [T('evaluate only after the release (or the declared cutoff) of every model in the comparison; we use 1 November 2025, after the last of our models (Chronos-2, 30 October 2025)',
@@ -1227,8 +1226,7 @@ D.frame(T('The need to calibrate foundation-model quantiles (1/2)', 'Nevoia de c
     (T(r'Pretrained quantiles are calibrated on the corpus distribution, not on your series',
        r'Cuantilele preantrenate sînt calibrate pe distribuția corpusului, nu pe seria dumneavoastră'),
      [T('miscalibration is the default, in either direction (bands too narrow or too wide)', 'calibrarea greșită este situația implicită, în ambele sensuri (benzi prea înguste sau prea largi)')]),
-    (T(r'Most models output only the 10\%--90\% quantiles', r'Majoritatea modelelor dau doar cuantilele de 10\%--90\%'),
-     [T(r'a 95\% interval or a VaR 1\% requires extrapolation beyond the trained levels', r'un interval de 95\% sau un VaR 1\% cere extrapolare dincolo de nivelurile antrenate')]),
+    T(r'Most models output only deciles (Section 2): a 95\% interval or a VaR 1\% is beyond their trained levels', r'Majoritatea modelelor dau doar decile (secțiunea 2): un interval de 95\% sau un VaR 1\% depășește nivelurile lor antrenate'),
     (T(r'Procedure: online CQR on the model\'s own 10\%--90\% band',
        r'Procedura: CQR online pe banda proprie de 10\%--90\% a modelului'),
      [dm(r'S_t = \max\{\hat q_{0.1,t} - y_t,\; y_t - \hat q_{0.9,t}\}, \qquad \hat C_t = [\hat q_{0.1,t} - q_t,\; \hat q_{0.9,t} + q_t]'),

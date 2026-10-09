@@ -584,7 +584,7 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
     \item GARCH elimină cea mai mare parte a dependenței; varianta $t$ are o coadă stîngă mai bună
     \begin{itemize}
         \item Berkowitz: GARCH-N LR 9{,}3 ($p$ 0{,}026), GARCH-$t$ LR 10{,}0 ($p$ 0{,}019); $\sigma_z$ estimat 0{,}97 $< 1$
-        \item în afara intervalului central de 90\%: 8{,}4\% din zile: cu parametri înghețați în 2012, prognozele sînt puțin prea largi după 2013
+        \item cu parametri înghețați în 2012, prognozele sînt puțin prea largi după 2013: mai puțin de 10\% din zile cad în afara intervalului central de 90\% (tabelul scorurilor, secțiunea următoare)
     \end{itemize}
     \item În acord cu \refDGT: heteroscedasticitatea condiționată este esențială, cozile groase ajută; rămîne o mică necalibrare reziduală
 \end{itemize}
@@ -618,7 +618,7 @@ PIB real SUA, toate versiunile publicate & Philadelphia Fed, RTDSM & timp real \
     \begin{itemize}
         \item scorul Brier $(p - \mathbf 1\{\text{eveniment}\})^2$, cu $p$ probabilitatea prognozată a unui eveniment binar, este cel mai vechi exemplu \refBrier
     \end{itemize}
-    \item Un scor propriu al unei prognoze probabilistice devine o pierdere consistentă a unei prognoze punctuale cînd $F$ este o masă punctuală (CRPS $\to$ eroarea absolută)
+    \item Un scor propriu al unei prognoze probabilistice devine o pierdere consistentă a unei prognoze punctuale cînd $F$ este o masă punctuală (exemplu: CRPS, două slide-uri mai departe)
 \end{itemize}
 \end{frame}
 
@@ -1125,7 +1125,7 @@ media modelelor & 1{,}026 & 0{,}85 & -- & -- \\
         \item p-value-urile inferior și superior îl încadrează; cel superior este RC cu studentizare
         \item StepM \refRWze\ identifică \emph{care} modele bat reperul
     \end{itemize}
-    \item EUR/RON, $k = 9$ modele față de mersul aleator: p-value SPA = 0{,}53 (inferior), 0{,}85 (consistent), 0{,}88 (superior): niciun model nu îl bate
+    \item EUR/RON, $k = 9$ modele (cele șapte din tabel, AR(2) și AR(3)) față de mersul aleator: p-value SPA = 0{,}53 (inferior), 0{,}85 (consistent), 0{,}88 (superior): niciun model nu îl bate
 \end{itemize}
 \end{frame}
 

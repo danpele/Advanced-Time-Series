@@ -393,8 +393,8 @@ D.frame(T('The general state space form (2/2)', 'Forma generală în spațiul st
       T(r'smoothed: $\hat\alpha_t = \E(\alpha_t | Y_n)$, $V_t = \Var(\alpha_t | Y_n)$ (all the data)', r'netezită: $\hat\alpha_t = \E(\alpha_t | Y_n)$, $V_t = \Var(\alpha_t | Y_n)$ (toate datele)')])), 'small')
 
 D.frame(T('The Kalman filter from one lemma', 'Filtrul Kalman dintr-o singură lemă'), items(
-    (T(r'Lemma (conditioning of jointly normal vectors): if $(x, y)$ is Gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$',
-       r'Lema (condiționarea vectorilor normali comuni): dacă $(x, y)$ este gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$'),
+    (T(r'\hypertarget{kflemma}{}Lemma (conditioning of jointly normal vectors): if $(x, y)$ is Gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$',
+       r'\hypertarget{kflemma}{}Lema (condiționarea vectorilor normali comuni): dacă $(x, y)$ este gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$'),
      [T(r'$\mu_x$, $\mu_y$: the means; $\Sigma_{xy} = \Cov(x, y)$, $\Sigma_{yy} = \Var(y)$: the covariance blocks', r'$\mu_x$, $\mu_y$: mediile; $\Sigma_{xy} = \Cov(x, y)$, $\Sigma_{yy} = \Var(y)$: blocurile de covarianță'),
       T(r'apply it to $x = \alpha_t$ and $y = y_t$, conditional on $Y_{t-1}$: $v_t = y_t - Z_ta_t$ is the new information (the prediction error)',
         r'o aplicăm pentru $x = \alpha_t$ și $y = y_t$, condiționat de $Y_{t-1}$: $v_t = y_t - Z_ta_t$ este informația nouă (eroarea de predicție)')]),
@@ -408,8 +408,8 @@ D.frame(T('The Kalman filter from one lemma', 'Filtrul Kalman dintr-o singură l
       r'Fără normalitate, aceleași recursii dau cel mai bun predictor \emph{liniar} (eroare pătratică medie minimă printre funcțiile liniare de $Y_t$)')), 'small')
 
 D.frame(T('The filter in one pass', 'Filtrul într-o singură trecere'), items(
-    T(r'$v_t = y_t - Z_ta_t$, $\quad F_t = Z_tP_tZ_t\' + H_t$, $\quad K_t = T_tP_tZ_t\'F_t^{-1}$ (Kalman gain), $\quad L_t = T_t - K_tZ_t$',
-      r'$v_t = y_t - Z_ta_t$, $\quad F_t = Z_tP_tZ_t\' + H_t$, $\quad K_t = T_tP_tZ_t\'F_t^{-1}$ (cîștigul Kalman), $\quad L_t = T_t - K_tZ_t$'),
+    T(r'With $v_t$ and $F_t$ of the previous slide: $K_t = T_tP_tZ_t\'F_t^{-1}$ (Kalman gain), $\quad L_t = T_t - K_tZ_t$',
+      r'Cu $v_t$ și $F_t$ de pe slide-ul anterior: $K_t = T_tP_tZ_t\'F_t^{-1}$ (cîștigul Kalman), $\quad L_t = T_t - K_tZ_t$'),
     T(r'$a_{t+1} = c_t + T_ta_t + K_tv_t$, $\quad P_{t+1} = T_tP_tL_t\' + R_tQ_tR_t\'$',
       r'$a_{t+1} = c_t + T_ta_t + K_tv_t$, $\quad P_{t+1} = T_tP_tL_t\' + R_tQ_tR_t\'$'),
     (T(r'Cost: $O(n(m^3 + p^3))$; with time-invariant matrices $P_t$ converges to the steady state of the Riccati equation',
@@ -429,8 +429,8 @@ D.frame(T('Smoothing: backward recursions', 'Netezirea: recursii înapoi'), item
       T(r'$\hat\alpha_t$ corrects $a_t$ by everything learned from $t$ on', r'$\hat\alpha_t$ corectează $a_t$ cu tot ce aflăm de la momentul $t$ încolo')]),
     T(r'Disturbance smoother: $\hat\varepsilon_t = H_t(F_t^{-1}v_t - K_t\'r_t)$, $\hat\eta_t = Q_tR_t\'r_t$: auxiliary residuals for outliers and breaks, and the score of the likelihood',
       r'Netezitorul perturbațiilor: $\hat\varepsilon_t = H_t(F_t^{-1}v_t - K_t\'r_t)$, $\hat\eta_t = Q_tR_t\'r_t$: reziduuri auxiliare pentru valori extreme și rupturi și scorul verosimilității'),
-    T(r'Derivation from the same lemma, now conditioning on $v_t, \dots, v_n$, which are independent (Appendix)',
-      r'Derivarea folosește aceeași lemă, acum condiționînd pe $v_t, \dots, v_n$, care sînt independente (Anexa)')), 'small')
+    T(r'Derivation from the same lemma, now conditioning on $v_t, \dots, v_n$, which are independent (Appendix)  % applink: smoother from the lemma',
+      r'Derivarea folosește aceeași lemă, acum condiționînd pe $v_t, \dots, v_n$, care sînt independente (Anexa)  % applink: netezitorul din lemă')), 'small')
 
 D.frame(T('Diffuse initialisation (1/2)', 'Inițializarea difuză (1/2)'), items(
     (T(r'Random walks, trends and regression coefficients have no stationary distribution: $P_1 = \kappa P_\infty + P_*$, $\kappa \to \infty$',
@@ -465,11 +465,6 @@ interp(('the diffuse initialisation', 'inițializării difuze'), [
     T(r'Smoothed variances: error @{df.ev4} at $\kappa = 10^4$, @{df.ev8} at $10^8$ and $10^{@{df.ev16e}}$ at $10^{16}$: no single $\kappa$ is safe for both states and variances',
       r'Varianțele netezite: eroarea este @{df.ev4} la $\kappa = 10^4$, @{df.ev8} la $10^8$ și $10^{@{df.ev16e}}$ la $10^{16}$: niciun $\kappa$ nu este sigur simultan pentru stări și pentru varianțe'),
     T('Practical rule: use the exact diffuse filter whenever the model has nonstationary or fixed unknown states', 'Regula practică: folosiți filtrul difuz exact ori de cîte ori modelul are stări nestaționare sau fixe necunoscute')])
-
-D.recap(('The general linear Gaussian model', 'modelul liniar gaussian general'), [
-    T('One lemma (Gaussian conditioning) gives the filter, the smoother and the disturbance smoother', 'O singură lemă (condiționarea gaussiană) dă filtrul, netezitorul și netezitorul perturbațiilor'),
-    T('Missing data, mixed frequencies and multivariate observations are handled inside the same recursions', 'Datele lipsă, frecvențele mixte și observațiile multivariate se tratează în aceleași recursii'),
-    T('Nonstationary states need the exact diffuse filter; big kappa breaks the likelihood level and the smoothed variances', 'Stările nestaționare cer filtrul difuz exact; big kappa denaturează nivelul verosimilității și varianțele netezite')])
 
 # =============================================================================
 # 2. VEROSIMILITATE
@@ -544,11 +539,6 @@ interp(('the pile-up simulation', 'simulării pile-up'), [
     T(r'A reported $\hat\sigma^2_\eta = 0$ is therefore not evidence of a constant level; a small positive value is compatible with a deterministic one',
       r'Un $\hat\sigma^2_\eta = 0$ raportat nu este deci o dovadă a unui nivel constant; o valoare pozitivă mică este compatibilă cu un nivel determinist'),
     T('Report the profile likelihood or the posterior of $q$, not a point estimate with a Hessian standard error', 'Raportați verosimilitatea profil sau distribuția a posteriori a lui $q$, nu o estimație punctuală cu o eroare standard din hessiană')])
-
-D.recap(('The exact likelihood', 'verosimilitatea exactă'), [
-    T('The filter delivers the Gaussian likelihood; with diffuse states the first $d$ terms are replaced by their diffuse limits', 'Filtrul dă verosimilitatea gaussiană; cu stări difuze, primii $d$ termeni sînt înlocuiți cu limitele lor difuze'),
-    T('Concentrate the scale, parameterise without constraints, use several starts, and check the numbers against a second implementation', 'Concentrați scala, parametrizați fără restricții, folosiți mai multe puncte de pornire și verificați cifrele cu o a doua implementare'),
-    T('Variances near zero pile up at zero: standard errors and $\\chi^2$ tests fail at the boundary', 'Varianțele apropiate de zero se acumulează în zero: erorile standard și testele $\\chi^2$ nu funcționează la frontieră')])
 
 # =============================================================================
 # 3. SIMULARE ȘI GIBBS
@@ -648,11 +638,6 @@ interp(('the Gibbs output', 'rezultatelor Gibbs'), [
     T(r'Inefficiency factors @{gb.ie0} and @{gb.ie1}: the variance draws inherit the autocorrelation of the state draws',
       r'Factorii de ineficiență @{gb.ie0} și @{gb.ie1}: extragerile varianțelor moștenesc autocorelația extragerilor stărilor'),
     T('The interval for $q$ excludes zero: the trend of US inflation moves, but the upper end of the interval is @{gb.qratio} times the lower end', 'Intervalul pentru $q$ exclude zero: trendul inflației din SUA se mișcă, dar capătul superior al intervalului este de @{gb.qratio} ori mai mare decît cel inferior')])
-
-D.recap(('Bayesian state space', 'spațiul stărilor bayesian'), [
-    T('Gibbs: states as one block given the parameters, parameters given the states', 'Gibbs: stările ca un singur bloc, dați parametrii; parametrii, date stările'),
-    T('FFBS, the DK simulation smoother and the precision sampler draw from the same distribution', 'FFBS, simulation smoother-ul DK și eșantionarea pe baza preciziei extrag din aceeași distribuție'),
-    T('Priors regularise boundary problems but must be reported and varied', 'Distribuțiile a priori regularizează problemele de frontieră, dar trebuie raportate și variate')])
 
 # =============================================================================
 # 4. VOLATILITATE STOCHASTICĂ
@@ -755,11 +740,6 @@ D.frame(T('Interpreting the SV estimates', 'Interpretarea estimațiilor SV'), ta
       r'Factorii de ineficiență mari pentru $\sigma_\eta$ sînt tipici: $\sigma_\eta$ și traiectoria $h_{1:n}$ sînt puternic dependente; sînt necesare lanțuri lungi sau tehnici de interweaving'),
     T(r'Kurtosis of returns: @{sv.sp500.kurt} (S\&P 500) and @{sv.bet.kurt} (BET); with Gaussian $\epsilon_t$, SV explains only part of it (SV-$t$ errors are the usual extension)',
       r'Kurtosis-ul randamentelor: @{sv.sp500.kurt} (S\&P 500) și @{sv.bet.kurt} (BET); cu $\epsilon_t$ gaussian, SV explică doar o parte (extensia uzuală: erori SV-$t$)')), 'footnotesize')
-
-D.recap(('Stochastic volatility', 'volatilitatea stochastică'), [
-    T('SV adds a shock to the variance: its likelihood is an integral over the volatility path', 'SV adaugă un șoc varianței: verosimilitatea este o integrală după traiectoria volatilității'),
-    T('Log-squared returns make the model linear; the KSC mixture makes it conditionally Gaussian, so the whole path can be drawn in one block', 'Logaritmul pătratelor randamentelor face modelul liniar; mixtura KSC îl face condiționat gaussian, deci întreaga traiectorie se poate extrage într-un singur bloc'),
-    T('On daily index returns SV and GARCH give similar volatility paths but different reactions to single large returns', 'Pe randamentele zilnice ale indicilor, SV și GARCH dau traiectorii apropiate ale volatilității, dar reacții diferite la un singur randament mare')])
 
 # =============================================================================
 # 5. FILTRARE NELINIARĂ
@@ -913,11 +893,6 @@ interp(('the PMMH run', 'rulării PMMH'), [
     T(r'Cost: @{pm.min} minutes for PMMH against seconds for Gibbs: use PMMH when there is no conditionally Gaussian representation',
       r'Costul: @{pm.min} minute pentru PMMH, față de cîteva secunde pentru Gibbs: folosiți PMMH cînd nu există o reprezentare condiționat gaussiană')])
 
-D.recap(('Nonlinear filtering', 'filtrarea neliniară'), [
-    T('EKF linearises the model, UKF propagates sigma points, particle filters propagate weighted samples', 'EKF liniarizează modelul, UKF propagă puncte sigma, filtrele de particule propagă eșantioane ponderate'),
-    T('The particle likelihood is unbiased in levels; its log variance decides the number of particles', 'Verosimilitatea din filtrul de particule este nedeplasată în nivel; varianța logaritmului ei decide numărul de particule'),
-    T('PMMH turns any simulable model into an exact Bayesian procedure, at a computational price', 'PMMH transformă orice model care poate fi simulat într-o procedură bayesiană exactă, cu un cost de calcul')])
-
 # =============================================================================
 # 6. PARAMETRI VARIABILI ÎN TIMP
 # =============================================================================
@@ -976,11 +951,6 @@ D.frame(T('Estimating a TVP-VAR-SV', 'Estimarea unui TVP-VAR-SV'), items(
       r'Distribuții a priori dintr-un eșantion de antrenare de la începutul datelor, ca în \refPri, cu scale mici pentru covarianțele mersurilor aleatoare: a priori decide cîtă variație este permisă'),
     T(r'Overparameterisation: with $k$ coefficients per equation, shrink the variances, or select which coefficients vary (non-centred parameterisation, \refFSW)',
       r'Supraparametrizarea: cu $k$ coeficienți pe ecuație, aplicăm shrinkage varianțelor sau selectăm coeficienții care variază (parametrizarea necentrată, \refFSW)')), 'small')
-
-D.recap(('Time-varying parameters', 'parametri variabili în timp'), [
-    T('A TVP regression is a state space model with $Z_t$ built from the regressors; fixed coefficients are diffuse states without shocks', 'O regresie TVP este un model în spațiul stărilor cu $Z_t$ construit din regresori; coeficienții ficși sînt stări difuze fără șocuri'),
-    T('Rolling windows exaggerate time variation; test it at the boundary with a bootstrap', 'Ferestrele mobile exagerează variația în timp; testați-o la frontieră cu un bootstrap'),
-    T('TVP-VAR-SV combines the simulation smoother and the KSC mixture in one Gibbs sampler', 'TVP-VAR-SV combină simulation smoother-ul și mixtura KSC într-un singur eșantionator Gibbs')])
 
 # =============================================================================
 # 7. DFM
@@ -1092,11 +1062,6 @@ interp(('the Romanian output gap', 'output gap-ului României'), [
       r'Alegerea modelului domină: abaterea standard a output gap-ului este @{rg.sdgap} (trend neted), @{rg.sduc0} (UC0), @{rg.sdham} (Hamilton); corelația trend neted--Hamilton @{rg.corr}'),
     T('A Romanian output gap without its band and without the model behind it is not information', 'Un output gap pentru România fără banda lui și fără modelul din spatele lui nu este o informație')])
 
-D.recap(('Trend--cycle decompositions', 'descompunerile trend--ciclu'), [
-    T('BN, UC and Hamilton define the cycle differently; MNZ show that BN and UC agree once trend and cycle shocks may correlate', 'BN, UC și Hamilton definesc ciclul diferit; MNZ arată că BN și UC coincid odată ce șocurile trendului și ale ciclului pot fi corelate'),
-    T('In short, volatile samples (Romania) the correlation is not identified and the trend specification decides the gap', 'În eșantioane scurte și volatile (România) corelația nu este identificată, iar specificarea trendului decide output gap-ul'),
-    T('Report filtered and smoothed estimates: the end-of-sample gap is the least reliable number', 'Raportați estimațiile filtrate și netezite: output gap-ul de la finalul eșantionului este cifra cea mai puțin fiabilă')])
-
 # =============================================================================
 # 9. UC-SV
 # =============================================================================
@@ -1154,11 +1119,6 @@ D.frame(T('Beyond: BSTS and regime switching', 'Mai departe: BSTS și modele cu 
        r'Stări discrete: $s_t \in \{1, \dots, K\}$ cu un lanț Markov; filtrul Hamilton este filtrul Bayes cu sume în loc de integrale'),
      [T(r'state space models with regime switching (Kim filter, Gibbs sampling) \refKN: Chapter 7', r'modele în spațiul stărilor cu schimbare de regim (filtrul Kim, eșantionare Gibbs) \refKN: Capitolul 7')]),
     T(r'Forecast evaluation of all these models (density forecasts, scoring rules): Chapter 1', r'Evaluarea prognozelor tuturor acestor modele (prognoze de densitate, reguli de scor): Capitolul 1')), 'small')
-
-D.recap(('Trend inflation', 'inflația de trend'), [
-    T('UC-SV lets the split between permanent and transitory shocks change over time', 'UC-SV permite ca împărțirea dintre șocurile permanente și cele tranzitorii să se schimbe în timp'),
-    T('Two KSC blocks and one precision sampler make the Gibbs sampler fast', 'Două blocuri KSC și o eșantionare pe baza preciziei fac eșantionatorul Gibbs rapid'),
-    T('US trend inflation rose sharply in 2021--2022; Romanian trend inflation is still above the target band', 'Inflația de trend din SUA a crescut puternic în 2021--2022; inflația de trend din România este încă peste banda-țintă')])
 
 # =============================================================================
 # 10. AI
@@ -1239,15 +1199,15 @@ D.frame(T('Self-assessment', 'Autoevaluare'), cols(
 # =============================================================================
 D.section('Appendix', 'Anexă')
 
-D.frame(T('Appendix: the Kalman filter from the lemma', 'Anexă: filtrul Kalman din lemă'), items(
-    T(r'Given $Y_{t-1}$: $\begin{pmatrix}\alpha_t\\ y_t\end{pmatrix} \sim N\left(\begin{pmatrix}a_t\\ Z_ta_t\end{pmatrix}, \begin{pmatrix}P_t & P_tZ_t\'\\ Z_tP_t & F_t\end{pmatrix}\right)$, $F_t = Z_tP_tZ_t\' + H_t$',
-      r'Dat $Y_{t-1}$: $\begin{pmatrix}\alpha_t\\ y_t\end{pmatrix} \sim N\left(\begin{pmatrix}a_t\\ Z_ta_t\end{pmatrix}, \begin{pmatrix}P_t & P_tZ_t\'\\ Z_tP_t & F_t\end{pmatrix}\right)$, $F_t = Z_tP_tZ_t\' + H_t$'),
-    T(r'Conditioning on $y_t$ (equivalently on $v_t$, since $Y_t = (Y_{t-1}, v_t)$ and $v_t$ is independent of $Y_{t-1}$) gives $a_{t|t}$ and $P_{t|t}$',
-      r'Condiționarea pe $y_t$ (echivalent pe $v_t$, deoarece $Y_t = (Y_{t-1}, v_t)$, iar $v_t$ este independent de $Y_{t-1}$) dă $a_{t|t}$ și $P_{t|t}$'),
-    T(r'$\alpha_{t+1} = c_t + T_t\alpha_t + R_t\eta_t$ with $\eta_t$ independent of $Y_t$: $a_{t+1} = c_t + T_ta_{t|t}$, $P_{t+1} = T_tP_{t|t}T_t\' + R_tQ_tR_t\'$',
-      r'$\alpha_{t+1} = c_t + T_t\alpha_t + R_t\eta_t$ cu $\eta_t$ independent de $Y_t$: $a_{t+1} = c_t + T_ta_{t|t}$, $P_{t+1} = T_tP_{t|t}T_t\' + R_tQ_tR_t\'$'),
-    T(r'Smoother: $\hat\alpha_t = a_t + \sum_{j=t}^n\Cov(\alpha_t, v_j)F_j^{-1}v_j$ (the $v_j$ are independent); $\Cov(\alpha_t, v_j) = P_tL_t\'\cdots L_{j-1}\'Z_j\'$ gives $\hat\alpha_t = a_t + P_tr_{t-1}$',
-      r'Netezitorul: $\hat\alpha_t = a_t + \sum_{j=t}^n\Cov(\alpha_t, v_j)F_j^{-1}v_j$ (variabilele $v_j$ sînt independente); $\Cov(\alpha_t, v_j) = P_tL_t\'\cdots L_{j-1}\'Z_j\'$ dă $\hat\alpha_t = a_t + P_tr_{t-1}$')), 'small')
+D.frame(T('Appendix: the smoother from the lemma', 'Anexă: netezitorul din lemă'), items(
+    T(r'$Y_n = (Y_{t-1}, v_t, \dots, v_n)$, and $v_t, \dots, v_n$ are independent of each other and of $Y_{t-1}$: the lemma applies to each $v_j$ separately',
+      r'$Y_n = (Y_{t-1}, v_t, \dots, v_n)$, iar $v_t, \dots, v_n$ sînt independente între ele și de $Y_{t-1}$: lema se aplică separat fiecărui $v_j$'),
+    T(r'Smoother: $\hat\alpha_t = a_t + \sum_{j=t}^n\Cov(\alpha_t, v_j)F_j^{-1}v_j$, with $\Cov(\alpha_t, v_j) = P_tL_t\'\cdots L_{j-1}\'Z_j\'$',
+      r'Netezitorul: $\hat\alpha_t = a_t + \sum_{j=t}^n\Cov(\alpha_t, v_j)F_j^{-1}v_j$, cu $\Cov(\alpha_t, v_j) = P_tL_t\'\cdots L_{j-1}\'Z_j\'$'),
+    T(r'Hence $\hat\alpha_t = a_t + P_tr_{t-1}$ with $r_{t-1} = \sum_{j=t}^nL_t\'\cdots L_{j-1}\'Z_j\'F_j^{-1}v_j$ (empty product for $j = t$), which satisfies the backward recursion $r_{t-1} = Z_t\'F_t^{-1}v_t + L_t\'r_t$',
+      r'Rezultă $\hat\alpha_t = a_t + P_tr_{t-1}$, cu $r_{t-1} = \sum_{j=t}^nL_t\'\cdots L_{j-1}\'Z_j\'F_j^{-1}v_j$ (produs vid pentru $j = t$), care satisface recursia înapoi $r_{t-1} = Z_t\'F_t^{-1}v_t + L_t\'r_t$'),
+    T(r'The filtering steps (update and prediction) follow from the same lemma with $j = t$ only: slide \hyperlink{kflemma}{\textcolor{MainBlue}{The Kalman filter from one lemma}}',
+      r'Pașii de filtrare (actualizarea și predicția) rezultă din aceeași lemă numai cu $j = t$: slide-ul \hyperlink{kflemma}{\textcolor{MainBlue}{Filtrul Kalman dintr-o singură lemă}}')), 'small')
 
 D.frame(T('Appendix: exactness of the Durbin--Koopman simulation smoother', 'Anexă: exactitatea simulation smoother-ului Durbin--Koopman'), items(
     T(r'Gaussian model: $\alpha | y \sim N(\hat\alpha(y), V)$ with $V$ independent of $y$, and $\hat\alpha(y)$ linear in $y$ (affine with the intercepts)',
@@ -1265,9 +1225,7 @@ D.frame(T('Appendix: unbiasedness of the particle likelihood', 'Anexă: nedeplas
     T(r'Applying the tower property successively for $t = n, n-1, \dots, 1$ (at each step the expectation of the last factor given $\mathcal F_{t-1}$ is replaced by the formula above), with multinomial or systematic resampling, gives $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM',
       r'Aplicînd succesiv proprietatea speranțelor condiționate iterate pentru $t = n, n-1, \dots, 1$ (la fiecare pas, speranța ultimului factor condiționată de $\mathcal F_{t-1}$ se înlocuiește cu formula de mai sus), cu reeșantionare multinomială sau sistematică, obținem $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM'),
     T(r'Each factor is a ratio estimate, but the product is unbiased because resampling preserves the expected weights; normalised quantities (filtered means) are only consistent',
-      r'Fiecare factor este o estimație de tip raport, dar produsul este nedeplasat, pentru că reeșantionarea păstrează ponderile așteptate; mărimile normalizate (mediile filtrate) sînt doar consistente'),
-    T(r'Jensen: $\E\ln\hat L \le \ln\E\hat L = \ln L$; under a CLT for $\ln\hat L$ the bias is $-\frac12\Var(\ln\hat L)$',
-      r'Jensen: $\E\ln\hat L \le \ln\E\hat L = \ln L$; sub o TLC pentru $\ln\hat L$, deplasarea este $-\frac12\Var(\ln\hat L)$')), 'small')
+      r'Fiecare factor este o estimație de tip raport, dar produsul este nedeplasat, pentru că reeșantionarea păstrează ponderile așteptate; mărimile normalizate (mediile filtrate) sînt doar consistente')), 'small')
 
 D.references(bib(), per=12)
 

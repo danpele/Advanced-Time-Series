@@ -114,7 +114,6 @@ MSCA Digital Finance}
     \item \textbf{AR}: AutoRegressive (model); in event studies: Abnormal Return
     \item \textbf{BET}: Bucharest Exchange Trading (index)
     \item \textbf{BNR}: Banca Națională a României (the National Bank of Romania)
-    \item \textbf{BSTS}: Bayesian Structural Time Series
     \item \textbf{CAR}: Cumulative Abnormal Return
     \item \textbf{CCM}: Convergent Cross Mapping
     \item \textbf{CS}: Callaway and Sant'Anna (estimator)
@@ -132,6 +131,7 @@ MSCA Digital Finance}
     \item \textbf{HICP}: Harmonised Index of Consumer Prices
     \item \textbf{ITS}: Interrupted Time Series
     \item \textbf{LLM}: Large Language Model
+    \item \textbf{LP}: Local Projection
 \end{itemize}
 \end{column}
 \end{columns}
@@ -141,7 +141,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{LP}: Local Projection
     \item \textbf{MCI}: Momentary Conditional Independence
     \item \textbf{MCMC}: Markov Chain Monte Carlo
     \item \textbf{MSPE}: Mean Squared Prediction Error
@@ -151,14 +150,15 @@ MSCA Digital Finance}
     \item \textbf{PCMCI}: PC algorithm + Momentary Conditional Independence
     \item \textbf{RMSPE}: Root Mean Squared Prediction Error
     \item \textbf{SC}: Synthetic Control
+    \item \textbf{SDID}: Synthetic Difference in Differences
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{SDID}: Synthetic Difference in Differences
     \item \textbf{SEC}: Securities and Exchange Commission
     \item \textbf{SVAR}: Structural Vector AutoRegression
     \item \textbf{TE}: Transfer Entropy
+    \item \textbf{TSA}: Time Series Analysis
     \item \textbf{TWFE}: Two-Way Fixed Effects
     \item \textbf{UK}: United Kingdom
     \item \textbf{US}: United States
@@ -186,7 +186,7 @@ MSCA Digital Finance}
         \item interrupted time series and event studies with dependent errors
         \item synthetic control and its successors; staggered DiD; CausalImpact; DML
     \end{itemize}
-    \item We build on \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0} (HAC), \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3} (SVAR, local projections, proxy SVAR) and \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter6_state_space_models_bayesian_filtering.pdf}{Chapter 6} (state space, BSTS); Seminar 14 comes before this lecture
+    \item Prerequisites: Seminar 14 and the slide \hyperlink{c14known}{\textcolor{MainBlue}{Known from TSA and \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3}, and new here}}
 \end{itemize}
 \end{frame}
 
@@ -236,9 +236,6 @@ Daily index and crypto prices; EUR/RON & EODHD; BNR reference rate; to 18 Septem
 \bottomrule
 \end{tabular}
 \end{center}
-\begin{itemize}
-    \item Treatment dates, sample windows and estimators are fixed before the post-treatment data are looked at; every placebo is reported
-\end{itemize}
 \end{frame}
 
 \begin{frame}{Two languages of causality}
@@ -305,7 +302,7 @@ Daily index and crypto prices; EUR/RON & EODHD; BNR reference rate; to 18 Septem
 \begin{frame}{Known from TSA and \atschlinkt{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3}, and new here}
 \itemsize{\small}
 \begin{itemize}
-    \item Known: the bivariate Granger test in a VAR (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter6_var_models_granger_causality.pdf}{TSA, Chapter 6}); SVAR identification, local projections and proxy SVAR (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3}); HAC (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}); Kalman filter and BSTS (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter6_state_space_models_bayesian_filtering.pdf}{Chapter 6})
+    \item \hypertarget{c14known}{}Known: the bivariate Granger test in a VAR (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter6_var_models_granger_causality.pdf}{TSA, Chapter 6}); SVAR identification, local projections and proxy SVAR (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3}); HAC (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}); Kalman filter and BSTS (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter6_state_space_models_bayesian_filtering.pdf}{Chapter 6})
     \item New: what these tools can and cannot say about interventions
     \begin{itemize}
         \item potential outcomes for time series; non-anticipation; when an impulse response is a causal effect
@@ -1046,7 +1043,7 @@ Investment rate & 27.0 & 27.0 & 25.9 \\
 \itemsize{\small}
 \begin{itemize}
     \item The synthetic West Germany tracks the actual series for thirty years (1960--1989), then grows faster
-    \item Average gap 1990--2003: 1588 USD per capita a year (5.6\% of the synthetic level); in 2003: 3391 USD (10.5\%)
+    \item Average gap 1990--2003: $-$1588 USD per capita a year ($-$5.6\% of the synthetic level); in 2003: $-$3391 USD ($-$10.5\%)
     \item The paper reports a reduction of about 1,600 USD a year on average: the replication matches
     \item The donors (Austria, USA, Japan, Switzerland, Netherlands) are rich, industrial economies: the weights make economic sense, a check no algorithm does for us
 \end{itemize}

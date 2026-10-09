@@ -321,8 +321,9 @@ D.frame(T('Counting parameters', 'Numărarea parametrilor'), items(
     (T(r'Even with $k < T$, the estimation error grows with $k/T$: one-step MSE $\approx \sigma^2(1 + k/T)$ for a correctly specified regression', r'Chiar cu $k < T$, eroarea de estimare crește cu $k/T$: MSE la un pas $\approx \sigma^2(1 + k/T)$ pentru o regresie corect specificată'),
      [T('overfitting: in-sample fit improves, out-of-sample accuracy deteriorates', 'supraajustare: potrivirea în eșantion se îmbunătățește, acuratețea în afara eșantionului se deteriorează')]),
     (T('Three remedies', 'Trei remedii'),
-     [T('shrinkage: Bayesian priors, ridge, LASSO', 'shrinkage: distribuții a priori bayesiene, ridge, LASSO'),
-      T('dimension reduction: factors; variable selection', 'reducerea dimensiunii: factori; selecția variabilelor')])), 'small')
+     [T('shrinkage (Bayesian priors, ridge, LASSO): a small bias for a large reduction of variance', 'shrinkage (distribuții a priori bayesiene, ridge, LASSO): o deplasare mică în schimbul unei reduceri mari a varianței'),
+      T('dimension reduction by factors: a few common components summarise many series', 'reducerea dimensiunii prin factori: cîteva componente comune rezumă multe serii'),
+      T('variable selection: keep only some regressors', 'selecția variabilelor: se păstrează doar o parte dintre regresori')])), 'small')
 
 chart(T('Simulation: OLS VAR against a Minnesota BVAR', 'Simulare: VAR estimat prin OLS comparat cu un BVAR Minnesota'), 'ats_ch5_curse', 'ATS_ch5_bvar', [
     T(r'True model: stationary VAR(1) $A = 0.5I + (0.3/n)\mathbf{1}\mathbf{1}\'$ ($\mathbf{1}$: a vector of ones); estimated VAR(4), $T = 120$; one-step MSE of variable 1 relative to the true model; @{cu.reps} replications',
@@ -334,11 +335,6 @@ interp(('the simulation', 'simulării'), [
     T(r'BVAR: @{cu.bv24} at $n = 24$; the tightness chosen by the marginal likelihood falls from @{cu.lam2} ($n = 2$) to @{cu.lam24} ($n = 24$)', r'BVAR: @{cu.bv24} pentru $n = 24$; gradul de strîngere ales prin verosimilitatea marginală scade de la @{cu.lam2} ($n = 2$) la @{cu.lam24} ($n = 24$)'),
     T(r'A univariate AR(4) stays near @{cu.ar24}: the cross-variable information is real but small, and OLS spends it on noise', r'Un AR(4) univariat rămîne în jurul valorii @{cu.ar24}: informația dintre variabile există, dar este mică, iar OLS o irosește pe zgomot'),
     T('The larger the system, the tighter the prior should be: the theme of the whole chapter \\refDGRa', 'Cu cît sistemul este mai mare, cu atît distribuția a priori trebuie să fie mai strînsă: tema întregului capitol \\refDGRa')])
-
-D.recap(('The curse of dimensionality', 'blestemul dimensionalității'), [
-    T('Parameters grow with $n^2p$; observations do not', 'Parametrii cresc cu $n^2p$; observațiile nu'),
-    T('Shrinkage trades a small bias for a large reduction of variance', 'Shrinkage-ul acceptă o deplasare mică în schimbul unei reduceri mari a varianței'),
-    T('Factors summarise many series by a few common components', 'Factorii rezumă multe serii prin cîteva componente comune')])
 
 # =============================================================================
 # 2. INFERENȚA BAYESIANĂ
@@ -384,7 +380,7 @@ interp(('the update', 'actualizării'), [
     T('In a VAR, each equation has hundreds of coefficients but the same $T$: the prior keeps the weight it has at $T = 24$ here', 'Într-un VAR, fiecare ecuație are sute de coeficienți, dar același $T$: distribuția a priori păstrează ponderea pe care o are aici la $T = 24$')])
 
 D.frame(T('Marginal likelihood and Bayes factors', 'Verosimilitatea marginală și factorii Bayes'), items(
-    (T(r'$p(y\mid M) = \int p(y\mid\theta, M)p(\theta\mid M)\,d\theta$: the density of the data \emph{before} seeing them', r'$p(y\mid M) = \int p(y\mid\theta, M)p(\theta\mid M)\,d\theta$: densitatea datelor \emph{înainte} de a le vedea'),
+    (T(r'\hypertarget{ch5ml}{}$p(y\mid M) = \int p(y\mid\theta, M)p(\theta\mid M)\,d\theta$: the density of the data \emph{before} seeing them', r'\hypertarget{ch5ml}{}$p(y\mid M) = \int p(y\mid\theta, M)p(\theta\mid M)\,d\theta$: densitatea datelor \emph{înainte} de a le vedea'),
      [T(r'$M$: a model, i.e.\ a likelihood together with its prior; the integral averages the likelihood over the prior', r'$M$: un model, adică o verosimilitate împreună cu distribuția ei a priori; integrala mediază verosimilitatea după distribuția a priori'),
       T(r'prediction-error decomposition: $\ln p(y) = \sum_t \ln p(y_t\mid y_{1:t-1})$, a sum of one-step log scores (Chapter 1); $y_{1:t-1}$: the data up to $t - 1$', r'descompunerea erorilor de predicție: $\ln p(y) = \sum_t \ln p(y_t\mid y_{1:t-1})$, o sumă de scoruri logaritmice la un pas (Capitolul 1); $y_{1:t-1}$: datele pînă la $t - 1$'),
       T('it penalises complexity automatically: a diffuse prior spreads probability over data that never occur', 'penalizează automat complexitatea: o distribuție a priori difuză împrăștie probabilitatea pe date care nu apar')]),
@@ -436,11 +432,6 @@ interp(('the two samplers', 'celor două eșantionatoare'), [
     (T(r'Centred regressor: correlation @{gb.centred.corr}, ESS = @{gb.centred.ess}, $\widehat R$ = @{gb.centred.rhat}, Geweke $z$ = @{gb.centred.gw}', r'Regresorul centrat: corelația @{gb.centred.corr}, ESS = @{gb.centred.ess}, $\widehat R$ = @{gb.centred.rhat}, $z$ Geweke = @{gb.centred.gw}'),
      [T(r'same model, same posterior of the slope (mean @{gb.centred.mean}); only the sampler changed', r'același model, aceeași distribuție a posteriori a pantei (media @{gb.centred.mean}); s-a schimbat doar eșantionatorul')]),
     T('Lesson: reparametrise or draw correlated blocks jointly; conjugate BVARs avoid the problem by drawing $B$ in one block', 'Lecția: reparametrizați sau extrageți împreună blocurile corelate; BVAR-urile conjugate evită problema extrăgînd $B$ într-un singur bloc')])
-
-D.recap(('Bayesian inference', 'inferența bayesiană'), [
-    T('Posterior precision = prior precision + data precision; the mean is a weighted average', 'Precizia a posteriori = precizia a priori + precizia datelor; media este o medie ponderată'),
-    T('The marginal likelihood scores a model with its prior and can choose hyperparameters', 'Verosimilitatea marginală evaluează un model împreună cu distribuția lui a priori și poate alege hiperparametri'),
-    T('Gibbs sampling needs full conditionals; check ESS, $\\widehat R$ and Geweke before trusting the draws', 'Eșantionarea Gibbs cere distribuțiile condiționate complete; verificați ESS, $\\widehat R$ și Geweke înainte de a avea încredere în extrageri')])
 
 # =============================================================================
 # 3. MINNESOTA ȘI NIW
@@ -498,11 +489,6 @@ interp(('the trade-off', 'compromisului'), [
     T(r'Out of sample: U-shape; minimum @{tr.bestoos} at $\lambda = @{tr.best}$; @{tr.tight} with $\lambda = 0.005$ (almost the random walk); @{tr.loose} with $\lambda = 20$', r'În afara eșantionului: formă de U; minimul @{tr.bestoos} la $\lambda = @{tr.best}$; @{tr.tight} cu $\lambda = 0{,}005$ (aproape mersul aleator); @{tr.loose} cu $\lambda = 20$'),
     T('The shrinkage must be chosen without looking at the evaluation sample: by a fit rule (BGR) or by the marginal likelihood (GLP)', 'Shrinkage-ul trebuie ales fără a privi eșantionul de evaluare: printr-o regulă de potrivire (BGR) sau prin verosimilitatea marginală (GLP)')])
 
-D.recap(('Minnesota and NIW priors', 'distribuțiile a priori Minnesota și NIW'), [
-    T('Minnesota: centre each equation on a random walk or white noise; shrink distant lags and other variables more', 'Minnesota: centrăm fiecare ecuație pe un mers aleator sau pe zgomot alb; strîngem mai mult lagurile îndepărtate și celelalte variabile'),
-    T('The natural conjugate form keeps closed forms at the cost of $\\vartheta = 1$', 'Forma natural conjugată păstrează formulele închise cu prețul $\\vartheta = 1$'),
-    T('Dummy observations implement the prior by OLS and add sum-of-coefficients and initial-observation beliefs', 'Observațiile fictive implementează distribuția a priori prin OLS și adaugă convingeri despre suma coeficienților și observația inițială')])
-
 # =============================================================================
 # 4. GLP
 # =============================================================================
@@ -512,7 +498,7 @@ D.frame(T('Giannone, Lenza and Primiceri (2015)', 'Giannone, Lenza și Primiceri
     (T(r'Treat $\gamma = (\lambda, \mu, \phi)$ as parameters with hyperpriors: $p(\gamma\mid y) \propto p(y\mid\gamma)p(\gamma)$ \refGLP', r'Tratăm $\gamma = (\lambda, \mu, \phi)$ ca parametri cu distribuții a priori proprii: $p(\gamma\mid y) \propto p(y\mid\gamma)p(\gamma)$ \refGLP'),
      [T(r'$p(y\mid\gamma)$ is known in closed form for the NIW prior with dummies: data plus dummies, minus dummies alone', r'$p(y\mid\gamma)$ este cunoscută în formă închisă pentru distribuția NIW cu observații fictive: datele plus observațiile fictive, minus observațiile fictive singure'),
       T(r'hyperpriors: Gamma with mode 0.2 and sd 0.4 for $\lambda$, mode 1 and sd 1 for $\mu$ and $\phi$', r'distribuții a priori pentru hiperparametri: Gamma cu modul 0,2 și abaterea standard 0,4 pentru $\lambda$, modul 1 și abaterea standard 1 pentru $\mu$ și $\phi$')]),
-    (T('Interpretation: the marginal likelihood is an out-of-sample score of one-step predictive densities (previous section)', 'Interpretare: verosimilitatea marginală este un scor în afara eșantionului al densităților predictive la un pas (secțiunea anterioară)'),
+    (T(r'Interpretation: the marginal likelihood is an out-of-sample score of one-step predictive densities (slide \hyperlink{ch5ml}{\textcolor{MainBlue}{Marginal likelihood and Bayes factors}})', r'Interpretare: verosimilitatea marginală este un scor în afara eșantionului al densităților predictive la un pas (slide-ul \hyperlink{ch5ml}{\textcolor{MainBlue}{Verosimilitatea marginală și factorii Bayes}})'),
      [T('so it trades fit against complexity without an evaluation sample', 'deci echilibrează potrivirea și complexitatea fără un eșantion de evaluare')]),
     T(r'Use the posterior mode of $\gamma$ (as here) or integrate $\gamma$ out by Metropolis--Hastings; GLP find both forecast about as well as factor models', r'Folosim modul a posteriori al lui $\gamma$ (ca aici) sau integrăm $\gamma$ prin Metropolis--Hastings; GLP constată că ambele prognozează cam la fel de bine ca modelele factoriale')), 'small')
 
@@ -539,11 +525,6 @@ D.frame(T('Two rules for one hyperparameter (2/2)', 'Două reguli pentru un sing
       T(r'on 10-year windows the median mode is @{bg.glp.SMALL} (SMALL) and @{bg.glp.MEDIUM} (MEDIUM)', r'pe ferestre de 10 ani modul median este @{bg.glp.SMALL} (SMALL) și @{bg.glp.MEDIUM} (MEDIUM)'),
       T(r'10\%--90\% range of the MEDIUM mode across windows: [@{bg.glp.MEDIUM.lo}, @{bg.glp.MEDIUM.hi}]', r'intervalul 10\%--90\% al modului MEDIUM între ferestre: [@{bg.glp.MEDIUM.lo}, @{bg.glp.MEDIUM.hi}]')]),
     T(r'The Python package \texttt{bvar} of the Bank of England implements the GLP optimisation for the conjugate model; the notebook compares it with our \texttt{numpy} code', r'Pachetul Python \texttt{bvar} al Băncii Angliei implementează optimizarea GLP pentru modelul conjugat; notebook-ul îl compară cu codul nostru \texttt{numpy}')), 'small')
-
-D.recap(('Hierarchical priors', 'distribuții a priori ierarhice'), [
-    T('The marginal likelihood chooses the shrinkage; it falls as the system grows', 'Verosimilitatea marginală alege shrinkage-ul; acesta scade cînd sistemul crește'),
-    T('Sum-of-coefficients and initial-observation priors are chosen in the same way', 'Distribuțiile pentru suma coeficienților și observația inițială se aleg la fel'),
-    T('A fit rule is a transparent alternative when the evaluation must mimic a published study', 'O regulă de potrivire este o alternativă transparentă atunci cînd evaluarea trebuie să reproducă un studiu publicat')])
 
 # =============================================================================
 # 5. BGR
@@ -603,11 +584,6 @@ interp(('the responses', 'răspunsurilor'), [
     T(r'CPI: the price puzzle shrinks from @{ir.SMALL.cpi_max}\% (SMALL) to @{ir.LARGE.cpi_max}\% (LARGE); after four years LARGE gives @{ir.LARGE.cpi48}\% (band [@{ir.LARGE.cpi48_lo}, @{ir.LARGE.cpi48_hi}])', r'IPC: anomalia prețurilor scade de la @{ir.SMALL.cpi_max}\% (SMALL) la @{ir.LARGE.cpi_max}\% (LARGE); după patru ani LARGE dă @{ir.LARGE.cpi48}\% (banda [@{ir.LARGE.cpi48_lo}, @{ir.LARGE.cpi48_hi}])'),
     T('As in BGR: more information makes the employment response less persistent and the price response more plausible', 'Ca în BGR: mai multă informație face răspunsul ocupării mai puțin persistent și răspunsul prețurilor mai plauzibil'),
     T('The bands do not widen with 102 variables: the prior pays for the extra coefficients', 'Benzile nu se lărgesc cu 102 variabile: distribuția a priori compensează coeficienții suplimentari')])
-
-D.recap(('Large BVARs', 'modele BVAR mari'), [
-    T('With shrinkage that grows with the system, a 102-variable VAR forecasts better than a 3-variable OLS VAR', 'Cu un shrinkage care crește odată cu sistemul, un VAR cu 102 variabile prognozează mai bine decît un VAR cu 3 variabile estimat prin OLS'),
-    T('The 1971--2003 results of BGR replicate on today\'s data; after 2020 the homoskedastic BVAR fails', 'Rezultatele BGR pentru 1971--2003 se replică pe datele actuale; după 2020 BVAR-ul homoscedastic eșuează'),
-    T('Large information sets reduce the price puzzle of small monetary VARs', 'Seturile mari de informații reduc anomalia prețurilor din VAR-urile monetare mici')])
 
 # =============================================================================
 # 6. SV
@@ -709,11 +685,6 @@ interp(('the diffusion indexes', 'indicilor de difuziune'), [
     T(r'1999--2019: the gains vanish (IP @{di.pre2020.ip.di12}, employment @{di.pre2020.emp.di12}, inflation @{di.pre2020.cpi.dl12}): the Great Moderation made activity less predictable from the panel', r'1999--2019: cîștigurile dispar (IP @{di.pre2020.ip.di12}, ocupare @{di.pre2020.emp.di12}, inflație @{di.pre2020.cpi.dl12}): Marea Moderație a făcut activitatea mai puțin previzibilă din panel'),
     T(r'BIC selects a median of @{di.kmed} factors (10\%--90\%: @{di.kq10}--@{di.kq90}) for DI-AR, Lag at $h = 12$', r'BIC alege în mediană @{di.kmed} factori (10\%--90\%: @{di.kq10}--@{di.kq90}) pentru DI-AR, Lag la $h = 12$'),
     T(r'Bayesian shrinkage and principal components give highly correlated forecasts in large panels \refDGRa: two ways to use the same information', r'Shrinkage-ul bayesian și componentele principale dau prognoze puternic corelate în panelurile mari \refDGRa: două căi pentru aceeași informație')])
-
-D.recap(('Factor models', 'modele factoriale'), [
-    T('A few factors summarise a hundred series; PCA estimates the factor space consistently as $N, T \\to \\infty$', 'Cîțiva factori rezumă o sută de serii; PCA estimează consistent spațiul factorilor cînd $N, T \\to \\infty$'),
-    T('Bai--Ng criteria choose the number of factors; check their sensitivity', 'Criteriile Bai--Ng aleg numărul de factori; verificați sensibilitatea lor'),
-    T('Diffusion indexes helped strongly before 1999 and much less after: evaluate on more than one period', 'Indicii de difuziune au ajutat mult înainte de 1999 și mult mai puțin după: evaluați pe mai multe perioade')])
 
 # =============================================================================
 # 8. FAVAR
@@ -878,12 +849,6 @@ interp(('the news', 'știrilor'), [
     T(r'The July IP release was @{nw.ipnews} pp below the model\'s expectation; with weight @{nw.ipw} it cut the nowcast by @{nw.by.ip} pp; ESI @{nw.by.esi}, euro-area IP @{nw.by.ip_ea}', r'Publicarea IP pentru iulie a fost cu @{nw.ipnews} pp sub așteptarea modelului; cu ponderea @{nw.ipw} a redus nowcast-ul cu @{nw.by.ip} pp; ESI @{nw.by.esi}, IP din zona euro @{nw.by.ip_ea}'),
     T(r'Other models at the end of September: EM DFM @{nw.sep.em}\%, bridge @{nw.sep.bridge}\%, AR @{nw.sep.ar}\%: the first official estimate for 2026Q3 will judge them', r'Alte modele la sfîrșitul lui septembrie: DFM EM @{nw.sep.em}\%, punte @{nw.sep.bridge}\%, AR @{nw.sep.ar}\%: prima estimare oficială pentru T3 2026 le va judeca'),
     T('The news decomposition turns a number into a story that a central bank can check release by release', 'Descompunerea în știri transformă o cifră într-o explicație pe care o bancă centrală o poate verifica publicare cu publicare')])
-
-D.recap(('Nowcasting', 'nowcasting'), [
-    T('Nowcasting = filtering a mixed-frequency system with a ragged edge', 'Nowcasting = filtrarea unui sistem cu frecvențe mixte și date incomplete la sfîrșitul eșantionului'),
-    T('Bridge, MIDAS and DFM share the Mariano--Murasawa link between months and quarters', 'Ecuațiile punte, MIDAS și DFM folosesc aceeași legătură Mariano--Murasawa între luni și trimestre'),
-    T('For Romania, monthly data improve the nowcast late in the quarter; the gain is modest and not significant', 'Pentru România, datele lunare îmbunătățesc nowcast-ul spre sfîrșitul trimestrului; cîștigul este modest și nesemnificativ'),
-    T('Every revision decomposes exactly into news with fixed parameters', 'Orice revizuire se descompune exact în știri cînd parametrii sînt ficși')])
 
 # =============================================================================
 # 11. AI

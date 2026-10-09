@@ -461,7 +461,7 @@ D.frame(T('Optimal tests: Andrews and Ploberger (1994)', 'Teste optime: Andrews 
      [T('$|\\Pi| = 1 - 2\\pi_0$: the length of the set of candidate fractions; both statistics average over it', '$|\\Pi| = 1 - 2\\pi_0$: lungimea mulțimii fracțiilor candidate; ambele statistici mediază peste ea'),
       T('$\\mathrm{expW} = \\ln\\Big(\\dfrac{1}{|\\Pi|}\\displaystyle\\int_\\Pi \\exp\\big(\\tfrac12 W_T(\\pi)\\big)d\\pi\\Big)$: weighted average power, for medium and large breaks', '$\\mathrm{expW} = \\ln\\Big(\\dfrac{1}{|\\Pi|}\\displaystyle\\int_\\Pi \\exp\\big(\\tfrac12 W_T(\\pi)\\big)d\\pi\\Big)$: putere medie ponderată, pentru rupturi medii și mari'),
       T('$\\mathrm{aveW} = \\dfrac{1}{|\\Pi|}\\displaystyle\\int_\\Pi W_T(\\pi)\\,d\\pi$: optimal for very small breaks, close to the Nyblom test of random-walk coefficients', '$\\mathrm{aveW} = \\dfrac{1}{|\\Pi|}\\displaystyle\\int_\\Pi W_T(\\pi)\\,d\\pi$: optim pentru rupturi foarte mici, apropiat de testul Nyblom pentru coeficienți de tip mers aleator')]),
-    T('5\\% values for $p = 1$, $\\pi_0 = 0.15$ (simulated): sup @{ch.cv1}, exp @{ch.exp1}, ave @{ch.ave1}', 'Valori de 5\\% pentru $p = 1$, $\\pi_0 = 0{,}15$ (simulate): sup @{ch.cv1}, exp @{ch.exp1}, ave @{ch.ave1}'),
+    T('5\\% values for $p = 1$, $\\pi_0 = 0.15$ (simulated): exp @{ch.exp1}, ave @{ch.ave1}; sup: previous slide', 'Valori de 5\\% pentru $p = 1$, $\\pi_0 = 0{,}15$ (simulate): exp @{ch.exp1}, ave @{ch.ave1}; sup: slide-ul anterior'),
     (T('The sup-Wald test has power against \\emph{any} kind of instability, not only a single break', 'Testul sup-Wald are putere împotriva \\emph{oricărui} tip de instabilitate, nu doar a unei singure rupturi'),
      [T('a rejection says ``unstable\'\', not ``one break at $\\hat\\pi$\'\'; the number of breaks is the subject of Section 3', 'o respingere spune „instabil”, nu „o ruptură la $\\hat\\pi$”; numărul rupturilor este subiectul secțiunii 3')])), 'small')
 
@@ -664,7 +664,7 @@ D.frame(T('The ICSS algorithm and its correction (1/2)', 'Algoritmul ICSS și co
 
 D.frame(T('The ICSS algorithm and its correction (2/2)', 'Algoritmul ICSS și corecția lui (2/2)'), items(
     (T('The factor $\\sqrt{T/2}$ assumes $\\Var(a_t^2) = 2\\sigma^4$: i.i.d.\\ Normal data', 'Factorul $\\sqrt{T/2}$ presupune $\\Var(a_t^2) = 2\\sigma^4$: date i.i.d.\\ Normale'),
-     [T('with kurtosis $\\kappa = \\E a_t^4/\\sigma^4$ the statistic is inflated by $\\sqrt{(\\kappa - 1)/2}$; with GARCH, $a_t^2$ is also autocorrelated', 'cu coeficientul de boltire $\\kappa = \\E a_t^4/\\sigma^4$, statistica este mărită artificial de $\\sqrt{(\\kappa - 1)/2}$ ori; cu GARCH, $a_t^2$ este și autocorelat')]),
+     [T('with kurtosis $\\kappa = \\E a_t^4/\\sigma^4$ the statistic is inflated by $\\sqrt{(\\kappa - 1)/2}$; with GARCH, $a_t^2$ is also autocorrelated', 'cu kurtosis-ul $\\kappa = \\E a_t^4/\\sigma^4$, statistica este mărită artificial de $\\sqrt{(\\kappa - 1)/2}$ ori; cu GARCH, $a_t^2$ este și autocorelat')]),
     (T('$\\kappa_2$ of \\refSAC: the same CUSUM, scaled by a long-run variance', '$\\kappa_2$ din \\refSAC: același CUSUM, scalat printr-o varianță de termen lung'),
      ['$\\kappa_2 = \\max_k|C_k - (k/T)C_T|/\\sqrt{T\\hat\\omega_4}$',
       T('$\\hat\\omega_4$: the long-run variance of $a_t^2 - \\hat\\sigma^2$ (Bartlett kernel, Chapter 0)', '$\\hat\\omega_4$: varianța de termen lung a lui $a_t^2 - \\hat\\sigma^2$ (nucleul Bartlett, Capitolul 0)'),
@@ -675,7 +675,7 @@ chart(T('Variance regimes of EUR/RON', 'Regimuri de varianță pentru EUR/RON'),
       'Randamente logaritmice zilnice ale cursului de referință BNR, @{va.n} de zile; marcaje roșii: ICSS cu statistica Inclán--Tiao; marcaje verzi și benzi umbrite: ICSS cu $\\kappa_2$')], h='0.64\\textheight')
 
 interp(('the EUR/RON variance breaks', 'rupturilor în varianța EUR/RON'), [
-    (T('Excess kurtosis @{va.kurt}: the Inclán--Tiao statistic is @{va.it} and ICSS finds @{va.nit} breaks; $\\kappa_2 = @{va.k2}$ and @{va.nk2} breaks', 'Excesul de boltire @{va.kurt}: statistica Inclán--Tiao este @{va.it}, iar numărul rupturilor găsite de ICSS este @{va.nit}; $\\kappa_2 = @{va.k2}$, cu @{va.nk2} rupturi'),
+    (T('Excess kurtosis @{va.kurt}: the Inclán--Tiao statistic is @{va.it} and ICSS finds @{va.nit} breaks; $\\kappa_2 = @{va.k2}$ and @{va.nk2} breaks', 'Excesul de kurtosis @{va.kurt}: statistica Inclán--Tiao este @{va.it}, iar numărul rupturilor găsite de ICSS este @{va.nit}; $\\kappa_2 = @{va.k2}$, cu @{va.nk2} rupturi'),
      [T('most Inclán--Tiao ``breaks\'\' are volatility clusters, not changes of the unconditional variance', 'majoritatea „rupturilor” Inclán--Tiao sînt volatility clustering, nu schimbări ale varianței necondiționate')]),
     (T('$\\kappa_2$ dates: @{va.dates}', 'Datele $\\kappa_2$: @{va.dates}'),
      [T('the global financial crisis, the end of its turbulence, the calmer managed float after 2018; daily s.d.\\ between @{va.sdmin}\\% and @{va.sdmax}\\%', 'criza financiară globală, sfîrșitul turbulențelor ei, regimul de managed float, mai calm după 2018; abaterea standard zilnică între @{va.sdmin}\\% și @{va.sdmax}\\%')]),

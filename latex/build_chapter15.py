@@ -183,7 +183,7 @@ D.frame(T('Assessment at a glance', 'Evaluarea pe scurt'), table(
     T(r'\textbf{Component}', r'\textbf{Componenta}') + ' & ' + T(r'\textbf{Weight}', r'\textbf{Pondere}') + ' & ' + T(r'\textbf{Who}', r'\textbf{Cine}') + ' & ' + T(r'\textbf{Content}', r'\textbf{Conținut}'),
     [T('Proposal and pre-registration', 'Propunerea și preînregistrarea') + r' & 5\% & ' + T('team', 'echipa') + ' & ' + T('question, paper to replicate, data, evaluation design fixed before estimation', 'întrebarea, lucrarea replicată, datele, designul evaluării fixat înaintea estimării'),
      T('Replication and extension', 'Replicarea și extensia') + r' & 15\% & ' + T('team', 'echipa') + ' & ' + T('repository, report in the form of a paper, AI\\_USE.md, AI\\_ERRORS.md', 'repository, raport în forma unui articol, AI\\_USE.md, AI\\_ERRORS.md'),
-     T('Oral defence', 'Susținerea orală') + r' & 50\% & ' + T('each student', 'fiecare student') + ' & ' + T('about 15 minutes: 5 minutes presenting one\'s own contribution, 10 minutes of questions on the code, the method and the results', 'circa 15 minute: 5 minute de prezentare a contribuției proprii și 10 minute de întrebări despre cod, metodă și rezultate'),
+     T('Oral defence', 'Susținerea orală') + r' & 50\% & ' + T('each student', 'fiecare student') + ' & ' + T('about 15 minutes: one\'s own contribution, then questions (format and rubric in Part III)', 'circa 15 minute: contribuția proprie, apoi întrebări (formatul și criteriile în Partea a III-a)'),
      T('Chapter quizzes', 'Quiz-uri pe capitole') + r' & 20\% & ' + T('each student', 'fiecare student') + ' & ' + T('online, first attempt graded', 'online, se notează prima încercare'),
      T('Attendance', 'Prezență') + r' & 10\% & ' + T('each student', 'fiecare student') + ' & ' + T('lectures and seminars', 'cursuri și seminarii')],
     size='footnotesize') + items(
@@ -252,7 +252,7 @@ D.frame(T('Five questions for every analysis', 'Cinci întrebări pentru orice a
 
 D.frame(T('Three threads across the course', 'Trei fire comune ale cursului'), items(
     (T(r'\textbf{Inference under dependence}', r'\textbf{Inferența sub dependență}'),
-     [T(r'long-run variance $\Omega = 2\pi f(0)$ (Chapter 0), with $f(0)$ the spectral density at frequency zero: the variance of a sum of $n$ dependent terms is about $n\Omega$', r'varianța de termen lung $\Omega = 2\pi f(0)$ (Capitolul 0), unde $f(0)$ este densitatea spectrală la frecvența zero: varianța unei sume de $n$ termeni dependenți este aproximativ $n\Omega$'),
+     [T(r'long-run variance $\Omega$ (Chapter 0, formula on the next slide): the variance of a sum of $n$ dependent terms is about $n\Omega$', r'varianța de termen lung $\Omega$ (Capitolul 0, formula pe slide-ul următor): varianța unei sume de $n$ termeni dependenți este aproximativ $n\Omega$'),
       T(r'it reappears in DM tests (Chapter 1), local projections (Chapter 3), cumulative effects (Chapter 14)', r'ea reapare în testele DM (Capitolul 1), proiecțiile locale (Capitolul 3), efectele cumulate (Capitolul 14)'),
       T('non-standard limits: sup-tests for breaks, Johansen trace, regime tests, GSADF; critical values from the right distribution', 'limite nestandard: teste sup pentru rupturi, testul urmei Johansen, teste pentru regimuri, GSADF; valori critice din distribuția corectă')]),
     (T(r'\textbf{Honest out-of-sample evaluation}', r'\textbf{Evaluarea corectă în afara eșantionului}'),
@@ -693,7 +693,7 @@ D.recap(('failure modes', 'erorile frecvente'), [
 # =============================================================================
 D.section('The oral defence', 'Susținerea orală')
 
-D.frame(T('Format of the defence', 'Formatul susținerii'), two(items(
+D.frame(T('Format of the defence', 'Formatul susținerii'), items(
     (T('Individual, about 15 minutes per student', 'Individuală, circa 15 minute pentru fiecare student'),
      [T('each member is examined separately and receives a separate grade (50\\% of the final grade)', 'fiecare membru este examinat separat și primește o notă separată (50\\% din nota finală)')]),
     T('5 minutes: presentation of one\'s own contribution, the part of the project the student led, on the report and the repository', '5 minute: prezentarea contribuției proprii, adică a părții de proiect coordonate de student, pe baza raportului și a repository-ului'),
@@ -703,8 +703,7 @@ D.frame(T('Format of the defence', 'Formatul susținerii'), two(items(
       T('the results: interpret a number, a test, a figure; defend the inference', 'rezultatele: interpretați un rezultat, un test, o figură; apărați inferența')]),
     T('Graded with the rubric on the next slide', 'Se notează după criteriile de pe slide-ul următor'),
     T('Every member must be able to answer questions on the whole project, not only on their part', 'Fiecare membru trebuie să poată răspunde la întrebări despre întregul proiect, nu doar despre partea proprie'),
-    T('No AI tools during the defence; Romanian or English', 'Fără instrumente AI în timpul susținerii; în română sau în engleză')),
-    ph('ase', T('Bucharest University of Economic Studies', 'Academia de Studii Economice din București'), h='0.36\\textheight'), '0.6', '0.36'), 'small')
+    T('No AI tools during the defence; Romanian or English', 'Fără instrumente AI în timpul susținerii; în română sau în engleză')), 'small')
 
 D.frame(T('Grading rubric of the individual defence', 'Criteriile de evaluare a susținerii individuale'), table(
     TB + 'p{3.2cm}' + '>{\\raggedleft\\arraybackslash}p{1.1cm}' + TB + 'p{7.2cm}',

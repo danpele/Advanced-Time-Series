@@ -115,15 +115,14 @@ MSCA Digital Finance}
     \item \textbf{AR}: AutoRegressive (model); in event studies: Abnormal Return (model autoregresiv; în studiile de eveniment: randament anormal)
     \item \textbf{BET}: Bucharest Exchange Trading (index) — indicele de referință al Bursei de Valori București
     \item \textbf{BNR}: Banca Națională a României
-    \item \textbf{BSTS}: Bayesian Structural Time Series (serii de timp structurale bayesiene)
     \item \textbf{CAR}: Cumulative Abnormal Return (randamentul anormal cumulat)
     \item \textbf{CCM}: Convergent Cross Mapping (estimare încrucișată convergentă (Sugihara et al. 2012))
     \item \textbf{CS}: Callaway and Sant'Anna (estimator) — estimatorul Callaway și Sant'Anna
+    \item \textbf{DML}: Double/Debiased Machine Learning (machine learning dublu (fără deplasare))
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{DML}: Double/Debiased Machine Learning (machine learning dublu (fără deplasare))
     \item \textbf{ECOFIN}: Economic and Financial Affairs Council (of the EU) — Consiliul Afaceri Economice și Financiare al UE
     \item \textbf{EODHD}: EOD Historical Data (market-data provider) — furnizor de date de piață
     \item \textbf{ETF}: Exchange-Traded Fund (fond tranzacționat la bursă)
@@ -132,6 +131,7 @@ MSCA Digital Finance}
     \item \textbf{ITS}: Interrupted Time Series (serie de timp întreruptă)
     \item \textbf{LLM}: Large Language Model (model lingvistic de mari dimensiuni)
     \item \textbf{LP}: Local Projection (proiecție locală)
+    \item \textbf{MCI}: Momentary Conditional Independence (independență condiționată momentană)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -141,7 +141,6 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{MCI}: Momentary Conditional Independence (independență condiționată momentană)
     \item \textbf{MCMC}: Markov Chain Monte Carlo (metode Monte Carlo cu lanțuri Markov)
     \item \textbf{MSPE}: Mean Squared Prediction Error (eroarea medie pătratică de prognoză)
     \item \textbf{OCDE}: Organizația pentru Cooperare și Dezvoltare Economică
@@ -150,16 +149,17 @@ MSCA Digital Finance}
     \item \textbf{PCMCI}: PC algorithm + Momentary Conditional Independence (algoritmul PC urmat de testul de independență condiționată momentană (Runge et al. 2019))
     \item \textbf{PIB}: Produsul intern brut
     \item \textbf{RMSPE}: Root Mean Squared Prediction Error (rădăcina erorii pătratice medii de predicție)
+    \item \textbf{SC}: Synthetic Control (control sintetic)
+    \item \textbf{SDID}: Synthetic Difference in Differences (diferența în diferențe sintetică)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
-    \item \textbf{SC}: Synthetic Control (control sintetic)
-    \item \textbf{SDID}: Synthetic Difference in Differences (diferența în diferențe sintetică)
     \item \textbf{SEC}: Securities and Exchange Commission (Comisia americană pentru valori mobiliare)
     \item \textbf{SUA}: Statele Unite ale Americii
     \item \textbf{SVAR}: Structural Vector AutoRegression (model vector autoregresiv structural)
     \item \textbf{TE}: Transfer Entropy (entropia de transfer)
+    \item \textbf{TSA}: Time Series Analysis (Serii de timp, cursul de licență)
     \item \textbf{TVA}: Taxa pe valoarea adăugată
     \item \textbf{TWFE}: Two-Way Fixed Effects (efecte fixe bidirecționale (unitate și perioadă))
     \item \textbf{UE}: Uniunea Europeană
@@ -186,7 +186,7 @@ MSCA Digital Finance}
         \item serii de timp întrerupte și studii de eveniment cu erori dependente
         \item controlul sintetic și succesorii lui; DiD eșalonat; CausalImpact; DML
     \end{itemize}
-    \item Pornim de la \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0} (HAC), \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol3_modele_var_structurale_proiectii_locale.pdf}{Capitolul 3} (SVAR, proiecții locale, proxy SVAR) și \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6} (spațiul stărilor, BSTS); Seminarul 14 are loc înaintea acestui curs
+    \item Cunoștințe necesare: Seminarul 14 și slide-ul \hyperlink{c14known}{\textcolor{MainBlue}{Cunoscut din TSA și din \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol3_modele_var_structurale_proiectii_locale.pdf}{Capitolul 3} și elemente noi}}
 \end{itemize}
 \end{frame}
 
@@ -236,9 +236,6 @@ Prețuri zilnice ale indicilor și criptoactivelor; EUR/RON & EODHD; cursul de r
 \bottomrule
 \end{tabular}
 \end{center}
-\begin{itemize}
-    \item Datele tratamentului, ferestrele de eșantion și estimatorii sînt fixați înainte de a privi datele de după tratament; fiecare placebo este raportat
-\end{itemize}
 \end{frame}
 
 \begin{frame}{Două limbaje ale cauzalității}
@@ -305,7 +302,7 @@ Prețuri zilnice ale indicilor și criptoactivelor; EUR/RON & EODHD; cursul de r
 \begin{frame}{Cunoscut din TSA și din \atschlinkt{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol3_modele_var_structurale_proiectii_locale.pdf}{Capitolul 3} și elemente noi}
 \itemsize{\small}
 \begin{itemize}
-    \item Cunoscut: testul Granger bivariat într-un VAR (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol6_modele_var_cauzalitate_granger.pdf}{TSA, Capitolul 6}); identificarea SVAR, proiecțiile locale și proxy SVAR (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol3_modele_var_structurale_proiectii_locale.pdf}{Capitolul 3}); HAC (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}); filtrul Kalman și BSTS (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6})
+    \item \hypertarget{c14known}{}Cunoscut: testul Granger bivariat într-un VAR (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol6_modele_var_cauzalitate_granger.pdf}{TSA, Capitolul 6}); identificarea SVAR, proiecțiile locale și proxy SVAR (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol3_modele_var_structurale_proiectii_locale.pdf}{Capitolul 3}); HAC (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol0_recapitulare_inferenta.pdf}{Capitolul 0}); filtrul Kalman și BSTS (\atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol6_modele_spatiul_starilor_filtrare_bayesiana.pdf}{Capitolul 6})
     \item Nou: ce pot și ce nu pot spune aceste instrumente despre intervenții
     \begin{itemize}
         \item rezultate potențiale pentru serii de timp; non-anticipare; cînd un răspuns la impuls este un efect cauzal
@@ -1046,7 +1043,7 @@ Rata investițiilor & 27{,}0 & 27{,}0 & 25{,}9 \\
 \itemsize{\small}
 \begin{itemize}
     \item Germania de Vest sintetică urmărește seria reală timp de treizeci de ani (1960--1989), apoi crește mai repede
-    \item Diferența medie 1990--2003: 1588 USD pe locuitor pe an (5{,}6\% din nivelul sintetic); în 2003: 3391 USD (10{,}5\%)
+    \item Diferența medie 1990--2003: $-$1588 USD pe locuitor pe an ($-$5{,}6\% din nivelul sintetic); în 2003: $-$3391 USD ($-$10{,}5\%)
     \item Lucrarea raportează o reducere de aproximativ 1600 USD pe an, în medie: replicarea coincide
     \item Donatorii (Austria, SUA, Japonia, Elveția, Țările de Jos) sînt economii bogate, industrializate: ponderile au sens economic, o verificare pe care niciun algoritm nu o face în locul nostru
 \end{itemize}

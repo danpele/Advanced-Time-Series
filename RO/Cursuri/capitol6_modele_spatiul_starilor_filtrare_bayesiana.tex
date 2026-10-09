@@ -165,7 +165,6 @@ MSCA Digital Finance}
     \item \textbf{SMC}: Sequential Monte Carlo (metode Monte Carlo secvențiale)
     \item \textbf{SUA}: Statele Unite ale Americii
     \item \textbf{SV}: Stochastic Volatility (volatilitate stochastică)
-    \item \textbf{TLC}: Teorema Limită Centrală
     \item \textbf{TSA}: Time Series Analysis (Serii de timp, cursul de licență)
     \item \textbf{TVA}: Taxa pe valoarea adăugată
     \item \textbf{TVP}: Time-Varying Parameter(s) — parametri variabili în timp
@@ -331,7 +330,7 @@ producția industrială, numărul de salariați, venitul real fără transferuri
 \begin{frame}{Filtrul Kalman dintr-o singură lemă}
 \itemsize{\small}
 \begin{itemize}
-    \item Lema (condiționarea vectorilor normali comuni): dacă $(x, y)$ este gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$
+    \item \hypertarget{kflemma}{}Lema (condiționarea vectorilor normali comuni): dacă $(x, y)$ este gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$
     \begin{itemize}
         \item $\mu_x$, $\mu_y$: mediile; $\Sigma_{xy} = \Cov(x, y)$, $\Sigma_{yy} = \Var(y)$: blocurile de covarianță
         \item o aplicăm pentru $x = \alpha_t$ și $y = y_t$, condiționat de $Y_{t-1}$: $v_t = y_t - Z_ta_t$ este informația nouă (eroarea de predicție)
@@ -346,7 +345,7 @@ producția industrială, numărul de salariați, venitul real fără transferuri
 \begin{frame}{Filtrul într-o singură trecere}
 \itemsize{\small}
 \begin{itemize}
-    \item $v_t = y_t - Z_ta_t$, $\quad F_t = Z_tP_tZ_t' + H_t$, $\quad K_t = T_tP_tZ_t'F_t^{-1}$ (cîștigul Kalman), $\quad L_t = T_t - K_tZ_t$
+    \item Cu $v_t$ și $F_t$ de pe slide-ul anterior: $K_t = T_tP_tZ_t'F_t^{-1}$ (cîștigul Kalman), $\quad L_t = T_t - K_tZ_t$
     \item $a_{t+1} = c_t + T_ta_t + K_tv_t$, $\quad P_{t+1} = T_tP_tL_t' + R_tQ_tR_t'$
     \item Costul: $O(n(m^3 + p^3))$; cu matrice constante, $P_t$ converge către starea staționară a ecuației Riccati
     \begin{itemize}
@@ -370,7 +369,7 @@ producția industrială, numărul de salariați, venitul real fără transferuri
         \item $\hat\alpha_t$ corectează $a_t$ cu tot ce aflăm de la momentul $t$ încolo
     \end{itemize}
     \item Netezitorul perturbațiilor: $\hat\varepsilon_t = H_t(F_t^{-1}v_t - K_t'r_t)$, $\hat\eta_t = Q_tR_t'r_t$: reziduuri auxiliare pentru valori extreme și rupturi și scorul verosimilității
-    \item Derivarea folosește aceeași lemă, acum condiționînd pe $v_t, \dots, v_n$, care sînt independente (\atsapplink{atsapp1}{atssrc1}{Anexa})
+    \item Derivarea folosește aceeași lemă, acum condiționînd pe $v_t, \dots, v_n$, care sînt independente (\atsapplink{atsapp1}{atssrc1}{Anexa})  % applink: netezitorul din lemă
 \end{itemize}
 \end{frame}
 
@@ -422,15 +421,6 @@ producția industrială, numărul de salariați, venitul real fără transferuri
     \item Înlocuirea primului termen cu limita lui difuză repară nivelul (\ensuremath{-}452{,}66 la $10^7$), dar doar pentru că știm că $d = 1$; estimarea ML după $\psi$ nu este afectată, compararea modelelor cu $d$ diferit este
     \item Varianțele netezite: eroarea este 0{,}000012 la $\kappa = 10^4$, 0{,}06 la $10^8$ și $10^{15}$ la $10^{16}$: niciun $\kappa$ nu este sigur simultan pentru stări și pentru varianțe
     \item Regula practică: folosiți filtrul difuz exact ori de cîte ori modelul are stări nestaționare sau fixe necunoscute
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: modelul liniar gaussian general}
-\itemsize{\small}
-\begin{itemize}
-    \item O singură lemă (condiționarea gaussiană) dă filtrul, netezitorul și netezitorul perturbațiilor
-    \item Datele lipsă, frecvențele mixte și observațiile multivariate se tratează în aceleași recursii
-    \item Stările nestaționare cer filtrul difuz exact; big kappa denaturează nivelul verosimilității și varianțele netezite
 \end{itemize}
 \end{frame}
 
@@ -525,15 +515,6 @@ producția industrială, numărul de salariați, venitul real fără transferuri
     \item Pentru $q = 0{,}01$: tot 14\% zerouri; mediana estimațiilor este 0{,}0077; pentru $q = 0{,}05$: 2\% zerouri
     \item Un $\hat\sigma^2_\eta = 0$ raportat nu este deci o dovadă a unui nivel constant; o valoare pozitivă mică este compatibilă cu un nivel determinist
     \item Raportați verosimilitatea profil sau distribuția a posteriori a lui $q$, nu o estimație punctuală cu o eroare standard din hessiană
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: verosimilitatea exactă}
-\itemsize{\small}
-\begin{itemize}
-    \item Filtrul dă verosimilitatea gaussiană; cu stări difuze, primii $d$ termeni sînt înlocuiți cu limitele lor difuze
-    \item Concentrați scala, parametrizați fără restricții, folosiți mai multe puncte de pornire și verificați cifrele cu o a doua implementare
-    \item Varianțele apropiate de zero se acumulează în zero: erorile standard și testele $\chi^2$ nu funcționează la frontieră
 \end{itemize}
 \end{frame}
 
@@ -665,15 +646,6 @@ producția industrială, numărul de salariați, venitul real fără transferuri
     \item Mediile a posteriori 0{,}515 și 0{,}441 față de ML 0{,}517 și 0{,}453: cu $n = 294$, a priori contează foarte puțin departe de frontieră
     \item Factorii de ineficiență 9{,}9 și 11{,}3: extragerile varianțelor moștenesc autocorelația extragerilor stărilor
     \item Intervalul pentru $q$ exclude zero: trendul inflației din SUA se mișcă, dar capătul superior al intervalului este de 2{,}7 ori mai mare decît cel inferior
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: spațiul stărilor bayesian}
-\itemsize{\small}
-\begin{itemize}
-    \item Gibbs: stările ca un singur bloc, dați parametrii; parametrii, date stările
-    \item FFBS, simulation smoother-ul DK și eșantionarea pe baza preciziei extrag din aceeași distribuție
-    \item Distribuțiile a priori regularizează problemele de frontieră, dar trebuie raportate și variate
 \end{itemize}
 \end{frame}
 
@@ -840,15 +812,6 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
     \item Cele două traiectorii ale volatilității sînt apropiate (corelația din ultima coloană), dar SV reacționează mai puțin decît GARCH la un singur randament mare, la care varianța GARCH sare cu $\alpha y^2_{t-1}$
     \item Factorii de ineficiență mari pentru $\sigma_\eta$ sînt tipici: $\sigma_\eta$ și traiectoria $h_{1:n}$ sînt puternic dependente; sînt necesare lanțuri lungi sau tehnici de interweaving
     \item Kurtosis-ul randamentelor: 19{,}5 (S\&P 500) și 20{,}8 (BET); cu $\epsilon_t$ gaussian, SV explică doar o parte (extensia uzuală: erori SV-$t$)
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: volatilitatea stochastică}
-\itemsize{\small}
-\begin{itemize}
-    \item SV adaugă un șoc varianței: verosimilitatea este o integrală după traiectoria volatilității
-    \item Logaritmul pătratelor randamentelor face modelul liniar; mixtura KSC îl face condiționat gaussian, deci întreaga traiectorie se poate extrage într-un singur bloc
-    \item Pe randamentele zilnice ale indicilor, SV și GARCH dau traiectorii apropiate ale volatilității, dar reacții diferite la un singur randament mare
 \end{itemize}
 \end{frame}
 
@@ -1061,15 +1024,6 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recapitulare: filtrarea neliniară}
-\itemsize{\small}
-\begin{itemize}
-    \item EKF liniarizează modelul, UKF propagă puncte sigma, filtrele de particule propagă eșantioane ponderate
-    \item Verosimilitatea din filtrul de particule este nedeplasată în nivel; varianța logaritmului ei decide numărul de particule
-    \item PMMH transformă orice model care poate fi simulat într-o procedură bayesiană exactă, cu un cost de calcul
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Parametri variabili în timp}
@@ -1153,15 +1107,6 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
     \item Ordinea pașilor Gibbs contează: algoritmul inițial extrăgea indicatorii mixturii într-un punct greșit al ciclului; \refDNP\ dau ordinea corectă, iar rezultatele de fond se schimbă puțin
     \item Distribuții a priori dintr-un eșantion de antrenare de la începutul datelor, ca în \refPri, cu scale mici pentru covarianțele mersurilor aleatoare: a priori decide cîtă variație este permisă
     \item Supraparametrizarea: cu $k$ coeficienți pe ecuație, aplicăm shrinkage varianțelor sau selectăm coeficienții care variază (parametrizarea necentrată, \refFSW)
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: parametri variabili în timp}
-\itemsize{\small}
-\begin{itemize}
-    \item O regresie TVP este un model în spațiul stărilor cu $Z_t$ construit din regresori; coeficienții ficși sînt stări difuze fără șocuri
-    \item Ferestrele mobile exagerează variația în timp; testați-o la frontieră cu un bootstrap
-    \item TVP-VAR-SV combină simulation smoother-ul și mixtura KSC într-un singur eșantionator Gibbs
 \end{itemize}
 \end{frame}
 
@@ -1334,15 +1279,6 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recapitulare: descompunerile trend--ciclu}
-\itemsize{\small}
-\begin{itemize}
-    \item BN, UC și Hamilton definesc ciclul diferit; MNZ arată că BN și UC coincid odată ce șocurile trendului și ale ciclului pot fi corelate
-    \item În eșantioane scurte și volatile (România) corelația nu este identificată, iar specificarea trendului decide output gap-ul
-    \item Raportați estimațiile filtrate și netezite: output gap-ul de la finalul eșantionului este cifra cea mai puțin fiabilă
-\end{itemize}
-\end{frame}
-
 
 %=============================================================================
 \section{Inflația de trend cu volatilitate stochastică}
@@ -1424,15 +1360,6 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
         \item modele în spațiul stărilor cu schimbare de regim (filtrul Kim, eșantionare Gibbs) \refKN: \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol7_modele_schimbare_regim.pdf}{Capitolul 7}
     \end{itemize}
     \item Evaluarea prognozelor tuturor acestor modele (prognoze de densitate, reguli de scor): \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1}
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Recapitulare: inflația de trend}
-\itemsize{\small}
-\begin{itemize}
-    \item UC-SV permite ca împărțirea dintre șocurile permanente și cele tranzitorii să se schimbe în timp
-    \item Două blocuri KSC și o eșantionare pe baza preciziei fac eșantionatorul Gibbs rapid
-    \item Inflația de trend din SUA a crescut puternic în 2021--2022; inflația de trend din România este încă peste banda-țintă
 \end{itemize}
 \end{frame}
 
@@ -1554,14 +1481,14 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
 \section{Anexă}
 %=============================================================================
 
-\begin{frame}{Anexă: filtrul Kalman din lemă}
+\begin{frame}{Anexă: netezitorul din lemă}
 \hypertarget{atsapp1}{}\atsappback{atssrc1}{Înapoi}
 \itemsize{\small}
 \begin{itemize}
-    \item Dat $Y_{t-1}$: $\begin{pmatrix}\alpha_t\\ y_t\end{pmatrix} \sim N\left(\begin{pmatrix}a_t\\ Z_ta_t\end{pmatrix}, \begin{pmatrix}P_t & P_tZ_t'\\ Z_tP_t & F_t\end{pmatrix}\right)$, $F_t = Z_tP_tZ_t' + H_t$
-    \item Condiționarea pe $y_t$ (echivalent pe $v_t$, deoarece $Y_t = (Y_{t-1}, v_t)$, iar $v_t$ este independent de $Y_{t-1}$) dă $a_{t|t}$ și $P_{t|t}$
-    \item $\alpha_{t+1} = c_t + T_t\alpha_t + R_t\eta_t$ cu $\eta_t$ independent de $Y_t$: $a_{t+1} = c_t + T_ta_{t|t}$, $P_{t+1} = T_tP_{t|t}T_t' + R_tQ_tR_t'$
-    \item Netezitorul: $\hat\alpha_t = a_t + \sum_{j=t}^n\Cov(\alpha_t, v_j)F_j^{-1}v_j$ (variabilele $v_j$ sînt independente); $\Cov(\alpha_t, v_j) = P_tL_t'\cdots L_{j-1}'Z_j'$ dă $\hat\alpha_t = a_t + P_tr_{t-1}$
+    \item $Y_n = (Y_{t-1}, v_t, \dots, v_n)$, iar $v_t, \dots, v_n$ sînt independente între ele și de $Y_{t-1}$: lema se aplică separat fiecărui $v_j$
+    \item Netezitorul: $\hat\alpha_t = a_t + \sum_{j=t}^n\Cov(\alpha_t, v_j)F_j^{-1}v_j$, cu $\Cov(\alpha_t, v_j) = P_tL_t'\cdots L_{j-1}'Z_j'$
+    \item Rezultă $\hat\alpha_t = a_t + P_tr_{t-1}$, cu $r_{t-1} = \sum_{j=t}^nL_t'\cdots L_{j-1}'Z_j'F_j^{-1}v_j$ (produs vid pentru $j = t$), care satisface recursia înapoi $r_{t-1} = Z_t'F_t^{-1}v_t + L_t'r_t$
+    \item Pașii de filtrare (actualizarea și predicția) rezultă din aceeași lemă numai cu $j = t$: slide-ul \hyperlink{kflemma}{\textcolor{MainBlue}{Filtrul Kalman dintr-o singură lemă}}
 \end{itemize}
 \end{frame}
 
@@ -1583,7 +1510,6 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
     \item Filtrul bootstrap, un pas: $\E[\frac1N\sum_iw^{(i)}_t\,|\,\mathcal F_{t-1}] = \int g(y_t | x)\,\hat p_{N}(x | Y_{t-1})\,dx$, unde $\hat p_N$ este legea predictivă empirică a particulelor
     \item Aplicînd succesiv proprietatea speranțelor condiționate iterate pentru $t = n, n-1, \dots, 1$ (la fiecare pas, speranța ultimului factor condiționată de $\mathcal F_{t-1}$ se înlocuiește cu formula de mai sus), cu reeșantionare multinomială sau sistematică, obținem $\E\prod_t\hat p(y_t | Y_{t-1}) = p(y_{1:n})$ \refDM
     \item Fiecare factor este o estimație de tip raport, dar produsul este nedeplasat, pentru că reeșantionarea păstrează ponderile așteptate; mărimile normalizate (mediile filtrate) sînt doar consistente
-    \item Jensen: $\E\ln\hat L \le \ln\E\hat L = \ln L$; sub o TLC pentru $\ln\hat L$, deplasarea este $-\frac12\Var(\ln\hat L)$
 \end{itemize}
 \end{frame}
 

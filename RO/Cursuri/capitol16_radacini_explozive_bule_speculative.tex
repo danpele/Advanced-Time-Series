@@ -96,11 +96,11 @@ MSCA Digital Finance}
     \item \textbf{BET}: Bucharest Exchange Trading (index) — indicele de referință al Bursei de Valori București
     \item \textbf{BSADF}: Backward Supremum Augmented Dickey–Fuller (statistic) — statistica ADF supremum retrospectivă, pentru fiecare dată de sfîrșit
     \item \textbf{BUX}: Budapesti Értéktőzsde index (indicele Bursei din Budapesta)
-    \item \textbf{CLT}: Central Limit Theorem (teorema limită centrală)
 \end{itemize}
 \end{column}
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{CLT}: Central Limit Theorem (teorema limită centrală)
     \item \textbf{CPI}: Consumer Price Index (indicele prețurilor de consum)
     \item \textbf{CUSUM}: CUmulative SUM (suma cumulată)
     \item \textbf{EODHD}: EOD Historical Data (market-data provider) — furnizor de date de piață
@@ -108,7 +108,6 @@ MSCA Digital Finance}
     \item \textbf{FRED}: Federal Reserve Economic Data (baza de date economice a Rezervei Federale din St. Louis)
     \item \textbf{FW}: Family-Wise (error control) — controlul erorii de familie
     \item \textbf{FWER}: Family-Wise Error Rate (probabilitatea de cel puțin o eroare de tip I în familia de teste)
-    \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity (heteroscedasticitate condiționată autoregresivă generalizată)
 \end{itemize}
 \end{column}
 \end{columns}
@@ -118,10 +117,10 @@ MSCA Digital Finance}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
 \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{GARCH}: Generalised AutoRegressive Conditional Heteroskedasticity (heteroscedasticitate condiționată autoregresivă generalizată)
     \item \textbf{GSADF}: Generalised Supremum Augmented Dickey–Fuller (test) — testul ADF supremum generalizat (toate începuturile și sfîrșiturile)
     \item \textbf{HICP}: Harmonised Index of Consumer Prices (indicele armonizat al prețurilor de consum (IAPC))
     \item \textbf{LLM}: Large Language Model (model lingvistic de mari dimensiuni)
-    \item \textbf{LPPL}: Log-Periodic Power Law (legea de putere log-periodică)
     \item \textbf{LPPLS}: Log-Periodic Power Law Singularity (model) — modelul singularității cu lege de putere log-periodică
     \item \textbf{MC}: Monte Carlo (Monte Carlo)
     \item \textbf{MFM}: Modelling Financial Markets (Modelarea piețelor financiare, cursul de master)
@@ -160,8 +159,8 @@ MSCA Digital Finance}
     \end{itemize}
     \item Cunoștințe necesare și continuare
     \begin{itemize}
-        \item \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol13_bule_lppl.pdf}{TSA, Capitolul 13}: bulele în istorie, elementele de bază PSY, LPPL cu calibrarea Filimonov--Sornette
-        \item \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2}: rădăcini unitare, rupturi structurale; \atschlink{https://danpele.github.io/MFM/RO/Cursuri/capitol17_bule_crahuri.pdf}{MFM, Capitolul 17} aplică testele pe piețe
+        \item \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol13_bule_lppl.pdf}{TSA, Capitolul 13} (slide-ul \hyperlink{c16known}{\textcolor{MainBlue}{Cunoscut din TSA și elemente noi}}); \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol2_rupturi_structurale_modele_neliniare.pdf}{Capitolul 2}: rădăcini unitare, rupturi structurale
+        \item \atschlink{https://danpele.github.io/MFM/RO/Cursuri/capitol17_bule_crahuri.pdf}{MFM, Capitolul 17} aplică testele pe piețe
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -241,7 +240,7 @@ Toate seriile de prețuri din datele cursului & EODHD, închideri lunare (analiz
 \end{column}
 \begin{column}{0.62\textwidth}
 \begin{itemize}
-    \item Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol13_bule_lppl.pdf}{TSA, Capitolul 13})
+    \item \hypertarget{c16known}{}Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol13_bule_lppl.pdf}{TSA, Capitolul 13})
     \begin{itemize}
         \item maniile din istorie; ADF pe coada din dreapta, SADF, GSADF și BSADF cu valori critice Monte Carlo
         \item ecuația LPPL, calibrarea în doi pași, indicatorul de încredere

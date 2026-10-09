@@ -331,8 +331,11 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
      'Bitcoin & ' + T('EODHD, 7 days a week, September 2014 -- September 2026', 'EODHD, 7 zile pe săptămînă, septembrie 2014 -- septembrie 2026') + ' & 2014--2019 / 2020--2026',
      'VIX & ' + T('EODHD daily closes', 'închideri zilnice EODHD') + ' & ' + T('regressor of the joint (VaR, ES) regression', 'regresor în regresia comună (VaR, ES)')],
     size='scriptsize') + items(
-    T('Daily log returns in \\%; ten in-sample years as in Patton, Ziegel and Chen (2019), five for Bitcoin; stress periods: September 2008 -- March 2009, February -- June 2020, 2022, March -- June 2025',
-      'Randamente logaritmice zilnice în \\%; zece ani în eșantion, ca la Patton, Ziegel și Chen (2019), cinci pentru Bitcoin; perioade de criză: septembrie 2008 -- martie 2009, februarie -- iunie 2020, 2022, martie -- iunie 2025')), 'footnotesize')
+    T('Daily log returns in \\%; ten in-sample years, as in Patton, Ziegel and Chen (2019), five for Bitcoin',
+      'Randamente logaritmice zilnice în \\%; zece ani în eșantion, ca la Patton, Ziegel și Chen (2019), cinci pentru Bitcoin'),
+    (T('Four stress periods, fixed before looking at the losses', 'Patru perioade de criză, fixate înainte de a vedea pierderile'),
+     [T('September 2008 -- March 2009; 19 February -- 30 June 2020; the calendar year 2022; March -- June 2025',
+        'septembrie 2008 -- martie 2009; 19 februarie -- 30 iunie 2020; anul calendaristic 2022; martie -- iunie 2025')])), 'footnotesize')
 
 D.frame(T('From a crash to a regulatory functional', 'De la un crah la o funcțională de reglementare'), two(
     ph('crash', T('The S\\&P 500 around 19 October 1987', 'S\\&P 500 în jurul datei de 19 octombrie 1987'), h='0.36\\textheight'),
@@ -669,8 +672,8 @@ D.frame(T('Estimates, standard errors and DQ tests', 'Estimații, erori standard
      r'IG & @{cv.IG.b0} (@{cv.IG.s0}) & @{cv.IG.b1} (@{cv.IG.s1}) & @{cv.IG.b2} (@{cv.IG.s2}) & -- & @{cv.IG.rq} & @{cv.IG.hi} & @{cv.IG.ho} & @{cv.IG.dq} (@{cv.IG.dqp})',
      r'ADAPT & @{cv.ADAPT.b0} (@{cv.ADAPT.s0}) & -- & -- & -- & @{cv.ADAPT.rq} & @{cv.ADAPT.hi} & @{cv.ADAPT.ho} & @{cv.ADAPT.dq} (@{cv.ADAPT.dqp})'],
     size='scriptsize') + items(
-    T(r'Standard errors from the asymptotic covariance of EM; RQ: the minimised in-sample criterion; DQ out of sample with four lagged hits and the VaR, $\chi^2_6$; 500 days give 5 expected hits',
-      r'Erorile standard din covarianța asimptotică EM; RQ: criteriul minimizat în eșantion; DQ în afara eșantionului cu patru laguri ale depășirilor și VaR, $\chi^2_6$; 500 de zile dau 5 depășiri așteptate'),
+    T(r'Standard errors from the asymptotic covariance of EM; RQ: the minimised in-sample criterion; DQ out of sample with four lagged hits and the VaR, $\chi^2_6$',
+      r'Erorile standard din covarianța asimptotică EM; RQ: criteriul minimizat în eșantion; DQ în afara eșantionului cu patru laguri ale depășirilor și VaR, $\chi^2_6$'),
     T(r'Out-of-sample average pinball loss ($\times10^2$): SAV @{cv.SAV.pin}, AS @{cv.AS.pin}, IG @{cv.IG.pin}, adaptive @{cv.ADAPT.pin}', r'Pierderea pinball medie în afara eșantionului ($\times10^2$): SAV @{cv.SAV.pin}, AS @{cv.AS.pin}, IG @{cv.IG.pin}, adaptiv @{cv.ADAPT.pin}')), 'footnotesize')
 
 interp(('the CAViaR estimates', 'estimațiilor CAViaR'), [
@@ -948,9 +951,8 @@ D.frame(T('From backtests to comparative backtests', 'De la backtesting la backt
 D.frame(T('Design of the comparison', 'Schema comparației'), items(
     (T(r'Ten PZC models, $\alpha$ = 2.5\%, FZ0 losses out of sample: S\&P 500 and DAX from 2000, BET from 2010, EUR/RON from July 2015, Bitcoin from 2020', r'Cele zece modele PZC, $\alpha$ = 2,5\%, pierderi FZ0 în afara eșantionului: S\&P 500 și DAX din 2000, BET din 2010, EUR/RON din iulie 2015, Bitcoin din 2020'), []),
     (T(r'90\% MCS with the $T_{\max}$ statistic, moving-block bootstrap (blocks of 10 days over the whole period, 5 days in a stress period), 1000 replications', r'MCS de 90\% cu statistica $T_{\max}$, bootstrap pe blocuri mobile (blocuri de 10 zile pe toată perioada, 5 zile într-o perioadă de criză), 1000 de replicări'), []),
-    (T('Stress periods fixed before looking at the losses', 'Perioadele de criză fixate înainte de a vedea pierderile'),
-     [T('2008: September 2008 -- March 2009; 2020: 19 February -- 30 June 2020; 2022: the calendar year; 2025: March -- June 2025', '2008: septembrie 2008 -- martie 2009; 2020: 19 februarie -- 30 iunie 2020; 2022: anul calendaristic; 2025: martie -- iunie 2025'),
-      T(r'S\&P 500 in 2020: @{cmp.sp500.2020.T} days, of which @{cmp.sp500.2020.h} GAS-1F hits; in 2025: @{cmp.sp500.2025.T} days, @{cmp.sp500.2025.h} hits', r'S\&P 500 în 2020: @{cmp.sp500.2020.T} zile, dintre care @{cmp.sp500.2020.h} depășiri GAS-1F; în 2025: @{cmp.sp500.2025.T} zile, @{cmp.sp500.2025.h} depășiri')]),
+    (T('The four stress periods of the data slide: 2008, 2020, 2022 and 2025', 'Cele patru perioade de criză de pe slide-ul cu datele: 2008, 2020, 2022 și 2025'),
+     [T(r'S\&P 500 in 2020: @{cmp.sp500.2020.T} days, of which @{cmp.sp500.2020.h} GAS-1F hits; in 2025: @{cmp.sp500.2025.T} days, @{cmp.sp500.2025.h} hits', r'S\&P 500 în 2020: @{cmp.sp500.2020.T} zile, dintre care @{cmp.sp500.2020.h} depășiri GAS-1F; în 2025: @{cmp.sp500.2025.T} zile, @{cmp.sp500.2025.h} depășiri')]),
     T('A stress window holds a few tail days: expect wide MCS sets and unstable winners', 'O fereastră de criză conține puține zile din coadă: ne așteptăm la mulțimi MCS largi și la cîștigători instabili')), 'small')
 
 chart(T('Losses in stress periods', 'Pierderile în perioadele de criză'), 'ats_ch9_stress', 'ATS_ch9_comparison', [

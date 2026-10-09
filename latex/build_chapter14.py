@@ -342,8 +342,8 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
       T('causal discovery: PCMCI and convergent cross mapping, with their limits', 'descoperirea relațiilor cauzale: PCMCI și convergent cross mapping, cu limitele lor'),
       T('interrupted time series and event studies with dependent errors', 'serii de timp întrerupte și studii de eveniment cu erori dependente'),
       T('synthetic control and its successors; staggered DiD; CausalImpact; DML', 'controlul sintetic și succesorii lui; DiD eșalonat; CausalImpact; DML')]),
-    T('We build on Chapter 0 (HAC), Chapter 3 (SVAR, local projections, proxy SVAR) and Chapter 6 (state space, BSTS); Seminar 14 comes before this lecture',
-      'Pornim de la Capitolul 0 (HAC), Capitolul 3 (SVAR, proiecții locale, proxy SVAR) și Capitolul 6 (spațiul stărilor, BSTS); Seminarul 14 are loc înaintea acestui curs')), 'small')
+    T(r'Prerequisites: Seminar 14 and the slide \hyperlink{c14known}{\textcolor{MainBlue}{Known from TSA and Chapter 3, and new here}}',
+      r'Cunoștințe necesare: Seminarul 14 și slide-ul \hyperlink{c14known}{\textcolor{MainBlue}{Cunoscut din TSA și din Capitolul 3 și elemente noi}}')), 'small')
 
 D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
     T('Distinguish Granger causality from a dynamic causal effect, and state the conditions under which a time-series estimand has a causal meaning',
@@ -376,8 +376,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
      T('GDP per capita, West Germany and 16 OECD countries', 'PIB pe locuitor, Germania de Vest și 16 țări OCDE') + r' & \refADHd: 1960--2003 & ' + T('replication of ADH (2015)', 'replicarea ADH (2015)'),
      T('Real GDP, UK and 23 OECD countries', 'PIB real, Regatul Unit și 23 de țări OCDE') + r' & \refOECD: ' + T(r'quarterly, 1995--2019', r'trimestrial, 1995--2019') + ' & ' + T('Brexit doppelganger', 'dublura Brexit'),
      T('Daily index and crypto prices; EUR/RON', 'Prețuri zilnice ale indicilor și criptoactivelor; EUR/RON') + ' & ' + T('EODHD; BNR reference rate; to 18 September 2026', 'EODHD; cursul de referință BNR; pînă la 18 septembrie 2026') + ' & ' + T('Granger, PCMCI, event study, CausalImpact', 'Granger, PCMCI, studiu de eveniment, CausalImpact')],
-    size='scriptsize') + items(
-    T('Treatment dates, sample windows and estimators are fixed before the post-treatment data are looked at; every placebo is reported', 'Datele tratamentului, ferestrele de eșantion și estimatorii sînt fixați înainte de a privi datele de după tratament; fiecare placebo este raportat')), 'footnotesize')
+    size='scriptsize'), 'footnotesize')
 
 D.frame(T('Two languages of causality', 'Două limbaje ale cauzalității'), cols(
     ph('pearl', T('Judea Pearl, Turing Award 2011', 'Judea Pearl, Premiul Turing 2011'), h='0.28\\textheight') + '\\\\[1mm]' +
@@ -409,8 +408,8 @@ interp(('the four case studies', 'celor patru studii de caz'), [
 D.section('Granger causality and causal effects', 'Cauzalitatea Granger și efectele cauzale')
 
 D.frame(T('Known from TSA and Chapter 3, and new here', 'Cunoscut din TSA și din Capitolul 3 și elemente noi'), items(
-    (T('Known: the bivariate Granger test in a VAR (TSA, Chapter 6); SVAR identification, local projections and proxy SVAR (Chapter 3); HAC (Chapter 0); Kalman filter and BSTS (Chapter 6)',
-       'Cunoscut: testul Granger bivariat într-un VAR (TSA, Capitolul 6); identificarea SVAR, proiecțiile locale și proxy SVAR (Capitolul 3); HAC (Capitolul 0); filtrul Kalman și BSTS (Capitolul 6)'), []),
+    (T(r'\hypertarget{c14known}{}Known: the bivariate Granger test in a VAR (TSA, Chapter 6); SVAR identification, local projections and proxy SVAR (Chapter 3); HAC (Chapter 0); Kalman filter and BSTS (Chapter 6)',
+       r'\hypertarget{c14known}{}Cunoscut: testul Granger bivariat într-un VAR (TSA, Capitolul 6); identificarea SVAR, proiecțiile locale și proxy SVAR (Capitolul 3); HAC (Capitolul 0); filtrul Kalman și BSTS (Capitolul 6)'), []),
     (T('New: what these tools can and cannot say about interventions', 'Nou: ce pot și ce nu pot spune aceste instrumente despre intervenții'),
      [T('potential outcomes for time series; non-anticipation; when an impulse response is a causal effect', 'rezultate potențiale pentru serii de timp; non-anticipare; cînd un răspuns la impuls este un efect cauzal'),
       T('nonlinear and graph-based discovery; comparative case studies with one treated unit', 'descoperire neliniară și pe grafuri; studii de caz comparative cu o singură unitate tratată')]),
@@ -784,7 +783,7 @@ chart(T('West Germany and its synthetic control', 'Germania de Vest și controlu
 
 interp(('the German replication', 'replicării germane'), [
     T(r'The synthetic West Germany tracks the actual series for thirty years (1960--1989), then grows faster', r'Germania de Vest sintetică urmărește seria reală timp de treizeci de ani (1960--1989), apoi crește mai repede'),
-    T(r'Average gap 1990--2003: @{ge.avg} USD per capita a year (@{ge.rel}\% of the synthetic level); in 2003: @{ge.gap03} USD (@{ge.rel03}\%)', r'Diferența medie 1990--2003: @{ge.avg} USD pe locuitor pe an (@{ge.rel}\% din nivelul sintetic); în 2003: @{ge.gap03} USD (@{ge.rel03}\%)'),
+    T(r'Average gap 1990--2003: $-$@{ge.avg} USD per capita a year ($-$@{ge.rel}\% of the synthetic level); in 2003: $-$@{ge.gap03} USD ($-$@{ge.rel03}\%)', r'Diferența medie 1990--2003: $-$@{ge.avg} USD pe locuitor pe an ($-$@{ge.rel}\% din nivelul sintetic); în 2003: $-$@{ge.gap03} USD ($-$@{ge.rel03}\%)'),
     T('The paper reports a reduction of about 1,600 USD a year on average: the replication matches', 'Lucrarea raportează o reducere de aproximativ 1600 USD pe an, în medie: replicarea coincide'),
     T('The donors (Austria, USA, Japan, Switzerland, Netherlands) are rich, industrial economies: the weights make economic sense, a check no algorithm does for us', 'Donatorii (Austria, SUA, Japonia, Elveția, Țările de Jos) sînt economii bogate, industrializate: ponderile au sens economic, o verificare pe care niciun algoritm nu o face în locul nostru')])
 

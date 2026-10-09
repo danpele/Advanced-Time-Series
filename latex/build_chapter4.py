@@ -435,14 +435,13 @@ D.frame(T('Five ways to place a constant and a trend', 'Cinci moduri de a plasa 
 
 chart(T('The case changes the null distribution', 'Cazul schimbă distribuția sub ipoteza nulă'), 'ats_ch4_trace_dists', 'ATS_ch4_johansen_asymptotics', [
     T(r'Trace statistic under $H(r)$ with $n - r = 2$, simulated from random walks (@{sim.reps} replications, $T = 400$; drift in cases 3 and 5)', r'Statistica trace sub $H(r)$ cu $n - r = 2$, simulată din mersuri aleatoare (@{sim.reps} de replicări, $T = 400$; drift în cazurile 3 și 5)'),
-    T(r'95\% quantiles: @{cv.1.2} (case 1), @{cv.2.2} (2), @{cv.3.2} (3), @{cv.4.2} (4), @{cv.5.2} (5)', r'Cuantilele de 95\%: @{cv.1.2} (cazul 1), @{cv.2.2} (2), @{cv.3.2} (3), @{cv.4.2} (4), @{cv.5.2} (5)')],
+    T(r'95\% quantiles for every case and $n - r = 1, \dots, 4$: the table two slides later', r'Cuantilele de 95\% pentru toate cazurile și $n - r = 1, \dots, 4$: tabelul aflat la două slide-uri distanță')],
     h='0.60\\textheight')
 
 interp(('the five distributions', 'celor cinci distribuții'), [
     T('Each restricted deterministic term adds a regressor to the reduced-rank problem and shifts the distribution to the right', 'Fiecare termen determinist restricționat adaugă un regresor problemei de rang redus și deplasează distribuția spre dreapta'),
-    T(r'A trend in the levels (cases 3 and 5) makes one direction of the common trend deterministic: for $n - r = 1$ the limit is $\chi^2(1)$, 95\% quantile @{cv.3.1}', r'Un trend în niveluri (cazurile 3 și 5) face deterministă o direcție a trendului comun: pentru $n - r = 1$ limita este $\chi^2(1)$, cuantila de 95\% @{cv.3.1}'),
-    T(r'Using case-3 critical values in a case-2 model over-rejects: the 95\% quantile for $n - r = 1$ is @{cv.2.1} in case 2 and @{cv.3.1} in case 3', r'Folosirea valorilor critice ale cazului 3 într-un model al cazului 2 respinge prea des: cuantila de 95\% pentru $n - r = 1$ este @{cv.2.1} în cazul 2 și @{cv.3.1} în cazul 3'),
-    T(r'Our simulated quantiles differ from the published tables \refMHM\ by a few tenths at most; the Quantlet gives all cases and $n - r = 1, \dots, 4$', r'Cuantilele simulate diferă de tabelele publicate \refMHM\ cu cel mult cîteva zecimi; Quantlet-ul dă toate cazurile și $n - r = 1, \dots, 4$')])
+    T(r'A trend in the levels (cases 3 and 5) makes one direction of the common trend deterministic: for $n - r = 1$ the limit is $\chi^2(1)$', r'Un trend în niveluri (cazurile 3 și 5) face deterministă o direcție a trendului comun: pentru $n - r = 1$ limita este $\chi^2(1)$'),
+    T(r'Using case-3 critical values in a case-2 model over-rejects: the 95\% quantile for $n - r = 1$ is @{cv.2.1} in case 2 and @{cv.3.1} in case 3', r'Folosirea valorilor critice ale cazului 3 într-un model al cazului 2 respinge prea des: cuantila de 95\% pentru $n - r = 1$ este @{cv.2.1} în cazul 2 și @{cv.3.1} în cazul 3')])
 
 D.frame(T('Simulated 95\\% quantiles of the trace statistic', 'Cuantilele simulate de 95\\% ale statisticii trace'), table(
     'lccccc', r'$n - r$ & ' + ' & '.join(T(f'case {c}', f'cazul {c}') for c in range(1, 6)),
@@ -852,7 +851,7 @@ D.frame(T('Two related tools (1/2)', 'Două instrumente înrudite (1/2)'), items
       T(r'partial sums of decreases: $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$, so that $x_t = x_0 + x_t^+ + x_t^-$', r'sumele parțiale ale scăderilor: $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$, astfel încît $x_t = x_0 + x_t^+ + x_t^-$')])), 'small')
 
 D.frame(T('Two related tools (2/2)', 'Două instrumente înrudite (2/2)'), items(
-    (T(r'Nonlinear ARDL: $x_t^+$ and $x_t^-$ as two regressors', r'ARDL neliniar: $x_t^+$ și $x_t^-$ ca doi regresori'),
+    (T(r'Nonlinear ARDL: estimation and tests', r'ARDL neliniar: estimare și teste'),
      [T(r'$x_t^+$ and $x_t^-$ enter the ARDL as two regressors, with long-run coefficients $\theta^+$, $\theta^-$ and short-run coefficients $\omega_j^+$, $\omega_j^-$', r'$x_t^+$ și $x_t^-$ intră în ARDL ca doi regresori, cu coeficienții de termen lung $\theta^+$, $\theta^-$ și cei de termen scurt $\omega_j^+$, $\omega_j^-$'),
       T(r'long-run asymmetry: $\theta^+ \ne \theta^-$; short-run asymmetry: different $\omega_j^+$ and $\omega_j^-$', r'asimetrie pe termen lung: $\theta^+ \ne \theta^-$; asimetrie pe termen scurt: $\omega_j^+$ și $\omega_j^-$ diferiți'),
       T(r'both tested by Wald tests; the bounds test uses $k = 2$', r'ambele se testează prin teste Wald; testul bounds folosește $k = 2$')]),

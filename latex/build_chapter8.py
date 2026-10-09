@@ -22,7 +22,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ats_build import Deck, Values, table, photo, cols, block   # noqa: E402
 from ats_build import items as _items   # noqa: E402
-from ch8_common import REFS, QLURL, BIN_URL, T, bib, finalize, load, minus_fix   # noqa: E402
+from ch8_common import REFS, QLURL, BIN_URL, T, bib, finalize, load, load_sem, minus_fix   # noqa: E402
 
 
 def M(tex):
@@ -279,6 +279,9 @@ P('ai.max', ai['max'], 3)
 P('ai.better', 100 * ai['share_better'], 0)
 P('ai.sig', 100 * ai['share_sig'], 0)
 P('ai.wsig', 100 * ai['share_worse_sig'], 0)
+_a3 = load_sem()['A3']                    # the worked example of Seminar 8, A3 (same numbers in both decks)
+P('sem.ns', _a3['nstar'], 0)
+P('sem.secs', _a3['secs'], 1)
 minus_fix(V)
 
 # =============================================================================
@@ -498,11 +501,6 @@ interp(('the five markets', 'celor cinci piețe'), [
     T(r'Student-$t$ ML raises the log-likelihood by @{qm.sp500.dll} (S\&P 500) and @{qm.bet.dll} (BET), but is consistent only if the $t$ shape is right; QML needs only the variance equation',
       r'ML Student-$t$ crește log-verosimilitatea cu @{qm.sp500.dll} (S\&P 500) și @{qm.bet.dll} (BET), dar este consistent doar dacă forma $t$ este corectă; QML are nevoie doar de ecuația varianței')])
 
-D.recap(('QML for GARCH', 'QML pentru GARCH'), [
-    T('Gaussian QML is consistent if the variance equation is right, whatever the shape of the innovations', 'QML gaussian este consistent dacă ecuația varianței este corectă, oricare ar fi forma inovațiilor'),
-    T('Strict stationarity, not finite variance, is what the theory needs; IGARCH and even explosive GARCH are covered', 'Teoria are nevoie de staționaritate strictă, nu de varianță finită; IGARCH și chiar GARCH exploziv sînt acoperite'),
-    T(r'With fat tails, Hessian standard errors are too small by $\sqrt{(\kappa_\eta - 1)/2}$; use Bollerslev--Wooldridge', r'Cu cozi groase, erorile standard din hessiană sînt prea mici cu factorul $\sqrt{(\kappa_\eta - 1)/2}$; folosiți Bollerslev--Wooldridge')])
-
 # =============================================================================
 # 2. COMPONENTE: GARCH-X, COMPONENT GARCH, GARCH-MIDAS
 # =============================================================================
@@ -650,11 +648,6 @@ interp(('GARCH-MIDAS', 'modelului GARCH-MIDAS'), [
     T('Replication verdict: the qualitative sign survives, the strength does not; macro effects need long samples with deep recessions, which is why the original study uses a much longer history',
       'Verdictul replicării: semnul calitativ se păstrează, intensitatea nu; efectele macroeconomice au nevoie de eșantioane lungi, cu recesiuni adînci, motiv pentru care studiul original folosește o istorie mult mai lungă')])
 
-D.recap(('Long-run components', 'componentele de termen lung'), [
-    T('Volatility has at least two speeds; a single GARCH persistence averages them', 'Volatilitatea are cel puțin două viteze; o singură persistență GARCH le face media'),
-    T('GARCH-MIDAS lets a monthly variable drive the long-run level; identification comes from the mixed frequencies', 'GARCH-MIDAS permite unei variabile lunare să determine nivelul de termen lung; identificarea vine din frecvențele mixte'),
-    T('Report VR and BIC next to $\\hat\\theta$: significance is not importance', 'Raportați VR și BIC alături de $\\hat\\theta$: semnificația statistică nu înseamnă importanță')])
-
 # =============================================================================
 # 3. MĂSURI REALIZATE: TEORIE, ZGOMOT, KERNEL-URI
 # =============================================================================
@@ -736,8 +729,8 @@ D.frame(T('A simulated market with a known truth', 'O piață simulată cu adev�
       r'Salturi: proces Poisson cu 0,08 salturi pe zi, mărimi $N(0, 0{,}8^2)$ (\%): salturile reprezintă aproximativ @{kn.js}\% din variația pătratică'),
     (T(r'Noise: we observe $Y_s = X_s + u_s$, with $u_s$ i.i.d. $N(0, \omega^2)$ and $\omega = 0.004\%$',
        r'Zgomot: observăm $Y_s = X_s + u_s$, cu $u_s$ i.i.d. $N(0, \omega^2)$ și $\omega = 0{,}004\%$'),
-     [T(r'$Y_s$: observed log price; $X_s$: efficient log price; $u_s$: microstructure noise with standard deviation $\omega$; at one second, $2n\omega^2 = @{kn.nb}$ (next slides)',
-        r'$Y_s$: logaritmul prețului observat; $X_s$: logaritmul prețului eficient; $u_s$: zgomotul de microstructură, cu abaterea standard $\omega$; la o secundă, $2n\omega^2 = @{kn.nb}$ (slide-urile următoare)')]),
+     [T(r'$Y_s$: observed log price; $X_s$: efficient log price; $u_s$: microstructure noise with standard deviation $\omega$; at one second, $2n\omega^2 = @{kn.nb}$ (slide \hyperlink{ch8noise}{\textcolor{MainBlue}{Microstructure noise}})',
+        r'$Y_s$: logaritmul prețului observat; $X_s$: logaritmul prețului eficient; $u_s$: zgomotul de microstructură, cu abaterea standard $\omega$; la o secundă, $2n\omega^2 = @{kn.nb}$ (slide-ul \hyperlink{ch8noise}{\textcolor{MainBlue}{Zgomotul de microstructură}})')]),
     T('Each estimator below is compared with the true IV or QV of the same simulated day', 'Fiecare estimator de mai jos este comparat cu IV sau QV adevărate din aceeași zi simulată')), 'small')
 
 chart(T('Coverage of the feasible CLT', 'Acoperirea TLC fezabile'), 'ats_ch8_rv_clt', 'ATS_ch8_realised_measures', [
@@ -777,7 +770,7 @@ interp(('the realised volatilities', 'volatilităților realizate'), [
     T('Bitcoin has no overnight gap, but its daily volatility is three to four times higher and falls after 2023', 'Bitcoin nu are perioade fără tranzacționare, dar volatilitatea lui zilnică este de trei pînă la patru ori mai mare și scade după 2023')])
 
 D.frame(T('Microstructure noise (1/2): the bias of RV', 'Zgomotul de microstructură (1/2): deplasarea lui RV'), items(
-    (T(r'The observed log price is the efficient price plus a noise term', r'Logaritmul prețului observat este prețul eficient plus un termen de zgomot'
+    (T(r'\hypertarget{ch8noise}{}The observed log price is the efficient price plus a noise term', r'\hypertarget{ch8noise}{}Logaritmul prețului observat este prețul eficient plus un termen de zgomot'
        ) + r'''
     \[ Y_{i/n} = X_{i/n} + u_i \]''',
      [T(r'$u_i$: i.i.d. noise with variance $\omega^2$, independent of $X$; sources: bid--ask bounce, price discreteness, stale quotes',
@@ -816,7 +809,7 @@ D.frame(T('Optimal sparse sampling', 'Eșantionarea rară optimă'), items(
     \[ n^* \approx \Big(\frac{\mathrm{IQ}}{4\omega^4}\Big)^{1/3} \]''',
      [T(r'the optimal grid is coarser when noise ($\omega^2$) is large relative to volatility ($\mathrm{IQ}$)',
         r'grila optimă este mai rară cînd zgomotul ($\omega^2$) este mare față de volatilitate ($\mathrm{IQ}$)'),
-      T(r'example (Seminar 8, A3): IV = IQ = 1, $\omega^2 = 1.6\times10^{-5}$ gives $n^* \approx 990$, a return every 24 seconds', r'exemplu (Seminarul 8, A3): IV = IQ = 1, $\omega^2 = 1{,}6\times10^{-5}$ dă $n^* \approx 990$, un randament la fiecare 24 de secunde')]),
+      T(r'example (Seminar 8, A3): IV = IQ = 1, $\omega^2 = 1.6\times10^{-5}$ gives $n^* \approx @{sem.ns}$, a return every @{sem.secs} seconds', r'exemplu (Seminarul 8, A3): IV = IQ = 1, $\omega^2 = 1{,}6\times10^{-5}$ dă $n^* \approx @{sem.ns}$, un randament la fiecare @{sem.secs} secunde')]),
     T(r'The best sparse RV converges only at rate $n^{1/6}$ and discards most data: this motivates estimators that use all observations',
       r'Cel mai bun RV rar converge doar cu rata $n^{1/6}$ și renunță la majoritatea datelor: de aici estimatorii care folosesc toate observațiile'),
     T(r'Subsampling: average the RV of the $K$ offset grids (starting at second $0, 1, \dots, K-1$); same bias, smaller variance',
@@ -878,11 +871,6 @@ interp(('the signature plot', 'signature plot-ului'), [
       r'Realised kernel-ul pe date la o secundă (@{sg.rk}, mediana $H = @{sg.H}$) adaugă înapoi autocovarianțele pozitive și ajunge în zona plată de 1--30 de minute'),
     T(r'Epps effect \refEpp: realised correlation @{sg.c1} at one second against @{sg.c300} at five minutes; asynchronous trading biases covariances towards zero at high frequency',
       r'Efectul Epps \refEpp: corelația realizată @{sg.c1} la o secundă față de @{sg.c300} la cinci minute; tranzacționarea asincronă deplasează covarianțele spre zero la frecvență înaltă')])
-
-D.recap(('Realised measures', 'măsurile realizate'), [
-    T(r'RV estimates QV with error $\sqrt{2\mathrm{IQ}/n}$; the log interval behaves better; stable convergence makes studentization valid', r'RV estimează QV cu eroarea $\sqrt{2\mathrm{IQ}/n}$; intervalul în logaritmi se comportă mai bine; convergența stabilă face validă studentizarea'),
-    T('Noise biases RV at high frequency; its sign and size are empirical: look at the signature plot first', 'Zgomotul deplasează RV la frecvență înaltă; semnul și mărimea acestui efect sînt empirice: priviți întîi signature plot-ul'),
-    T('Realised kernels use all the data and correct short-range dependent noise; 5-minute RV remains a robust benchmark', 'Realised kernels folosesc toate datele și corectează zgomotul cu dependență pe distanțe scurte; RV la 5 minute rămîne un reper robust')])
 
 # =============================================================================
 # 4. SALTURI
@@ -965,11 +953,6 @@ interp(('the crypto jump tests', 'testelor de salt pentru criptomonede'), [
     T(r'The whole distribution of $z_t$ is shifted (mean @{ju.btc.mz}, not 0): besides jumps, 24-hour intraday seasonality, zero returns and flash moves violate the assumptions of the null',
       r'Întreaga distribuție a lui $z_t$ este deplasată (media @{ju.btc.mz}, nu 0): pe lîngă salturi, sezonalitatea intraday pe 24 de ore, randamentele nule și mișcările bruște încalcă ipotezele nulei'),
     T('Before calling a day a jump day: standardise returns by an intraday volatility pattern, check zero returns, and control the number of tests', 'Înainte de a declara o zi drept zi cu salt: standardizați randamentele cu un profil al volatilității intraday, verificați randamentele nule și controlați numărul de teste')])
-
-D.recap(('Jumps', 'salturile'), [
-    T('BV estimates the continuous part; RV $-$ BV the jump part; TQ makes the test robust to jumps in the quarticity', 'BV estimează partea continuă; RV $-$ BV partea de salt; TQ face testul robust la salturi în cuarticitate'),
-    T('The ratio test has good size in simulations; its power grows with $c\\sqrt n$', 'Testul raport are o mărime bună în simulări; puterea lui crește cu $c\\sqrt n$'),
-    T('In real data the null is fragile: many rejections, little jump variation; treat jump counts as model-dependent', 'În datele reale, ipoteza nulă este fragilă: multe respingeri, puțină variație din salturi; tratați numărul de salturi ca dependent de model')])
 
 # =============================================================================
 # 5. HAR ȘI HARQ
@@ -1094,11 +1077,6 @@ interp(('HARQ', 'modelului HARQ'), [
     T(r'In MSE the picture differs (Bitcoin @{ho.btc.harq.m}): MSE is dominated by a few extreme days, where HARQ shrinks the most; the AI mini-case checks how fragile the gain is',
       r'După MSE imaginea diferă (Bitcoin @{ho.btc.harq.m}): MSE este dominat de cîteva zile extreme, unde HARQ micșorează cel mai mult ponderea; mini studiul de caz AI verifică cît de fragil este cîștigul')])
 
-D.recap(('HAR and HARQ', 'HAR și HARQ'), [
-    T('HAR is a parsimonious restricted AR(22) estimated by OLS; logs stabilise it', 'HAR este un AR(22) restricționat și parcimonios, estimat prin OLS; logaritmii îl stabilizează'),
-    T('Out-of-sample gains are loss- and market-specific: report all series, the filter and DM tests', 'Cîștigurile în afara eșantionului depind de funcția de pierdere și de piață: raportați toate seriile, filtrul și testele DM'),
-    T('HARQ lets the measurement error of RV set the weight of yesterday: one parameter, a robust gain in QLIKE', 'HARQ lasă eroarea de măsurare a RV să stabilească ponderea zilei de ieri: un parametru, un cîștig robust după QLIKE')])
-
 # =============================================================================
 # 6. REALIZED GARCH ȘI HEAVY
 # =============================================================================
@@ -1176,11 +1154,6 @@ interp(('Realized GARCH', 'modelului Realized GARCH'), [
     T(r'The gain in the partial likelihood over GARCH(1,1) (@{rg.gain} points) has the direction of the original paper; HEAVY is almost as good with three parameters',
       r'Cîștigul în verosimilitatea parțială față de GARCH(1,1), egal cu @{rg.gain}, are direcția din lucrarea originală; HEAVY este aproape la fel de bun, cu trei parametri')])
 
-D.recap(('Realised-measure GARCH', 'modelele GARCH cu măsuri realizate'), [
-    T('A realised measure in the variance equation beats squared returns as the news variable', 'O măsură realizată în ecuația varianței este o variabilă de știri mai bună decît pătratul randamentului'),
-    T('Realized GARCH adds a measurement equation: multi-step forecasts, leverage and a joint likelihood', 'Realized GARCH adaugă o ecuație de măsurare: prognoze cu mai mulți pași, levier și o verosimilitate comună'),
-    T('Compare with GARCH only on the partial likelihood of returns', 'Comparația cu GARCH se face doar pe verosimilitatea parțială a randamentelor')])
-
 # =============================================================================
 # 7. EVALUAREA PROGNOZELOR
 # =============================================================================
@@ -1223,7 +1196,7 @@ chart(T('Robust and non-robust losses', 'Funcții de pierdere robuste și nerobu
 interp(('the robustness experiment', 'experimentului de robustețe'), [
     T(r'With the squared return as proxy, MAE prefers the biased forecast (gap @{pt.mae.1}\%) and so does MSE-log (@{pt.ml.1}\%); MSE (@{pt.mse.1}\%) and QLIKE (@{pt.ql.1}\%) do not',
       r'Cu pătratul randamentului ca proxy, MAE preferă prognoza deplasată (diferența @{pt.mae.1}\%) la fel ca MSE-log (@{pt.ml.1}\%); MSE (@{pt.mse.1}\%) și QLIKE (@{pt.ql.1}\%) nu'),
-    T(r'With $n = 5$ intraday returns all four losses rank correctly: a precise proxy makes non-robust losses ``almost'' robust \refHLb',
+    T(r"With $n = 5$ intraday returns all four losses rank correctly: a precise proxy makes non-robust losses ``almost'' robust \refHLb",
       r'Cu $n = 5$ randamente intraday, toate cele patru funcții ordonează corect: un proxy precis face funcțiile nerobuste „aproape” robuste \refHLb'),
     T('The danger is largest exactly where realised measures are unavailable: daily data, emerging markets, long histories', 'Pericolul este cel mai mare exact acolo unde nu există măsuri realizate: date zilnice, piețe emergente, istorii lungi'),
     T('Rule: evaluate volatility forecasts with QLIKE (and MSE), against the best available proxy', 'Regula: evaluați prognozele de volatilitate cu QLIKE (și MSE), față de cel mai bun proxy disponibil')])
@@ -1241,11 +1214,6 @@ interp(('the forecast comparison', 'comparației prognozelor'), [
     T(r'In MSE, HAR (@{vo.har.m}) leads and the DM statistics are smaller: the 2020 crash dominates the squared errors',
       r'După MSE, HAR (@{vo.har.m}) conduce, iar statisticile DM sînt mai mici: crahul din 2020 domină erorile pătratice'),
     T('One proxy (RK) for all models: the HAR family is fitted to that same measure, which favours it; a fair comparison also tries another proxy (RV, BV)', 'Un singur proxy (RK) pentru toate modelele: familia HAR este estimată pe aceeași măsură, ceea ce o avantajează; o comparație corectă încearcă și alt proxy (RV, BV)')])
-
-D.recap(('Evaluation', 'evaluarea'), [
-    T('Only losses of the Patton class keep the ranking under a noisy unbiased proxy: MSE and QLIKE', 'Doar funcțiile din clasa Patton păstrează ordinea cu un proxy nedeplasat zgomotos: MSE și QLIKE'),
-    T('Realised-measure models beat return-only GARCH one day ahead; DM and the MCS of Chapter 1 quantify by how much', 'La un pas, modelele cu măsuri realizate depășesc modelele GARCH care folosesc doar randamentele; DM și MCS din Capitolul 1 cuantifică diferența'),
-    T('State the proxy, the loss, the window and the filter: each can change the ranking', 'Precizați proxy-ul, funcția de pierdere, fereastra și filtrul: fiecare poate schimba ordinea')])
 
 # =============================================================================
 # 8. GARCH MULTIVARIAT
@@ -1427,11 +1395,6 @@ interp(('the correlations', 'corelațiilor'), [
       r'DCC folosește o observație pe zi ($\hat a = @{cc.a}$, $\hat b = @{cc.b}$): netezește și reacționează cu întîrziere; măsura realizată se mișcă zilnic și scade repede în episoadele specifice unei monede (cuantila de 5\% @{cc.q05})'),
     T('Combining both (a realised measure in the correlation equation) is the multivariate analogue of Realized GARCH', 'Combinarea lor (o măsură realizată în ecuația corelației) este analogul multivariat al Realized GARCH'),
     T('Five-minute sampling sits on the flat part of the Epps curve for these two coins (signature slide): the realised correlation is not biased towards zero', 'Eșantionarea la cinci minute se află pe partea plată a curbei Epps pentru aceste două monede (slide-ul cu signature plot): corelația realizată nu este deplasată spre zero')])
-
-D.recap(('Multivariate', 'cazul multivariat'), [
-    T('BEKK guarantees positivity at a quadratic parameter cost; DCC separates variances and correlations and scales to large $N$', 'BEKK garantează pozitivitatea cu un cost pătratic în parametri; DCC separă varianțele de corelații și funcționează pentru $N$ mare'),
-    T('cDCC fixes the inconsistency of the DCC target; in moderate designs the difference is small', 'cDCC corectează inconsistența țintei DCC; în configurații moderate, diferența este mică'),
-    T('In high dimension, the target needs shrinkage (DCC-NL); evaluate with GMV risk or robust matrix losses', 'În dimensiune mare, ținta are nevoie de shrinkage (DCC-NL); evaluați prin riscul GMV sau prin funcții de pierdere matriceale robuste')])
 
 # =============================================================================
 # 9. AI

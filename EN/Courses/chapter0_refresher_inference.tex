@@ -327,10 +327,10 @@ MSCA Digital Finance}
     \item \textbf{Seminars}: each seminar comes \emph{before} its lecture and opens with the notions it needs
     \begin{itemize}
         \item Part A: derivations; Part B: estimation and inference on data, each exercise closing with an interpretation question; Part C: open problems that can seed the project
-        \item [Solved] exercises with full solutions and [Proposed] exercises discussed in class
+        \item exercises marked [Solved], with full solutions, and exercises marked [Proposed], discussed in class
         \item every seminar includes the critique of an answer given by an AI tool
     \end{itemize}
-    \item Seminars are practice and are not graded; the solutions of the [Proposed] exercises are discussed in class
+    \item Seminars are practice and are not graded
 \end{itemize}
 \end{frame}
 
@@ -810,7 +810,7 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
     \item \textbf{Mixing CLT} \refIbragimov: if $x_t$ is stationary and
     \begin{itemize}
         \item $E|x_t|^{2+\delta} < \infty$, $\quad \sum_m \alpha(m)^{\delta/(2+\delta)} < \infty$, $\quad \Omega > 0$ $\;\Rightarrow\;$ $\sqrt{T}(\bar x - \mu) \to_d N(0, \Omega)$
-        \item $\delta > 0$: the number of moments beyond the second; $\alpha(m)$: the mixing coefficient of the previous section
+        \item $\delta > 0$: the number of moments beyond the second; $\alpha(m)$: the strong mixing coefficient defined above
         \item trade-off: more moments (larger $\delta$) allow slower mixing; the first CLT under strong mixing is \refRosenblatt
     \end{itemize}
     \item \textbf{Linear processes} \refPS: $x_t - \mu = \sum\psi_j\varepsilon_{t-j}$ with i.i.d.\ or MDS $\varepsilon_t$ and $\sum j|\psi_j| < \infty$
@@ -927,7 +927,7 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
     \item \textbf{Kernel estimator}: a weighted sum of sample autocovariances
     \begin{itemize}
         \item $\hat\Omega = \sum_{|j|<T} k(j/S)\,\hat\gamma_j$, $\quad k(0) = 1$, $\quad k(x)$ decreasing in $|x|$
-        \item $k(j/S)$: the weight of lag $j$; $S$: the bandwidth; equivalently a smoothed periodogram at frequency 0, $\hat\Omega = 2\pi\hat f(0)$ \refSS
+        \item equivalently, a smoothed periodogram at frequency 0: $\hat\Omega = 2\pi\hat f(0)$ \refSS
     \end{itemize}
     \item Consistency: $S \to \infty$ and $S/T \to 0$, under mixing and moment conditions \refAndrews
     \begin{itemize}
@@ -993,7 +993,7 @@ State space, Markov switching & \atschlink{https://danpele.github.io/Time-Series
 \end{center}
 \vspace{-0.25cm}
 \begin{itemize}
-    \item Weight $k(x)$ against $x = j/S$, the lag relative to the bandwidth; Bartlett: $1 - |x|$ ($|x| \le 1$)
+    \item Weight $k(x)$ against $x = j/S$, the lag relative to the bandwidth; Bartlett as in the Newey--West case study
     \item Parzen: $1 - 6x^2 + 6|x|^3$ ($|x| \le 1/2$), $2(1-|x|)^3$ ($1/2 < |x| \le 1$); QS (quadratic spectral): $\frac{25}{12\pi^2x^2}\big[\frac{\sin(6\pi x/5)}{6\pi x/5} - \cos(6\pi x/5)\big]$, all lags
 \end{itemize}
 \quantlet{ATS\_ch0\_long\_run\_variance}{\qlurl{ATS_ch0_long_run_variance}}
@@ -1223,7 +1223,7 @@ circular block bootstrap & 7.4 & 12.0 & 30.8 & 5.6 & 8.6 & 15.6 \\
 \end{tabular}
 \end{center}
 \begin{itemize}
-    \item Monte Carlo standard errors: about 0.3 pp near 5\%, about 0.7 pp near 30\% (bootstrap rows: about twice as large)
+    \item Monte Carlo standard errors: about 0.7 pp near 30\%; bootstrap rows: about twice as large
 \end{itemize}
 \end{frame}
 
@@ -1457,9 +1457,9 @@ circular block bootstrap & 7.4 & 12.0 & 30.8 & 5.6 & 8.6 & 15.6 \\
 Series & $T$ & Mean & $\hat\rho_1$ & naive & NW-A & stat.\ boot. & $t_{\text{naive}}$ / $t_{\text{EWC}}$ \\
 \midrule
 S\&P 500 returns & 6\,714 & 0.025 & \ensuremath{-}0.10 & 0.0148 & 0.0131 & 0.0129 & 1.67 / 2.07 \\
-S\&P 500 squared & 6\,714 & 1.472 & 0.31 & 0.064 & 0.152 & 0.292 & 23.06 / 6.71 \\
+S\&P 500 squared & 6\,714 & 1.472 & 0.31 & 0.064 & 0.152 & 0.269 & 23.06 / 6.71 \\
 BET returns & 6\,670 & 0.064 & 0.11 & 0.0171 & 0.0188 & 0.0187 & 3.73 / 2.89 \\
-EUR/RON & 5\,352 & 0.007 & 0.17 & 0.0038 & 0.0040 & 0.0039 & 1.86 / 1.73 \\
+EUR/RON & 5\,352 & 0.007 & 0.17 & 0.0038 & 0.0040 & 0.0040 & 1.86 / 1.73 \\
 RO GDP growth & 106 & 0.829 & \ensuremath{-}0.03 & 0.240 & 0.240 & 0.240 & 3.46 / 3.67 \\
 RO inflation & 248 & 4.799 & 0.98 & 0.218 & 1.131 & 0.957 & 22.05 / 5.92 \\
 \bottomrule
@@ -1718,7 +1718,7 @@ NW, $S = 1.3\sqrt{T} = 21$, fixed-$b$ & 0.25 & 2.04 & 2.18 \\
     \end{itemize}
     \item Report what makes a simulation checkable
     \begin{itemize}
-        \item DGP, $T$, number of replications $R$, burn-in, seed, Monte Carlo standard error $\sqrt{p(1-p)/R}$
+        \item DGP, $T$, number of replications $R$, burn-in, seed, Monte Carlo standard error
         \item Results must not depend on the seed beyond the Monte Carlo error: rerun with a second seed
     \end{itemize}
     \item Every chart and every number of this chapter is produced by one script with seed 2026 (Quantlets/Ch\_00)

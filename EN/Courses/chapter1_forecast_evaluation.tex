@@ -568,7 +568,7 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
     \item GARCH removes most of the dependence; the $t$ version has the better left tail
     \begin{itemize}
         \item Berkowitz: GARCH-N LR 9.3 ($p$ 0.026), GARCH-$t$ LR 10.0 ($p$ 0.019); estimated $\sigma_z$ 0.97 $< 1$
-        \item outside the central 90\%: 8.4\% of days: with parameters frozen in 2012 the forecasts are slightly too wide after 2013
+        \item with parameters frozen in 2012 the forecasts are slightly too wide after 2013: fewer than 10\% of days fall outside the central 90\% (scores table, next section)
     \end{itemize}
     \item In line with \refDGT: conditional heteroskedasticity is essential, fat tails help; a small residual miscalibration remains
 \end{itemize}
@@ -602,7 +602,7 @@ US real GDP, all releases & Philadelphia Fed, RTDSM & real time \\
     \begin{itemize}
         \item the Brier score $(p - \mathbf 1\{\text{event}\})^2$, with $p$ the forecast probability of a binary event, is the oldest example \refBrier
     \end{itemize}
-    \item A proper score of a probabilistic forecast reduces to a consistent loss of a point forecast when $F$ is a point mass (CRPS $\to$ absolute error)
+    \item A proper score of a probabilistic forecast reduces to a consistent loss of a point forecast when $F$ is a point mass (example: the CRPS, two slides later)
 \end{itemize}
 \end{frame}
 
@@ -1109,7 +1109,7 @@ average & 1.026 & 0.85 & -- & -- \\
         \item lower and upper $p$-values bracket it; the upper one equals the RC with studentisation
         \item StepM \refRWze\ identifies \emph{which} models beat the benchmark
     \end{itemize}
-    \item EUR/RON, $k = 9$ models against the random walk: SPA $p$ = 0.53 (lower), 0.85 (consistent), 0.88 (upper): no model beats it
+    \item EUR/RON, $k = 9$ models (the seven of the table, AR(2) and AR(3)) against the random walk: SPA $p$ = 0.53 (lower), 0.85 (consistent), 0.88 (upper): no model beats it
 \end{itemize}
 \end{frame}
 
