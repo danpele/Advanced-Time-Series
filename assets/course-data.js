@@ -539,8 +539,8 @@
         contact: {
             name: 'Prof. dr. Daniel Traian Pele',
             email: 'danpele@ase.ro',
-            en: ['Bucharest University of Economic Studies', 'Department of Statistics and Econometrics', 'Faculty of Cybernetics, Statistics and Economic Informatics'],
-            ro: ['Academia de Studii Economice din București', 'Departamentul de Statistică și Econometrie', 'Facultatea de Cibernetică, Statistică și Informatică Economică'],
+            en: ['Bucharest University of Economic Studies', 'Department of Statistics and Econometrics', 'Faculty of Cybernetics, Statistics and Economic Informatics', 'Romanian Academy, Institute for Economic Forecasting'],
+            ro: ['Academia de Studii Economice din București', 'Departamentul de Statistică și Econometrie', 'Facultatea de Cibernetică, Statistică și Informatică Economică', 'Academia Română, Institutul de Prognoză Economică'],
             // The whole course is published under the lecturer's name: no seminar card
             seminar: null
         },
