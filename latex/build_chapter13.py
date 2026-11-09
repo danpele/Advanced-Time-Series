@@ -347,7 +347,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
     T('Returns are 100 times log differences; the realised variance is in squared percent; every forecast uses only data available at its origin',
       'Randamentele sînt diferențe logaritmice înmulțite cu 100; varianța realizată este în procente la pătrat; orice prognoză folosește doar datele disponibile la momentul emiterii ei')), 'footnotesize')
 
-D.frame(T('Two lines of research that met', 'Două direcții de cercetare care s-au întîlnit'), two(
+D.frame(T('Origins of conformal prediction and foundation models', 'Originile predicției conformale și ale foundation models'), two(
     ph('holloway', T("Royal Holloway, University of London: the Founder's Building", "Royal Holloway, Universitatea din Londra: Founder's Building"), h='0.36\\textheight'),
     items(T(r'1990s--2005: conformal prediction at Royal Holloway: Vovk, Gammerman and Shafer, rooted in Kolmogorov\'s algorithmic randomness \refVGS',
             r'Anii 1990--2005: predicția conformală la Royal Holloway: Vovk, Gammerman și Shafer, cu rădăcini în aleatorismul algoritmic al lui Kolmogorov \refVGS'),
@@ -567,7 +567,7 @@ D.frame(T('TimesFM, Moirai, Lag-Llama, MOMENT (2/2)', 'TimesFM, Moirai, Lag-Llam
       T('one encoder for forecasting, classification, anomaly detection and imputation', 'un singur encoder pentru prognoză, clasificare, detectarea anomaliilor și imputare')]),
     ), 'small')
 
-D.frame(T('Recurrent again, observability, and a closed API', 'Din nou recurente, observabilitate și un API închis'), items(
+D.frame(T('TiRex, Toto and TimeGPT', 'TiRex, Toto și TimeGPT'), items(
     (T(r'\textbf{TiRex} \refAue', r'\textbf{TiRex} \refAue'),
      [T('an xLSTM keeps a state across the context, which allows state tracking over long horizons', 'un xLSTM păstrează o stare de-a lungul contextului, ceea ce permite urmărirea stării pe orizonturi lungi'),
       T('xLSTM: the recurrent cells of Chapter 12 with exponential gating and a matrix memory', 'xLSTM: celulele recurente din Capitolul 12, cu porți exponențiale și memorie matriceală'),
@@ -594,7 +594,7 @@ D.frame(T('Zero-shot, fine-tuning, in-context covariates', 'Zero-shot, fine-tuni
     (T('Known future covariates must really be known at the origin', 'Covariabilele viitoare cunoscute trebuie să fie chiar cunoscute la origine'),
      [T('weather forecasts, not realised weather, unless an upper bound is the goal', 'prognoze meteo, nu vremea realizată, cu excepția cazului în care se urmărește o limită superioară')])), 'small')
 
-chart(T('Four zero-shot forecasts from one model', 'Patru prognoze zero-shot cu același model'), 'ats_ch13_zeroshot', 'ATS_ch13_zero_shot', [
+chart(T('Zero-shot forecasts of Chronos-2 on four data sets', 'Prognoze zero-shot Chronos-2 pe patru seturi de date'), 'ats_ch13_zeroshot', 'ATS_ch13_zero_shot', [
     T(r'Chronos-2 from the last origin of each data set: Romanian load (48 hours), Romanian HICP inflation (12 months), Bitcoin log realised variance and BET daily returns (22 days); bands 10--90\% and 1--99\%',
       r'Chronos-2 de la ultima origine a fiecărui set de date: consumul României (48 de ore), inflația HICP a României (12 luni), logaritmul varianței realizate Bitcoin și randamentele zilnice BET (22 de zile); benzi 10--90\% și 1--99\%')],
     h='0.65\\textheight')
@@ -773,7 +773,7 @@ interp(('the Romanian paths', 'traiectoriilor pentru România'), [
      [T('energy prices, the end of the price caps, the VAT increase of August 2025 (its effect on annual inflation lasts exactly 12 months)', 'prețurile energiei, sfîrșitul plafonării prețurilor, majorarea TVA din august 2025 (efectul ei asupra inflației anuale durează exact 12 luni)'),
       T('these are known in advance, hence natural covariates', 'acestea sînt cunoscute dinainte, deci sînt covariabile naturale')])])
 
-chart(T('Twenty-seven tests at once', 'Douăzeci și șapte de teste deodată'), 'ats_ch13_multiple', 'ATS_ch13_benchmark', [
+chart(T('DM tests for 27 countries', 'Testele DM pentru 27 de țări'), 'ats_ch13_multiple', 'ATS_ch13_benchmark', [
     T(r'Country-level DM--HLN statistics (HAC with $h - 1$ lags) of the absolute errors of @{mt.model} minus AR($p$) at $h = @{mt.h}$; negative: @{mt.model} better',
       r'Statisticile DM--HLN pe țări (HAC cu $h - 1$ laguri) ale erorilor absolute @{mt.model} minus AR($p$) la $h = @{mt.h}$; negativ: @{mt.model} este mai bun')],
     h='0.50\\textheight')
@@ -804,7 +804,7 @@ interp(('the volatility comparison', 'comparației pentru volatilitate'), [
     (T(r'Recent studies reach mixed verdicts \refGoe, \refBri, \refRNW', r'Studii recente ajung la verdicte mixte \refGoe, \refBri, \refRNW'),
      [T('gains depend on the asset, the horizon and the loss; fine-tuning or pretraining on financial data often matters', 'cîștigurile depind de activ, de orizont și de funcția de pierdere; fine-tuning-ul sau preantrenarea pe date financiare contează adesea')])])
 
-chart(T('Before and after the releases', 'Înainte și după lansări'), 'ats_ch13_contamination', 'ATS_ch13_benchmark', [
+chart(T('Accuracy before and after the model releases', 'Acuratețea înainte și după lansarea modelelor'), 'ats_ch13_contamination', 'ATS_ch13_benchmark', [
     T(r'Relative loss of each model in an earlier window and in the window after every release (from 1 November 2025): load (MAE / expert ARX) and Bitcoin (QLIKE / HAR)',
       r'Pierderea relativă a fiecărui model într-o fereastră anterioară și în fereastra de după toate lansările (din 1 noiembrie 2025): consum (MAE / ARX expert) și Bitcoin (QLIKE / HAR)')],
     h='0.59\\textheight')
@@ -1316,7 +1316,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('Baselines tuned with the same care; the context available to every model is the same', 'Modelele de referință ajustate cu aceeași grijă; contextul disponibil este același pentru toate modelele'),
     T('Multiplicity: number of series, horizons and models tested; the pooled test and adjusted p-values reported', 'Multiplicitatea: numărul de serii, orizonturi și modele testate; raportarea testului agregat și a p-value-urilor ajustate')), 'small')
 
-chart(T('Mini-case: how much can the choice of benchmark change the verdict?', 'Mini studiu de caz: cît poate schimba verdictul alegerea benchmark-ului?'), 'ats_ch13_ai_case', 'ATS_ch13_benchmark', [
+chart(T('Mini-case: sensitivity of the comparison to the choice of benchmark', 'Mini studiu de caz: sensibilitatea comparației la alegerea benchmark-ului'), 'ats_ch13_ai_case', 'ATS_ch13_benchmark', [
     T(r'DM--HLN statistics of Chronos-2 against AR($p$) at $h = 12$ on @{ai.reps} random benchmarks of @{ai.k} EU countries and @{ai.y} years of origins, and on the full panel',
       r'Statisticile DM--HLN ale Chronos-2 față de AR($p$) la $h = 12$ pe @{ai.reps} de benchmark-uri aleatoare cu @{ai.k} țări UE și @{ai.y} ani de origini și pe întregul panel'),
     T(r'@{ai.win}\% of the random benchmarks declare Chronos-2 significantly better and @{ai.lose}\% significantly worse; the full panel gives $t = @{ai.t}$ ($p$ @{ai.p})',

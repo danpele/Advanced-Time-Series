@@ -782,7 +782,7 @@ interp(('the posterior', 'distribuției a posteriori'), [
 # =============================================================================
 D.section('Regimes, long memory and breaks', 'Regimuri, memorie lungă și rupturi')
 
-D.frame(T('Rare switches look like long memory', 'Comutările rare arată ca memoria lungă'), items(
+D.frame(T('Regime switching and spurious long memory', 'Schimbarea de regim și memoria lungă aparentă'), items(
     (T(r'\refDI: $y_t = \mu_{S_t} + \varepsilon_t$ with $p_{ii} = 1 - c/T^\delta$', r'\refDI: $y_t = \mu_{S_t} + \varepsilon_t$ cu $p_{ii} = 1 - c/T^\delta$'),
      [T(r'$c, \delta > 0$: switches become rarer as $T$ grows', r'$c, \delta > 0$: comutările devin mai rare cînd $T$ crește'),
       T(r'the variance of partial sums grows like that of an I($d$) process, $d > 0$', r'varianța sumelor parțiale crește ca la un proces I($d$), $d > 0$'),
@@ -897,7 +897,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('The number of regimes is tested by bootstrap or chosen by a criterion fixed in advance, not by a $\\chi^2$ count', 'Numărul de regimuri se testează prin bootstrap sau se alege printr-un criteriu fixat dinainte, nu prin numărarea gradelor de libertate ale unui $\\chi^2$'),
     T('The meaning of each regime is checked against external events, not assumed from its label', 'Semnificația fiecărui regim se verifică față de evenimente externe, nu se presupune din eticheta lui')), 'small')
 
-chart(T('Mini-case: how robust is a recession dating?', 'Mini studiu de caz: cît de robustă este o datare a recesiunilor?'), 'ats_ch7_ai_case', 'ATS_ch7_hamilton', [
+chart(T('Mini-case: sensitivity of the recession dating to the specification', 'Mini studiu de caz: sensibilitatea datării recesiunilor la specificație'), 'ats_ch7_ai_case', 'ATS_ch7_hamilton', [
     T(r'US GDP growth: four specifications $\times$ three sample starts, all ending in 2019Q4; QPS of the smoothed low-mean-regime probability against the NBER quarters, 1985--2019',
       r'Creșterea PIB-ului SUA: patru specificații $\times$ trei începuturi ale eșantionului, toate pînă în T4 2019; QPS al probabilității netezite a regimului cu media scăzută față de trimestrele NBER, 1985--2019'),
     (T(r'QPS from @{ai.qmin} to @{ai.qmax} (a constant probability scores @{ai.qc})', r'QPS între @{ai.qmin} și @{ai.qmax} (o probabilitate constantă are scorul @{ai.qc})'),

@@ -337,7 +337,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
      [T('September 2008 -- March 2009; 19 February -- 30 June 2020; the calendar year 2022; March -- June 2025',
         'septembrie 2008 -- martie 2009; 19 februarie -- 30 iunie 2020; anul calendaristic 2022; martie -- iunie 2025')])), 'footnotesize')
 
-D.frame(T('From a crash to a regulatory functional', 'De la un crah la o funcțională de reglementare'), two(
+D.frame(T('A short history of VaR, ES and backtesting', 'Scurt istoric: VaR, ES și backtesting'), two(
     ph('crash', T('The S\\&P 500 around 19 October 1987', 'S\\&P 500 în jurul datei de 19 octombrie 1987'), h='0.36\\textheight'),
     items(T('1987: a one-day fall of about 20\\% in US equities shows that the tail, not the variance, decides solvency',
             '1987: o cădere de circa 20\\% într-o singură zi pe piața acțiunilor din SUA arată că solvabilitatea o decide coada, nu varianța'),
@@ -347,7 +347,7 @@ D.frame(T('From a crash to a regulatory functional', 'De la un crah la o funcți
           T(r'2011--2016: ES is not elicitable \refGn, but (VaR, ES) is jointly elicitable \refFZ', r'2011--2016: ES nu este elicitabil \refGn, dar perechea (VaR, ES) este elicitabilă împreună \refFZ'),
           T(r'FRTB: capital on ES 2.5\%, backtests on VaR 1\% and VaR 2.5\% \refMAR', r'FRTB: capitalul pe baza ES 2,5\%, backtesting pe VaR 1\% și VaR 2,5\% \refMAR')), '0.42', '0.56'), 'footnotesize')
 
-D.frame(T('Basel: the forecaster and the referee', 'Basel: prognozatorul și arbitrul'), two(
+D.frame(T('Basel: bank risk forecasts and supervisory backtests', 'Basel: prognozele de risc ale băncilor și backtestingul de supraveghere'), two(
     ph('bis', T('Bank for International Settlements, Basel, 2018', 'Banca Reglementelor Internaționale, Basel, 2018'), h='0.5\\textheight'),
     items(T('A bank issues a daily forecast of its own tail; the supervisor checks it after the fact', 'O bancă emite zilnic o prognoză a propriei cozi; supraveghetorul o verifică ulterior'),
           T('Two questions that statistics separates: is the forecast \\textbf{calibrated} (backtest) and is it \\textbf{better} than another (comparison)?',
@@ -872,7 +872,7 @@ D.frame(T('Duration-based backtests', 'Teste pe baza duratelor'), items(
         r'$(\hat a, \hat b)$: estimațiile nerestricționate; $\tilde a$: estimația sub $b = 1$; pentru eșantioane mici se recomandă p-value-uri obținute prin simulare')]),
     T('Durations see clustering at any distance, not only on consecutive days as Christoffersen\'s test does', 'Duratele surprind gruparea la orice distanță, nu doar în zile consecutive, ca testul lui Christoffersen')), 'small')
 
-chart(T('How far apart are the hits?', 'Cît de departe sînt depășirile una de alta?'), 'ats_ch9_durations', 'ATS_ch9_backtests', [
+chart(T('Durations between VaR hits', 'Duratele dintre depășirile VaR'), 'ats_ch9_durations', 'ATS_ch9_backtests', [
     T(r'S\&P 500, VaR 2.5\%, out of sample 2000--2026; empirical survival of the durations between hits (log scale) against the geometric law of a correct model',
       r'S\&P 500, VaR 2,5\%, în afara eșantionului 2000--2026; funcția de supraviețuire empirică a duratelor dintre depășiri (scară logaritmică) față de legea geometrică a unui model corect')],
     h='0.65\\textheight')
@@ -1167,7 +1167,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('Forecasts use only information available at $t - 1$; the estimation window and re-estimation scheme are stated', 'Prognozele folosesc doar informația disponibilă la $t - 1$; fereastra de estimare și schema de reestimare sînt precizate'),
     T('Rankings are reported with DM or MCS uncertainty and checked on a Murphy diagram', 'Ordonările se raportează cu incertitudinea DM sau MCS și se verifică pe o diagramă Murphy')), 'small')
 
-chart(T('Mini-case: is there a best ES model?', 'Mini studiu de caz: există un cel mai bun model ES?'), 'ats_ch9_ai_case', 'ATS_ch9_comparison', [
+chart(T('Mini-case: ES model rankings across assets, levels and periods', 'Mini studiu de caz: ordonarea modelelor ES pe active, niveluri și perioade'), 'ats_ch9_ai_case', 'ATS_ch9_comparison', [
     T(r'@{ai.n} cells: five assets $\times$ two levels (2.5\%, 5\%) $\times$ up to three periods (whole, before 2020, from 2020); left: the model with the lowest FZ0 loss; right: size of the 90\% MCS',
       r'@{ai.n}@{ai.nde} celule: cinci active $\times$ două niveluri (2,5\%, 5\%) $\times$ pînă la trei perioade (toată, înainte de 2020, din 2020); stînga: modelul cu cea mai mică pierdere FZ0; dreapta: mărimea MCS de 90\%'),
     T(r'@{ai.nw} different winners; GARCH-Skt wins @{ai.skt} cells, GAS-1F @{ai.fz1}; MCS sizes from @{ai.smin} to @{ai.smax}, median @{ai.smed}; GAS-1F is in the MCS in @{ai.fzin} cells: an AI summary that names ``the best ES model\'\' is wrong',

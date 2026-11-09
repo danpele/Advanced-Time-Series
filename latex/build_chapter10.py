@@ -357,7 +357,7 @@ D.frame(T('From the Nile to long memory', 'De la Nil la memoria lungă'), two(
            [T(r'fractional Gaussian noise \refMVN', r'zgomotul gaussian fracționar \refMVN'),
             T(r'fractional differencing \refGJ, \refHos', r'diferențierea fracționară \refGJ, \refHos')])), '0.36', '0.62'), 'small')
 
-D.frame(T('Records of the river', 'Înregistrările fluviului'), two(
+D.frame(T('The Nile records', 'Înregistrările Nilului'), two(
     ph('nilo', T('The Nilometer on Roda Island, Cairo', 'Nilometrul de pe insula Roda, Cairo'), h='0.5\\textheight'),
     items(T('The Roda Nilometer recorded annual Nile minima from the seventh century on: one of the oldest time series', 'Nilometrul de pe Roda a înregistrat minimele anuale ale Nilului începînd cu secolul al VII-lea: una dintre cele mai vechi serii de timp'),
           T(r'These minima are the classic long-memory data set \refBFGK', r'Aceste minime sînt setul clasic de date cu memorie lungă \refBFGK'),
@@ -981,7 +981,7 @@ D.frame(T('The RFSV predictor (2/2): the variance forecast', 'Predictorul RFSV (
         r'$2c\nu^2h^{2H}$: jumătate din varianța condiționată a lui $\log\sigma^2_{t+h}$, care crește cu orizontul; cu valorile pentru S\&P 500, $c = @{gj.c}$')]),
     T('Two parameters ($H$, $\\nu$), both from the variogram: no likelihood, no optimisation', 'Doi parametri ($H$, $\\nu$), ambii din variogramă: fără verosimilitate, fără optimizare')), 'small')
 
-chart(T('How far back the forecasts look', 'Cît de departe privesc prognozele'), 'ats_ch10_rfsv_kernel', 'ATS_ch10_forecast', [
+chart(T('Weights of past volatility in the RFSV and HAR forecasts', 'Ponderile volatilității trecute în prognozele RFSV și HAR'), 'ats_ch10_rfsv_kernel', 'ATS_ch10_forecast', [
     T(r'RFSV kernel with $H = @{kr.H}$ (S\&P 500) for $h = 1$ and $h = 22$ days, against the normalised HAR weights for $h = 1$', r'Nucleul RFSV cu $H = @{kr.H}$ (S\&P 500) pentru $h = 1$ și $h = 22$ de zile, față de ponderile HAR normalizate pentru $h = 1$')], h='0.64\\textheight')
 
 interp(('the kernels', 'nucleelor'), [
@@ -1042,7 +1042,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('Breaks and level shifts are tested (Qu) before long memory is claimed', 'Rupturile și salturile de nivel sînt testate (Qu) înainte de a afirma memoria lungă'),
     T('Forecast comparisons are out of sample, pre-registered, with QLIKE and DM', 'Comparațiile prognozelor sînt în afara eșantionului, preînregistrate, cu QLIKE și DM')), 'small')
 
-chart(T('Mini-case: how robust is ``$H$ of order 0.1\'\'?', 'Mini studiu de caz: cît de robust este „$H$ de ordinul 0,1”?'), 'ats_ch10_ai_case', 'ATS_ch10_rough', [
+chart(T('Mini-case: estimates of $H$ across assets and realised measures', 'Mini studiu de caz: estimațiile lui $H$ pe active și măsuri realizate'), 'ats_ch10_ai_case', 'ATS_ch10_rough', [
     T(r'@{ai.cells} cells: seven assets $\times$ five realised measures $\times$ two halves of the sample; two estimators each (@{ai.n} estimates); right: $H$ against the local Whittle $d$ of the same cell',
       r'@{ai.cells} de celule: șapte active $\times$ cinci măsuri realizate $\times$ două jumătăți ale eșantionului; doi estimatori pentru fiecare (@{ai.n} de estimații); dreapta: $H$ față de $d$ local Whittle din aceeași celulă'),
     T(r'$H$ from @{ai.Hmin} to @{ai.Hmax}, median @{ai.Hmed} (moments @{ai.Hmedmom}, with intercept @{ai.Hmedint}); @{ai.sh}\% below 0.2; $d$ from @{ai.dmin} to @{ai.dmax}; correlation of $H$ and $d$ @{ai.corr}: an AI summary that calls volatility ``short memory because $H < 1/2$\'\' is wrong',

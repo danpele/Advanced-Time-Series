@@ -450,7 +450,7 @@ D.recap(('The spectral representation', 'reprezentarea spectrală'), [
 # =============================================================================
 D.section('Spectral estimation theory', 'Teoria estimării spectrale')
 
-D.frame(T('Why the periodogram is not enough', 'Limitele periodogramei'), items(
+D.frame(T('Limitations of the periodogram', 'Limitele periodogramei'), items(
     (T(r'For a linear process the periodogram ordinates are asymptotically scaled $\chi^2_2$ variables \refBD', r'Pentru un proces liniar, ordonatele periodogramei sînt asimptotic variabile $\chi^2_2$ scalate \refBD'
        ) + r'''
     \[ X_t = \sum_j\psi_j\varepsilon_{t-j} \ \Rightarrow\ I(\omega_j) \Rightarrow f(\omega_j)\,\frac{\chi^2_2}{2} \]''',
@@ -831,7 +831,7 @@ D.frame(T('Hamilton\'s critique', 'Critica lui Hamilton'), items(
     T(r'Replies: boosting the HP filter \refPS; a modified Hamilton filter for real time \refQW; the debate is about which gain you want',
       r'Răspunsuri: filtrul HP iterat (boosting) \refPS; un filtru Hamilton modificat pentru timp real \refQW; dezbaterea privește ce cîștig doriți')), 'small')
 
-chart(T('Filters judged by their gain', 'Filtre judecate după cîștig'), 'ats_ch11_gains', 'ATS_ch11_filters', [
+chart(T('Gain functions of the filters', 'Funcțiile de cîștig ale filtrelor'), 'ats_ch11_gains', 'ATS_ch11_filters', [
     T(r'Gain from the level to the cycle, by period in quarters; Christiano--Fitzgerald: the weights in the middle of a 126-quarter sample; Hamilton: $h = 8$, $p = 4$',
       r'Cîștigul de la nivel la ciclu, pe perioade în trimestre; Christiano--Fitzgerald: ponderile din mijlocul unui eșantion de 126 de trimestre; Hamilton: $h = 8$, $p = 4$')],
     h='0.65\\textheight')
@@ -845,7 +845,7 @@ interp(('the gains', 'cîștigurilor'), [
       r'Filtrul lui Hamilton nu este trece-bandă: cîștig @{ga.ham16} la 16 trimestre și @{ga.ham8} la 8 (pentru ponderile mersului aleator); ponderile estimate pentru România (suma @{ga.sumb}) dau @{ga.hame16} și @{ga.hame8}'),
     T('Every filter defines its own cycle: compare cycles only after comparing gains', 'Fiecare filtru își definește propriul ciclu: comparați ciclurile doar după ce ați comparat cîștigurile')])
 
-chart(T('A cycle made by the filter', 'Un ciclu creat de filtru'), 'ats_ch11_cogley_nason', 'ATS_ch11_filters', [
+chart(T('The spurious cycle of the HP filter', 'Ciclul aparent produs de filtrul HP'), 'ats_ch11_cogley_nason', 'ATS_ch11_filters', [
     T(r'Spectrum of the HP ($\lambda = 1600$) cycle of a random walk: $G(\omega)^2/(2\pi\cdot2(1 - \cos\omega))$, and the average periodogram of HP-filtered simulated random walks',
       r'Spectrul ciclului HP ($\lambda = 1600$) al unui mers aleator: $G(\omega)^2/(2\pi\cdot2(1 - \cos\omega))$ și periodograma medie a unor mersuri aleatoare simulate filtrate HP')],
     h='0.65\\textheight')
@@ -955,7 +955,7 @@ D.frame(T('Evolutionary spectra and local stationarity', 'Spectre evolutive și 
     T('Wavelets (next sections) let the window length change with the frequency: short for high frequencies, long for low ones',
       'Wavelets (secțiunile următoare) lasă lungimea ferestrei să varieze cu frecvența: scurtă pentru frecvențele înalte, lungă pentru cele joase')), 'small')
 
-chart(T('A spectrum that drifts', 'Un spectru care alunecă'), 'ats_ch11_spectrogram', 'ATS_ch11_evolutionary', [
+chart(T('A time-varying spectrum: spectrogram of a simulated series', 'Un spectru variabil în timp: spectrograma unei serii simulate'), 'ats_ch11_spectrogram', 'ATS_ch11_evolutionary', [
     T(r'$X_t = 2r\cos(\theta_t)X_{t-1} - r^2X_{t-2} + \varepsilon_t$, $r = 0.95$, peak period moving from 20 to 5 over 2048 observations; short-time multitaper on windows of 256 (step 16)',
       r'$X_t = 2r\cos(\theta_t)X_{t-1} - r^2X_{t-2} + \varepsilon_t$, $r = 0.95$, perioada vîrfului trece de la 20 la 5 pe 2048 de observații; multitaper pe ferestre de 256 (pas 16)')],
     h='0.65\\textheight')

@@ -65,7 +65,7 @@ window.ATS_DATA.quizzes['bubbles'] = {
         {
             "correct": 2,
             "en": {
-                "title": "Evans' pitfall",
+                "title": "Power against periodically collapsing bubbles",
                 "text": "Why do whole-sample unit-root and cointegration tests have little power against periodically collapsing bubbles?",
                 "options": [
                     "Because the bubble is negative after each collapse",
@@ -77,7 +77,7 @@ window.ATS_DATA.quizzes['bubbles'] = {
                 "incorrectExplanation": "An Evans bubble stays positive and grows faster than $1 + r$ in its fast phase; the ADF test does not need Gaussian errors."
             },
             "ro": {
-                "title": "Capcana lui Evans",
+                "title": "Puterea testelor în fața bulelor care se prăbușesc periodic",
                 "text": "De ce au testele de rădăcină unitară și de cointegrare pe tot eșantionul putere mică în fața bulelor care se prăbușesc periodic?",
                 "options": [
                     "Pentru că bula este negativă după fiecare prăbușire",

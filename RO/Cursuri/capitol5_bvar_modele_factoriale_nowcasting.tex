@@ -241,7 +241,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Originea shrinkage-ului: Minneapolis}
+\begin{frame}{Originea modelelor VAR bayesiene: Fed Minneapolis}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.40\textwidth}
@@ -654,7 +654,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Două reguli pentru un singur hiperparametru (1/2)}
+\begin{frame}{Alegerea gradului general de shrinkage: două reguli (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Regula potrivirii BGR} \refBGR, secțiunea~3
@@ -667,7 +667,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Două reguli pentru un singur hiperparametru (2/2)}
+\begin{frame}{Alegerea gradului general de shrinkage: două reguli (2/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Verosimilitatea marginală GLP} \refGLP
@@ -1110,7 +1110,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Datele lipsă nu sînt o problemă pentru filtrul Kalman}
+\begin{frame}{Datele lipsă în filtrul Kalman}
 \itemsize{\small}
 \begin{itemize}
     \item La momentul $t$ păstrăm doar liniile observate: $x_t^o = W_tx_t$, $\Lambda_t = W_t\Lambda$, $\Psi_t = W_t\Psi W_t'$, cu $W_t$ o matrice de selecție
@@ -1321,7 +1321,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Nowcast pentru T3 2026 și sursa revizuirii}
+\begin{frame}{Nowcast-uri pentru T3 2026 și descompunerea revizuirii în știri}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.61\textheight,keepaspectratio]{ats_ch5_news.pdf}
@@ -1388,7 +1388,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Mini studiu de caz: cît de robustă este o clasificare?}
+\begin{frame}{Mini studiu de caz: sensibilitatea ordonării modelelor de nowcasting la specificație}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.55\textheight,keepaspectratio]{ats_ch5_ai_case.pdf}

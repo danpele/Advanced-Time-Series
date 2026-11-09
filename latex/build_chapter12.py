@@ -484,7 +484,7 @@ D.frame(T('Design: EU inflation, local against global', 'Schema studiului: infla
     T(r'Local: 27 OLS regressions per origin; global: one pooled OLS (the same coefficients for all countries), as in \refMMH', r'Local: 27 de regresii OLS pentru fiecare origine; global: o singură regresie OLS reunită (aceiași coeficienți pentru toate țările), ca în \refMMH'),
     T('Loss: RMSE in percentage points; DM test on the cross-country average loss differential (HLN correction, Chapter 1)', 'Pierderea: RMSE în puncte procentuale; testul DM pe diferența medie a pierderilor dintre țări (corecția HLN, Capitolul 1)')), 'small')
 
-chart(T('Memory helps global models and hurts local ones', 'Memoria ajută modelele globale și le afectează pe cele locale'), 'ats_ch12_global_local', 'ATS_ch12_global_models', [
+chart(T('Local and global models: RMSE by lag order', 'Modele locale și globale: RMSE în funcție de numărul de laguri'), 'ats_ch12_global_local', 'ATS_ch12_global_models', [
     T('RMSE against the memory $p$; circles: average over the 27 countries; squares: Romania', 'RMSE în funcție de memoria $p$; cercuri: media celor 27 de țări; pătrate: România')], h='0.68\\textheight')
 
 interp(('local and global', 'modelelor locale și globale'), [
@@ -556,7 +556,7 @@ D.frame(T('Design: Romanian inflation from the EU panel', 'Schema studiului: inf
     T(r'Models: AR(3) (benchmark), ridge, lasso, adaptive lasso, elastic net ($\alpha = 0.5$), post-lasso OLS, global AR(12) of the panel; penalty by blocked 5-fold CV with a 12-month purge', r'Modele: AR(3) (reper), ridge, lasso, lasso adaptiv, elastic net ($\alpha = 0{,}5$), OLS după lasso, AR(12) global al panelului; penalizarea prin 5 blocuri cu purjare de 12 luni'),
     T(r'In the spirit of the data-rich inflation literature \refMVVZ, \refGCLSS, with the EU panel as the data set', r'Literatura despre prognoza inflației cu multe date \refMVVZ, \refGCLSS, aplicată aici pe panelul UE')), 'small')
 
-chart(T('What the panel lasso selects, and what it delivers', 'Selecția lasso pe panel și acuratețea ei'), 'ats_ch12_ro_lasso', 'ATS_ch12_global_models', [
+chart(T('Panel lasso: selected countries and forecast accuracy', 'Lasso pe panel: țările selectate și acuratețea prognozelor'), 'ats_ch12_ro_lasso', 'ATS_ch12_global_models', [
     T('Left: share of forecast origins in each year at which a country enters the lasso; right: RMSE relative to AR(3), colour by the DM test', 'Stînga: ponderea originilor din fiecare an în care o țară intră în lasso; dreapta: RMSE relativ la AR(3), culoarea după testul DM')], h='0.65\\textheight')
 
 interp(('the panel lasso', 'lasso pe panel'), [
@@ -713,7 +713,7 @@ D.frame(T('LSTM and GRU: gates (2/2)', 'LSTM și GRU: porțile (2/2)'), items(
      [T(r'$\tilde h_t$: candidate state computed from $r_t\odot h_{t-1}$ and $x_t$; fewer parameters than the LSTM, similar behaviour',
         r'$\tilde h_t$: starea candidată, calculată din $r_t\odot h_{t-1}$ și $x_t$; mai puțini parametri decît LSTM, comportament asemănător')])), 'small')
 
-chart(T('How far back does the gradient reach?', 'Distanța în timp pînă la care ajunge gradientul'), 'ats_ch12_vanishing', 'ATS_ch12_recurrent', [
+chart(T('Vanishing gradients in recurrent networks', 'Atenuarea gradientului în rețelele recurente'), 'ats_ch12_vanishing', 'ATS_ch12_recurrent', [
     T(r'Mean $|\partial h_T/\partial x_t|$ of freshly initialised networks (32 units, $T = @{va.T}$, Gaussian inputs, average of @{va.seeds} seeds), log scale', r'Media $|\partial h_T/\partial x_t|$ pentru rețele proaspăt inițializate (32 de unități, $T = @{va.T}$, intrări gaussiene, media a @{va.seeds} seed-uri), scară logaritmică')], h='0.65\\textheight')
 
 interp(('the gradients', 'gradienților'), [
@@ -750,7 +750,7 @@ D.frame(T('Design: deep models against HAR', 'Schema studiului: modele deep faț
     T(r'Models on the last 22 values: HAR \refCor\ (OLS), MLP (2 $\times$ 32 units), LSTM (16 units), TCN (3 levels, $R = 29$), HGB on the 22 lags; one seed per network', r'Modele pe ultimele 22 de valori: HAR \refCor\ (OLS), MLP (2 $\times$ 32 de unități), LSTM (16 unități), TCN (3 niveluri, $R = 29$), HGB pe cele 22 de laguri; un seed pe rețea'),
     T(r'QLIKE \refPat, DM (HLN) against HAR, MCS; the literature: neural networks gain little over HAR \refBuc; ML gains appear mostly with many predictors \refCSV', r'QLIKE \refPat, DM (HLN) față de HAR, MCS; literatura: rețelele neuronale cîștigă puțin față de HAR \refBuc; cîștigurile ML apar mai ales cu mulți predictori \refCSV')), 'small')
 
-chart(T('Can deep networks beat HAR?', 'Rețele deep față de HAR'), 'ats_ch12_rv_deep', 'ATS_ch12_recurrent', [
+chart(T('Deep networks against HAR', 'Rețele deep față de HAR'), 'ats_ch12_rv_deep', 'ATS_ch12_recurrent', [
     T(r'QLIKE relative to HAR (1 = HAR); a star marks a DM rejection at 5\%', r'QLIKE relativ la HAR (1 = HAR); steaua marchează o respingere DM la 5\%')], h='0.68\\textheight')
 
 interp(('deep models against HAR', 'modelelor deep față de HAR'), [
@@ -904,7 +904,7 @@ interp(('DeepAR', 'DeepAR'), [
     T('Choosing the best checkpoint on this table would be data snooping: the budget must be fixed on a validation block before the test period is opened', 'Alegerea celui mai bun punct de control din acest tabel ar fi data snooping: bugetul trebuie fixat pe un bloc de validare înainte de a deschide perioada de test'),
     T('Probabilistic deep models are sensitive to the training budget; report the rule that set it, and the benchmark under a proper score', 'Modelele deep probabilistice sînt sensibile la bugetul de antrenare; raportați regula care l-a fixat și reperul sub o regulă de scor proprie')])
 
-D.frame(T('Lessons from the M5 competition', 'Lecțiile competiției M5'), items(
+D.frame(T('Results of the M5 competition', 'Rezultatele competiției M5'), items(
     (T(r'\refMfiveA: 42\,840 Walmart series in a hierarchy, daily unit sales, 28 days ahead; accuracy and uncertainty tracks', r'\refMfiveA: 42\,840 de serii Walmart într-o ierarhie, vînzări zilnice în unități, 28 de zile înainte; secțiunile de acuratețe și de incertitudine'),
      [T('the winning accuracy methods were global LightGBM models on engineered features (lags, rolling means, prices, calendar), often combined', 'metodele cîștigătoare la acuratețe au fost modele LightGBM globale pe variabile construite (laguri, medii mobile, prețuri, calendar), adesea combinate')]),
     T('Global models, cross-learning and external information (prices, events) mattered more than architecture', 'Modelele globale, învățarea între serii și informația externă (prețuri, evenimente) au contat mai mult decît arhitectura'),
@@ -940,7 +940,7 @@ D.frame(T('Shapley values (2/2): SHAP for forecasts', 'Valorile Shapley (2/2): S
       T('with lags, features are strongly correlated: interventional values evaluate the model at impossible histories; group correlated lags instead', 'cu laguri, variabilele sînt puternic corelate: valorile intervenționale evaluează modelul pe istorii imposibile; grupați în schimb lagurile corelate')]),
     T(r'Here: exact Shapley values of three lag groups (day, days 2--5, days 6--22) for boosting on S\&P 500 log RV, @{sh.ne} forecast days, @{sh.nb} background days', r'Aici: valori Shapley exacte pentru trei grupuri de laguri (ziua, zilele 2--5, zilele 6--22) pentru boosting pe logaritmul RV S\&P 500, @{sh.ne} zile de prognoză, @{sh.nb} zile de fundal')), 'small')
 
-chart(T('What the boosted model has learned', 'Tiparul învățat de modelul boosting'), 'ats_ch12_shap', 'ATS_ch12_interpretation', [
+chart(T('Shapley values of the boosted model', 'Valorile Shapley ale modelului boosting'), 'ats_ch12_shap', 'ATS_ch12_interpretation', [
     T('Each point: one forecast day; horizontal: the mean log RV of the group; vertical: its Shapley value', 'Fiecare punct: o zi de prognoză; orizontal: media logaritmului RV a grupului; vertical: valoarea lui Shapley')], h='0.54\\textheight')
 
 interp(('the Shapley values', 'valorilor Shapley'), [
@@ -955,7 +955,7 @@ D.frame(T('Attention is not explanation', 'Atenția nu este explicație'), items
     (T(r'A test: occlusion importance, the increase of the MSE when one input patch is replaced by the window mean, against the attention each patch receives', r'Un test: importanța prin ocluzie, creșterea MSE cînd un segment de intrare este înlocuit cu media ferestrei, față de atenția primită de fiecare segment'),
      [T(r'on the patch Transformer of Section 5 ($H = 96$), the first 1000 test windows', r'pe Transformer-ul pe segmente din secțiunea 5 ($H = 96$), primele 1000 de ferestre de test')])), 'small')
 
-chart(T('Where the Transformer looks, and what it uses', 'Atenția Transformer-ului și informația folosită'), 'ats_ch12_attention', 'ATS_ch12_interpretation', [
+chart(T('Attention and occlusion importance in the Transformer', 'Atenția și importanța prin ocluzie în Transformer'), 'ats_ch12_attention', 'ATS_ch12_interpretation', [
     T(r'Share of attention received by each of the @{at.nt} daily patches against the share of occlusion importance', r'Ponderea atenției primite de fiecare dintre cele @{at.nt} segmente zilnice față de ponderea importanței prin ocluzie')], h='0.68\\textheight')
 
 interp(('attention and occlusion', 'atenției și ocluziei'), [
@@ -1011,7 +1011,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('Seeds, architectures and hyper-parameters tried are all reported; the winner is tested with MCS or SPA', 'Seed-urile, arhitecturile și hiperparametrii încercați sînt toți raportați; cîștigătorul este testat cu MCS sau SPA'),
     T('An AI claim that ``LSTMs capture long memory, so they beat HAR\'\' is checked against the numbers, not accepted', 'O afirmație AI de tipul „LSTM captează memoria lungă, deci este mai bun decît HAR” se verifică pe cifre, nu se acceptă')), 'small')
 
-chart(T('Mini-case: do learners beat HAR across markets?', 'Mini studiu de caz: algoritmii față de HAR pe mai multe piețe'), 'ats_ch12_ai_case', 'ATS_ch12_ai_case', [
+chart(T('Mini-case: learners against HAR across markets', 'Mini studiu de caz: algoritmii față de HAR pe mai multe piețe'), 'ats_ch12_ai_case', 'ATS_ch12_ai_case', [
     T(r'@{ai.n} cells: six indices $\times$ three horizons $\times$ two learners (MLP, boosting), the expanding design of Section 4; QLIKE ratio to HAR, a star where DM rejects at 5\%', r'@{ai.n} de celule: șase indici $\times$ trei orizonturi $\times$ doi algoritmi (MLP, boosting), schema cu fereastră extinsă din secțiunea 4; raportul QLIKE față de HAR, o stea unde DM respinge la 5\%'),
     T(r'Ratios from @{ai.min} to @{ai.max}, median @{ai.med} (MLP @{ai.mlp}, boosting @{ai.hgb}); @{ai.better} cells below 1, @{ai.sb} significantly better, @{ai.sw} significantly worse: the hypothesis is falsified for these learners', r'Rapoarte între @{ai.min} și @{ai.max}, mediana @{ai.med} (MLP @{ai.mlp}, boosting @{ai.hgb}); @{ai.better} celule sub 1, @{ai.sb} semnificativ mai bune, @{ai.sw} semnificativ mai slabe: ipoteza este infirmată pentru acești algoritmi')],
     h='0.55\\textheight')

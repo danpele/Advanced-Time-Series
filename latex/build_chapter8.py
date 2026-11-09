@@ -348,7 +348,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
       'Biblioteca Oxford-Man nu mai este actualizată din februarie 2022 (copie arhivată, citată conform condițiilor ei); datele Binance la un minut extind măsurile realizate pînă la 18 septembrie 2026; o simulare calibrată oferă teoriei un adevăr cunoscut'),
     T('RV: realised variance; BV: bipower variation; PPI: producer price index', 'RV: varianța realizată; BV: variația bipower; IPP (PPI): indicele prețurilor producției')), 'footnotesize')
 
-D.frame(T('From the trading floor to the tick', 'De la sala de tranzacționare la fiecare tranzacție'), two(
+D.frame(T('A short history of volatility modelling', 'Scurt istoric al modelării volatilității'), two(
     ph('nyse', T('New York Stock Exchange, 1908', 'Bursa din New York, 1908'), h='0.34\\textheight'),
     items(T(r'1982--1986: ARCH and GARCH \refEng, \refBol: volatility as a filtered conditional variance of daily returns', r'1982--1986: ARCH și GARCH \refEng, \refBol: volatilitatea ca varianță condiționată filtrată a randamentelor zilnice'),
           T(r'1992--2004: QML theory \refBW, \refLH, \refLum, \refFZa; components \refEL; DCC \refEngD', r'1992--2004: teoria QML \refBW, \refLH, \refLum, \refFZa; componente \refEL; DCC \refEngD'),

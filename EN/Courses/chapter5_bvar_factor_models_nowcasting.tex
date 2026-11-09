@@ -225,7 +225,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Shrinkage was born in Minneapolis}
+\begin{frame}{Origins of Bayesian VARs: the Minneapolis Fed}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.40\textwidth}
@@ -638,7 +638,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Two rules for one hyperparameter (1/2)}
+\begin{frame}{Choosing the overall tightness: two rules (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{BGR fit rule} \refBGR, Section~3
@@ -651,7 +651,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Two rules for one hyperparameter (2/2)}
+\begin{frame}{Choosing the overall tightness: two rules (2/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{GLP marginal likelihood} \refGLP
@@ -1094,7 +1094,7 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Missing data are not a problem for the Kalman filter}
+\begin{frame}{Missing data in the Kalman filter}
 \itemsize{\small}
 \begin{itemize}
     \item At time $t$, keep only the observed rows: $x_t^o = W_tx_t$, $\Lambda_t = W_t\Lambda$, $\Psi_t = W_t\Psi W_t'$ with $W_t$ a selection matrix
@@ -1305,7 +1305,7 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Nowcasting 2026Q3, and where the revision came from}
+\begin{frame}{Nowcasts for 2026Q3 and the news decomposition of the revision}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.61\textheight,keepaspectratio]{ats_ch5_news.pdf}
@@ -1372,7 +1372,7 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Mini-case: how robust is one ranking?}
+\begin{frame}{Mini-case: sensitivity of the nowcast ranking to the specification}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.55\textheight,keepaspectratio]{ats_ch5_ai_case.pdf}

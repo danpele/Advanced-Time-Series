@@ -2,7 +2,7 @@ r"""
 build_chapter15.py -- Capitolul 15 (Recapitulare și susținerea proiectelor), EN + RO dintr-o singură sursă
 =========================================================================================================
 Harta cursului, cîte un slide de recapitulare pentru fiecare capitol 0--14 și pentru capitolul de studiu individual 16
-(idei-cheie, formula-cheie, rezultatul replicării, greșeli frecvente), trusa de metode, fluxul de cercetare al
+(idei-cheie, formula-cheie, rezultatul replicării, greșeli frecvente), sinteza metodelor, fluxul de cercetare al
 proiectului, replicarea unei lucrări de referință (inclusiv replicările din curs care NU au reușit și motivele),
 lista de verificare a reproductibilității, erorile frecvente (data snooping, scurgerea de informație, look-ahead,
 afirmații exagerate, p-hacking), susținerea orală (format, întrebări, criterii individuale, răspunsuri-model),
@@ -164,8 +164,8 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), two(i
        r'\textbf{Întrebarea}: ce vă oferă întregul curs pentru un proiect de cercetare și cum se susține proiectul?'),
      [T('one chapter that ties Chapters 0--14 and the self-study Chapter 16 to the team project', 'un capitol care leagă Capitolele 0--14 și Capitolul 16 (studiu individual) de proiectul de echipă')]),
     (T(r'\textbf{Route}', r'\textbf{Traseul}'),
-     [T('Part I: the course map, one recap per chapter, the toolbox of methods', 'Partea I: harta cursului, cîte o recapitulare pentru fiecare capitol, trusa de metode'),
-      T('Part II: the research workflow, replicating a landmark paper, reproducibility, failure modes', 'Partea a II-a: fluxul de cercetare, replicarea unei lucrări de referință, reproductibilitatea, erorile frecvente'),
+     [T('Part I: the course map, one recap per chapter, the overview of methods', 'Partea I: harta cursului, cîte o recapitulare pentru fiecare capitol, sinteza metodelor'),
+      T('Part II: the research workflow, replicating a landmark paper, reproducibility, common methodological errors', 'Partea a II-a: fluxul de cercetare, replicarea unei lucrări de referință, reproductibilitatea, erorile frecvente'),
       T('Part III: the oral defence, AI in research, and choosing a project', 'Partea a III-a: susținerea orală, AI în cercetare și alegerea proiectului')]),
     T('There is no written exam: the project and its defence carry 70\\% of the grade', 'Cursul nu are examen scris: proiectul și susținerea lui reprezintă 70\\% din notă')),
     ph('ase', T('Bucharest University of Economic Studies', 'Academia de Studii Economice din București'), h='0.40\\textheight')), 'small')
@@ -250,7 +250,7 @@ D.frame(T('Five questions for every analysis', 'Cinci întrebări pentru orice a
     (T(r'\textbf{Robustness}: does the conclusion survive the forks of the analysis?', r'\textbf{Robustețea}: rezistă concluzia la bifurcațiile analizei?'),
      [T('every chapter ends with a mini-case that varies the specification', 'fiecare capitol se încheie cu un mini studiu de caz care variază specificația')])), 'footnotesize')
 
-D.frame(T('Three threads across the course', 'Trei fire comune ale cursului'), items(
+D.frame(T('Three recurring themes of the course', 'Trei teme recurente ale cursului'), items(
     (T(r'\textbf{Inference under dependence}', r'\textbf{Inferența sub dependență}'),
      [T(r'long-run variance $\Omega$ (Chapter 0, formula on the next slide): the variance of a sum of $n$ dependent terms is about $n\Omega$', r'varianța de termen lung $\Omega$ (Capitolul 0, formula pe slide-ul următor): varianța unei sume de $n$ termeni dependenți este aproximativ $n\Omega$'),
       T(r'it reappears in DM tests (Chapter 1), local projections (Chapter 3), cumulative effects (Chapter 14)', r'ea reapare în testele DM (Capitolul 1), proiecțiile locale (Capitolul 3), efectele cumulate (Capitolul 14)'),
@@ -423,7 +423,7 @@ D.recap(('the sixteen chapters', 'cele șaisprezece capitole'), [
 # =============================================================================
 # TRUSA DE METODE
 # =============================================================================
-D.section('The methods toolbox', 'Trusa de metode')
+D.section('Overview of methods', 'Sinteza metodelor')
 
 QH = T(r'\textbf{Research question}', r'\textbf{Întrebarea de cercetare}') + ' & ' + T(r'\textbf{Tool}', r'\textbf{Instrumentul}') + ' & ' + T(r'\textbf{Ch.}', r'\textbf{Cap.}')
 SPEC = TB + 'p{4.9cm}' + TB + 'p{5.6cm}' + TB + 'p{0.8cm}'
@@ -537,7 +537,7 @@ D.frame(T('Reproduction, replication, robustness', 'Reproducere, replicare, robu
 VERD = {'r': T('replicated', 'replicat'), 'p': T('partly', 'parțial'), 'n': T('not replicated', 'nereplicat')}
 SH = T(r'\textbf{Paper}', r'\textbf{Lucrarea}') + r' & \textbf{' + T('Ch.', 'Cap.') + r'} & \textbf{' + T('Verdict', 'Verdict') + r'} & \textbf{' + T('What decided it', 'Ce a decis') + '}'
 SSPEC = TB + 'p{4.3cm}l' + TB + 'p{1.7cm}' + TB + 'p{6.2cm}'
-D.frame(T('Scoreboard of the course replications (1/2)', 'Tabloul replicărilor din curs (1/2)'), table(SSPEC, SH, [
+D.frame(T('Summary of the course replications (1/2)', 'Sinteza replicărilor din curs (1/2)'), table(SSPEC, SH, [
     r'\refEH & 0 & ' + VERD['p'] + ' & ' + T('robust inference and a later sample remove the significance', 'inferența robustă și un eșantion mai recent elimină semnificația'),
     r'\refMR, \refGKMT & 1 & ' + VERD['r'] + ' & ' + T('random walk and the simple average are hard to beat', 'mersul aleator și media simplă sînt greu de depășit'),
     r'\refMPQ, \refBP & 2 & ' + VERD['r'] + ' & ' + T('dates reproduced; the 2020 outliers weaken the extension', 'datele reproduse; valorile extreme din 2020 slăbesc extensia'),
@@ -550,7 +550,7 @@ D.frame(T('Scoreboard of the course replications (1/2)', 'Tabloul replicărilor 
     r'\refMNZ, \refHam & 6, 7 & ' + VERD['r'] + ' & ' + T('same data; Hamilton\'s dating does not survive today\'s sample', 'aceleași date; datarea lui Hamilton nu rezistă pe eșantionul de azi')],
     size='scriptsize'), 'small')
 
-D.frame(T('Scoreboard of the course replications (2/2)', 'Tabloul replicărilor din curs (2/2)'), table(SSPEC, SH, [
+D.frame(T('Summary of the course replications (2/2)', 'Sinteza replicărilor din curs (2/2)'), table(SSPEC, SH, [
     r'\refBPQ & 8 & ' + VERD['r'] + ' & ' + T('in QLIKE; the ranking changes in MSE', 'în QLIKE; ierarhia se schimbă în MSE'),
     r'\refEGS & 8 & ' + VERD['p'] + ' & ' + T('the sign survives, the macro effect is not significant', 'semnul rezistă, efectul macro nu este semnificativ'),
     r'\refELW & 8 & ' + VERD['n'] + ' & ' + T('few assets relative to the sample: shrinkage has little to do', 'puține active raportat la eșantion: shrinkage-ul are puțin de corectat'),
@@ -564,7 +564,7 @@ D.frame(T('Scoreboard of the course replications (2/2)', 'Tabloul replicărilor 
     r'\refPY; \refPSY & 16 & ' + VERD['r'] + '; ' + VERD['n'] + ' & ' + T('wild bootstrap critical values decide', 'valorile critice wild bootstrap decid')],
     size='scriptsize'), 'small')
 
-chart(T('A replication that worked: Patton, Ziegel and Chen (2019)', 'O replicare reușită: Patton, Ziegel și Chen (2019)'), 'ats_ch9_pzc_table', 'ATS_ch9_pzc', [
+chart(T('A successful replication: Patton, Ziegel and Chen (2019)', 'O replicare reușită: Patton, Ziegel și Chen (2019)'), 'ats_ch9_pzc_table', 'ATS_ch9_pzc', [
     T(r'Average FZ0 loss of ten (VaR, ES) models, S\&P 500, 2000--2016, the design of \refPZC: our data (bars) against their Table 8 (diamonds)', r'Pierderea FZ0 medie a zece modele (VaR, ES), S\&P 500, 2000--2016, designul \refPZC: datele noastre (bare), față de tabelul 8 al lucrării (romburi)')],
     h='0.62\\textheight', ch=9)
 
@@ -631,7 +631,7 @@ D.frame(T('Reproducibility checklist', 'Lista de verificare a reproductibilită�
 # =============================================================================
 # ERORI FRECVENTE
 # =============================================================================
-D.section('Failure modes', 'Erori frecvente')
+D.section('Common methodological errors', 'Erori metodologice frecvente')
 
 D.frame(T('Data snooping and p-hacking', 'Data snooping și p-hacking'), items(
     (T(r'\textbf{Data snooping}: the same data are used to choose and to test a model; the reported p-value ignores the search \refWhite', r'\textbf{Data snooping}: aceleași date se folosesc pentru a alege și pentru a testa un model; p-value-ul raportat ignoră căutarea \refWhite'),
@@ -683,7 +683,7 @@ D.frame(T('Overclaiming', 'Afirmații exagerate'), two(items(
      [T(r'a non-rejection with low power says little: compute the power (Romanian nowcast, $p$ = @{c5.dmp})', r'o nerespingere cu putere mică spune puțin: calculați puterea (nowcast-ul României, $p$ = @{c5.dmp})')])),
     ph('granger', T('Clive Granger (2008)', 'Clive Granger (2008)'), h='0.40\\textheight')), 'footnotesize')
 
-D.recap(('failure modes', 'erorile frecvente'), [
+D.recap(('common methodological errors', 'erorile metodologice frecvente'), [
     T('A search reported as a single test produces discoveries from noise; pre-register $K$ and correct for it', 'O căutare raportată ca un singur test produce descoperiri din zgomot; preînregistrați $K$ și corectați'),
     T('Every choice inside the training window, every datum available at the forecast date', 'Fiecare alegere în fereastra de antrenare, fiecare dată disponibilă la data prognozei'),
     T('Claims no stronger than the design: prediction is not causation, significance is not size', 'Afirmații nu mai puternice decît designul: predicția nu este cauzalitate, semnificația nu este mărime')])
@@ -758,7 +758,7 @@ qa(T('Typical questions with model answers (3/3): the chapters', 'Întrebări ti
     (T('Is a significant Granger test a causal effect?', 'Este un test Granger semnificativ un efect cauzal?'),
      T('No: it is predictive relative to an information set; a causal claim needs an identifying assumption about the assignment, such as an instrument or a synthetic control with placebos (Chapter 14)', 'Nu: este predictiv, relativ la o mulțime de informație; o afirmație cauzală cere o ipoteză de identificare despre alocare, de exemplu un instrument sau un control sintetic cu placebo (Capitolul 14)'))])
 
-D.frame(T('Where defences go wrong', 'Unde greșesc susținerile'), items(
+D.frame(T('Common weaknesses of project defences', 'Puncte slabe frecvente ale susținerilor'), items(
     T('Code written by someone else (a colleague or an AI assistant) that the presenter cannot explain', 'Cod scris de altcineva (un coleg sau un asistent AI) pe care cel care prezintă nu îl poate explica'),
     T('A p-value read as the probability that the hypothesis is true', 'Un p-value citit drept probabilitatea ca ipoteza să fie adevărată'),
     T('A forecasting gain without a test, or a test without the size of the gain', 'Un cîștig de prognoză fără test sau un test fără mărimea cîștigului'),
@@ -830,7 +830,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('The extension is feasible in one semester with the course tools', 'Extensia este realizabilă într-un semestru cu instrumentele cursului'),
     T('The verdict criteria (replicated, partly, not) are written before the replication is run', 'Criteriile verdictului (replicat, parțial, nereplicat) sînt scrise înainte de a rula replicarea')), 'small')
 
-chart(T('Mini-case: is the evaluation sample long enough?', 'Mini studiu de caz: este eșantionul de evaluare destul de lung?'), 'ats_ch15_power', 'ATS_ch15_power', [
+chart(T('Mini-case: power of the Diebold--Mariano test and the evaluation sample size', 'Mini studiu de caz: puterea testului Diebold--Mariano și mărimea eșantionului de evaluare'), 'ats_ch15_power', 'ATS_ch15_power', [
     T(r'Rejection rate of the DM--HLN test (5\%, two-sided, @{pw.reps} simulations) when the loss differential is a mean gain $\delta$ plus an AR(1) noise with coefficient $\rho = 0.3$ and unit variance', r'Rata de respingere a testului DM--HLN (5\%, bilateral, @{pw.reps} de simulări) cînd diferența pierderilor este un cîștig mediu $\delta$ plus un zgomot AR(1) cu coeficientul $\rho = 0{,}3$ și varianța 1'),
     T(r'Dotted: the approximation $\Phi\big(\delta\sqrt{P/\Omega} - 1.96\big)$; $\Phi$: standard Normal distribution function; $P$: number of out-of-sample observations; $\Omega$: long-run variance of the differential', r'Punctat: aproximarea $\Phi\big(\delta\sqrt{P/\Omega} - 1{,}96\big)$; $\Phi$: funcția de repartiție a distribuției Normale standard; $P$: numărul de observații în afara eșantionului; $\Omega$: varianța de termen lung a diferenței')],
     h='0.56\\textheight')

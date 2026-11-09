@@ -301,7 +301,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
     T('October 2025: the US household survey and CPI were not collected (federal shutdown); the isolated missing month is interpolated',
       'Octombrie 2025: ancheta în gospodării și IPC din SUA nu au fost colectate (închiderea guvernului federal); luna lipsă izolată este interpolată')), 'footnotesize')
 
-D.frame(T('Shrinkage was born in Minneapolis', 'Originea shrinkage-ului: Minneapolis'), two(
+D.frame(T('Origins of Bayesian VARs: the Minneapolis Fed', 'Originea modelelor VAR bayesiene: Fed Minneapolis'), two(
     ph('minneapolis', T('Federal Reserve Bank of Minneapolis, 2010', 'Federal Reserve Bank of Minneapolis, 2010'), h='0.34\\textheight'),
     items((T(r'Early 1980s: Litterman forecasts with Bayesian VARs at the Minneapolis Fed \refLit; the ``Minnesota prior\'\'', r'Începutul anilor 1980: Litterman realizează prognoze cu VAR bayesiene la Fed Minneapolis \refLit; distribuția a priori „Minnesota”'),
            [T(r'\refDLS: sum-of-coefficients and conditional projections; \refSims, \refSZ: dummy initial observations', r'\refDLS: suma coeficienților și proiecții condiționate; \refSims, \refSZ: observația inițială fictivă')]),
@@ -512,14 +512,14 @@ interp(('the marginal likelihood', 'verosimilității marginale'), [
     T(r'Using the textbook value $\lambda = 0.2$ costs @{lb.MEDIUM.l02} log points for MEDIUM and @{lb.LARGE.l02} for LARGE; $\lambda = 1$ costs @{lb.LARGE.l1} for LARGE', r'Valoarea din manuale $\lambda = 0{,}2$ costă @{lb.MEDIUM.l02} puncte logaritmice pentru MEDIUM și @{lb.LARGE.l02} pentru LARGE; $\lambda = 1$ costă @{lb.LARGE.l1} pentru LARGE'),
     T(r'Joint mode with the hyperpriors: SMALL $\mu = @{lb.SMALL.mu}$, $\phi = @{lb.SMALL.phi}$; MEDIUM $\mu = @{lb.MEDIUM.mu}$, $\phi = @{lb.MEDIUM.phi}$: the data ask for tight sum-of-coefficients and initial-observation priors', r'Modul comun cu distribuțiile hiperparametrilor: SMALL $\mu = @{lb.SMALL.mu}$, $\phi = @{lb.SMALL.phi}$; MEDIUM $\mu = @{lb.MEDIUM.mu}$, $\phi = @{lb.MEDIUM.phi}$: datele cer distribuții strînse pentru suma coeficienților și observația inițială')])
 
-D.frame(T('Two rules for one hyperparameter (1/2)', 'Două reguli pentru un singur hiperparametru (1/2)'), items(
+D.frame(T('Choosing the overall tightness: two rules (1/2)', 'Alegerea gradului general de shrinkage: două reguli (1/2)'), items(
     (T(r'\textbf{BGR fit rule} \refBGR, Section~3', r'\textbf{Regula potrivirii BGR} \refBGR, secțiunea~3'),
      [T(r'choose $\lambda$ so that the in-sample one-step fit of the key variables equals that of a small OLS VAR', r'alegem $\lambda$ astfel încît potrivirea în eșantion la un pas a variabilelor-cheie să fie egală cu cea a unui VAR mic estimat prin OLS'),
       T(r'$\mathrm{Fit}(\lambda) = \frac13\sum_{i\in I}\mathrm{msfe}_i^{(\lambda)}/\mathrm{msfe}_i^{(0)}$ on 1960--1969; here the target is @{bg.fit}', r'$\mathrm{Fit}(\lambda) = \frac13\sum_{i\in I}\mathrm{msfe}_i^{(\lambda)}/\mathrm{msfe}_i^{(0)}$ pe 1960--1969; aici ținta este @{bg.fit}'),
       T(r'$I$: the three key variables; $\mathrm{msfe}_i^{(\lambda)}$: in-sample one-step mean squared error of variable $i$ with tightness $\lambda$; $\lambda = 0$: the prior mean alone', r'$I$: cele trei variabile-cheie; $\mathrm{msfe}_i^{(\lambda)}$: eroarea pătratică medie la un pas, în eșantion, a variabilei $i$ cu gradul de strîngere $\lambda$; $\lambda = 0$: doar media a priori'),
       T(r'our values: MEDIUM @{bg.lmed}, LARGE @{bg.llar} (BGR Table~1: 0.108 and 0.035 on their data set)', r'valorile noastre: MEDIUM @{bg.lmed}, LARGE @{bg.llar} (BGR, tabelul~1: 0,108 și 0,035 pe setul lor de date)')])), 'small')
 
-D.frame(T('Two rules for one hyperparameter (2/2)', 'Două reguli pentru un singur hiperparametru (2/2)'), items(
+D.frame(T('Choosing the overall tightness: two rules (2/2)', 'Alegerea gradului general de shrinkage: două reguli (2/2)'), items(
     (T(r'\textbf{GLP marginal likelihood} \refGLP', r'\textbf{Verosimilitatea marginală GLP} \refGLP'),
      [T('the mode of $\\lambda$ is re-estimated on each window', 'modul lui $\\lambda$ se reestimează pe fiecare fereastră'),
       T(r'on 10-year windows the median mode is @{bg.glp.SMALL} (SMALL) and @{bg.glp.MEDIUM} (MEDIUM)', r'pe ferestre de 10 ani modul median este @{bg.glp.SMALL} (SMALL) și @{bg.glp.MEDIUM} (MEDIUM)'),
@@ -745,7 +745,7 @@ D.frame(T('The dynamic factor model (2/2)', 'Modelul factorial dinamic (2/2)'), 
      [T('E-step: the Kalman smoother; M-step: regressions on the smoothed moments', 'pasul E: netezitorul Kalman; pasul M: regresii pe momentele netezite'),
       T('handles any pattern of missing data and idiosyncratic AR(1) terms', 'tratează orice structură de date lipsă și componente idiosincratice AR(1)')])), 'small')
 
-D.frame(T('Missing data are not a problem for the Kalman filter', 'Datele lipsă nu sînt o problemă pentru filtrul Kalman'), items(
+D.frame(T('Missing data in the Kalman filter', 'Datele lipsă în filtrul Kalman'), items(
     (T(r'At time $t$, keep only the observed rows: $x_t^o = W_tx_t$, $\Lambda_t = W_t\Lambda$, $\Psi_t = W_t\Psi W_t\'$ with $W_t$ a selection matrix', r'La momentul $t$ păstrăm doar liniile observate: $x_t^o = W_tx_t$, $\Lambda_t = W_t\Lambda$, $\Psi_t = W_t\Psi W_t\'$, cu $W_t$ o matrice de selecție'),
      [T('if nothing is observed, the update step is skipped and the prediction is carried forward', 'dacă nu se observă nimic, pasul de actualizare se omite și predicția se transmite mai departe')]),
     (T(r'\textbf{Ragged edge}: at the end of the sample each series stops at a different month (publication lags); the filter uses whatever is there', r'\textbf{Date incomplete la sfîrșitul eșantionului (ragged edge)}: fiecare serie se oprește în altă lună (întîrzieri de publicare); filtrul folosește ce există'),
@@ -840,7 +840,7 @@ D.frame(T('News and revisions: Bańbura and Modugno (2014) (2/2)', 'Știri și r
      [T(r'$\lambda_j$: the loadings of release $j$; $t_j$: its reference month; $\hat f_{t_j\mid v}$: the factor estimate given $\Omega_v$; $H$: the stacked $\lambda_j\'$; $\Psi_J$: their idiosyncratic variances; $z_y$: the loading of the target', r'$\lambda_j$: ponderile factoriale ale publicării $j$; $t_j$: luna la care se referă; $\hat f_{t_j\mid v}$: estimația factorului dat fiind $\Omega_v$; $H$: vectorii $\lambda_j\'$ așezați pe linii; $\Psi_J$: varianțele lor idiosincratice; $z_y$: ponderea factorială a țintei'),
       T(r'$P_{\mid v}$: the covariance of the stacked state given $\Omega_v$, from the Kalman filter', r'$P_{\mid v}$: covarianța stării stivuite dat fiind $\Omega_v$, din filtrul Kalman')])), 'small')
 
-chart(T('Nowcasting 2026Q3, and where the revision came from', 'Nowcast pentru T3 2026 și sursa revizuirii'), 'ats_ch5_news', 'ATS_ch5_nowcast', [
+chart(T('Nowcasts for 2026Q3 and the news decomposition of the revision', 'Nowcast-uri pentru T3 2026 și descompunerea revizuirii în știri'), 'ats_ch5_news', 'ATS_ch5_nowcast', [
     T('Left: nowcasts at the ends of June--September 2026; right: news decomposition of the two-step DFM nowcast between the August and September information sets', 'Stînga: nowcast-uri la sfîrșitul lunilor iunie--septembrie 2026; dreapta: descompunerea în știri a nowcast-ului DFM în doi pași între seturile de informații din august și septembrie')],
     h='0.61\\textheight')
 
@@ -877,7 +877,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('The evaluation period and the treatment of 2020 are fixed before the results; all variants are reported', 'Perioada de evaluare și tratarea anului 2020 sînt fixate înaintea rezultatelor; toate variantele sînt raportate'),
     T('A claim of ``better nowcasts\'\' is backed by a test, not by a lower RMSE alone', 'O afirmație despre „nowcast-uri mai bune” se sprijină pe un test, nu doar pe un RMSE mai mic')), 'small')
 
-chart(T('Mini-case: how robust is one ranking?', 'Mini studiu de caz: cît de robustă este o clasificare?'), 'ats_ch5_ai_case', 'ATS_ch5_nowcast', [
+chart(T('Mini-case: sensitivity of the nowcast ranking to the specification', 'Mini studiu de caz: sensibilitatea ordonării modelelor de nowcasting la specificație'), 'ats_ch5_ai_case', 'ATS_ch5_nowcast', [
     T(r'RMSE of the DFM nowcast relative to the AR at the end of month 3, 2013--2026, across factors, sample start, release lags and the treatment of 2020', r'RMSE al nowcast-ului DFM relativ la AR la sfîrșitul lunii 3, 2013--2026, pentru diferite numere de factori, începuturi ale eșantionului, întîrzieri de publicare și tratări ale anului 2020'),
     T(r'@{ai.n} variants range from @{ai.min} to @{ai.max}; the DFM wins in @{ai.nb} of them: an AI summary that reports the best variant as ``the\'\' result is wrong', r'Cele @{ai.n} variante variază între @{ai.min} și @{ai.max}; DFM este superior în @{ai.nb} dintre ele: un rezumat AI care raportează cea mai bună variantă drept „rezultatul” greșește')],
     h='0.55\\textheight')

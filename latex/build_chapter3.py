@@ -327,7 +327,7 @@ D.frame(T('Reduced form and structural form (2/2)', 'Forma redusă și forma str
      [T(r'$\Phi_h$: the reduced-form MA coefficients, $y_t = \mu + \sum_h\Phi_hu_{t-h}$, $\Phi_0 = I_n$', r'$\Phi_h$: coeficienții MA ai formei reduse, $y_t = \mu + \sum_h\Phi_hu_{t-h}$, $\Phi_0 = I_n$'),
       T(r'element $(i, j)$ of $\Theta_h$: effect of a one-standard-deviation shock $j$ on variable $i$ after $h$ periods', r'elementul $(i, j)$ al $\Theta_h$: efectul unui șoc $j$ de o abatere standard asupra variabilei $i$ după $h$ perioade')])))
 
-D.frame(T('Counting: the data do not pin down $B_0$', 'Numărătoarea: datele nu determină $B_0$'), items(
+D.frame(T('Counting restrictions: the order condition', 'Numărarea restricțiilor: condiția de ordin'), items(
     (T(r'The data identify $\Sigma_u = B_0B_0\'$: $n(n + 1)/2$ distinct moments; $B_0$ has $n^2$ unknowns', r'Datele identifică $\Sigma_u = B_0B_0\'$: $n(n + 1)/2$ momente distincte; $B_0$ are $n^2$ necunoscute'),
      [T(r'$n$: the number of variables; $\Sigma_u$ is symmetric, so it has $n(n + 1)/2$ distinct elements', r'$n$: numărul variabilelor; $\Sigma_u$ este simetrică, deci are $n(n + 1)/2$ elemente distincte'),
       T(r'order condition: at least $n(n - 1)/2$ restrictions (3 for $n = 3$, 28 for $n = 8$)', r'condiția de ordin: cel puțin $n(n - 1)/2$ restricții (3 pentru $n = 3$, 28 pentru $n = 8$)'),
@@ -714,7 +714,7 @@ D.frame(T('LP-IV', 'LP-IV'), items(
      [T(r'the proxy SVAR needs invertibility of the shock; LP-IV does not, but pays in variance', r'proxy SVAR cere inversabilitatea șocului; LP-IV nu, dar plătește prin varianță'),
       T(r'cumulative LP-IV gives multipliers: $\sum_{j\le h}y_{t+j}$ on $\sum_{j\le h}g_{t+j}$ instrumented by $z_t$ \refRZ; $y$: output, $g$: government spending', r'LP-IV cumulat dă multiplicatori: $\sum_{j\le h}y_{t+j}$ pe $\sum_{j\le h}g_{t+j}$, instrumentat prin $z_t$ \refRZ; $y$: producția, $g$: cheltuielile publice')])), 'small')
 
-chart(T('The same instrument, two estimators', 'Același instrument, doi estimatori'), 'ats_ch3_lp_gk', 'ATS_ch3_lp_vs_var', [
+chart(T('LP-IV and the proxy SVAR with the FF4 instrument', 'LP-IV și proxy SVAR cu instrumentul FF4'), 'ats_ch3_lp_gk', 'ATS_ch3_lp_vs_var', [
     T(r'LP-IV with FF4 as instrument for the 1-year yield, 2 lags of all variables and of the instrument as controls, origins 1990:1--2012:6 ($T = @{lg.T}$) \refRam; dashed: the proxy SVAR', r'LP-IV cu FF4 ca instrument pentru randamentul la 1 an, 2 laguri ale tuturor variabilelor și ale instrumentului drept controale, origini 1990:1--2012:6 ($T = @{lg.T}$) \refRam; linia întreruptă: proxy SVAR')],
     h='0.55\\textheight')
 
@@ -859,7 +859,7 @@ D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Lags, horizons, sample and the treatment of 2020 are fixed before the results; all variants are reported', 'Lagurile, orizonturile, eșantionul și tratarea anului 2020 sînt fixate înaintea rezultatelor; toate variantele sînt raportate'),
     T('An AI summary of a ``significant spillover\'\' is checked against the confidence set, not against the point estimate', 'Un rezumat AI despre un „efect de propagare semnificativ” se verifică pe mulțimea de încredere, nu pe estimația punctuală')), 'small')
 
-chart(T('Mini-case: the robustness of one number', 'Mini-studiu de caz: robustețea unei singure cifre'), 'ats_ch3_ai_case', 'ATS_ch3_romania', [
+chart(T('Mini-case: sensitivity of the HICP response to the specification', 'Mini studiu de caz: sensibilitatea răspunsului IAPC la specificație'), 'ats_ch3_ai_case', 'ATS_ch3_romania', [
     T(r'Response of Romanian HICP after 12 months to a 25 bp Euribor shock: recursive VAR and recursive LP (90\% Newey--West bars), lag length $p$, samples ending in 2019 and in 2026', r'Răspunsul IAPC din România după 12 luni la un șoc Euribor de 25 bp: VAR recursiv și LP recursivă (bare Newey--West de 90\%), numărul de laguri $p$, eșantioane care se încheie în 2019 și în 2026'),
     T(r'@{ai.n} estimates range from @{ai.min}\% to @{ai.max}\%, @{ai.npos} of them positive: the sign depends on the lag length and on the post-2020 data; an AI assistant that reports one of them ``with confidence\'\' is wrong', r'Cele @{ai.n} de estimații variază între @{ai.min}\% și @{ai.max}\%, iar @{ai.npos} dintre ele sînt pozitive: semnul depinde de numărul de laguri și de datele de după 2020; un asistent AI care raportează una dintre ele „cu încredere” greșește')],
     h='0.55\\textheight')

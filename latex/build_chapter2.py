@@ -372,7 +372,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
     T('HICP: harmonised index of consumer prices; BLS: US Bureau of Labor Statistics; ONS: UK Office for National Statistics; JAE: Journal of Applied Econometrics',
       'IAPC (HICP): indicele armonizat al prețurilor de consum; BLS: Biroul de statistică a muncii din SUA; ONS: Oficiul britanic de statistică; JAE: Journal of Applied Econometrics')), 'footnotesize')
 
-D.frame(T('Two founders', 'Doi fondatori'), cols(
+D.frame(T('Origins of break tests and threshold models', 'Originile testelor de rupturi și ale modelelor cu prag'), cols(
     ph('chow', 'Gregory C. Chow', h='0.36\\textheight'),
     ph('tong', 'Howell Tong', h='0.36\\textheight'), '0.48', '0.48') + items(
     T('1960: \\refChow\\ tests whether two regressions share their coefficients; the same year \\refQua\\ maximises the likelihood ratio over the switch date',
@@ -956,7 +956,7 @@ D.frame(T('Threshold cointegration', 'Cointegrarea cu prag'), items(
 # =============================================================================
 D.section('Forecasting with nonlinear models', 'Prognoza cu modele neliniare')
 
-D.frame(T('Multi-step forecasts are not the skeleton', 'Prognozele pe mai mulți pași nu sînt scheletul'), items(
+D.frame(T('Multi-step forecasts and the model skeleton', 'Prognozele pe mai mulți pași și scheletul modelului'), items(
     (T('For $h = 1$: $\\E(y_{t+1}\\mid\\mathcal F_t) = F(\\mathbf y_t)$; for $h \\ge 2$: $\\E[F(F(\\mathbf y_t) + \\varepsilon_{t+1}, \\dots)] \\ne F(F(\\mathbf y_t))$ (Jensen)', 'Pentru $h = 1$: $\\E(y_{t+1}\\mid\\mathcal F_t) = F(\\mathbf y_t)$; pentru $h \\ge 2$: $\\E[F(F(\\mathbf y_t) + \\varepsilon_{t+1}, \\dots)] \\ne F(F(\\mathbf y_t))$ (Jensen)'),
      [T('$F$: the conditional mean function of the model; Jensen: the mean of a nonlinear function is not the function of the mean', '$F$: funcția medie condiționată a modelului; Jensen: media unei funcții neliniare nu este funcția mediei'),
       T('iterating the skeleton (the ``naive\'\' forecast) is biased; simulate paths with bootstrapped residuals and average them \\refCFS', 'iterarea scheletului (prognoza „naivă”) este deplasată; simulăm traiectorii cu reziduuri bootstrap și le mediem \\refCFS'),
@@ -1008,7 +1008,7 @@ D.frame(T('Required checks', 'Verificări necesare'), items(
     T('The data are the published series (vintage, deflator, end of month); differences from the paper are reported', 'Datele sînt seriile publicate (versiunea, deflatorul, sfîrșitul lunii); diferențele față de lucrare sînt raportate'),
     T('``Not significant within regimes\'\' is not ``linear\'\': report the power of the procedure', '„Nesemnificativ în interiorul regimurilor” nu înseamnă „liniar”: raportați puterea procedurii')), 'small')
 
-chart(T('Mini-case: ESTAR evidence or mean shifts?', 'Mini-studiu de caz: dovezi ESTAR sau schimbări de medie?'), 'ats_ch2_ai_case', 'ATS_ch2_ai_case', [
+chart(T('Mini-case: the KSS test after Bai--Perron mean shifts', 'Mini studiu de caz: testul KSS după schimbările de medie Bai--Perron'), 'ats_ch2_ai_case', 'ATS_ch2_ai_case', [
     T('Left: real dollar--sterling rate with Bai--Perron mean regimes (BIC: three breaks, @{ai.dates}); right: KSS null distributions from @{ai.reps} random walks put through the same steps',
       'Stînga: cursul real dolar--liră cu regimurile de medie Bai--Perron (BIC: trei rupturi, @{ai.dates}); dreapta: distribuțiile KSS sub ipoteza nulă din @{ai.reps} de mersuri aleatoare trecute prin aceiași pași'),
     T('Demeaned: KSS @{ai.kr}, $p$ @{ai.pr} (5\\%: @{ai.cvr}); within regimes: @{ai.ks}, $p$ @{ai.ps} (5\\%: @{ai.cvs}): the evidence for ESTAR disappears once the break search is part of the null',

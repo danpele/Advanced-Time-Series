@@ -639,7 +639,7 @@ D.frame(T('Date-stamping: design of the experiment', 'Datarea: designul experime
       T(r'$T = @{dt.T}$, @{dt.N} paths for each value of $\rho$', r'$T = @{dt.T}$, @{dt.N} traiectorii pentru fiecare valoare a lui $\rho$')]),
     T('Questions: how often is the bubble found, how late is its start dated, how often is a false episode dated before it?', 'Întrebările: cît de des este găsită bula, cît de tîrziu este datat începutul ei, cît de des este datat un episod fals înaintea ei?')), 'small')
 
-chart(T('How late is the start dated?', 'Cît de tîrziu este datat începutul?'), 'ats_ch16_dating', 'ATS_ch16_date_stamping', [
+chart(T('Delay in dating the bubble start', 'Întîrzierea datării începutului bulei'), 'ats_ch16_dating', 'ATS_ch16_date_stamping', [
     T(r'Delay of the first dated exceedance after the true start (periods); pointwise 95\% Monte Carlo critical values; growth over the bubble $\rho^{@{dt.dur}}$: @{dt.a.g}, @{dt.b.g} and @{dt.c.g}',
       r'Întîrzierea primei depășiri datate după începutul adevărat (perioade); valori critice punctuale de 95\% Monte Carlo; creșterea pe durata bulei $\rho^{@{dt.dur}}$: @{dt.a.g}, @{dt.b.g} și @{dt.c.g}')],
     h='0.65\\textheight')
@@ -923,7 +923,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('No look-ahead: the minimum window, the lag order and the scaling are fixed from data available at each date', 'Fără informație din viitor: fereastra minimă, numărul de laguri și scalarea se stabilesc din datele disponibile la fiecare dată'),
     T('Multiplicity over dates and over assets: which error rate does a reported bubble control?', 'Multiplicitatea pe date și pe active: ce rată de eroare controlează o bulă raportată?')), 'small')
 
-chart(T('Mini-case: how many bubbles does a screen find?', 'Mini studiu de caz: cîte bule găsește o analiză pe multe active?'), 'ats_ch16_ai_case', 'ATS_ch16_ai_screen', [
+chart(T('Mini-case: multiple testing in a GSADF screen of many assets', 'Mini studiu de caz: testarea multiplă într-o analiză GSADF pe multe active'), 'ats_ch16_ai_case', 'ATS_ch16_ai_screen', [
     T(r'GSADF on the monthly log price of @{ai.K} series of the course data (from 1990 or the first month), p-values from @{ai.B} wild-bootstrap and @{ai.B} Monte Carlo draws (smallest attainable p-value: @{ai.minp})',
       r'GSADF pe logaritmul prețului lunar pentru @{ai.K} serii din datele cursului (din 1990 sau din prima lună disponibilă), p-value-uri din @{ai.B} de extrageri wild bootstrap și @{ai.B} Monte Carlo (cel mai mic p-value posibil: @{ai.minp})'),
     T(r'Rejections at 5\%: @{ai.mc} with Monte Carlo, @{ai.wild} with the wild bootstrap (@{ai.exp} expected by chance); after Holm @{ai.holm}, after Benjamini--Hochberg @{ai.bh}. An AI summary such as \textquotedblleft bubbles in @{ai.mc} assets\textquotedblright{} is wrong twice: wrong null and no correction',

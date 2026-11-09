@@ -38,7 +38,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
         {
             "correct": 1,
             "en": {
-                "title": "The price of conjugacy",
+                "title": "A restriction of the conjugate prior",
                 "text": "Why does the natural conjugate Normal–inverse-Wishart prior force the cross-variable shrinkage $\\vartheta$ of the Minnesota prior to equal 1?",
                 "options": [
                     "Because the inverse-Wishart has too few degrees of freedom",
@@ -50,7 +50,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
                 "incorrectExplanation": "Degrees of freedom, the finiteness of the marginal likelihood and the sum-of-coefficients dummies have nothing to do with the restriction."
             },
             "ro": {
-                "title": "Prețul conjugării",
+                "title": "O restricție a distribuției a priori conjugate",
                 "text": "De ce impune distribuția a priori natural conjugată Normal–inverse-Wishart ca shrinkage-ul între variabile $\\vartheta$ al distribuției Minnesota să fie 1?",
                 "options": [
                     "Pentru că inverse-Wishart are prea puține grade de libertate",
@@ -470,7 +470,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
         {
             "correct": 1,
             "en": {
-                "title": "News adds up",
+                "title": "Nowcast revisions and news",
                 "text": "With the model parameters held fixed and no data revisions, how does the revision of a nowcast relate to the news?",
                 "options": [
                     "It is approximately equal to the largest single news",
@@ -482,7 +482,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
                 "incorrectExplanation": "All releases contribute; the weights are not equal; correlation is handled by $\\mathrm{E}[II']^{-1}$, which splits the weight among correlated releases."
             },
             "ro": {
-                "title": "Știrile se adună",
+                "title": "Revizuirea nowcast-ului și știrile",
                 "text": "Cu parametrii modelului ficși și fără revizuiri ale datelor, cum se leagă revizuirea unui nowcast de știri?",
                 "options": [
                     "Este aproximativ egală cu cea mai mare știre",

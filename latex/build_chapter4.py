@@ -519,7 +519,7 @@ D.recap(('Small samples', 'eșantioane mici'), [
 # =============================================================================
 D.section(r'Identification and tests on $\beta$ and $\alpha$', r'Identificarea și testele asupra lui $\beta$ și $\alpha$')
 
-D.frame(T('Normalisation is not identification (1/2)', 'Normalizarea nu înseamnă identificare (1/2)'), items(
+D.frame(T('Normalisation and identification of the cointegrating vectors (1/2)', 'Normalizarea și identificarea vectorilor de cointegrare (1/2)'), items(
     (T(r'The eigenvectors give one basis of the cointegration space $\mathrm{sp}(\beta)$; any $\beta\xi$ spans the same space and fits equally well',
        r'Vectorii proprii dau o bază a spațiului de cointegrare $\mathrm{sp}(\beta)$; orice $\beta\xi$ generează același spațiu și descrie datele la fel de bine'),
      [T(r'$\mathrm{sp}(\beta)$: the space spanned by the columns of $\beta$; $\xi$: an invertible $r\times r$ matrix (a rotation)', r'$\mathrm{sp}(\beta)$: spațiul generat de coloanele lui $\beta$; $\xi$: o matrice inversabilă de $r\times r$ (o rotație)')]),
@@ -529,7 +529,7 @@ D.frame(T('Normalisation is not identification (1/2)', 'Normalizarea nu înseamn
     T('Identification rests on economic theory: each restriction is a statement such as ``the lending rate does not depend on the deposit rate in the long run\'\'',
       'Identificarea se sprijină pe teoria economică: fiecare restricție este o afirmație de tipul „pe termen lung, dobînda la credite nu depinde de dobînda la depozite”')), 'small')
 
-D.frame(T('Normalisation is not identification (2/2)', 'Normalizarea nu înseamnă identificare (2/2)'), items(
+D.frame(T('Normalisation and identification of the cointegrating vectors (2/2)', 'Normalizarea și identificarea vectorilor de cointegrare (2/2)'), items(
     (T(r'Linear restrictions vector by vector: $\beta = (H_1\varphi_1, \dots, H_r\varphi_r)$',
        r'Restricții liniare vector cu vector: $\beta = (H_1\varphi_1, \dots, H_r\varphi_r)$'),
      [T(r'$n_1$: the length of each vector ($n$ plus the restricted deterministic terms)', r'$n_1$: lungimea fiecărui vector ($n$ plus termenii determiniști restricționați)'),
@@ -655,7 +655,7 @@ D.recap(('Pass-through in Romania', 'transmiterea în România'), [
 # =============================================================================
 D.section('I(2) in brief', 'I(2) pe scurt')
 
-D.frame(T('When the I(1) model is not enough', 'Cînd modelul I(1) nu este suficient'), items(
+D.frame(T('Limits of the I(1) model: I(2) trends', 'Limitele modelului I(1): trenduri I(2)'), items(
     (T(r'If $\alpha_\perp\'\Gamma\beta_\perp$ has reduced rank $s < n - r$, the Granger representation fails', r'Dacă $\alpha_\perp\'\Gamma\beta_\perp$ are rang redus $s < n - r$, reprezentarea Granger nu se mai aplică'),
      [T(r'some common trends are I(2): $y_t$ contains double sums $\sum_{j\le t}\sum_{i\le j}\varepsilon_i$', r'unele trenduri comune sînt I(2): $y_t$ conține sume duble $\sum_{j\le t}\sum_{i\le j}\varepsilon_i$'),
       T('typical candidates: nominal prices and nominal money when inflation changes; inflation is then I(1)', 'candidați tipici: prețurile și masa monetară nominale cînd inflația variază; inflația este atunci I(1)')]),
@@ -734,7 +734,7 @@ interp(('the common-trends model', 'modelului cu trenduri comune'), [
     T(r'Bands are wide: with $T = @{kp.T}$ the data barely separate permanent from transitory variation', r'Benzile sînt largi: cu $T = @{kp.T}$ datele abia separă variația permanentă de cea tranzitorie'),
     T('As in Chapter 3, the economics is in the identifying assumption: here, which relations are stationary', 'Ca în Capitolul 3, partea economică este ipoteza de identificare: aici, care relații sînt staționare')])
 
-D.frame(T('How robust is the answer?', 'Cît de robust este răspunsul?'), table(
+D.frame(T('Robustness of the common-trends results', 'Robustețea rezultatelor modelului cu trenduri comune'), table(
     'lcccc', T(r'\textbf{Specification}', r'\textbf{Specificația}') + r' & $h = 1$ & $h = 4$ & $h = 8$ & $h = 24$',
     [T('great ratios, case 3, 1949--1988', 'rapoarte de echilibru, cazul 3, 1949--1988') + r' & @{kp.y1}\% & @{kp.y4}\% & @{kp.y8}\% & @{kp.y24}\%',
      T('great ratios with trend, case 4, 1949--1988', 'rapoarte de echilibru cu trend, cazul 4, 1949--1988') + r' & @{kp.e.y1}\% & @{kp.e.y4}\% & @{kp.e.y8}\% & @{kp.e.y24}\%',
@@ -840,7 +840,7 @@ interp(('the ARDL results', 'rezultatelor ARDL'), [
     T(r'ARDL and VECM agree on the size of the lending pass-through (@{ar.lend.theta} and @{pt.thl}) but not on the test of $\theta = 1$: different nuisance parameters, different power', r'ARDL și VECM coincid asupra mărimii transmiterii către credite (@{ar.lend.theta} și @{pt.thl}), dar nu asupra testului $\theta = 1$: alți parametri de perturbare, altă putere'),
     T(r'About half of the long-run effect arrives within six months (@{ar.m6}); the rest is slow, with a half-life of the disequilibrium of @{ar.lend.hl} months, consistent with fixed-rate periods and contract repricing', r'Aproximativ jumătate din efectul de termen lung apare în șase luni (@{ar.m6}); restul este lent, cu un timp de înjumătățire a dezechilibrului de @{ar.lend.hl} luni, în acord cu perioadele cu dobîndă fixă și cu reevaluarea contractelor')])
 
-D.frame(T('Two related tools (1/2)', 'Două instrumente înrudite (1/2)'), items(
+D.frame(T('Toda--Yamamoto causality and nonlinear ARDL (1/2)', 'Cauzalitatea Toda--Yamamoto și ARDL neliniar (1/2)'), items(
     (T(r'\textbf{Toda--Yamamoto causality} \refTY', r'\textbf{Cauzalitatea Toda--Yamamoto} \refTY'),
      [T('a VAR of possibly integrated or cointegrated variables', 'un VAR cu variabile posibil integrate sau cointegrate'),
       T(r'fit $p + d_{\max}$ lags in levels and test only the first $p$; $d_{\max}$: the highest suspected order of integration', r'estimăm $p + d_{\max}$ laguri în niveluri și testăm doar primele $p$; $d_{\max}$: ordinul maxim de integrare presupus'),
@@ -850,7 +850,7 @@ D.frame(T('Two related tools (1/2)', 'Două instrumente înrudite (1/2)'), items
      [T(r'partial sums of increases: $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$', r'sumele parțiale ale creșterilor: $x_t^+ = \sum_{j\le t}\max(\Delta x_j, 0)$'),
       T(r'partial sums of decreases: $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$, so that $x_t = x_0 + x_t^+ + x_t^-$', r'sumele parțiale ale scăderilor: $x_t^- = \sum_{j\le t}\min(\Delta x_j, 0)$, astfel încît $x_t = x_0 + x_t^+ + x_t^-$')])), 'small')
 
-D.frame(T('Two related tools (2/2)', 'Două instrumente înrudite (2/2)'), items(
+D.frame(T('Toda--Yamamoto causality and nonlinear ARDL (2/2)', 'Cauzalitatea Toda--Yamamoto și ARDL neliniar (2/2)'), items(
     (T(r'Nonlinear ARDL: estimation and tests', r'ARDL neliniar: estimare și teste'),
      [T(r'$x_t^+$ and $x_t^-$ enter the ARDL as two regressors, with long-run coefficients $\theta^+$, $\theta^-$ and short-run coefficients $\omega_j^+$, $\omega_j^-$', r'$x_t^+$ și $x_t^-$ intră în ARDL ca doi regresori, cu coeficienții de termen lung $\theta^+$, $\theta^-$ și cei de termen scurt $\omega_j^+$, $\omega_j^-$'),
       T(r'long-run asymmetry: $\theta^+ \ne \theta^-$; short-run asymmetry: different $\omega_j^+$ and $\omega_j^-$', r'asimetrie pe termen lung: $\theta^+ \ne \theta^-$; asimetrie pe termen scurt: $\omega_j^+$ și $\omega_j^-$ diferiți'),
@@ -1068,7 +1068,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('Lag length, case, sample and the treatment of 2008--2009 are fixed before the results; all variants are reported', 'Numărul de laguri, cazul, eșantionul și tratarea perioadei 2008--2009 sînt fixate înaintea rezultatelor; toate variantele sînt raportate'),
     T('A claim of ``complete pass-through\'\' is checked against the confidence set of $\\theta$, not against one $p$-value', 'O afirmație de „transmitere completă” se verifică pe mulțimea de încredere a lui $\\theta$, nu pe un singur p-value')), 'small')
 
-chart(T('Mini-case: the estimate is robust, the verdict is not', 'Mini studiu de caz: estimația este robustă, verdictul nu'), 'ats_ch4_ai_case', 'ATS_ch4_ai_robustness', [
+chart(T('Mini-case: the long-run pass-through test across specifications', 'Mini studiu de caz: testul transmiterii pe termen lung în diferite specificații'), 'ats_ch4_ai_case', 'ATS_ch4_ai_robustness', [
     T(r'Long-run pass-through to the lending rate in the rank-2 VECM: lags $p = 2, \dots, 6$, cases 2 and 3, samples ending in 2019 and in 2026; filled markers: $\theta = 1$ rejected at 5\%', r'Transmiterea pe termen lung către dobînda la credite în VECM de rang 2: laguri $p = 2, \dots, 6$, cazurile 2 și 3, eșantioane care se încheie în 2019 și în 2026; marcaje pline: $\theta = 1$ respins la 5\%'),
     T(r'All @{ai.n} estimates lie between @{ai.min} and @{ai.max}, yet complete pass-through is rejected in @{ai.nrej} of them: an AI summary that reports one $p$-value ``with confidence\'\' is wrong', r'Toate cele @{ai.n} de estimații se află între @{ai.min} și @{ai.max}, dar transmiterea completă este respinsă în @{ai.nrej} dintre ele: un rezumat AI care raportează un singur p-value „cu încredere” greșește')],
     h='0.55\\textheight')

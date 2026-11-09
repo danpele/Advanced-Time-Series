@@ -598,7 +598,7 @@ D.frame(T('The precision sampler', 'Eșantionarea pe baza matricei de precizie')
     T(r'Three samplers, one target: FFBS, DK and precision sampling draw from the same $p(\alpha | Y_n, \psi)$; they differ in cost and generality',
       r'Trei eșantionatoare, o singură țintă: FFBS, DK și eșantionarea pe baza preciziei extrag din aceeași $p(\alpha | Y_n, \psi)$; diferă prin cost și generalitate')), 'small')
 
-chart(T('Three samplers of the same posterior', 'Trei eșantionatoare pentru aceeași distribuție a posteriori'), 'ats_ch6_simsmoother', 'ATS_ch6_simulation_smoother', [
+chart(T('Comparison of the three state samplers', 'Comparația celor trei eșantionatoare ale stărilor'), 'ats_ch6_simsmoother', 'ATS_ch6_simulation_smoother', [
     T(r'Local level for US inflation at the ML variances, proper prior $\mu_1 \sim N(y_1, 100)$; left: s.d. of @{sm.draws} draws against the exact smoother; right: time per draw for simulated samples',
       r'Local level pentru inflația din SUA la varianțele ML, a priori propriu $\mu_1 \sim N(y_1, 100)$; stînga: abaterea standard a @{sm.draws} de extrageri față de netezitorul exact; dreapta: timpul pe extragere pentru eșantioane simulate')],
     h='0.65\\textheight')
@@ -655,7 +655,7 @@ D.frame(T('The stochastic volatility model', 'Modelul de volatilitate stochastic
           T(r'Continuous-time counterpart: the log-variance as an Ornstein--Uhlenbeck process (option pricing, realised measures in Chapter 8)',
             r'Corespondentul în timp continuu: logaritmul varianței ca proces Ornstein--Uhlenbeck (evaluarea opțiunilor, măsurile realizate din Capitolul 8)')), '0.3', '0.68'), 'footnotesize')
 
-D.frame(T('Stochastic volatility is not GARCH (1/2)', 'Volatilitatea stochastică nu este GARCH (1/2)'), items(
+D.frame(T('Stochastic volatility and GARCH compared (1/2)', 'Volatilitatea stochastică și GARCH: comparație (1/2)'), items(
     (T(r'GARCH \refBol: $\sigma^2_t = \omega + \alpha y^2_{t-1} + \beta\sigma^2_{t-1}$, $\omega > 0$, $\alpha, \beta \ge 0$', r'GARCH \refBol: $\sigma^2_t = \omega + \alpha y^2_{t-1} + \beta\sigma^2_{t-1}$, $\omega > 0$, $\alpha, \beta \ge 0$'),
      [T(r'$\sigma^2_t$ is known at $t-1$ (a function of past returns): one source of randomness', r'$\sigma^2_t$ este cunoscută la $t-1$ (o funcție de randamentele trecute): o singură sursă de aleatoriu'),
       T(r'the likelihood is a product of known densities: one pass, exact ML', r'verosimilitatea este un produs de densități cunoscute: o singură trecere, ML exact')]),
@@ -666,7 +666,7 @@ D.frame(T('Stochastic volatility is not GARCH (1/2)', 'Volatilitatea stochastic�
     T(r'Comparison on the likelihood scale is possible only after the integral is computed: particle filter (next section) or importance sampling \refKSC',
       r'Compararea pe scala verosimilității este posibilă doar după calculul integralei: filtrul de particule (secțiunea următoare) sau eșantionarea prin importanță \refKSC')), 'small')
 
-D.frame(T('Stochastic volatility is not GARCH (2/2)', 'Volatilitatea stochastică nu este GARCH (2/2)'), items(
+D.frame(T('Stochastic volatility and GARCH compared (2/2)', 'Volatilitatea stochastică și GARCH: comparație (2/2)'), items(
     (T(r'Moments, with $\sigma^2_h = \sigma^2_\eta/(1 - \phi^2)$ the unconditional variance of $h_t$', r'Momentele, cu $\sigma^2_h = \sigma^2_\eta/(1 - \phi^2)$ varianța necondiționată a lui $h_t$'),
      [T(r'kurtosis of $y_t$: $3\exp(\sigma^2_h) > 3$ even with Gaussian $\epsilon_t$: fat tails come from the random variance', r'kurtosis-ul lui $y_t$: $3\exp(\sigma^2_h) > 3$ chiar cu $\epsilon_t$ gaussian: cozile groase provin din varianța aleatoare'),
       T(r'$\Corr(y^2_t, y^2_{t-k}) = (e^{\sigma^2_h\phi^k} - 1)/(3e^{\sigma^2_h} - 1)$: volatility clustering that decays with $\phi^k$', r'$\Corr(y^2_t, y^2_{t-k}) = (e^{\sigma^2_h\phi^k} - 1)/(3e^{\sigma^2_h} - 1)$: volatility clustering care scade odată cu $\phi^k$')]),

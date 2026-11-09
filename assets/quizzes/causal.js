@@ -470,7 +470,7 @@ window.ATS_DATA.quizzes['causal'] = {
         {
             "correct": 1,
             "en": {
-                "title": "A built-in falsification",
+                "title": "A falsification test in the synthetic control",
                 "text": "The outcome of the Romanian synthetic control is annual inflation, 100(ln P_t - ln P_{t-12}). What should happen to the gap in August 2026 if the measures were one-off price-level shocks?",
                 "options": [
                     "It should double",
@@ -482,7 +482,7 @@ window.ATS_DATA.quizzes['causal'] = {
                 "incorrectExplanation": "Annual rates difference out level shifts after twelve months; a negative gap would require a fall in the price level, which did not happen."
             },
             "ro": {
-                "title": "O falsificare încorporată",
+                "title": "Un test de falsificare în controlul sintetic",
                 "text": "Rezultatul controlului sintetic pentru România este inflația anuală, 100(ln P_t - ln P_{t-12}). Ce ar trebui să se întîmple cu diferența în august 2026 dacă măsurile au fost șocuri unice ale nivelului prețurilor?",
                 "options": [
                     "Ar trebui să se dubleze",

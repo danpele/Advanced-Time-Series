@@ -632,7 +632,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
         {
             "correct": 3,
             "en": {
-                "title": "Honest forecast comparison",
+                "title": "Rigorous forecast comparison",
                 "text": "Which choice invalidates an out-of-sample comparison of RFSV and HAR forecasts of realised variance?",
                 "options": [
                     "A rolling estimation window",

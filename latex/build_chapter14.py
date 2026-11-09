@@ -378,7 +378,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
      T('Daily index and crypto prices; EUR/RON', 'Prețuri zilnice ale indicilor și criptoactivelor; EUR/RON') + ' & ' + T('EODHD; BNR reference rate; to 18 September 2026', 'EODHD; cursul de referință BNR; pînă la 18 septembrie 2026') + ' & ' + T('Granger, PCMCI, event study, CausalImpact', 'Granger, PCMCI, studiu de eveniment, CausalImpact')],
     size='scriptsize'), 'footnotesize')
 
-D.frame(T('Two languages of causality', 'Două limbaje ale cauzalității'), cols(
+D.frame(T('Two approaches to causality: structural models and potential outcomes', 'Două abordări ale cauzalității: modele structurale și rezultate potențiale'), cols(
     ph('pearl', T('Judea Pearl, Turing Award 2011', 'Judea Pearl, Premiul Turing 2011'), h='0.28\\textheight') + '\\\\[1mm]' +
     ph('imbens', T('Guido Imbens, Nobel Prize in Economics 2021', 'Guido Imbens, Premiul Nobel pentru economie 2021'), h='0.20\\textheight'),
     items((T(r'\textbf{Structural causal models} \refPea', r'\textbf{Modele cauzale structurale} \refPea'),
