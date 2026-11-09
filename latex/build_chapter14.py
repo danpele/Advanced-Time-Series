@@ -828,7 +828,7 @@ D.recap(('Synthetic control', 'controlul sintetic'), [
 # =============================================================================
 # 5. DUPĂ CONTROLUL SINTETIC
 # =============================================================================
-D.section('Beyond synthetic control', 'Dincolo de controlul sintetic')
+D.section('Extensions of synthetic control', 'Extensii ale controlului sintetic')
 
 D.frame(T('Intercepts and augmentation', 'Termenul liber și augmentarea'), items(
     (T(r'\textbf{Demeaned SC} \refDI, \refFP: allows a constant level difference $c$ between the treated unit and the donors', r'\textbf{SC cu termen liber} \refDI, \refFP: permite o diferență constantă de nivel $c$ între unitatea tratată și donatori'),
@@ -925,7 +925,7 @@ interp(('staggered adoption', 'adoptării eșalonate'), [
     T(r'The TWFE event study is distorted at long exposures (binned endpoint @{sg.tw8} against @{sg.true8}); CS gives @{sg.cs8}', r'Studiul de eveniment TWFE este distorsionat la expuneri lungi (capătul grupat @{sg.tw8} față de @{sg.true8}); CS dă @{sg.cs8}'),
     T('With one treated country (Romania) there is no staggering; with EU-wide policies adopted at different dates, there is', 'Cu o singură țară tratată (România) nu există eșalonare; cu politici la nivelul UE adoptate la date diferite, există')])
 
-D.recap(('Beyond synthetic control', 'dincolo de controlul sintetic'), [
+D.recap(('Extensions of synthetic control', 'extensii ale controlului sintetic'), [
     T('An intercept fixes level differences; ridge augmentation corrects the remaining imbalance; SDID combines unit and time weights', 'Termenul liber corectează diferențele de nivel; augmentarea ridge corectează dezechilibrul rămas; SDID combină ponderile unităților și ale perioadelor'),
     T('Romania 2025: @{ro.lo}--@{ro.hi} pp more annual inflation for twelve months, most of it the mechanical VAT effect, and a falsification that holds', 'România 2025: @{ro.lo}--@{ro.hi} pp de inflație anuală în plus timp de douăsprezece luni, în mare parte efectul mecanic al TVA, și o falsificare confirmată'),
     T('Staggered adoption breaks TWFE; use group-time estimators', 'Adoptarea eșalonată invalidează TWFE; folosiți estimatori pe grup și perioadă')])
