@@ -334,7 +334,7 @@ D.frame(T('The optimal point forecast and consistency (2/2)', 'Prognoza punctual
       T('under-forecasts cost $\\tau|e|$, over-forecasts $(1 - \\tau)|e|$: a high $\\tau$ pushes the forecast up', 'prognozele prea mici costă $\\tau|e|$, cele prea mari $(1 - \\tau)|e|$: un $\\tau$ mare împinge prognoza în sus')]),
     T('Consequence: announce the loss \\emph{before} asking for a forecast; a median forecast judged by RMSE is judged unfairly \\refGnaa', 'Consecință: anunțați pierderea \\emph{înainte} de a cere o prognoză; o prognoză-mediană judecată prin RMSE este judecată nedrept \\refGnaa')), 'small')
 
-chart(T('Three losses, three optimal forecasts', 'Trei pierderi, trei prognoze optime'), 'ats_ch1_loss_minimizers', 'ATS_ch1_loss_functions', [
+chart(T('Optimal point forecasts under three loss functions', 'Prognozele punctuale optime pentru trei funcții de pierdere'), 'ats_ch1_loss_minimizers', 'ATS_ch1_loss_functions', [
     T('$Y$ log-normal with $\\ln Y \\sim N(0, @{l.s}^2)$; expected loss as a function of the point forecast $x$ (simulation, $2 \\times 10^5$ draws)',
       '$Y$ log-normal cu $\\ln Y \\sim N(0, @{l.s}^2)$; pierderea așteptată ca funcție de prognoza punctuală $x$ (simulare, $2 \\times 10^5$ extrageri)')], h='0.52\\textheight')
 

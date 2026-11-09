@@ -716,7 +716,7 @@ D.frame(T('The central limit theorem for realised variance (2/2): feasible inter
      [T(r'exponentiated, it never contains negative values and has better coverage in finite samples',
         r'după exponențiere nu conține niciodată valori negative și are o acoperire mai bună în eșantioane finite')])), 'small')
 
-D.frame(T('A simulated market with a known truth', 'O piață simulată cu adevărul cunoscut'), items(
+D.frame(T('Simulated prices with known integrated variance', 'Prețuri simulate cu varianța integrată cunoscută'), items(
     (T(r'One-second grid, $n = 23\,400$ seconds a day; the log spot variance is the sum of two Gaussian AR(1) factors',
        r'Grilă la o secundă, $n = 23\,400$ de secunde pe zi; logaritmul varianței instantanee este suma a doi factori AR(1) gaussieni'
        ) + r'''
@@ -1428,7 +1428,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('All cells of the grid are reported, not the best one; the number of comparisons is stated', 'Toate celulele grilei sînt raportate, nu doar cea mai bună; numărul comparațiilor este precizat'),
     T('Realised measures are recomputed from raw prices and agree with an independent source on overlapping assets and dates', 'Măsurile realizate sînt recalculate din prețurile brute și concordă cu o sursă independentă pentru activele și datele comune')), 'small')
 
-chart(T('Mini-case: twelve choices, one conclusion?', 'Mini studiu de caz: douăsprezece alegeri, o singură concluzie?'), 'ats_ch8_ai_case', 'ATS_ch8_ai_robustness', [
+chart(T('Mini-case: robustness of the HARQ--HAR comparison', 'Mini studiu de caz: robustețea comparației HARQ--HAR'), 'ats_ch8_ai_case', 'ATS_ch8_ai_robustness', [
     T(r'QLIKE ratio HARQ/HAR for Bitcoin and Ether: window 500, 1\,000 or 1\,500 days; insanity filter or a floor at the smallest in-sample RV; target 5-minute RV or realised kernel',
       r'Raportul QLIKE HARQ/HAR pentru Bitcoin și Ether: fereastră de 500, 1\,000 sau 1\,500 de zile; filtrul de plauzibilitate sau o limită inferioară egală cu cel mai mic RV din eșantion; ținta RV la 5 minute sau realised kernel'),
     T(r'Ratios from @{ai.min} to @{ai.max}; HARQ better in @{ai.better}\% of the 24 cells, significantly better (DM $< -1.96$) in @{ai.sig}\%, significantly worse in @{ai.wsig}\%: an AI summary reporting one cell would hide most of this',

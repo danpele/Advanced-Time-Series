@@ -1152,7 +1152,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T(r'Fixed choices ($\gamma$, the KSC offset, priors, seasonal treatment, start date) are listed and varied before conclusions are drawn', r'Alegerile fixate ($\gamma$, constanta KSC, distribuțiile a priori, tratarea sezonalității, data de început) sînt enumerate și variate înaintea concluziilor'),
     T('End-of-sample estimates are reported as filtered values with their bands, not as smoothed point estimates', 'Estimațiile de la finalul eșantionului sînt raportate ca valori filtrate, cu benzile lor, nu ca estimații punctuale netezite')), 'small')
 
-chart(T('Mini-case: one fixed parameter, four trends', 'Mini studiu de caz: un parametru fixat, patru trenduri'), 'ats_ch6_ai_case', 'ATS_ch6_ai_robustness', [
+chart(T('Mini-case: sensitivity of the UC-SV trend to a fixed parameter', 'Mini studiu de caz: sensibilitatea trendului UC-SV la un parametru fixat'), 'ats_ch6_ai_case', 'ATS_ch6_ai_robustness', [
     T(r'US UC-SV trend since 2015 for $\gamma \in \{0.05, 0.1, 0.2, 0.4\}$: trend in 2022Q2 @{ai.pk05}, @{ai.pk1}, @{ai.pk2}, @{ai.pk4}\% (inflation @{ai.pi}\%); in the last quarter @{ai.last05}, @{ai.last1}, @{ai.last2}, @{ai.last4}\%',
       r'Trendul UC-SV pentru SUA din 2015, pentru $\gamma \in \{0{,}05; 0{,}1; 0{,}2; 0{,}4\}$: trendul în T2 2022 @{ai.pk05}, @{ai.pk1}, @{ai.pk2}, @{ai.pk4}\% (inflația @{ai.pi}\%); în ultimul trimestru @{ai.last05}, @{ai.last1}, @{ai.last2}, @{ai.last4}\%'),
     T(r'The ranking is stable but the level of the 2022 trend is not: an AI summary that reports ``trend inflation peaked at X\%\'\' without $\gamma$ hides a modelling choice',

@@ -232,7 +232,7 @@ def interp(en, ro, bullets, size='small'):
 # ===============================================================================================================
 D.section('Course organisation', 'Organizarea cursului')
 # ===============================================================================================================
-frame('⟦The course at a glance||Cursul pe scurt⟧', cols(
+frame('⟦Course overview||Cursul pe scurt⟧', cols(
     items(('⟦\\textbf{Programme}||\\textbf{Program}⟧',
            ["⟦Master's programme Applied Statistics and Data Science (ASDS), year 1, semester 2||Programul de master Statistică aplicată și data science (ASDS), anul I, semestrul 2⟧",
             '⟦Faculty of Cybernetics, Statistics and Economic Informatics, ASE Bucharest||Facultatea de Cibernetică, Statistică și Informatică Economică, ASE București⟧',
@@ -881,7 +881,7 @@ chart('⟦The spread and future growth||Marja la termen și creșterea viitoare�
     '⟦Left: the two series; right: ACF of the OLS residuals, $\\hat\\rho_1 = @{ts.rho1}$, $\\hat\\rho_3 = @{ts.rho3}$, $\\hat\\rho_4 = @{ts.rho4}$||Stînga: cele două serii; dreapta: ACF a reziduurilor MCMMP, $\\hat\\rho_1 = @{ts.rho1}$, $\\hat\\rho_3 = @{ts.rho3}$, $\\hat\\rho_4 = @{ts.rho4}$⟧'],
     h='0.61\\textheight')
 
-D.frame('⟦One slope, six standard errors||O pantă, șase erori standard⟧', table(
+D.frame('⟦Six estimators of the standard error of the slope||Șase estimatori ai erorii standard a pantei⟧', table(
     'lrrr', '⟦Standard error||Eroarea standard⟧ & $\\widehat{se}(\\hat\\beta_1)$ & $t$ & ⟦Critical value||Valoarea critică⟧', [
         '⟦Classical OLS||MCMMP clasic⟧ & @{ts.se_classic} & @{ts.t_classic} & $1.96$',
         '⟦White (heteroskedasticity only)||White (doar heteroscedasticitate)⟧ & @{ts.se_white} & -- & $1.96$',
@@ -1018,7 +1018,7 @@ frame('⟦The AI-assisted discovery loop||Bucla de descoperire asistată de AI�
      ['⟦Expect: breaks in the mean (2013, 2022), the CPI--HICP gap, overlap, the choice of start date||De așteptat: rupturi în medie (2013, 2022), diferența IPC--IAPC, suprapunerea, alegerea datei de început⟧']),
     '⟦\\textbf{The human checks}: formulas, timing of information (no look-ahead), every number against the code; the tools are generic (Claude, ChatGPT, Gemini, Copilot)||\\textbf{Verificările făcute de om}: formulele, momentul în care informația devine disponibilă (fără look-ahead), fiecare cifră pe cod; instrumentele sînt generice (Claude, ChatGPT, Gemini, Copilot)⟧'), 'footnotesize')
 
-chart('⟦Mini-case: one hypothesis, six answers||Mini-studiu de caz: o ipoteză, șase răspunsuri⟧', 'ats_ch0_ai_minicase', 'ATS_ch0_ai_discovery', [
+chart('⟦Mini-case: six tests of the mean HICP inflation||Mini studiu de caz: șase teste pentru media inflației IAPC⟧', 'ats_ch0_ai_minicase', 'ATS_ch0_ai_discovery', [
     '⟦Left: 95\\% intervals for the mean HICP inflation since 2013 (mean $@{ai.mean}\\%$); right: size of each test in a Monte Carlo with the fitted AR(1), $\\phi = @{ai.phi}$, $T = @{ai.T}$||Stînga: intervale de 95\\% pentru media inflației IAPC din 2013 (media $@{ai.mean}\\%$); dreapta: mărimea fiecărui test într-un Monte Carlo cu AR(1) estimat, $\\phi = @{ai.phi}$, $T = @{ai.T}$⟧'],
     h='0.60\\textheight')
 

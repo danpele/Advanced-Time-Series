@@ -990,7 +990,7 @@ interp(('the kernels', 'nucleelor'), [
     T('The kernel adapts its memory to the horizon automatically; HAR needs a separate regression for each horizon', 'Nucleul își adaptează automat memoria la orizont; HAR cere o regresie separată pentru fiecare orizont'),
     T('RFSV has no mean reversion: in long calm periods it does not pull forecasts towards a long-run level', 'RFSV nu are revenire la medie: în perioadele calme lungi nu trage prognozele spre un nivel de termen lung')])
 
-D.frame(T('An honest out-of-sample comparison', 'O comparație riguroasă în afara eșantionului'), items(
+D.frame(T('A rigorous out-of-sample comparison', 'O comparație riguroasă în afara eșantionului'), items(
     (T(r'Design fixed in advance: rolling window of 1000 days, parameters re-estimated every 20 days with data up to $t$ only; target $RV_{t+h}$, $h \in \{1, 5, 22\}$', r'Schema fixată dinainte: fereastră mobilă de 1000 de zile, parametrii reestimați la fiecare 20 de zile doar cu datele pînă la $t$; ținta $RV_{t+h}$, $h \in \{1, 5, 22\}$'),
      [T(r'HAR: direct regression of $\log RV_{t+h}$; ARFIMA$(0,d,0)$: local Whittle $d$ (capped at 0.49), AR($\infty$) iterated; RFSV: $H$, $\nu$ from the window', r'HAR: regresie directă a lui $\log RV_{t+h}$; ARFIMA$(0,d,0)$: $d$ local Whittle (limitat la 0,49), AR($\infty$) iterat; RFSV: $H$, $\nu$ din fereastră')]),
     (T(r'Loss: QLIKE $L = RV/F - \log(RV/F) - 1$, robust to the noise in the RV proxy \refPat; also MSE of logs', r'Pierderea: QLIKE $L = RV/F - \log(RV/F) - 1$, robustă la zgomotul proxy-ului RV \refPat; și MSE al logaritmilor'),

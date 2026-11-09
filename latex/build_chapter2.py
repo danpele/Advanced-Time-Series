@@ -933,7 +933,7 @@ D.frame(T('General and specific tests', 'Teste generale și teste specifice'), i
     (T('\\textbf{LM3} (STAR) and \\textbf{sup-Wald} (TAR): specific alternatives, more power when they are right', '\\textbf{LM3} (STAR) și \\textbf{sup-Wald} (TAR): alternative specifice, mai multă putere cînd sînt corecte'),
      [T('caution: structural breaks, outliers and heteroskedasticity also reject linearity \\refCar', 'atenție: rupturile structurale, valorile extreme și heteroscedasticitatea resping și ele liniaritatea \\refCar')])), 'small')
 
-chart(T('Five series, five tests', 'Cinci serii, cinci teste'), 'ats_ch2_nonlinearity_tests', 'ATS_ch2_nonlinearity_tests', [
+chart(T('Nonlinearity tests on five series', 'Teste de neliniaritate pe cinci serii'), 'ats_ch2_nonlinearity_tests', 'ATS_ch2_nonlinearity_tests', [
     T('$p$-values; darker: stronger rejection of linearity. BDS on the AR residuals ($m = 3$, $\\varepsilon = \\hat\\sigma$); LM3 and sup-Wald with $s = q = y_{t-d}$; sup-Wald with 200 bootstrap replications',
       'P-value-uri; mai închis: respingere mai puternică a liniarității. BDS pe reziduurile AR ($m = 3$, $\\varepsilon = \\hat\\sigma$); LM3 și sup-Wald cu $s = q = y_{t-d}$; sup-Wald cu 200 de replicări bootstrap')], h='0.62\\textheight')
 

@@ -9,7 +9,7 @@ validării încrucișate (Bergmeir, Hyndman și Koo 2018), modele globale și lo
 după selecție, ansambluri de arbori în profunzime (QRF, boosting cu restricții de monotonie), RNN/LSTM/GRU și gradienții
 care se sting, TCN, seq2seq, atenție și Transformers (Informer, Autoformer, critica lui Zeng et al. 2023, DLinear,
 PatchTST), N-BEATS, N-HiTS, DeepAR, TFT, interpretabilitate (Shapley, atenția nu este explicație) și cultura comparațiilor
-oneste (repere puternice, teste, data snooping).
+riguroase (repere puternice, teste, data snooping).
 Ieșire:
   EN/Courses/chapter12_machine_learning_deep_learning.tex
   RO/Cursuri/capitol12_machine_learning_deep_learning.tex
@@ -278,7 +278,7 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
      [T('learning from dependent data: mixing, bounds, when cross-validation is valid', 'învățarea din date dependente: mixing, margini de eroare, cînd este validă validarea încrucișată'),
       T('global and local models; lasso and its relatives in high dimension; tree ensembles in depth', 'modele globale și locale; lasso și variantele lui în dimensiune mare; ansambluri de arbori în profunzime'),
       T('recurrent and convolutional networks; attention and Transformers; N-BEATS, N-HiTS, DeepAR, TFT', 'rețele recurente și convoluționale; atenție și Transformers; N-BEATS, N-HiTS, DeepAR, TFT'),
-      T('interpretation and the honest benchmark: baselines, tests, data snooping', 'interpretare și comparația riguroasă: repere, teste, data snooping')]),
+      T('interpretation and benchmark comparisons: baselines, tests, data snooping', 'interpretare și comparația riguroasă: repere, teste, data snooping')]),
     T('We build on TSA, Chapter 9 (lag features, walk-forward validation, trees, a small MLP, M4 and M5) and on Chapter 1 (DM, MCS, scoring rules); Seminar 12 comes before this lecture',
       'Pornim de la TSA, Capitolul 9 (variabile cu laguri, validare walk-forward, arbori, un MLP mic, M4 și M5) și de la Capitolul 1 (DM, MCS, reguli de scor); Seminarul 12 are loc înaintea acestui curs')), 'small')
 
@@ -323,7 +323,7 @@ D.frame(T('Four generations of forecasting models', 'Patru generații de modele 
           T('\\textbf{Foundation models}: pretrained on many series, used zero-shot (Chapter 13)', '\\textbf{Foundation models}: preantrenate pe multe serii, folosite zero-shot (Capitolul 13)'),
           T('Each generation must beat the previous one out of sample, with tests, on the same data', 'Fiecare generație trebuie să fie mai bună decît cea dinainte în afara eșantionului, cu teste, pe aceleași date')), '0.36', '0.62'), 'small')
 
-chart(T('Four data sets, four kinds of structure', 'Patru seturi de date, patru tipuri de structură'), 'ats_ch12_overview', 'ATS_ch12_validation', [
+chart(T('The four data sets of the chapter', 'Cele patru seturi de date ale capitolului'), 'ats_ch12_overview', 'ATS_ch12_validation', [
     T(r'Romanian load (daily mean, @{ov.lmean} GW on average); EU inflation (Romania in red); S\&P 500 realised variance (log scale); three M4 hourly series (last two weeks)',
       r'Consumul României (media zilnică, în medie @{ov.lmean} GW); inflația UE (România cu roșu); varianța realizată S\&P 500 (scară logaritmică); trei serii orare M4 (ultimele două săptămîni)')], h='0.66\\textheight')
 
@@ -917,9 +917,9 @@ D.recap(('Global deep models', 'modele deep globale'), [
     T('DeepAR gives sample paths from a likelihood; it beats the seasonal naive under the wQL only at the right training budget, which must be set on validation data', 'DeepAR dă traiectorii dintr-o verosimilitate; depășește naivul sezonier sub wQL doar la bugetul de antrenare potrivit, care trebuie fixat pe date de validare')])
 
 # =============================================================================
-# 7. INTERPRETARE ȘI COMPARAȚII ONESTE
+# 7. INTERPRETARE ȘI COMPARAȚII RIGUROASE
 # =============================================================================
-D.section('Interpretation and the honest benchmark', 'Interpretare și comparații riguroase')
+D.section('Interpretation and benchmark comparisons', 'Interpretare și comparații riguroase')
 
 D.frame(T('Shapley values (1/2): the definition', 'Valorile Shapley (1/2): definiția'), items(
     (T(r'\refSha: the fair share of player $g$ in a cooperative game $v$ with $G$ players', r'\refSha: partea echitabilă a jucătorului $g$ într-un joc cooperativ $v$ cu $G$ jucători'
@@ -964,7 +964,7 @@ interp(('attention and occlusion', 'atenției și ocluziei'), [
     T('The flatten head reads the token states directly: what matters can bypass the attention weights entirely', 'Capul care aplatizează citește direct stările tokenilor: ce contează poate ocoli complet ponderile atenției'),
     T('Report attention maps as what they are, a mixing pattern; for importance, use occlusion, Shapley or gradients, with a sanity check', 'Raportați hărțile de atenție drept ceea ce sînt, un tipar de amestecare; pentru importanță folosiți ocluzia, Shapley sau gradienții, cu o verificare de control')])
 
-D.frame(T('The honest benchmark', 'Comparația riguroasă'), items(
+D.frame(T('Comparison with benchmark models', 'Comparația cu modelele de referință'), items(
     (T('Strong baselines first: seasonal naive, ETS/Theta, HAR, an expert ARX; Lago et al.\\ built an open benchmark because published electricity-price models were rarely compared with them \\refLMDW', 'Întîi repere puternice: naiv sezonier, ETS/Theta, HAR, un ARX expert; Lago et al.\\ au construit un reper deschis pentru că modelele publicate de prețuri ale electricității erau rar comparate cu ele \\refLMDW'), []),
     (T(r'Pitfalls catalogued by \refHAB: test-set reuse, leakage in scaling and features, errors averaged across series of different scales, no significance tests, unreported tuning budget', r'Capcanele inventariate de \refHAB: reutilizarea setului de test, leakage prin scalare și variabile, erori mediate pe serii de scări diferite, fără teste de semnificație, buget de reglare neraportat'), []),
     (T(r'Tests (Chapter 1): DM for two models, MCS \refHLN\ for many, the reality check \refWhi\ and SPA \refHan\ when the best of many was chosen on the same data', r'Teste (Capitolul 1): DM pentru două modele, MCS \refHLN\ pentru mai multe, reality check \refWhi\ și SPA \refHan\ cînd cel mai bun dintre multe a fost ales pe aceleași date'), []),
@@ -979,7 +979,7 @@ interp(('seeds and snooping', 'seed-urilor și a data snooping'), [
     T('Hyper-parameter searches, seeds and architectures are all $K$: count them, and test the winner with SPA or MCS on data not used for the choice', 'Căutările de hiperparametri, seed-urile și arhitecturile sînt toate $K$: numărați-le și testați cîștigătorul cu SPA sau MCS pe date nefolosite pentru alegere'),
     T('Ensembles are the cheap cure for seed variance; pre-registration is the cure for snooping', 'Ansamblurile sînt remediul ieftin pentru varianța seed-urilor; preînregistrarea este remediul pentru data snooping')])
 
-D.recap(('Interpretation and honest benchmarks', 'interpretare și comparații riguroase'), [
+D.recap(('Interpretation and benchmark comparisons', 'interpretare și comparații riguroase'), [
     T('Shapley values have axioms; with lagged features use groups and remember they describe the model', 'Valorile Shapley au axiome; cu variabile întîrziate folosiți grupuri și amintiți-vă că ele descriu modelul'),
     T('Attention weights are not importance: on our Transformer they point the other way', 'Ponderile atenției nu sînt importanță: pe Transformer-ul nostru ele indică în direcția opusă'),
     T('Strong baselines, DM/MCS/SPA, all seeds and all tries reported: otherwise any model can be made to win', 'Repere puternice, DM/MCS/SPA, toate seed-urile și toate încercările raportate: altfel orice model poate fi făcut să cîștige')])

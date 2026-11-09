@@ -97,7 +97,7 @@ QUANTLETS = [
          run="print(fig_m4(seeds=(0,))['scores'])\nprint(fig_deepar(steps=1000, checkpoints=(500,)))",
          charts=['ats_ch12_m4', 'ats_ch12_deepar']),
     dict(name='ATS_ch12_interpretation',
-         desc='Interpretation and honest benchmarks: exact Shapley values of three lag groups for boosting on S&P 500 log '
+         desc='Interpretation and benchmark comparisons: exact Shapley values of three lag groups for boosting on S&P 500 log '
               'realised variance against the HAR coefficients; attention received by the input patches of the patch '
               'Transformer against occlusion importance; seed dispersion of an MLP against HAR and a simulation of data '
               'snooping (the best of K equally good models).',

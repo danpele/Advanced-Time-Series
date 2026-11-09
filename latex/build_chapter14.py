@@ -7,7 +7,7 @@ Capitolul 3 a predat SVAR, proiecțiile locale și proxy-SVAR; Capitolul 6 filtr
 Aici: cauzalitatea Granger față de efectele cauzale (rezultate potențiale pentru serii de timp), entropia de transfer,
 descoperirea cauzală (PCMCI, convergent cross mapping), serii de timp întrerupte și studii de eveniment cu erori
 dependente, metoda controlului sintetic (replicarea Abadie, Diamond și Hainmueller 2015; dublura Brexit a lui Born et al.
-2019), controlul sintetic augmentat, DiD sintetic, DiD eșalonat, CausalImpact (BSTS), DML, identificarea onestă;
+2019), controlul sintetic augmentat, DiD sintetic, DiD eșalonat, CausalImpact (BSTS), DML, ipotezele de identificare;
 aplicația românească: efectul încheierii plafonării prețului electricității și al majorării TVA din 2025 asupra inflației.
 Ieșire:
   EN/Courses/chapter14_causal_inference_time_series.tex
@@ -891,7 +891,7 @@ interp(('the Romanian placebos', 'testelor placebo pentru România'), [
     T('The permutation p-value treats Romania as one of 27 exchangeable units; it is a measure of rarity, not a sampling-based confidence statement', 'P-value-ul prin permutare tratează România ca pe una dintre 27 de unități interschimbabile; este o măsură a rarității, nu o afirmație de încredere care decurge din eșantionare'),
     T('Other countries\' measures in the window (tax changes, the end of their own caps) bias the effect towards zero if they raised inflation there', 'Măsurile altor țări din fereastră (schimbări fiscale, încheierea propriilor plafonări) deplasează efectul spre zero dacă au crescut inflația acolo')])
 
-chart(T('How much was the tax?', 'Ponderea componentei fiscale'), 'ats_ch14_ro_tax', 'ATS_ch14_romania', [
+chart(T('The tax component of Romanian inflation', 'Ponderea componentei fiscale'), 'ats_ch14_ro_tax', 'ATS_ch14_romania', [
     T(r'Left: Romanian HICP and HICP at constant tax rates (\refEuroCT); right: the total gap, the gap of the constant-tax inflation (same demeaned SC on all countries) and the tax wedge', r'Stînga: IAPC al României și IAPC la cote de taxare constante (\refEuroCT); dreapta: diferența totală, diferența inflației la taxe constante (același SC cu termen liber pe toate țările) și componenta fiscală')], h='0.62\\textheight')
 
 interp(('the tax decomposition', 'descompunerii fiscale'), [
@@ -994,9 +994,9 @@ D.recap(('BSTS and CausalImpact', 'BSTS și CausalImpact'), [
     T('The spot ETF approval did not change Bitcoin volatility detectably; the design could not see small effects', 'Aprobarea ETF-urilor spot nu a schimbat detectabil volatilitatea Bitcoin; designul nu ar fi putut vedea efecte mici')])
 
 # =============================================================================
-# 7. DML ȘI IDENTIFICARE ONESTĂ
+# 7. DML ȘI IPOTEZELE DE IDENTIFICARE
 # =============================================================================
-D.section('Double machine learning and honest identification', 'Double machine learning și identificarea onestă')
+D.section('Double machine learning and identifying assumptions', 'Double machine learning și ipotezele de identificare')
 
 D.frame(T('Double/debiased machine learning for time series (1/2)', 'Double/debiased machine learning pentru serii de timp (1/2)'), items(
     (T(r'\refDML: the \textbf{partially linear model}', r'\refDML: \textbf{modelul parțial liniar}'),
@@ -1034,7 +1034,7 @@ D.frame(T('Identification, method by method', 'Identificarea, metodă cu metodă
      'SVAR, LP, DML & ' + T('as good as random given the past or an instrument', 'la fel de bun ca aleator, dat trecutul sau un instrument') + ' & ' + T('narrative evidence; instrument strength', 'dovezi narative; puterea instrumentului')],
     size='scriptsize'), 'small')
 
-D.frame(T('Honest reporting', 'Raportarea onestă'), items(
+D.frame(T('Transparent reporting', 'Raportarea transparentă'), items(
     T('State the estimand (which effect, on which unit, over which horizon) before choosing the method', 'Precizați mărimea țintă (ce efect, asupra cărei unități, pe ce orizont) înainte de a alege metoda'),
     T('Fix treatment dates, windows, donors and estimators before looking at post-treatment data; publish the pre-registration', 'Fixați datele tratamentului, ferestrele, donatorii și estimatorii înainte de a privi datele de după tratament; publicați preînregistrarea'),
     T('Report every placebo, every specification and every deviation from the published design; a specification curve shows them together', 'Raportați fiecare placebo, fiecare specificație și fiecare abatere de la designul publicat; o curbă a specificațiilor le arată împreună'),

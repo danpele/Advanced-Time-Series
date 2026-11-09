@@ -178,7 +178,7 @@ D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
     T('Recognise data snooping, leakage, look-ahead, p-hacking and overclaiming in your own work', 'Recunoașteți data snooping, leakage, look-ahead, p-hacking și afirmațiile exagerate în propria lucrare'),
     T('Prepare the individual oral defence and document the use of AI tools', 'Pregătiți susținerea orală individuală și documentați folosirea instrumentelor AI')))
 
-D.frame(T('Assessment at a glance', 'Evaluarea pe scurt'), table(
+D.frame(T('Assessment overview', 'Evaluarea pe scurt'), table(
     TB + 'p{3.4cm}' + '>{\\raggedleft\\arraybackslash}p{1.2cm}' + TB + 'p{1.5cm}' + TB + 'p{6.1cm}',
     T(r'\textbf{Component}', r'\textbf{Componenta}') + ' & ' + T(r'\textbf{Weight}', r'\textbf{Pondere}') + ' & ' + T(r'\textbf{Who}', r'\textbf{Cine}') + ' & ' + T(r'\textbf{Content}', r'\textbf{Conținut}'),
     [T('Proposal and pre-registration', 'Propunerea și preînregistrarea') + r' & 5\% & ' + T('team', 'echipa') + ' & ' + T('question, paper to replicate, data, evaluation design fixed before estimation', 'întrebarea, lucrarea replicată, datele, designul evaluării fixat înaintea estimării'),
@@ -904,7 +904,7 @@ D.frame(T('Appendix: project seeds by chapter (2/2)', 'Anexă: idei de proiect p
     [r'9 & \refPZC & ' + T('CEE indices; the power of the backtests', 'indicii din ECE; puterea backtest-urilor'),
      r'10 & \refGJR & ' + T('roughness of CEE and crypto volatility; robustness to noise', 'caracterul rough al volatilității în ECE și pe cripto; robustețea la zgomot'),
      r'11 & \refCN, \refHamB & ' + T('real-time output gaps of the EU members', 'output gap-uri în timp real pentru statele membre UE'),
-     r'12 & \refZeng & ' + T('EU electricity load; global models; honest benchmarks', 'consumul de electricitate din UE; modele globale; comparații oneste'),
+     r'12 & \refZeng & ' + T('EU electricity load; global models; benchmark comparisons', 'consumul de electricitate din UE; modele globale; comparații riguroase'),
      r'13 & \refGC & ' + T('conformal VaR for the BET; coverage by regime', 'VaR conformal pentru BET; acoperire pe regimuri'),
      r'14 & \refADH, \refBMSS & ' + T('tax and energy measures in CEE with synthetic controls', 'măsuri fiscale și energetice în ECE cu controale sintetice'),
      r'16 & \refPY & ' + T('house prices and rents in EU capitals', 'prețurile și chiriile locuințelor în capitalele UE'),

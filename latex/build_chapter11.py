@@ -970,7 +970,7 @@ interp(('the spectrogram', 'spectrogramei'), [
     T('Economic examples: changing business-cycle length, the shortening of trading cycles, regime changes in volatility',
       'Exemple economice: lungimea variabilă a ciclului economic, scurtarea ciclurilor de tranzacționare, schimbări de regim în volatilitate')])
 
-D.frame(T('Singular spectrum analysis in one slide', 'Analiza spectrului singular pe un slide'), items(
+D.frame(T('Singular spectrum analysis', 'Analiza spectrului singular'), items(
     (T(r'Embed $x_1, \dots, x_n$ in the $L \times (n - L + 1)$ trajectory (Hankel) matrix $\mathbf X$; SVD $\mathbf X = \sum_i\sigma_i\mathbf u_i\mathbf v_i\'$ \refVG',
        r'Scufundăm $x_1, \dots, x_n$ în matricea traiectoriilor (Hankel) $\mathbf X$, de dimensiune $L \times (n - L + 1)$; descompunerea SVD $\mathbf X = \sum_i\sigma_i\mathbf u_i\mathbf v_i\'$ \refVG'), []),
     (T('Group eigentriples (trend: slowly varying $\\mathbf u_i$; oscillations: pairs with equal $\\sigma_i$ and shifted sines) and reconstruct each group by averaging anti-diagonals',
@@ -1277,7 +1277,7 @@ D.frame(T('What the human checks', 'Verificări necesare'), items(
     T('Pointwise significance is not areawise significance: count how many islands the null produces', 'Semnificația punctuală nu este semnificație pe arii: numărați cîte insule produce ipoteza nulă'),
     T('Filters: gain stated; real-time and final cycles separated; results with and without extreme common shocks', 'Filtre: cîștigul precizat; ciclul în timp real separat de cel final; rezultate cu și fără șocurile comune extreme')), 'small')
 
-chart(T('Mini-case: how many islands does chance produce?', 'Mini studiu de caz: cîte insule produce întîmplarea?'), 'ats_ch11_ai_case', 'ATS_ch11_wavelet_coherence', [
+chart(T('Mini-case: spurious significance in wavelet coherence maps', 'Mini studiu de caz: semnificația aparentă în hărțile de coerență wavelet'), 'ats_ch11_ai_case', 'ATS_ch11_wavelet_coherence', [
     T(r'Share of the reliable time--period area of a wavelet-coherence map that is pointwise significant at 5\%: @{ai.reps} new pairs of independent AR(1) series with the BET and DAX autocorrelations, and the observed BET--DAX map',
       r'Ponderea ariei timp--perioadă fiabile dintr-o hartă de coerență wavelet care este semnificativă punctual la 5\%: @{ai.reps} de perechi noi de serii AR(1) independente, cu autocorelațiile BET și DAX, și harta observată BET--DAX'),
     T(r'Null: mean @{ai.mean}\%, 95th percentile @{ai.q95}\%, maximum @{ai.max}\%; @{ai.any}\% of null maps contain significant islands; BET--DAX: @{ai.obs}\%. An AI summary that reads every island as a contagion episode is wrong; the overall excess is real',

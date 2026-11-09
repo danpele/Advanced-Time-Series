@@ -4,7 +4,7 @@ build_chapter16.py -- Capitolul 16 (Rădăcini explozive și bule speculative; s
 Text T(en, ro); cifrele @{cheie} vin din Quantlets/Ch_16/ch16_numbers.json (generate_all_charts.py). Nicio cifră nu este
 scrisă de mînă, în afara exemplelor teoretice (parametrii simulărilor, calcule de verificat pe hîrtie).
 TSA, Capitolul 13 (studiu individual) a prezentat bulele în istorie, SADF/GSADF/BSADF pe scurt, modelul LPPL cu
-estimarea Filimonov--Sornette și o evaluare onestă a prognozei crahurilor; MFM, Capitolul 17 aplică testele pe
+estimarea Filimonov--Sornette și o evaluare riguroasă a prognozei crahurilor; MFM, Capitolul 17 aplică testele pe
 piețe. Aici: teoria bulelor raționale (Blanchard--Watson, Diba--Grossman, Evans), asimptotica proceselor explozive
 (White, Anderson, Phillips--Magdalinos), teoria și nivelul testelor PSY (wild bootstrap, testare multiplă pe date),
 acuratețea datării și evaluarea alarmelor timpurii, fundamentele față de prețuri (chirii), extensii (HLST,
@@ -579,7 +579,7 @@ D.frame(T('Changing volatility and the wild bootstrap', 'Volatilitate variabilă
     T(r'Alternatives for non-stationary volatility: weighted and sign-based statistics \refHLZ; end-of-sample tests \refAHLT',
       r'Alternative pentru volatilitatea nestaționară: statistici ponderate și statistici pe baza semnelor \refHLZ; teste pentru finalul eșantionului \refAHLT')), 'small')
 
-D.frame(T('Many dates, one false alarm', 'Multe date, o alarmă falsă'), items(
+D.frame(T('Date-stamping as a multiple-testing problem', 'Datarea bulelor ca problemă de testare multiplă'), items(
     (T(r'Date-stamping compares $\mathrm{BSADF}_{r_2}$ with a \textbf{pointwise} critical value at every date: each date has a 5\% false-alarm chance, but a sample has hundreds of dates',
        r'Datarea compară $\mathrm{BSADF}_{r_2}$ cu o valoare critică \textbf{punctuală} la fiecare dată: fiecare dată are o probabilitate de 5\% de alarmă falsă, dar un eșantion are sute de date'),
      [T('BSADF is highly autocorrelated in $r_2$, so false alarms come in runs: the minimum-duration rule removes the shortest runs only',
@@ -689,7 +689,7 @@ interp(('the monitoring charts', 'graficelor de monitorizare'), [
     T('BSADF reacts early and often: an early alarm that is followed by years of further gains is costly to anyone who acts on it',
       'BSADF reacționează devreme și des: o alarmă timpurie urmată de ani de creșteri suplimentare este costisitoare pentru oricine acționează pe baza ei')])
 
-D.frame(T('Evaluating early warnings honestly', 'Evaluarea onestă a avertizărilor timpurii'), items(
+D.frame(T('Evaluating early warnings', 'Evaluarea avertizărilor timpurii'), items(
     (T(r'Define the \textbf{event} before looking at alarms: here a fall of at least 20\% within 182 days after the date; define the \textbf{alarm} rule and the evaluation dates (every fifth trading day)',
        r'Definiți \textbf{evenimentul} înainte de a vă uita la alarme: aici o scădere de cel puțin 20\% în următoarele 182 de zile; definiți regula de \textbf{alarmă} și datele de evaluare (fiecare a cincea zi de tranzacționare)'), []),
     (T(r'Hit rate $H = \Pr(\text{alarm} \mid \text{event})$, false-alarm rate $F = \Pr(\text{alarm} \mid \text{no event})$, base rate $\pi_0 = \Pr(\text{event})$',
@@ -754,7 +754,7 @@ D.recap(('fundamentals against prices', 'fundamentele față de prețuri'), [
 # =============================================================================
 D.section('LPPLS as a competing detector', 'LPPLS ca detector alternativ')
 
-D.frame(T('LPPLS in one slide', 'LPPLS într-un singur slide'), two(
+D.frame(T('The LPPLS model', 'Modelul LPPLS'), two(
     ph('sornette', T('Didier Sornette, 2012', 'Didier Sornette, 2012'), h='0.36\\textheight'),
     items((T(r'\refJLS: the log price grows faster than exponentially towards a critical time $t_c$, with oscillations that speed up', r'\refJLS: logaritmul prețului crește mai repede decît exponențial spre un timp critic $t_c$, cu oscilații care se accelerează'),
            [r'\[ \ln p(t) = A + B(t_c - t)^m + C_1(t_c - t)^m\cos(\omega\ln(t_c - t)) + C_2(t_c - t)^m\sin(\omega\ln(t_c - t)) \]',
@@ -817,7 +817,7 @@ D.recap(('LPPLS', 'LPPLS'), [
 # =============================================================================
 D.section('Applications with base rates', 'Aplicații cu frecvențe de bază')
 
-D.frame(T('Five episodes, one protocol', 'Cinci episoade, un singur protocol'), two(
+D.frame(T('Five bubble episodes: data and dating procedure', 'Cinci episoade de bule: date și procedura de datare'), two(
     ph('shanghai', T('Shanghai Stock Exchange, Pudong, 2008', 'Bursa din Shanghai, Pudong, 2008'), h='0.4\\textheight'),
     items(T(r'Weekly log prices (Friday close): S\&P 500 and Nasdaq 100 1990--2004, Shanghai Composite 2010--2018, Bitcoin September 2014 -- 2023, BET 2000--2012',
             r'Logaritmul prețurilor săptămînale (închiderea de vineri): S\&P 500 și Nasdaq 100 1990--2004, Shanghai Composite 2010--2018, Bitcoin septembrie 2014 -- 2023, BET 2000--2012'),

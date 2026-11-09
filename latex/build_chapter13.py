@@ -1022,7 +1022,7 @@ D.recap(('conformal prediction', 'predicția conformală'), [
 # =============================================================================
 D.section('Conformal prediction for dependent data', 'Predicția conformală pentru date dependente')
 
-D.frame(T('Exchangeability violated: what survives', 'Interschimbabilitatea încălcată: rezultatele care rămîn valabile'), items(
+D.frame(T('Conformal guarantees without exchangeability', 'Garanțiile conformale în absența interschimbabilității'), items(
     (T('Time series violate exchangeability three ways: serial dependence, changing volatility, structural change; the last two break coverage most', 'Seriile de timp încalcă interschimbabilitatea în trei feluri: dependența serială, volatilitatea variabilă, schimbările structurale; ultimele două afectează cel mai mult acoperirea'), []),
     (T(r'\textbf{Stationary and mixing}: split conformal remains approximately valid \refOli',
        r'\textbf{Staționar și mixing}: split conformal rămîne aproximativ valid \refOli'),

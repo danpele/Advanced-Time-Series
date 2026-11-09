@@ -1024,7 +1024,7 @@ interp(('the panel estimates', 'estimațiilor panel'), [
     T(r'The inflation effect is not robust: its sign and size change with the estimator; do not report one of them alone', r'Efectul inflației nu este robust: semnul și mărimea lui se schimbă cu estimatorul; nu raportați doar unul dintre ele'),
     T(r'PMG residuals remain strongly dependent (CD = @{pn.cdpmg}): standard errors that ignore common shocks are too small; CCEMG is the safer benchmark', r'Reziduurile PMG rămîn puternic dependente (CD = @{pn.cdpmg}): erorile standard care ignoră șocurile comune sînt prea mici; CCEMG este reperul mai sigur')])
 
-D.frame(T('Panel VAR in one slide', 'VAR panel pe scurt'), items(
+D.frame(T('Panel VAR: model and estimation', 'VAR panel: modelul și estimarea'), items(
     (T(r'$y_{it} = \mu_i + \sum_{j=1}^pA_jy_{i,t-j} + \varepsilon_{it}$: common dynamics, country fixed effects \refHNR',
        r'$y_{it} = \mu_i + \sum_{j=1}^pA_jy_{i,t-j} + \varepsilon_{it}$: dinamică comună, efecte fixe pe țări \refHNR'),
      [T(r'$y_{it}$: the vector of variables of country $i$; $A_j$: lag matrices common to all countries; $\mu_i$: country fixed effects; $\varepsilon_{it}$: innovations', r'$y_{it}$: vectorul variabilelor țării $i$; $A_j$: matricele lagurilor, comune tuturor țărilor; $\mu_i$: efectele fixe ale țărilor; $\varepsilon_{it}$: inovațiile')]),

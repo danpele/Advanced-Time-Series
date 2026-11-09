@@ -223,7 +223,7 @@ MSCA Digital Finance}
         \item learning from dependent data: mixing, bounds, when cross-validation is valid
         \item global and local models; lasso and its relatives in high dimension; tree ensembles in depth
         \item recurrent and convolutional networks; attention and Transformers; N-BEATS, N-HiTS, DeepAR, TFT
-        \item interpretation and the honest benchmark: baselines, tests, data snooping
+        \item interpretation and benchmark comparisons: baselines, tests, data snooping
     \end{itemize}
     \item We build on \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter9_machine_learning_time_series.pdf}{TSA, Chapter 9} (lag features, walk-forward validation, trees, a small MLP, M4 and M5) and on \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1} (DM, MCS, scoring rules); Seminar 12 comes before this lecture
 \end{itemize}
@@ -297,7 +297,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \end{columns}
 \end{frame}
 
-\begin{frame}{Four data sets, four kinds of structure}
+\begin{frame}{The four data sets of the chapter}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.66\textheight,keepaspectratio]{ats_ch12_overview.pdf}
@@ -1291,7 +1291,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 
 
 %=============================================================================
-\section{Interpretation and the honest benchmark}
+\section{Interpretation and benchmark comparisons}
 %=============================================================================
 
 \begin{frame}{Shapley values (1/2): the definition}
@@ -1378,7 +1378,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The honest benchmark}
+\begin{frame}{Comparison with benchmark models}
 \itemsize{\small}
 \begin{itemize}
     \item Strong baselines first: seasonal naive, ETS/Theta, HAR, an expert ARX; Lago et al.\ built an open benchmark because published electricity-price models were rarely compared with them \refLMDW
@@ -1410,7 +1410,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recap: Interpretation and honest benchmarks}
+\begin{frame}{Recap: Interpretation and benchmark comparisons}
 \itemsize{\small}
 \begin{itemize}
     \item Shapley values have axioms; with lagged features use groups and remember they describe the model

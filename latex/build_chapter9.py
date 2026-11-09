@@ -536,7 +536,7 @@ D.frame(T('FZ0: the zero-homogeneous member', 'FZ0: membrul omogen de grad zero'
       T('proof of consistency and of homogeneity: Appendix  % applink: FZ0, consistency and homogeneity', 'demonstrația consistenței și a omogenității: Anexa  % applink: FZ0, consistență și omogenitate')]),
     T(r'Iso-expected-loss contours are convex under mild conditions, which helps numerical minimisation \refPZC', r'Contururile de pierdere așteptată constantă sînt convexe în condiții slabe, ceea ce ajută minimizarea numerică \refPZC')), 'small')
 
-chart(T('Expected losses around the truth', 'Pierderile așteptate în jurul valorii corecte'), 'ats_ch9_fz0_contour', 'ATS_ch9_scoring', [
+chart(T('Expected pinball and FZ0 losses', 'Pierderile pinball și FZ0 așteptate'), 'ats_ch9_fz0_contour', 'ATS_ch9_scoring', [
     T(r'Student $t(5)$ with unit variance, $\alpha = 0.025$, expectations by simulation ($4\times10^5$ draws): left, expected pinball loss; right, contours of the expected FZ0 loss',
       r'Distribuția Student $t(5)$ cu varianță unitară, $\alpha = 0{,}025$, mediile prin simulare ($4\times10^5$ extrageri): stînga, pierderea pinball așteptată; dreapta, contururile pierderii FZ0 așteptate')],
     h='0.57\\textheight')

@@ -466,7 +466,7 @@ D.frame(T('The Kim smoother, derived', 'Netezitorul Kim, derivat'), items(
      [T(r'sum over $j$: $\hat\xi_{t|T} = \hat\xi_{t|t}\odot\left[\mathbf{P}(\hat\xi_{t+1|T}\oslash\hat\xi_{t+1|t})\right]$, backwards from $\hat\xi_{T|T}$; $\oslash$: element-wise division', r'sumăm după $j$: $\hat\xi_{t|T} = \hat\xi_{t|t}\odot\left[\mathbf{P}(\hat\xi_{t+1|T}\oslash\hat\xi_{t+1|t})\right]$, înapoi de la $\hat\xi_{T|T}$; $\oslash$: împărțirea element cu element')]),
     T(r'The joint probabilities of $(S_t, S_{t+1})$ are the E-step of EM; sampling instead of summing gives FFBS (section \hyperlink{ch7bayes}{\textcolor{MainBlue}{Bayesian estimation}})', r'Probabilitățile comune ale perechii $(S_t, S_{t+1})$ sînt pasul E al algoritmului EM; eșantionarea în locul sumării dă FFBS (secțiunea \hyperlink{ch7bayes}{\textcolor{MainBlue}{Estimarea bayesiană}})')), 'small')
 
-D.frame(T('Three probabilities, three questions', 'Trei probabilități, trei întrebări'), items(
+D.frame(T('Predicted, filtered and smoothed regime probabilities', 'Probabilitățile prezise, filtrate și netezite ale regimurilor'), items(
     (T(r'\textbf{Predicted} $\hat\xi_{t+1|t}$: what a forecaster expects for next period; it enters the forecast density', r'Probabilitatea \textbf{prezisă} $\hat\xi_{t+1|t}$: ce așteaptă un prognozator pentru perioada următoare; intră în densitatea de prognoză'),
      []),
     (T(r'\textbf{Filtered} $\hat\xi_{t|t}$: what could be known at $t$; the real-time signal (Chauvet and Piger 2008)', r'Probabilitatea \textbf{filtrată} $\hat\xi_{t|t}$: ce se putea ști la $t$; semnalul în timp real (Chauvet și Piger 2008)'),
