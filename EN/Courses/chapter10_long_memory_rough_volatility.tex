@@ -239,7 +239,7 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \end{itemize}
 \end{frame}
 
-\begin{frame}{From the Nile to long memory}
+\begin{frame}{Origins of long-memory analysis}
 \itemsize{\small}
 \begin{columns}[T]
 \begin{column}{0.36\textwidth}
@@ -295,7 +295,7 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \quantlet{ATS\_ch10\_memory}{\qlurl{ATS_ch10_memory}}
 \end{frame}
 
-\begin{frame}{Interpreting the long view}
+\begin{frame}{Interpreting the long sample}
 \itemsize{\small}
 \begin{itemize}
     \item ACF 0.82 at lag 1, 0.53 at lag 22, still 0.18 at lag 250: an AR(1) with the same first lag would give about $10^{-22}$ at lag 250
@@ -310,7 +310,7 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \section{Long memory: spectral characterisation}
 %=============================================================================
 
-\begin{frame}{Known from TSA, and new here}
+\begin{frame}{Prior knowledge from TSA and new material}
 \itemsize{\small}
 \begin{itemize}
     \item Known (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter8_long_memory_arfima.pdf}{TSA, Chapter 8}): fractional differencing, ARFIMA$(p,d,q)$, R/S and DFA, GPH and local Whittle as recipes, FIGARCH and HAR in brief, spurious long memory by example
@@ -413,7 +413,7 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Where long memory comes from: aggregation}
+\begin{frame}{Sources of long memory: aggregation}
 \itemsize{\small}
 \begin{itemize}
     \item \refGra: the scaled sum of $N$ independent AR(1) series with random coefficients
@@ -681,7 +681,7 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 
 
 %=============================================================================
-\section{Short or long memory: testing against level shifts}
+\section{Testing long memory against level shifts}
 %=============================================================================
 
 \begin{frame}{Mechanisms of spurious long memory}
@@ -765,7 +765,7 @@ Inflation & US CPI (FRED CPIAUCSL), Romanian HICP (Eurostat prc\_hicp\_minr), mo
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recap: Short or long memory}
+\begin{frame}{Recap: long memory and level shifts}
 \itemsize{\small}
 \begin{itemize}
     \item Breaks, level shifts and rare regime switches create a spectral pole and a large $\hat d$
@@ -1138,7 +1138,7 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The evidence: scaling of log volatility (1/2)}
+\begin{frame}{Empirical evidence: scaling of log volatility (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \refGJR, Section 2: from daily $\sigma_t = \sqrt{RV_t}$ (Oxford-Man library), the empirical moments of the increments of $\log\sigma$
@@ -1155,7 +1155,7 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The evidence: scaling of log volatility (2/2)}
+\begin{frame}{Empirical evidence: scaling of log volatility (2/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Procedure: OLS of $\log m(q, \Delta)$ on $\log\Delta$ for each $q$ gives $\zeta_q$; regress $\zeta_q$ on $q$ through the origin to get $H$
@@ -1232,7 +1232,7 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Critiques: is roughness an artefact?}
+\begin{frame}{Critiques: roughness as a possible artefact}
 \itemsize{\small}
 \begin{itemize}
     \item RV is an estimate of integrated variance: $\log RV_t = \log\int_{t-1}^t\sigma_s^2ds + \epsilon_t$
@@ -1370,7 +1370,7 @@ Bitcoin & 0.98 & 13.6 & 1.06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{A rigorous out-of-sample comparison}
+\begin{frame}{Design of the out-of-sample comparison}
 \itemsize{\small}
 \begin{itemize}
     \item Design fixed in advance: rolling window of 1000 days, parameters re-estimated every 20 days with data up to $t$ only; target $RV_{t+h}$, $h \in \{1, 5, 22\}$
@@ -1462,7 +1462,7 @@ $h = 22$ & 1.002 & 0.969 & 0.968 & 0.982 & 0.986 & 1.027 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What the human checks}
+\begin{frame}{Required checks}
 \itemsize{\small}
 \begin{itemize}
     \item Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)

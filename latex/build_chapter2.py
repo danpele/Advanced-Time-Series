@@ -412,7 +412,7 @@ D.frame(T('The Chow test (2/2)', 'Testul Chow (2/2)'), items(
      ['$F = \\dfrac{(S_0 - S_1)/(T - T_1)}{S_1/(T_1 - k)}$',
       T('it asks whether the model estimated up to $T_1$ forecasts the last observations; the ancestor of forecast-breakdown tests (Section 7)', 'întreabă dacă modelul estimat pînă la $T_1$ prognozează ultimele observații; precursorul testelor de eșec al prognozelor (secțiunea 7)')])))
 
-D.frame(T('The date chosen by looking at the data', 'Data aleasă privind datele'), items(
+D.frame(T('A break date chosen after inspecting the data', 'Data rupturii aleasă după inspectarea datelor'), items(
     (T('In practice $T_1$ is rarely known: the researcher sees a jump in the plot and tests there', 'În practică $T_1$ este rar cunoscut: cercetătorul vede un salt în grafic și testează acolo'),
      [T('the test then uses the date that \\emph{maximises} the statistic: a data-snooping problem (Chapter 0)', 'testul folosește atunci data care \\emph{maximizează} statistica: o problemă de data snooping (Capitolul 0)')]),
     (T('Under $H_0$ the break date is \\textbf{not identified}: the parameter $\\pi$ appears only under the alternative \\refDav', 'Sub $H_0$ data rupturii \\textbf{nu este identificată}: parametrul $\\pi$ apare doar sub ipoteza alternativă \\refDav'),
@@ -684,16 +684,16 @@ interp(('the EUR/RON variance breaks', 'rupturilor în varianța EUR/RON'), [
 # =============================================================================
 # 6. RĂDĂCINI UNITARE ȘI RUPTURI
 # =============================================================================
-D.section('Unit roots with breaks, revisited', 'Rădăcini unitare și rupturi, din nou')
+D.section('Unit-root tests with breaks', 'Teste de rădăcină unitară în prezența rupturilor')
 
-D.frame(T('Beyond Zivot--Andrews', 'Dincolo de Zivot--Andrews'), items(
+D.frame(T('Extensions of the Zivot--Andrews test', 'Extensii ale testului Zivot--Andrews'), items(
     (T('TSA, Chapter 3: a level shift mimics a unit root \\refPer; \\refZA\\ choose the date by minimising the ADF $t$ statistic', 'TSA, Capitolul 3: o schimbare de nivel imită o rădăcină unitară \\refPer; \\refZA\\ aleg data minimizînd statistica $t$ ADF'),
      [T('their null is a unit root \\emph{without} a break: a break under the null makes the test reject too often', 'ipoteza lor nulă este o rădăcină unitară \\emph{fără} ruptură: o ruptură sub ipoteza nulă face testul să respingă prea des')]),
     (T('Two breaks: \\refLP\\ minimise the $t$ statistic over two dates; \\refLS\\ propose an LM test whose null allows breaks', 'Două rupturi: \\refLP\\ minimizează statistica $t$ după două date; \\refLS\\ propun un test LM a cărui ipoteză nulă admite rupturi'),
      [T('\\refKPe: pre-test the break, then use a test valid under both hypotheses', '\\refKPe: testăm întîi ruptura, apoi folosim un test valid sub ambele ipoteze')]),
     T('Critical values depend on the model, the trimming and the number of breaks; a sieve bootstrap under the null avoids the tables', 'Valorile critice depind de model, de trunchiere și de numărul rupturilor; un bootstrap sieve sub ipoteza nulă evită tabelele')), 'small')
 
-chart(T('Romanian GDP: unit root or broken trend?', 'PIB-ul României: rădăcină unitară sau trend cu rupturi?'), 'ats_ch2_unit_root_breaks', 'ATS_ch2_unit_root_breaks', [
+chart(T('Romanian GDP: unit root against a broken trend', 'PIB-ul României: rădăcină unitară față de trend cu rupturi'), 'ats_ch2_unit_root_breaks', 'ATS_ch2_unit_root_breaks', [
     T('Log real GDP (SCA), @{ur.first}--@{ur.last}; one and two breaks in level and trend; null distributions from a sieve bootstrap (AR on $\\Delta y_t$, @{ur.B} replications)',
       'Logaritmul PIB real (ajustat sezonier), @{ur.first}--@{ur.last}; una și două rupturi în nivel și în trend; distribuții sub $H_0$ dintr-un bootstrap sieve (AR pe $\\Delta y_t$, @{ur.B} de replicări)')], h='0.58\\textheight')
 
@@ -713,7 +713,7 @@ D.recap(('Breaks in variance and unit roots', 'rupturile în varianță și răd
 # =============================================================================
 D.section('Forecasting under breaks', 'Prognoza în prezența rupturilor')
 
-D.frame(T('Location shifts cause forecast failure', 'Schimbările de nivel produc eșecul prognozelor'), items(
+D.frame(T('Location shifts and forecast failure', 'Schimbările de nivel și eșecul prognozelor'), items(
     (T('\\refCHa, \\refCHb: in equilibrium-correction models, a shift of the equilibrium mean is the main source of systematic forecast errors', '\\refCHa, \\refCHb: în modelele cu corecția erorii, deplasarea mediei de echilibru este principala sursă de erori sistematice de prognoză'),
      [T('after the shift, the model keeps pulling the forecast towards the old mean', 'după deplasare, modelul continuă să tragă prognoza spre vechea medie')]),
     (T('Robust devices', 'Instrumente robuste'),

@@ -342,8 +342,8 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
       T('causal discovery: PCMCI and convergent cross mapping, with their limits', 'descoperirea relațiilor cauzale: PCMCI și convergent cross mapping, cu limitele lor'),
       T('interrupted time series and event studies with dependent errors', 'serii de timp întrerupte și studii de eveniment cu erori dependente'),
       T('synthetic control and its successors; staggered DiD; CausalImpact; DML', 'controlul sintetic și succesorii lui; DiD eșalonat; CausalImpact; DML')]),
-    T(r'Prerequisites: Seminar 14 and the slide \hyperlink{c14known}{\textcolor{MainBlue}{Known from TSA and Chapter 3, and new here}}',
-      r'Cunoștințe necesare: Seminarul 14 și slide-ul \hyperlink{c14known}{\textcolor{MainBlue}{Cunoscut din TSA și din Capitolul 3 și elemente noi}}')), 'small')
+    T(r'Prerequisites: Seminar 14 and the slide \hyperlink{c14known}{\textcolor{MainBlue}{Prior knowledge from TSA and Chapter 3 and new material}}',
+      r'Cunoștințe necesare: Seminarul 14 și slide-ul \hyperlink{c14known}{\textcolor{MainBlue}{Cunoștințe din TSA și din Capitolul 3 și elemente noi}}')), 'small')
 
 D.frame(T('Learning outcomes', 'Rezultatele învățării'), items(
     T('Distinguish Granger causality from a dynamic causal effect, and state the conditions under which a time-series estimand has a causal meaning',
@@ -407,7 +407,7 @@ interp(('the four case studies', 'celor patru studii de caz'), [
 # =============================================================================
 D.section('Granger causality and causal effects', 'Cauzalitatea Granger și efectele cauzale')
 
-D.frame(T('Known from TSA and Chapter 3, and new here', 'Cunoscut din TSA și din Capitolul 3 și elemente noi'), items(
+D.frame(T('Prior knowledge from TSA and Chapter 3 and new material', 'Cunoștințe din TSA și din Capitolul 3 și elemente noi'), items(
     (T(r'\hypertarget{c14known}{}Known: the bivariate Granger test in a VAR (TSA, Chapter 6); SVAR identification, local projections and proxy SVAR (Chapter 3); HAC (Chapter 0); Kalman filter and BSTS (Chapter 6)',
        r'\hypertarget{c14known}{}Cunoscut: testul Granger bivariat într-un VAR (TSA, Capitolul 6); identificarea SVAR, proiecțiile locale și proxy SVAR (Capitolul 3); HAC (Capitolul 0); filtrul Kalman și BSTS (Capitolul 6)'), []),
     (T('New: what these tools can and cannot say about interventions', 'Nou: ce pot și ce nu pot spune aceste instrumente despre intervenții'),
@@ -440,7 +440,7 @@ D.frame(T('Granger causality: the definition (2/2)', 'Cauzalitatea Granger: defi
       T(r'$\sigma^2_{\mathrm{restricted}}$, $\sigma^2_{\mathrm{full}}$: residual variances of the regression without and with the lags of $x$; $F_{x\to y} \ge 0$, and 0 means no Granger causality',
         r'$\sigma^2_{\mathrm{restrîns}}$, $\sigma^2_{\mathrm{complet}}$: varianțele reziduale ale regresiei fără și cu lagurile lui $x$; $F_{x\to y} \ge 0$, iar 0 înseamnă absența cauzalității Granger')])), 'small')
 
-D.frame(T('Granger causality is about prediction', 'Cauzalitatea Granger privește predicția'), two(
+D.frame(T('Granger causality as predictability', 'Cauzalitatea Granger ca predictibilitate'), two(
     ph('granger', T('Clive Granger, Nobel Prize in Economics 2003', 'Clive Granger, Premiul Nobel pentru economie 2003'), h='0.44\\textheight'),
     items((T(r'Four ways in which $x$ Granger-causes $y$ without causing it', r'Patru moduri în care $x$ cauzează în sens Granger pe $y$ fără să îl cauzeze'),
            [T(r'\textbf{common driver} $z$, omitted, reaching $x$ and $y$ at different lags', r'\textbf{un factor comun} $z$, omis, care ajunge la $x$ și la $y$ cu laguri diferite'),
@@ -450,7 +450,7 @@ D.frame(T('Granger causality is about prediction', 'Cauzalitatea Granger priveș
           (T('And the reverse: a true effect can be invisible to the test', 'Și invers: un efect real poate fi invizibil pentru test'),
            [T('nonlinear, contemporaneous, or offset by policy feedback', 'neliniar, contemporan sau compensat de reacția politicii')])), '0.36', '0.62'), 'small')
 
-chart(T('A common driver creates Granger causality', 'Un factor comun creează cauzalitate Granger'), 'ats_ch14_granger_sim', 'ATS_ch14_granger', [
+chart(T('Granger causality induced by a common driver', 'Cauzalitate Granger indusă de un factor comun'), 'ats_ch14_granger_sim', 'ATS_ch14_granger', [
     T(r'Simulated system: a driver $w_t = 0.9w_{t-1} + \eta_t$ (AR(1), $\phi = 0.9$); $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $\eta_t, e_t, u_t$: independent noise',
       r'Sistem simulat: un factor $w_t = 0{,}9w_{t-1} + \eta_t$ (AR(1), $\phi = 0{,}9$); $x_t = w_{t-1} + e_t$, $y_t = w_{t-3} + u_t$; $\eta_t, e_t, u_t$: zgomot independent'),
     T(r'$x$ has no effect on $y$; tests with $p = 2$ lags (pairwise) and $p = 4$ (conditional on $w$), @{gs.reps} replications', r'$x$ nu are niciun efect asupra lui $y$; teste cu $p = 2$ laguri (pe perechi) și $p = 4$ (condiționat de $w$), @{gs.reps} de repetări')], h='0.59\\textheight')
@@ -522,7 +522,7 @@ D.frame(T('Transfer entropy (2/2)', 'Entropia de transfer (2/2)'), items(
       T('significance by permuting the source in blocks, which keeps its autocorrelation', 'semnificația prin permutarea sursei pe blocuri, care păstrează autocorelația ei')]),
     T('The same caveats as for Granger: an information flow is not an intervention', 'Aceleași rezerve ca la Granger: un flux de informație nu este o intervenție')), 'small')
 
-chart(T('A nonlinear coupling that linear Granger misses', 'O legătură neliniară pe care testul Granger liniar o ratează'), 'ats_ch14_te', 'ATS_ch14_granger', [
+chart(T('A nonlinear coupling undetected by the linear Granger test', 'O legătură neliniară nedetectată de testul Granger liniar'), 'ats_ch14_te', 'ATS_ch14_granger', [
     T(r'Simulated: $y_t = 0.4y_{t-1} + 0.6(x_{t-1}^2 - 1) + u_t$, $x$ a Gaussian AR(1) with unit variance, $u_t$ standard Normal noise, $T = @{te.T}$', r'Simulare: $y_t = 0{,}4y_{t-1} + 0{,}6(x_{t-1}^2 - 1) + u_t$, $x$ un AR(1) gaussian cu varianța 1, $u_t$ zgomot cu distribuția Normală standard, $T = @{te.T}$'),
     T(r'$x_{t-1}^2 - 1$ has mean zero and no correlation with $x_{t-1}$; kNN TE with $k = 5$ neighbours, @{te.B} block permutations', r'$x_{t-1}^2 - 1$ are media zero și nu este corelat cu $x_{t-1}$; TE kNN cu $k = 5$ vecini, @{te.B} de permutări pe blocuri')], h='0.59\\textheight')
 
@@ -713,7 +713,7 @@ D.frame(T('The synthetic control estimator (2/2)', 'Estimatorul controlului sint
       T(r'MSPE: mean squared prediction error of the outcome; alternative: cross-validation on a training and a validation period \refADHb', r'MSPE: eroarea pătratică medie de predicție a rezultatului; alternativa: validarea încrucișată pe o perioadă de antrenare și una de validare \refADHb'),
       T(r'with all pre-period outcomes in $X$, the covariates get no weight \refKKPS', r'cu toate rezultatele anterioare în $X$, covariatele nu primesc nicio pondere \refKKPS')])), 'small')
 
-D.frame(T('Why it works: the factor model', 'Fundamentul: modelul factorial'), items(
+D.frame(T('Theoretical basis: the factor model', 'Fundamentul teoretic: modelul factorial'), items(
     (T(r'\refADHa: the untreated outcomes follow a factor model (interactive fixed effects \refBai)', r'\refADHa: rezultatele fără tratament urmează un model factorial (efecte fixe interactive \refBai)'),
      [r'\[ Y_{jt}(0) = \delta_t + \theta_tZ_j + \lambda_t\mu_j + \varepsilon_{jt} \]',
       T(r'$\delta_t$: a common time effect; $Z_j$: observed covariates with time-varying coefficients $\theta_t$; $\lambda_t$: unobserved common factors; $\mu_j$: unobserved loadings of unit $j$; $\varepsilon_{jt}$: transitory shocks',
@@ -1066,7 +1066,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
       T(r'\textbf{critique}: \aiprompt{Act as a hostile referee: which EU countries had their own energy or tax measures in 2025--2026, and how would each bias the estimate?}', r'\textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: ce țări UE au avut propriile măsuri de energie sau fiscale în 2025--2026 și cum ar deplasa fiecare estimația?}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('Policy dates are taken from official sources (Monitorul Oficial, Eurostat, SEC), not from the assistant\'s memory', 'Datele politicilor se iau din surse oficiale (Monitorul Oficial, Eurostat, SEC), nu din memoria asistentului'),
     T('The donor pool excludes countries with their own large shocks in the window, and the exclusions are written before the results are seen', 'Grupul donatorilor exclude țările cu propriile șocuri mari în fereastră, iar excluderile sînt scrise înainte de a vedea rezultatele'),

@@ -361,7 +361,7 @@ D.frame(T('Basel: bank risk forecasts and supervisory backtests', 'Basel: progno
 # =============================================================================
 D.section('Risk measures as forecast functionals', 'Măsurile de risc ca funcționale de prognoză')
 
-D.frame(T('Known from TSA and MFM, and new here', 'Cunoscut din TSA și MFM și elemente noi'), items(
+D.frame(T('Prior knowledge from TSA and MFM and new material', 'Cunoștințe din TSA și MFM și elemente noi'), items(
     (T('Known: VaR and ES by historical simulation, parametric, filtered HS and EVT; Kupiec and Christoffersen tests; the Basel traffic light (TSA, Chapter 5; MFM, Chapters 7--8)',
        'Cunoscut: VaR și ES prin simulare istorică, metode parametrice, FHS și EVT; testele Kupiec și Christoffersen; semaforul Basel (TSA, Capitolul 5; MFM, Capitolele 7--8)'),
      []),
@@ -399,7 +399,7 @@ D.frame(T('VaR and ES as functionals (2/2): conventions', 'VaR și ES ca funcți
      [T(r'a forecast of them is a point forecast of the predictive distribution, as in Chapter 1',
         r'o prognoză a lor este o prognoză punctuală a distribuției predictive, ca în Capitolul 1')])), 'small')
 
-D.frame(T('Conditional risk forecasts: three routes (1/2)', 'Prognoze condiționate de risc: trei căi (1/2)'), items(
+D.frame(T('Conditional risk forecasts: three approaches (1/2)', 'Prognoze condiționate de risc: trei abordări (1/2)'), items(
     (T(r'Target: the functional of the conditional distribution', r'Ținta: funcționala distribuției condiționate'
        ) + r'''
     \[ (v_t, e_t) = \mathrm T(F_{t|t-1}) \]''',
@@ -412,7 +412,7 @@ D.frame(T('Conditional risk forecasts: three routes (1/2)', 'Prognoze condițion
         r'$\mu_t$, $\sigma_t$: media și volatilitatea condiționate (ARMA, GARCH); $q_\alpha(\eta)$: cuantila distribuției șocului'),
       T('GARCH with Normal, skewed-t \\refHan\\ or empirical (EDF) innovations; the ratio $e_t/v_t$ is constant over time when $\\mu_t = 0$', 'GARCH cu inovații din distribuția Normală, t asimetrică \\refHan\\ sau empirice (EDF); raportul $e_t/v_t$ este constant în timp cînd $\\mu_t = 0$')])), 'small')
 
-D.frame(T('Conditional risk forecasts: three routes (2/2)', 'Prognoze condiționate de risc: trei căi (2/2)'), items(
+D.frame(T('Conditional risk forecasts: three approaches (2/2)', 'Prognoze condiționate de risc: trei abordări (2/2)'), items(
     (T(r'\textbf{Direct quantile dynamics} \refEM: $v_t = v(\mathcal F_{t-1}; \beta)$', r'\textbf{Dinamica directă a cuantilei} \refEM: $v_t = v(\mathcal F_{t-1}; \beta)$'),
      [T(r'$v(\cdot; \beta)$: a recursion with parameters $\beta$, estimated by the quantile (pinball) loss, without a distribution',
         r'$v(\cdot; \beta)$: o recursie cu parametrii $\beta$, estimată prin pierderea cuantilică (pinball), fără o distribuție')]),
@@ -986,7 +986,7 @@ D.recap(('Comparison', 'compararea'), [
 # =============================================================================
 D.section('The horizon: multi-period risk', 'Orizontul: riscul pe mai multe perioade')
 
-D.frame(T('Why the square-root-of-time rule fails (1/2)', 'Limitele regulii rădăcinii pătrate a timpului (1/2)'), items(
+D.frame(T('Limitations of the square-root-of-time rule (1/2)', 'Limitele regulii rădăcinii pătrate a timpului (1/2)'), items(
     (T(r'The rule scales the one-day VaR to $h$ days', r'Regula scalează VaR pe o zi la $h$ zile'
        ) + r'''
     \[ \mathrm{VaR}^{(h)} = \sqrt h\,\mathrm{VaR}^{(1)} \]''',
@@ -998,7 +998,7 @@ D.frame(T('Why the square-root-of-time rule fails (1/2)', 'Limitele regulii răd
      [T(r'so $\sqrt h$ overstates the quantile at long horizons \refDZ', r'deci $\sqrt h$ supraestimează cuantila la orizonturi lungi \refDZ')]),
     T('Leverage (GJR) makes multi-day losses more skewed than daily ones: the left tail of the sum is thicker than the scaled daily tail', 'Efectul de levier (GJR) face pierderile pe mai multe zile mai asimetrice decît cele zilnice: coada stîngă a sumei este mai groasă decît coada zilnică scalată')), 'small')
 
-D.frame(T('Why the square-root-of-time rule fails (2/2)', 'Limitele regulii rădăcinii pătrate a timpului (2/2)'), items(
+D.frame(T('Limitations of the square-root-of-time rule (2/2)', 'Limitele regulii rădăcinii pătrate a timpului (2/2)'), items(
     (T(r'Volatility clustering: for GARCH(1,1) the variance of the $h$-day return depends on today\'s volatility', r'Volatility clustering: pentru GARCH(1,1), varianța randamentului pe $h$ zile depinde de volatilitatea de azi'
        ) + r'''
     \[ \mathrm{Var}_t\Big(\sum_{k=1}^h y_{t+k}\Big) = \sum_{k=0}^{h-1}\big[\bar\sigma^2 + (\alpha + \beta)^k(\sigma_{t+1}^2 - \bar\sigma^2)\big] \]''',
@@ -1049,7 +1049,7 @@ D.frame(T('Model risk of risk models', 'Riscul de model al modelelor de risc'), 
     (T(r'\refKR: ES carries more model risk than VaR at comparable levels: it extrapolates further into the tail', r'\refKR: ES are mai mult risc de model decît VaR la niveluri comparabile: extrapolează mai departe în coadă'), []),
     T('Our six models, rolling 1000-day windows: historical simulation, Normal with window volatility, EWMA ($\\lambda$ = 0.94), GARCH-N, GARCH-t, filtered HS', 'Cele șase modele ale noastre, ferestre mobile de 1000 de zile: simulare istorică, distribuția Normală cu volatilitatea ferestrei, EWMA ($\\lambda$ = 0,94), GARCH-N, GARCH-t, FHS')), 'small')
 
-chart(T('How much do standard models disagree?', 'Cît de mult diferă modelele standard?'), 'ats_ch9_riskratio', 'ATS_ch9_modelrisk', [
+chart(T('Disagreement between standard risk models', 'Diferențele dintre modelele de risc standard'), 'ats_ch9_riskratio', 'ATS_ch9_modelrisk', [
     T(r'Risk ratio of six VaR 1\% forecasts, 21-day rolling median, S\&P 500 and BET, 2002--2026 (BET from 2004); shaded: stress periods',
       r'Raportul de risc al celor șase prognoze VaR 1\%, mediana mobilă pe 21 de zile, S\&P 500 și BET, 2002--2026 (BET din 2004); zonele colorate: perioadele de criză')],
     h='0.65\\textheight')
@@ -1160,7 +1160,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
       T(r'\textbf{critique}: \aiprompt{Act as a hostile referee: list the ways an FZ0 ranking could be an artefact of the sample, the level or the starting values.}', r'\textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră felurile în care o ordonare FZ0 poate fi un artefact al eșantionului, al nivelului sau al valorilor de pornire.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('The loss is consistent for the target: no ``average ES error\'\', no MSE of VaR forecasts', 'Pierderea este consistentă pentru țintă: fără „eroarea medie a ES”, fără MSE pentru prognozele VaR'),
     T('The convention is right: VaR 1\\% is minus the 1\\% quantile of returns, never ``VaR 99\\%\'\'; signs of $v$ and $e$ are consistent', 'Convenția este corectă: VaR 1\\% este cuantila de 1\\% a randamentelor cu semn schimbat, niciodată „VaR 99\\%”; semnele lui $v$ și $e$ sînt consecvente'),

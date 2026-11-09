@@ -74,7 +74,7 @@
                 comingSoonShort: 'in preparation',
                 chapterSoon: 'The materials of this chapter are in preparation.',
                 selfStudy: 'Self-study',
-                quantinar: 'Go deeper on Quantinar',
+                quantinar: 'Related courses on Quantinar',
                 links: {
                     slides: 'Lecture Slides', slidesExtra: 'Additional Slides', seminar: 'Seminar', seminarExtra: 'Additional Seminar',
                     notebook: 'Notebook', quantlets: 'Quantlets', colab: 'Open in Colab'
@@ -141,7 +141,7 @@
                 comingSoonShort: 'în pregătire',
                 chapterSoon: 'Materialele acestui capitol sînt în pregătire.',
                 selfStudy: 'Studiu individual',
-                quantinar: 'Aprofundare pe Quantinar',
+                quantinar: 'Cursuri conexe pe Quantinar',
                 links: {
                     slides: 'Slide-urile cursului', slidesExtra: 'Slide-uri suplimentare', seminar: 'Seminar', seminarExtra: 'Seminar suplimentar',
                     notebook: 'Notebook', quantlets: 'Quantlets', colab: 'Deschide în Colab'

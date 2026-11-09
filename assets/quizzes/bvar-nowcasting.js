@@ -227,7 +227,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
         {
             "correct": 0,
             "en": {
-                "title": "Why the marginal likelihood penalises complexity",
+                "title": "The complexity penalty of the marginal likelihood",
                 "text": "Which identity explains why the log marginal likelihood behaves like an out-of-sample score?",
                 "options": [
                     "$\\ln p(y) = \\sum_t \\ln p(y_t\\mid y_{1:t-1})$",
@@ -239,7 +239,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
                 "incorrectExplanation": "The maximised likelihood is in-sample; the other two expressions are not identities for the marginal likelihood."
             },
             "ro": {
-                "title": "De ce penalizează verosimilitatea marginală complexitatea",
+                "title": "Penalizarea complexității în verosimilitatea marginală",
                 "text": "Ce identitate explică de ce logaritmul verosimilității marginale se comportă ca un scor în afara eșantionului?",
                 "options": [
                     "$\\ln p(y) = \\sum_t \\ln p(y_t\\mid y_{1:t-1})$",
@@ -281,7 +281,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
         {
             "correct": 2,
             "en": {
-                "title": "What PCA identifies",
+                "title": "Identification by principal components",
                 "text": "In the approximate factor model $x_{it} = \\lambda_i'F_t + e_{it}$, what do principal components estimate consistently as $N, T \\to \\infty$?",
                 "options": [
                     "Each factor with its economic label",
@@ -293,7 +293,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
                 "incorrectExplanation": "Labels depend on the chosen rotation, the idiosyncratic part is only approximately diagonal, and the number of factors needs a criterion such as Bai–Ng."
             },
             "ro": {
-                "title": "Ce identifică PCA",
+                "title": "Identificarea prin componente principale",
                 "text": "În modelul factorial aproximativ $x_{it} = \\lambda_i'F_t + e_{it}$, ce estimează consistent componentele principale cînd $N, T \\to \\infty$?",
                 "options": [
                     "Fiecare factor cu eticheta lui economică",
@@ -443,7 +443,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
         {
             "correct": 0,
             "en": {
-                "title": "What news is",
+                "title": "The definition of news",
                 "text": "In the news decomposition of Bańbura and Modugno (2014), what is the news of a new release $x_j$?",
                 "options": [
                     "$x_j - \\mathrm{E}[x_j\\mid\\Omega_{old}]$, the surprise relative to the model forecast",
@@ -455,7 +455,7 @@ window.ATS_DATA.quizzes['bvar-nowcasting'] = {
                 "incorrectExplanation": "The released value includes the predictable part; data revisions are a separate source of change; the loading enters the weight, not the news."
             },
             "ro": {
-                "title": "Ce este o știre",
+                "title": "Definiția știrilor",
                 "text": "În descompunerea în știri a lui Bańbura și Modugno (2014), care este știrea unei publicări noi $x_j$?",
                 "options": [
                     "$x_j - \\mathrm{E}[x_j\\mid\\Omega_{old}]$, surpriza față de prognoza modelului",

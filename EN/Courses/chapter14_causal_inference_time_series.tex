@@ -186,7 +186,7 @@ MSCA Digital Finance}
         \item interrupted time series and event studies with dependent errors
         \item synthetic control and its successors; staggered DiD; CausalImpact; DML
     \end{itemize}
-    \item Prerequisites: Seminar 14 and the slide \hyperlink{c14known}{\textcolor{MainBlue}{Known from TSA and \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3}, and new here}}
+    \item Prerequisites: Seminar 14 and the slide \hyperlink{c14known}{\textcolor{MainBlue}{Prior knowledge from TSA and \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3} and new material}}
 \end{itemize}
 \end{frame}
 
@@ -299,7 +299,7 @@ Daily index and crypto prices; EUR/RON & EODHD; BNR reference rate; to 18 Septem
 \section{Granger causality and causal effects}
 %=============================================================================
 
-\begin{frame}{Known from TSA and \atschlinkt{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3}, and new here}
+\begin{frame}{Prior knowledge from TSA and \atschlinkt{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3} and new material}
 \itemsize{\small}
 \begin{itemize}
     \item \hypertarget{c14known}{}Known: the bivariate Granger test in a VAR (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter6_var_models_granger_causality.pdf}{TSA, Chapter 6}); SVAR identification, local projections and proxy SVAR (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter3_structural_var_local_projections.pdf}{Chapter 3}); HAC (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter0_refresher_inference.pdf}{Chapter 0}); Kalman filter and BSTS (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter6_state_space_models_bayesian_filtering.pdf}{Chapter 6})
@@ -347,7 +347,7 @@ Daily index and crypto prices; EUR/RON & EODHD; BNR reference rate; to 18 Septem
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Granger causality is about prediction}
+\begin{frame}{Granger causality as predictability}
 \itemsize{\small}
 \begin{columns}[T]
 \begin{column}{0.36\textwidth}
@@ -374,7 +374,7 @@ Daily index and crypto prices; EUR/RON & EODHD; BNR reference rate; to 18 Septem
 \end{columns}
 \end{frame}
 
-\begin{frame}{A common driver creates Granger causality}
+\begin{frame}{Granger causality induced by a common driver}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.59\textheight,keepaspectratio]{ats_ch14_granger_sim.pdf}
@@ -514,7 +514,7 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{A nonlinear coupling that linear Granger misses}
+\begin{frame}{A nonlinear coupling undetected by the linear Granger test}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.59\textheight,keepaspectratio]{ats_ch14_te.pdf}
@@ -886,7 +886,7 @@ S\&P 500 $\not\to$ DAX & 18.3 & $<$0.001 & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Why it works: the factor model}
+\begin{frame}{Theoretical basis: the factor model}
 \itemsize{\small}
 \begin{itemize}
     \item \refADHa: the untreated outcomes follow a factor model (interactive fixed effects \refBai) \[ Y_{jt}(0) = \delta_t + \theta_tZ_j + \lambda_t\mu_j + \varepsilon_{jt} \]
@@ -1609,7 +1609,7 @@ SVAR, LP, DML & as good as random given the past or an instrument & narrative ev
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What the human checks}
+\begin{frame}{Required checks}
 \itemsize{\small}
 \begin{itemize}
     \item Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)

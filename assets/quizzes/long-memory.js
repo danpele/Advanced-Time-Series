@@ -146,7 +146,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
         {
             "correct": 1,
             "en": {
-                "title": "Where $\\pi^2/24$ comes from",
+                "title": "The origin of $\\pi^2/24$",
                 "text": "Why is the asymptotic variance of the GPH estimator $\\pi^2/(24m)$?",
                 "options": [
                     "Because the regressor $\\log\\lambda_j$ has variance 24",
@@ -158,7 +158,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
                 "incorrectExplanation": "GPH is a regression, not a likelihood estimator, and the periodogram ordinates are approximately exponential, not Normal."
             },
             "ro": {
-                "title": "De unde vine $\\pi^2/24$",
+                "title": "Originea constantei $\\pi^2/24$",
                 "text": "De ce este varianța asimptotică a estimatorului GPH egală cu $\\pi^2/(24m)$?",
                 "options": [
                     "Pentru că regresorul $\\log\\lambda_j$ are varianța 24",
@@ -173,7 +173,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
         {
             "correct": 2,
             "en": {
-                "title": "Local Whittle beyond the unit root",
+                "title": "Local Whittle for $d$ above one",
                 "text": "What happens to the (untapered) local Whittle estimator when the true $d$ is 1.2?",
                 "options": [
                     "It is consistent and asymptotically Normal",
@@ -185,7 +185,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
                 "incorrectExplanation": "Consistency holds only for $d < 1$ and normality for $d < 3/4$."
             },
             "ro": {
-                "title": "Local Whittle dincolo de rădăcina unitară",
+                "title": "Local Whittle pentru $d$ mai mare decît unu",
                 "text": "Ce se întîmplă cu estimatorul local Whittle (fără fereastră) cînd $d$ adevărat este 1,2?",
                 "options": [
                     "Este consistent și asimptotic normal",
@@ -416,7 +416,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
         {
             "correct": 3,
             "en": {
-                "title": "What HAR is",
+                "title": "The nature of the HAR model",
                 "text": "Which description of the HAR model of Corsi (2009) is correct?",
                 "options": [
                     "An ARFIMA model with $d$ estimated by OLS",
@@ -428,7 +428,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
                 "incorrectExplanation": "HAR is linear, estimated by OLS, and has summable autocorrelations."
             },
             "ro": {
-                "title": "Ce este HAR",
+                "title": "Natura modelului HAR",
                 "text": "Care descriere a modelului HAR al lui Corsi (2009) este corectă?",
                 "options": [
                     "Un model ARFIMA cu $d$ estimat prin OLS",
@@ -632,7 +632,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
         {
             "correct": 3,
             "en": {
-                "title": "Rigorous forecast comparison",
+                "title": "Validity of a forecast comparison",
                 "text": "Which choice invalidates an out-of-sample comparison of RFSV and HAR forecasts of realised variance?",
                 "options": [
                     "A rolling estimation window",
@@ -644,7 +644,7 @@ window.ATS_DATA.quizzes['long-memory'] = {
                 "incorrectExplanation": "Rolling windows, QLIKE (robust to the noise of the RV proxy) and HAC-based DM tests are standard good practice."
             },
             "ro": {
-                "title": "Comparație riguroasă a prognozelor",
+                "title": "Validitatea unei comparații a prognozelor",
                 "text": "Care alegere invalidează o comparație în afara eșantionului a prognozelor RFSV și HAR pentru varianța realizată?",
                 "options": [
                     "O fereastră de estimare mobilă",

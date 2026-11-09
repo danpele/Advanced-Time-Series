@@ -293,7 +293,7 @@ window.ATS_DATA.quizzes['ml-dl'] = {
                 "incorrectExplanation": "The decay is geometric in the lag, not hyperbolic, and it does not stay at one."
             },
             "ro": {
-                "title": "Gradienți care se sting",
+                "title": "Stingerea gradienților",
                 "text": "Pentru $h_t = \\tanh(Wh_{t-1} + Ux_t)$, ce margine este valabilă pentru $\\|\\partial h_T/\\partial h_t\\|$?",
                 "options": [
                     "$\\|W\\|/(T - t)$",

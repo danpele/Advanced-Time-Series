@@ -386,7 +386,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
     size='scriptsize') + items(
     T('All sources are public and need no account or key', 'Toate sursele sînt publice și nu cer cont sau cheie')), 'footnotesize')
 
-D.frame(T('From Markov to Hamilton', 'De la Markov la Hamilton'), two(
+D.frame(T('Origins of regime-switching models', 'Originile modelelor cu schimbare de regim'), two(
     ph('markov', T('Andrey Markov (1856--1922), around 1886', 'Andrei Markov (1856--1922), în jurul anului 1886'), h='0.42\\textheight'),
     items(T('1906--1913: Markov chains, a dependence that needs only the present state', '1906--1913: lanțurile Markov, o dependență care cere doar starea prezentă'),
           T(r'1970: \refBPSW: maximum likelihood for hidden Markov models (the Baum--Welch algorithm, an EM before EM); speech recognition \refRab', r'1970: \refBPSW: verosimilitatea maximă pentru modele Markov ascunse (algoritmul Baum--Welch, un EM înainte de EM); recunoașterea vorbirii \refRab'),
@@ -399,7 +399,7 @@ D.frame(T('From Markov to Hamilton', 'De la Markov la Hamilton'), two(
 # =============================================================================
 D.section('The model and the Markov chain', 'Modelul și lanțul Markov')
 
-D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), items(
+D.frame(T('Prior knowledge from TSA and new material', 'Cunoștințe din TSA și elemente noi'), items(
     (T('Known (TSA, Chapter 10): $y_t = \\mu_{S_t} + \\varepsilon_t$, transition matrix, expected durations, ergodic probabilities, filtered and smoothed probabilities from \\texttt{statsmodels}',
        'Cunoscut (TSA, Capitolul 10): $y_t = \\mu_{S_t} + \\varepsilon_t$, matricea de tranziție, duratele așteptate, probabilitățile ergodice, probabilitățile filtrate și netezite din \\texttt{statsmodels}'),
      [T('US recessions from GDP, Romanian growth regimes, the effect of 2020', 'recesiunile din SUA din PIB, regimurile creșterii din România, efectul anului 2020')]),
@@ -441,7 +441,7 @@ chart(T('Durations and the speed of mixing', 'Duratele și viteza de amestecare'
 # =============================================================================
 D.section('The Hamilton filter and the Kim smoother', 'Filtrul Hamilton și netezitorul Kim')
 
-D.frame(T('The Hamilton filter, derived', 'Filtrul Hamilton, derivat'), items(
+D.frame(T('Derivation of the Hamilton filter', 'Derivarea filtrului Hamilton'), items(
     (T(r'Notation: $Y_t = (y_1, \dots, y_t)$, $\hat\xi_{t|s}$ the $K$-vector $\Pr(S_t = j \mid Y_s)$, $\eta_t$ the vector of densities $f(y_t \mid S_t = j, Y_{t-1})$', r'Notație: $Y_t = (y_1, \dots, y_t)$, $\hat\xi_{t|s}$ vectorul $\Pr(S_t = j \mid Y_s)$ de dimensiune $K$, $\eta_t$ vectorul densităților $f(y_t \mid S_t = j, Y_{t-1})$'),
      [T(r'\textbf{prediction} (law of total probability, Markov property): $\hat\xi_{t|t-1} = \mathbf{P}\'\hat\xi_{t-1|t-1}$', r'\textbf{predicția} (probabilitatea totală, proprietatea Markov): $\hat\xi_{t|t-1} = \mathbf{P}\'\hat\xi_{t-1|t-1}$'),
       T(r'\textbf{update} (Bayes): $\hat\xi_{t|t} = \dfrac{\hat\xi_{t|t-1}\odot\eta_t}{\mathbf{1}\'(\hat\xi_{t|t-1}\odot\eta_t)}$', r'\textbf{actualizarea} (Bayes): $\hat\xi_{t|t} = \dfrac{\hat\xi_{t|t-1}\odot\eta_t}{\mathbf{1}\'(\hat\xi_{t|t-1}\odot\eta_t)}$'),
@@ -457,7 +457,7 @@ D.frame(T('Numerics and cost', 'Aspecte numerice și cost'), items(
       T(r'MSI-AR($p$) needs only $K$ states: the lagged $y$ enter as regressors', r'MSI-AR($p$) cere doar $K$ stări: valorile cu lag ale lui $y$ intră ca regresori')]),
     T(r'Our numpy filter and \texttt{statsmodels} give the same log-likelihood to machine precision when the initial distribution is the same', r'Filtrul nostru numpy și \texttt{statsmodels} dau aceeași log-verosimilitate, la precizia mașinii, cînd distribuția inițială este aceeași')), 'small')
 
-D.frame(T('The Kim smoother, derived', 'Netezitorul Kim, derivat'), items(
+D.frame(T('Derivation of the Kim smoother', 'Derivarea netezitorului Kim'), items(
     (T(r'Goal: $\hat\xi_{t|T}$, the regime probabilities given the whole sample \refKim', r'Scopul: $\hat\xi_{t|T}$, probabilitățile regimurilor date fiind toate datele \refKim'),
      [T(r'key step: $\Pr(S_t = i \mid S_{t+1} = j, Y_T) = \Pr(S_t = i \mid S_{t+1} = j, Y_t)$: given $S_{t+1}$, future $y$ carry no extra information on $S_t$', r'pasul-cheie: $\Pr(S_t = i \mid S_{t+1} = j, Y_T) = \Pr(S_t = i \mid S_{t+1} = j, Y_t)$: dat fiind $S_{t+1}$, valorile viitoare ale lui $y$ nu aduc informație suplimentară despre $S_t$'),
       T(r'exact for MSI/MSIH/MSM on the expanded state; an approximation only when the state also has a continuous part (Kim 1994, Chapter 6)', r'exact pentru MSI/MSIH/MSM pe starea extinsă; aproximare doar cînd starea are și o parte continuă (Kim 1994, Capitolul 6)'),
@@ -565,7 +565,7 @@ interp(('the test', 'testului'), [
 # =============================================================================
 D.section('Case study: Hamilton (1989) and the business cycle', 'Studiu de caz: Hamilton (1989) și ciclul economic')
 
-D.frame(T('The paper', 'Lucrarea'), two(
+D.frame(T('Hamilton (1989): data and model', 'Hamilton (1989): datele și modelul'), two(
     ph('soup', T('Chicago, February 1931: the regime every forecaster fears', 'Chicago, februarie 1931: regimul de care se teme orice prognozator'), h='0.34\\textheight'),
     items(T(r'\refHamA, Section 4: US real GNP, 100 $\times$ log change, 1951Q2--1984Q4, MSM(2)-AR(4)', r'\refHamA, secțiunea 4: PNB real al SUA, 100 $\times$ variația logaritmului, T2 1951--T4 1984, MSM(2)-AR(4)'),
           T('Equation (4.3): $y_t - \\mu_{S_t} = \\sum_{k=1}^4\\phi_k(y_{t-k} - \\mu_{S_{t-k}}) + \\sigma\\varepsilon_t$; estimates in Table I', 'Ecuația (4.3): $y_t - \\mu_{S_t} = \\sum_{k=1}^4\\phi_k(y_{t-k} - \\mu_{S_{t-k}}) + \\sigma\\varepsilon_t$; estimațiile în Tabelul I'),
@@ -583,7 +583,7 @@ D.frame(T('Replication: Hamilton\'s data, two implementations', 'Replicare: date
     T(r'Largest difference between the two smoothed probability paths: @{hs.diff}', r'Cea mai mare diferență între cele două traiectorii ale probabilităților netezite: @{hs.diff}'),
     T('Estimation: BFGS on the expanded state of 32 regime combinations, 8 random starts; standard errors from the numerical Hessian', 'Estimarea: BFGS pe starea extinsă de 32 de combinații de regimuri, 8 puncte de pornire aleatoare; erorile standard din hessiana numerică')), 'small')
 
-chart(T('Hamilton\'s regimes then and now', 'Regimurile lui Hamilton atunci și acum'), 'ats_ch7_hamilton89', 'ATS_ch7_hamilton', [
+chart(T('Hamilton\'s regimes on the original and on current data', 'Regimurile lui Hamilton pe datele originale și pe datele actuale'), 'ats_ch7_hamilton89', 'ATS_ch7_hamilton', [
     T(r'Left: smoothed probability of the low-growth regime on Hamilton\'s data. Right: the same specification on today\'s GDPC1, estimated on 1953Q2--2019Q4 ($T = @{ht.T}$), probabilities to @{ht.lastq} with the same parameters',
       r'Stînga: probabilitatea netezită a regimului de creștere scăzută pe datele lui Hamilton. Dreapta: aceeași specificație pe GDPC1 de azi, estimată pe T2 1953--T4 2019 ($T = @{ht.T}$), probabilități pînă în @{ht.lastq} cu aceiași parametri')],
     h='0.57\\textheight')
@@ -723,7 +723,7 @@ D.frame(T('Equity regimes: S\\&P 500 and BET', 'Regimuri pe piața de acțiuni: 
           T(r'BET: calm @{bb.bet.m0}\%, @{bb.bet.s0}\%; turbulent @{bb.bet.m1}\%, @{bb.bet.s1}\%', r'BET: calm @{bb.bet.m0}\%, @{bb.bet.s0}\%; agitat @{bb.bet.m1}\%, @{bb.bet.s1}\%'),
           T(r'Durations (weeks), calm and turbulent: S\&P 500 @{bb.sp500.d0} and @{bb.sp500.d1}; BET @{bb.bet.d0} and @{bb.bet.d1}', r'Durate (săptămîni), calm și agitat: S\&P 500 @{bb.sp500.d0} și @{bb.sp500.d1}; BET @{bb.bet.d0} și @{bb.bet.d1}')), '0.36', '0.62'), 'footnotesize')
 
-chart(T('Turbulent regimes on two markets', 'Regimuri agitate pe două piețe'), 'ats_ch7_bullbear', 'ATS_ch7_bullbear', [
+chart(T('Turbulent regimes on two markets', 'Regimuri de turbulență pe două piețe'), 'ats_ch7_bullbear', 'ATS_ch7_bullbear', [
     T(r'Log index levels (first week = 100); shaded: smoothed probability of the turbulent regime above 0.5; EM from 15 starts and a numerical polish (\texttt{statsmodels}: same $\ln L$)', r'Nivelurile indicilor pe scară logaritmică (prima săptămînă = 100); hașurat: probabilitatea netezită a regimului agitat peste 0,5; EM din 15 puncte de pornire și rafinare numerică (\texttt{statsmodels}: același $\ln L$)')],
     h='0.65\\textheight')
 
@@ -802,7 +802,7 @@ interp(('the simulation', 'simulării'), [
     T(r'Fixed $p = 0.95$: @{lm.f0}, @{lm.f1}, @{lm.f2}, @{lm.f3}: short memory, $\hat d \to 0$ as the frequencies used approach zero', r'$p = 0{,}95$ fix: @{lm.f0}; @{lm.f1}; @{lm.f2}; @{lm.f3}: memorie scurtă, $\hat d \to 0$ pe măsură ce frecvențele folosite se apropie de zero'),
     T(r'The path on the left has @{lm.sw} switches in 4000 observations; its autocorrelation is @{lm.a50} at lag 50 and @{lm.a200} at lag 200', r'Traiectoria din stînga are @{lm.sw} comutări în 4000 de observații; autocorelația ei este @{lm.a50} la lagul 50 și @{lm.a200} la lagul 200')])
 
-D.frame(T('Regimes or breaks?', 'Regimuri sau rupturi?'), items(
+D.frame(T('Regime switching and structural breaks', 'Schimbări de regim și rupturi structurale'), items(
     (T(r'A break (Chapter 2) is a regime that never returns: $\mathbf{P}$ upper bidiagonal, $S_1 = 1$ \refChibC', r'O ruptură (Capitolul 2) este un regim care nu revine niciodată: $\mathbf{P}$ superior bidiagonală, $S_1 = 1$ \refChibC'),
      [T('the Hamilton filter and EM apply unchanged; the transition mask keeps the forbidden transitions at zero', 'filtrul Hamilton și EM se aplică neschimbate; masca tranzițiilor ține tranzițiile interzise la zero')]),
     (T('Recurrent regimes pool information across episodes: the second high-inflation episode reuses the parameters of the first', 'Regimurile recurente pun în comun informația din episoade: al doilea episod de inflație ridicată folosește parametrii primului'),
@@ -890,7 +890,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
       T(r'\textbf{robustness and critique}: \aiprompt{Act as a hostile referee: list the ways a regime dating could be an artefact of the specification or of the starting values.}', r'\textbf{robustețe și critică}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră felurile în care o datare a regimurilor poate fi un artefact al specificației sau al punctelor de pornire.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('The likelihood is the global maximum among many starts, and the chosen regime is not degenerate', 'Verosimilitatea este maximul global dintre multe puncte de pornire, iar regimul ales nu este degenerat'),
     T('Real-time claims use filtered probabilities and data vintages, never smoothed probabilities', 'Afirmațiile despre timpul real folosesc probabilități filtrate și ediții ale datelor, niciodată probabilități netezite'),

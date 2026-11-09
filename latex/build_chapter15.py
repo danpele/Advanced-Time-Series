@@ -428,7 +428,7 @@ D.section('Overview of methods', 'Sinteza metodelor')
 QH = T(r'\textbf{Research question}', r'\textbf{Întrebarea de cercetare}') + ' & ' + T(r'\textbf{Tool}', r'\textbf{Instrumentul}') + ' & ' + T(r'\textbf{Ch.}', r'\textbf{Cap.}')
 SPEC = TB + 'p{4.9cm}' + TB + 'p{5.6cm}' + TB + 'p{0.8cm}'
 
-D.frame(T('Which tool for which question (1/3): inference and evaluation', 'Instrumentul potrivit fiecărei întrebări (1/3): inferență și evaluare'), table(SPEC, QH, [
+D.frame(T('Methods by research question (1/3): inference and evaluation', 'Metodele după întrebarea de cercetare (1/3): inferență și evaluare'), table(SPEC, QH, [
     T('Is a mean, a slope or a predictive coefficient different from zero?', 'Este o medie, o pantă sau un coeficient predictiv diferit de zero?') + ' & ' + T('HAC with fixed-$b$ or EWC; block bootstrap; Monte Carlo size check', 'HAC cu fixed-$b$ sau EWC; bootstrap pe blocuri; verificarea mărimii prin Monte Carlo') + ' & 0',
     T('Does one of many rules or models beat a benchmark?', 'Depășește una dintre multe reguli sau modele un reper?') + ' & ' + T('Reality Check, SPA, StepM; MCS', 'Reality Check, SPA, StepM; MCS') + ' & 0, 1',
     T('Is forecast A more accurate than forecast B?', 'Este prognoza A mai precisă decît prognoza B?') + ' & ' + T('DM--HLN with HAC; Clark--West if nested; Giacomini--White for methods', 'DM--HLN cu HAC; Clark--West pentru modele imbricate; Giacomini--White pentru metode') + ' & 1',
@@ -437,7 +437,7 @@ D.frame(T('Which tool for which question (1/3): inference and evaluation', 'Inst
     T('Do my intervals keep their coverage under dependence?', 'Își păstrează intervalele acoperirea sub dependență?') + ' & ' + T('split conformal, CQR, ACI, conformal PID; coverage by regime', 'split conformal, CQR, ACI, PID conformal; acoperire pe regimuri') + ' & 13'],
     size='footnotesize'), 'small')
 
-D.frame(T('Which tool for which question (2/3): structure and dynamics', 'Instrumentul potrivit fiecărei întrebări (2/3): structură și dinamică'), table(SPEC, QH, [
+D.frame(T('Methods by research question (2/3): structure and dynamics', 'Metodele după întrebarea de cercetare (2/3): structură și dinamică'), table(SPEC, QH, [
     T('Did the parameters change, and when?', 'S-au schimbat parametrii și cînd?') + ' & ' + T('sup/exp/ave tests, Bai--Perron, CSW monitoring, variance-break tests', 'teste sup/exp/ave, Bai--Perron, monitorizare CSW, teste pentru rupturi în varianță') + ' & 2',
     T('Is the dynamics nonlinear or state-dependent?', 'Este dinamica neliniară sau dependentă de stare?') + ' & ' + T('TAR, STAR with bootstrap or LM tests; Markov switching with bootstrap LR', 'TAR, STAR cu teste bootstrap sau LM; schimbare de regim Markov cu LR bootstrap') + ' & 2, 7',
     T('What is the effect of a structural shock?', 'Care este efectul unui șoc structural?') + ' & ' + T('SVAR (zeros, signs, proxies), local projections, LP-IV', 'SVAR (zerouri, semne, proxy), proiecții locale, LP-IV') + ' & 3',
@@ -446,7 +446,7 @@ D.frame(T('Which tool for which question (2/3): structure and dynamics', 'Instru
     T('What is the unobserved trend, gap or time-varying slope?', 'Care este trendul, output gap-ul sau panta variabilă neobservate?') + ' & ' + T('state space by ML or Gibbs, simulation smoother, UC-SV, particle filters', 'spațiul stărilor prin verosimilitate maximă sau Gibbs, netezire prin simulare, UC-SV, filtre de particule') + ' & 6'],
     size='footnotesize'), 'small')
 
-D.frame(T('Which tool for which question (3/3): volatility, frequency, learning, causality', 'Instrumentul potrivit fiecărei întrebări (3/3): volatilitate, frecvență, învățare, cauzalitate'), table(SPEC, QH, [
+D.frame(T('Methods by research question (3/3): volatility, frequency, learning, causality', 'Metodele după întrebarea de cercetare (3/3): volatilitate, frecvență, învățare, cauzalitate'), table(SPEC, QH, [
     T('How to forecast volatility or a covariance matrix?', 'Cum prognozăm volatilitatea sau o matrice de covarianță?') + ' & ' + T('HAR, HARQ, Realized GARCH; DCC with shrinkage; QLIKE', 'HAR, HARQ, Realized GARCH; DCC cu shrinkage; QLIKE') + ' & 8',
     T('Is the memory long, or is it shifts?', 'Este memoria lungă sau sînt salturi de nivel?') + ' & ' + T('local Whittle $\\hat d(m)$, Qu test, scaling of log volatility', 'local Whittle $\\hat d(m)$, testul Qu, scalarea logaritmului volatilității') + ' & 10',
     T('At which frequencies do two series move together?', 'La ce frecvențe se mișcă împreună două serii?') + ' & ' + T('multitaper coherence and phase, Breitung--Candelon, wavelet coherence', 'coerență și fază multitaper, Breitung--Candelon, coerență wavelet') + ' & 11',
@@ -587,7 +587,7 @@ D.frame(T('Five sources of discrepancy', 'Cinci surse de diferențe'), items(
     (T(r'\textbf{Design}: the setting of the paper differs from yours', r'\textbf{Designul}: cadrul lucrării diferă de al dumneavoastră'),
      [T('dimension relative to sample for DCC-NL (Chapter 8); the loss function for HARQ (Chapter 8)', 'dimensiunea raportată la eșantion pentru DCC-NL (Capitolul 8); funcția de pierdere pentru HARQ (Capitolul 8)')])), 'footnotesize')
 
-D.frame(T('How to replicate well', 'Replicarea corectă'), items(
+D.frame(T('Good practice in replication', 'Bune practici în replicare'), items(
     T('Obtain the replication package; if none exists, write down every choice the paper leaves open', 'Obțineți pachetul de replicare; dacă nu există, notați fiecare alegere lăsată deschisă de lucrare'),
     T('Reproduce one number first (a coefficient, a test statistic), then the table, then the figure', 'Reproduceți întîi un singur rezultat (un coeficient, o statistică de test), apoi tabelul, apoi figura'),
     T('Keep the original sample as a separate run before extending it; change one thing at a time', 'Păstrați eșantionul original ca rulare separată înainte de a-l extinde; schimbați un singur lucru odată'),
@@ -823,7 +823,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
       T(r'\textbf{critique}: \aiprompt{Act as a hostile referee of this pre-registration: where can the results leak into the design?}', r'\textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil al acestei preînregistrări: unde pot rezultatele să influențeze designul?}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('The paper exists, says what is claimed, and its data are available today', 'Lucrarea există, spune ce se afirmă, iar datele ei sînt disponibile azi'),
     T('The power calculation uses the dependence of your own loss differential, estimated on the training period', 'Calculul puterii folosește dependența propriei diferențe a pierderilor, estimată pe perioada de antrenare'),
     T('The formula behind an AI answer: a power claim without the long-run variance is wrong for dependent data', 'Formula din spatele unui răspuns AI: o afirmație despre putere fără varianța de termen lung este greșită pentru date dependente'),
@@ -904,7 +904,7 @@ D.frame(T('Appendix: project seeds by chapter (2/2)', 'Anexă: idei de proiect p
     [r'9 & \refPZC & ' + T('CEE indices; the power of the backtests', 'indicii din ECE; puterea backtest-urilor'),
      r'10 & \refGJR & ' + T('roughness of CEE and crypto volatility; robustness to noise', 'caracterul rough al volatilității în ECE și pe cripto; robustețea la zgomot'),
      r'11 & \refCN, \refHamB & ' + T('real-time output gaps of the EU members', 'output gap-uri în timp real pentru statele membre UE'),
-     r'12 & \refZeng & ' + T('EU electricity load; global models; benchmark comparisons', 'consumul de electricitate din UE; modele globale; comparații riguroase'),
+     r'12 & \refZeng & ' + T('EU electricity load; global models; benchmark comparisons', 'consumul de electricitate din UE; modele globale; comparații cu modelele de referință'),
      r'13 & \refGC & ' + T('conformal VaR for the BET; coverage by regime', 'VaR conformal pentru BET; acoperire pe regimuri'),
      r'14 & \refADH, \refBMSS & ' + T('tax and energy measures in CEE with synthetic controls', 'măsuri fiscale și energetice în ECE cu controale sintetice'),
      r'16 & \refPY & ' + T('house prices and rents in EU capitals', 'prețurile și chiriile locuințelor în capitalele UE'),

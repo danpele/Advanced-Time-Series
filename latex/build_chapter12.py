@@ -276,7 +276,7 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
         'dependența strică logica i.i.d.\\ a machine learning: validarea, generalizarea și inferența se schimbă toate')]),
     (T(r'\textbf{Route} of the chapter', r'\textbf{Traseul} capitolului'),
      [T('learning from dependent data: mixing, bounds, when cross-validation is valid', 'învățarea din date dependente: mixing, margini de eroare, cînd este validă validarea încrucișată'),
-      T('global and local models; lasso and its relatives in high dimension; tree ensembles in depth', 'modele globale și locale; lasso și variantele lui în dimensiune mare; ansambluri de arbori în profunzime'),
+      T('global and local models; lasso and its relatives in high dimension; tree ensembles', 'modele globale și locale; lasso și variantele lui în dimensiune mare; ansambluri de arbori'),
       T('recurrent and convolutional networks; attention and Transformers; N-BEATS, N-HiTS, DeepAR, TFT', 'rețele recurente și convoluționale; atenție și Transformers; N-BEATS, N-HiTS, DeepAR, TFT'),
       T('interpretation and benchmark comparisons: baselines, tests, data snooping', 'interpretare și comparația riguroasă: repere, teste, data snooping')]),
     T('We build on TSA, Chapter 9 (lag features, walk-forward validation, trees, a small MLP, M4 and M5) and on Chapter 1 (DM, MCS, scoring rules); Seminar 12 comes before this lecture',
@@ -342,7 +342,7 @@ interp(('the four data sets', 'celor patru seturi de date'), [
 # =============================================================================
 D.section('Learning from dependent data', 'Învățarea din date dependente')
 
-D.frame(T('Known from TSA, and new here', 'Cunoscut din TSA și elemente noi'), items(
+D.frame(T('Prior knowledge from TSA and new material', 'Cunoștințe din TSA și elemente noi'), items(
     (T('Known from TSA, Chapter 9', 'Cunoscut din TSA, Capitolul 9'),
      [T('lag features, walk-forward validation, leakage by example, ridge and lasso', 'variabile cu laguri, validare walk-forward, leakage între exemple, ridge și lasso'),
       T('trees, random forests, gradient boosting, a small MLP, conformal basics, M4 and M5', 'arbori, păduri aleatoare, gradient boosting, un MLP mic, elemente de predicție conformală, M4 și M5')]),
@@ -407,7 +407,7 @@ D.frame(T('Cross-validation for time series: the schemes', 'Validarea încruciș
     T(r'\textbf{Out-of-sample (OOS)} and \textbf{rolling origin}: test only on the end; the only scheme that mimics real use, at the price of a high variance', r'\textbf{În afara eșantionului (OOS)} și \textbf{originea mobilă}: test doar la sfîrșit; singura schemă care imită utilizarea reală, cu prețul unei varianțe mari'),
     T('The question is not which scheme is ``correct\'\' but which estimates the future risk with small bias and small variance', 'Întrebarea nu este care schemă este „corectă”, ci care estimează riscul viitor cu deplasare mică și varianță mică')), 'small')
 
-D.frame(T('When K-fold is valid: Bergmeir, Hyndman and Koo (2018)', 'Validitatea validării cu K subeșantioane: Bergmeir, Hyndman și Koo (2018)'), items(
+D.frame(T('Validity of K-fold cross-validation: Bergmeir, Hyndman and Koo (2018)', 'Validitatea validării cu K subeșantioane: Bergmeir, Hyndman și Koo (2018)'), items(
     (T(r'A nonlinear autoregression with \textbf{uncorrelated} errors \refBHK', r'O autoregresie neliniară cu erori \textbf{necorelate} \refBHK'
        ) + r'''
     \[ y_t = g(y_{t-1},\dots,y_{t-p}; \theta) + \varepsilon_t \]''',
@@ -431,7 +431,7 @@ D.frame(T('Replication design: Bergmeir, Hyndman and Koo (2018, Section 4)', 'Sc
      [T(r'$PE$: the true prediction error (RMSE on the out-set); $\widehat{PE}$: its estimate by the procedure; averages over the trials; MPAE $< 0$: optimistic',
         r'$PE$: eroarea de predicție adevărată (RMSE pe datele de evaluare); $\widehat{PE}$: estimația ei prin procedură; medii pe repetări; MPAE $< 0$: estimare optimistă')])), 'small')
 
-chart(T('Which validation estimates the future error?', 'Precizia și deplasarea schemelor de validare'), 'ats_ch12_cv_bhk', 'ATS_ch12_validation', [
+chart(T('Accuracy and bias of the validation schemes', 'Precizia și deplasarea schemelor de validare'), 'ats_ch12_cv_bhk', 'ATS_ch12_validation', [
     T('Top: precision (log scale); bottom: bias, by fitted AR order and data-generating process', 'Sus: precizia (scară logaritmică); jos: deplasarea, după ordinul AR estimat și procesul generator')], h='0.68\\textheight')
 
 interp(('the replication', 'replicării'), [
@@ -449,7 +449,7 @@ D.frame(T('Leakage through overlapping targets and time features', 'Leakage prin
     T(r'Simulation: AR(1) with $\phi = 0.9$, $h = 20$, a random forest on $y_t,\dots,y_{t-4}$ and a time index; @{lk.reps} replications; ratio of the estimated to the true RMSE on new data',
       r'Simulare: AR(1) cu $\phi = 0{,}9$, $h = 20$, o pădure aleatoare pe $y_t,\dots,y_{t-4}$ și un indice de timp; @{lk.reps} de repetări; raportul dintre RMSE estimat și RMSE adevărat pe date noi')), 'small')
 
-chart(T('How optimistic is each validation scheme?', 'Optimismul fiecărei scheme de validare'), 'ats_ch12_leakage', 'ATS_ch12_validation', [
+chart(T('Optimism of each validation scheme', 'Optimismul fiecărei scheme de validare'), 'ats_ch12_leakage', 'ATS_ch12_validation', [
     T('Ratio 1: the scheme estimates the error on new data without bias; below 1: optimistic', 'Raportul 1: schema estimează fără deplasare eroarea pe date noi; sub 1: optimistă')], h='0.68\\textheight')
 
 interp(('the leakage experiment', 'experimentului de leakage'), [
@@ -573,7 +573,7 @@ D.recap(('Global models and high dimension', 'modele globale și dimensiune mare
 # =============================================================================
 # 3. ANSAMBLURI DE ARBORI
 # =============================================================================
-D.section('Tree ensembles in depth', 'Ansambluri de arbori în profunzime')
+D.section('Tree ensembles', 'Ansambluri de arbori')
 
 D.frame(T('Bagging: the variance of an average', 'Bagging: varianța unei medii'), items(
     (T(r'Average of $B$ predictors $\hat f_b(x)$ trained on bootstrap samples \refBreA', r'Media a $B$ predictori $\hat f_b(x)$ antrenați pe eșantioane bootstrap \refBreA'
@@ -792,7 +792,7 @@ D.frame(T('Transformers for long horizons', 'Transformers pentru orizonturi lung
      [T('fewer tokens ($n/P$), local semantics in each token, longer look-backs affordable', 'mai puțini tokeni ($n/P$), semnificație locală în fiecare token, ferestre de intrare mai lungi accesibile')]),
     T('All were evaluated on the same handful of benchmarks (electricity, traffic, weather, ETT) with MSE on standardised data', 'Toate au fost evaluate pe aceleași cîteva seturi de date (electricitate, trafic, vreme, ETT), cu MSE pe date standardizate')), 'small')
 
-D.frame(T('Are Transformers effective? The Zeng et al.\\ (2023) critique', 'Critica lui Zeng et al.\\ (2023): eficiența Transformers'), items(
+D.frame(T('The critique of Zeng et al.\\ (2023): the effectiveness of Transformers', 'Critica lui Zeng et al.\\ (2023): eficiența Transformers'), items(
     (T(r'\refZeng: self-attention is permutation-invariant; point-wise tokens carry no local semantics; positional encodings only partly restore order', r'\refZeng: auto-atenția este invariantă la permutări; tokenii punctuali nu au semnificație locală; codificările poziționale restabilesc ordinea doar parțial'), []),
     (T(r'LTSF-Linear baselines: one linear map from the last $L$ values to the next $H$', r'Reperele LTSF-Linear: o singură aplicație liniară de la ultimele $L$ valori la următoarele $H$'
        ) + r'''
@@ -919,7 +919,7 @@ D.recap(('Global deep models', 'modele deep globale'), [
 # =============================================================================
 # 7. INTERPRETARE ȘI COMPARAȚII RIGUROASE
 # =============================================================================
-D.section('Interpretation and benchmark comparisons', 'Interpretare și comparații riguroase')
+D.section('Interpretation and benchmark comparisons', 'Interpretare și comparații cu modelele de referință')
 
 D.frame(T('Shapley values (1/2): the definition', 'Valorile Shapley (1/2): definiția'), items(
     (T(r'\refSha: the fair share of player $g$ in a cooperative game $v$ with $G$ players', r'\refSha: partea echitabilă a jucătorului $g$ într-un joc cooperativ $v$ cu $G$ jucători'
@@ -949,7 +949,7 @@ interp(('the Shapley values', 'valorilor Shapley'), [
     T('The values flatten at the extremes: trees cap their forecasts at the training range, the reason boosting lost to HAR in 2020', 'Valorile se aplatizează la extreme: arborii își limitează prognozele la intervalul de antrenare, motivul pentru care boosting a pierdut față de HAR în 2020'),
     T('Shapley values describe the model, not the data-generating process: a correct description of a wrong model is still wrong', 'Valorile Shapley descriu modelul, nu procesul generator: descrierea corectă a unui model greșit rămîne greșită')])
 
-D.frame(T('Attention is not explanation', 'Atenția nu este explicație'), items(
+D.frame(T('Attention weights as explanations', 'Ponderile atenției ca explicații'), items(
     (T(r'\refJW: attention weights are often uncorrelated with gradient-based importance, and very different attention patterns give the same predictions', r'\refJW: ponderile atenției sînt adesea necorelate cu importanța bazată pe gradient, iar tipare de atenție foarte diferite dau aceleași prognoze'), []),
     (T(r'\refWP: attention can be a faithful explanation under conditions, but this must be tested, not assumed', r'\refWP: atenția poate fi o explicație fidelă în anumite condiții, dar acest lucru trebuie testat, nu presupus'), []),
     (T(r'A test: occlusion importance, the increase of the MSE when one input patch is replaced by the window mean, against the attention each patch receives', r'Un test: importanța prin ocluzie, creșterea MSE cînd un segment de intrare este înlocuit cu media ferestrei, față de atenția primită de fiecare segment'),
@@ -979,7 +979,7 @@ interp(('seeds and snooping', 'seed-urilor și a data snooping'), [
     T('Hyper-parameter searches, seeds and architectures are all $K$: count them, and test the winner with SPA or MCS on data not used for the choice', 'Căutările de hiperparametri, seed-urile și arhitecturile sînt toate $K$: numărați-le și testați cîștigătorul cu SPA sau MCS pe date nefolosite pentru alegere'),
     T('Ensembles are the cheap cure for seed variance; pre-registration is the cure for snooping', 'Ansamblurile sînt remediul ieftin pentru varianța seed-urilor; preînregistrarea este remediul pentru data snooping')])
 
-D.recap(('Interpretation and benchmark comparisons', 'interpretare și comparații riguroase'), [
+D.recap(('Interpretation and benchmark comparisons', 'interpretare și comparații cu modelele de referință'), [
     T('Shapley values have axioms; with lagged features use groups and remember they describe the model', 'Valorile Shapley au axiome; cu variabile întîrziate folosiți grupuri și amintiți-vă că ele descriu modelul'),
     T('Attention weights are not importance: on our Transformer they point the other way', 'Ponderile atenției nu sînt importanță: pe Transformer-ul nostru ele indică în direcția opusă'),
     T('Strong baselines, DM/MCS/SPA, all seeds and all tries reported: otherwise any model can be made to win', 'Repere puternice, DM/MCS/SPA, toate seed-urile și toate încercările raportate: altfel orice model poate fi făcut să cîștige')])
@@ -1004,7 +1004,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
       T(r'\textbf{critique}: \aiprompt{Act as a hostile referee: list every source of leakage, snooping and unfair tuning in this comparison.}', r'\textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră fiecare sursă de leakage, data snooping și reglare inechitabilă din această comparație.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('No future information: scaling, feature construction and tuning use only data before each origin; purge around $h$-step targets', 'Nicio informație din viitor: scalarea, construcția variabilelor și reglarea folosesc doar date dinaintea fiecărei origini; purjare în jurul țintelor la $h$ pași'),
     T('The baseline is tuned as carefully as the learner, and refitted on the same schedule', 'Reperul este reglat la fel de atent ca algoritmul și reestimat după același calendar'),

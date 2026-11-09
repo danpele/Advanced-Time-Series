@@ -314,7 +314,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 
 
 %=============================================================================
-\section{Inferența bayesiană: noțiunile necesare}
+\section{Elemente de inferență bayesiană}
 %=============================================================================
 
 \begin{frame}{Distribuția a priori, verosimilitatea, distribuția a posteriori}
@@ -343,7 +343,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{columns}
 \end{frame}
 
-\begin{frame}{Actualizarea Normală este o medie ponderată cu precizii (1/2)}
+\begin{frame}{Actualizarea Normală ca medie ponderată cu precizii (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Datele: $\hat\beta\mid\beta \sim N(\beta, s^2)$ cu $s^2 = \sigma^2/\sum x_t^2$; distribuția a priori: $\beta \sim N(m_0, v_0)$
@@ -360,7 +360,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Actualizarea Normală este o medie ponderată cu precizii (2/2)}
+\begin{frame}{Actualizarea Normală ca medie ponderată cu precizii (2/2)}
 \itemsize{\small}
 \begin{itemize}
     \item În forma de regresie: \[ \bar\beta = (V_0^{-1} + X'X/\sigma^2)^{-1}(V_0^{-1}m_0 + X'y/\sigma^2) \]
@@ -591,7 +591,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Cît shrinkage? Potrivirea în eșantion comparată cu acuratețea în afara eșantionului}
+\begin{frame}{Gradul de shrinkage: potrivirea în eșantion comparată cu acuratețea în afara eșantionului}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.65\textheight,keepaspectratio]{ats_ch5_tradeoff.pdf}
@@ -740,7 +740,7 @@ PIB-ul real al României, trimestrial, ajustat sezonier și cu numărul de zile 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{După 2003: extinderea și martie 2020}
+\begin{frame}{Extinderea eșantionului după 2003 și martie 2020}
 \itemsize{\footnotesize}
 \begin{center}
 \scriptsize
@@ -918,7 +918,7 @@ GLP MEDIUM & 0{,}20 & 0{,}28 & 0{,}95 & 2{,}55 & 0{,}57 & 0{,}91 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Cîți factori? Bai și Ng (2002)}
+\begin{frame}{Alegerea numărului de factori: Bai și Ng (2002)}
 \itemsize{\small}
 \begin{itemize}
     \item $V(k) = (NT)^{-1}\sum_{i,t}(x_{it} - \hat\lambda_i'\hat F_t)^2$ după $k$ componente; scade cu $k$, deci are nevoie de o penalizare \refBN

@@ -290,7 +290,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
     T('HICP: harmonised index of consumer prices; CPI: consumer price index; SPF: Survey of Professional Forecasters; RTDSM: Real-Time Data Set for Macroeconomists',
       'IAPC (HICP): indicele armonizat al prețurilor de consum; IPC (CPI): indicele prețurilor de consum; SPF: Survey of Professional Forecasters; RTDSM: Real-Time Data Set for Macroeconomists')), 'footnotesize')
 
-D.frame(T('From weather forecasts to forecast verification', 'De la prognoza vremii la verificarea prognozelor'), two(
+D.frame(T('Origins of forecast verification', 'Originile verificării prognozelor'), two(
     ph('fitzroy', T('Robert FitzRoy (1805--1865)', 'Robert FitzRoy (1805--1865)'), h='0.27\\textheight') + '\\\\[1mm]'
     + ph('richardson', T('Lewis Fry Richardson (1881--1953)', 'Lewis Fry Richardson (1881--1953)'), h='0.22\\textheight'),
     items((T('1861: FitzRoy, head of the new Meteorological Office, publishes daily ``forecasts\'\' in The Times', '1861: FitzRoy, conducătorul noului Meteorological Office, publică zilnic „prognoze” în The Times'),

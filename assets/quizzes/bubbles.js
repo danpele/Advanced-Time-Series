@@ -173,7 +173,7 @@ window.ATS_DATA.quizzes['bubbles'] = {
         {
             "correct": 2,
             "en": {
-                "title": "Why mild explosion is invariant",
+                "title": "Invariance in the mildly explosive case",
                 "text": "Why is the Cauchy limit of the mildly explosive OLS estimator valid for any i.i.d. errors with finite variance?",
                 "options": [
                     "Because the errors are assumed Gaussian",

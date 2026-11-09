@@ -252,7 +252,7 @@ producția industrială, numărul de salariați, venitul real fără transferuri
 \end{itemize}
 \end{frame}
 
-\begin{frame}{De la navigația Apollo la inflația de trend}
+\begin{frame}{Originile filtrului Kalman și ale modelelor în spațiul stărilor}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.36\textwidth}
@@ -278,7 +278,7 @@ producția industrială, numărul de salariați, venitul real fără transferuri
 \section{Modelul liniar gaussian general}
 %=============================================================================
 
-\begin{frame}{De la TSA la acest capitol}
+\begin{frame}{Cunoștințe din TSA și elemente noi}
 \itemsize{\small}
 \begin{itemize}
     \item Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol10_spatiul_starilor_kalman_markov_switching.pdf}{TSA, Capitolul 10}): forma în spațiul stărilor, filtrul Kalman pentru modelul local level de mînă, netezirea, verosimilitatea maximă prin descompunerea erorilor de predicție, filtrul HP ca netezitor, Hamilton (2018), modelele Markov switching
@@ -327,7 +327,7 @@ producția industrială, numărul de salariați, venitul real fără transferuri
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Filtrul Kalman dintr-o singură lemă}
+\begin{frame}{Derivarea filtrului Kalman dintr-o lemă gaussiană}
 \itemsize{\small}
 \begin{itemize}
     \item \hypertarget{kflemma}{}Lema (condiționarea vectorilor normali comuni): dacă $(x, y)$ este gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$
@@ -342,7 +342,7 @@ producția industrială, numărul de salariați, venitul real fără transferuri
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Filtrul într-o singură trecere}
+\begin{frame}{Recursiile filtrului Kalman}
 \itemsize{\small}
 \begin{itemize}
     \item Cu $v_t$ și $F_t$ de pe slide-ul anterior: $K_t = T_tP_tZ_t'F_t^{-1}$ (cîștigul Kalman), $\quad L_t = T_t - K_tZ_t$
@@ -496,7 +496,7 @@ producția industrială, numărul de salariați, venitul real fără transferuri
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Cît de des este varianța estimată a nivelului exact zero?}
+\begin{frame}{Frecvența estimațiilor nule ale varianței nivelului}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.65\textheight,keepaspectratio]{ats_ch6_pileup.pdf}
@@ -1047,7 +1047,7 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Inflația din România și inflația din zona euro: o pantă variabilă în timp?}
+\begin{frame}{O pantă variabilă în timp între inflația din România și cea din zona euro}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.65\textheight,keepaspectratio]{ats_ch6_tvp.pdf}
@@ -1169,7 +1169,7 @@ BET & 0{,}914 & 0{,}393 & \ensuremath{-}0{,}624 & 58 / 87 & 0{,}952 & 0{,}84 \\
 
 
 %=============================================================================
-\section{Descompuneri trend--ciclu, revizitate}
+\section{Descompuneri trend--ciclu în forma spațiului stărilor}
 %=============================================================================
 
 \begin{frame}{Trei definiții ale ciclului}
@@ -1237,7 +1237,7 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
 \end{itemize}
 \end{frame}
 
-\begin{frame}{România: ciclul este trendul}
+\begin{frame}{Șocurile de trend și ciclul PIB-ului României}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.3\textwidth}
@@ -1347,7 +1347,7 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Mai departe: BSTS și modele cu schimbare de regim}
+\begin{frame}{Extensii: BSTS și modele cu schimbare de regim}
 \itemsize{\small}
 \begin{itemize}
     \item Serii de timp structurale bayesiene \refSV: local linear trend + componentă sezonieră + regresie cu a priori spike-and-slab pe mulți regresori (Google Trends)
@@ -1488,7 +1488,7 @@ UC-UR & 0{,}859 & 1{,}334 & \ensuremath{-}0{,}738 & 1{,}185 & 0{,}669 & \ensurem
     \item $Y_n = (Y_{t-1}, v_t, \dots, v_n)$, iar $v_t, \dots, v_n$ sînt independente între ele și de $Y_{t-1}$: lema se aplică separat fiecărui $v_j$
     \item Netezitorul: $\hat\alpha_t = a_t + \sum_{j=t}^n\Cov(\alpha_t, v_j)F_j^{-1}v_j$, cu $\Cov(\alpha_t, v_j) = P_tL_t'\cdots L_{j-1}'Z_j'$
     \item Rezultă $\hat\alpha_t = a_t + P_tr_{t-1}$, cu $r_{t-1} = \sum_{j=t}^nL_t'\cdots L_{j-1}'Z_j'F_j^{-1}v_j$ (produs vid pentru $j = t$), care satisface recursia înapoi $r_{t-1} = Z_t'F_t^{-1}v_t + L_t'r_t$
-    \item Pașii de filtrare (actualizarea și predicția) rezultă din aceeași lemă numai cu $j = t$: slide-ul \hyperlink{kflemma}{\textcolor{MainBlue}{Filtrul Kalman dintr-o singură lemă}}
+    \item Pașii de filtrare (actualizarea și predicția) rezultă din aceeași lemă numai cu $j = t$: slide-ul \hyperlink{kflemma}{\textcolor{MainBlue}{Derivarea filtrului Kalman dintr-o lemă gaussiană}}
 \end{itemize}
 \end{frame}
 

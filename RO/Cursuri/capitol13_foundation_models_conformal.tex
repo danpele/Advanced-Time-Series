@@ -222,7 +222,7 @@ MSCA Digital Finance}
     \end{itemize}
     \item Cunoștințe necesare
     \begin{itemize}
-        \item Seminarul 13; \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol11_foundation_models_serii_timp.pdf}{TSA, Capitolul 11} (slide-ul \hyperlink{c13known}{\textcolor{MainBlue}{Cunoscut din TSA și elemente noi}})
+        \item Seminarul 13; \atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol11_foundation_models_serii_timp.pdf}{TSA, Capitolul 11} (slide-ul \hyperlink{c13known}{\textcolor{MainBlue}{Cunoștințe din TSA și elemente noi}})
         \item \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol1_evaluarea_prognozelor.pdf}{Capitolul 1} (reguli de scor, DM, MCS), \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol9_var_es_backtesting.pdf}{Capitolul 9} (backtesting VaR, ACI pentru VaR), \atschlink{https://danpele.github.io/Advanced-Time-Series/RO/Cursuri/capitol12_machine_learning_deep_learning.pdf}{Capitolul 12} (arhitecturi deep)
     \end{itemize}
 \end{itemize}
@@ -301,7 +301,7 @@ BET, S\&P 500, NVIDIA, zilnic & închideri zilnice EODHD & 2000 -- 2026 \\
 \end{columns}
 \end{frame}
 
-\begin{frame}{Cunoscut din TSA și elemente noi}
+\begin{frame}{Cunoștințe din TSA și elemente noi}
 \itemsize{\small}
 \begin{itemize}
     \item \hypertarget{c13known}{}Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol11_foundation_models_serii_timp.pdf}{TSA, Capitolul 11})
@@ -1069,7 +1069,7 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Studiu de caz: sînt modelele de limbaj chiar utile?}
+\begin{frame}{Studiu de caz: utilitatea modelelor de limbaj în prognoză}
 \itemsize{\small}
 \begin{columns}[T]
 \begin{column}{0.56\textwidth}
@@ -1387,7 +1387,7 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Predicția conformală dincolo de interschimbabilitate (1/2)}
+\begin{frame}{Predicția conformală ponderată (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \refBar: fiecare scor de calibrare primește o pondere fixă $w_i \in [0, 1]$, aleasă înainte de a vedea datele; punctul de test primește ponderea $w_{n+1} = 1$
@@ -1406,7 +1406,7 @@ TiRex \refAue{} & xLSTM & 35 M & decile \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Predicția conformală dincolo de interschimbabilitate (2/2)}
+\begin{frame}{Predicția conformală ponderată (2/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Teoremă} \refBar: pierderea de acoperire este mărginită de distanța ponderată față de interschimbabilitate \[ \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha - \sum_{i=1}^n \tilde w_i\, d_{\mathrm{TV}}(Z, Z^i) \]

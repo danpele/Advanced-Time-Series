@@ -348,7 +348,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
     T('Where no intraday data exist (BET, EUR/RON) volatility is proxied by $|r_t|$ and $\\log r_t^2$; the Parkinson range is used to show how a noisier proxy distorts roughness',
       'Acolo unde nu există date intraday (BET, EUR/RON), volatilitatea este aproximată prin $|r_t|$ și $\\log r_t^2$; amplitudinea Parkinson arată cum un proxy mai zgomotos distorsionează neregularitatea')), 'footnotesize')
 
-D.frame(T('From the Nile to long memory', 'De la Nil la memoria lungă'), two(
+D.frame(T('Origins of long-memory analysis', 'Originile analizei memoriei lungi'), two(
     ph('hurst', T('Harold Edwin Hurst, 1953', 'Harold Edwin Hurst, 1953'), h='0.42\\textheight'),
     items(T(r'Hurst studied centuries of Nile levels to size the reservoirs above Aswan \refHur', r'Hurst a studiat secole de niveluri ale Nilului pentru a dimensiona rezervoarele de deasupra Aswanului \refHur'),
           T(r'The adjusted range of cumulated inflows grew like $n^H$ with $H \approx 0.7$, not $n^{1/2}$: the \textbf{Hurst effect}', r'Amplitudinea ajustată a afluxurilor cumulate creștea ca $n^H$ cu $H \approx 0{,}7$, nu ca $n^{1/2}$: \textbf{efectul Hurst}'),
@@ -368,7 +368,7 @@ chart(T('Twenty-two years of log realised variance', 'Douăzeci și doi de ani d
     T(r'Left: S\&P 500 (Oxford-Man, $n = @{ov.n}$ days to @{ov.end}) and Bitcoin ($n = @{ov.nb}$ days to @{ov.bend}); right: sample ACF of S\&P 500 log RV, lags 1--500, log-log',
       r'Stînga: S\&P 500 (Oxford-Man, $n = @{ov.n}$ zile pînă la @{ov.end}) și Bitcoin ($n = @{ov.nb}$ zile pînă la @{ov.bend}); dreapta: ACF de eșantion a logaritmului RV pentru S\&P 500, laguri 1--500, scară log-log')], h='0.53\\textheight')
 
-interp(('the long view', 'imaginii de ansamblu'), [
+interp(('the long sample', 'imaginii de ansamblu'), [
     T(r'ACF @{ov.acf1} at lag 1, @{ov.acf22} at lag 22, still @{ov.acf250} at lag 250: an AR(1) with the same first lag would give about $10^{-22}$ at lag 250', r'ACF @{ov.acf1} la lagul 1, @{ov.acf22} la 22, încă @{ov.acf250} la 250: un AR(1) cu același prim lag ar da circa $10^{-22}$ la lagul 250'),
     T(r'On lags 5--200 the ACF is a straight line in log-log, slope @{ov.slope}: hyperbolic decay $k^{2d-1}$ with $d \approx @{ov.d_acf}$', r'Pe lagurile 5--200, ACF este o dreaptă în scara log-log, cu panta @{ov.slope}: o descreștere hiperbolică $k^{2d-1}$ cu $d \approx @{ov.d_acf}$'),
     T(r'The local Whittle estimate is larger, @{ov.dlw}: the sample ACF is biased down at long lags under long memory', r'Estimația local Whittle este mai mare, @{ov.dlw}: sub memorie lungă, ACF de eșantion este deplasată în jos la laguri mari'),
@@ -379,7 +379,7 @@ interp(('the long view', 'imaginii de ansamblu'), [
 # =============================================================================
 D.section('Long memory: spectral characterisation', 'Memoria lungă: caracterizare spectrală')
 
-D.frame(T('Known from TSA, and new here', 'Cunoscut din TSA și elemente noi'), items(
+D.frame(T('Prior knowledge from TSA and new material', 'Cunoștințe din TSA și elemente noi'), items(
     (T('Known (TSA, Chapter 8): fractional differencing, ARFIMA$(p,d,q)$, R/S and DFA, GPH and local Whittle as recipes, FIGARCH and HAR in brief, spurious long memory by example', 'Cunoscut (TSA, Capitolul 8): diferențierea fracționară, ARFIMA$(p,d,q)$, R/S și DFA, GPH și local Whittle ca rețete, FIGARCH și HAR pe scurt, memoria lungă aparentă prin exemple'), []),
     (T('New: the theory behind the recipes', 'Nou: teoria din spatele rețetelor'),
      [T('equivalent definitions, aggregation, the variance of the sample mean', 'definiții echivalente, agregare, varianța mediei de eșantion'),
@@ -445,7 +445,7 @@ interp(('the two decays', 'celor două descreșteri'), [
     T('In the spectrum the difference is a pole against a plateau: long memory lives at the lowest frequencies, where few periodogram ordinates exist', 'În spectru diferența este un pol față de un platou: memoria lungă se află la frecvențele cele mai joase, unde există puține ordonate ale periodogramei'),
     T('Hence all semiparametric estimators look only at the $m$ lowest Fourier frequencies', 'De aceea toți estimatorii semiparametrici privesc doar cele mai joase $m$ frecvențe Fourier')])
 
-D.frame(T('Where long memory comes from: aggregation', 'Originea memoriei lungi: agregarea'), items(
+D.frame(T('Sources of long memory: aggregation', 'Originea memoriei lungi: agregarea'), items(
     (T(r'\refGra: the scaled sum of $N$ independent AR(1) series with random coefficients', r'\refGra: suma scalată a $N$ serii AR(1) independente, cu coeficienți aleatori'
        ) + r'''
     \[ X_t = \frac{1}{\sqrt N}\sum_{i=1}^N x_{it}, \qquad x_{it} = \phi_i x_{i,t-1} + \varepsilon_{it}, \qquad \phi_i^2 \sim \mathrm{Beta}(p, q) \]''',
@@ -611,7 +611,7 @@ D.recap(('Semiparametric estimation', 'estimarea semiparametrică'), [
 # =============================================================================
 # 3. MEMORIE SCURTĂ SAU LUNGĂ
 # =============================================================================
-D.section('Short or long memory: testing against level shifts', 'Memorie scurtă sau lungă: testarea împotriva salturilor de nivel')
+D.section('Testing long memory against level shifts', 'Testarea memoriei lungi în raport cu salturile de nivel')
 
 D.frame(T('Mechanisms of spurious long memory', 'Mecanismele memoriei lungi aparente'), items(
     (T(r'\refDI: Markov switching in the mean with switching probability $p_n \to 0$ as $n \to \infty$ produces $\Var(\sum_{t\le n}X_t) = O(n^{2d+1})$, like an I($d$) process', r'\refDI: schimbarea de regim markoviană în medie, cu probabilitatea de comutare $p_n \to 0$ cînd $n \to \infty$, produce $\Var(\sum_{t\le n}X_t) = O(n^{2d+1})$, ca un proces I($d$)'),
@@ -656,7 +656,7 @@ interp(('inflation persistence', 'persistenței inflației'), [
     T(r'Plain local Whittle on the full Romanian sample gives @{in.ro.full.lw}: with a trend-like level shift only the exact version with the Shimotsu mean is reliable', r'Local Whittle simplu pe eșantionul complet pentru România dă @{in.ro.full.lw}: cu un salt de nivel asemănător unui trend, doar versiunea exactă cu media Shimotsu este de încredere'),
     T(r'Within a stable monetary regime inflation keeps moderate long memory, $\hat d$ = @{in.us.post.d} and @{in.ro.post.d} \refHW, \refBCT; the large estimates belong to regime changes', r'În interiorul unui regim monetar stabil, inflația păstrează o memorie lungă moderată, $\hat d$ = @{in.us.post.d} și @{in.ro.post.d} \refHW, \refBCT; estimațiile mari aparțin schimbărilor de regim')])
 
-D.recap(('Short or long memory', 'memorie scurtă sau lungă'), [
+D.recap(('long memory and level shifts', 'memoria lungă și salturile de nivel'), [
     T('Breaks, level shifts and rare regime switches create a spectral pole and a large $\\hat d$', 'Rupturile, salturile de nivel și schimbările rare de regim creează un pol spectral și un $\\hat d$ mare'),
     T('Diagnostic: $\\hat d(m)$ falling with $m$; test: Qu (2011), with simulated critical values', 'Diagnostic: $\\hat d(m)$ scade cu $m$; test: Qu (2011), cu valori critice simulate'),
     T('US inflation: long memory is mostly the Great Inflation; log RV passes the test', 'Inflația din SUA: memoria lungă provine în mare parte din Marea Inflație; logaritmul RV trece testul')])
@@ -866,7 +866,7 @@ interp(('the simulation schemes', 'schemelor de simulare'), [
     T(r'Hybrid scheme: @{hy.h05} and @{hy.h1}, within Monte Carlo error of 1', r'Schema hibridă: @{hy.h05} și @{hy.h1}, în limita erorii Monte Carlo față de 1'),
     T('The error of the naive scheme grows exactly where rough volatility lives ($H \\approx 0.1$): option prices from it would be biased', 'Eroarea schemei naive crește exact acolo unde se află rough volatility ($H \\approx 0{,}1$): prețurile opțiunilor obținute cu ea ar fi deplasate')])
 
-D.frame(T('The evidence: scaling of log volatility (1/2)', 'Evidența: scalarea logaritmului volatilității (1/2)'), items(
+D.frame(T('Empirical evidence: scaling of log volatility (1/2)', 'Dovezi empirice: scalarea logaritmului volatilității (1/2)'), items(
     (T(r'\refGJR, Section 2: from daily $\sigma_t = \sqrt{RV_t}$ (Oxford-Man library), the empirical moments of the increments of $\log\sigma$', r'\refGJR, secțiunea 2: din $\sigma_t = \sqrt{RV_t}$ zilnic (biblioteca Oxford-Man), momentele empirice ale creșterilor lui $\log\sigma$'
        ) + r'''
     \[ m(q, \Delta) = \frac1N\sum_t|\log\sigma_{t+\Delta} - \log\sigma_t|^q \]''',
@@ -879,7 +879,7 @@ D.frame(T('The evidence: scaling of log volatility (1/2)', 'Evidența: scalarea 
         r'$\nu$: volatilitatea volatilității; $K_q = \E|Z|^q$, $Z \sim N(0, 1)$; $\zeta_q$: exponentul de scalare, liniar în $q$, cu panta $H$'),
       T('derivation and deviations from this scaling: Appendix  % applink: scaling of fBm moments', 'derivarea și abaterile de la această scalare: Anexa  % applink: scalarea momentelor fBm')])), 'small')
 
-D.frame(T('The evidence: scaling of log volatility (2/2)', 'Evidența: scalarea logaritmului volatilității (2/2)'), items(
+D.frame(T('Empirical evidence: scaling of log volatility (2/2)', 'Dovezi empirice: scalarea logaritmului volatilității (2/2)'), items(
     (T(r'Procedure: OLS of $\log m(q, \Delta)$ on $\log\Delta$ for each $q$ gives $\zeta_q$; regress $\zeta_q$ on $q$ through the origin to get $H$', r'Procedura: OLS al lui $\log m(q, \Delta)$ pe $\log\Delta$ pentru fiecare $q$ dă $\zeta_q$; regresăm $\zeta_q$ pe $q$ prin origine pentru a obține $H$'),
      [T(r'we use $q \in \{0.5, 1, 1.5, 2, 3\}$ and $\Delta = 1, \dots, 50$ days', r'folosim $q \in \{0{,}5; 1; 1{,}5; 2; 3\}$ și $\Delta = 1, \dots, 50$ de zile')]),
     T(r'Their finding: linear $\zeta_q$ and $H$ of order 0.1 for all indices; the increments of log volatility are close to Gaussian', r'Rezultatul lor: $\zeta_q$ liniar și $H$ de ordinul 0,1 pentru toți indicii; creșterile logaritmului volatilității sînt apropiate de distribuția Normală'),
@@ -919,7 +919,7 @@ interp(('roughness across markets', 'neregularității pe mai multe piețe'), [
     T(r'Parkinson range, a much noisier proxy: S\&P 500 @{ga.spx.Hp}, DAX @{ga.dax.Hp}; with the intercept @{ga.spx.Hpn} and @{ga.dax.Hpn} (noise share @{ga.spx.sh}\% and @{ga.dax.sh}\%)', r'Amplitudinea Parkinson, un proxy mult mai zgomotos: S\&P 500 @{ga.spx.Hp}, DAX @{ga.dax.Hp}; cu termenul liber @{ga.spx.Hpn} și @{ga.dax.Hpn} (ponderea zgomotului @{ga.spx.sh}\% și @{ga.dax.sh}\%)'),
     T('Measurement error pushes $H$ down; the correction brings the range back near the RV estimate, but not above it', 'Eroarea de măsurare împinge $H$ în jos; corecția aduce amplitudinea aproape de estimația din RV, dar nu peste ea')])
 
-D.frame(T('Critiques: is roughness an artefact?', 'Critici: este neregularitatea un artefact?'), items(
+D.frame(T('Critiques: roughness as a possible artefact', 'Critici: neregularitatea ca posibil artefact'), items(
     (T(r'RV is an estimate of integrated variance: $\log RV_t = \log\int_{t-1}^t\sigma_s^2ds + \epsilon_t$', r'RV este o estimație a varianței integrate: $\log RV_t = \log\int_{t-1}^t\sigma_s^2ds + \epsilon_t$'),
      [T(r'two opposite biases: daily integration smooths (pushes $\hat H$ up), the error $\epsilon_t$ adds a nugget to $m(2, \Delta)$ (pushes $\hat H$ down)', r'două deplasări opuse: integrarea pe zi netezește (împinge $\hat H$ în sus), eroarea $\epsilon_t$ adaugă un salt la origine în $m(2, \Delta)$ (împinge $\hat H$ în jos)')]),
     (T(r'\refFTW: a Whittle-type estimator consistent under high-frequency asymptotics with measurement error; volatility remains rough, $H$ even below 0.1', r'\refFTW: un estimator de tip Whittle consistent sub asimptotica de înaltă frecvență cu eroare de măsurare; volatilitatea rămîne neregulată, $H$ chiar sub 0,1'),
@@ -990,7 +990,7 @@ interp(('the kernels', 'nucleelor'), [
     T('The kernel adapts its memory to the horizon automatically; HAR needs a separate regression for each horizon', 'Nucleul își adaptează automat memoria la orizont; HAR cere o regresie separată pentru fiecare orizont'),
     T('RFSV has no mean reversion: in long calm periods it does not pull forecasts towards a long-run level', 'RFSV nu are revenire la medie: în perioadele calme lungi nu trage prognozele spre un nivel de termen lung')])
 
-D.frame(T('A rigorous out-of-sample comparison', 'O comparație riguroasă în afara eșantionului'), items(
+D.frame(T('Design of the out-of-sample comparison', 'Schema comparației în afara eșantionului'), items(
     (T(r'Design fixed in advance: rolling window of 1000 days, parameters re-estimated every 20 days with data up to $t$ only; target $RV_{t+h}$, $h \in \{1, 5, 22\}$', r'Schema fixată dinainte: fereastră mobilă de 1000 de zile, parametrii reestimați la fiecare 20 de zile doar cu datele pînă la $t$; ținta $RV_{t+h}$, $h \in \{1, 5, 22\}$'),
      [T(r'HAR: direct regression of $\log RV_{t+h}$; ARFIMA$(0,d,0)$: local Whittle $d$ (capped at 0.49), AR($\infty$) iterated; RFSV: $H$, $\nu$ from the window', r'HAR: regresie directă a lui $\log RV_{t+h}$; ARFIMA$(0,d,0)$: $d$ local Whittle (limitat la 0,49), AR($\infty$) iterat; RFSV: $H$, $\nu$ din fereastră')]),
     (T(r'Loss: QLIKE $L = RV/F - \log(RV/F) - 1$, robust to the noise in the RV proxy \refPat; also MSE of logs', r'Pierderea: QLIKE $L = RV/F - \log(RV/F) - 1$, robustă la zgomotul proxy-ului RV \refPat; și MSE al logaritmilor'),
@@ -1035,7 +1035,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
       T(r'\textbf{critique}: \aiprompt{Act as a hostile referee: list how lag choice, overnight returns, jumps and microstructure noise could bias H.}', r'\textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră cum ar putea alegerea lagurilor, randamentele overnight, salturile și zgomotul de microstructură să deplaseze H.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('The scale is stated: $H$ of fBm, $d$ of ARFIMA, $H = d + 1/2$ for stationary series; log volatility or log variance', 'Scara este precizată: $H$ pentru fBm, $d$ pentru ARFIMA, $H = d + 1/2$ pentru seriile staționare; logaritmul volatilității sau al varianței'),
     T('Bandwidths, lags and trimming are reported, with estimates across a range, not one convenient choice', 'Lățimile de bandă, lagurile și trimming-ul sînt raportate, cu estimații pe un interval de valori, nu o singură alegere convenabilă'),

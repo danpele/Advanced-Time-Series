@@ -270,7 +270,7 @@ D.frame(T('The question of the chapter and the route', 'Întrebarea capitolului 
       T('LPPLS as a competing detector; applications: dot-com, Shanghai 2015, Bitcoin, BET 2007, housing',
         'LPPLS ca detector alternativ; aplicații: dot-com, Shanghai 2015, Bitcoin, BET 2007, piața locuințelor')]),
     (T('Prerequisites and continuation', 'Cunoștințe necesare și continuare'),
-     [T(r'TSA, Chapter 13 (slide \hyperlink{c16known}{\textcolor{MainBlue}{Known from TSA and new here}}); Chapter 2: unit roots, structural breaks', r'TSA, Capitolul 13 (slide-ul \hyperlink{c16known}{\textcolor{MainBlue}{Cunoscut din TSA și elemente noi}}); Capitolul 2: rădăcini unitare, rupturi structurale'),
+     [T(r'TSA, Chapter 13 (slide \hyperlink{c16known}{\textcolor{MainBlue}{Prior knowledge from TSA and new material}}); Chapter 2: unit roots, structural breaks', r'TSA, Capitolul 13 (slide-ul \hyperlink{c16known}{\textcolor{MainBlue}{Cunoștințe din TSA și elemente noi}}); Capitolul 2: rădăcini unitare, rupturi structurale'),
       T('MFM, Chapter 17 applies the tests to markets', 'MFM, Capitolul 17 aplică testele pe piețe')])), 'small')
 
 D.frame(T('Self-study guide', 'Ghid de studiu individual'), items(
@@ -316,7 +316,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
     T('Tests run on log prices or log ratios; weekly data for stock indices and Bitcoin, monthly or quarterly data for housing',
       'Testele se aplică logaritmilor prețurilor sau ai rapoartelor; date săptămînale pentru indici și Bitcoin, lunare sau trimestriale pentru locuințe')), 'footnotesize')
 
-D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), two(
+D.frame(T('Prior knowledge from TSA and new material', 'Cunoștințe din TSA și elemente noi'), two(
     ph('nasdaq', T('Nasdaq MarketSite, Times Square, 2021', 'Nasdaq MarketSite, Times Square, 2021'), h='0.4\\textheight'),
     items((T(r'\hypertarget{c16known}{}Known (TSA, Chapter 13)', r'\hypertarget{c16known}{}Cunoscut (TSA, Capitolul 13)'),
            [T('manias in history; the right-tailed ADF, SADF, GSADF and BSADF with Monte Carlo critical values', 'maniile din istorie; ADF pe coada din dreapta, SADF, GSADF și BSADF cu valori critice Monte Carlo'),
@@ -372,7 +372,7 @@ D.frame(T('Worked example: the fundamental value with random-walk dividends', 'E
     T(r'Check on paper: $r = 0.05$, $\mu = 0.04$, $D_t = 2$ give $F_t = 40 + 16.8 = 56.8$; the price-dividend ratio $28.4$ is constant only if $\mu = 0$',
       r'Verificați pe hîrtie: $r = 0.05$, $\mu = 0.04$, $D_t = 2$ dau $F_t = 40 + 16.8 = 56.8$; raportul preț/dividend $28.4$ este constant doar dacă $\mu = 0$')), 'small')
 
-D.frame(T('Blanchard--Watson: a bubble that can burst', 'Blanchard--Watson: o bulă care se poate sparge'), two(
+D.frame(T('The Blanchard--Watson stochastic bubble', 'Bula stochastică Blanchard--Watson'), two(
     ph('blanchard', T('Olivier Blanchard, IMF, 2008', 'Olivier Blanchard, FMI, 2008'), h='0.42\\textheight'),
     items((T(r'\refBW: each period the bubble survives with probability $\pi$ and bursts with probability $1 - \pi$', r'\refBW: în fiecare perioadă bula supraviețuiește cu probabilitatea $\pi$ și se sparge cu probabilitatea $1 - \pi$'),
            [r'\[ B_{t+1} = \begin{cases} \dfrac{1 + r}{\pi}B_t + \varepsilon_{t+1} & \text{' + T('with probability', 'cu probabilitatea') + r'}\ \pi \\[2mm] \varepsilon_{t+1} & \text{' + T('with probability', 'cu probabilitatea') + r'}\ 1 - \pi \end{cases} \]',
@@ -473,7 +473,7 @@ D.frame(T('Three regimes of the AR(1) estimator (2/2)', 'Trei regimuri ale estim
       T('slower than any fixed explosive root', 'mai lente decît orice rădăcină explozivă fixă'),
       T('their limit theory is invariant to the error law, unlike the fixed explosive case', 'teoria lor asimptotică nu depinde de legea erorilor, spre deosebire de cazul exploziv fix')])), 'small')
 
-D.frame(T('Worked derivation: where the Cauchy law comes from', 'Derivare rezolvată: de unde vine legea Cauchy'), items(
+D.frame(T('Worked derivation of the Cauchy limit', 'Derivarea limitei Cauchy, pas cu pas'), items(
     (T(r'$\hat\rho - \rho = \sum_{t} y_{t-1}u_t \big/ \sum_t y_{t-1}^2$ and $y_t = \sum_{j \le t}\rho^{t-j}u_j$', r'$\hat\rho - \rho = \sum_{t} y_{t-1}u_t \big/ \sum_t y_{t-1}^2$ și $y_t = \sum_{j \le t}\rho^{t-j}u_j$'), []),
     (T(r'Define $Y_n = \sum_{j=1}^{n}\rho^{-j}u_j$ (dominated by the \textbf{first} shocks) and $X_n = \sum_{j=1}^{n}\rho^{-(n-j)-1}u_j$ (dominated by the \textbf{last} shocks)',
        r'Definim $Y_n = \sum_{j=1}^{n}\rho^{-j}u_j$ (dominat de \textbf{primele} șocuri) și $X_n = \sum_{j=1}^{n}\rho^{-(n-j)-1}u_j$ (dominat de \textbf{ultimele} șocuri)'),
@@ -506,7 +506,7 @@ interp(('the Cauchy limits', 'limitelor Cauchy'), [
     T('For bubble tests this is good news: the explosive alternative is learned at an exponential rate, so the window statistics diverge fast once a window sits inside a bubble',
       'Pentru testele de bulă aceasta este o veste bună: alternativa explozivă se învață cu rată exponențială, deci statisticile pe ferestre diverg repede cînd o fereastră se află în interiorul bulei')])
 
-D.frame(T('From limit theory to bubble tests', 'De la teoria asimptotică la testele de bulă'), items(
+D.frame(T('Limit theory and the consistency of bubble tests', 'Teoria asimptotică și consistența testelor de bulă'), items(
     (T(r'Under a mildly explosive alternative the ADF $t$-statistic diverges to $+\infty$: right-tailed tests are \textbf{consistent} \refPSYb',
        r'Sub o alternativă ușor explozivă statistica $t$ ADF diverge la $+\infty$: testele pe coada din dreapta sînt \textbf{consistente} \refPSYb'), []),
     (T(r'Levels against logs: a rational bubble is explosive in the \textbf{level}; in logs a pure bubble path $\ln B_0 + t\ln(1 + r)$ is a linear trend',
@@ -815,7 +815,7 @@ D.recap(('LPPLS', 'LPPLS'), [
 # =============================================================================
 # 7. APLICAȚII CU FRECVENȚE DE BAZĂ
 # =============================================================================
-D.section('Applications with base rates', 'Aplicații cu frecvențe de bază')
+D.section('Empirical applications and early-warning evaluation', 'Aplicații empirice și evaluarea avertizărilor timpurii')
 
 D.frame(T('Five bubble episodes: data and dating procedure', 'Cinci episoade de bule: date și procedura de datare'), two(
     ph('shanghai', T('Shanghai Stock Exchange, Pudong, 2008', 'Bursa din Shanghai, Pudong, 2008'), h='0.4\\textheight'),
@@ -916,7 +916,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
         r'\textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră toate felurile în care această evaluare ar putea supraestima valoarea alarmelor.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, the title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('Right tail, not left: an AI-written ADF often uses left-tail critical values or the 1.645 normal quantile', 'Coada dreaptă, nu cea stîngă: un ADF scris de un AI folosește adesea valorile critice ale cozii stîngi sau cuantila normală 1,645'),
     T('Critical values simulated for the same $T$, $r_0$, lags and deterministic terms; wild bootstrap when volatility changes', 'Valori critice simulate pentru aceleași $T$, $r_0$, laguri și termeni determiniști; wild bootstrap cînd volatilitatea se schimbă'),

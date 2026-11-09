@@ -92,7 +92,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
         {
             "correct": 1,
             "en": {
-                "title": "Why patching",
+                "title": "The role of patching",
                 "text": "A context of $C = 2048$ values is split into patches of $P = 16$. By what factor does patching reduce the cost of full self-attention, which is quadratic in the number of tokens?",
                 "options": [
                     "16",
@@ -104,7 +104,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
                 "incorrectExplanation": "Attention cost is $O(n^2)$ in the number of tokens $n$; dividing $n$ by 16 divides the cost by $16^2$."
             },
             "ro": {
-                "title": "Rostul patching-ului",
+                "title": "Rolul patching-ului",
                 "text": "Un context de $C = 2048$ valori este împărțit în patch-uri de $P = 16$. De cîte ori reduce patching-ul costul atenției complete, care este pătratic în numărul de token-uri?",
                 "options": [
                     "De 16 ori",
@@ -254,7 +254,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
         {
             "correct": 0,
             "en": {
-                "title": "Are language models useful?",
+                "title": "The usefulness of language models",
                 "text": "What did Tan et al. (2024) find in their ablations of LLM-based forecasters such as Time-LLM?",
                 "options": [
                     "Removing the language model, or replacing it by a simple attention layer, does not degrade accuracy and often improves it",
@@ -266,7 +266,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
                 "incorrectExplanation": "The study concerns LLM-based forecasters, not models pretrained on series; it finds no benefit of the LLM component, including in few-shot settings."
             },
             "ro": {
-                "title": "Sînt utile modelele de limbaj?",
+                "title": "Utilitatea modelelor de limbaj",
                 "text": "Ce au găsit Tan et al. (2024) în ablațiile prognozatorilor bazați pe LLM, precum Time-LLM?",
                 "options": [
                     "Eliminarea modelului de limbaj sau înlocuirea lui cu un simplu strat de atenție nu degradează acuratețea și adesea o îmbunătățește",
@@ -308,7 +308,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
         {
             "correct": 1,
             "en": {
-                "title": "Exchangeable or not",
+                "title": "Exchangeability",
                 "text": "Which sequence is exchangeable but not independent?",
                 "options": [
                     "A stationary AR(1) with $\\phi = 0.5$",
@@ -320,7 +320,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
                 "incorrectExplanation": "An AR(1), a GARCH process and a random walk have joint laws that change when dates are permuted: they are not exchangeable."
             },
             "ro": {
-                "title": "Interschimbabil sau nu",
+                "title": "Interschimbabilitatea",
                 "text": "Care șir este interschimbabil, dar nu independent?",
                 "options": [
                     "Un AR(1) staționar cu $\\phi = 0{,}5$",
@@ -470,7 +470,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
         {
             "correct": 0,
             "en": {
-                "title": "Weighted conformal beyond exchangeability",
+                "title": "Weighted conformal without exchangeability",
                 "text": "In Barber et al. (2023) the coverage of weighted conformal is at least $1 - \\alpha$ minus a term. Which term?",
                 "options": [
                     "$\\sum_i \\tilde w_i\\, d_{\\mathrm{TV}}(Z, Z^i)$, the weighted total-variation distance after swapping the test point with point $i$",
@@ -482,7 +482,7 @@ window.ATS_DATA.quizzes['foundation-conformal'] = {
                 "incorrectExplanation": "$1/(n + 1)$ is the upper slack of split conformal, $\\gamma$ belongs to ACI, and mixing coefficients appear in other analyses of split conformal."
             },
             "ro": {
-                "title": "Conformal ponderat dincolo de interschimbabilitate",
+                "title": "Conformal ponderat în absența interschimbabilității",
                 "text": "La Barber et al. (2023), acoperirea metodei conformale ponderate este cel puțin $1 - \\alpha$ minus un termen. Care termen?",
                 "options": [
                     "$\\sum_i \\tilde w_i\\, d_{\\mathrm{TV}}(Z, Z^i)$, distanța în variație totală ponderată după schimbarea punctului de test cu punctul $i$",

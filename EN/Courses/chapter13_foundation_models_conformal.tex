@@ -210,7 +210,7 @@ MSCA Digital Finance}
     \end{itemize}
     \item Prerequisites
     \begin{itemize}
-        \item Seminar 13; \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter11_foundation_models_time_series.pdf}{TSA, Chapter 11} (slide \hyperlink{c13known}{\textcolor{MainBlue}{Known from TSA and new here}})
+        \item Seminar 13; \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter11_foundation_models_time_series.pdf}{TSA, Chapter 11} (slide \hyperlink{c13known}{\textcolor{MainBlue}{Prior knowledge from TSA and new material}})
         \item \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter1_forecast_evaluation.pdf}{Chapter 1} (scoring rules, DM, MCS), \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter9_var_es_backtesting.pdf}{Chapter 9} (VaR backtests, ACI for VaR), \atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter12_machine_learning_deep_learning.pdf}{Chapter 12} (deep architectures)
     \end{itemize}
 \end{itemize}
@@ -289,7 +289,7 @@ BET, S\&P 500, NVIDIA, daily & EODHD daily closes & 2000 -- 2026 \\
 \end{columns}
 \end{frame}
 
-\begin{frame}{Known from TSA and new here}
+\begin{frame}{Prior knowledge from TSA and new material}
 \itemsize{\small}
 \begin{itemize}
     \item \hypertarget{c13known}{}Known (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter11_foundation_models_time_series.pdf}{TSA, Chapter 11})
@@ -1057,7 +1057,7 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Case study: are language models actually useful?}
+\begin{frame}{Case study: the usefulness of language models for forecasting}
 \itemsize{\small}
 \begin{columns}[T]
 \begin{column}{0.56\textwidth}
@@ -1127,7 +1127,7 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \section{Conformal prediction}
 %=============================================================================
 
-\begin{frame}{Where conformal prediction comes from}
+\begin{frame}{Origins of conformal prediction}
 \itemsize{\small}
 \begin{columns}[T]
 \begin{column}{0.42\textwidth}
@@ -1375,7 +1375,7 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Conformal prediction beyond exchangeability (1/2)}
+\begin{frame}{Weighted conformal prediction (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \refBar: each calibration score gets a fixed weight $w_i \in [0, 1]$, chosen before seeing the data; the test point gets weight $w_{n+1} = 1$
@@ -1394,7 +1394,7 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Conformal prediction beyond exchangeability (2/2)}
+\begin{frame}{Weighted conformal prediction (2/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \textbf{Theorem} \refBar: the coverage loss is bounded by the weighted distance from exchangeability \[ \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha - \sum_{i=1}^n \tilde w_i\, d_{\mathrm{TV}}(Z, Z^i) \]
@@ -1795,7 +1795,7 @@ TiRex \refAue{} & xLSTM & 35 M & deciles \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What the human checks}
+\begin{frame}{Required checks}
 \itemsize{\small}
 \begin{itemize}
     \item Every reference exists and says what is claimed (arXiv ID or DOI resolves, the title matches, the result is in the paper)

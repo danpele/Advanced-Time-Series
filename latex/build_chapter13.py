@@ -306,7 +306,7 @@ D.frame(T("Today's question and route", 'Întrebarea de azi și traseul'), items
       T('dependent data: weights, EnbPI, ACI, conformal PID; diagnostics; calibrating foundation-model intervals and VaR',
         'date dependente: ponderi, EnbPI, ACI, PID conformal; diagnosticare; calibrarea intervalelor produse de foundation models și VaR')]),
     (T('Prerequisites', 'Cunoștințe necesare'),
-     [T(r'Seminar 13; TSA, Chapter 11 (slide \hyperlink{c13known}{\textcolor{MainBlue}{Known from TSA and new here}})', r'Seminarul 13; TSA, Capitolul 11 (slide-ul \hyperlink{c13known}{\textcolor{MainBlue}{Cunoscut din TSA și elemente noi}})'),
+     [T(r'Seminar 13; TSA, Chapter 11 (slide \hyperlink{c13known}{\textcolor{MainBlue}{Prior knowledge from TSA and new material}})', r'Seminarul 13; TSA, Capitolul 11 (slide-ul \hyperlink{c13known}{\textcolor{MainBlue}{Cunoștințe din TSA și elemente noi}})'),
       T('Chapter 1 (scoring rules, DM, MCS), Chapter 9 (VaR backtests, ACI for VaR), Chapter 12 (deep architectures)',
         'Capitolul 1 (reguli de scor, DM, MCS), Capitolul 9 (backtesting VaR, ACI pentru VaR), Capitolul 12 (arhitecturi deep)')])), 'small')
 
@@ -358,7 +358,7 @@ D.frame(T('Origins of conformal prediction and foundation models', 'Originile pr
           T(r'2017--2025: Transformers \refVas, foundation models \refBom; for series: Lag-Llama, TimesFM, Moirai, Chronos (2023--2024), TiRex, Chronos-2 (2025)',
             r'2017--2025: Transformers \refVas, foundation models \refBom; pentru serii: Lag-Llama, TimesFM, Moirai, Chronos (2023--2024), TiRex, Chronos-2 (2025)')), '0.4', '0.58'), 'footnotesize')
 
-D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), items(
+D.frame(T('Prior knowledge from TSA and new material', 'Cunoștințe din TSA și elemente noi'), items(
     (T(r'\hypertarget{c13known}{}Known (TSA, Chapter 11)', r'\hypertarget{c13known}{}Cunoscut (TSA, Capitolul 11)'),
      [T('zero-shot use of Chronos, TimesFM, Moirai and Lag-Llama; mean scaling and quantisation in brief',
         'folosirea zero-shot a modelelor Chronos, TimesFM, Moirai și Lag-Llama; scalarea prin medie și cuantizarea, pe scurt'),
@@ -850,7 +850,7 @@ D.frame(T('Reprogramming a frozen LLM', 'Reprogramarea unui LLM înghețat'), it
     (T('The claim: knowledge from language transfers to series', 'Afirmația: cunoașterea din limbaj se transferă la serii'),
      [T('the test of the claim is an ablation that removes the language model', 'testul afirmației este o ablație care elimină modelul de limbaj')])), 'small')
 
-D.frame(T('Case study: are language models actually useful?', 'Studiu de caz: sînt modelele de limbaj chiar utile?'), two(
+D.frame(T('Case study: the usefulness of language models for forecasting', 'Studiu de caz: utilitatea modelelor de limbaj în prognoză'), two(
     items(T(r'\refTan: three LLM-based forecasters (including Time-LLM and GPT4TS), the same benchmarks, three ablations',
             r'\refTan: trei prognozatori pe bază de LLM (inclusiv Time-LLM și GPT4TS), aceleași benchmark-uri, trei ablații'),
           (T('Ablations', 'Ablațiile'),
@@ -887,7 +887,7 @@ D.recap(('LLMs', 'LLM'), [
 # =============================================================================
 D.section('Conformal prediction', 'Predicția conformală')
 
-D.frame(T('Where conformal prediction comes from', 'Originea predicției conformale'), two(
+D.frame(T('Origins of conformal prediction', 'Originea predicției conformale'), two(
     ph('gammerman', T('Alexander Gammerman, Royal Holloway, 2018', 'Alexander Gammerman, Royal Holloway, 2018'), h='0.36\\textheight'),
     items((T(r'\refVGS; \refVGSb', r'\refVGS; \refVGSb'),
            [T('prediction sets valid in finite samples', 'mulțimi de predicție valide în eșantioane finite'),
@@ -1037,7 +1037,7 @@ D.frame(T('Conformal guarantees without exchangeability', 'Garanțiile conformal
       T(r'$q_t$: the threshold used at $t$, chosen from the past scores $S_1, \dots, S_{t-1}$; the set is $\hat C_t = \{y: s(X_t, y) \le q_t\}$', r'$q_t$: pragul folosit la $t$, ales din scorurile trecute $S_1, \dots, S_{t-1}$; mulțimea este $\hat C_t = \{y: s(X_t, y) \le q_t\}$'),
       T(r'$\mathrm{err}_t = \mathbf 1\{S_t > q_t\}$: the miss indicator, 1 if $Y_t$ falls outside $\hat C_t$', r'$\mathrm{err}_t = \mathbf 1\{S_t > q_t\}$: indicatorul ratării, 1 dacă $Y_t$ cade în afara lui $\hat C_t$')])), 'small')
 
-D.frame(T('Conformal prediction beyond exchangeability (1/2)', 'Predicția conformală dincolo de interschimbabilitate (1/2)'), items(
+D.frame(T('Weighted conformal prediction (1/2)', 'Predicția conformală ponderată (1/2)'), items(
     (T(r'\refBar: each calibration score gets a fixed weight $w_i \in [0, 1]$, chosen before seeing the data; the test point gets weight $w_{n+1} = 1$',
        r'\refBar: fiecare scor de calibrare primește o pondere fixă $w_i \in [0, 1]$, aleasă înainte de a vedea datele; punctul de test primește ponderea $w_{n+1} = 1$'),
      [T(r'normalised weights $\tilde w_i = w_i/(1 + \sum_{j=1}^n w_j)$, $i = 1, \dots, n + 1$; they sum to 1', r'ponderile normalizate $\tilde w_i = w_i/(1 + \sum_{j=1}^n w_j)$, $i = 1, \dots, n + 1$; însumează 1')]),
@@ -1050,7 +1050,7 @@ D.frame(T('Conformal prediction beyond exchangeability (1/2)', 'Predicția confo
        r'\textbf{Schimbarea distribuției covariabilelor} cu raport de verosimilitate cunoscut: ponderile $w(x) = dP_{\mathrm{test}}/dP_{\mathrm{train}}$ dau acoperire exactă \refTBCR'),
      [T(r'$dP_{\mathrm{test}}/dP_{\mathrm{train}}$: the ratio of the densities of $X$ in the test and in the training population', r'$dP_{\mathrm{test}}/dP_{\mathrm{train}}$: raportul densităților lui $X$ în populația de test și în cea de antrenare')])), 'small')
 
-D.frame(T('Conformal prediction beyond exchangeability (2/2)', 'Predicția conformală dincolo de interschimbabilitate (2/2)'), items(
+D.frame(T('Weighted conformal prediction (2/2)', 'Predicția conformală ponderată (2/2)'), items(
     (T(r'\textbf{Theorem} \refBar: the coverage loss is bounded by the weighted distance from exchangeability',
        r'\textbf{Teoremă} \refBar: pierderea de acoperire este mărginită de distanța ponderată față de interschimbabilitate'),
      [r'\[ \Pr\{Y_{n+1} \in \hat C(X_{n+1})\} \ge 1 - \alpha - \sum_{i=1}^n \tilde w_i\, d_{\mathrm{TV}}(Z, Z^i) \]',
@@ -1309,7 +1309,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
         r'\textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră toate felurile în care acest benchmark ar putea favoriza foundation models.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (arXiv ID or DOI resolves, the title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (identificatorul arXiv sau DOI funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('Release dates and training cutoffs of every model, from the model cards, against the start of the evaluation window', 'Datele de lansare și datele-limită de antrenare ale fiecărui model, din fișele modelelor, comparate cu începutul ferestrei de evaluare'),
     T('Quantile levels actually produced by each model (a request for 1\\% may silently return 10\\%)', 'Nivelurile de cuantile produse efectiv de fiecare model (o cerere pentru 1\\% poate întoarce, fără avertisment, 10\\%)'),

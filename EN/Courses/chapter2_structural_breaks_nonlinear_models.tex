@@ -359,7 +359,7 @@ Canadian lynx trappings, 1821--1934 & R data set read by statsmodels & SETAR \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The date chosen by looking at the data}
+\begin{frame}{A break date chosen after inspecting the data}
 \itemsize{\small}
 \begin{itemize}
     \item In practice $T_1$ is rarely known: the researcher sees a jump in the plot and tests there
@@ -910,10 +910,10 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 
 
 %=============================================================================
-\section{Unit roots with breaks, revisited}
+\section{Unit-root tests with breaks}
 %=============================================================================
 
-\begin{frame}{Beyond Zivot--Andrews}
+\begin{frame}{Extensions of the Zivot--Andrews test}
 \itemsize{\small}
 \begin{itemize}
     \item \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter3_unit_roots_arima_models.pdf}{TSA, Chapter 3}: a level shift mimics a unit root \refPer; \refZA\ choose the date by minimising the ADF $t$ statistic
@@ -928,7 +928,7 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Romanian GDP: unit root or broken trend?}
+\begin{frame}{Romanian GDP: unit root against a broken trend}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.58\textheight,keepaspectratio]{ats_ch2_unit_root_breaks.pdf}
@@ -966,7 +966,7 @@ LWZ & 2.550 & 2.082 & 1.901 & 2.043 & -- & -- \\
 \section{Forecasting under breaks}
 %=============================================================================
 
-\begin{frame}{Location shifts cause forecast failure}
+\begin{frame}{Location shifts and forecast failure}
 \itemsize{\small}
 \begin{itemize}
     \item \refCHa, \refCHb: in equilibrium-correction models, a shift of the equilibrium mean is the main source of systematic forecast errors

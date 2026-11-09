@@ -252,7 +252,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \end{itemize}
 \end{frame}
 
-\begin{frame}{De la Nil la memoria lungă}
+\begin{frame}{Originile analizei memoriei lungi}
 \itemsize{\small}
 \begin{columns}[T]
 \begin{column}{0.36\textwidth}
@@ -323,7 +323,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \section{Memoria lungă: caracterizare spectrală}
 %=============================================================================
 
-\begin{frame}{Cunoscut din TSA și elemente noi}
+\begin{frame}{Cunoștințe din TSA și elemente noi}
 \itemsize{\small}
 \begin{itemize}
     \item Cunoscut (\atschlink{https://danpele.github.io/Time-Series-Analysis/RO/Cursuri/capitol8_memorie_lunga_arfima.pdf}{TSA, Capitolul 8}): diferențierea fracționară, ARFIMA$(p,d,q)$, R/S și DFA, GPH și local Whittle ca rețete, FIGARCH și HAR pe scurt, memoria lungă aparentă prin exemple
@@ -694,7 +694,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 
 
 %=============================================================================
-\section{Memorie scurtă sau lungă: testarea împotriva salturilor de nivel}
+\section{Testarea memoriei lungi în raport cu salturile de nivel}
 %=============================================================================
 
 \begin{frame}{Mecanismele memoriei lungi aparente}
@@ -778,7 +778,7 @@ Inflația & IPC SUA (FRED CPIAUCSL), IAPC România (Eurostat prc\_hicp\_minr), l
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Recapitulare: memorie scurtă sau lungă}
+\begin{frame}{Recapitulare: memoria lungă și salturile de nivel}
 \itemsize{\small}
 \begin{itemize}
     \item Rupturile, salturile de nivel și schimbările rare de regim creează un pol spectral și un $\hat d$ mare
@@ -1151,7 +1151,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Evidența: scalarea logaritmului volatilității (1/2)}
+\begin{frame}{Dovezi empirice: scalarea logaritmului volatilității (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item \refGJR, secțiunea 2: din $\sigma_t = \sqrt{RV_t}$ zilnic (biblioteca Oxford-Man), momentele empirice ale creșterilor lui $\log\sigma$
@@ -1168,7 +1168,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Evidența: scalarea logaritmului volatilității (2/2)}
+\begin{frame}{Dovezi empirice: scalarea logaritmului volatilității (2/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Procedura: OLS al lui $\log m(q, \Delta)$ pe $\log\Delta$ pentru fiecare $q$ dă $\zeta_q$; regresăm $\zeta_q$ pe $q$ prin origine pentru a obține $H$
@@ -1245,7 +1245,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Critici: este neregularitatea un artefact?}
+\begin{frame}{Critici: neregularitatea ca posibil artefact}
 \itemsize{\small}
 \begin{itemize}
     \item RV este o estimație a varianței integrate: $\log RV_t = \log\int_{t-1}^t\sigma_s^2ds + \epsilon_t$
@@ -1383,7 +1383,7 @@ Bitcoin & 0{,}98 & 13{,}6 & 1{,}06 & 20942 & 20936 & 12\% / 8\% \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{O comparație riguroasă în afara eșantionului}
+\begin{frame}{Schema comparației în afara eșantionului}
 \itemsize{\small}
 \begin{itemize}
     \item Schema fixată dinainte: fereastră mobilă de 1000 de zile, parametrii reestimați la fiecare 20 de zile doar cu datele pînă la $t$; ținta $RV_{t+h}$, $h \in \{1, 5, 22\}$

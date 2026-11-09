@@ -236,7 +236,7 @@ US industrial production, payrolls, real income less transfers, real sales (mont
 \end{itemize}
 \end{frame}
 
-\begin{frame}{From Apollo navigation to trend inflation}
+\begin{frame}{Origins of the Kalman filter and state space models}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.36\textwidth}
@@ -262,7 +262,7 @@ US industrial production, payrolls, real income less transfers, real sales (mont
 \section{The general linear Gaussian model}
 %=============================================================================
 
-\begin{frame}{From TSA to this chapter}
+\begin{frame}{Prior knowledge from TSA and new material}
 \itemsize{\small}
 \begin{itemize}
     \item Known (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter10_state_space_kalman_markov_switching.pdf}{TSA, Chapter 10}): the state space form, the Kalman filter for the local level by hand, smoothing, ML by the prediction error decomposition, the HP filter as a smoother, Hamilton (2018), Markov switching
@@ -311,7 +311,7 @@ US industrial production, payrolls, real income less transfers, real sales (mont
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The Kalman filter from one lemma}
+\begin{frame}{Derivation of the Kalman filter from a Gaussian lemma}
 \itemsize{\small}
 \begin{itemize}
     \item \hypertarget{kflemma}{}Lemma (conditioning of jointly normal vectors): if $(x, y)$ is Gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$
@@ -326,7 +326,7 @@ US industrial production, payrolls, real income less transfers, real sales (mont
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The filter in one pass}
+\begin{frame}{The Kalman filter recursions}
 \itemsize{\small}
 \begin{itemize}
     \item With $v_t$ and $F_t$ of the previous slide: $K_t = T_tP_tZ_t'F_t^{-1}$ (Kalman gain), $\quad L_t = T_t - K_tZ_t$
@@ -480,7 +480,7 @@ US industrial production, payrolls, real income less transfers, real sales (mont
 \end{itemize}
 \end{frame}
 
-\begin{frame}{How often is the estimated level variance exactly zero?}
+\begin{frame}{Frequency of a zero estimate of the level variance}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.65\textheight,keepaspectratio]{ats_ch6_pileup.pdf}
@@ -507,7 +507,7 @@ US industrial production, payrolls, real income less transfers, real sales (mont
 \section{Bayesian state space: simulation smoothing and Gibbs sampling}
 %=============================================================================
 
-\begin{frame}{Why sample the states?}
+\begin{frame}{Sampling the states}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.3\textwidth}
@@ -1031,7 +1031,7 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Romanian on euro-area inflation: a time-varying slope?}
+\begin{frame}{A time-varying slope of Romanian on euro-area inflation}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.65\textheight,keepaspectratio]{ats_ch6_tvp.pdf}
@@ -1153,7 +1153,7 @@ BET & 0.914 & 0.393 & \ensuremath{-}0.624 & 58 / 87 & 0.952 & 0.84 \\
 
 
 %=============================================================================
-\section{Trend--cycle decompositions revisited}
+\section{Trend--cycle decompositions in state space form}
 %=============================================================================
 
 \begin{frame}{Three definitions of the cycle}
@@ -1221,7 +1221,7 @@ UC-UR & 0.859 & 1.334 & \ensuremath{-}0.738 & 1.185 & 0.669 & \ensuremath{-}0.92
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Romania: the cycle is the trend}
+\begin{frame}{Trend shocks and the cycle in Romanian GDP}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.3\textwidth}
@@ -1331,7 +1331,7 @@ UC-UR & 0.859 & 1.334 & \ensuremath{-}0.738 & 1.185 & 0.669 & \ensuremath{-}0.92
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Beyond: BSTS and regime switching}
+\begin{frame}{Extensions: BSTS and regime switching}
 \itemsize{\small}
 \begin{itemize}
     \item Bayesian structural time series \refSV: local linear trend + seasonal + regression with a spike-and-slab prior on many regressors (Google Trends)
@@ -1381,7 +1381,7 @@ UC-UR & 0.859 & 1.334 & \ensuremath{-}0.738 & 1.185 & 0.669 & \ensuremath{-}0.92
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What the human checks}
+\begin{frame}{Required checks}
 \itemsize{\small}
 \begin{itemize}
     \item Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)
@@ -1472,7 +1472,7 @@ UC-UR & 0.859 & 1.334 & \ensuremath{-}0.738 & 1.185 & 0.669 & \ensuremath{-}0.92
     \item $Y_n = (Y_{t-1}, v_t, \dots, v_n)$, and $v_t, \dots, v_n$ are independent of each other and of $Y_{t-1}$: the lemma applies to each $v_j$ separately
     \item Smoother: $\hat\alpha_t = a_t + \sum_{j=t}^n\Cov(\alpha_t, v_j)F_j^{-1}v_j$, with $\Cov(\alpha_t, v_j) = P_tL_t'\cdots L_{j-1}'Z_j'$
     \item Hence $\hat\alpha_t = a_t + P_tr_{t-1}$ with $r_{t-1} = \sum_{j=t}^nL_t'\cdots L_{j-1}'Z_j'F_j^{-1}v_j$ (empty product for $j = t$), which satisfies the backward recursion $r_{t-1} = Z_t'F_t^{-1}v_t + L_t'r_t$
-    \item The filtering steps (update and prediction) follow from the same lemma with $j = t$ only: slide \hyperlink{kflemma}{\textcolor{MainBlue}{The Kalman filter from one lemma}}
+    \item The filtering steps (update and prediction) follow from the same lemma with $j = t$ only: slide \hyperlink{kflemma}{\textcolor{MainBlue}{Derivation of the Kalman filter from a Gaussian lemma}}
 \end{itemize}
 \end{frame}
 

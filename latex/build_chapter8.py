@@ -361,7 +361,7 @@ D.frame(T('A short history of volatility modelling', 'Scurt istoric al modelări
 # =============================================================================
 D.section('Quasi-maximum likelihood for GARCH', 'Verosimilitatea cvasi-maximă pentru GARCH')
 
-D.frame(T('From TSA to this chapter', 'De la TSA la acest capitol'), items(
+D.frame(T('Prior knowledge from TSA and new material', 'Cunoștințe din TSA și elemente noi'), items(
     (T(r'Known (TSA, Chapter 5): GARCH(1,1), GJR, EGARCH, the news impact curve, ML with Gaussian and Student-$t$ errors, QLIKE; (TSA, Chapter 14): CCC and DCC',
        r'Cunoscut (TSA, Capitolul 5): GARCH(1,1), GJR, EGARCH, curba de impact a știrilor, ML cu erori gaussiene și Student-$t$, QLIKE; (TSA, Capitolul 14): CCC și DCC'),
      []),
@@ -539,7 +539,7 @@ D.frame(T('The component GARCH of Engle and Lee (1/2): the model', 'Component GA
     T(r'Both components are driven by the same shock: the model is a restricted GARCH(2,2)',
       r'Ambele componente sînt determinate de același șoc: modelul este un GARCH(2,2) restricționat')), 'small')
 
-D.frame(T('The component GARCH of Engle and Lee (2/2): two speeds', 'Component GARCH al lui Engle și Lee (2/2): două viteze'), items(
+D.frame(T('The component GARCH of Engle and Lee (2/2): the half-lives of the components', 'Component GARCH al lui Engle și Lee (2/2): timpii de înjumătățire ai componentelor'), items(
     (T(r'Half-life: the number of days after which half of a shock to a component has died out',
        r'Timpul de înjumătățire: numărul de zile după care jumătate dintr-un șoc al unei componente a dispărut'
        ) + r'''
@@ -1421,7 +1421,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
         r'\textbf{robustețe și critică}: \aiprompt{Joacă rolul unui recenzent ostil: ce alegeri dintr-o comparație a prognozelor HARQ ar putea produce un cîștig fals?}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('The forecast at $t$ uses only data up to $t$: windows, demeaning of RQ, the insanity filter and the bias correction of log forecasts are all computed in the estimation window', 'Prognoza din $t$ folosește doar date pînă la $t$: ferestrele, centrarea lui RQ, filtrul de plauzibilitate și corecția deplasării prognozelor în logaritmi sînt calculate în fereastra de estimare'),
     T('The loss is robust (QLIKE, MSE) and the proxy is stated; DM statistics use HAC variances', 'Funcția de pierdere este robustă (QLIKE, MSE), iar proxy-ul este precizat; statisticile DM folosesc varianțe HAC'),

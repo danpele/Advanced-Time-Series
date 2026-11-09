@@ -339,7 +339,7 @@ interp(('the simulation', 'simulării'), [
 # =============================================================================
 # 2. INFERENȚA BAYESIANĂ
 # =============================================================================
-D.section('Bayesian inference: what we need', 'Inferența bayesiană: noțiunile necesare')
+D.section('Elements of Bayesian inference', 'Elemente de inferență bayesiană')
 
 D.frame(T('Prior, likelihood, posterior', 'Distribuția a priori, verosimilitatea, distribuția a posteriori'), two(
     ph('laplace', T('Pierre-Simon Laplace, who developed inverse probability', 'Pierre-Simon Laplace, care a dezvoltat probabilitatea inversă'), h='0.36\\textheight'),
@@ -350,7 +350,7 @@ D.frame(T('Prior, likelihood, posterior', 'Distribuția a priori, verosimilitate
            [T('Normal mean with known variance: Normal; regression coefficients and variance: Normal--inverse-gamma', 'media distribuției Normale cu varianța cunoscută: Normală; coeficienți și varianță în regresie: Normal--inverse-gamma')]),
           T('Point summaries: posterior mean (quadratic loss), median (absolute loss); credible sets from posterior quantiles', 'Rezumate punctuale: media a posteriori (pierdere pătratică), mediana (pierdere absolută); mulțimi credibile din cuantilele a posteriori')), '0.34', '0.64'), 'footnotesize')
 
-D.frame(T('The Normal update is a precision-weighted average (1/2)', 'Actualizarea Normală este o medie ponderată cu precizii (1/2)'), items(
+D.frame(T('The Normal update as a precision-weighted average (1/2)', 'Actualizarea Normală ca medie ponderată cu precizii (1/2)'), items(
     (T(r'Data: $\hat\beta\mid\beta \sim N(\beta, s^2)$ with $s^2 = \sigma^2/\sum x_t^2$; prior: $\beta \sim N(m_0, v_0)$', r'Datele: $\hat\beta\mid\beta \sim N(\beta, s^2)$ cu $s^2 = \sigma^2/\sum x_t^2$; distribuția a priori: $\beta \sim N(m_0, v_0)$'),
      [T(r'$\hat\beta$: the OLS estimate of a slope $\beta$ on regressor $x_t$; $\sigma^2$: the error variance, taken as known; $s^2$: the sampling variance of $\hat\beta$', r'$\hat\beta$: estimația OLS a pantei $\beta$ pentru regresorul $x_t$; $\sigma^2$: varianța erorii, considerată cunoscută; $s^2$: varianța de eșantionare a lui $\hat\beta$'),
       T(r'$m_0$, $v_0$: the prior mean and variance; precision = 1/variance', r'$m_0$, $v_0$: media și varianța a priori; precizia = 1/varianța')]),
@@ -359,7 +359,7 @@ D.frame(T('The Normal update is a precision-weighted average (1/2)', 'Actualizar
       T(r'means average: $m_1 = w\,m_0 + (1 - w)\hat\beta$, with prior weight $w = v_0^{-1}/(v_0^{-1} + s^{-2}) \in (0, 1)$', r'mediile se mediază: $m_1 = w\,m_0 + (1 - w)\hat\beta$, cu ponderea distribuției a priori $w = v_0^{-1}/(v_0^{-1} + s^{-2}) \in (0, 1)$'),
       T(r'$w$ is large when the prior is tight ($v_0$ small) or the data are weak ($s^2$ large)', r'$w$ este mare cînd distribuția a priori este strînsă ($v_0$ mic) sau datele sînt puțin informative ($s^2$ mare)')])), 'small')
 
-D.frame(T('The Normal update is a precision-weighted average (2/2)', 'Actualizarea Normală este o medie ponderată cu precizii (2/2)'), items(
+D.frame(T('The Normal update as a precision-weighted average (2/2)', 'Actualizarea Normală ca medie ponderată cu precizii (2/2)'), items(
     (T(r'In regression form: \[ \bar\beta = (V_0^{-1} + X\'X/\sigma^2)^{-1}(V_0^{-1}m_0 + X\'y/\sigma^2) \]', r'În forma de regresie: \[ \bar\beta = (V_0^{-1} + X\'X/\sigma^2)^{-1}(V_0^{-1}m_0 + X\'y/\sigma^2) \]'),
      [T(r'$y$ ($T\times 1$), $X$ ($T\times k$): the data; $m_0$, $V_0$: prior mean vector and covariance matrix; $\bar\beta$: the posterior mean', r'$y$ ($T\times 1$), $X$ ($T\times k$): datele; $m_0$, $V_0$: vectorul mediilor și matricea de covarianță a priori; $\bar\beta$: media a posteriori'),
       T(r'the same weighting: prior precision $V_0^{-1}$ plus data precision $X\'X/\sigma^2$', r'aceeași ponderare: precizia a priori $V_0^{-1}$ plus precizia datelor $X\'X/\sigma^2$')]),
@@ -479,7 +479,7 @@ D.frame(T('Dummy observations (2/2)', 'Observații fictive (2/2)'), items(
       T('pushes towards unit roots \\emph{or} towards a stationary model whose mean is $\\bar y$', 'împinge spre rădăcini unitare \\emph{sau} spre un model staționar cu media $\\bar y$'),
       T('so it allows cointegration (Chapter 4)', 'permite deci cointegrarea (Capitolul 4)')])), 'small')
 
-chart(T('How much shrinkage? In-sample fit against out-of-sample accuracy', 'Cît shrinkage? Potrivirea în eșantion comparată cu acuratețea în afara eșantionului'), 'ats_ch5_tradeoff', 'ATS_ch5_large_bvar', [
+chart(T('The degree of shrinkage: in-sample fit against out-of-sample accuracy', 'Gradul de shrinkage: potrivirea în eșantion comparată cu acuratețea în afara eșantionului'), 'ats_ch5_tradeoff', 'ATS_ch5_large_bvar', [
     T(r'MEDIUM system (20 variables, $p = 13$, $k = @{tr.k}$), BGR prior, rolling 10-year windows; out-of-sample: one-step MSFE of employment, CPI and the funds rate, 1971--2003, relative to a random walk',
       r'Sistemul MEDIUM (20 de variabile, $p = 13$, $k = @{tr.k}$), distribuția a priori BGR, ferestre mobile de 10 ani; în afara eșantionului: MSFE la un pas pentru ocupare, IPC și dobînda federal funds, 1971--2003, relativ la mersul aleator')],
     h='0.65\\textheight')
@@ -559,7 +559,7 @@ interp(('the forecast comparison', 'comparației prognozelor'), [
     T(r'GLP SMALL is nearly as good as the large systems for employment and CPI (@{bg.eval1.gsm.emp1}, @{bg.eval1.gsm.cpi1}): most of the gain comes from the prior, not only from the variables', r'GLP SMALL este aproape la fel de bun ca sistemele mari pentru ocupare și IPC (@{bg.eval1.gsm.emp1}; @{bg.eval1.gsm.cpi1}): mare parte din cîștig vine din distribuția a priori, nu doar din variabile'),
     T(r'The funds rate beyond 3 months is hard for all models (LARGE @{bg.eval1.lar.ffr12} at $h = 12$)', r'Dobînda federal funds după 3 luni este dificilă pentru toate modelele (LARGE @{bg.eval1.lar.ffr12} la $h = 12$)')])
 
-D.frame(T('After 2003: the extension and March 2020', 'După 2003: extinderea și martie 2020'), table(
+D.frame(T('Extension of the sample after 2003 and March 2020', 'Extinderea eșantionului după 2003 și martie 2020'), table(
     'lcccccc', T(r'\textbf{Model}', r'\textbf{Modelul}') + r' & \textbf{EMPL, 1} & \textbf{EMPL, 12} & \textbf{CPI, 1} & \textbf{CPI, 12} & \textbf{FFR, 1} & \textbf{FFR, 12}',
     [T(name, name) + ' & ' + ' & '.join(f'@{{bg.{per}.{mk}.{v}{h}}}' for v in ('emp', 'cpi', 'ffr') for h in (1, 12))
      for per, label in (('pre2020', ''),) for name, mk in (('OLS SMALL', 'ols'), ('BGR MEDIUM', 'med'), ('BGR LARGE', 'lar'), ('GLP SMALL', 'gsm'), ('GLP MEDIUM', 'gme'))],
@@ -648,7 +648,7 @@ interp(('the factors', 'factorilor'), [
     T(r'The first factor is a real activity index: correlation @{fa.rec} with the NBER recession indicator; its minimum is April 2020', r'Primul factor este un indice al activității reale: corelația @{fa.rec} cu indicatorul recesiunilor NBER; minimul este în aprilie 2020'),
     T('No component dominates: macro panels have a few strong factors and a long tail of weak ones, which makes the number of factors a real question', 'Nicio componentă nu domină: panelurile macro au cîțiva factori puternici și o coadă lungă de factori slabi, ceea ce face din numărul de factori o întrebare reală')])
 
-D.frame(T('How many factors? Bai and Ng (2002)', 'Cîți factori? Bai și Ng (2002)'), items(
+D.frame(T('Selecting the number of factors: Bai and Ng (2002)', 'Alegerea numărului de factori: Bai și Ng (2002)'), items(
     (T(r'$V(k) = (NT)^{-1}\sum_{i,t}(x_{it} - \hat\lambda_i\'\hat F_t)^2$ after $k$ components; it falls with $k$, so it needs a penalty \refBN', r'$V(k) = (NT)^{-1}\sum_{i,t}(x_{it} - \hat\lambda_i\'\hat F_t)^2$ după $k$ componente; scade cu $k$, deci are nevoie de o penalizare \refBN'),
      [T(r'$IC_{p1}(k) = \ln V(k) + k\frac{N + T}{NT}\ln\frac{NT}{N + T}$, $IC_{p2}(k) = \ln V(k) + k\frac{N + T}{NT}\ln C_{NT}^2$, $C_{NT}^2 = \min(N, T)$', r'$IC_{p1}(k) = \ln V(k) + k\frac{N + T}{NT}\ln\frac{NT}{N + T}$, $IC_{p2}(k) = \ln V(k) + k\frac{N + T}{NT}\ln C_{NT}^2$, $C_{NT}^2 = \min(N, T)$'),
       T(r'$IC_{p3}(k) = \ln V(k) + k\ln C_{NT}^2/C_{NT}^2$; choose the $k$ that minimises the criterion; the penalty grows with $k$ and vanishes as $N, T \to \infty$', r'$IC_{p3}(k) = \ln V(k) + k\ln C_{NT}^2/C_{NT}^2$; alegem $k$ care minimizează criteriul; penalizarea crește cu $k$ și dispare cînd $N, T \to \infty$'),
@@ -870,7 +870,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
       T(r'\textbf{robustness and critique}: \aiprompt{Act as a hostile referee of a nowcasting paper: list the ways the pseudo-real-time design could flatter the model.}', r'\textbf{robustețe și critică}: \aiprompt{Joacă rolul unui recenzent ostil al unui articol de nowcasting: enumeră felurile în care designul în pseudo timp real ar putea favoriza artificial modelul.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('The information set at each date contains only data published by then; current-vintage data overstate accuracy', 'Setul de informații la fiecare dată conține doar datele publicate pînă atunci; datele din ediția curentă supraestimează acuratețea'),
     T('Hyperparameters, factors and lags are chosen inside each estimation window, never on the evaluation sample', 'Hiperparametrii, factorii și lagurile se aleg în interiorul fiecărei ferestre de estimare, niciodată pe eșantionul de evaluare'),

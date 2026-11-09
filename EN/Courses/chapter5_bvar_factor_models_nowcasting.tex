@@ -298,7 +298,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 
 
 %=============================================================================
-\section{Bayesian inference: what we need}
+\section{Elements of Bayesian inference}
 %=============================================================================
 
 \begin{frame}{Prior, likelihood, posterior}
@@ -327,7 +327,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \end{columns}
 \end{frame}
 
-\begin{frame}{The Normal update is a precision-weighted average (1/2)}
+\begin{frame}{The Normal update as a precision-weighted average (1/2)}
 \itemsize{\small}
 \begin{itemize}
     \item Data: $\hat\beta\mid\beta \sim N(\beta, s^2)$ with $s^2 = \sigma^2/\sum x_t^2$; prior: $\beta \sim N(m_0, v_0)$
@@ -344,7 +344,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The Normal update is a precision-weighted average (2/2)}
+\begin{frame}{The Normal update as a precision-weighted average (2/2)}
 \itemsize{\small}
 \begin{itemize}
     \item In regression form: \[ \bar\beta = (V_0^{-1} + X'X/\sigma^2)^{-1}(V_0^{-1}m_0 + X'y/\sigma^2) \]
@@ -575,7 +575,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{How much shrinkage? In-sample fit against out-of-sample accuracy}
+\begin{frame}{The degree of shrinkage: in-sample fit against out-of-sample accuracy}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.65\textheight,keepaspectratio]{ats_ch5_tradeoff.pdf}
@@ -724,7 +724,7 @@ Romanian real GDP, quarterly, seasonally and calendar adjusted & Eurostat (namq\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{After 2003: the extension and March 2020}
+\begin{frame}{Extension of the sample after 2003 and March 2020}
 \itemsize{\footnotesize}
 \begin{center}
 \scriptsize
@@ -902,7 +902,7 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{How many factors? Bai and Ng (2002)}
+\begin{frame}{Selecting the number of factors: Bai and Ng (2002)}
 \itemsize{\small}
 \begin{itemize}
     \item $V(k) = (NT)^{-1}\sum_{i,t}(x_{it} - \hat\lambda_i'\hat F_t)^2$ after $k$ components; it falls with $k$, so it needs a penalty \refBN
@@ -1361,7 +1361,7 @@ GLP MEDIUM & 0.20 & 0.28 & 0.95 & 2.55 & 0.57 & 0.91 \\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What the human checks}
+\begin{frame}{Required checks}
 \itemsize{\small}
 \begin{itemize}
     \item Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)

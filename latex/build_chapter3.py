@@ -297,7 +297,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
     T('IP: industrial production; HICP: harmonised index of consumer prices; FF4: surprise in the fourth federal funds futures contract',
       'IP: producția industrială; IAPC (HICP): indicele armonizat al prețurilor de consum; FF4: surpriza din al patrulea contract futures pe dobînda federal funds')), 'footnotesize')
 
-D.frame(T('From correlations to shocks', 'De la corelații la șocuri'), two(
+D.frame(T('Origins of structural VAR analysis', 'Originile analizei VAR structurale'), two(
     ph('sims', T('Christopher Sims, Nobel lecture, 2011', 'Christopher Sims, prelegerea Nobel, 2011'), h='0.36\\textheight'),
     items((T(r'1980: \refSims\ proposes VARs instead of large models with ``incredible\'\' exclusion restrictions', r'1980: \refSims\ propune modelele VAR în locul modelelor mari cu restricții de excludere „incredibile”'),
            [T('the Cholesky ordering was his first identification scheme, and the first target of criticism', 'ordonarea Cholesky a fost prima lui schemă de identificare și prima țintă a criticilor')]),
@@ -413,7 +413,7 @@ D.recap(('Short-run restrictions', 'restricții pe termen scurt'), [
 # =============================================================================
 D.section('Case study: oil supply and demand shocks', 'Studiu de caz: șocuri de ofertă și de cerere pe piața petrolului')
 
-D.frame(T('Not all oil price shocks are alike', 'Nu toate șocurile prețului petrolului sînt la fel'), two(
+D.frame(T('Kilian (2009): three structural shocks in the oil market', 'Kilian (2009): trei șocuri structurale pe piața petrolului'), two(
     ph('kuwait', T('Burning Kuwaiti oil field, March 1991', 'Cîmp petrolier în flăcări, Kuweit, martie 1991'), h='0.36\\textheight'),
     items((T(r'\refKilB: monthly VAR(24) in (i) the percent change of world crude oil production, (ii) global real activity, (iii) the log real price of oil', r'\refKilB: VAR(24) lunar cu (i) variația procentuală a producției mondiale de țiței, (ii) activitatea reală globală, (iii) logaritmul prețului real al petrolului'),
            [T('recursive: oil supply does not respond within the month to demand (adjustment costs); real activity does not respond within the month to oil-specific demand', 'recursiv: oferta de petrol nu răspunde în aceeași lună la cerere (costuri de ajustare); activitatea reală nu răspunde în aceeași lună la cererea specifică petrolului')]),
@@ -687,7 +687,7 @@ D.frame(T('Local projections', 'Proiecțiile locale'), items(
      [T(r'\textbf{lag augmentation} \refMOPb: add one more lag of the controls and use Eicker--Huber--White errors; valid uniformly over persistence, even near a unit root', r'\textbf{lag augmentation} (laguri suplimentare) \refMOPb: adăugăm încă un lag al controalelor și folosim erori Eicker--Huber--White; valid uniform după persistență, chiar lîngă o rădăcină unitară')]),
     T('Flexible: nonlinear terms, state dependence, panel data, cumulative outcomes all enter as regressors', 'Flexibile: termenii neliniari, dependența de stare, datele panel și variabilele cumulate intră toate ca regresori')), 'small')
 
-D.frame(T('LP and VAR estimate the same responses', 'LP și VAR estimează aceleași răspunsuri'), items(
+D.frame(T('LP and VAR: equivalence of the population responses', 'LP și VAR: echivalența răspunsurilor în populație'), items(
     (T(r'\refPW: in population, an LP with $p$ lags of all variables as controls and a VAR($p$) with the same ordering give \emph{identical} responses up to horizon $p$ (Appendix)', r'\refPW: în populație, o LP cu $p$ laguri ale tuturor variabilelor drept controale și un VAR($p$) cu aceeași ordonare dau răspunsuri \emph{identice} pînă la orizontul $p$ (Anexă)'),
      [T(r'with unrestricted lags ($p \to \infty$) they coincide at all horizons: the choice is about estimation, not identification', r'cu laguri nerestricționate ($p \to \infty$) coincid la toate orizonturile: alegerea privește estimarea, nu identificarea'),
       T(r'any VAR identification scheme (recursive, external instrument) has an LP counterpart, and vice versa', r'orice schemă de identificare VAR (recursivă, instrument extern) are un echivalent LP și invers')]),

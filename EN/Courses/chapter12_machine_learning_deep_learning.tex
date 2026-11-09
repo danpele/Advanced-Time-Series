@@ -221,7 +221,7 @@ MSCA Digital Finance}
     \item \textbf{Route} of the chapter
     \begin{itemize}
         \item learning from dependent data: mixing, bounds, when cross-validation is valid
-        \item global and local models; lasso and its relatives in high dimension; tree ensembles in depth
+        \item global and local models; lasso and its relatives in high dimension; tree ensembles
         \item recurrent and convolutional networks; attention and Transformers; N-BEATS, N-HiTS, DeepAR, TFT
         \item interpretation and benchmark comparisons: baselines, tests, data snooping
     \end{itemize}
@@ -324,7 +324,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \section{Learning from dependent data}
 %=============================================================================
 
-\begin{frame}{Known from TSA, and new here}
+\begin{frame}{Prior knowledge from TSA and new material}
 \itemsize{\small}
 \begin{itemize}
     \item Known from \atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter9_machine_learning_time_series.pdf}{TSA, Chapter 9}
@@ -419,7 +419,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \end{itemize}
 \end{frame}
 
-\begin{frame}{When K-fold is valid: Bergmeir, Hyndman and Koo (2018)}
+\begin{frame}{Validity of K-fold cross-validation: Bergmeir, Hyndman and Koo (2018)}
 \itemsize{\small}
 \begin{itemize}
     \item A nonlinear autoregression with \textbf{uncorrelated} errors \refBHK
@@ -452,7 +452,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Which validation estimates the future error?}
+\begin{frame}{Accuracy and bias of the validation schemes}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.68\textheight,keepaspectratio]{ats_ch12_cv_bhk.pdf}
@@ -486,7 +486,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \end{itemize}
 \end{frame}
 
-\begin{frame}{How optimistic is each validation scheme?}
+\begin{frame}{Optimism of each validation scheme}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.68\textheight,keepaspectratio]{ats_ch12_leakage.pdf}
@@ -687,7 +687,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 
 
 %=============================================================================
-\section{Tree ensembles in depth}
+\section{Tree ensembles}
 %=============================================================================
 
 \begin{frame}{Bagging: the variance of an average}
@@ -1071,7 +1071,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Are Transformers effective? The Zeng et al.\ (2023) critique}
+\begin{frame}{The critique of Zeng et al.\ (2023): the effectiveness of Transformers}
 \itemsize{\small}
 \begin{itemize}
     \item \refZeng: self-attention is permutation-invariant; point-wise tokens carry no local semantics; positional encodings only partly restore order
@@ -1344,7 +1344,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Attention is not explanation}
+\begin{frame}{Attention weights as explanations}
 \itemsize{\small}
 \begin{itemize}
     \item \refJW: attention weights are often uncorrelated with gradient-based importance, and very different attention patterns give the same predictions
@@ -1453,7 +1453,7 @@ M4 hourly subset & \refMfourA: 414 series of 700--960 hours, horizon 48 & N-BEAT
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What the human checks}
+\begin{frame}{Required checks}
 \itemsize{\small}
 \begin{itemize}
     \item Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)

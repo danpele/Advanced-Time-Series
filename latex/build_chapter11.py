@@ -327,7 +327,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
     T('Growth rates and returns are 100 times log differences; cycles are in \\% of trend; markets are aligned on common trading days',
       'Ratele de creștere și randamentele sînt diferențe logaritmice înmulțite cu 100; ciclurile sînt în \\% din tendință; piețele sînt aliniate pe zilele comune de tranzacționare')), 'footnotesize')
 
-D.frame(T('From harmonic analysis to time series', 'De la analiza armonică la seriile de timp'), two(
+D.frame(T('Origins of spectral analysis', 'Originile analizei spectrale'), two(
     ph('wiener', T('Norbert Wiener', 'Norbert Wiener'), h='0.42\\textheight'),
     items(T('1930: Wiener\'s generalised harmonic analysis; 1934: Khinchin; autocovariance and spectrum are a Fourier pair',
             '1930: analiza armonică generalizată a lui Wiener; 1934: Hincin; autocovarianța și spectrul formează o pereche Fourier'),
@@ -337,7 +337,7 @@ D.frame(T('From harmonic analysis to time series', 'De la analiza armonică la s
           T(r'1982: multitaper estimation \refTho; frequency-domain causality \refGew', r'1982: estimarea multitaper \refTho; cauzalitatea în domeniul frecvenței \refGew'),
           T(r'1984--1989: wavelets \refGM, \refDau, \refMal; 1998: the practical guide \refTC', r'1984--1989: wavelets \refGM, \refDau, \refMal; 1998: ghidul practic \refTC')), '0.32', '0.66'), 'footnotesize')
 
-D.frame(T('Known from TSA and new here', 'Cunoscut din TSA și elemente noi'), items(
+D.frame(T('Prior knowledge from TSA and new material', 'Cunoștințe din TSA și elemente noi'), items(
     (T('Known (TSA, Chapter 12): Fourier frequencies, the spectrum of ARMA models, the periodogram and its $\\chi^2_2$ law, Daniell smoothing, tapering, Fisher\'s test, a first look at coherence and wavelets',
        'Cunoscut (TSA, Capitolul 12): frecvențele Fourier, spectrul modelelor ARMA, periodograma și legea ei $\\chi^2_2$, netezirea Daniell, ponderarea datelor (taper), testul lui Fisher, o primă privire asupra coerenței și a wavelets'), []),
     (T('New: the research toolkit', 'Nou: instrumentele de cercetare'),
@@ -762,7 +762,7 @@ D.frame(T('Granger causality by frequency (2/2): the Breitung--Candelon test', '
     T('BC show that the test extends to cointegrated VARs (long-run causality at $\\omega = 0$); pointwise tests across frequencies are not a joint test',
       'BC arată că testul se extinde la VAR cointegrate (cauzalitate pe termen lung în $\\omega = 0$); testele punctuale pe frecvențe nu sînt un test comun')), 'small')
 
-chart(T('Does the euro area cause Romanian industry, and at which frequencies?', 'Cauzează zona euro industria românească și la ce frecvențe?'), 'ats_ch11_causality', 'ATS_ch11_causality', [
+chart(T('Frequency-domain causality from the euro area to Romanian industry', 'Cauzalitatea pe frecvențe de la zona euro la industria românească'), 'ats_ch11_causality', 'ATS_ch11_causality', [
     T(r'VAR(@{ca.p}) in monthly industrial production growth (order by AIC, at least 3); left: Geweke measures; right: Breitung--Candelon $F$ with its 5\% critical value @{ca.crit}',
       r'VAR(@{ca.p}) pentru creșterea lunară a producției industriale (ordinul ales prin AIC, cel puțin 3); stînga: măsurile Geweke; dreapta: statistica $F$ Breitung--Candelon cu valoarea critică de 5\% @{ca.crit}')],
     h='0.65\\textheight')
@@ -990,7 +990,7 @@ D.recap(('Spectra that change over time', 'spectre care se schimbă în timp'), 
 # =============================================================================
 D.section('Wavelets: decomposition by scale', 'Wavelets: descompunerea pe scale')
 
-D.frame(T('From sinusoids to wavelets', 'De la sinusoide la wavelets'), two(
+D.frame(T('Wavelets: localisation in time and frequency', 'Wavelets: localizarea în timp și în frecvență'), two(
     ph('daub', T('Ingrid Daubechies, 2005', 'Ingrid Daubechies, 2005'), h='0.36\\textheight'),
     items((T(r'A \textbf{wavelet} $\psi$: a short wave, localised in time and frequency \refGM', r'Un \textbf{wavelet} $\psi$: o undă scurtă, localizată în timp și în frecvență \refGM'),
            [T(r'$\int\psi = 0$, $\int\psi^2 = 1$; admissible if $C_\psi = \int|\hat\psi(\omega)|^2/|\omega|\,d\omega < \infty$, with $\hat\psi$ the Fourier transform of $\psi$',
@@ -1270,7 +1270,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
         r'\textbf{critica}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră felurile în care poate apărea o insulă semnificativă de coerență wavelet fără nicio schimbare a dependenței.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('Conventions: angular frequency or cycles, $2\\pi$ factors, period $=$ $1.033\\times$ scale for Morlet, the sign convention of the phase', 'Convențiile: frecvență unghiulară sau cicluri, factorii $2\\pi$, perioada $=$ $1{,}033\\times$ scala pentru Morlet, convenția de semn a fazei'),
     T('Coherence is smoothed; its threshold and the Monte Carlo null are stated; nothing is read inside the cone of influence', 'Coerența este netezită; pragul ei și ipoteza nulă Monte Carlo sînt precizate; nimic nu se interpretează în conul de influență'),

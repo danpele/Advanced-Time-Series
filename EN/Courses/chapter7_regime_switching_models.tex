@@ -233,7 +233,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
 \end{itemize}
 \end{frame}
 
-\begin{frame}{From Markov to Hamilton}
+\begin{frame}{Origins of regime-switching models}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.34\textwidth}
@@ -259,7 +259,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
 \section{The model and the Markov chain}
 %=============================================================================
 
-\begin{frame}{Known from TSA and new here}
+\begin{frame}{Prior knowledge from TSA and new material}
 \itemsize{\small}
 \begin{itemize}
     \item Known (\atschlink{https://danpele.github.io/Time-Series-Analysis/EN/Courses/chapter10_state_space_kalman_markov_switching.pdf}{TSA, Chapter 10}): $y_t = \mu_{S_t} + \varepsilon_t$, transition matrix, expected durations, ergodic probabilities, filtered and smoothed probabilities from \texttt{statsmodels}
@@ -327,7 +327,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
 \section{The Hamilton filter and the Kim smoother}
 %=============================================================================
 
-\begin{frame}{The Hamilton filter, derived}
+\begin{frame}{Derivation of the Hamilton filter}
 \itemsize{\small}
 \begin{itemize}
     \item Notation: $Y_t = (y_1, \dots, y_t)$, $\hat\xi_{t|s}$ the $K$-vector $\Pr(S_t = j \mid Y_s)$, $\eta_t$ the vector of densities $f(y_t \mid S_t = j, Y_{t-1})$
@@ -357,7 +357,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The Kim smoother, derived}
+\begin{frame}{Derivation of the Kim smoother}
 \itemsize{\small}
 \begin{itemize}
     \item Goal: $\hat\xi_{t|T}$, the regime probabilities given the whole sample \refKim
@@ -546,7 +546,7 @@ EUR/RON & ECB reference rate to June 2005, BNR reference rate from July 2005 & v
 \section{Case study: Hamilton (1989) and the business cycle}
 %=============================================================================
 
-\begin{frame}{The paper}
+\begin{frame}{Hamilton (1989): data and model}
 \itemsize{\footnotesize}
 \begin{columns}[T]
 \begin{column}{0.36\textwidth}
@@ -587,7 +587,7 @@ statsmodels & 1.164 & \ensuremath{-}0.359 & 0.013 & \ensuremath{-}0.058 & \ensur
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Hamilton's regimes then and now}
+\begin{frame}{Hamilton's regimes on the original and on current data}
 \itemsize{\footnotesize}
 \begin{center}
 \includegraphics[width=0.97\textwidth,height=0.57\textheight,keepaspectratio]{ats_ch7_hamilton89.pdf}
@@ -1005,7 +1005,7 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Regimes or breaks?}
+\begin{frame}{Regime switching and structural breaks}
 \itemsize{\small}
 \begin{itemize}
     \item A break (\atschlink{https://danpele.github.io/Advanced-Time-Series/EN/Courses/chapter2_structural_breaks_nonlinear_models.pdf}{Chapter 2}) is a regime that never returns: $\mathbf{P}$ upper bidiagonal, $S_1 = 1$ \refChibC
@@ -1170,7 +1170,7 @@ MS-GARCH (Gray) & 1.000 & 0.921 & 0.981; 0.956 & \ensuremath{-}9207.4 & 18494.1 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What the human checks}
+\begin{frame}{Required checks}
 \itemsize{\small}
 \begin{itemize}
     \item Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)

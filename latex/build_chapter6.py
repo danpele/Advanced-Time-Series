@@ -346,7 +346,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
       'Toate sursele sînt publice și nu cer cont sau cheie; seriile trimestriale pînă în T2 2026, cele lunare pînă în august sau septembrie 2026, datele zilnice pînă la 18 septembrie 2026'),
     T('HICP: harmonised index of consumer prices; DFM: dynamic factor model', 'IAPC (HICP): indicele armonizat al prețurilor de consum; DFM: model cu factori dinamici')), 'footnotesize')
 
-D.frame(T('From Apollo navigation to trend inflation', 'De la navigația Apollo la inflația de trend'), two(
+D.frame(T('Origins of the Kalman filter and state space models', 'Originile filtrului Kalman și ale modelelor în spațiul stărilor'), two(
     ph('kalman', T('Rudolf E. Kálmán, 2007', 'Rudolf E. Kálmán, 2007'), h='0.36\\textheight'),
     items(T(r'1960: \refKal\ gives the recursive linear filter; it guides the Apollo missions within a decade', r'1960: \refKal\ dă filtrul liniar recursiv; în mai puțin de un deceniu, el ghidează misiunile Apollo'),
           T(r'1982--1997: EM for state space models \refSS; structural time series \refHar; exact diffuse filtering \refKoo', r'1982--1997: algoritmul EM pentru modele în spațiul stărilor \refSS; serii de timp structurale \refHar; filtrarea difuză exactă \refKoo'),
@@ -359,7 +359,7 @@ D.frame(T('From Apollo navigation to trend inflation', 'De la navigația Apollo 
 # =============================================================================
 D.section('The general linear Gaussian model', 'Modelul liniar gaussian general')
 
-D.frame(T('From TSA to this chapter', 'De la TSA la acest capitol'), items(
+D.frame(T('Prior knowledge from TSA and new material', 'Cunoștințe din TSA și elemente noi'), items(
     (T(r'Known (TSA, Chapter 10): the state space form, the Kalman filter for the local level by hand, smoothing, ML by the prediction error decomposition, the HP filter as a smoother, Hamilton (2018), Markov switching',
        r'Cunoscut (TSA, Capitolul 10): forma în spațiul stărilor, filtrul Kalman pentru modelul local level de mînă, netezirea, verosimilitatea maximă prin descompunerea erorilor de predicție, filtrul HP ca netezitor, Hamilton (2018), modelele Markov switching'),
      []),
@@ -392,7 +392,7 @@ D.frame(T('The general state space form (2/2)', 'Forma generală în spațiul st
       T(r'predicted state: $a_t = \E(\alpha_t | Y_{t-1})$, $P_t = \Var(\alpha_t | Y_{t-1})$; filtered: $a_{t|t}$, $P_{t|t}$ (after $y_t$)', r'starea prezisă: $a_t = \E(\alpha_t | Y_{t-1})$, $P_t = \Var(\alpha_t | Y_{t-1})$; filtrată: $a_{t|t}$, $P_{t|t}$ (după $y_t$)'),
       T(r'smoothed: $\hat\alpha_t = \E(\alpha_t | Y_n)$, $V_t = \Var(\alpha_t | Y_n)$ (all the data)', r'netezită: $\hat\alpha_t = \E(\alpha_t | Y_n)$, $V_t = \Var(\alpha_t | Y_n)$ (toate datele)')])), 'small')
 
-D.frame(T('The Kalman filter from one lemma', 'Filtrul Kalman dintr-o singură lemă'), items(
+D.frame(T('Derivation of the Kalman filter from a Gaussian lemma', 'Derivarea filtrului Kalman dintr-o lemă gaussiană'), items(
     (T(r'\hypertarget{kflemma}{}Lemma (conditioning of jointly normal vectors): if $(x, y)$ is Gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$',
        r'\hypertarget{kflemma}{}Lema (condiționarea vectorilor normali comuni): dacă $(x, y)$ este gaussian, $\E(x | y) = \mu_x + \Sigma_{xy}\Sigma_{yy}^{-1}(y - \mu_y)$, $\Var(x | y) = \Sigma_{xx} - \Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}$'),
      [T(r'$\mu_x$, $\mu_y$: the means; $\Sigma_{xy} = \Cov(x, y)$, $\Sigma_{yy} = \Var(y)$: the covariance blocks', r'$\mu_x$, $\mu_y$: mediile; $\Sigma_{xy} = \Cov(x, y)$, $\Sigma_{yy} = \Var(y)$: blocurile de covarianță'),
@@ -407,7 +407,7 @@ D.frame(T('The Kalman filter from one lemma', 'Filtrul Kalman dintr-o singură l
     T(r'Without normality the same recursions give the best \emph{linear} predictor (minimum mean square error among linear functions of $Y_t$)',
       r'Fără normalitate, aceleași recursii dau cel mai bun predictor \emph{liniar} (eroare pătratică medie minimă printre funcțiile liniare de $Y_t$)')), 'small')
 
-D.frame(T('The filter in one pass', 'Filtrul într-o singură trecere'), items(
+D.frame(T('The Kalman filter recursions', 'Recursiile filtrului Kalman'), items(
     T(r'With $v_t$ and $F_t$ of the previous slide: $K_t = T_tP_tZ_t\'F_t^{-1}$ (Kalman gain), $\quad L_t = T_t - K_tZ_t$',
       r'Cu $v_t$ și $F_t$ de pe slide-ul anterior: $K_t = T_tP_tZ_t\'F_t^{-1}$ (cîștigul Kalman), $\quad L_t = T_t - K_tZ_t$'),
     T(r'$a_{t+1} = c_t + T_ta_t + K_tv_t$, $\quad P_{t+1} = T_tP_tL_t\' + R_tQ_tR_t\'$',
@@ -526,7 +526,7 @@ D.frame(T('Inference at the boundary: the pile-up problem', 'Inferența la front
     T(r'Same issue in TVP regressions (is the coefficient constant?) and in UC models (is the trend deterministic?)',
       r'Aceeași problemă apare în regresiile TVP (este coeficientul constant?) și în modelele UC (este trendul determinist?)')), 'small')
 
-chart(T('How often is the estimated level variance exactly zero?', 'Cît de des este varianța estimată a nivelului exact zero?'), 'ats_ch6_pileup', 'ATS_ch6_kalman_mle', [
+chart(T('Frequency of a zero estimate of the level variance', 'Frecvența estimațiilor nule ale varianței nivelului'), 'ats_ch6_pileup', 'ATS_ch6_kalman_mle', [
     T(r'@{pu.reps} simulated local level series of length $T = @{pu.n}$ for each true $q$; ML of $q$ on a fine grid with $\sigma^2_\varepsilon$ concentrated out',
       r'Cîte @{pu.reps} de serii local level simulate de lungime $T = @{pu.n}$ pentru fiecare $q$ adevărat; ML pentru $q$ pe o grilă fină, cu $\sigma^2_\varepsilon$ eliminat prin concentrare')],
     h='0.65\\textheight')
@@ -545,7 +545,7 @@ interp(('the pile-up simulation', 'simulării pile-up'), [
 # =============================================================================
 D.section('Bayesian state space: simulation smoothing and Gibbs sampling', 'Spațiul stărilor bayesian: simulation smoothing și eșantionare Gibbs')
 
-D.frame(T('Why sample the states?', 'Eșantionarea stărilor'), two(
+D.frame(T('Sampling the states', 'Eșantionarea stărilor'), two(
     ph('bayes', T('Portrait traditionally identified as Thomas Bayes (identification uncertain)', 'Portret identificat tradițional cu Thomas Bayes (identificare incertă)'), h='0.34\\textheight'),
     items(T(r'Target: $p(\alpha_1, \dots, \alpha_n, \psi | Y_n)$; the filter gives $p(\alpha_t | Y_t, \psi)$ for one $t$ and one $\psi$ only',
             r'Ținta: $p(\alpha_1, \dots, \alpha_n, \psi | Y_n)$; filtrul dă $p(\alpha_t | Y_t, \psi)$ doar pentru un $t$ și un $\psi$'),
@@ -912,7 +912,7 @@ D.frame(T('A TVP regression in state space form', 'O regresie TVP în forma în 
     T(r'Test of a constant slope: $H_0$: $\sigma^2_b = 0$ on the boundary; parametric bootstrap of the LR statistic from the restricted model (@{tv.B} samples)',
       r'Testul pantei constante: $H_0$: $\sigma^2_b = 0$ pe frontieră; bootstrap parametric pentru statistica LR din modelul restricționat (@{tv.B} de eșantioane)')), 'small')
 
-chart(T('Romanian on euro-area inflation: a time-varying slope?', 'Inflația din România și inflația din zona euro: o pantă variabilă în timp?'), 'ats_ch6_tvp', 'ATS_ch6_tvp_inflation', [
+chart(T('A time-varying slope of Romanian on euro-area inflation', 'O pantă variabilă în timp între inflația din România și cea din zona euro'), 'ats_ch6_tvp', 'ATS_ch6_tvp_inflation', [
     T(r'Top: the two inflation rates; bottom: smoothed $b_t$ with a 90\% band (exact diffuse ML) and the slope of a rolling 12-quarter regression with the same dummies',
       r'Sus: cele două rate ale inflației; jos: $b_t$ netezit cu o bandă de 90\% (ML difuz exact) și panta unei regresii mobile pe 12 trimestre cu aceleași variabile dummy')],
     h='0.65\\textheight')
@@ -992,7 +992,7 @@ interp(('the ragged edge', 'datelor incomplete la sfîrșitul eșantionului (rag
 # =============================================================================
 # 8. TREND--CICLU
 # =============================================================================
-D.section('Trend--cycle decompositions revisited', 'Descompuneri trend--ciclu, revizitate')
+D.section('Trend--cycle decompositions in state space form', 'Descompuneri trend--ciclu în forma spațiului stărilor')
 
 D.frame(T('Three definitions of the cycle', 'Trei definiții ale ciclului'), items(
     (T(r'Beveridge--Nelson \refBN: trend = long-horizon forecast net of drift', r'Beveridge--Nelson \refBN: trendul = prognoza pe orizont lung fără drift'),
@@ -1037,7 +1037,7 @@ D.frame(T('Interpreting the MNZ replication', 'Interpretarea replicării MNZ'), 
       r'Testul LR pentru $\rho = 0$: @{mz.LR}, $p = @{mz.p}$ ($\chi^2_1$); ciclul UC0 este mare pentru că este presupus ortogonal pe trend, nu pentru că datele o cer'),
     T(r'Our numbers use today\'s GDP vintage; the paper\'s estimates differ in the decimals, not in the conclusion', r'Cifrele noastre folosesc ediția actuală a datelor PIB; estimațiile din lucrare diferă la zecimale, nu în concluzie')), 'footnotesize')
 
-D.frame(T('Romania: the cycle is the trend', 'România: ciclul este trendul'), two(
+D.frame(T('Trend shocks and the cycle in Romanian GDP', 'Șocurile de trend și ciclul PIB-ului României'), two(
     ph('bnr', T('The BNR palace, Bucharest', 'Palatul BNR, București'), h='0.30\\textheight'),
     items(T(r'Emerging economies have volatile trend shocks \refAG: a random-walk trend absorbs most of the movement in GDP',
             r'Economiile emergente au șocuri de trend volatile \refAG: un trend de tip mers aleator absoarbe cea mai mare parte a mișcării PIB'),
@@ -1110,7 +1110,7 @@ interp(('Romanian trend inflation', 'inflației de trend din România'), [
     T('Since 2013 the trend has been inside the band only part of the time: below it in 2015--2016 (VAT cuts), above it since 2021', 'Din 2013, trendul s-a aflat în bandă doar o parte din timp: sub ea în 2015--2016 (reducerile de TVA), peste ea din 2021'),
     T('Caveats: administered prices (energy caps, VAT changes) enter as trend shocks in a univariate model; a project can add them as regressors or as a separate component', 'Rezerve: prețurile administrate (plafonările la energie, modificările TVA) intră ca șocuri de trend într-un model univariat; un proiect le poate adăuga ca regresori sau ca o componentă separată')])
 
-D.frame(T('Beyond: BSTS and regime switching', 'Mai departe: BSTS și modele cu schimbare de regim'), items(
+D.frame(T('Extensions: BSTS and regime switching', 'Extensii: BSTS și modele cu schimbare de regim'), items(
     (T(r'Bayesian structural time series \refSV: local linear trend + seasonal + regression with a spike-and-slab prior on many regressors (Google Trends)',
        r'Serii de timp structurale bayesiene \refSV: local linear trend + componentă sezonieră + regresie cu a priori spike-and-slab pe mulți regresori (Google Trends)'),
      [T(r'the same simulation smoother inside a Gibbs sampler; variable selection on the regression block', r'același simulation smoother într-un eșantionator Gibbs; selecția variabilelor pe blocul de regresie'),
@@ -1145,7 +1145,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
         r'\textbf{robustețe și critică}: \aiprompt{Joacă rolul unui recenzent ostil: ce alegeri fixate ale unui model UC-SV ar putea schimba concluzia despre 2022?}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T(r'The sampler targets the stated posterior: test it on a model with a known answer (the Kalman smoother, as in the three-sampler check)', r'Eșantionatorul are ca țintă distribuția a posteriori declarată: testați-l pe un model cu răspuns cunoscut (netezitorul Kalman, ca în verificarea celor trei eșantionatoare)'),
     T(r'Convergence is reported: several chains, inefficiency factors, the effect of doubling the draws', r'Convergența este raportată: mai multe lanțuri, factori de ineficiență, efectul dublării numărului de extrageri'),
@@ -1206,8 +1206,8 @@ D.frame(T('Appendix: the smoother from the lemma', 'Anexă: netezitorul din lem�
       r'Netezitorul: $\hat\alpha_t = a_t + \sum_{j=t}^n\Cov(\alpha_t, v_j)F_j^{-1}v_j$, cu $\Cov(\alpha_t, v_j) = P_tL_t\'\cdots L_{j-1}\'Z_j\'$'),
     T(r'Hence $\hat\alpha_t = a_t + P_tr_{t-1}$ with $r_{t-1} = \sum_{j=t}^nL_t\'\cdots L_{j-1}\'Z_j\'F_j^{-1}v_j$ (empty product for $j = t$), which satisfies the backward recursion $r_{t-1} = Z_t\'F_t^{-1}v_t + L_t\'r_t$',
       r'Rezultă $\hat\alpha_t = a_t + P_tr_{t-1}$, cu $r_{t-1} = \sum_{j=t}^nL_t\'\cdots L_{j-1}\'Z_j\'F_j^{-1}v_j$ (produs vid pentru $j = t$), care satisface recursia înapoi $r_{t-1} = Z_t\'F_t^{-1}v_t + L_t\'r_t$'),
-    T(r'The filtering steps (update and prediction) follow from the same lemma with $j = t$ only: slide \hyperlink{kflemma}{\textcolor{MainBlue}{The Kalman filter from one lemma}}',
-      r'Pașii de filtrare (actualizarea și predicția) rezultă din aceeași lemă numai cu $j = t$: slide-ul \hyperlink{kflemma}{\textcolor{MainBlue}{Filtrul Kalman dintr-o singură lemă}}')), 'small')
+    T(r'The filtering steps (update and prediction) follow from the same lemma with $j = t$ only: slide \hyperlink{kflemma}{\textcolor{MainBlue}{Derivation of the Kalman filter from a Gaussian lemma}}',
+      r'Pașii de filtrare (actualizarea și predicția) rezultă din aceeași lemă numai cu $j = t$: slide-ul \hyperlink{kflemma}{\textcolor{MainBlue}{Derivarea filtrului Kalman dintr-o lemă gaussiană}}')), 'small')
 
 D.frame(T('Appendix: exactness of the Durbin--Koopman simulation smoother', 'Anexă: exactitatea simulation smoother-ului Durbin--Koopman'), items(
     T(r'Gaussian model: $\alpha | y \sim N(\hat\alpha(y), V)$ with $V$ independent of $y$, and $\hat\alpha(y)$ linear in $y$ (affine with the intercepts)',

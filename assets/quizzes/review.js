@@ -281,7 +281,7 @@ window.ATS_DATA.quizzes['review'] = {
         {
             "correct": 2,
             "en": {
-                "title": "Long memory or level shifts?",
+                "title": "Long memory and level shifts",
                 "text": "Which evidence points to spurious long memory created by level shifts?",
                 "options": [
                     "A local Whittle estimate $\\hat d$ that is stable across bandwidths",
@@ -293,7 +293,7 @@ window.ATS_DATA.quizzes['review'] = {
                 "incorrectExplanation": "A slow ACF decay is shared by true long memory and shifts; stable $\\hat d(m)$ supports true memory, and $H \\approx 0.1$ is about roughness, not persistence."
             },
             "ro": {
-                "title": "Memorie lungă sau salturi de nivel?",
+                "title": "Memorie lungă și salturi de nivel",
                 "text": "Ce dovadă indică o memorie lungă falsă, produsă de salturi de nivel?",
                 "options": [
                     "O estimație local Whittle $\\hat d$ stabilă la toate lățimile de bandă",
@@ -524,7 +524,7 @@ window.ATS_DATA.quizzes['review'] = {
         {
             "correct": 3,
             "en": {
-                "title": "A replication that differs",
+                "title": "Discrepancies in a replication",
                 "text": "A team cannot reproduce Table 2 of its landmark paper on today's data. What is the best practice?",
                 "options": [
                     "Report the extension only and drop the replication",
@@ -536,7 +536,7 @@ window.ATS_DATA.quizzes['review'] = {
                 "incorrectExplanation": "Dropping or tuning the replication hides information, and a difference alone does not show that the paper is wrong."
             },
             "ro": {
-                "title": "O replicare care diferă",
+                "title": "Diferențe într-o replicare",
                 "text": "O echipă nu poate reproduce tabelul 2 al lucrării de referință pe datele de azi. Care este practica recomandată?",
                 "options": [
                     "Raportarea doar a extensiei, fără replicare",

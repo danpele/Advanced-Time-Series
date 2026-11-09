@@ -11,7 +11,7 @@ window.ATS_DATA.quizzes['volatility'] = {
         {
             "correct": 0,
             "en": {
-                "title": "What QML needs",
+                "title": "Assumptions of QML",
                 "text": "Gaussian quasi-maximum likelihood for GARCH(1,1) is consistent when",
                 "options": [
                     "the conditional variance equation is correctly specified, whatever the law of the standardised innovations",
@@ -23,7 +23,7 @@ window.ATS_DATA.quizzes['volatility'] = {
                 "incorrectExplanation": "Normality is not needed, and strict stationarity ($\\E\\ln(\\alpha\\eta^2 + \\beta) < 0$) replaces finite moments of the returns; a finite fourth moment of $\\eta_t$ is needed only for asymptotic normality."
             },
             "ro": {
-                "title": "Ce cere QML",
+                "title": "Ipotezele QML",
                 "text": "Verosimilitatea cvasi-maximă gaussiană pentru GARCH(1,1) este consistentă cînd",
                 "options": [
                     "ecuația varianței condiționate este corect specificată, oricare ar fi legea inovațiilor standardizate",

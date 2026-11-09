@@ -38,7 +38,7 @@ window.ATS_DATA.quizzes['var-es'] = {
         {
             "correct": 1,
             "en": {
-                "title": "Why ES alone is not elicitable",
+                "title": "Non-elicitability of ES alone",
                 "text": "Which property rules out a strictly consistent loss function for ES alone?",
                 "options": [
                     "ES is not coherent",
@@ -50,7 +50,7 @@ window.ATS_DATA.quizzes['var-es'] = {
                 "incorrectExplanation": "ES is coherent, needs only a finite first moment and is a law-invariant functional; the obstacle is the non-convexity of its level sets."
             },
             "ro": {
-                "title": "De ce ES singur nu este elicitabil",
+                "title": "Neelicitabilitatea ES considerat separat",
                 "text": "Ce proprietate exclude o funcție de pierdere strict consistentă pentru ES singur?",
                 "options": [
                     "ES nu este coerent",
@@ -92,7 +92,7 @@ window.ATS_DATA.quizzes['var-es'] = {
         {
             "correct": 3,
             "en": {
-                "title": "Why zero homogeneity matters",
+                "title": "The role of zero homogeneity",
                 "text": "What does the zero homogeneity of FZ0 buy in a forecast comparison over a long period?",
                 "options": [
                     "It makes FZ0 always positive",
@@ -104,7 +104,7 @@ window.ATS_DATA.quizzes['var-es'] = {
                 "incorrectExplanation": "FZ0 can be negative, still needs the VaR forecast and never elicits ES alone."
             },
             "ro": {
-                "title": "De ce contează omogenitatea de grad zero",
+                "title": "Rolul omogenității de grad zero",
                 "text": "Ce aduce omogenitatea de grad zero a FZ0 într-o comparație a prognozelor pe o perioadă lungă?",
                 "options": [
                     "FZ0 devine întotdeauna pozitivă",

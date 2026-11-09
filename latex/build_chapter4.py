@@ -278,7 +278,7 @@ D.frame(T('Data used in this chapter', 'Datele folosite în acest capitol'), tab
     T('HICP: harmonised index of consumer prices; NPISH: non-profit institutions serving households (included with households)',
       'IAPC (HICP): indicele armonizat al prețurilor de consum; consumul și venitul includ instituțiile fără scop lucrativ în serviciul gospodăriilor')), 'footnotesize')
 
-D.frame(T('From spurious regressions to a likelihood theory', 'De la regresii false la o teorie a verosimilității'), two(
+D.frame(T('Origins of likelihood-based cointegration analysis', 'Originile analizei cointegrării bazate pe verosimilitate'), two(
     ph('engle', T('Robert Engle, 2017', 'Robert Engle, 2017'), h='0.36\\textheight'),
     items(T(r'1987: \refEG\ define cointegration and prove the representation theorem; estimation is a two-step regression', r'1987: \refEG\ definesc cointegrarea și demonstrează teorema de reprezentare; estimarea este o regresie în doi pași'),
           T(r'1988--1991: \refJohA\ and \refJohB\ turn it into maximum likelihood for a VAR with reduced rank: several relations, tests on their coefficients', r'1988--1991: \refJohA\ și \refJohB\ o transformă în verosimilitate maximă pentru un VAR de rang redus: mai multe relații, teste asupra coeficienților lor'),
@@ -291,7 +291,7 @@ D.frame(T('From spurious regressions to a likelihood theory', 'De la regresii fa
 # =============================================================================
 D.section('The cointegrated VAR as a likelihood problem', 'VAR-ul cointegrat ca problemă de verosimilitate')
 
-D.frame(T('From TSA to this chapter', 'De la TSA la acest capitol'), items(
+D.frame(T('Prior knowledge from TSA and new material', 'Cunoștințe din TSA și elemente noi'), items(
     (T(r'Known (TSA, Chapter 7): $y_t \sim$ I(1), $\beta\'y_t \sim$ I(0); Engle--Granger two-step; the ECM; $\Pi = \alpha\beta\'$; trace and max-eigenvalue tests with tabulated critical values',
        r'Cunoscut (TSA, Capitolul 7): $y_t \sim$ I(1), $\beta\'y_t \sim$ I(0); metoda Engle--Granger în doi pași; ECM; $\Pi = \alpha\beta\'$; testele trace și max-eigenvalue cu valori critice tabelate'),
      []),
@@ -433,7 +433,7 @@ D.frame(T('Five ways to place a constant and a trend', 'Cinci moduri de a plasa 
       r'Termenii „restricționați” intră în $Z_{1t}$ (regresorii înmulțiți cu $\Pi$) alături de $y_{t-1}$, ca parte a lui $\beta$; cei „nerestricționați” intră în $Z_{2t}$ și sînt eliminați prin concentrare'),
     T('Interest rates: case 2; trending macro aggregates: case 3 or 4; case 5 is rarely plausible', 'Dobînzi: cazul 2; agregate macro cu trend: cazul 3 sau 4; cazul 5 este rar plauzibil')), 'small')
 
-chart(T('The case changes the null distribution', 'Cazul schimbă distribuția sub ipoteza nulă'), 'ats_ch4_trace_dists', 'ATS_ch4_johansen_asymptotics', [
+chart(T('The deterministic case and the null distribution', 'Cazul determinist și distribuția sub ipoteza nulă'), 'ats_ch4_trace_dists', 'ATS_ch4_johansen_asymptotics', [
     T(r'Trace statistic under $H(r)$ with $n - r = 2$, simulated from random walks (@{sim.reps} replications, $T = 400$; drift in cases 3 and 5)', r'Statistica trace sub $H(r)$ cu $n - r = 2$, simulată din mersuri aleatoare (@{sim.reps} de replicări, $T = 400$; drift în cazurile 3 și 5)'),
     T(r'95\% quantiles for every case and $n - r = 1, \dots, 4$: the table two slides later', r'Cuantilele de 95\% pentru toate cazurile și $n - r = 1, \dots, 4$: tabelul aflat la două slide-uri distanță')],
     h='0.60\\textheight')
@@ -586,7 +586,7 @@ D.recap((r'Identification and tests', 'identificarea și testele'), [
 # =============================================================================
 D.section('Application: interest-rate pass-through in Romania', 'Aplicație: transmiterea dobînzilor în România')
 
-D.frame(T('How fast and how fully do banks follow ROBOR?', 'Cît de repede și cît de complet urmează băncile ROBOR?'), two(
+D.frame(T('Speed and completeness of the pass-through from ROBOR', 'Viteza și gradul transmiterii ROBOR către dobînzile bancare'), two(
     ph('bnr', T('The BNR palace, Bucharest', 'Palatul BNR, București'), h='0.34\\textheight'),
     items(T(r'Monetary policy reaches households and firms only through bank rates; ROBOR 3M is the reference for most variable-rate loans in lei',
             r'Politica monetară ajunge la gospodării și firme doar prin dobînzile bancare; ROBOR 3M este referința pentru majoritatea creditelor în lei cu dobîndă variabilă'),
@@ -668,7 +668,7 @@ D.frame(T('Limits of the I(1) model: I(2) trends', 'Limitele modelului I(1): tre
      [T(r'test $\Delta y_t$ for a unit root; a root near one in the stationary part of the I(1) VECM is a warning', r'testați rădăcina unitară pentru $\Delta y_t$; o rădăcină aproape de unu în partea staționară a VECM-ului I(1) este un semnal de alarmă'),
       T('the usual fix: model real (deflated) variables and inflation', 'soluția uzuală: modelarea variabilelor reale (deflatate) și a inflației')])), 'small')
 
-chart(T('Is the Romanian price level I(2)?', 'Este nivelul prețurilor din România I(2)?'), 'ats_ch4_i2', 'ATS_ch4_i2_check', [
+chart(T('An I(2) check for the Romanian price level', 'Verificarea ipotezei I(2) pentru nivelul prețurilor din România'), 'ats_ch4_i2', 'ATS_ch4_i2_check', [
     T(r'Left: $100\ln$ HICP; right: monthly inflation, annualised; dashed line: inflation targeting from August 2005', r'Stînga: $100\ln$ IAPC; dreapta: inflația lunară, anualizată; linia punctată: țintirea inflației din august 2005'),
     T(r'ADF $t$ on monthly inflation (12 lags): @{i2.all} for 1997--2026, @{i2.it} since 2005 (5\% critical value $-2.87$); on its change: @{i2.d2}', r'ADF $t$ pentru inflația lunară (12 laguri): @{i2.all} pentru 1997--2026, @{i2.it} din 2005 (valoarea critică 5\%: $-2.87$); pentru modificarea ei: @{i2.d2}')],
     h='0.59\\textheight')
@@ -805,7 +805,7 @@ D.frame(T('Critical values in small samples', 'Valori critice în eșantioane mi
      [T('the wrong case (case III bounds for a model estimated in case II); I(2) regressors, for which the bounds are invalid', 'cazul greșit (limitele cazului III pentru un model estimat în cazul II); regresori I(2), pentru care limitele nu sînt valabile'),
       T(r'feedback from $y_t$ to $x_t$ (no weak exogeneity), or more than one relation among the variables', r'feedback de la $y_t$ la $x_t$ (fără exogenitate slabă) sau mai multe relații între variabile')])), 'small')
 
-D.frame(T('ARDL or VECM?', 'ARDL sau VECM?'), table(
+D.frame(T('Choosing between ARDL and VECM', 'Alegerea între ARDL și VECM'), table(
     TB + 'p{3.0cm}' + TB + 'p{4.4cm}' + TB + 'p{4.4cm}', r' & \textbf{ARDL} & \textbf{VECM}',
     [T('Relations', 'Relații') + ' & ' + T('one, normalised on $y_t$', 'una, normalizată pe $y_t$') + ' & ' + T('$r$, rank estimated', '$r$, rangul estimat'),
      T('Regressors', 'Regresori') + ' & ' + T('I(0), I(1) or mixed; weakly exogenous', 'I(0), I(1) sau amestecați; slab exogeni') + ' & ' + T('all I(1); all endogenous', 'toți I(1); toți endogeni'),
@@ -870,7 +870,7 @@ D.recap(('ARDL and the bounds test', 'ARDL și testul bounds'), [
 # =============================================================================
 D.section('Panel time series', 'Serii de timp panel')
 
-D.frame(T('Panels: the gain and the new problems', 'Datele panel: cîștigul și problemele noi'), two(
+D.frame(T('Panel data: advantages and new problems', 'Datele panel: avantaje și probleme noi'), two(
     ph('ecb', T('The ECB seat, Frankfurt', 'Sediul BCE, Frankfurt'), h='0.27\\textheight'),
     items((T('The gain: $N$ countries add information', 'Cîștigul: $N$ țări adaugă informație'),
            [T('country series are short: 20--30 years of annual data', 'seriile pe țări sînt scurte: 20--30 de ani de date anuale'),
@@ -1061,7 +1061,7 @@ D.frame(T('The discovery loop with an AI assistant', 'Bucla de cercetare cu un a
       T(r'\textbf{robustness and critique}: \aiprompt{Act as a hostile referee: list every specification choice that could flip the complete pass-through test.}', r'\textbf{robustețe și critică}: \aiprompt{Joacă rolul unui recenzent ostil: enumeră toate alegerile de specificare care ar putea inversa testul transmiterii complete.}')]),
     T(r'Report: what was asked, what was kept, what was rejected (AI\_USE.md, AI\_ERRORS.md)', r'Raportul: ce s-a cerut, ce s-a păstrat, ce s-a respins (AI\_USE.md, AI\_ERRORS.md)')), 'footnotesize')
 
-D.frame(T('What the human checks', 'Verificări necesare'), items(
+D.frame(T('Required checks', 'Verificări necesare'), items(
     T('Every reference exists and says what is claimed (DOI resolves, title matches, the result is in the paper)', 'Fiecare referință există și spune ce se afirmă (DOI-ul funcționează, titlul coincide, rezultatul se află în lucrare)'),
     T('The deterministic case of the critical values matches the estimated model (a frequent AI error: case-3 values for a case-2 model)', 'Cazul determinist al valorilor critice corespunde modelului estimat (o eroare AI frecventă: valori ale cazului 3 pentru un model al cazului 2)'),
     T(r'The degrees of freedom of every LR test on $\beta$ and $\alpha$ are counted by hand', r'Gradele de libertate ale fiecărui test LR asupra lui $\beta$ și $\alpha$ se numără de mînă'),

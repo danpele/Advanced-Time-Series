@@ -493,7 +493,7 @@ frame('⟦Ergodicity||Ergodicitate⟧', cols(
          ['⟦A single history of one economy is a single draw of $Z$: why regime and break questions matter (Chapters 2, 7)||Istoria unei singure economii este o singură extragere a lui $Z$: de aceea contează rupturile și regimurile (capitolele 2, 7)⟧'])),
     ph('birkhoff', 'George David Birkhoff (1884--1944)', '0.42\\textheight'), '0.66', '0.30'), 'footnotesize')
 
-frame('⟦Mixing: dependence that fades (1/2)||Mixing: dependență care se stinge (1/2)⟧', items(
+frame('⟦Mixing conditions (1/2)||Condiții de mixing (1/2)⟧', items(
     ('⟦Strong ($\\alpha$-) mixing coefficient \\refRosenblatt:||Coeficientul de mixing tare ($\\alpha$) \\refRosenblatt:⟧',
      ['$\\alpha(m) = \\sup_t\\,\\sup\\{|P(A\\cap B) - P(A)P(B)|: A \\in \\mathcal{F}_{-\\infty}^{t}, B \\in \\mathcal{F}_{t+m}^{\\infty}\\}$',
       '⟦$\\mathcal{F}_{-\\infty}^{t}$: the events determined by $x_s$, $s \\le t$ (the past); $\\mathcal{F}_{t+m}^{\\infty}$: those determined by $x_s$, $s \\ge t + m$ (the future after a gap of $m$ periods)||$\\mathcal{F}_{-\\infty}^{t}$: evenimentele determinate de $x_s$, $s \\le t$ (trecutul); $\\mathcal{F}_{t+m}^{\\infty}$: cele determinate de $x_s$, $s \\ge t + m$ (viitorul de după un interval de $m$ perioade)⟧',
@@ -503,7 +503,7 @@ frame('⟦Mixing: dependence that fades (1/2)||Mixing: dependență care se stin
       '⟦$\\varphi(m) = \\sup_t\\sup\\{|P(B \\mid A) - P(B)|: A \\in \\mathcal{F}_{-\\infty}^{t}, P(A) > 0, B \\in \\mathcal{F}_{t+m}^{\\infty}\\}$: the worst case over past events||$\\varphi(m) = \\sup_t\\sup\\{|P(B \\mid A) - P(B)|: A \\in \\mathcal{F}_{-\\infty}^{t}, P(A) > 0, B \\in \\mathcal{F}_{t+m}^{\\infty}\\}$: cazul cel mai nefavorabil dintre evenimentele trecute⟧',
       '⟦$\\alpha(m) \\le \\beta(m) \\le \\varphi(m)$: $\\beta$- and $\\varphi$-mixing are stronger; mixing implies ergodicity \\refBradley||$\\alpha(m) \\le \\beta(m) \\le \\varphi(m)$: $\\beta$-mixing și $\\varphi$-mixing sînt mai tari; mixing implică ergodicitate \\refBradley⟧'])))
 
-frame('⟦Mixing: dependence that fades (2/2)||Mixing: dependență care se stinge (2/2)⟧', items(
+frame('⟦Mixing conditions (2/2)||Condiții de mixing (2/2)⟧', items(
     ('⟦Models that are mixing||Modele care sînt mixing⟧',
      ['⟦stationary ARMA with continuous innovations: geometrically $\\beta$-mixing \\refMokkadem||ARMA staționar cu inovații continue: $\\beta$-mixing geometric \\refMokkadem⟧',
       '⟦strictly stationary GARCH(1,1), stochastic volatility: geometrically $\\beta$-mixing \\refCC||GARCH(1,1) strict staționar, volatilitate stochastică: $\\beta$-mixing geometric \\refCC⟧',
@@ -534,7 +534,7 @@ frame('⟦Martingale differences and their central limit theorem||Diferențele d
       '⟦Here $\\Omega = \\gamma_0$: no autocorrelation correction is needed, only heteroskedasticity-robust errors \\refWhiteH||Aici $\\Omega = \\gamma_0$: nu este nevoie de corecție pentru autocorelație, doar de erori robuste la heteroscedasticitate \\refWhiteH⟧']),
     '⟦Overlapping $h$-step forecast errors are not an MDS: they follow an MA$(h-1)$ (Section ``Overlapping observations\'\')||Erorile prognozelor pe $h$ pași, suprapuse, nu sînt MDS: urmează un MA$(h-1)$ (secțiunea „Observații suprapuse”)⟧'))
 
-frame('⟦Central limit theorems beyond martingale differences (1/2)||Teoreme limită centrală dincolo de diferențele de martingală (1/2)⟧', items(
+frame('⟦Central limit theorems for mixing and linear processes (1/2)||Teoreme limită centrală pentru procese mixing și procese liniare (1/2)⟧', items(
     ('⟦\\textbf{Mixing CLT} \\refIbragimov: if $x_t$ is stationary and||\\textbf{TLC pentru procese mixing} \\refIbragimov: dacă $x_t$ este staționar și⟧',
      ['$E|x_t|^{2+\\delta} < \\infty$, $\\quad \\sum_m \\alpha(m)^{\\delta/(2+\\delta)} < \\infty$, $\\quad \\Omega > 0$ $\\;\\Rightarrow\\;$ $\\sqrt{T}(\\bar x - \\mu) \\to_d N(0, \\Omega)$',
       '⟦$\\delta > 0$: the number of moments beyond the second; $\\alpha(m)$: the strong mixing coefficient defined above||$\\delta > 0$: numărul de momente peste ordinul doi; $\\alpha(m)$: coeficientul de mixing tare definit mai sus⟧',
@@ -542,7 +542,7 @@ frame('⟦Central limit theorems beyond martingale differences (1/2)||Teoreme li
     ('⟦\\textbf{Linear processes} \\refPS: $x_t - \\mu = \\sum\\psi_j\\varepsilon_{t-j}$ with i.i.d.\\ or MDS $\\varepsilon_t$ and $\\sum j|\\psi_j| < \\infty$||\\textbf{Procese liniare} \\refPS: $x_t - \\mu = \\sum\\psi_j\\varepsilon_{t-j}$ cu $\\varepsilon_t$ i.i.d.\\ sau MDS și $\\sum j|\\psi_j| < \\infty$⟧',
      ['⟦the condition on $\\psi_j$ requires the effect of a shock to die out fast enough||condiția asupra lui $\\psi_j$ cere ca efectul unui șoc să se stingă suficient de repede⟧'])))
 
-frame('⟦Central limit theorems beyond martingale differences (2/2)||Teoreme limită centrală dincolo de diferențele de martingală (2/2)⟧', items(
+frame('⟦Central limit theorems for mixing and linear processes (2/2)||Teoreme limită centrală pentru procese mixing și procese liniare (2/2)⟧', items(
     ('⟦Beveridge--Nelson decomposition of the lag polynomial $\\psi(L) = \\sum_j\\psi_jL^j$:||Descompunerea Beveridge--Nelson a polinomului de laguri $\\psi(L) = \\sum_j\\psi_jL^j$:⟧',
      ['$\\psi(L) = \\psi(1) - (1-L)\\tilde\\psi(L)$, $\\quad$ ⟦so||deci⟧ $\\quad \\sqrt{T}(\\bar x - \\mu) = \\psi(1)\\sqrt{T}\\bar\\varepsilon + o_p(1)$',
       '⟦$\\psi(1) = \\sum_j\\psi_j$: the long-run effect of a shock; $\\tilde\\psi(L)$: the polynomial of the transitory part; $o_p(1)$: a term that tends to 0 in probability||$\\psi(1) = \\sum_j\\psi_j$: efectul de termen lung al unui șoc; $\\tilde\\psi(L)$: polinomul componentei tranzitorii; $o_p(1)$: un termen care tinde în probabilitate la 0⟧',
